@@ -6,6 +6,7 @@
   using Liduv.Model.EntityFramework;
   using Liduv.UndoRedo;
   using Liduv.View.Jahrespläne;
+  using Liduv.View.Termine;
   using Liduv.ViewModel.Helper;
   using Liduv.ViewModel.Jahrespläne;
 

@@ -424,7 +424,7 @@
       var dlg = new SelectSchülerDialog();
       if (dlg.ShowDialog().GetValueOrDefault(false))
       {
-        using (new UndoBatch(App.MainViewModel, string.Format("Neue Schüler in Schülerlist {0} eingetragen.", this), false))
+        using (new UndoBatch(App.MainViewModel, string.Format("Neue Schüler in Schülerliste {0} eingetragen.", this), false))
         {
           foreach (var obj in dlg.SelectedSchüler)
           {

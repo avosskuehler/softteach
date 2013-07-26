@@ -14,6 +14,7 @@ namespace Liduv.ViewModel.Termine
   using Liduv.UndoRedo;
   using Liduv.View.Jahrespläne;
   using Liduv.View.Stundenentwürfe;
+  using Liduv.View.Termine;
   using Liduv.ViewModel.Datenbank;
   using Liduv.ViewModel.Helper;
   using Liduv.ViewModel.Jahrespläne;
@@ -308,6 +309,8 @@ namespace Liduv.ViewModel.Termine
         return;
       }
 
+      this.UpdateStundenentwurfStundenzahl();
+
       // Update phasen with correct zeitraum
       var phasen = this.StundeStundenentwurf.Phasen;
 
@@ -395,6 +398,7 @@ namespace Liduv.ViewModel.Termine
       if (dlg.ShowDialog().GetValueOrDefault(false))
       {
         this.StundeStundenentwurf = dlg.SelectedStundenentwurfViewModel;
+        this.UpdateStundenentwurfStundenzahl();
       }
     }
 

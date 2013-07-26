@@ -20,6 +20,7 @@ namespace Liduv.View.Wochenpläne
   using System.Windows;
 
   using Liduv.View.Jahrespläne;
+  using Liduv.View.Termine;
   using Liduv.ViewModel.Datenbank;
 
   /// <summary>

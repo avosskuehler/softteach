@@ -131,6 +131,10 @@
                   dd:DragDrop.IsDropTarget="True"
                   dd:DragDrop.DragAdornerTemplate="{StaticResource PhaseDragAdorner}"
                   dd:DragDrop.DropHandler="{Binding}" SelectionMode="Extended">
+            <DataGrid.InputBindings>
+              <KeyBinding Modifiers="Control" Key="C" Command="{Binding Path=CopyCommand}"/>
+              <KeyBinding Modifiers="Control" Key="V" Command="{Binding Path=PasteCommand}"/>
+            </DataGrid.InputBindings>
 
             <!--MouseMove="OnPhasenGridMouseMove"
                   DragEnter="OnPhasenGridCheckDropTarget"

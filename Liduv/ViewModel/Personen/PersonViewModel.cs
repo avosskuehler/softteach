@@ -599,11 +599,12 @@
       this.PersonBild = image;
     }
 
-    protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
-    {
-      base.OnPropertyChanged(e);
-      this.CheckForDuplicate();
-    }
+    // TODO Check this
+    //protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+    //{
+    //  base.OnPropertyChanged(e);
+    //  this.CheckForDuplicate();
+    //}
 
     public void DragOver(IDropInfo dropInfo)
     {

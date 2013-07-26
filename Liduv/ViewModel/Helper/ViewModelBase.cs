@@ -18,7 +18,8 @@
   /// Die Basisklasse für alle ViewModels.
   /// Implementiert INotifyPropertyChanged
   /// </summary>
-  public class ViewModelBase : DependencyObject, INotifyPropertyChanged, ISupportsUndo
+  [Serializable]
+  public class ViewModelBase : INotifyPropertyChanged, ISupportsUndo
   {
     ///// <summary>
     ///// Prefix für Execute methoden von DelegateCommands.
@@ -77,12 +78,14 @@
     /// <summary>
     /// Das Event was ausgelöst wird, wenn sich eine Property ändert.
     /// </summary>
+    [field: NonSerialized]
     public event PropertyChangedEventHandler PropertyChanged;
 
     /// <summary>
     /// Das Event was ausgelöst wird, wenn sich eine Property ändert und
     /// dabei noch den alten Wert transportiert.
     /// </summary>
+    [field: NonSerialized]
     public event PropertyChangingEventHandler PropertyChanging;
 
     /// <summary>

@@ -2,13 +2,13 @@
 {
   using System;
 
-  using Liduv.Model;
   using Liduv.Model.EntityFramework;
   using Liduv.ViewModel.Helper;
 
   /// <summary>
   /// ViewModel of an individual sozialform
   /// </summary>
+  [Serializable]
   public class SozialformViewModel : ViewModelBase, IComparable
   {
     /// <summary>

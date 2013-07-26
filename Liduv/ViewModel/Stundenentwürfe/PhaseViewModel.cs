@@ -11,6 +11,7 @@
   /// <summary>
   /// ViewModel of an individual phase
   /// </summary>
+  [Serializable]
   public class PhaseViewModel : ViewModelBase, ISequencedObject, ICloneable
   {
     /// <summary>
@@ -131,7 +132,7 @@
 
         if (this.medium == null || this.medium.Model != this.Model.Medium)
         {
-          this.medium = App.MainViewModel.Medien.SingleOrDefault(d => d.Model == this.Model.Medium);
+          this.medium = App.MainViewModel.Medien.SingleOrDefault(d => d.Model.Bezeichnung == this.Model.Medium.Bezeichnung);
         }
 
         return this.medium;
@@ -162,7 +163,7 @@
 
         if (this.sozialform == null || this.sozialform.Model != this.Model.Sozialform)
         {
-          this.sozialform = App.MainViewModel.Sozialformen.SingleOrDefault(d => d.Model == this.Model.Sozialform);
+          this.sozialform = App.MainViewModel.Sozialformen.SingleOrDefault(d => d.Model.Bezeichnung == this.Model.Sozialform.Bezeichnung);
         }
 
         return this.sozialform;
@@ -170,7 +171,7 @@
 
       set
       {
-        if (value.SozialformBezeichnung == this.sozialform.SozialformBezeichnung) return;
+        if (value.SozialformBezeichnung == this.PhaseSozialform.SozialformBezeichnung) return;
         this.UndoablePropertyChanging(this, "PhaseSozialform", this.sozialform, value);
         this.sozialform = value;
         this.Model.Sozialform = value.Model;

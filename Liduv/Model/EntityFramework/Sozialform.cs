@@ -12,6 +12,7 @@ namespace Liduv.Model.EntityFramework
     using System;
     using System.Collections.Generic;
     
+        [Serializable]
     public partial class Sozialform
     {
         public Sozialform()

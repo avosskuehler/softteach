@@ -302,7 +302,7 @@
     /// Updates the stundezahl of the contained stundenentwurf, if this is a stunde
     /// and there is any stundenentwurf created already.
     /// </summary>
-    private void UpdateStundenentwurfStundenzahl()
+    protected void UpdateStundenentwurfStundenzahl()
     {
       if (this is StundeViewModel)
       {

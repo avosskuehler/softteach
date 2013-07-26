@@ -373,6 +373,7 @@
     <Compile Include="ViewModel\Helper\ISequencedObject.cs" />
     <Compile Include="ViewModel\Helper\Extensions.cs" />
     <Compile Include="ViewModel\Helper\SequencedViewModel.cs" />
+    <Compile Include="ViewModel\Helper\SerializableObservableCollection.cs" />
     <Compile Include="ViewModel\Helper\SortedCollection.cs" />
     <Compile Include="ViewModel\Helper\SortedObservableCollection.cs" />
     <Compile Include="ViewModel\Jahrespläne\HalbjahresplanZuweisenWorkspaceViewModel.cs" />
@@ -569,7 +570,7 @@
     <Compile Include="View\Datenbank\JahrgangsstufeDetailView.xaml.cs">
       <DependentUpon>JahrgangsstufeDetailView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Jahrespläne\AddLerngruppenterminDialog.xaml.cs">
+    <Compile Include="View\Termine\AddLerngruppenterminDialog.xaml.cs">
       <DependentUpon>AddLerngruppenterminDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\Jahrespläne\ColorDataTemplateSelector.cs" />
@@ -705,10 +706,10 @@
     <Compile Include="View\Termine\AddSchulterminDialog.xaml.cs">
       <DependentUpon>AddSchulterminDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Jahrespläne\AddStundeDialog.xaml.cs">
+    <Compile Include="View\Termine\AddStundeDialog.xaml.cs">
       <DependentUpon>AddStundeDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Jahrespläne\StundeDetailView.xaml.cs">
+    <Compile Include="View\Termine\StundeDetailView.xaml.cs">
       <DependentUpon>StundeDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Termine\BetroffeneKlassenDialog.xaml.cs">
@@ -1254,7 +1255,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Jahrespläne\AddLerngruppenterminDialog.xaml">
+    <Page Include="View\Termine\AddLerngruppenterminDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1430,11 +1431,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Jahrespläne\AddStundeDialog.xaml">
+    <Page Include="View\Termine\AddStundeDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Jahrespläne\StundeDetailView.xaml">
+    <Page Include="View\Termine\StundeDetailView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

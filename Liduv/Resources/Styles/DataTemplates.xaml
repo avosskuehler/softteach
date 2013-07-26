@@ -181,7 +181,7 @@
   <DataTemplate x:Key="WeekendTemplate">
     <Grid Background="{Binding Path=TagesplanKalenderfarbe}">
       <Grid.RowDefinitions>
-        <RowDefinition Height="16"/>
+        <RowDefinition Height="14"/>
         <!--<RowDefinition Height="2"/>-->
       </Grid.RowDefinitions>
       <Grid.ColumnDefinitions>

@@ -111,8 +111,8 @@
     </Grid>
     <Grid Background="{StaticResource DefaultButtonsBackgroundBrush}" Grid.Row="2">
       <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-        <Button Command="{Binding Path=UpdateJahresplanWithCurriculumCommand}" 
-                ToolTip="Neuen Curriculum erstellen">Jahresplan aktualisieren
+        <Button Command="{Binding Path=UpdateHalbjahresplanWithCurriculumCommand}" 
+                ToolTip="Jahresplan der Klasse mit Vorgaben aus diesem Curriculum aktualisieren.">Jahresplan aktualisieren
         </Button>
         <Rectangle Width="30"/>
         <Button Width="100" HorizontalAlignment="Right" IsDefault="True" Click="OkClick" TabIndex="2">Fertig</Button>

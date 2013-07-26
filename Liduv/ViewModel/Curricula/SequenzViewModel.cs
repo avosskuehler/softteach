@@ -122,8 +122,8 @@
         this.UndoablePropertyChanging(this, "SequenzStundenbedarf", this.Model.Stundenbedarf, value);
         this.Model.Stundenbedarf = value;
         this.RaisePropertyChanged("SequenzStundenbedarf");
-        var vm = App.MainViewModel.Curricula.First(o => o.Model == this.Model.Reihe.Curriculum);
-        vm.UpdateUsedStunden();
+        //var vm = App.MainViewModel.Curricula.First(o => o.Model == this.Model.Reihe.Curriculum);
+        //vm.UpdateUsedStunden();
       }
     }
 

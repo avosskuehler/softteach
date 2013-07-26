@@ -73,6 +73,8 @@
       this.AddDateiverweisCommand = new DelegateCommand(this.AddDateiverweis);
       this.DeleteDateiverweisCommand = new DelegateCommand(this.DeleteCurrentDateiverweis, () => this.CurrentDateiverweis != null);
       this.CreateDateiCommand = new DelegateCommand(this.CreateDatei);
+      this.CopyCommand = new DelegateCommand(this.Copy);
+      this.PasteCommand = new DelegateCommand(this.Paste);
 
       // Build data structures for phasen
       this.Phasen = new ObservableCollection<PhaseViewModel>();
@@ -85,7 +87,7 @@
       }
 
       this.Phasen.CollectionChanged += this.PhasenCollectionChanged;
-      this.SelectedPhasen = new ObservableCollection<PhaseViewModel>();
+      this.SelectedPhasen = new SerializableObservableCollection<PhaseViewModel>();
 
       // Build data structures for dateiverweise
       this.Dateiverweise = new ObservableCollection<DateiverweisViewModel>();
@@ -135,6 +137,16 @@
     /// Holt den Befehl zur creating a new datei
     /// </summary>
     public DelegateCommand CreateDateiCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl zum Einfügen
+    /// </summary>
+    public DelegateCommand PasteCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl zum Einfügen
+    /// </summary>
+    public DelegateCommand CopyCommand { get; private set; }
 
     /// <summary>
     /// Holt den underlying Stundenentwurf this ViewModel is based on
@@ -352,6 +364,7 @@
 
       set
       {
+        if (value == null) return;
         if (value.ModulBezeichnung == this.modul.ModulBezeichnung) return;
         this.UndoablePropertyChanging(this, "StundenentwurfModul", this.modul, value);
         this.modul = value;
@@ -452,7 +465,10 @@
     {
       get
       {
-        return this.Phasen.Where(phaseViewModel => phaseViewModel.PhaseMedium.MediumBezeichnung != "Pause" && phaseViewModel.PhaseInhalt != "Pause").Sum(phaseViewModel => phaseViewModel.PhaseZeit);
+        return this.Phasen.Where(
+          o => o.PhaseMedium != null
+          && o.PhaseMedium.MediumBezeichnung != "Pause"
+          && o.PhaseInhalt != "Pause").Sum(phaseViewModel => phaseViewModel.PhaseZeit);
       }
     }
 
@@ -523,7 +539,7 @@
     /// <summary>
     /// Holt die markierten Phasen im Stundenentwurf
     /// </summary>
-    public ObservableCollection<PhaseViewModel> SelectedPhasen { get; private set; }
+    public SerializableObservableCollection<PhaseViewModel> SelectedPhasen { get; private set; }
 
     /// <summary>
     /// Holt den Dateiverweise for this stundenentwurf
@@ -660,8 +676,13 @@
       }
 
       SequencingService.SetCollectionSequence(this.Phasen);
-
-      this.PhasenView.Refresh();
+      try
+      {
+        this.PhasenView.Refresh();
+      }
+      catch (Exception)
+      {
+      }
     }
 
     private void PerformDropWithSinglePhase(IDropInfo dropInfo)
@@ -797,11 +818,11 @@
     /// AbfolgeIndexes.
     /// </summary>
     /// <param name="vm">Das ViewModel der hinzuzufügenden Phase</param>
-    private void AddPhase(PhaseViewModel vm)
+    private void AddPhase(PhaseViewModel vm, int index)
     {
       vm.Model.Stundenentwurf = this.Model;
       vm.PropertyChanged += this.PhasePropertyChanged;
-      this.Phasen.Insert(0, vm);
+      this.Phasen.Insert(index, vm);
       SequencingService.SetCollectionSequence(this.Phasen);
       this.CurrentPhase = vm;
       this.NotifyPhaseZeitChanged();
@@ -849,7 +870,7 @@
         foreach (var phaseViewModel in moveItems)
         {
           var phaseClone = (PhaseViewModel)phaseViewModel.Clone();
-          entwurfViewModel.AddPhase(phaseClone);
+          entwurfViewModel.AddPhase(phaseClone, 0);
           this.DeletePhase(phaseViewModel);
         }
       }
@@ -967,6 +988,32 @@
         var success = App.MainViewModel.Dateiverweise.RemoveTest(this.CurrentDateiverweis);
         this.Dateiverweise.RemoveTest(this.CurrentDateiverweis);
         this.CurrentDateiverweis = null;
+      }
+    }
+
+    /// <summary>
+    /// Handles creation of a new Datei
+    /// </summary>
+    private void Copy()
+    {
+      Clipboard.Clear();
+      var newObject = new DataObject("PhasenCollection", this.SelectedPhasen.ToList());
+      Clipboard.SetDataObject(newObject);
+    }
+
+    /// <summary>
+    /// Handles creation of a new Datei
+    /// </summary>
+    private void Paste()
+    {
+      var data = Clipboard.GetDataObject();
+      if (data.GetDataPresent("PhasenCollection"))
+      {
+        var obj = data.GetData("PhasenCollection") as List<PhaseViewModel>;
+        foreach (var phaseViewModel in obj)
+        {
+          this.AddPhase((PhaseViewModel)phaseViewModel.Clone(), this.CurrentPhase != null ? this.CurrentPhase.AbfolgeIndex : this.Phasen.Count);
+        }
       }
     }
 
