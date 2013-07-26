@@ -1,0 +1,575 @@
+﻿<RibbonWindow x:Class="Liduv.View.Main.MainRibbonView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:setting="clr-namespace:Liduv.Setting"
+        xmlns:jahrespläneView="clr-namespace:Liduv.View.Jahrespläne"
+        xmlns:jahrespläneViewModel="clr-namespace:Liduv.ViewModel.Jahrespläne"
+        xmlns:curriculaViewModel="clr-namespace:Liduv.ViewModel.Curricula"
+        xmlns:curriculaView="clr-namespace:Liduv.View.Curricula"
+        xmlns:wochenpläneViewModel="clr-namespace:Liduv.ViewModel.Wochenpläne"
+        xmlns:wochenplanView="clr-namespace:Liduv.View.Wochenpläne" 
+        xmlns:liduv="clr-namespace:Liduv"
+        xmlns:notenView="clr-namespace:Liduv.View.Noten"
+        xmlns:notenViewModel="clr-namespace:Liduv.ViewModel.Noten" xmlns:undoRedo="clr-namespace:Liduv.UndoRedo"
+              xmlns:changeTypes="clr-namespace:Liduv.UndoRedo.ChangeTypes"
+              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+              Title="Liduv - Lehrer im Dienst - Unterrichtsvorbereitung" 
+        x:Name="Window"
+        Width="735" Height="324" Closing="MainRibbonViewClosing" 
+        Icon="/Liduv;component/Images/LiduvLogo64.png" 
+        WindowState="Maximized" Loaded="WindowLoaded">
+  <RibbonWindow.CommandBindings>
+    <CommandBinding Command="ApplicationCommands.Close" Executed="CloseCommandHandler"/>
+  </RibbonWindow.CommandBindings>
+  <RibbonWindow.Resources>
+    <DataTemplate DataType="{x:Type wochenpläneViewModel:WochenplanWorkspaceViewModel}">
+      <wochenplanView:WochenplanWorkspaceView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type jahrespläneViewModel:JahresplanWorkspaceViewModel}">
+      <jahrespläneView:JahresplanWorkspaceView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type curriculaViewModel:CurriculumWorkspaceViewModel}">
+      <curriculaView:CurriculumWorkspaceView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type notenViewModel:SchülereintragWorkspaceViewModel}">
+      <notenView:SchülereintragWorkspaceView />
+    </DataTemplate>
+    <HierarchicalDataTemplate DataType="{x:Type undoRedo:ChangeSet}"
+                                ItemsSource="{Binding Path=Changes}">
+      <TextBlock Text="{Binding Path=Description}"/>
+    </HierarchicalDataTemplate>
+    <HierarchicalDataTemplate DataType="{x:Type changeTypes:Change}">
+      <TextBlock Text="{Binding Path=Description}"/>
+    </HierarchicalDataTemplate>
+    <CollectionViewSource Source="{Binding Source={x:Static liduv:App.MainViewModel}, Path=Fächer}" x:Key="FächerSorted">
+      <CollectionViewSource.SortDescriptions>
+        <scm:SortDescription PropertyName="FachBezeichnung"/>
+      </CollectionViewSource.SortDescriptions>
+    </CollectionViewSource>
+    <CollectionViewSource Source="{Binding Source={x:Static liduv:App.MainViewModel}, Path=Klassen}" x:Key="KlassenSorted">
+      <CollectionViewSource.SortDescriptions>
+        <scm:SortDescription PropertyName="KlasseBezeichnung"/>
+      </CollectionViewSource.SortDescriptions>
+    </CollectionViewSource>
+  </RibbonWindow.Resources>
+  <Grid x:Name="LayoutRoot">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <Ribbon Grid.Row="0" x:Name="Ribbon">
+      <Ribbon.QuickAccessToolBar>
+        <RibbonQuickAccessToolBar >
+          <RibbonSplitButton x:Name="QatButtonUndo" 
+                        Command="{Binding Path=UndoCommand}"
+                        SmallImageSource="/Liduv;component/Images/Undo16.png" 
+                        ToolTip="Undo">
+            <TreeView x:Name="UndoStackListBoxQAT"
+            ItemsSource="{Binding Source={x:Static liduv:App.MainViewModel}, Path=UndoStack, Mode=OneWay}"/>
+
+            <!--<RibbonSplitButton.ItemContainerStyle></RibbonSplitButton.ItemContainerStyle>
+            <RibbonGallery SelectedValue="Green"
+                          SelectedValuePath="Content"
+                          MaxColumnCount="1">
+              <RibbonGalleryCategory ItemsSource="{Binding Source={x:Static liduv:App.MainViewModel}, Path=UndoStack, Mode=OneWay}" DisplayMemberPath="Description"/>
+            </RibbonGallery>-->
+
+          </RibbonSplitButton>
+          <RibbonSplitButton x:Name="QatButtonRedo" 
+                        Command="{Binding Path=RedoCommand}"
+                        SmallImageSource="/Liduv;component/Images/Redo16.png" 
+                        ToolTip="Redo"/>
+          <!--Click="QatRedoButtonClick"
+                        IsEnabled="{Binding Source={x:Static liduv:App.UnitOfWork}, Path=CanRedo}"-->
+        </RibbonQuickAccessToolBar>
+      </Ribbon.QuickAccessToolBar>
+      <Ribbon.ApplicationMenu>
+        <RibbonApplicationMenu Name="AppMenu" KeyTip="S" Label="Datei" IsMainMenu="True">
+          <RibbonApplicationMenuItem 
+                        Command="{Binding Path=SaveCommand}"
+                        Header="Speichern"
+                        ImageSource="/Liduv;component/Images/Save32.png"
+                        QuickAccessToolBarImageSource="/Liduv;component/Images/Save16.png" 
+                        ToolTip="Änderungen speichern ..." 
+                        ToolTipDescription="Hiermit speichern Sie alle Änderungen an der Datenbank." 
+                        ToolTipTitle="Änderungen speichern ..." />
+          <RibbonApplicationMenuItem
+                    Header="Options"
+                    ImageSource="/Liduv;component/Images/Options32.png"
+                    QuickAccessToolBarImageSource="/Liduv;component/Images/Options16.png" 
+                    Command="{Binding Path=ShowOptionsCommand}"
+                    ToolTip="Einstellungen ändern ..." 
+                    ToolTipDescription="Geben Sie Ihren Namen und Adresse an, sowie Name und Adresse der Schule, die in den Formularen auftauchen soll." 
+                    ToolTipTitle="Einstellungen ändern ..." />
+          <RibbonApplicationMenu.FooterPaneContent>
+            <DockPanel LastChildFill="False">
+              <RibbonButton Command="ApplicationCommands.Close" Label="Exit" 
+                                   ToolTipTitle="Exit" SmallImageSource="/Liduv;component/Images/Remove16.png"
+                                   KeyTip="X" DockPanel.Dock="Right" Margin="2" BorderBrush="#B8114EAF"/>
+            </DockPanel>
+          </RibbonApplicationMenu.FooterPaneContent>
+        </RibbonApplicationMenu>
+      </Ribbon.ApplicationMenu>
+      <RibbonTab x:Name="HomeTab" Header="Start">
+        <RibbonGroup Header="Schuljahr"
+                            LargeImageSource="/Liduv;component/Images/Schuljahr32.png"
+                            SmallImageSource="/Liduv;component/Images/Schuljahr16.png">
+          <StackPanel Orientation="Vertical">
+            <RibbonComboBox>
+              <RibbonGallery MaxColumnCount="1" SelectedItem="{Binding Source={x:Static setting:Selection.Instance}, Path=Halbjahr}">
+                <RibbonGalleryCategory ItemsSource="{Binding Source={x:Static liduv:App.MainViewModel}, Path=Halbjahrtypen}" DisplayMemberPath="HalbjahrtypBezeichnung" />
+              </RibbonGallery>
+            </RibbonComboBox>
+            <RibbonComboBox>
+              <RibbonGallery MaxColumnCount="1" SelectedItem="{Binding Source={x:Static setting:Selection.Instance}, Path=Schuljahr}">
+                <RibbonGalleryCategory ItemsSource="{Binding Source={x:Static liduv:App.MainViewModel}, Path=Jahrtypen}" DisplayMemberPath="JahrtypBezeichnung"/>
+              </RibbonGallery>
+            </RibbonComboBox>
+          </StackPanel>
+        </RibbonGroup>
+        <RibbonGroup Header="Lerngruppe"
+                            LargeImageSource="/Liduv;component/Images/Fach32.png"
+                            SmallImageSource="/Liduv;component/Images/Fach16.png">
+          <StackPanel Orientation="Vertical">
+            <RibbonComboBox>
+              <RibbonGallery MaxColumnCount="1" SelectedItem="{Binding Source={x:Static setting:Selection.Instance}, Path=Fach}">
+                <RibbonGalleryCategory ItemsSource="{Binding Source={StaticResource FächerSorted}}" DisplayMemberPath="FachBezeichnung"/>
+              </RibbonGallery>
+            </RibbonComboBox>
+            <RibbonComboBox>
+              <RibbonGallery MaxColumnCount="1" SelectedItem="{Binding Source={x:Static setting:Selection.Instance}, Path=Klasse}">
+                <RibbonGalleryCategory ItemsSource="{Binding Source={StaticResource KlassenSorted}}" DisplayMemberPath="KlasseBezeichnung"/>
+              </RibbonGallery>
+            </RibbonComboBox>
+          </StackPanel>
+        </RibbonGroup>
+        <RibbonGroup Header="Termine"
+                            LargeImageSource="/Liduv;component/Images/Schultermin32.png"
+                            SmallImageSource="/Liduv;component/Images/Schultermin16.png">
+          <RibbonButton x:Name="SchultermineButton"
+                               Label="Schultermine" 
+                               Click="SchultermineButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Schultermin32.png"
+                               SmallImageSource="/Liduv;component/Images/Schultermin16.png"/>
+        </RibbonGroup>
+        <RibbonGroup x:Name="PersonenGroup" Header="Personen"
+                            LargeImageSource="/Liduv;component/Images/Schülereintrag32.png"
+                            SmallImageSource="/Liduv;component/Images/Schülereintrag16.png">
+          <RibbonGroup.GroupSizeDefinitions>
+            <RibbonGroupSizeDefinition IsCollapsed="False"/>
+          </RibbonGroup.GroupSizeDefinitions>
+          <RibbonButton Label="Personen" 
+                               Click="PersonButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Person32.png"
+                               SmallImageSource="/Liduv;component/Images/Person16.png"/>
+        </RibbonGroup>
+        <RibbonGroup x:Name="KlassenGroup" Header="Klassen"
+                            LargeImageSource="/Liduv;component/Images/Jahrgangsstufe32.png"
+                            SmallImageSource="/Liduv;component/Images/Jahrgangsstufe16.png">
+          <RibbonGroup.GroupSizeDefinitions>
+            <RibbonGroupSizeDefinition IsCollapsed="False"/>
+          </RibbonGroup.GroupSizeDefinitions>
+          <RibbonButton Label="Jahrgangsstufen und Klassen" 
+                               Click="JahrgangsstufenButtonClick" 
+                               LargeImageSource="/Liduv;component/Images/Jahrgangsstufe32.png"
+                               SmallImageSource="/Liduv;component/Images/Jahrgangsstufe16.png"/>
+          <RibbonButton 
+                               Label="Schülerlisten" 
+                               Click="SchülerlisteButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Schülerliste32.png"
+                               SmallImageSource="/Liduv;component/Images/Schülerliste16.png"/>
+        </RibbonGroup>
+        <RibbonGroup Header="Stundenplan"
+                            LargeImageSource="/Liduv;component/Images/Stundenplan32.png"
+                            SmallImageSource="/Liduv;component/Images/Stundenplan16.png">
+          <RibbonButton x:Name="NeuerStundenplanButton"
+                               Label="Neues Halbjahr" 
+                               Click="NeuerStundenplanButtonClick"
+                               ToolTipTitle="Stundenplan für neues Halbjahr"
+                               ToolTipDescription="Nutzen Sie diese Funktion, um den ersten Stundenplan eines 
+                               Halbjahres einzutragen. Für Änderungen innerhalb eines Halbjahres klicken Sie bitte 
+                               auf Stundenplanänderung."
+                               LargeImageSource="/Liduv;component/Images/StundenplanNeu32.png"
+                               SmallImageSource="/Liduv;component/Images/StundenplanNeu16.png"/>
+          <RibbonButton x:Name="StundenplanÄnderungButton"
+                               Label="Stundenplanänderung" 
+                               Click="StundenplanÄnderungButtonClick"
+                               ToolTipTitle="Stundenplanänderung im laufenden Halbjahr"
+                               ToolTipDescription="Nutzen Sie diese Funktion, um Änderungen innerhalb des laufenden
+                               Halbjahres einzutragen."
+                               LargeImageSource="/Liduv;component/Images/StundenplanÄnderung32.png"
+                               SmallImageSource="/Liduv;component/Images/StundenplanÄnderung16.png"/>
+        </RibbonGroup>
+        <RibbonGroup Header="Noten"
+                            LargeImageSource="/Liduv;component/Images/Note32.png"
+                            SmallImageSource="/Liduv;component/Images/Note16.png">
+          <RibbonButton x:Name="ArbeitAnlegenButton"
+                               Label="Arbeiten" 
+                               Click="ArbeitAnlegenButtonClick"
+                               ToolTipTitle="Arbeit im laufenden Halbjahr anlegen"
+                               ToolTipDescription="Nutzen Sie diese Funktion, um eine Klassenarbeit oder Klausur anzulegen."
+                               LargeImageSource="/Liduv;component/Images/Arbeit32.png"
+                               SmallImageSource="/Liduv;component/Images/Arbeit16.png"/>
+
+        </RibbonGroup>
+      </RibbonTab>
+      <RibbonTab x:Name="DatenbankTab" Header="Datenbank">
+        <RibbonGroup x:Name="DatenbankAktionenGroup" 
+                                    Header="Aktionen"
+                            LargeImageSource="/Liduv;component/Images/DatabaseSubmit32.png"
+                            SmallImageSource="/Liduv;component/Images/DatabaseSubmit16.png">
+          <RibbonGroup.GroupSizeDefinitions>
+            <RibbonGroupSizeDefinition IsCollapsed="True"/>
+          </RibbonGroup.GroupSizeDefinitions>
+          <RibbonButton x:Name="SubmitChangesButton"
+                               Label="Änderungen speichern"
+                               Click="SubmitChangesButtonClick"
+                               LargeImageSource="/Liduv;component/Images/DatabaseSubmit32.png"
+                               SmallImageSource="/Liduv;component/Images/DatabaseSubmit16.png"/>
+          <RibbonButton x:Name="RejectChangesButton"
+                               Label="Änderungen verwerfen" 
+                               Click="RejectChangesButtonClick" 
+                               LargeImageSource="/Liduv;component/Images/DatabaseReject32.png"
+                               SmallImageSource="/Liduv;component/Images/DatabaseReject16.png"/>
+        </RibbonGroup>
+        <RibbonGroup x:Name="DatenbankCurriculaGroup" Header="Curricula"
+                            LargeImageSource="/Liduv;component/Images/Curriculum32.png"
+                            SmallImageSource="/Liduv;component/Images/Curriculum16.png">
+          <RibbonGroup.GroupSizeDefinitions>
+            <RibbonGroupSizeDefinition IsCollapsed="True"/>
+          </RibbonGroup.GroupSizeDefinitions>
+          <RibbonControlGroup >
+            <RibbonButton x:Name="CurriculumButton"
+                               Label="Curriculum" 
+                               Click="CurriculumButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Curriculum32.png"
+                               SmallImageSource="/Liduv;component/Images/Curriculum16.png"/>
+            <RibbonButton x:Name="ReiheButton"
+                               Label="Reihe" 
+                               Click="ReiheButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Reihe32.png"
+                               SmallImageSource="/Liduv;component/Images/Reihe16.png"/>
+            <RibbonButton x:Name="SequenzButton"
+                               Label="Sequenz" 
+                               Click="SequenzButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Sequenz32.png"
+                               SmallImageSource="/Liduv;component/Images/Sequenz16.png"/>
+          </RibbonControlGroup>
+          <RibbonSeparator/>
+          <RibbonControlGroup>
+            <RibbonButton x:Name="FächerButton"
+                               Label="Fächer" 
+                               Click="FächerButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Fach32.png"
+                               SmallImageSource="/Liduv;component/Images/Fach16.png"/>
+            <RibbonButton x:Name="FachstundenButton"
+                               Label="Fachstunden" 
+                               Click="FachstundenButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Unterrichtsstunde32.png"
+                               SmallImageSource="/Liduv;component/Images/Unterrichtsstunde16.png"/>
+            <RibbonButton x:Name="ModuleButton"
+                               Label="Module" 
+                               Click="ModuleButtonClick" 
+                               LargeImageSource="/Liduv;component/Images/Modul32.png"
+                               SmallImageSource="/Liduv;component/Images/Modul16.png"/>
+          </RibbonControlGroup>
+        </RibbonGroup>
+        <RibbonGroup x:Name="DatenbankPlanungGroup" Header="Planung"
+                            LargeImageSource="/Liduv;component/Images/Jahresplan32.png"
+                            SmallImageSource="/Liduv;component/Images/Jahresplan16.png">
+          <RibbonGroup.GroupSizeDefinitions>
+            <RibbonGroupSizeDefinition IsCollapsed="True"/>
+          </RibbonGroup.GroupSizeDefinitions>
+          <RibbonControlGroup>
+            <RibbonButton x:Name="JahrespläneButton"
+                               Label="Jahrespläne" 
+                               Click="JahrespläneButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Jahresplan32.png"
+                               SmallImageSource="/Liduv;component/Images/Jahresplan16.png"/>
+            <RibbonButton x:Name="HalbjahresplanButton"
+                               Label="Halbjahrespläne" 
+                               Click="HalbjahresplanButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Halbjahresplan32.png"
+                               SmallImageSource="/Liduv;component/Images/Halbjahresplan16.png"/>
+            <RibbonButton x:Name="MonatsplanButton"
+                               Label="Monatspläne" 
+                               Click="MonatsplanButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Monatsplan32.png"
+                               SmallImageSource="/Liduv;component/Images/Monatsplan16.png"/>
+            <RibbonButton x:Name="TagesplanButton"
+                               Label="Tagespläne" 
+                               Click="TagesplanButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Tagesplan32.png"
+                               SmallImageSource="/Liduv;component/Images/Tagesplan16.png"/>
+          </RibbonControlGroup>
+          <RibbonSeparator/>
+          <RibbonControlGroup >
+            <RibbonButton x:Name="SchulwocheButton"
+                               Label="Schulwochen" 
+                               Click="SchulwocheButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Schulwoche32.png"
+                               SmallImageSource="/Liduv;component/Images/Schulwoche16.png"/>
+            <RibbonButton x:Name="SchultagButton"
+                               Label="Schultage" 
+                               Click="SchultagButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Schultag32.png"
+                               SmallImageSource="/Liduv;component/Images/Schultag16.png"/>
+          </RibbonControlGroup>
+        </RibbonGroup>
+        <RibbonGroup x:Name="DatenbankStundenentwürfeGroup" Header="Stundenentwürfe"
+                            LargeImageSource="/Liduv;component/Images/Stundenentwurf32.png"
+                            SmallImageSource="/Liduv;component/Images/Stundenentwurf16.png">
+          <RibbonGroup.GroupSizeDefinitions>
+            <RibbonGroupSizeDefinition IsCollapsed="True"/>
+          </RibbonGroup.GroupSizeDefinitions>
+          <RibbonControlGroup>
+            <RibbonButton x:Name="StundenentwuerfeButton"
+                               Label="Stundenentwürfe" 
+                               Click="StundenentwuerfeButtonClick" 
+                               LargeImageSource="/Liduv;component/Images/Stundenentwurf32.png"
+                               SmallImageSource="/Liduv;component/Images/Stundenentwurf16.png"/>
+            <RibbonButton x:Name="PhasenButton"
+                               Label="Phasen"
+                               Click="PhasenButtonClick" 
+                               LargeImageSource="/Liduv;component/Images/Phase32.png"
+                               SmallImageSource="/Liduv;component/Images/Phase16.png"/>
+            <RibbonButton x:Name="DateiverweisButton"
+                               Label="Dateiverweis" 
+                               Click="DateiverweisButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Dateiverweis32.png"
+                               SmallImageSource="/Liduv;component/Images/Dateiverweis16.png"/>
+          </RibbonControlGroup>
+          <RibbonSeparator></RibbonSeparator>
+          <RibbonControlGroup>
+            <RibbonButton x:Name="MedienButton"
+                               Label="Medien" 
+                               Click="MedienButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Medium32.png"
+                               SmallImageSource="/Liduv;component/Images/Medium16.png"/>
+            <RibbonButton x:Name="SozialformenButton"
+                               Label="Sozialformen" 
+                               Click="SozialformenButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Sozialform32.png"
+                               SmallImageSource="/Liduv;component/Images/Sozialform16.png"/>
+            <RibbonButton x:Name="DateitypenButton"
+                               Label="Dateitypen" 
+                               Click="DateitypenButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Dateityp32.png"
+                               SmallImageSource="/Liduv;component/Images/Dateityp16.png"/>
+          </RibbonControlGroup>
+        </RibbonGroup>
+        <RibbonGroup x:Name="DatenbankTermineGroup" Header="Termine"
+                            LargeImageSource="/Liduv;component/Images/Schultermin32.png"
+                            SmallImageSource="/Liduv;component/Images/Schultermin16.png">
+          <RibbonGroup.GroupSizeDefinitions>
+            <RibbonGroupSizeDefinition IsCollapsed="True"/>
+          </RibbonGroup.GroupSizeDefinitions>
+          <RibbonControlGroup>
+            <RibbonButton x:Name="TerminButton"
+                               Label="Termin" 
+                               Click="TerminButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Schultermin32.png"
+                               SmallImageSource="/Liduv;component/Images/Schultermin16.png"/>
+            <RibbonButton x:Name="BetroffeneKlassenButton"
+                               Label="BetroffeneKlassen" 
+                               Click="BetroffeneKlassenButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Klasse32.png"
+                               SmallImageSource="/Liduv;component/Images/Klasse16.png"/>
+            <RibbonButton x:Name="FerienButton"
+                               Label="Ferien" 
+                               Click="FerienButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Ferien32.png"
+                               SmallImageSource="/Liduv;component/Images/Ferien16.png"/>
+          </RibbonControlGroup>
+          <RibbonSeparator></RibbonSeparator>
+          <RibbonControlGroup>
+            <RibbonButton x:Name="TermintypenButton"
+                               Label="Termintypen" 
+                               Click="TermintypenButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Termintyp32.png"
+                               SmallImageSource="/Liduv;component/Images/Termintyp16.png"/>
+            <RibbonButton x:Name="SchuljahreButton"
+                               Label="Schuljahre" 
+                               Click="SchuljahreButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Schuljahr32.png"
+                               SmallImageSource="/Liduv;component/Images/Schuljahr16.png"/>
+            <RibbonButton x:Name="HalbjahrtypButton"
+                               Label="Halbjahrtypen" 
+                               Click="HalbjahrtypButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Halbjahre32.png"
+                               SmallImageSource="/Liduv;component/Images/Halbjahre16.png"/>
+            <RibbonButton x:Name="MonatstypButton"
+                               Label="Monatstypen" 
+                               Click="MonatstypButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Monatsplan32.png"
+                               SmallImageSource="/Liduv;component/Images/Monatsplan16.png"/>
+          </RibbonControlGroup>
+        </RibbonGroup>
+        <RibbonGroup x:Name="DatenbankStundenplanGroup" Header="Stundenpläne"
+                            LargeImageSource="/Liduv;component/Images/Stundenplan32.png"
+                            SmallImageSource="/Liduv;component/Images/Stundenplan16.png">
+          <RibbonGroup.GroupSizeDefinitions>
+            <RibbonGroupSizeDefinition IsCollapsed="True"/>
+          </RibbonGroup.GroupSizeDefinitions>
+          <RibbonControlGroup>
+            <RibbonButton x:Name="StundenpläneButton"
+                               Label="Stundenpläne" 
+                               Click="StundenpläneButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Stundenplan32.png"
+                               SmallImageSource="/Liduv;component/Images/Stundenplan16.png"/>
+            <RibbonButton x:Name="StundenplaneintragButton"
+                               Label="Stundenplaneinträge" 
+                               Click="StundenplaneintragButtonClick"
+                               LargeImageSource="/Liduv;component/Images/StundenplanÄndern32.png"
+                               SmallImageSource="/Liduv;component/Images/StundenplanÄndern16.png"/>
+            <RibbonButton x:Name="StundenplanZeigenButton"
+                               Label="Anzeigen" 
+                               Click="StundenplanZeigenButtonClick"
+                               ToolTipTitle="Stundenpläne verwalten"
+                               ToolTipDescription="Nutzen Sie diese Funktion, um bestehende 
+                               Stundenpläne anzusehen."
+                               LargeImageSource="/Liduv;component/Images/StundenplanZeigen32.png"
+                               SmallImageSource="/Liduv;component/Images/StundenplanZeigen16.png"/>
+          </RibbonControlGroup>
+          <RibbonSeparator/>
+          <RibbonControlGroup>
+            <RibbonButton x:Name="UnterrichtsstundenButton"
+                               Label="Unterrichtsstunden" 
+                               Click="UnterrichtsstundenButtonClick" 
+                               LargeImageSource="/Liduv;component/Images/Unterrichtsstunde32.png"
+                               SmallImageSource="/Liduv;component/Images/Unterrichtsstunde16.png"/>
+          </RibbonControlGroup>
+        </RibbonGroup>
+        <RibbonGroup x:Name="DatenbankPersonenGroup" Header="Personen"
+                            LargeImageSource="/Liduv;component/Images/Person32.png"
+                            SmallImageSource="/Liduv;component/Images/Person16.png">
+          <RibbonGroup.GroupSizeDefinitions>
+            <RibbonGroupSizeDefinition IsCollapsed="True"/>
+          </RibbonGroup.GroupSizeDefinitions>
+          <RibbonControlGroup>
+            <RibbonButton
+                               Label="Personen" 
+                               Click="PersonDBButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Person32.png"
+                               SmallImageSource="/Liduv;component/Images/Person16.png"/>
+            <RibbonButton x:Name="SchülerlisteButton"
+                               Label="Schülerlisten" 
+                               Click="SchülerlisteButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Schülerliste32.png"
+                               SmallImageSource="/Liduv;component/Images/Schülerliste16.png"/>
+            <RibbonButton x:Name="SchülereintragButton"
+                               Label="Schülereinträge" 
+                               Click="SchülereintragButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Schülereintrag32.png"
+                               SmallImageSource="/Liduv;component/Images/Schülereintrag16.png"/>
+          </RibbonControlGroup>
+          <RibbonSeparator/>
+          <RibbonControlGroup>
+            <RibbonButton x:Name="JahrgangsstufeButton"
+                               Label="Jahrgangsstufen und Klassen" 
+                               Click="JahrgangsstufenButtonClick" 
+                               LargeImageSource="/Liduv;component/Images/Jahrgangsstufe32.png"
+                               SmallImageSource="/Liduv;component/Images/Jahrgangsstufe16.png"/>
+          </RibbonControlGroup>
+        </RibbonGroup>
+        <RibbonGroup x:Name="DatenbankNotenGroup" Header="Noten"
+                            LargeImageSource="/Liduv;component/Images/Zensur32.png"
+                            SmallImageSource="/Liduv;component/Images/Zensur16.png">
+          <RibbonGroup.GroupSizeDefinitions>
+            <RibbonGroupSizeDefinition IsCollapsed="True"/>
+          </RibbonGroup.GroupSizeDefinitions>
+          <RibbonControlGroup>
+            <RibbonButton x:Name="NotenButton"
+                               Label="Noten" 
+                               Click="NotenButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Note32.png"
+                               SmallImageSource="/Liduv;component/Images/Note16.png"/>
+            <RibbonButton x:Name="NotentendenzenButton"
+                               Label="Notentendenzen" 
+                               Click="NotentendenzenButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Notentendenz32.png"
+                               SmallImageSource="/Liduv;component/Images/Notentendenz16.png"/>
+            <RibbonButton x:Name="HausaufgabenButton"
+                               Label="Hausaufgaben" 
+                               Click="HausaufgabenButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Hausaufgabe32.png"
+                               SmallImageSource="/Liduv;component/Images/Hausaufgabe16.png"/>
+          </RibbonControlGroup>
+          <RibbonSeparator/>
+          <RibbonControlGroup>
+            <RibbonButton x:Name="ArbeitenButton"
+                               Label="Arbeiten" 
+                               Click="ArbeitenButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Arbeit32.png"
+                               SmallImageSource="/Liduv;component/Images/Arbeit16.png"/>
+            <RibbonButton x:Name="AufgabenButton"
+                               Label="Aufgaben" 
+                               Click="AufgabenButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Aufgabe32.png"
+                               SmallImageSource="/Liduv;component/Images/Aufgabe16.png"/>
+            <RibbonButton x:Name="ErgebnisseButton"
+                               Label="Ergebnisse" 
+                               Click="ErgebnisseButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Ergebnis32.png"
+                               SmallImageSource="/Liduv;component/Images/Ergebnis16.png"/>
+          </RibbonControlGroup>
+          <RibbonSeparator/>
+          <RibbonControlGroup>
+            <RibbonButton x:Name="NotenWichtungenButton"
+                               Label="NotenWichtungen" 
+                               Click="NotenWichtungenButtonClick"
+                               LargeImageSource="/Liduv;component/Images/NotenWichtung32.png"
+                               SmallImageSource="/Liduv;component/Images/NotenWichtung16.png"/>
+            <RibbonButton x:Name="TendenztypenButton"
+                               Label="Tendenztypen" 
+                               Click="TendenztypenButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Tendenztyp32.png"
+                               SmallImageSource="/Liduv;component/Images/Tendenztyp16.png"/>
+            <RibbonButton x:Name="TendenzenButton"
+                               Label="Tendenzen" 
+                               Click="TendenzenButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Tendenz32.png"
+                               SmallImageSource="/Liduv;component/Images/Tendenz16.png"/>
+            <RibbonButton x:Name="ZensurenButton"
+                               Label="Zensuren" 
+                               Click="ZensurenButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Zensur32.png"
+                               SmallImageSource="/Liduv;component/Images/Zensur16.png"/>
+            <RibbonButton x:Name="BewertungsschemataButton"
+                               Label="Bewertungsschemata" 
+                               Click="BewertungsschemataButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Bewertungsschema32.png"
+                               SmallImageSource="/Liduv;component/Images/Bewertungsschema16.png"/>
+          </RibbonControlGroup>
+        </RibbonGroup>
+      </RibbonTab>
+      <RibbonTab x:Name="ToolsTab" Header="Tools">
+
+      </RibbonTab>
+
+    </Ribbon>
+    <Expander Grid.Row="1" ExpandDirection="Down">
+      <UniformGrid Columns="2" Height="120">
+        <TreeView x:Name="UndoStackListBox"
+            ItemsSource="{Binding Source={x:Static liduv:App.MainViewModel}, Path=UndoStack, Mode=OneWay}"/>
+        <TreeView x:Name="RedoStackListBox"
+            ItemsSource="{Binding Source={x:Static liduv:App.MainViewModel}, Path=RedoStack, Mode=OneWay}"/>
+      </UniformGrid>
+    </Expander>
+    <TabControl Grid.Row="2" Margin="5">
+      <TabItem Header="Wochenplan">
+        <ContentControl Margin="5" Content="{Binding Path=.WochenplanWorkspace}" />
+      </TabItem>
+      <TabItem Header="Jahrespläne">
+        <ContentControl Margin="5" Content="{Binding Path=.JahresplanWorkspace}" />
+      </TabItem>
+      <TabItem Header="Curricula">
+        <ContentControl Margin="5" Content="{Binding Path=.CurriculumWorkspace}" />
+      </TabItem>
+      <TabItem Header="Noten">
+        <ContentControl Margin="5" Content="{Binding Path=.SchülereintragWorkspace}" />
+      </TabItem>
+    </TabControl>
+  </Grid>
+</RibbonWindow>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8e49c6c25eb74cf68219c05c077736b4" Name="Diagram1" ZoomLevel="64">
+        <EntityTypeShape EntityType="LiduvDataModel.Arbeit" Width="1.5" PointX="3" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Aufgabe" Width="1.5" PointX="5.25" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.BetroffeneKlasse" Width="1.5" PointX="14.25" PointY="19" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Bewertungsschema" Width="1.5" PointX="0.75" PointY="23.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Curriculum" Width="1.5" PointX="6" PointY="18.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Dateityp" Width="1.5" PointX="15" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Dateiverweis" Width="1.5" PointX="17.25" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Ergebnis" Width="1.5" PointX="7.5" PointY="26.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Fach" Width="1.5" PointX="3" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Fachstundenanzahl" Width="1.5" PointX="8.25" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Ferien" Width="1.5" PointX="3" PointY="26.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Halbjahresplan" Width="1.5" PointX="8.25" PointY="14.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Halbjahrtyp" Width="1.5" PointX="0.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Hausaufgabe" Width="1.5" PointX="13.5" PointY="24.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Jahresplan" Width="1.5" PointX="6" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Jahrgangsstufe" Width="1.75" PointX="1.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Jahrtyp" Width="1.5" PointX="0.75" PointY="18.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Klasse" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Klassenstufe" Width="1.5" PointX="0.75" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Medium" Width="1.5" PointX="18" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Modul" Width="1.5" PointX="12.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Monatsplan" Width="1.5" PointX="10.5" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Monatstyp" Width="1.5" PointX="8.25" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Note" Width="1.5" PointX="8.25" PointY="22.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Notentendenz" Width="1.5" PointX="16.5" PointY="22.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.NotenWichtung" Width="1.5" PointX="3.75" PointY="30.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Person" Width="1.5" PointX="9" PointY="30" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Phase" Width="1.5" PointX="20.25" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Prozentbereich" Width="1.5" PointX="15.25" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Reihe" Width="1.5" PointX="11.25" PointY="18.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Schülereintrag" Width="1.5" PointX="11.25" PointY="22.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Schülerliste" Width="1.5" PointX="6" PointY="22.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Schultag" Width="1.5" PointX="5.25" PointY="36.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Schulwoche" Width="1.5" PointX="3" PointY="36.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Sequenz" Width="1.5" PointX="13.5" PointY="21.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Sozialform" Width="1.5" PointX="18" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Stundenentwurf" Width="1.5" PointX="15" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Stundenplan" Width="1.5" PointX="3" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Stundenplaneintrag" Width="1.5" PointX="5.25" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Tagesplan" Width="1.5" PointX="12.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Tendenz" Width="1.5" PointX="14.25" PointY="27.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Tendenztyp" Width="1.5" PointX="14.25" PointY="30.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Termin" Width="1.5" PointX="12.75" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Lerngruppentermin" Width="1.5" PointX="15" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Schultermin" Width="1.5" PointX="9" PointY="18.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Stunde" Width="1.5" PointX="17.75" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Termintyp" Width="1.5" PointX="10.5" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Unterrichtsstunde" Width="1.5" PointX="10.5" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LiduvDataModel.Zensur" Width="1.5" PointX="6" PointY="6.5" IsExpanded="true" />
+        <AssociationConnector Association="LiduvDataModel.FK_ArbeitAufgabe" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_BewertungsschemaArbeit" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_FachArbeit" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_HalbjahrtypArbeit" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_JahrtypArbeit" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_KlasseArbeit" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_Noten_Arbeiten" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_AufgabeErgebnis" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_KlasseBetroffeneKlasse" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_TerminBetroffeneKlasse" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_BewertungsschemaProzentbereich" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_CurriculumReihe" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_FachCurriculum" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_JahrtypCurriculum" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_KlassenstufeCurriculum" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_DateitypDateiverweis" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_StundenentwurfDateiverweis" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_SchülereintragErgebnis" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_FachFachstundenanzahl" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_FachJahresplan" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_FachModul" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_FachStundenentwurf" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_FachStundenplaneintrag" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_KlassenstufeFachstundenanzahl" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_JahrtypFerien" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_HalbjahresplanMonatsplan" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_HalbjahrtypSchulhalbjahr" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_JahresplanHalbjahresplan" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_HalbjahrtypSchülerliste" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_HalbjahrtypStundenplan" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_Hausaufgaben_Schülereinträge" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_JahrtypJahresplan" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_KlasseJahresplan" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_JahrgangsstufeKlassenstufe" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_JahrgangsstufeModul" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_JahrgangsstufeStundenentwurf" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_JahrtypSchülerliste" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_JahrtypSchultermin" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_JahrtypSchulwoche" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_JahrtypStundenplan" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_KlassenstufeKlasse" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_KlasseSchülerliste" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_KlasseStundenplaneintrag" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_MediumPhase" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_ModulReihe" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_ModulStundenentwurf" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_MonatsplanTagesplan" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_MonatstypKalendermonat" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_Noten_Schülereinträge" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_ZensurNoten" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_Notentendenzen_Schülereinträge" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_Notentendenzen_Tendenzen" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_Notentendenzen_Tendenztypen" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_NotenWichtungenSchülerliste" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_PersonSchülereintrag" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_SozialformPhase" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_StundenentwurfPhasen" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_ZensurProzentbereich" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_ReiheSequenz" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_SchülerlisteSchülereintrag" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_SchulwocheSchultag" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_TermintypSchultag" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_StundenentwurfStunde" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_StundenplanStundenplaneintrag" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_TagesplanLerngruppentermin" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_ErsteUnterrichtsstundeTermin" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_Lerngruppentermin_inherits_Termin" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_Schultermin_inherits_Termin" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_TermintypTermin" ManuallyRouted="false" />
+        <AssociationConnector Association="LiduvDataModel.FK_UnterrichtsstundeTermin" ManuallyRouted="false" />
+        <InheritanceConnector EntityType="LiduvDataModel.Schultermin" />
+        <InheritanceConnector EntityType="LiduvDataModel.Lerngruppentermin" />
+        <InheritanceConnector EntityType="LiduvDataModel.Stunde" />
+        <AssociationConnector Association="LiduvDataModel.FachSchülerliste" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

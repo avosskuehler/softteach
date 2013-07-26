@@ -1,0 +1,78 @@
+﻿<Window x:Class="Liduv.View.Datenbank.BewertungsschemaWorkspaceView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:resources="clr-namespace:Liduv.Resources" 
+        xmlns:datenbankView="clr-namespace:Liduv.View.Datenbank"
+        xmlns:DatenbankViewModel="clr-namespace:Liduv.ViewModel.Datenbank"
+        xmlns:liduv="clr-namespace:Liduv"
+        xmlns:noten="clr-namespace:Liduv.ViewModel.Noten" xmlns:controls="clr-namespace:Liduv.Resources.Controls"
+        mc:Ignorable="d" 
+        Title="Datenbank - Bewertungsschemata und Prozentbereiche"
+        Icon="/Liduv;component/Images/Database.ico"
+             d:DesignHeight="400" d:DesignWidth="400" WindowStyle="SingleBorderWindow">
+  <Grid Background="{StaticResource MainBackgroundBrush}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="32"/>
+    </Grid.RowDefinitions>
+    <controls:SmallDialogHeader  Icon="/Liduv;component/Images/Bewertungsschema32.png" 
+                              Grid.Row="0" 
+                              Title="Ergänzen oder entfernen Sie hier Bewertungsschemata und Lerngruppen."/>
+    <Grid Grid.Row="1" Margin="3">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <Grid Grid.Column="0">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Vertical" Margin="5">
+          <Label Content="Bewertungsschema"/>
+          <StackPanel Orientation="Horizontal">
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Name="AddBewertungsschemaButton" Command="{Binding Path=AddBewertungsschemaCommand}" HorizontalContentAlignment="Left" ToolTip="Neues Bewertungsschema anlegen">
+              <StackPanel Orientation="Horizontal" Height="16">
+                <Grid>
+                  <Image Source="/Liduv;component/Images/Bewertungsschema16.png"/>
+                  <Image Source="/Liduv;component/Images/AddOverlay16.png"/>
+                </Grid>
+              </StackPanel>
+            </Button>
+            <Button Name="RemoveBewertungsschemaButton" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
+                    Command="{Binding Path=DeleteBewertungsschemaCommand}"
+                    HorizontalContentAlignment="Left" ToolTip="Bewertungsschema löschen">
+              <StackPanel Orientation="Horizontal">
+                <Grid>
+                  <Image Source="/Liduv;component/Images/Bewertungsschema16.png"/>
+                  <Image Source="/Liduv;component/Images/RemoveOverlay16.png"/>
+                </Grid>
+              </StackPanel>
+            </Button>
+          </StackPanel>
+        </StackPanel>
+        <DataGrid Grid.Row="1" SelectedItem="{Binding Path=CurrentBewertungsschema, Mode=TwoWay}" ItemsSource="{Binding Source={x:Static liduv:App.MainViewModel}, Path=Bewertungsschemata}" AutoGenerateColumns="False" >
+          <DataGrid.Columns>
+            <DataGridTextColumn Header="Bezeichnung" Binding="{Binding Path=BewertungsschemaBezeichnung}"/>
+          </DataGrid.Columns>
+        </DataGrid>
+      </Grid>
+      <Border Grid.Column="1" Margin="5">
+        <ContentControl Content="{Binding Path=CurrentBewertungsschema}">
+          <ContentControl.Resources>
+            <DataTemplate DataType="{x:Type noten:BewertungsschemaViewModel}">
+              <datenbankView:BewertungsschemaDetailView />
+            </DataTemplate>
+          </ContentControl.Resources>
+        </ContentControl>
+      </Border>
+    </Grid>
+    <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+      <Button Name="OK" Width="80" Margin="3" IsDefault="True" Click="OKClick">OK</Button>
+      <!--<Button Name="Abbrechen"  Width="80" Margin="3" IsCancel="True">Abbrechen</Button>-->
+    </StackPanel>
+  </Grid>
+</Window>

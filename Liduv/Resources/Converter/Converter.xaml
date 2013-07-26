@@ -1,0 +1,11 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:converter="clr-namespace:Liduv.Resources.Converter">
+  <BooleanToVisibilityConverter x:Key="BoolVisibleConverter" />
+  <converter:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+  <converter:InverseBooleanToVisibilityConverter x:Key="BoolVisibleConverterInverse" />
+  <converter:WichtungProzentConverter x:Key="WichtungProzentConverter" />
+  <converter:FloatProzentConverter x:Key="FloatProzentConverter" />
+  <converter:WrapPanelWidthConverter x:Key="WrapPanelWidthConverter" />
+</ResourceDictionary>

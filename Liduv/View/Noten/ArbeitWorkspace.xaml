@@ -1,0 +1,35 @@
+﻿<Window x:Class="Liduv.View.Noten.ArbeitWorkspace"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:liduv="clr-namespace:Liduv"
+        xmlns:controls="clr-namespace:Liduv.Resources.Controls" 
+        xmlns:notenViewModel="clr-namespace:Liduv.ViewModel.Noten"
+        xmlns:noten="clr-namespace:Liduv.View.Noten"
+        mc:Ignorable="d" 
+        Title="Arbeiten erstellen und ändern"
+        Icon="/Liduv;component/Images/Arbeit32.png"
+             d:DesignHeight="400" d:DesignWidth="800" WindowStyle="SingleBorderWindow">
+  <Window.Resources>
+    <DataTemplate DataType="{x:Type notenViewModel:ArbeitWorkspaceViewModel}">
+      <noten:ArbeitWorkspaceView />
+    </DataTemplate>
+  </Window.Resources>
+  <Grid Background="{StaticResource MainBackgroundBrush}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="48"/>
+      <RowDefinition/>
+      <RowDefinition Height="32"/>
+    </Grid.RowDefinitions>
+    <controls:SmallDialogHeader  Icon="/Liduv;component/Images/Arbeit32.png" 
+                              Grid.Row="0" 
+                              Title="Ergänzen, ändern oder löschen Sie hier Arbeiten oder Tests. Die Noten tauchen dann automatisch auch in der Notenzusammenstellung jedes einzelnen Schülers auf."/>
+    <ContentControl Grid.Row="1" Content="{Binding Source={x:Static liduv:App.MainViewModel}, Path=ArbeitWorkspace}"/>
+    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+      <Button Name="OK" Width="80" Margin="3" IsDefault="True" Click="OKClick">Ok</Button>
+      <Label/>
+      <Button Name="Abbruch" Width="80" Margin="3" IsCancel="True" Click="CancelClick">Abbruch</Button>
+    </StackPanel>
+  </Grid>
+</Window>

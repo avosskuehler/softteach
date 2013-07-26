@@ -1,0 +1,5 @@
+AddOnList:
+
+- Splash für Wartezeiten
+- ComboBox Style überall
+- Im Wochenplan - Vertretung in eigener Klasse - Contextmenüeintrag erstellen

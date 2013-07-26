@@ -1,0 +1,158 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!--StundenentwurfStyles-->
+  <Style x:Key="Header1">
+    <Setter Property="Control.FontFamily" Value="Segoe Black" />
+    <Setter Property="Control.FontSize" Value="20pt" />
+  </Style>
+
+  <Style x:Key="MonthHeader">
+    <Setter Property="Control.FontFamily" Value="Segoe Black" />
+    <Setter Property="Control.FontSize" Value="14pt" />
+  </Style>
+
+  <Style x:Key="StundenentwurfPrintHeaderLabel">
+    <Setter Property="Control.FontFamily" Value="Cambria" />
+    <Setter Property="Control.FontSize" Value="14pt" />
+    <Setter Property="Control.FontWeight" Value="Regular" />
+  </Style>
+
+  <Style x:Key="StundenentwurfPrintHeaderLabelBold" BasedOn="{StaticResource StundenentwurfPrintHeaderLabel}">
+    <Setter Property="Control.FontWeight" Value="Bold" />
+  </Style>
+
+  <Style x:Key="StundenentwurfPrintThemaHeader">
+    <Setter Property="Control.FontFamily" Value="Calibri" />
+    <Setter Property="Control.FontSize" Value="14pt" />
+  </Style>
+
+  <Style x:Key="StundenentwurfPrintDefault">
+    <Setter Property="Control.FontFamily" Value="Calibri" />
+    <Setter Property="Control.FontSize" Value="12pt" />
+  </Style>
+
+  <DataTemplate x:Key="GroupBoxHeader">
+    <TextBlock Text="{Binding}" 
+               FontSize="18" 
+               FontWeight="Normal"
+               FontFamily="Cambria"
+               TextWrapping="Wrap"/>
+  </DataTemplate>
+
+  <DataTemplate x:Key="ExpanderHeader">
+    <TextBlock Text="{Binding}" 
+               FontSize="14" 
+               FontWeight="Normal"
+               FontStyle="Italic" 
+               Padding="0"
+               TextWrapping="Wrap"
+               >
+      <TextBlock.RenderTransform>
+        <TransformGroup>
+        <RotateTransform Angle="270"/>
+        <TranslateTransform X="10" Y="60"/>
+          </TransformGroup>
+      </TextBlock.RenderTransform>
+    </TextBlock>
+  </DataTemplate>
+
+  <!--StundenplanStyles-->
+  <Style x:Key="StundenplanKlassenstufeCombo">
+    <Setter Property="ComboBox.Width" Value="40"/>
+  </Style>
+  <Style x:Key="StundenplanKlasseCombo">
+    <Setter Property="ComboBox.Width" Value="Auto"/>
+  </Style>
+
+  <Style x:Key="StundenplanDescriptionHeaderText">
+    <Setter Property="Label.FontSize" Value="16"/>
+  </Style>
+
+  <Style x:Key="StundenplanHeaderText">
+    <Setter Property="Label.FontSize" Value="20"/>
+    <Setter Property="Label.HorizontalContentAlignment" Value="Stretch"/>
+    <Setter Property="Label.HorizontalAlignment" Value="Center"/>
+  </Style>
+
+  <Style x:Key="StundenplanHeaderBorder">
+    <Setter Property="Border.Padding" Value="0"/>
+    <Setter Property="Border.Background" Value="LightGreen"/>
+    <Setter Property="Border.BorderBrush" Value="Gray"/>
+    <Setter Property="Border.BorderThickness" Value="1, 0, 0, 2"/>
+  </Style>
+
+  <Style x:Key="StundenplanRowHeaderText">
+    <Setter Property="Label.FontSize" Value="14"/>
+    <Setter Property="Label.HorizontalContentAlignment" Value="Stretch"/>
+  </Style>
+
+  <Style x:Key="StundenplanRowHeaderBorder">
+    <Setter Property="Border.Padding" Value="5,5,0,0"/>
+    <Setter Property="Border.Background" Value="LightGray"/>
+    <Setter Property="Border.BorderBrush" Value="Gray"/>
+    <Setter Property="Border.BorderThickness" Value="1, 0, 0, 2"/>
+  </Style>
+
+  <Style x:Key="StundenplanStundeBorder">
+    <Setter Property="Border.Padding" Value="5,5,0,0"/>
+    <Setter Property="Border.BorderBrush" Value="Gray"/>
+    <Setter Property="Border.BorderThickness" Value="1, 0, 0, 2"/>
+  </Style>
+
+  <!--WochenplanStyles-->
+  <Style x:Key="WochenplanRowHeaderText">
+    <Setter Property="Label.FontSize" Value="14"/>
+    <Setter Property="Label.HorizontalContentAlignment" Value="Stretch"/>
+  </Style>
+
+  <Style x:Key="WochenplanRowHeaderBorder">
+    <Setter Property="Border.Padding" Value="5,5,0,0"/>
+    <Setter Property="Border.Background" Value="LightGray"/>
+    <Setter Property="Border.BorderBrush" Value="Gray"/>
+    <Setter Property="Border.BorderThickness" Value="1, 0, 0, 2"/>
+  </Style>
+
+  <Style x:Key="WochenplanDescriptionHeaderText">
+    <Setter Property="Label.FontSize" Value="16"/>
+  </Style>
+
+  <Style x:Key="WochenplanHeaderText">
+    <Setter Property="Label.FontSize" Value="20"/>
+    <Setter Property="Label.HorizontalContentAlignment" Value="Stretch"/>
+    <Setter Property="Label.HorizontalAlignment" Value="Center"/>
+  </Style>
+
+  <Style x:Key="WochenplanHeaderBorder">
+    <Setter Property="Border.Padding" Value="0"/>
+    <Setter Property="Border.Background" Value="LightGreen"/>
+    <Setter Property="Border.BorderBrush" Value="Gray"/>
+    <Setter Property="Border.BorderThickness" Value="1, 0, 0, 2"/>
+  </Style>
+
+  <Style x:Key="ListBoxMonthHeader">
+    <Setter Property="Control.FontFamily" Value="Segoe Black" />
+    <Setter Property="Control.FontSize" Value="14pt" />
+    <Setter Property="Control.FontWeight" Value="Bold"/>
+  </Style>
+
+  <DataTemplate x:Key="ListBoxMonthHeaderTemplate">
+    <Label Style="{StaticResource ListBoxMonthHeader}"/>
+  </DataTemplate>
+
+  <Style x:Key="NotenStyle">
+    <Setter Property="Label.FontSize" Value="18"/>
+    <Setter Property="Label.Margin" Value="0"/>
+    <Setter Property="Label.Padding" Value="1,1,0,0"/>
+  </Style>
+  
+  <Style x:Key="NotenschnittStyle">
+    <Setter Property="Label.FontSize" Value="12"/>
+    <Setter Property="Label.Margin" Value="0"/>
+    <Setter Property="Label.Padding" Value="3"/>
+    <Setter Property="Label.HorizontalAlignment" Value="Center"/>
+    <Setter Property="Label.VerticalAlignment" Value="Center"/>  
+  </Style>
+
+  
+</ResourceDictionary>

@@ -1,0 +1,93 @@
+﻿<Window x:Class="Liduv.View.Datenbank.JahrgangsstufeWorkspaceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:datenbankView="clr-namespace:Liduv.View.Datenbank"
+        xmlns:datenbankViewModel="clr-namespace:Liduv.ViewModel.Datenbank" xmlns:liduv="clr-namespace:Liduv"
+        xmlns:controls="clr-namespace:Liduv.Resources.Controls"
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:noten="clr-namespace:Liduv.ViewModel.Noten"
+        mc:Ignorable="d" 
+        Title="Datenbank - Jahrgangsstufen und Klassen"
+        Icon="/Liduv;component/Images/Database.ico"
+             d:DesignHeight="400" Width="700" WindowStyle="SingleBorderWindow">
+  <Window.Resources>
+    <CollectionViewSource Source="{Binding Source={x:Static liduv:App.MainViewModel}, Path=Jahrgangsstufen}" x:Key="JahrgangsstufenSorted">
+      <CollectionViewSource.SortDescriptions>
+        <scm:SortDescription PropertyName="JahrgangsstufeBezeichnung"/>
+      </CollectionViewSource.SortDescriptions>
+    </CollectionViewSource>
+    <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="Bepunktungstypen">
+      <ObjectDataProvider.MethodParameters>
+        <x:Type TypeName="noten:Bepunktungstyp" />
+      </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+  </Window.Resources>
+  <Grid Background="{StaticResource MainBackgroundBrush}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="32"/>
+    </Grid.RowDefinitions>
+    <controls:SmallDialogHeader  Icon="/Liduv;component/Images/Jahrgangsstufe32.png" 
+                              Grid.Row="0" 
+                              Title="Ergänzen oder entfernen Sie hier Jahrgangsstufen und Lerngruppen."/>
+    <Grid Grid.Row="1" Margin="3">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="220"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <Grid Grid.Column="0">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Vertical" Margin="5">
+          <Label Content="Jahrgangsstufe"/>
+          <Button Name="AddJahrgangsstufeButton" Command="{Binding Path=AddJahrgangsstufeCommand}" HorizontalContentAlignment="Left">
+            <StackPanel Orientation="Horizontal" Height="16">
+              <Grid>
+                <Image Source="/Liduv;component/Images/Jahrgangsstufe16.png"/>
+                <Image Source="/Liduv;component/Images/AddOverlay16.png"/>
+              </Grid>
+              <Label Content="hinzufügen" Padding="5,0,0,0"/>
+            </StackPanel>
+          </Button>
+          <Label Height="4"></Label>
+          <Button Name="RemoveJahrgangsstufeButton" Command="{Binding Path=DeleteJahrgangsstufeCommand}" HorizontalContentAlignment="Left">
+            <StackPanel Orientation="Horizontal">
+              <Grid>
+                <Image Source="/Liduv;component/Images/Jahrgangsstufe16.png"/>
+                <Image Source="/Liduv;component/Images/RemoveOverlay16.png"/>
+              </Grid>
+              <Label Content="entfernen" Padding="5,0,0,0"/>
+            </StackPanel>
+          </Button>
+        </StackPanel>
+        <DataGrid Grid.Row="1" SelectedItem="{Binding Path=CurrentJahrgangsstufe, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource JahrgangsstufenSorted}}" AutoGenerateColumns="False" >
+          <DataGrid.Columns>
+            <DataGridTextColumn Header="Jahrgangsstufe" Binding="{Binding Path=JahrgangsstufeBezeichnung}" />
+            <DataGridComboBoxColumn Width="*"
+                        Header="Bepunktungstyp" 
+                        ItemsSource="{Binding Source={StaticResource Bepunktungstypen}}"
+                        SelectedItemBinding="{Binding Path=JahrgangsstufeBepunktungstyp}"/>
+          </DataGrid.Columns>
+        </DataGrid>
+      </Grid>
+      <Border Grid.Column="1" Margin="5">
+        <ContentControl Content="{Binding Path=CurrentJahrgangsstufe}">
+          <ContentControl.Resources>
+            <DataTemplate DataType="{x:Type datenbankViewModel:JahrgangsstufeViewModel}">
+              <datenbankView:JahrgangsstufeDetailView />
+            </DataTemplate>
+          </ContentControl.Resources>
+        </ContentControl>
+      </Border>
+    </Grid>
+    <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+      <Button Name="OK" Width="80" Margin="3" IsDefault="True" Click="OKClick">OK</Button>
+      <!--<Button Name="Abbrechen"  Width="80" Margin="3" IsCancel="True">Abbrechen</Button>-->
+    </StackPanel>
+  </Grid>
+</Window>

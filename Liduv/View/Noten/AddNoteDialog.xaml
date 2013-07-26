@@ -1,0 +1,56 @@
+﻿<Window x:Class="Liduv.View.Noten.AddNoteDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:resources="clr-namespace:Liduv.Resources" xmlns:liduv="clr-namespace:Liduv"
+        xmlns:noten="clr-namespace:Liduv.ViewModel.Noten" xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:controls="clr-namespace:Liduv.Resources.Controls"
+        Title="Frage ..." 
+        Height="414" 
+        Width="345" 
+        ResizeMode="NoResize" 
+        WindowStyle="SingleBorderWindow">
+  <Window.Resources>
+  </Window.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Bitte geben Sie einen Note ein."
+                                      Icon="/Liduv;component/Images/Note32.png"/>
+    <Grid Grid.Row="1" Background="{x:Static SystemColors.MenuBarBrush}">
+      <StackPanel Margin="10">
+        <UniformGrid Columns="2">
+          <RadioButton Name="RadioButtonMündlich" Content="Mündlich" IsChecked="{Binding Path=IsMündlich}" />
+          <RadioButton Name="RadioButtonSchriftlich" Content="Schriftlich" IsChecked="{Binding Path=CurrentNote.NoteIstSchriftlich}"/>
+        </UniformGrid>
+        <TextBlock TextWrapping="Wrap">Für was wurde diese Note gegeben?</TextBlock>
+        <TextBox Text="{Binding Path=CurrentNote.NoteBezeichnung}"/>
+        <TextBlock TextWrapping="Wrap">Welcher Notentyp?</TextBlock>
+        <ComboBox Margin="3" TabIndex="1" Name="ComboNotentyp"
+                ItemsSource="{Binding Path=FilteredNotentypen}" 
+                SelectedItem="{Binding Path=CurrentNote.NoteNotentyp}"
+                Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"
+                  HorizontalAlignment="Stretch"/>
+        <TextBlock TextWrapping="Wrap">Bitte geben Sie die Note an.</TextBlock>
+        <ComboBox Margin="3" TabIndex="1"
+                ItemsSource="{Binding Source={x:Static liduv:App.MainViewModel}, Path=Zensuren}" 
+                SelectedItem="{Binding Path=CurrentNote.NoteZensur}"
+                DisplayMemberPath="ZensurNoteMitTendenz"
+                Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"
+                  HorizontalAlignment="Stretch"/>
+        <TextBlock TextWrapping="Wrap">Bitte geben Sie das Datum der Note an.</TextBlock>
+        <DatePicker Name="NoteGültigAmDate" SelectedDate="{Binding Path=CurrentNote.NoteDatum}"/>
+        <TextBlock TextWrapping="Wrap">Bitte geben Sie die Gewichtung der Note an.</TextBlock>
+        <Slider Value="{Binding Path=CurrentNote.NoteWichtung}" SmallChange="1" TickPlacement="BottomRight" Minimum="1" />
+      </StackPanel>
+    </Grid>
+    <Grid Background="{StaticResource DefaultButtonsBackgroundBrush}" Grid.Row="2">
+      <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+        <Button Width="100" HorizontalAlignment="Right" IsDefault="True" Click="OkClick" TabIndex="2">OK</Button>
+        <Button Width="100" Margin="5,0,0,0" HorizontalAlignment="Right" IsCancel="True" Click="CancelClick" TabIndex="3">Abbruch</Button>
+      </StackPanel>
+    </Grid>
+  </Grid>
+</Window>

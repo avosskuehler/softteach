@@ -1,0 +1,102 @@
+﻿<Window x:Class="Liduv.View.Datenbank.ModulWorkspaceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:resources="clr-namespace:Liduv.Resources" xmlns:Liduv="clr-namespace:Liduv"
+        xmlns:controls="clr-namespace:Liduv.Resources.Controls"
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" mc:Ignorable="d" 
+        Title="Datenbank - Module"
+        Icon="/Liduv;component/Images/Database.ico"
+             d:DesignHeight="400" d:DesignWidth="800" WindowStyle="SingleBorderWindow">
+  <Window.Resources>
+    <CollectionViewSource Source="{Binding Path=ShownModule}" x:Key="ShownModuleSorted">
+      <CollectionViewSource.SortDescriptions>
+        <scm:SortDescription PropertyName="ModulFach"/>
+        <scm:SortDescription PropertyName="ModulJahrgangsstufe"/>
+        <scm:SortDescription PropertyName="ModulBezeichnung"/>
+      </CollectionViewSource.SortDescriptions>
+    </CollectionViewSource>
+  </Window.Resources>
+  <Grid Background="{StaticResource MainBackgroundBrush}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="48"/>
+      <RowDefinition Height="48"/>
+      <RowDefinition/>
+      <RowDefinition Height="32"/>
+    </Grid.RowDefinitions>
+    <controls:SmallDialogHeader  Icon="/Liduv;component/Images/Modul32.png" 
+                              Grid.Row="0" 
+                              Title="Ergänzen oder entfernen Sie hier Module."/>
+    <Border Grid.Row="1" Name="DescriptionArea">
+      <StackPanel Orientation="Horizontal" Margin="5">
+        <Button Width="150" Height="32" Name="AddButton" Command="{Binding Path=AddModulCommand}">
+          <StackPanel Orientation="Horizontal">
+            <Grid>
+              <Image Source="/Liduv;component/Images/Modul32.png"/>
+              <Image Source="/Liduv;component/Images/AddOverlay32.png"/>
+            </Grid>
+            <Label Content="Modul hinzufügen"/>
+          </StackPanel>
+        </Button>
+        <Label></Label>
+        <Button Width="150" Height="32" Name="RemoveButton" Command="{Binding Path=DeleteModulCommand}">
+          <StackPanel Orientation="Horizontal">
+            <Grid>
+              <Image Source="/Liduv;component/Images/Modul32.png"/>
+              <Image Source="/Liduv;component/Images/RemoveOverlay32.png"/>
+            </Grid>
+            <Label Content="Modul entfernen"/>
+          </StackPanel>
+        </Button>
+      </StackPanel>
+    </Border>
+    <GroupBox Grid.Row="2" Header="Tabelle der Module" Padding="3" Margin="5">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition/>
+        </Grid.RowDefinitions>
+        <ToolBarPanel Grid.Row="0">
+          <ToolBar>
+            <Label Padding="0" Margin="3"  VerticalContentAlignment="Center">Filtern nach: Fach</Label>
+            <ComboBox MinWidth="100" ItemsSource="{Binding Source={x:Static Liduv:App.MainViewModel}, Path=Fächer}"
+                              SelectedValue="{Binding Path=FachFilter}" 
+                              SelectedValuePath="." 
+                              DisplayMemberPath="FachBezeichnung"/>
+            <Label Padding="0" Margin="3" VerticalContentAlignment="Center">und Jahrgangsstufe</Label>
+            <ComboBox MinWidth="100" ItemsSource="{Binding Source={x:Static Liduv:App.MainViewModel}, Path=Jahrgangsstufen}"
+                              SelectedValue="{Binding Path=JahrgangsstufeFilter}"
+                              SelectedValuePath="." 
+                              DisplayMemberPath="JahrgangsstufeBezeichnung"/>
+            <Separator Margin="10,0,10,0" ></Separator>
+            <Button Width="Auto" Name="RemoveFilterButton" Command="{Binding Path=RemoveFilterCommand}">
+              Filter zurücksetzen.
+            </Button>
+          </ToolBar>
+        </ToolBarPanel>
+        <DataGrid Grid.Row="1" SelectedItem="{Binding Path=CurrentModul, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource ShownModuleSorted}}"  AutoGenerateColumns="False">
+          <DataGrid.Columns>
+            <DataGridComboBoxColumn 
+                        Header="Jahrgangsstufe" 
+                        ItemsSource="{Binding Source={x:Static Liduv:App.MainViewModel}, Path=Jahrgangsstufen}"
+                        SelectedItemBinding="{Binding Path=ModulJahrgangsstufe}" 
+                        DisplayMemberPath="JahrgangsstufeBezeichnung"/>
+            <DataGridComboBoxColumn 
+                        Header="Fach" 
+                        ItemsSource="{Binding Source={x:Static Liduv:App.MainViewModel}, Path=Fächer}"
+                        SelectedItemBinding="{Binding Path=ModulFach}" 
+                        DisplayMemberPath="FachBezeichnung"/>
+            <DataGridTextColumn Header="Bezeichnung" Binding="{Binding Path=ModulBezeichnung}"/>
+            <DataGridTextColumn Header="Bausteine" Binding="{Binding Path=ModulBausteine}"  Width="*" />
+            <DataGridTextColumn Header="Stundenbedarf" Binding="{Binding Path=ModulStundenbedarf}"/>
+          </DataGrid.Columns>
+        </DataGrid>
+      </Grid>
+    </GroupBox>
+    <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+      <Button Name="OK" Width="80" Margin="3" IsDefault="True" Click="OKClick">OK</Button>
+      <!--<Button Name="Abbrechen"  Width="80" Margin="3" IsCancel="True">Abbrechen</Button>-->
+    </StackPanel>
+  </Grid>
+</Window>

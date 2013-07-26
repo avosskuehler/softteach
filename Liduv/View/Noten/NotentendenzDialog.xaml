@@ -1,0 +1,49 @@
+﻿<Window x:Class="Liduv.View.Noten.NotentendenzDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:resources="clr-namespace:Liduv.Resources" 
+        xmlns:liduv="clr-namespace:Liduv" xmlns:controls="clr-namespace:Liduv.Resources.Controls"
+        Title="Frage ..." 
+        Height="334" 
+        Width="357" 
+        ResizeMode="NoResize" 
+        WindowStyle="SingleBorderWindow">
+  <Window.Resources>
+  </Window.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Bitte geben Sie einen Notentendenz ein."
+                                      Icon="/Liduv;component/Images/Notentendenz32.png"/>
+    <Grid Grid.Row="1" Background="{x:Static SystemColors.MenuBarBrush}">
+      <StackPanel Margin="10">
+        <TextBlock TextWrapping="Wrap">Bitte geben Sie das Datum der Notentendenz an.</TextBlock>
+        <DatePicker SelectedDate="{Binding Path=CurrentNotentendenz.NotentendenzDatum}"/>
+        <TextBlock TextWrapping="Wrap">Für was wurde diese Notentendenz gegeben?</TextBlock>
+        <TextBox Text="{Binding Path=CurrentNotentendenz.NotentendenzBezeichnung}"/>
+        <TextBlock TextWrapping="Wrap">Welcher Notentendenztyp?</TextBlock>
+        <ComboBox Margin="3" TabIndex="1" 
+                ItemsSource="{Binding Source={x:Static liduv:App.MainViewModel}, Path=Tendenztypen}" 
+                SelectedItem="{Binding Path=CurrentNotentendenz.NotentendenzTendenztyp}"
+                Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" HorizontalAlignment="Stretch" 
+                DisplayMemberPath="TendenztypBezeichnung" />
+        <TextBlock TextWrapping="Wrap">Welche Tendenz?</TextBlock>
+        <ComboBox Margin="3" TabIndex="1" Name="ComboBepunktungstyp"
+                ItemsSource="{Binding Source={x:Static liduv:App.MainViewModel}, Path=Tendenzen}" 
+                SelectedItem="{Binding Path=CurrentNotentendenz.NotentendenzTendenz}"
+                Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" 
+                  HorizontalAlignment="Stretch"
+                DisplayMemberPath="TendenzBezeichnung" />
+      </StackPanel>
+    </Grid>
+    <Grid Background="{StaticResource DefaultButtonsBackgroundBrush}" Grid.Row="2">
+      <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+        <Button Width="100" HorizontalAlignment="Right" IsDefault="True" Click="OkClick" TabIndex="2">OK</Button>
+        <Button Width="100" Margin="5,0,0,0" HorizontalAlignment="Right" IsCancel="True" Click="CancelClick" TabIndex="3">Abbruch</Button>
+      </StackPanel>
+    </Grid>
+  </Grid>
+</Window>

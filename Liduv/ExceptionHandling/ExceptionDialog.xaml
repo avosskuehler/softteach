@@ -1,0 +1,37 @@
+﻿<Window x:Class="Liduv.ExceptionHandling.ExceptionDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:resources="clr-namespace:Liduv.Resources" xmlns:controls="clr-namespace:Liduv.Resources.Controls"
+        Title="ExceptionDialog" Height="400" Width="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <controls:DialogHeader  Icon="/Liduv;component/Images/Settings.ico" Grid.Row="0" Title="An exception occured during processing your request with the following message:"/>
+        <Border Grid.Row="1" Name="DescriptionArea" Background="{StaticResource MainBackgroundBrush}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="65"/>
+                    <RowDefinition Height="35"/>
+                </Grid.RowDefinitions>
+                <TextBlock Margin="10" Grid.Row="0"  Name="ExceptionMessageTextBlock" Text="ExceptionMessage"/>
+                <Expander Grid.Row="1" IsExpanded="False">
+                    <TextBox Margin="10"  Name="ExceptionDetailTextBox"/>
+                </Expander>
+                <TextBlock Grid.Row="2" TextWrapping="Wrap">Tut uns leid, dass das Programm nicht wie erwartet funktioniert! 
+          Bitte klicken Sie auf den "Logfile zeigen" Button und senden Sie uns das Fehlerlogfile, damit
+          wir den Fehler beheben können. Danke!
+                </TextBlock>
+                <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Name="TrySaveButton" Margin="5" Click="TrySaveButtonClick">Versuche Daten zu speichern</Button>
+                    <Button Name="ShowLogfileButton" Margin="5" Click="ShowLogfileButtonClick">Logfile zeigen</Button>
+                    <Button Name="AbbruchButton" Margin="5" IsCancel="True" Click="AbbruchButtonClick">Liduv abbrechen</Button>
+                    <Button Name="WeiterButton"  Width="60" Margin="5" IsDefault="True" Click="WeiterButtonClick">Weiter</Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

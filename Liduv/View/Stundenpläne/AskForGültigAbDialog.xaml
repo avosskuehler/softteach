@@ -1,0 +1,26 @@
+﻿<Window x:Class="Liduv.View.Stundenpläne.AskForGültigAb"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:resources="clr-namespace:Liduv.Resources" xmlns:controls="clr-namespace:Liduv.Resources.Controls"
+        Title="Frage ..." 
+        Height="260" 
+        Width="370" 
+        ResizeMode="NoResize" 
+        WindowStyle="SingleBorderWindow">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Ab wann soll der neue Stundenplan gelten?"
+                                      Icon="/Liduv;component/Images/Jahresplan32.png"/>
+    <StackPanel Grid.Row="1" Margin="10">
+      <TextBlock TextWrapping="Wrap">Bitte geben Sie das Datum an, ab dem der neue Stundenplan gültig ist.</TextBlock>
+      <DatePicker Name="GültigAbDate"/>
+    </StackPanel>
+    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+      <Button Width="100" HorizontalAlignment="Right" IsDefault="True" Click="OkClick" TabIndex="2">OK</Button>
+    </StackPanel>
+  </Grid>
+</Window>

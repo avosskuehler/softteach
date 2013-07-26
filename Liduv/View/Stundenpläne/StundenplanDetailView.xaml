@@ -1,0 +1,199 @@
+﻿<UserControl x:Class="Liduv.View.Stundenpläne.StundenplanDetailView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:StundenplanViewModel="clr-namespace:Liduv.ViewModel.Stundenpläne"
+             xmlns:StundenplanView="clr-namespace:Liduv.View.Stundenpläne"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="600"
+              MinWidth="800"  MinHeight="500">
+  <UserControl.Resources>
+    <ResourceDictionary >
+      <DataTemplate DataType="{x:Type StundenplanViewModel:StundenplaneintragViewModel}">
+        <StundenplanView:StundenplaneintragDetailView />
+      </DataTemplate>
+    </ResourceDictionary>
+  </UserControl.Resources>
+  <GroupBox Padding="5" Header="Gewählter Stundenplan" Margin="5"
+                HeaderTemplate="{StaticResource GroupBoxHeader}">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="*"/>
+      </Grid.RowDefinitions>
+      <Grid Grid.Row="0" Margin="5">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="95"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+          <Label Content="{Binding Path=StundenplanHalbjahrtyp.HalbjahrtypBezeichnung}" Padding="0"/>
+          <Label Content="{Binding Path=StundenplanJahrtyp.JahrtypBezeichnung}" Padding="0"/>
+        </StackPanel>
+        <TextBox Grid.Column="1" Style="{StaticResource StundenplanDescriptionHeaderText}" Text="{Binding Path=StundenplanBezeichnung}">
+          <TextBox.ToolTip>
+            <TextBlock TextWrapping="Wrap">Bitte geben Sie eine Bezeichnung für den Stundenplan ein.</TextBlock>
+          </TextBox.ToolTip>
+        </TextBox>
+        <Label Grid.Column="2">Gültig ab</Label>
+        <DatePicker Grid.Column="3" SelectedDateFormat="Long" SelectedDate="{Binding Path=StundenplanGültigAb}"/>
+      </Grid>
+      <Grid x:Name="PlanGrid" Grid.Row="1" Background="{StaticResource OverlayBackgroundBrush}">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" MinHeight="35"/>
+          <RowDefinition MinHeight="40"/>
+          <RowDefinition MinHeight="40"/>
+          <RowDefinition MinHeight="40"/>
+          <RowDefinition MinHeight="40"/>
+          <RowDefinition MinHeight="40"/>
+          <RowDefinition MinHeight="40"/>
+          <RowDefinition MinHeight="40"/>
+          <RowDefinition MinHeight="40"/>
+          <RowDefinition MinHeight="40"/>
+          <RowDefinition MinHeight="40"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" MinWidth="100"/>
+          <ColumnDefinition MinWidth="100"/>
+          <ColumnDefinition MinWidth="100"/>
+          <ColumnDefinition MinWidth="100"/>
+          <ColumnDefinition MinWidth="100"/>
+          <ColumnDefinition MinWidth="100"/>
+        </Grid.ColumnDefinitions>
+        <!--<Border Grid.Row="0" Grid.Column="0" Background="Green" CornerRadius="10"/>-->
+        <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource StundenplanRowHeaderBorder}">
+          <TextBlock Style="{StaticResource StundenplanRowHeaderText}">
+          <Bold><Run Text="{Binding Path=Stundenplan1Bezeichnung, Mode=OneWay}"></Run></Bold><LineBreak/>
+          <Run Text="{Binding Path=Stundenplan1Zeit, Mode=OneWay}"></Run>
+          </TextBlock>
+        </Border>
+        <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource StundenplanRowHeaderBorder}">
+          <TextBlock Style="{StaticResource StundenplanRowHeaderText}">
+          <Bold><Run Text="{Binding Path=Stundenplan2Bezeichnung, Mode=OneWay}"></Run></Bold><LineBreak/>
+          <Run Text="{Binding Path=Stundenplan2Zeit, Mode=OneWay}"></Run>
+          </TextBlock>
+        </Border>
+        <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource StundenplanRowHeaderBorder}">
+          <TextBlock Style="{StaticResource StundenplanRowHeaderText}">
+          <Bold><Run Text="{Binding Path=Stundenplan3Bezeichnung, Mode=OneWay}"></Run></Bold><LineBreak/>
+          <Run Text="{Binding Path=Stundenplan3Zeit, Mode=OneWay}"></Run>
+          </TextBlock>
+        </Border>
+        <Border Grid.Row="4" Grid.Column="0" Style="{StaticResource StundenplanRowHeaderBorder}">
+          <TextBlock Style="{StaticResource StundenplanRowHeaderText}">
+          <Bold><Run Text="{Binding Path=Stundenplan4Bezeichnung, Mode=OneWay}"></Run></Bold><LineBreak/>
+          <Run Text="{Binding Path=Stundenplan4Zeit, Mode=OneWay}"></Run>
+          </TextBlock>
+        </Border>
+        <Border Grid.Row="5" Grid.Column="0" Style="{StaticResource StundenplanRowHeaderBorder}">
+          <TextBlock Style="{StaticResource StundenplanRowHeaderText}">
+          <Bold><Run Text="{Binding Path=Stundenplan5Bezeichnung, Mode=OneWay}"></Run></Bold><LineBreak/>
+          <Run Text="{Binding Path=Stundenplan5Zeit, Mode=OneWay}"></Run>
+          </TextBlock>
+        </Border>
+        <Border Grid.Row="6" Grid.Column="0" Style="{StaticResource StundenplanRowHeaderBorder}">
+          <TextBlock Style="{StaticResource StundenplanRowHeaderText}">
+          <Bold><Run Text="{Binding Path=Stundenplan6Bezeichnung, Mode=OneWay}"></Run></Bold><LineBreak/>
+          <Run Text="{Binding Path=Stundenplan6Zeit, Mode=OneWay}"></Run>
+          </TextBlock>
+        </Border>
+        <Border Grid.Row="7" Grid.Column="0" Style="{StaticResource StundenplanRowHeaderBorder}">
+          <TextBlock Style="{StaticResource StundenplanRowHeaderText}">
+          <Bold><Run Text="{Binding Path=Stundenplan7Bezeichnung, Mode=OneWay}"></Run></Bold><LineBreak/>
+          <Run Text="{Binding Path=Stundenplan7Zeit, Mode=OneWay}"></Run>
+          </TextBlock>
+        </Border>
+        <Border Grid.Row="8" Grid.Column="0" Style="{StaticResource StundenplanRowHeaderBorder}">
+          <TextBlock Style="{StaticResource StundenplanRowHeaderText}">
+          <Bold><Run Text="{Binding Path=Stundenplan8Bezeichnung, Mode=OneWay}"></Run></Bold><LineBreak/>
+          <Run Text="{Binding Path=Stundenplan8Zeit, Mode=OneWay}"></Run>
+          </TextBlock>
+        </Border>
+        <Border Grid.Row="9" Grid.Column="0" Style="{StaticResource StundenplanRowHeaderBorder}">
+          <TextBlock Style="{StaticResource StundenplanRowHeaderText}">
+          <Bold><Run Text="{Binding Path=Stundenplan9Bezeichnung, Mode=OneWay}"></Run></Bold><LineBreak/>
+          <Run Text="{Binding Path=Stundenplan9Zeit, Mode=OneWay}"></Run>
+          </TextBlock>
+        </Border>
+        <Border Grid.Row="10" Grid.Column="0" Style="{StaticResource StundenplanRowHeaderBorder}">
+          <TextBlock Style="{StaticResource StundenplanRowHeaderText}">
+          <Bold><Run Text="{Binding Path=Stundenplan10Bezeichnung, Mode=OneWay}"></Run></Bold><LineBreak/>
+          <Run Text="{Binding Path=Stundenplan10Zeit, Mode=OneWay}"></Run>
+          </TextBlock>
+        </Border>
+        <Border Style="{StaticResource StundenplanHeaderBorder}" Grid.Row="0" Grid.Column="1">
+          <Label Style="{StaticResource StundenplanHeaderText}">Montag</Label>
+        </Border>
+        <Border Style="{StaticResource StundenplanHeaderBorder}" Grid.Row="0" Grid.Column="2">
+          <Label Style="{StaticResource StundenplanHeaderText}">Dienstag</Label>
+        </Border>
+        <Border Style="{StaticResource StundenplanHeaderBorder}" Grid.Row="0" Grid.Column="3">
+          <Label Style="{StaticResource StundenplanHeaderText}">Mittwoch</Label>
+        </Border>
+        <Border Style="{StaticResource StundenplanHeaderBorder}" Grid.Row="0" Grid.Column="4">
+          <Label Style="{StaticResource StundenplanHeaderText}">Donnerstag</Label>
+        </Border>
+        <Border Style="{StaticResource StundenplanHeaderBorder}" Grid.Row="0" Grid.Column="5">
+          <Label Style="{StaticResource StundenplanHeaderText}">Freitag</Label>
+        </Border>
+        <ContentControl Grid.Row="1" Grid.Column="1" Grid.RowSpan="{Binding Path=Stundenplan11Span}" Content="{Binding Path=Stundenplan11}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="2" Grid.Column="1" Grid.RowSpan="{Binding Path=Stundenplan12Span}" Content="{Binding Path=Stundenplan12}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="3" Grid.Column="1" Grid.RowSpan="{Binding Path=Stundenplan13Span}" Content="{Binding Path=Stundenplan13}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="4" Grid.Column="1" Grid.RowSpan="{Binding Path=Stundenplan14Span}" Content="{Binding Path=Stundenplan14}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="5" Grid.Column="1" Grid.RowSpan="{Binding Path=Stundenplan15Span}" Content="{Binding Path=Stundenplan15}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="6" Grid.Column="1" Grid.RowSpan="{Binding Path=Stundenplan16Span}" Content="{Binding Path=Stundenplan16}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="7" Grid.Column="1" Grid.RowSpan="{Binding Path=Stundenplan17Span}" Content="{Binding Path=Stundenplan17}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="8" Grid.Column="1" Grid.RowSpan="{Binding Path=Stundenplan18Span}" Content="{Binding Path=Stundenplan18}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="9" Grid.Column="1" Grid.RowSpan="{Binding Path=Stundenplan19Span}" Content="{Binding Path=Stundenplan19}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="10" Grid.Column="1" Grid.RowSpan="{Binding Path=Stundenplan110Span}" Content="{Binding Path=Stundenplan110}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+
+        <ContentControl Grid.Row="1" Grid.Column="2" Grid.RowSpan="{Binding Path=Stundenplan21Span}" Content="{Binding Path=Stundenplan21}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="2" Grid.Column="2" Grid.RowSpan="{Binding Path=Stundenplan22Span}" Content="{Binding Path=Stundenplan22}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="3" Grid.Column="2" Grid.RowSpan="{Binding Path=Stundenplan23Span}" Content="{Binding Path=Stundenplan23}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="4" Grid.Column="2" Grid.RowSpan="{Binding Path=Stundenplan24Span}" Content="{Binding Path=Stundenplan24}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="5" Grid.Column="2" Grid.RowSpan="{Binding Path=Stundenplan25Span}" Content="{Binding Path=Stundenplan25}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="6" Grid.Column="2" Grid.RowSpan="{Binding Path=Stundenplan26Span}" Content="{Binding Path=Stundenplan26}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="7" Grid.Column="2" Grid.RowSpan="{Binding Path=Stundenplan27Span}" Content="{Binding Path=Stundenplan27}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="8" Grid.Column="2" Grid.RowSpan="{Binding Path=Stundenplan28Span}" Content="{Binding Path=Stundenplan28}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="9" Grid.Column="2" Grid.RowSpan="{Binding Path=Stundenplan29Span}" Content="{Binding Path=Stundenplan29}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="10" Grid.Column="2" Grid.RowSpan="{Binding Path=Stundenplan210Span}" Content="{Binding Path=Stundenplan210}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+
+        <ContentControl Grid.Row="1" Grid.Column="3" Grid.RowSpan="{Binding Path=Stundenplan31Span}" Content="{Binding Path=Stundenplan31}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="2" Grid.Column="3" Grid.RowSpan="{Binding Path=Stundenplan32Span}" Content="{Binding Path=Stundenplan32}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="3" Grid.Column="3" Grid.RowSpan="{Binding Path=Stundenplan33Span}" Content="{Binding Path=Stundenplan33}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="4" Grid.Column="3" Grid.RowSpan="{Binding Path=Stundenplan34Span}" Content="{Binding Path=Stundenplan34}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="5" Grid.Column="3" Grid.RowSpan="{Binding Path=Stundenplan35Span}" Content="{Binding Path=Stundenplan35}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="6" Grid.Column="3" Grid.RowSpan="{Binding Path=Stundenplan36Span}" Content="{Binding Path=Stundenplan36}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="7" Grid.Column="3" Grid.RowSpan="{Binding Path=Stundenplan37Span}" Content="{Binding Path=Stundenplan37}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="8" Grid.Column="3" Grid.RowSpan="{Binding Path=Stundenplan38Span}" Content="{Binding Path=Stundenplan38}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="9" Grid.Column="3" Grid.RowSpan="{Binding Path=Stundenplan39Span}" Content="{Binding Path=Stundenplan39}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="10" Grid.Column="3" Grid.RowSpan="{Binding Path=Stundenplan310Span}" Content="{Binding Path=Stundenplan310}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+
+        <ContentControl Grid.Row="1" Grid.Column="4" Grid.RowSpan="{Binding Path=Stundenplan41Span}" Content="{Binding Path=Stundenplan41}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="2" Grid.Column="4" Grid.RowSpan="{Binding Path=Stundenplan42Span}" Content="{Binding Path=Stundenplan42}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="3" Grid.Column="4" Grid.RowSpan="{Binding Path=Stundenplan43Span}" Content="{Binding Path=Stundenplan43}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="4" Grid.Column="4" Grid.RowSpan="{Binding Path=Stundenplan44Span}" Content="{Binding Path=Stundenplan44}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="5" Grid.Column="4" Grid.RowSpan="{Binding Path=Stundenplan45Span}" Content="{Binding Path=Stundenplan45}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="6" Grid.Column="4" Grid.RowSpan="{Binding Path=Stundenplan46Span}" Content="{Binding Path=Stundenplan46}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="7" Grid.Column="4" Grid.RowSpan="{Binding Path=Stundenplan47Span}" Content="{Binding Path=Stundenplan47}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="8" Grid.Column="4" Grid.RowSpan="{Binding Path=Stundenplan48Span}" Content="{Binding Path=Stundenplan48}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="9" Grid.Column="4" Grid.RowSpan="{Binding Path=Stundenplan49Span}" Content="{Binding Path=Stundenplan49}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="10" Grid.Column="4" Grid.RowSpan="{Binding Path=Stundenplan410Span}" Content="{Binding Path=Stundenplan410}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+
+        <ContentControl Grid.Row="1" Grid.Column="5" Grid.RowSpan="{Binding Path=Stundenplan51Span}" Content="{Binding Path=Stundenplan51}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="2" Grid.Column="5" Grid.RowSpan="{Binding Path=Stundenplan52Span}" Content="{Binding Path=Stundenplan52}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="3" Grid.Column="5" Grid.RowSpan="{Binding Path=Stundenplan53Span}" Content="{Binding Path=Stundenplan53}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="4" Grid.Column="5" Grid.RowSpan="{Binding Path=Stundenplan54Span}" Content="{Binding Path=Stundenplan54}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="5" Grid.Column="5" Grid.RowSpan="{Binding Path=Stundenplan55Span}" Content="{Binding Path=Stundenplan55}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="6" Grid.Column="5" Grid.RowSpan="{Binding Path=Stundenplan56Span}" Content="{Binding Path=Stundenplan56}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="7" Grid.Column="5" Grid.RowSpan="{Binding Path=Stundenplan57Span}" Content="{Binding Path=Stundenplan57}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="8" Grid.Column="5" Grid.RowSpan="{Binding Path=Stundenplan58Span}" Content="{Binding Path=Stundenplan58}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="9" Grid.Column="5" Grid.RowSpan="{Binding Path=Stundenplan59Span}" Content="{Binding Path=Stundenplan59}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+        <ContentControl Grid.Row="10" Grid.Column="5" Grid.RowSpan="{Binding Path=Stundenplan510Span}" Content="{Binding Path=Stundenplan510}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
+      </Grid>
+    </Grid>
+  </GroupBox>
+</UserControl>

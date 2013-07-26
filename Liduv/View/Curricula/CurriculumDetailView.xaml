@@ -1,0 +1,193 @@
+﻿<UserControl x:Class="Liduv.View.Curricula.CurriculumDetailView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
+             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             xmlns:curricula="clr-namespace:Liduv.ViewModel.Curricula" mc:Ignorable="d" 
+             d:DesignHeight="471" d:DesignWidth="738">
+  <UserControl.Resources>
+    <CollectionViewSource x:Key="GroupedSchulwochenReihenSequenzenViewSource" Source="{Binding ReihenSequenzen}">
+      <CollectionViewSource.SortDescriptions>
+        <scm:SortDescription PropertyName="ViewModelType" Direction="Ascending" />
+        <scm:SortDescription PropertyName="AbfolgeIndex" Direction="Ascending" />
+      </CollectionViewSource.SortDescriptions>
+      <CollectionViewSource.GroupDescriptions>
+        <PropertyGroupDescription PropertyName="ViewModelType"/>
+      </CollectionViewSource.GroupDescriptions>
+    </CollectionViewSource>
+    <CollectionViewSource x:Key="SortedAvailableReihenDesCurriculumsViewSource" Source="{Binding AvailableReihenDesCurriculums}">
+      <CollectionViewSource.SortDescriptions>
+        <scm:SortDescription PropertyName="ReiheThema" Direction="Ascending" />
+      </CollectionViewSource.SortDescriptions>
+    </CollectionViewSource>
+    <CollectionViewSource x:Key="SortedAvailableSequenzenDerReiheViewSource" Source="{Binding AvailableSequenzenDerReihe}">
+      <CollectionViewSource.SortDescriptions>
+        <scm:SortDescription PropertyName="SequenzThema" Direction="Ascending" />
+      </CollectionViewSource.SortDescriptions>
+    </CollectionViewSource>
+    <curricula:CurriculumViewDataTemplateSelector x:Key="curriculumViewDataTemplateSelector"/>
+  </UserControl.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <Grid Grid.Row="0" Margin="0,0,0,10">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <Label Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" HorizontalAlignment="Left" Style="{StaticResource StundenplanHeaderText}" Content="{Binding Path=CurriculumTitelHeader}"/>
+      <Label VerticalAlignment="Center" Grid.Row="0" Grid.Column="2" Padding="2">Verfügbare Stunden:</Label>
+      <Label VerticalAlignment="Center" Grid.Row="0" Grid.Column="3" Padding="2" Content="{Binding CurriculumVerfügbareStunden}"/>
+      <Label VerticalAlignment="Center" Grid.Row="1" Grid.Column="2" Padding="2" >Verplante Stunden:</Label>
+      <Label VerticalAlignment="Center" Grid.Row="1" Grid.Column="3" Padding="2" Content="{Binding CurriculumVerplanteStunden}"/>
+      <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="4" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AdaptForJahresplanCommand}" 
+                    ToolTip="Curriculum auf Jahresplan anpassen.">
+        <StackPanel Orientation="Horizontal">
+          <Grid>
+            <Image Source="/Liduv;component/Images/Jahresplan32.png"/>
+            <Image Source="/Liduv;component/Images/AddOverlay32.png"/>
+          </Grid>
+          <Label Padding="5,0,0,0" VerticalContentAlignment="Center">In Jahresplan übernehmen</Label>
+        </StackPanel>
+      </Button>
+    </Grid>
+    <HeaderedContentControl Grid.Row="1" Header="Reihenfolge im Jahr" HeaderTemplate="{StaticResource GroupBoxHeader}">
+      <ListBox ItemsSource="{Binding Source={StaticResource GroupedSchulwochenReihenSequenzenViewSource}}" 
+                 ItemTemplateSelector="{StaticResource curriculumViewDataTemplateSelector}"
+                 BorderThickness="0"
+                 SelectedItem="{Binding CurrentItem, Mode=TwoWay}"
+                 dd:DragDrop.IsDragSource="True" 
+                 dd:DragDrop.IsDropTarget="True"
+                 dd:DragDrop.DragAdornerTemplate="{StaticResource ReiheDragAdorner}"
+                 dd:DragDrop.DropHandler="{Binding}"
+                 Name="UsedItemsListBox"
+                 Height="210" GotFocus="UsedItemsListBox_GotFocus">
+        <ListBox.ItemsPanel>
+          <ItemsPanelTemplate>
+            <StackPanel Orientation="Horizontal"/>
+          </ItemsPanelTemplate>
+        </ListBox.ItemsPanel>
+        <ListBox.GroupStyle>
+          <GroupStyle ContainerStyle="{StaticResource GroupHeaderStyleBoth}">
+            <GroupStyle.Panel>
+              <ItemsPanelTemplate>
+                <StackPanel/>
+              </ItemsPanelTemplate>
+            </GroupStyle.Panel>
+          </GroupStyle>
+          <GroupStyle ContainerStyle="{StaticResource MonateGroupHeaderStyle}">
+            <GroupStyle.Panel>
+              <ItemsPanelTemplate>
+                <StackPanel Orientation="Horizontal"/>
+              </ItemsPanelTemplate>
+            </GroupStyle.Panel>
+          </GroupStyle>
+        </ListBox.GroupStyle>
+        <ListBox.ItemContainerStyle>
+          <Style TargetType="ListBoxItem">
+            <Setter Property="Padding" Value="0"/>
+          </Style>
+        </ListBox.ItemContainerStyle>
+      </ListBox>
+    </HeaderedContentControl>
+    <UniformGrid Grid.Row="2" Columns="2">
+      <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <GroupBox Header="Reihen">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto"/>
+              <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+              <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddReiheCommand}" ToolTip="Neues Modul erstellen">
+                <StackPanel Orientation="Horizontal">
+                  <Grid>
+                    <Image Source="/Liduv;component/Images/Reihe16.png"/>
+                    <Image Source="/Liduv;component/Images/AddOverlay16.png"/>
+                  </Grid>
+                  <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Reihe erstellen</Label>
+                </StackPanel>
+              </Button>
+              <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=DeleteReiheCommand}" ToolTip="Sequenz löschen" >
+                <StackPanel Orientation="Horizontal">
+                  <Grid>
+                    <Image Source="/Liduv;component/Images/Reihe16.png" />
+                    <Image Source="/Liduv;component/Images/RemoveOverlay16.png"/>
+                  </Grid>
+                  <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Reihe löschen</Label>
+                </StackPanel>
+              </Button>
+            </StackPanel>
+            <ListBox Grid.Row="1" ItemsSource="{Binding Source={StaticResource SortedAvailableReihenDesCurriculumsViewSource}}" 
+                  ItemTemplate="{StaticResource ReihenGroupView}" 
+                  SelectedItem="{Binding SelectedAvailableReihe}"
+                  dd:DragDrop.IsDragSource="True" 
+                  dd:DragDrop.IsDropTarget="True"
+                  dd:DragDrop.DropHandler="{Binding}"
+                  dd:DragDrop.DragAdornerTemplate="{StaticResource ReiheDragAdorner}"
+                  Name="AvailableReihenListBox"
+                  BorderThickness="0">
+              <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <WrapPanel Width="{Binding ElementName=AvailableReihenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
+                </ItemsPanelTemplate>
+              </ListBox.ItemsPanel>
+            </ListBox>
+          </Grid>
+        </GroupBox>
+      </ScrollViewer>
+      <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <GroupBox Header="{Binding CurriculumSequenzenGroupHeader}">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto"/>
+              <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+              <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddSequenzCommand}" ToolTip="Neue Sequenz erstellen">
+                <StackPanel Orientation="Horizontal">
+                  <Grid>
+                    <Image Source="/Liduv;component/Images/Sequenz16.png"/>
+                    <Image Source="/Liduv;component/Images/AddOverlay16.png"/>
+                  </Grid>
+                  <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Sequenz erstellen</Label>
+                </StackPanel>
+              </Button>
+              <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=DeleteSequenzCommand}" ToolTip="Sequenz löschen" >
+                <StackPanel Orientation="Horizontal">
+                  <Grid>
+                    <Image Source="/Liduv;component/Images/Sequenz16.png" />
+                    <Image Source="/Liduv;component/Images/RemoveOverlay16.png"/>
+                  </Grid>
+                  <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Sequenz löschen</Label>
+                </StackPanel>
+              </Button>
+            </StackPanel>
+            <ListBox Grid.Row="1" ItemsSource="{Binding Source={StaticResource SortedAvailableSequenzenDerReiheViewSource}}" 
+                  ItemTemplate="{StaticResource SequenzenGroupView}" 
+                  dd:DragDrop.IsDragSource="True" 
+                  dd:DragDrop.IsDropTarget="True"
+                  dd:DragDrop.DropHandler="{Binding}"
+                  dd:DragDrop.DragAdornerTemplate="{StaticResource SequenzDragAdorner}"
+                  Name="AvailableSequenzenListBox"
+                  BorderThickness="0">
+            </ListBox>
+
+          </Grid>
+        </GroupBox>
+      </ScrollViewer>
+    </UniformGrid>
+  </Grid>
+</UserControl>
