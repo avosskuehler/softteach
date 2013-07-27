@@ -7,13 +7,10 @@
   using System.Globalization;
   using System.Linq;
   using System.Windows.Controls;
-  using System.Windows.Input;
 
   using Liduv.ExceptionHandling;
-  using Liduv.Model;
   using Liduv.Model.EntityFramework;
   using Liduv.UndoRedo;
-  using Liduv.View.Jahrespläne;
   using Liduv.View.Termine;
   using Liduv.View.Wochenpläne;
   using Liduv.ViewModel.Helper;
@@ -376,9 +373,9 @@
 
     #region Montag
 
-    public WochenplanEintrag Wochenplan11
+    public WochenplanEintragCollection Wochenplan11
     {
-      get { return this.GetWochenplanEintragViewModel(1, 1); }
+      get { return this.GetWochenplanEintragCollection(1, 1); }
     }
 
     public int Wochenplan11Span
@@ -386,9 +383,9 @@
       get { return this.Stundenanzahl(1, 1); }
     }
 
-    public WochenplanEintrag Wochenplan12
+    public WochenplanEintragCollection Wochenplan12
     {
-      get { return this.GetWochenplanEintragViewModel(1, 2); }
+      get { return this.GetWochenplanEintragCollection(1, 2); }
     }
 
     public int Wochenplan12Span
@@ -396,9 +393,9 @@
       get { return this.Stundenanzahl(1, 2); }
     }
 
-    public WochenplanEintrag Wochenplan13
+    public WochenplanEintragCollection Wochenplan13
     {
-      get { return this.GetWochenplanEintragViewModel(1, 3); }
+      get { return this.GetWochenplanEintragCollection(1, 3); }
     }
 
     public int Wochenplan13Span
@@ -406,9 +403,9 @@
       get { return this.Stundenanzahl(1, 3); }
     }
 
-    public WochenplanEintrag Wochenplan14
+    public WochenplanEintragCollection Wochenplan14
     {
-      get { return this.GetWochenplanEintragViewModel(1, 4); }
+      get { return this.GetWochenplanEintragCollection(1, 4); }
     }
 
     public int Wochenplan14Span
@@ -416,9 +413,9 @@
       get { return this.Stundenanzahl(1, 4); }
     }
 
-    public WochenplanEintrag Wochenplan15
+    public WochenplanEintragCollection Wochenplan15
     {
-      get { return this.GetWochenplanEintragViewModel(1, 5); }
+      get { return this.GetWochenplanEintragCollection(1, 5); }
     }
 
     public int Wochenplan15Span
@@ -426,9 +423,9 @@
       get { return this.Stundenanzahl(1, 5); }
     }
 
-    public WochenplanEintrag Wochenplan16
+    public WochenplanEintragCollection Wochenplan16
     {
-      get { return this.GetWochenplanEintragViewModel(1, 6); }
+      get { return this.GetWochenplanEintragCollection(1, 6); }
     }
 
     public int Wochenplan16Span
@@ -436,9 +433,9 @@
       get { return this.Stundenanzahl(1, 6); }
     }
 
-    public WochenplanEintrag Wochenplan17
+    public WochenplanEintragCollection Wochenplan17
     {
-      get { return this.GetWochenplanEintragViewModel(1, 7); }
+      get { return this.GetWochenplanEintragCollection(1, 7); }
     }
 
     public int Wochenplan17Span
@@ -446,9 +443,9 @@
       get { return this.Stundenanzahl(1, 7); }
     }
 
-    public WochenplanEintrag Wochenplan18
+    public WochenplanEintragCollection Wochenplan18
     {
-      get { return this.GetWochenplanEintragViewModel(1, 8); }
+      get { return this.GetWochenplanEintragCollection(1, 8); }
     }
 
     public int Wochenplan18Span
@@ -456,9 +453,9 @@
       get { return this.Stundenanzahl(1, 8); }
     }
 
-    public WochenplanEintrag Wochenplan19
+    public WochenplanEintragCollection Wochenplan19
     {
-      get { return this.GetWochenplanEintragViewModel(1, 9); }
+      get { return this.GetWochenplanEintragCollection(1, 9); }
     }
 
     public int Wochenplan19Span
@@ -466,9 +463,9 @@
       get { return this.Stundenanzahl(1, 9); }
     }
 
-    public WochenplanEintrag Wochenplan110
+    public WochenplanEintragCollection Wochenplan110
     {
-      get { return this.GetWochenplanEintragViewModel(1, 10); }
+      get { return this.GetWochenplanEintragCollection(1, 10); }
     }
 
     public int Wochenplan110Span
@@ -480,9 +477,9 @@
 
     #region Dienstag
 
-    public WochenplanEintrag Wochenplan21
+    public WochenplanEintragCollection Wochenplan21
     {
-      get { return this.GetWochenplanEintragViewModel(2, 1); }
+      get { return this.GetWochenplanEintragCollection(2, 1); }
     }
 
     public int Wochenplan21Span
@@ -490,9 +487,9 @@
       get { return this.Stundenanzahl(2, 1); }
     }
 
-    public WochenplanEintrag Wochenplan22
+    public WochenplanEintragCollection Wochenplan22
     {
-      get { return this.GetWochenplanEintragViewModel(2, 2); }
+      get { return this.GetWochenplanEintragCollection(2, 2); }
     }
 
     public int Wochenplan22Span
@@ -500,9 +497,9 @@
       get { return this.Stundenanzahl(2, 2); }
     }
 
-    public WochenplanEintrag Wochenplan23
+    public WochenplanEintragCollection Wochenplan23
     {
-      get { return this.GetWochenplanEintragViewModel(2, 3); }
+      get { return this.GetWochenplanEintragCollection(2, 3); }
     }
 
     public int Wochenplan23Span
@@ -510,9 +507,9 @@
       get { return this.Stundenanzahl(2, 3); }
     }
 
-    public WochenplanEintrag Wochenplan24
+    public WochenplanEintragCollection Wochenplan24
     {
-      get { return this.GetWochenplanEintragViewModel(2, 4); }
+      get { return this.GetWochenplanEintragCollection(2, 4); }
     }
 
     public int Wochenplan24Span
@@ -520,9 +517,9 @@
       get { return this.Stundenanzahl(2, 4); }
     }
 
-    public WochenplanEintrag Wochenplan25
+    public WochenplanEintragCollection Wochenplan25
     {
-      get { return this.GetWochenplanEintragViewModel(2, 5); }
+      get { return this.GetWochenplanEintragCollection(2, 5); }
     }
 
     public int Wochenplan25Span
@@ -530,9 +527,9 @@
       get { return this.Stundenanzahl(2, 5); }
     }
 
-    public WochenplanEintrag Wochenplan26
+    public WochenplanEintragCollection Wochenplan26
     {
-      get { return this.GetWochenplanEintragViewModel(2, 6); }
+      get { return this.GetWochenplanEintragCollection(2, 6); }
     }
 
     public int Wochenplan26Span
@@ -540,9 +537,9 @@
       get { return this.Stundenanzahl(2, 6); }
     }
 
-    public WochenplanEintrag Wochenplan27
+    public WochenplanEintragCollection Wochenplan27
     {
-      get { return this.GetWochenplanEintragViewModel(2, 7); }
+      get { return this.GetWochenplanEintragCollection(2, 7); }
     }
 
     public int Wochenplan27Span
@@ -550,9 +547,9 @@
       get { return this.Stundenanzahl(2, 7); }
     }
 
-    public WochenplanEintrag Wochenplan28
+    public WochenplanEintragCollection Wochenplan28
     {
-      get { return this.GetWochenplanEintragViewModel(2, 8); }
+      get { return this.GetWochenplanEintragCollection(2, 8); }
     }
 
     public int Wochenplan28Span
@@ -560,9 +557,9 @@
       get { return this.Stundenanzahl(2, 8); }
     }
 
-    public WochenplanEintrag Wochenplan29
+    public WochenplanEintragCollection Wochenplan29
     {
-      get { return this.GetWochenplanEintragViewModel(2, 9); }
+      get { return this.GetWochenplanEintragCollection(2, 9); }
     }
 
     public int Wochenplan29Span
@@ -570,9 +567,9 @@
       get { return this.Stundenanzahl(2, 9); }
     }
 
-    public WochenplanEintrag Wochenplan210
+    public WochenplanEintragCollection Wochenplan210
     {
-      get { return this.GetWochenplanEintragViewModel(2, 10); }
+      get { return this.GetWochenplanEintragCollection(2, 10); }
     }
 
     public int Wochenplan210Span
@@ -584,9 +581,9 @@
 
     #region Mittwoch
 
-    public WochenplanEintrag Wochenplan31
+    public WochenplanEintragCollection Wochenplan31
     {
-      get { return this.GetWochenplanEintragViewModel(3, 1); }
+      get { return this.GetWochenplanEintragCollection(3, 1); }
     }
 
     public int Wochenplan31Span
@@ -594,9 +591,9 @@
       get { return this.Stundenanzahl(3, 1); }
     }
 
-    public WochenplanEintrag Wochenplan32
+    public WochenplanEintragCollection Wochenplan32
     {
-      get { return this.GetWochenplanEintragViewModel(3, 2); }
+      get { return this.GetWochenplanEintragCollection(3, 2); }
     }
 
     public int Wochenplan32Span
@@ -604,9 +601,9 @@
       get { return this.Stundenanzahl(3, 2); }
     }
 
-    public WochenplanEintrag Wochenplan33
+    public WochenplanEintragCollection Wochenplan33
     {
-      get { return this.GetWochenplanEintragViewModel(3, 3); }
+      get { return this.GetWochenplanEintragCollection(3, 3); }
     }
 
     public int Wochenplan33Span
@@ -614,9 +611,9 @@
       get { return this.Stundenanzahl(3, 3); }
     }
 
-    public WochenplanEintrag Wochenplan34
+    public WochenplanEintragCollection Wochenplan34
     {
-      get { return this.GetWochenplanEintragViewModel(3, 4); }
+      get { return this.GetWochenplanEintragCollection(3, 4); }
     }
 
     public int Wochenplan34Span
@@ -624,9 +621,9 @@
       get { return this.Stundenanzahl(3, 4); }
     }
 
-    public WochenplanEintrag Wochenplan35
+    public WochenplanEintragCollection Wochenplan35
     {
-      get { return this.GetWochenplanEintragViewModel(3, 5); }
+      get { return this.GetWochenplanEintragCollection(3, 5); }
     }
 
     public int Wochenplan35Span
@@ -634,9 +631,9 @@
       get { return this.Stundenanzahl(3, 5); }
     }
 
-    public WochenplanEintrag Wochenplan36
+    public WochenplanEintragCollection Wochenplan36
     {
-      get { return this.GetWochenplanEintragViewModel(3, 6); }
+      get { return this.GetWochenplanEintragCollection(3, 6); }
     }
 
     public int Wochenplan36Span
@@ -644,9 +641,9 @@
       get { return this.Stundenanzahl(3, 6); }
     }
 
-    public WochenplanEintrag Wochenplan37
+    public WochenplanEintragCollection Wochenplan37
     {
-      get { return this.GetWochenplanEintragViewModel(3, 7); }
+      get { return this.GetWochenplanEintragCollection(3, 7); }
     }
 
     public int Wochenplan37Span
@@ -654,9 +651,9 @@
       get { return this.Stundenanzahl(3, 7); }
     }
 
-    public WochenplanEintrag Wochenplan38
+    public WochenplanEintragCollection Wochenplan38
     {
-      get { return this.GetWochenplanEintragViewModel(3, 8); }
+      get { return this.GetWochenplanEintragCollection(3, 8); }
     }
 
     public int Wochenplan38Span
@@ -664,9 +661,9 @@
       get { return this.Stundenanzahl(3, 8); }
     }
 
-    public WochenplanEintrag Wochenplan39
+    public WochenplanEintragCollection Wochenplan39
     {
-      get { return this.GetWochenplanEintragViewModel(3, 9); }
+      get { return this.GetWochenplanEintragCollection(3, 9); }
     }
 
     public int Wochenplan39Span
@@ -674,9 +671,9 @@
       get { return this.Stundenanzahl(3, 9); }
     }
 
-    public WochenplanEintrag Wochenplan310
+    public WochenplanEintragCollection Wochenplan310
     {
-      get { return this.GetWochenplanEintragViewModel(3, 10); }
+      get { return this.GetWochenplanEintragCollection(3, 10); }
     }
 
     public int Wochenplan310Span
@@ -688,9 +685,9 @@
 
     #region Donnerstag
 
-    public WochenplanEintrag Wochenplan41
+    public WochenplanEintragCollection Wochenplan41
     {
-      get { return this.GetWochenplanEintragViewModel(4, 1); }
+      get { return this.GetWochenplanEintragCollection(4, 1); }
     }
 
     public int Wochenplan41Span
@@ -698,9 +695,9 @@
       get { return this.Stundenanzahl(4, 1); }
     }
 
-    public WochenplanEintrag Wochenplan42
+    public WochenplanEintragCollection Wochenplan42
     {
-      get { return this.GetWochenplanEintragViewModel(4, 2); }
+      get { return this.GetWochenplanEintragCollection(4, 2); }
     }
 
     public int Wochenplan42Span
@@ -708,9 +705,9 @@
       get { return this.Stundenanzahl(4, 2); }
     }
 
-    public WochenplanEintrag Wochenplan43
+    public WochenplanEintragCollection Wochenplan43
     {
-      get { return this.GetWochenplanEintragViewModel(4, 3); }
+      get { return this.GetWochenplanEintragCollection(4, 3); }
     }
 
     public int Wochenplan43Span
@@ -718,9 +715,9 @@
       get { return this.Stundenanzahl(4, 3); }
     }
 
-    public WochenplanEintrag Wochenplan44
+    public WochenplanEintragCollection Wochenplan44
     {
-      get { return this.GetWochenplanEintragViewModel(4, 4); }
+      get { return this.GetWochenplanEintragCollection(4, 4); }
     }
 
     public int Wochenplan44Span
@@ -728,9 +725,9 @@
       get { return this.Stundenanzahl(4, 4); }
     }
 
-    public WochenplanEintrag Wochenplan45
+    public WochenplanEintragCollection Wochenplan45
     {
-      get { return this.GetWochenplanEintragViewModel(4, 5); }
+      get { return this.GetWochenplanEintragCollection(4, 5); }
     }
 
     public int Wochenplan45Span
@@ -738,9 +735,9 @@
       get { return this.Stundenanzahl(4, 5); }
     }
 
-    public WochenplanEintrag Wochenplan46
+    public WochenplanEintragCollection Wochenplan46
     {
-      get { return this.GetWochenplanEintragViewModel(4, 6); }
+      get { return this.GetWochenplanEintragCollection(4, 6); }
     }
 
     public int Wochenplan46Span
@@ -748,9 +745,9 @@
       get { return this.Stundenanzahl(4, 6); }
     }
 
-    public WochenplanEintrag Wochenplan47
+    public WochenplanEintragCollection Wochenplan47
     {
-      get { return this.GetWochenplanEintragViewModel(4, 7); }
+      get { return this.GetWochenplanEintragCollection(4, 7); }
     }
 
     public int Wochenplan47Span
@@ -758,9 +755,9 @@
       get { return this.Stundenanzahl(4, 7); }
     }
 
-    public WochenplanEintrag Wochenplan48
+    public WochenplanEintragCollection Wochenplan48
     {
-      get { return this.GetWochenplanEintragViewModel(4, 8); }
+      get { return this.GetWochenplanEintragCollection(4, 8); }
     }
 
     public int Wochenplan48Span
@@ -768,9 +765,9 @@
       get { return this.Stundenanzahl(4, 8); }
     }
 
-    public WochenplanEintrag Wochenplan49
+    public WochenplanEintragCollection Wochenplan49
     {
-      get { return this.GetWochenplanEintragViewModel(4, 9); }
+      get { return this.GetWochenplanEintragCollection(4, 9); }
     }
 
     public int Wochenplan49Span
@@ -778,9 +775,9 @@
       get { return this.Stundenanzahl(4, 9); }
     }
 
-    public WochenplanEintrag Wochenplan410
+    public WochenplanEintragCollection Wochenplan410
     {
-      get { return this.GetWochenplanEintragViewModel(4, 10); }
+      get { return this.GetWochenplanEintragCollection(4, 10); }
     }
 
     public int Wochenplan410Span
@@ -792,9 +789,9 @@
 
     #region Freitag
 
-    public WochenplanEintrag Wochenplan51
+    public WochenplanEintragCollection Wochenplan51
     {
-      get { return this.GetWochenplanEintragViewModel(5, 1); }
+      get { return this.GetWochenplanEintragCollection(5, 1); }
     }
 
     public int Wochenplan51Span
@@ -802,9 +799,9 @@
       get { return this.Stundenanzahl(5, 1); }
     }
 
-    public WochenplanEintrag Wochenplan52
+    public WochenplanEintragCollection Wochenplan52
     {
-      get { return this.GetWochenplanEintragViewModel(5, 2); }
+      get { return this.GetWochenplanEintragCollection(5, 2); }
     }
 
     public int Wochenplan52Span
@@ -812,9 +809,9 @@
       get { return this.Stundenanzahl(5, 2); }
     }
 
-    public WochenplanEintrag Wochenplan53
+    public WochenplanEintragCollection Wochenplan53
     {
-      get { return this.GetWochenplanEintragViewModel(5, 3); }
+      get { return this.GetWochenplanEintragCollection(5, 3); }
     }
 
     public int Wochenplan53Span
@@ -822,9 +819,9 @@
       get { return this.Stundenanzahl(5, 3); }
     }
 
-    public WochenplanEintrag Wochenplan54
+    public WochenplanEintragCollection Wochenplan54
     {
-      get { return this.GetWochenplanEintragViewModel(5, 4); }
+      get { return this.GetWochenplanEintragCollection(5, 4); }
     }
 
     public int Wochenplan54Span
@@ -832,9 +829,9 @@
       get { return this.Stundenanzahl(5, 4); }
     }
 
-    public WochenplanEintrag Wochenplan55
+    public WochenplanEintragCollection Wochenplan55
     {
-      get { return this.GetWochenplanEintragViewModel(5, 5); }
+      get { return this.GetWochenplanEintragCollection(5, 5); }
     }
 
     public int Wochenplan55Span
@@ -842,9 +839,9 @@
       get { return this.Stundenanzahl(5, 5); }
     }
 
-    public WochenplanEintrag Wochenplan56
+    public WochenplanEintragCollection Wochenplan56
     {
-      get { return this.GetWochenplanEintragViewModel(5, 6); }
+      get { return this.GetWochenplanEintragCollection(5, 6); }
     }
 
     public int Wochenplan56Span
@@ -852,9 +849,9 @@
       get { return this.Stundenanzahl(5, 6); }
     }
 
-    public WochenplanEintrag Wochenplan57
+    public WochenplanEintragCollection Wochenplan57
     {
-      get { return this.GetWochenplanEintragViewModel(5, 7); }
+      get { return this.GetWochenplanEintragCollection(5, 7); }
     }
 
     public int Wochenplan57Span
@@ -862,9 +859,9 @@
       get { return this.Stundenanzahl(5, 7); }
     }
 
-    public WochenplanEintrag Wochenplan58
+    public WochenplanEintragCollection Wochenplan58
     {
-      get { return this.GetWochenplanEintragViewModel(5, 8); }
+      get { return this.GetWochenplanEintragCollection(5, 8); }
     }
 
     public int Wochenplan58Span
@@ -872,9 +869,9 @@
       get { return this.Stundenanzahl(5, 8); }
     }
 
-    public WochenplanEintrag Wochenplan59
+    public WochenplanEintragCollection Wochenplan59
     {
-      get { return this.GetWochenplanEintragViewModel(5, 9); }
+      get { return this.GetWochenplanEintragCollection(5, 9); }
     }
 
     public int Wochenplan59Span
@@ -882,9 +879,9 @@
       get { return this.Stundenanzahl(5, 9); }
     }
 
-    public WochenplanEintrag Wochenplan510
+    public WochenplanEintragCollection Wochenplan510
     {
-      get { return this.GetWochenplanEintragViewModel(5, 10); }
+      get { return this.GetWochenplanEintragCollection(5, 10); }
     }
 
     public int Wochenplan510Span
@@ -1135,18 +1132,19 @@
       return newGanztagsViewModel;
     }
 
-    private WochenplanEintrag GetWochenplanEintragViewModel(int wochentagIndex, int stundeIndex)
+    private WochenplanEintragCollection GetWochenplanEintragCollection(int wochentagIndex, int stundeIndex)
     {
       try
       {
         if (stundeIndex > 1)
         {
           var previousLerngruppenterminViewModel =
-            this.Wochenplaneinträge.SingleOrDefault(
+            this.Wochenplaneinträge.Where(
               eintrag => eintrag.WochentagIndex == wochentagIndex
                 && eintrag.ErsteUnterrichtsstundeIndex == stundeIndex - 1
                 && eintrag.Stundenanzahl < 7);
-          if (previousLerngruppenterminViewModel != null && previousLerngruppenterminViewModel.Stundenanzahl > 1)
+
+          if (previousLerngruppenterminViewModel.Any(o => o.Stundenanzahl > 1))
           {
             // Previous Wochenplaneintrag is spanning two rows
             // TODO: care for spanning more than one row
@@ -1154,20 +1152,31 @@
           }
         }
 
-        // Get first valid entry
-        // TODO: multiple entries on same time window will not be shown or
-        // raising errors
-        var wochenplanEintrag =
-          this.Wochenplaneinträge.SingleOrDefault(
-            eintrag => eintrag.WochentagIndex == wochentagIndex
-                       && eintrag.ErsteUnterrichtsstundeIndex == stundeIndex && eintrag.Stundenanzahl < 7)
-          ?? new WochenplanEintrag(this, null)
-                         {
-                           ErsteUnterrichtsstundeIndex = stundeIndex,
-                           LetzteUnterrichtsstundeIndex = stundeIndex,
-                           WochentagIndex = wochentagIndex
-                         };
-        return wochenplanEintrag;
+        // Get all entries
+        var wochenplanEinträge = this.Wochenplaneinträge.Where(
+            eintrag =>
+              eintrag.WochentagIndex == wochentagIndex
+              && eintrag.ErsteUnterrichtsstundeIndex == stundeIndex && eintrag.Stundenanzahl < 7).ToList();
+
+        if (!wochenplanEinträge.Any())
+        {
+          var emptyEintrag = new WochenplanEintrag(this, null)
+                        {
+                          ErsteUnterrichtsstundeIndex = stundeIndex,
+                          LetzteUnterrichtsstundeIndex = stundeIndex,
+                          WochentagIndex = wochentagIndex
+                        };
+          var emptyList = new List<WochenplanEintrag> { emptyEintrag };
+          var emptyCollection = new WochenplanEintragCollection(wochentagIndex, emptyList);
+          return emptyCollection;
+        }
+
+        for (var i = 0; i < wochenplanEinträge.Count(); i++)
+        {
+          wochenplanEinträge[i].ColumnIndex = i;
+        }
+
+        return new WochenplanEintragCollection(wochentagIndex, wochenplanEinträge.ToList());
       }
       catch (Exception)
       {
@@ -1179,25 +1188,23 @@
 
     private int Stundenanzahl(int wochentagIndex, int stundeIndex)
     {
-      try
-      {
-        var wochenplaneintragViewModel =
-          this.Wochenplaneinträge.SingleOrDefault(
-            eintrag => eintrag.WochentagIndex == wochentagIndex
-              && eintrag.ErsteUnterrichtsstundeIndex == stundeIndex
-              && eintrag.Stundenanzahl < 7);
+      var wochenplaneintragViewModel =
+        this.Wochenplaneinträge.Where(
+          eintrag => eintrag.WochentagIndex == wochentagIndex
+            && eintrag.ErsteUnterrichtsstundeIndex == stundeIndex
+            && eintrag.Stundenanzahl < 7);
 
-        if (wochenplaneintragViewModel != null)
+      var maxStundenzahl = 1;
+
+      foreach (var wochenplanEintrag in wochenplaneintragViewModel)
+      {
+        if (wochenplanEintrag.Stundenanzahl > maxStundenzahl)
         {
-          return wochenplaneintragViewModel.Stundenanzahl;
+          maxStundenzahl = wochenplanEintrag.Stundenanzahl;
         }
       }
-      catch (Exception)
-      {
-        InformationDialog.Show("Mehrere Wochenplaneinträge", "Mehrere parallele Wochenplaneinträge gefunden!", false);
-      }
 
-      return 1;
+      return maxStundenzahl;
     }
 
     /// <summary>
@@ -1273,7 +1280,14 @@
 
       var comparer = new WochenplanEintragEqualityComparer();
 
+
+      bool sommerHalbjahr;
+      int jahresplanJahr;
+      this.GetJahrAndHalbjahr(out sommerHalbjahr, out jahresplanJahr);
+
       // Get Einträge from Terminliste
+      // Die Schultermine müssen zuerst eingelesen werden, da
+      // sie sonst von den gleichen Lerngruppenterminen nicht zugelassen wurden
       var schultermine = App.MainViewModel.Schultermine.Where(o => o is SchulterminViewModel);
       var termineInWeek = schultermine.Where(o =>
         o.SchulterminDatum >= this.wochenplanMontag &&
@@ -1285,70 +1299,6 @@
         if (!this.Wochenplaneinträge.Contains(wochenplanEintrag, comparer))
         {
           this.Wochenplaneinträge.Add(wochenplanEintrag);
-        }
-      }
-
-      bool sommerHalbjahr;
-      int jahresplanJahr;
-      this.GetJahrAndHalbjahr(out sommerHalbjahr, out jahresplanJahr);
-
-      // Check for Ferien
-      foreach (var ferien in App.MainViewModel.Ferien.Where(
-        schuljahr => schuljahr.FerienJahrtyp.Model.Jahr == jahresplanJahr))
-      {
-        for (int i = 0; i < 5; i++)
-        {
-          var tag = this.wochenplanMontag.AddDays(i);
-          if (tag >= ferien.FerienErsterFerientag && tag <= ferien.FerienLetzterFerientag)
-          {
-            var termin = new Schultermin();
-            termin.Beschreibung = ferien.FerienBezeichnung;
-            termin.ErsteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[0].Model;
-            termin.LetzteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[8].Model;
-            termin.IstGeprüft = true;
-            termin.Termintyp = App.MainViewModel.Termintypen.First(o => o.TermintypBezeichnung == "Ferien").Model;
-            termin.Datum = tag;
-            termin.Jahrtyp = App.MainViewModel.Jahrtypen.First(o => o.JahrtypJahr == jahresplanJahr).Model;
-
-            var ferienTerminViewModel = new SchulterminViewModel(termin);
-            var ferientagEintrag = new WochenplanEintrag(this, ferienTerminViewModel);
-
-            if (!this.Wochenplaneinträge.Contains(ferientagEintrag, comparer))
-            {
-              this.Wochenplaneinträge.Add(ferientagEintrag);
-            }
-          }
-        }
-      }
-
-      // Suche Geburtstage für Schüler der aktuellen Klassen
-      var personenMitGeburtstag = App.MainViewModel.Personen.Where(
-        o => o.PersonGeburtstag.HasValue
-        && o.PersonGeburtstag.Value.DayOfYear >= this.wochenplanMontag.DayOfYear
-        && o.PersonGeburtstag.Value.DayOfYear < this.wochenplanMontag.AddDays(6).DayOfYear);
-
-      foreach (var person in personenMitGeburtstag)
-      {
-        var termin = new Schultermin();
-        termin.ErsteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[0].Model;
-        termin.LetzteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[8].Model;
-        termin.IstGeprüft = true;
-        termin.Termintyp = App.MainViewModel.Termintypen.First(o => o.TermintypBezeichnung == "Geburtstag").Model;
-        var geburstagInDerWoche = new DateTime(
-          this.WochenplanMontag.Year,
-          person.PersonGeburtstag.Value.Month,
-          person.PersonGeburtstag.Value.Day);
-        termin.Datum = geburstagInDerWoche;
-        var alter = person.PersonAlter(this.wochenplanMontag.AddDays((int)geburstagInDerWoche.DayOfWeek));
-        termin.Beschreibung = string.Format("{0} {1} ({2})", person.PersonVorname, person.PersonNachname, alter);
-        termin.Jahrtyp = App.MainViewModel.Jahrtypen.First(o => o.JahrtypJahr == jahresplanJahr).Model;
-
-        var geburtstagTerminViewModel = new SchulterminViewModel(termin);
-        var geburtstagEintrag = new WochenplanEintrag(this, geburtstagTerminViewModel);
-
-        if (!this.Wochenplaneinträge.Contains(geburtstagEintrag, comparer))
-        {
-          this.Wochenplaneinträge.Add(geburtstagEintrag);
         }
       }
 
@@ -1417,6 +1367,66 @@
               }
             }
           }
+        }
+      }
+
+      // Check for Ferien
+      foreach (var ferien in App.MainViewModel.Ferien.Where(
+        schuljahr => schuljahr.FerienJahrtyp.Model.Jahr == jahresplanJahr))
+      {
+        for (int i = 0; i < 5; i++)
+        {
+          var tag = this.wochenplanMontag.AddDays(i);
+          if (tag >= ferien.FerienErsterFerientag && tag <= ferien.FerienLetzterFerientag)
+          {
+            var termin = new Schultermin();
+            termin.Beschreibung = ferien.FerienBezeichnung;
+            termin.ErsteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[0].Model;
+            termin.LetzteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[8].Model;
+            termin.IstGeprüft = true;
+            termin.Termintyp = App.MainViewModel.Termintypen.First(o => o.TermintypBezeichnung == "Ferien").Model;
+            termin.Datum = tag;
+            termin.Jahrtyp = App.MainViewModel.Jahrtypen.First(o => o.JahrtypJahr == jahresplanJahr).Model;
+
+            var ferienTerminViewModel = new SchulterminViewModel(termin);
+            var ferientagEintrag = new WochenplanEintrag(this, ferienTerminViewModel);
+
+            if (!this.Wochenplaneinträge.Contains(ferientagEintrag, comparer))
+            {
+              this.Wochenplaneinträge.Add(ferientagEintrag);
+            }
+          }
+        }
+      }
+
+      // Suche Geburtstage für Schüler der aktuellen Klassen
+      var personenMitGeburtstag = App.MainViewModel.Personen.Where(
+        o => o.PersonGeburtstag.HasValue
+        && o.PersonGeburtstag.Value.DayOfYear >= this.wochenplanMontag.DayOfYear
+        && o.PersonGeburtstag.Value.DayOfYear < this.wochenplanMontag.AddDays(6).DayOfYear);
+
+      foreach (var person in personenMitGeburtstag)
+      {
+        var termin = new Schultermin();
+        termin.ErsteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[0].Model;
+        termin.LetzteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[8].Model;
+        termin.IstGeprüft = true;
+        termin.Termintyp = App.MainViewModel.Termintypen.First(o => o.TermintypBezeichnung == "Geburtstag").Model;
+        var geburstagInDerWoche = new DateTime(
+          this.WochenplanMontag.Year,
+          person.PersonGeburtstag.Value.Month,
+          person.PersonGeburtstag.Value.Day);
+        termin.Datum = geburstagInDerWoche;
+        var alter = person.PersonAlter(this.wochenplanMontag.AddDays((int)geburstagInDerWoche.DayOfWeek));
+        termin.Beschreibung = string.Format("{0} {1} ({2})", person.PersonVorname, person.PersonNachname, alter);
+        termin.Jahrtyp = App.MainViewModel.Jahrtypen.First(o => o.JahrtypJahr == jahresplanJahr).Model;
+
+        var geburtstagTerminViewModel = new SchulterminViewModel(termin);
+        var geburtstagEintrag = new WochenplanEintrag(this, geburtstagTerminViewModel);
+
+        if (!this.Wochenplaneinträge.Contains(geburtstagEintrag, comparer))
+        {
+          this.Wochenplaneinträge.Add(geburtstagEintrag);
         }
       }
 

@@ -306,6 +306,7 @@
     <Compile Include="Model\UnitOfWork.cs" />
     <Compile Include="Properties\Settings.cs" />
     <Compile Include="Resources\Controls\DataGridColumnsBehavior.cs" />
+    <Compile Include="Resources\Controls\GridHelper.cs" />
     <Compile Include="Resources\Controls\IListItemConverter.cs" />
     <Compile Include="Resources\Controls\MultiSelectorBehaviours.cs" />
     <Compile Include="Resources\Controls\TwoListSynchronizer.cs" />
@@ -452,6 +453,7 @@
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\Stundenpläne\StundenplanWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Termine\LerngruppenterminEqualityComparer.cs" />
+    <Compile Include="ViewModel\Wochenpläne\WochenplanEintragCollection.cs" />
     <Compile Include="ViewModel\Wochenpläne\GanztagstermineViewModel.cs" />
     <Compile Include="ViewModel\Wochenpläne\WochenplanEintrag.cs" />
     <Compile Include="ViewModel\Wochenpläne\WochenplanWorkspaceViewModel.cs" />

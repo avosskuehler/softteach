@@ -221,6 +221,32 @@
       }
     }
 
+    public int RowIndex
+    {
+      get
+      {
+        return 0;
+      }
+    }
+
+    public int ColumnIndex { get; set; }
+
+    public int RowSpan
+    {
+      get
+      {
+        return this.Stundenanzahl;
+      }
+    }
+
+    public int ColumnSpan
+    {
+      get
+      {
+        return 1;
+      }
+    }
+
     /// <summary>
     /// Holt den Ort des Wochenplaneintrags
     /// </summary>
@@ -313,7 +339,9 @@
       {
         if (this.TerminViewModel != null)
         {
-          return new SolidColorBrush(this.TerminViewModel.TerminTermintyp.TermintypKalenderfarbe);
+          var color = this.TerminViewModel.TerminTermintyp.TermintypKalenderfarbe;
+          color.A = 200;
+          return new SolidColorBrush(color);
         }
 
         return Brushes.Transparent;
