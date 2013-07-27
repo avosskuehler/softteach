@@ -1,4 +1,4 @@
-﻿<Window x:Class="Liduv.View.Jahrespläne.AddLerngruppenterminDialog"
+﻿<Window x:Class="Liduv.View.Termine.AddLerngruppenterminDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:resources="clr-namespace:Liduv.Resources" xmlns:Liduv="clr-namespace:Liduv"

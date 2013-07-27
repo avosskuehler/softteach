@@ -1,5 +1,5 @@
 ﻿
-namespace Liduv.View.Jahrespläne
+namespace Liduv.View.Termine
 {
   using System.Windows.Controls;
 
@@ -8,6 +8,9 @@ namespace Liduv.View.Jahrespläne
   /// </summary>
   public partial class StundeDetailView : UserControl
   {
+    /// <summary>
+    /// Initialisiert eine neue Instanz der <see cref="StundeDetailView"/> Klasse.
+    /// </summary>
     public StundeDetailView()
     {
       this.InitializeComponent();

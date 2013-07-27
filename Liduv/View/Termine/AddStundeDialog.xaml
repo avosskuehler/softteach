@@ -1,4 +1,4 @@
-﻿<Window x:Class="Liduv.View.Jahrespläne.AddStundeDialog"
+﻿<Window x:Class="Liduv.View.Termine.AddStundeDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:resources="clr-namespace:Liduv.Resources" 
@@ -6,6 +6,7 @@
         xmlns:StundenentwürfeView="clr-namespace:Liduv.View.Stundenentwürfe"
         xmlns:StundenentwürfeViewModel="clr-namespace:Liduv.ViewModel.Stundenentwürfe"
         xmlns:Termine="clr-namespace:Liduv.ViewModel.Termine" xmlns:controls="clr-namespace:Liduv.Resources.Controls"
+        xmlns:termine="clr-namespace:Liduv.View.Termine"
         Title="Stunde ..." 
         Icon="/Liduv;component/Images/Stundenentwurf32.png"
         Height="600" 
@@ -28,7 +29,7 @@
       <ContentControl Content="{Binding}">
         <ContentControl.Resources>
           <DataTemplate DataType="{x:Type Termine:StundeViewModel}">
-            <Jahrespläne:StundeDetailView />
+            <termine:StundeDetailView />
           </DataTemplate>
         </ContentControl.Resources>
       </ContentControl>

@@ -15,12 +15,10 @@
 // <author>Adrian Voßkühler</author>
 // <email>adrian@vosskuehler.name</email>
 
-namespace Liduv.View.Jahrespläne
+namespace Liduv.View.Termine
 {
   using System.Windows;
 
-  using Liduv.ViewModel;
-  using Liduv.ViewModel.Stundenentwürfe;
   using Liduv.ViewModel.Termine;
 
   /// <summary>
