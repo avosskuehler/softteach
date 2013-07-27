@@ -18,28 +18,17 @@
   /// Die Basisklasse für alle ViewModels.
   /// Implementiert INotifyPropertyChanged
   /// </summary>
-  [Serializable]
   public class ViewModelBase : INotifyPropertyChanged, ISupportsUndo
   {
-    ///// <summary>
-    ///// Prefix für Execute methoden von DelegateCommands.
-    ///// </summary>
-    //private const string ExecutePrefix = "Execute";
-
-    ///// <summary>
-    ///// Prefix für CanExecute methoden von DelegateCommands.
-    ///// </summary>
-    //private const string CanExecutePrefix = "CanExecute";
-
     /// <summary>
     /// Keine Ahnung was das ist.
     /// </summary>
-    private static bool cultureBinding = false;
+    private static bool cultureBinding;
 
     /// <summary>
     /// Gibt an, ob das ViewModel im DesingMode benutzt wird (für Blend und Designer)
     /// </summary>
-    private static bool isInDesignMode = false;
+    private static bool isInDesignMode;
 
     /// <summary>
     /// Speichert die Werte des ViewModels.
@@ -51,16 +40,6 @@
     /// </summary>
     private readonly IDictionary<string, List<string>> propertyMap;
 
-    ///// <summary>
-    ///// Speichert die Methoden des ViewModels, die nicht CanExecute sind.
-    ///// </summary>
-    //private readonly IDictionary<string, List<string>> methodMap;
-
-    ///// <summary>
-    ///// Speichert die Methoden des ViewModels, die CanExecute sind.
-    ///// </summary>
-    //private readonly IDictionary<string, List<string>> commandMap;
-
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="ViewModelBase"/> Klasse.
     /// </summary>
@@ -68,36 +47,19 @@
     {
       this.values = new Dictionary<string, object>();
       this.propertyMap = MapDependencies<DependsUponAttribute>(() => GetType().GetProperties());
-      //this.methodMap = MapDependencies<DependsUponAttribute>(() => GetType().GetMethods().Cast<MemberInfo>().Where(method => !method.Name.StartsWith(CanExecutePrefix)));
-      //this.commandMap = MapDependencies<DependsUponAttribute>(() => GetType().GetMethods().Cast<MemberInfo>().Where(method => method.Name.StartsWith(CanExecutePrefix)));
-
-      //this.CreateCommands();
       this.VerifyDependencies();
     }
 
     /// <summary>
     /// Das Event was ausgelöst wird, wenn sich eine Property ändert.
     /// </summary>
-    [field: NonSerialized]
     public event PropertyChangedEventHandler PropertyChanged;
 
     /// <summary>
     /// Das Event was ausgelöst wird, wenn sich eine Property ändert und
     /// dabei noch den alten Wert transportiert.
     /// </summary>
-    [field: NonSerialized]
     public event PropertyChangingEventHandler PropertyChanging;
-
-    /// <summary>
-    /// Holt einen Wert, der angibt, ob the control is in design mode, running inside Visual Studio or Blend.
-    /// </summary>
-    protected bool IsInDesignMode
-    {
-      get
-      {
-        return isInDesignMode;
-      }
-    }
 
     /// <summary>
     /// Holt eine Beschreibung des ViewModels für die Curriculasortierung
@@ -137,6 +99,17 @@
     }
 
     /// <summary>
+    /// Holt einen Wert, der angibt, ob the control is in design mode, running inside Visual Studio or Blend.
+    /// </summary>
+    protected bool IsInDesignMode
+    {
+      get
+      {
+        return isInDesignMode;
+      }
+    }
+
+    /// <summary>
     /// Implementation von ISupportUndo
     /// </summary>
     /// <returns> The <see cref="object"/>. </returns>
@@ -156,7 +129,7 @@
       if (!isInDesignMode)
       {
         var designMode = DesignerProperties.IsInDesignModeProperty;
-        ViewModelBase.isInDesignMode = (bool)DependencyPropertyDescriptor.FromProperty(designMode, typeof(FrameworkElement)).Metadata.DefaultValue;
+        isInDesignMode = (bool)DependencyPropertyDescriptor.FromProperty(designMode, typeof(FrameworkElement)).Metadata.DefaultValue;
       }
 
       if (isInDesignMode)
@@ -234,33 +207,6 @@
       ChangeFactory.Current.OnCollectionChanged(viewModel, propertyName, collection, e, true, descriptionOfChange);
     }
 
-    /// <summary>
-    /// Dieses Attribut sorgt für korrektes Updaten von 
-    /// abhängigen Properties und Methoden.
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
-    protected class DependsUponAttribute : Attribute
-    {
-      /// <summary>
-      /// Initialisiert eine neue Instanz der <see cref="DependsUponAttribute"/> Klasse.
-      /// </summary>
-      /// <param name="propertyName"> The property name. </param>
-      public DependsUponAttribute(string propertyName)
-      {
-        this.DependencyName = propertyName;
-      }
-
-      /// <summary>
-      /// Holt den Namen für die Abhängigkeit.
-      /// </summary>
-      public string DependencyName { get; private set; }
-
-      /// <summary>
-      /// Holt oder setzt einen Wert, der angibt, ob die Property existieren muss,
-      /// </summary>
-      public bool VerifyStaticExistence { get; set; }
-    }
-
     protected T Get<T>(string name)
     {
       return Get(name, default(T));
@@ -335,9 +281,6 @@
       {
         this.propertyMap[name].Each(this.RaisePropertyChanged);
       }
-
-      //this.ExecuteDependentMethods(name);
-      //this.FireChangesOnDependentCommands(name);
     }
 
     protected void RaisePropertyChanging(string name, object oldValue, object newValue)
@@ -346,13 +289,6 @@
       {
         this.PropertyChanging(this, new PropertyChangingEventArgs(name, oldValue, newValue));
       }
-      //PropertyChanged.Raise(this, name);
-
-      //if (propertyMap.ContainsKey(name))
-      //  propertyMap[name].Each(this.RaisePropertyChanged);
-
-      //ExecuteDependentMethods(name);
-      //FireChangesOnDependentCommands(name);
     }
 
     /// <summary>
@@ -371,25 +307,6 @@
       cultureBinding = true;
     }
 
-    //private void ExecuteDependentMethods(string name)
-    //{
-    //  if (this.methodMap.ContainsKey(name))
-    //  {
-    //    this.methodMap[name].Each(ExecuteMethod);
-    //  }
-    //}
-
-    //private void FireChangesOnDependentCommands(string name)
-    //{
-    //  if (this.commandMap.ContainsKey(name))
-    //    this.commandMap[name].Each(RaiseCanExecuteChangedEvent);
-    //}
-
-    //protected void Set<T>(Expression<Func<T>> expression, T value)
-    //{
-    //  Set(PropertyName(expression), value);
-    //}
-
     private static string PropertyName<T>(Expression<Func<T>> expression)
     {
       var memberExpression = expression.Body as MemberExpression;
@@ -401,72 +318,6 @@
 
       return memberExpression.Member.Name;
     }
-
-    //public override bool TryGetMember(GetMemberBinder binder, out object result)
-    //{
-    //  result = Get<object>(binder.Name);
-
-    //  if (result != null)
-    //  {
-    //    return true;
-    //  }
-
-    //  return base.TryGetMember(binder, out result);
-    //}
-
-    //public override bool TrySetMember(SetMemberBinder binder, object value)
-    //{
-    //  var result = base.TrySetMember(binder, value);
-    //  if (result)
-    //  {
-    //    return true;
-    //  }
-
-    //  this.Set(binder.Name, value);
-    //  return true;
-    //}
-
-    //private void CreateCommands()
-    //{
-    //  CommandNames.Each(name => Set(name, new DelegateCommand<object>(x => ExecuteCommand(name, x), x => CanExecuteCommand(name, x))));
-    //}
-
-
-    //private IEnumerable<string> CommandNames
-    //{
-    //  get
-    //  {
-    //    return from method in GetType().GetMethods()
-    //           where method.Name.StartsWith(ExecutePrefix)
-    //           select method.Name.StripLeft(ExecutePrefix.Length);
-    //  }
-    //}
-
-    //private void ExecuteCommand(string name, object parameter)
-    //{
-    //  var methodInfo = GetType().GetMethod(ExecutePrefix + name);
-    //  if (methodInfo == null) return;
-
-    //  methodInfo.Invoke(this, methodInfo.GetParameters().Length == 1 ? new[] { parameter } : null);
-    //}
-
-    //private bool CanExecuteCommand(string name, object parameter)
-    //{
-    //  var methodInfo = GetType().GetMethod(CanExecutePrefix + name);
-    //  if (methodInfo == null) return true;
-
-    //  return (bool)methodInfo.Invoke(this, methodInfo.GetParameters().Length == 1 ? new[] { parameter } : null);
-    //}
-
-    //protected void RaiseCanExecuteChangedEvent(string canExecute_name)
-    //{
-    //  var commandName = canExecute_name.StripLeft(CanExecutePrefix.Length);
-    //  var command = Get<DelegateCommand<object>>(commandName);
-    //  if (command == null)
-    //    return;
-
-    //  command.RaiseCanExecuteChanged();
-    //}
 
     private static IDictionary<string, List<string>> MapDependencies<T>(Func<IEnumerable<MemberInfo>> getInfo) where T : DependsUponAttribute
     {
@@ -495,21 +346,10 @@
                         select item.Key).ToList());
     }
 
-    //private void ExecuteMethod(string name)
-    //{
-    //  var memberInfo = GetType().GetMethod(name);
-    //  if (memberInfo == null)
-    //    return;
-
-    //  memberInfo.Invoke(this, null);
-    //}
-
     private void VerifyDependencies()
     {
-      //var methods = GetType().GetMethods().Cast<MemberInfo>();
       var properties = GetType().GetProperties();
 
-      //var propertyNames = methods.Union(properties)
       var propertyNames = properties
           .SelectMany(method => method.GetCustomAttributes(typeof(DependsUponAttribute), true).Cast<DependsUponAttribute>())
           .Where(attribute => attribute.VerifyStaticExistence)
@@ -525,6 +365,33 @@
       {
         throw new ArgumentException("DependsUpon Property Does Not Exist: " + propertyName);
       }
+    }
+
+    /// <summary>
+    /// Dieses Attribut sorgt für korrektes Updaten von 
+    /// abhängigen Properties und Methoden.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    protected class DependsUponAttribute : Attribute
+    {
+      /// <summary>
+      /// Initialisiert eine neue Instanz der <see cref="DependsUponAttribute"/> Klasse.
+      /// </summary>
+      /// <param name="propertyName"> The property name. </param>
+      public DependsUponAttribute(string propertyName)
+      {
+        this.DependencyName = propertyName;
+      }
+
+      /// <summary>
+      /// Holt den Namen für die Abhängigkeit.
+      /// </summary>
+      public string DependencyName { get; private set; }
+
+      /// <summary>
+      /// Holt oder setzt einen Wert, der angibt, ob die Property existieren muss,
+      /// </summary>
+      public bool VerifyStaticExistence { get; set; }
     }
   }
 }

@@ -14,11 +14,5 @@
     {
       this.InitializeComponent();
     }
-
-    private void PhasenGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-      var viewModel = this.DataContext;
-
-    }
   }
 }

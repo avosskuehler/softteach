@@ -12,7 +12,6 @@ namespace Liduv.Model.EntityFramework
     using System;
     using System.Collections.Generic;
     
-        [Serializable]
     public partial class Halbjahrtyp
     {
         public Halbjahrtyp()

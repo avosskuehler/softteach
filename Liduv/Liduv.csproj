@@ -372,6 +372,10 @@
     <Compile Include="ViewModel\Datenbank\DateitypViewModel.cs" />
     <Compile Include="ViewModel\Helper\ISequencedObject.cs" />
     <Compile Include="ViewModel\Helper\Extensions.cs" />
+    <Compile Include="ViewModel\Helper\PushBinding\FreezableBinding.cs" />
+    <Compile Include="ViewModel\Helper\PushBinding\PushBinding.cs" />
+    <Compile Include="ViewModel\Helper\PushBinding\PushBindingCollection.cs" />
+    <Compile Include="ViewModel\Helper\PushBinding\PushBindingManager.cs" />
     <Compile Include="ViewModel\Helper\SequencedViewModel.cs" />
     <Compile Include="ViewModel\Helper\SerializableObservableCollection.cs" />
     <Compile Include="ViewModel\Helper\SortedCollection.cs" />
@@ -400,6 +404,7 @@
     <Compile Include="ViewModel\Personen\SchülerlisteWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Stundenentwürfe\DateiverweisViewModel.cs" />
     <Compile Include="ViewModel\Helper\SequencingService.cs" />
+    <Compile Include="ViewModel\Stundenentwürfe\PhaseContainer.cs" />
     <Compile Include="ViewModel\Stundenpläne\StundenplanÄnderungUpdateType.cs" />
     <Compile Include="ViewModel\Termine\BetroffeneKlasseViewModel.cs" />
     <Compile Include="ViewModel\Termine\SchulterminViewModel.cs" />

@@ -8,13 +8,12 @@
   /// <summary>
   /// ViewModel of an individual Medium
   /// </summary>
-  [Serializable]
   public class MediumViewModel : ViewModelBase, IComparable
   {
     /// <summary>
-    /// Initializes a new instance of the MediumViewModel class.
+    /// Initialisiert eine neue Instanz der <see cref="MediumViewModel"/> Klasse. 
     /// </summary>
-    /// <param name="medium">The underlying medium this ViewModel is to be based on</param>
+    /// <param name="medium"> The underlying medium this ViewModel is to be based on </param>
     public MediumViewModel(Medium medium)
     {
       if (medium == null)

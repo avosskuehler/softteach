@@ -11,7 +11,6 @@
   /// <summary>
   /// ViewModel of an individual phase
   /// </summary>
-  [Serializable]
   public class PhaseViewModel : ViewModelBase, ISequencedObject, ICloneable
   {
     /// <summary>

@@ -8,15 +8,12 @@
   /// <summary>
   /// ViewModel of an individual sozialform
   /// </summary>
-  [Serializable]
   public class SozialformViewModel : ViewModelBase, IComparable
   {
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="SozialformViewModel"/> Klasse. 
     /// </summary>
-    /// <param name="sozialform">
-    /// The underlying sozialform this ViewModel is to be based on
-    /// </param>
+    /// <param name="sozialform"> The underlying sozialform this ViewModel is to be based on </param>
     public SozialformViewModel(Sozialform sozialform)
     {
       if (sozialform == null)

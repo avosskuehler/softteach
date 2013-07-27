@@ -12,7 +12,6 @@ namespace Liduv.Model.EntityFramework
     using System;
     using System.Collections.Generic;
     
-        [Serializable]
     public abstract partial class Termin
     {
         public Termin()

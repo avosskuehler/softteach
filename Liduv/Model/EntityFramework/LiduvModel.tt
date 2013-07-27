@@ -24,7 +24,6 @@ foreach (var entity in typeMapper.GetItemsToGenerate<EntityType>(itemCollection)
     BeginNamespace(code);
 #>
 <#=codeStringGenerator.UsingDirectives(inHeader: false)#>
-    [Serializable]
 <#=codeStringGenerator.EntityClassOpening(entity)#>
 {
 <#

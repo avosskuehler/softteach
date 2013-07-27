@@ -2,12 +2,11 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:liduv="clr-namespace:Liduv"
              xmlns:converter="clr-namespace:Liduv.Resources.Converter" mc:Ignorable="d" 
              xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
-             xmlns:controls="clr-namespace:Liduv.Resources.Controls"
+             xmlns:pb="clr-namespace:Liduv.ViewModel.Helper.PushBinding"
              d:DesignHeight="400" d:DesignWidth="600">
   <UserControl.Resources>
     <!-- Value Converters -->
@@ -122,31 +121,22 @@
           <!--CellStyle="{StaticResource CellDirectClickStyle}"-->
           <DataGrid Grid.Row="1" 
                   SelectedItem="{Binding Path=CurrentPhase, Converter={StaticResource IgnoreNewItemPlaceHolderConverter}}" 
-                  controls:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedPhasen}"
                   ItemsSource="{Binding Path=PhasenView}" 
                   AutoGenerateColumns="False"
                   HorizontalScrollBarVisibility="Disabled"
-                    Name="PhasenGrid"
+                  Name="PhasenGrid"
                   dd:DragDrop.IsDragSource="True" 
                   dd:DragDrop.IsDropTarget="True"
                   dd:DragDrop.DragAdornerTemplate="{StaticResource PhaseDragAdorner}"
-                  dd:DragDrop.DropHandler="{Binding}" SelectionMode="Extended" SelectionChanged="PhasenGrid_SelectionChanged">
+                  dd:DragDrop.DropHandler="{Binding}" 
+                  SelectionMode="Extended">
+            <pb:PushBindingManager.PushBindings>
+              <pb:PushBinding TargetProperty="SelectedItems" Path="SelectedPhasen"/>
+            </pb:PushBindingManager.PushBindings>
             <DataGrid.InputBindings>
               <KeyBinding Modifiers="Control" Key="C" Command="{Binding Path=CopyCommand}"/>
               <KeyBinding Modifiers="Control" Key="V" Command="{Binding Path=PasteCommand}"/>
             </DataGrid.InputBindings>
-
-            <!--MouseMove="OnPhasenGridMouseMove"
-                  DragEnter="OnPhasenGridCheckDropTarget"
-                  DragLeave="OnPhasenGridCheckDropTarget"
-                  DragOver="OnPhasenGridCheckDropTarget"
-                  Drop="OnPhasenGridDrop"
-                  DataContextChanged="OnPhasenGridDataContextChanged">-->
-            <!--<DataGrid.ItemContainerStyle>
-              <Style TargetType="{x:Type DataGridRow}">
-                <Setter Property="AllowDrop" Value="True" />
-              </Style>
-            </DataGrid.ItemContainerStyle>-->
             <DataGrid.Columns>
               <DataGridTextColumn Header="Zeit" Binding="{Binding Path=PhaseZeit, UpdateSourceTrigger=PropertyChanged}" CanUserSort="False"/>
               <DataGridComboBoxColumn 
