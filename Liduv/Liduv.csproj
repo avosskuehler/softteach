@@ -781,6 +781,9 @@
       <DependentUpon>StundenentwurfWorkspaceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\Wochenpläne\WochenplanEintragEqualityComparer.cs" />
+    <Compile Include="View\Wochenpläne\WochenplaneinträgeDetailView.xaml.cs">
+      <DependentUpon>WochenplaneinträgeDetailView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Wochenpläne\GanztagsterminSingleView.xaml.cs">
       <DependentUpon>GanztagsterminSingleView.xaml</DependentUpon>
     </Compile>
@@ -1527,6 +1530,10 @@
     <Page Include="View\Stundenentwürfe\StundenentwurfWorkspaceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Wochenpläne\WochenplaneinträgeDetailView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Wochenpläne\GanztagsterminSingleView.xaml">
       <Generator>MSBuild:Compile</Generator>

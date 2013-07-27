@@ -52,7 +52,7 @@
             </Button>
           </ToolBar>
         </ToolBarPanel>
-        <DataGrid Grid.Row="1" Background="Transparent" SelectedItem="{Binding Path=CurrentStundenentwurf, Mode=TwoWay}" ItemsSource="{Binding Path=FilteredStundenentwürfe}" AutoGenerateColumns="False" >
+        <DataGrid Grid.Row="1" Background="Transparent" SelectedItem="{Binding Path=CurrentStundenentwurf, Mode=TwoWay}" ItemsSource="{Binding Path=FilteredStundenentwürfe}" AutoGenerateColumns="False" IsReadOnly="True">
           <DataGrid.Columns>
             <DataGridTextColumn Header="Modul" Binding="{Binding Path=StundenentwurfModul.ModulBezeichnung}" Width="100" />
             <DataGridTextColumn Header="Stundenthema" Binding="{Binding Path=StundenentwurfStundenthema}"/>

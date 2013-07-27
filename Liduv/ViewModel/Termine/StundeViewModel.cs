@@ -397,6 +397,7 @@ namespace Liduv.ViewModel.Termine
       var dlg = new SearchStundenentwurfDialog(App.MainViewModel.StundenentwurfWorkspace);
       if (dlg.ShowDialog().GetValueOrDefault(false))
       {
+        if (this.StundeStundenentwurf.StundenentwurfPhasenKurzform == string.Empty) App.MainViewModel.Stundenentwürfe.RemoveTest(this.StundeStundenentwurf);
         this.StundeStundenentwurf = dlg.SelectedStundenentwurfViewModel;
         this.UpdateStundenentwurfStundenzahl();
       }

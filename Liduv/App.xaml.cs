@@ -107,6 +107,7 @@ namespace Liduv
       {
         InformationDialog.Show(
           "Datei nicht gefunden", "Die zu öffnende Datei " + fullPath + " wurde nicht gefunden.", false);
+        return;
       }
 
       var openProcess = new Process { StartInfo = { FileName = fullPath } };

@@ -211,10 +211,15 @@
     /// </summary>
     private void OpenDatei()
     {
-      if (File.Exists(this.DateiverweisDateiname))
+      // Wenn die Datei verschoben wurde, aber nicht zu finden ist, suche unter Standardverzeichnis
+      if (!File.Exists(this.DateiverweisDateiname))
       {
-        App.OpenFile(this.DateiverweisDateiname);
+        var resolvedPfad = StundenentwurfViewModel.GetDateiverweispfad(this.Model.Stundenentwurf);
+        var newLocationTest = Path.Combine(resolvedPfad, this.DateiverweisDateinameOhnePfad);
+        if (File.Exists(newLocationTest)) this.DateiverweisDateiname = newLocationTest;
       }
+
+      App.OpenFile(this.DateiverweisDateiname);
     }
   }
 }

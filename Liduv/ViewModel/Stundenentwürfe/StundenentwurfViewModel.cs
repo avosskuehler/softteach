@@ -555,6 +555,24 @@
     }
 
     /// <summary>
+    /// Erstellt einen Dateiverweispfad für die Dateien, die zu dem gegebenen Stunden-
+    /// entwurf gehören.
+    /// </summary>
+    /// <param name="stundenentwurf">Der Stundenentwurf, zu dem der Datveiverweis gehört.</param>
+    /// <returns>Einen Pfad ohne Separator am Schluss.</returns>
+    public static string GetDateiverweispfad(Stundenentwurf stundenentwurf)
+    {
+      var fachString = stundenentwurf.Fach.Bezeichnung;
+      var jahrgangsstufeString = stundenentwurf.Jahrgangsstufe.Bezeichnung;
+      jahrgangsstufeString = jahrgangsstufeString.Replace("/", "+");
+      var modulString = stundenentwurf.Modul.Bezeichnung;
+      var pathToCopyTo = Path.Combine(Configuration.GetMyDocumentsPath(), fachString);
+      pathToCopyTo = Path.Combine(pathToCopyTo, jahrgangsstufeString);
+      pathToCopyTo = Path.Combine(pathToCopyTo, modulString);
+      return pathToCopyTo;
+    }
+
+    /// <summary>
     /// Gibt eine lesbare Repräsentation des ViewModels
     /// </summary>
     /// <returns>Ein <see cref="string"/> mit einer Kurzform des ViewModels.</returns>
@@ -967,13 +985,7 @@
     /// <returns>Das Zielverzeichnis der Datei</returns>
     private string CopyFileToBaseDirectory(string filenameWithPath)
     {
-      var fachString = this.StundenentwurfFach.FachBezeichnung;
-      var jahrgangsstufeString = this.StundenentwurfJahrgangsstufe.JahrgangsstufeBezeichnung;
-      jahrgangsstufeString = jahrgangsstufeString.Replace("/", "+");
-      var modulString = this.StundenentwurfModul.ModulBezeichnung;
-      var pathToCopyTo = Path.Combine(Configuration.GetMyDocumentsPath(), fachString);
-      pathToCopyTo = Path.Combine(pathToCopyTo, jahrgangsstufeString);
-      pathToCopyTo = Path.Combine(pathToCopyTo, modulString);
+      var pathToCopyTo = GetDateiverweispfad(this.Model);
       var filenameWithoutPath = Path.GetFileName(filenameWithPath);
       var destination = pathToCopyTo + Path.DirectorySeparatorChar + filenameWithoutPath;
       if (!File.Exists(destination))
