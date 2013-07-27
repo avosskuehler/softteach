@@ -462,16 +462,15 @@ namespace Liduv.ViewModel.Jahrespläne
       if (this.Lerngruppentermine.Count == 1)
       {
         var lerngruppenTermin = this.Lerngruppentermine[0];
-        beschreibung = lerngruppenTermin.TerminBeschreibung;
+        var needCut = lerngruppenTermin.TerminBeschreibung.Length > 22;
+        beschreibung = needCut ? 
+          lerngruppenTermin.TerminBeschreibung.Substring(0, Math.Min(lerngruppenTermin.TerminBeschreibung.Length, 22)) + "..." 
+          : lerngruppenTermin.TerminBeschreibung;
       }
       else if (this.Lerngruppentermine.Count > 1)
       {
         beschreibung = "...";
       }
-
-      //// Raise this event to update also the background color of the day.
-      //this.RaisePropertyChanged("TagesplanKalenderfarbe");
-      //this.RaisePropertyChanged("KeineLerngruppentermine");
 
       return beschreibung;
     }

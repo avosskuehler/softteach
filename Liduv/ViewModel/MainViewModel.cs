@@ -614,35 +614,41 @@
         {
           this.Monatstypen.Add(new MonatstypViewModel(monatstyp));
         }
+        Console.WriteLine("Elapsed Monatstypen {0}", watch.ElapsedMilliseconds);
 
         foreach (var termintyp in context.Termintypen)
         {
           this.Termintypen.Add(new TermintypViewModel(termintyp));
         }
         this.Termintypen.BubbleSort();
+        Console.WriteLine("Elapsed Termintypen {0}", watch.ElapsedMilliseconds);
 
         foreach (var medium in context.Medien)
         {
           this.Medien.Add(new MediumViewModel(medium));
         }
         this.Medien.BubbleSort();
+        Console.WriteLine("Elapsed Medien {0}", watch.ElapsedMilliseconds);
 
         foreach (var dateityp in context.Dateitypen)
         {
           this.Dateitypen.Add(new DateitypViewModel(dateityp));
         }
         this.Dateitypen.BubbleSort();
+        Console.WriteLine("Elapsed Dateitypen {0}", watch.ElapsedMilliseconds);
 
         foreach (var sozialform in context.Sozialformen)
         {
           this.Sozialformen.Add(new SozialformViewModel(sozialform));
         }
         this.Sozialformen.BubbleSort();
+        Console.WriteLine("Elapsed Sozialformen {0}", watch.ElapsedMilliseconds);
 
         foreach (var unterrichtsstunde in context.Unterrichtsstunden)
         {
           this.Unterrichtsstunden.Add(new UnterrichtsstundeViewModel(unterrichtsstunde));
         }
+        Console.WriteLine("Elapsed Unterrichtsstunden {0}", watch.ElapsedMilliseconds);
 
         //foreach (var klasse in context.Klassen)
         //{
@@ -655,11 +661,13 @@
           this.Fächer.Add(new FachViewModel(fach));
         }
         //this.Fächer.BubbleSort();
+        Console.WriteLine("Elapsed Fächer {0}", watch.ElapsedMilliseconds);
 
         foreach (var modul in context.Module)
         {
           this.Module.Add(new ModulViewModel(modul));
         }
+        Console.WriteLine("Elapsed Module {0}", watch.ElapsedMilliseconds);
 
         //foreach (var reihe in context.Reihen)
         //{
@@ -675,11 +683,13 @@
         {
           this.Ferien.Add(new FerienViewModel(ferien));
         }
+        Console.WriteLine("Elapsed Ferien {0}", watch.ElapsedMilliseconds);
 
         foreach (var fachstundenanzahl in context.Fachstundenanzahlen)
         {
           this.Fachstundenanzahl.Add(new FachstundenanzahlViewModel(fachstundenanzahl));
         }
+        Console.WriteLine("Elapsed Fachstundenanzahl {0}", watch.ElapsedMilliseconds);
 
         //foreach (var klassenstufe in context.Klassenstufen)
         //{
@@ -692,21 +702,25 @@
           this.Tendenztypen.Add(new TendenztypViewModel(tendenztyp));
         }
         this.Tendenztypen.BubbleSort();
+        Console.WriteLine("Elapsed Tendenztypen {0}", watch.ElapsedMilliseconds);
 
         foreach (var tendenz in context.Tendenzen)
         {
           this.Tendenzen.Add(new TendenzViewModel(tendenz));
         }
+        Console.WriteLine("Elapsed Tendenzen {0}", watch.ElapsedMilliseconds);
 
         foreach (var zensur in context.Zensuren)
         {
           this.Zensuren.Add(new ZensurViewModel(zensur));
         }
+        Console.WriteLine("Elapsed Zensuren {0}", watch.ElapsedMilliseconds);
 
         foreach (var notenWichtung in context.NotenWichtungen)
         {
           this.NotenWichtungen.Add(new NotenWichtungViewModel(notenWichtung));
         }
+        Console.WriteLine("Elapsed NotenWichtungen {0}", watch.ElapsedMilliseconds);
 
         foreach (var arbeit in context.Arbeiten)
         {
@@ -732,6 +746,7 @@
           //  }
           //}
         }
+        Console.WriteLine("Elapsed Schultermine {0}", watch.ElapsedMilliseconds);
 
         //foreach (BetroffeneKlasse betroffeneKlasse in context.BetroffeneKlassen)
         //{
@@ -743,11 +758,13 @@
         {
           this.Personen.Add(new PersonViewModel(person));
         }
+        Console.WriteLine("Elapsed Personen {0}", watch.ElapsedMilliseconds);
 
         foreach (var schülerliste in context.Schülerlisten)
         {
           this.Schülerlisten.Add(new SchülerlisteViewModel(schülerliste));
         }
+        Console.WriteLine("Elapsed Schülerlisten {0}", watch.ElapsedMilliseconds);
 
         //foreach (var schülereintrag in context.Schülereinträge)
         //{
@@ -763,6 +780,7 @@
         {
           this.Bewertungsschemata.Add(new BewertungsschemaViewModel(bewertungsschema));
         }
+        Console.WriteLine("Elapsed Bewertungsschemata {0}", watch.ElapsedMilliseconds);
 
         //foreach (var prozentbereich in context.Prozentbereiche)
         //{
@@ -775,11 +793,13 @@
         {
           this.Jahrgangsstufen.Add(new JahrgangsstufeViewModel(jahrgangsstufe));
         }
+        Console.WriteLine("Elapsed Jahrgangsstufen {0}", watch.ElapsedMilliseconds);
 
         foreach (var stundenentwurf in context.Stundenentwürfe)
         {
           this.Stundenentwürfe.Add(new StundenentwurfViewModel(stundenentwurf));
         }
+        Console.WriteLine("Elapsed Stundenentwürfe {0}", watch.ElapsedMilliseconds);
 
         //foreach (var phase in context.Phasen)
         //{
@@ -836,6 +856,7 @@
         {
           this.Stundenpläne.Add(new StundenplanViewModel(stundenplan));
         }
+        Console.WriteLine("Elapsed Stundenpläne {0}", watch.ElapsedMilliseconds);
 
         //foreach (var stundenplaneintrag in context.Stundenplaneinträge)
         //{

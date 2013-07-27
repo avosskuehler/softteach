@@ -365,7 +365,7 @@
       set
       {
         if (value == null) return;
-        if (value.ModulBezeichnung == this.modul.ModulBezeichnung) return;
+        if (value.ModulBezeichnung == this.StundenentwurfModul.ModulBezeichnung) return;
         this.UndoablePropertyChanging(this, "StundenentwurfModul", this.modul, value);
         this.modul = value;
         this.Model.Modul = value.Model;

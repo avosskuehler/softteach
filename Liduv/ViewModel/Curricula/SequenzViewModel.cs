@@ -122,8 +122,14 @@
         this.UndoablePropertyChanging(this, "SequenzStundenbedarf", this.Model.Stundenbedarf, value);
         this.Model.Stundenbedarf = value;
         this.RaisePropertyChanged("SequenzStundenbedarf");
-        //var vm = App.MainViewModel.Curricula.First(o => o.Model == this.Model.Reihe.Curriculum);
-        //vm.UpdateUsedStunden();
+        var vm = App.MainViewModel.Curricula.FirstOrDefault(o => o.Model == this.Model.Reihe.Curriculum);
+
+        // Wenn zur Übertragung in den Jahresplan ein temporäres Curriculum angelegt wird,
+        // dann ist es nicht im MainViewModel
+        if (vm != null)
+        {
+          vm.UpdateUsedStunden();
+        }
       }
     }
 
@@ -239,7 +245,7 @@
       {
         if (this.SequenzReihe != null)
         {
-          return this.SequenzReihe.ReiheModul.ModulBezeichnung;
+          return this.SequenzReihe.ReiheModul.ModulKurzbezeichnung;
         }
 
         return "Keine Modulzuordnung";

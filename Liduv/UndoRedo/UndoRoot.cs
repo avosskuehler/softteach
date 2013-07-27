@@ -216,6 +216,7 @@
       var addAndRemoveChanges = new List<CollectionAddRemoveChangeBase>();
       foreach (var changeSet in this.UndoStack.Reverse())
       {
+        addAndRemoveChanges.Clear();
         foreach (var change in changeSet.Changes)
         {
           // Skip changes, that should not be written to the database context
@@ -298,6 +299,7 @@
           }
         }
       }
+
       App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
     }
 

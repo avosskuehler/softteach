@@ -88,7 +88,7 @@
     {
       get
       {
-        return this.ModulBezeichnung.Substring(0, 15) + "...";
+        return this.ModulBezeichnung.Substring(0, Math.Min(this.ModulBezeichnung.Length, 15)) + "...";
       }
     }
 
