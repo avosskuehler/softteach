@@ -7,18 +7,35 @@
              xmlns:wochenpläne="clr-namespace:Liduv.ViewModel.Wochenpläne"
              xmlns:local="clr-namespace:Liduv.Resources.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="200" >
+             d:DesignHeight="100" d:DesignWidth="200" 
+             GotMouseCapture="UIElement_OnGotMouseCapture">
   <UserControl.Resources>
     <DataTemplate DataType="{x:Type wochenpläne:WochenplanEintrag}" x:Key="WochenplanEintragTemplate">
       <wochenpläneView:WochenplaneintragDetailView />
     </DataTemplate>
+    <Style x:Key="UnselectableListboxStyle">
+      <Style.Resources>
+        <!-- Background of selected item when focussed -->
+        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+        <!-- Background of selected item when not focussed -->
+        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
+        <!-- Background of selected item when inactive -->
+        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Transparent" />
+
+      </Style.Resources>
+    </Style>
+
   </UserControl.Resources>
-  <ListBox ItemsSource="{Binding Path=WochenplanEinträge}" 
+  <ListBox ItemsSource="{Binding Path=WochenplanEinträge}" x:Name="SurroundBorder"
+           Style="{StaticResource UnselectableListboxStyle}"
+           MouseEnter="SurroundBorderMouseEnter"
+           PreviewMouseLeftButtonDown="SurroundBorderMouseLeftButtonDown"
            ItemTemplate="{StaticResource WochenplanEintragTemplate}" 
            BorderThickness="0"
-           Name="WochenplaneinträgeListBox" Background="Transparent" BorderBrush="Transparent" 
-           HorizontalContentAlignment="Stretch" IsTextSearchEnabled="False" 
+           Background="Transparent" BorderBrush="Transparent" 
+           HorizontalContentAlignment="Stretch"
            VerticalContentAlignment="Stretch"
+           IsTextSearchEnabled="False" 
            ScrollViewer.CanContentScroll="False" 
            ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
            ScrollViewer.VerticalScrollBarVisibility="Disabled">
@@ -36,10 +53,18 @@
         <Setter Property="Grid.ColumnSpan" Value="{Binding ColumnSpan}" />
         <Setter Property="Grid.RowSpan" Value="{Binding RowSpan}" />
         <Setter Property="ListBoxItem.Padding" Value="0"/>
+        <Setter Property="ListBoxItem.Background" Value="Transparent"/>
         <Setter Property="FrameworkElement.HorizontalAlignment"  Value="Stretch"/>
         <Setter Property="FrameworkElement.VerticalAlignment"  Value="Stretch"/>
+        <Style.Triggers>
+          <Trigger Property="ListBoxItem.IsSelected" Value="true">
+            <Setter Property="ListBoxItem.Background" Value="Yellow"/>
+          </Trigger>
+          <Trigger Property="ListBoxItem.IsSelected" Value="False">
+            <Setter Property="ListBoxItem.Background" Value="Transparent"/>
+          </Trigger>
+        </Style.Triggers>
       </Style>
     </ItemsControl.ItemContainerStyle>
-
   </ListBox>
 </UserControl>

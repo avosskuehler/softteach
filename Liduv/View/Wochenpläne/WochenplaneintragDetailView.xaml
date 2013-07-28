@@ -14,78 +14,70 @@
       </Style.Triggers>
     </Style>
   </UserControl.Resources>
-  <Border x:Name="SurroundBorder" Background="Transparent"
-          MouseEnter="SurroundBorderMouseEnter" 
-          MouseLeave="SurroundBorderMouseLeave"
-          MouseLeftButtonDown="SurroundBorderMouseLeftButtonDown"
-          Padding="0"
-          HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch">
-      <Border Background="{Binding Path=WochenplaneintragBackground}" CornerRadius="3">
-        <Border.Triggers>
-          <EventTrigger RoutedEvent="UIElement.MouseEnter">
-            <BeginStoryboard>
-              <Storyboard>
-                <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" 
+  <Border Background="{Binding Path=WochenplaneintragBackground}" CornerRadius="3">
+    <Border.Triggers>
+      <EventTrigger RoutedEvent="UIElement.MouseEnter">
+        <BeginStoryboard>
+          <Storyboard>
+            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" 
                                              Storyboard.TargetName="EditButtons" Storyboard.TargetProperty="(UIElement.Visibility)">
-                  <DiscreteObjectKeyFrame KeyTime="00:00:00">
-                    <DiscreteObjectKeyFrame.Value>
-                      <Visibility>Visible</Visibility>
-                    </DiscreteObjectKeyFrame.Value>
-                  </DiscreteObjectKeyFrame>
-                </ObjectAnimationUsingKeyFrames>
-              </Storyboard>
-            </BeginStoryboard>
-          </EventTrigger>
-          <EventTrigger RoutedEvent="UIElement.MouseLeave">
-            <BeginStoryboard>
-              <Storyboard>
-                <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" 
+              <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                <DiscreteObjectKeyFrame.Value>
+                  <Visibility>Visible</Visibility>
+                </DiscreteObjectKeyFrame.Value>
+              </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+          </Storyboard>
+        </BeginStoryboard>
+      </EventTrigger>
+      <EventTrigger RoutedEvent="UIElement.MouseLeave">
+        <BeginStoryboard>
+          <Storyboard>
+            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" 
                                              Storyboard.TargetName="EditButtons" Storyboard.TargetProperty="(UIElement.Visibility)">
-                  <DiscreteObjectKeyFrame KeyTime="00:00:00">
-                    <DiscreteObjectKeyFrame.Value>
-                      <Visibility>Hidden</Visibility>
-                    </DiscreteObjectKeyFrame.Value>
-                  </DiscreteObjectKeyFrame>
-                </ObjectAnimationUsingKeyFrames>
-              </Storyboard>
-            </BeginStoryboard>
-          </EventTrigger>
-        </Border.Triggers>
-        <Grid>
-          <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" MinHeight="20"/>
-            <RowDefinition Height="*" MinHeight="20"/>
-          </Grid.RowDefinitions>
-          <Label Grid.Row="0" Grid.Column="0" Padding="5,0,5,0" VerticalAlignment="Center" 
+              <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                <DiscreteObjectKeyFrame.Value>
+                  <Visibility>Hidden</Visibility>
+                </DiscreteObjectKeyFrame.Value>
+              </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+          </Storyboard>
+        </BeginStoryboard>
+      </EventTrigger>
+    </Border.Triggers>
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" MinHeight="20"/>
+        <RowDefinition Height="*" MinHeight="20"/>
+      </Grid.RowDefinitions>
+      <Label Grid.Row="0" Grid.Column="0" Padding="5,0,5,0" VerticalAlignment="Center" 
                Content="{Binding Path=WochenplaneintragKlasse}"/>
-          <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource DisplayStyle}" HorizontalAlignment="Right">
-            <StackPanel Orientation="Horizontal">
-              <StackPanel Orientation="Horizontal" Visibility="Hidden" HorizontalAlignment="Right" 
+      <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource DisplayStyle}" HorizontalAlignment="Right">
+        <StackPanel Orientation="Horizontal">
+          <StackPanel Orientation="Horizontal" Visibility="Hidden" HorizontalAlignment="Right" 
                       x:Name="EditButtons">
-                <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=EditWochenplaneintragCommand}">
-                  <Image Source="/Liduv;component/Images/Edit16.png"/>
-                </Button>
-                <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=RemoveWochenplaneintragCommand}">
-                  <Image Source="/Liduv;component/Images/Remove16.png"/>
-                </Button>
-                <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddNotenCommand}">
-                  <Image Source="/Liduv;component/Images/Note16.png"/>
-                </Button>
-              </StackPanel>
-              <Button Command="{Binding Path=ProofWochenplaneintragCommand}" 
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=EditWochenplaneintragCommand}">
+              <Image Source="/Liduv;component/Images/Edit16.png"/>
+            </Button>
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=RemoveWochenplaneintragCommand}">
+              <Image Source="/Liduv;component/Images/Remove16.png"/>
+            </Button>
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddNotenCommand}">
+              <Image Source="/Liduv;component/Images/Note16.png"/>
+            </Button>
+          </StackPanel>
+          <Button Command="{Binding Path=ProofWochenplaneintragCommand}" 
                     Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-                <Image Source="{Binding Path=ProofImage}"/>
-              </Button>
-            </StackPanel>
-          </Border>
-          <Label Grid.Row="1" Padding="5,0,5,5" 
+            <Image Source="{Binding Path=ProofImage}"/>
+          </Button>
+        </StackPanel>
+      </Border>
+      <Label Grid.Row="1" Padding="5,0,5,5" 
                VerticalAlignment="Bottom"  
                HorizontalAlignment="Right"
                Content="{Binding Path=WochenplaneintragOrt}"/>
-          <TextBlock Grid.Row="1" Padding="5,0,5,0" VerticalAlignment="Top"  
+      <TextBlock Grid.Row="1" Padding="5,0,5,0" VerticalAlignment="Top"  
                Text="{Binding Path=WochenplaneintragThema}" TextWrapping="Wrap"/>
-        </Grid>
-      </Border>
-    </Border>
+    </Grid>
+  </Border>
 </UserControl>

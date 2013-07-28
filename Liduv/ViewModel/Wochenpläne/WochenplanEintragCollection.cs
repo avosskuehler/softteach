@@ -12,16 +12,6 @@
   public class WochenplanEintragCollection : ViewModelBase
   {
     /// <summary>
-    /// Die erste Stunde dieses Termins.
-    /// </summary>
-    private int ersteUnterrichtsstundeIndex;
-
-    /// <summary>
-    /// Die letzte Stunde dieses Termins.
-    /// </summary>
-    private int letzteUnterrichtsstundeIndex;
-
-    /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="WochenplanEintragCollection"/> Klasse. 
     /// </summary>
     /// <param name="wochentagIndex"> The wochentag Index. </param>
@@ -30,6 +20,8 @@
     {
       this.WochentagIndex = wochentagIndex;
       this.WochenplanEinträge = einträge;
+      this.ErsteUnterrichtsstundeIndex = einträge.Min(o => o.ErsteUnterrichtsstundeIndex);
+      this.LetzteUnterrichtsstundeIndex = einträge.Max(o => o.LetzteUnterrichtsstundeIndex);
     }
 
     /// <summary>
@@ -39,12 +31,22 @@
     public List<WochenplanEintrag> WochenplanEinträge { get; private set; }
 
     /// <summary>
-    /// Der 0-basierte Index des Wochentags für diesen Wochenplaneintrag
+    /// Holt den 0-basierte Index des Wochentags für diesen Wochenplaneintrag
     /// </summary>
-    public int WochentagIndex { get; set; }
+    public int WochentagIndex { get; private set; }
 
     /// <summary>
-    /// Holt einen Wert, der angibt, ob dieser Wochenplaneintrag leer ist (ohne Termine).
+    /// Holt die erste Stunde dieser Terminserie.
+    /// </summary>
+    public int ErsteUnterrichtsstundeIndex { get; private set; }
+
+    /// <summary>
+    /// Holt die letzte Stunde dieser Terminserie
+    /// </summary>
+    public int LetzteUnterrichtsstundeIndex { get; private set; }
+
+    /// <summary>
+    /// Holt die Anzahl der Termine zur gleichen Zeit.
     /// </summary>
     public int AnzahlEinträge
     {
@@ -67,68 +69,15 @@
     }
 
     /// <summary>
-    /// Holt einen Wert, der angibt, ob dieser Wochenplaneintrag leer ist (ohne Termine).
+    /// Holt einen Wert, der angibt, ob diese Collection einen Dummy enthält.
     /// </summary>
     public bool IsDummy
     {
       get
       {
-        return this.WochenplanEinträge.Count == 0;
+        return this.WochenplanEinträge.Any(o => o.IsDummy);
       }
     }
-    ///// <summary>
-    ///// Holt oder setzt den Index für die erste Stunde dieses Termins.
-    ///// </summary>
-    //public int ErsteUnterrichtsstundeIndex
-    //{
-    //  get
-    //  {
-    //    if (this.TerminViewModel != null)
-    //    {
-    //      this.ersteUnterrichtsstundeIndex = this.TerminViewModel.TerminErsteUnterrichtsstunde.UnterrichtsstundeIndex;
-    //    }
-
-    //    return this.ersteUnterrichtsstundeIndex;
-    //  }
-
-    //  set
-    //  {
-    //    if (!this.IsDummy)
-    //    {
-    //      throw new ArgumentOutOfRangeException("value", "Der StundenplaneintragErsteUnterrichtsstundeIndex kann nicht zugewiesen werden.");
-    //    }
-
-    //    this.ersteUnterrichtsstundeIndex = value;
-    //    this.RaisePropertyChanged("ErsteUnterrichtsstundeIndex");
-    //  }
-    //}
-
-    ///// <summary>
-    ///// Holt oder setzt den index der letzten Unterrichtstunde des Wochenplaneintrags
-    ///// </summary>
-    //public int LetzteUnterrichtsstundeIndex
-    //{
-    //  get
-    //  {
-    //    if (this.TerminViewModel != null)
-    //    {
-    //      this.letzteUnterrichtsstundeIndex = this.TerminViewModel.TerminLetzteUnterrichtsstunde.UnterrichtsstundeIndex;
-    //    }
-
-    //    return this.letzteUnterrichtsstundeIndex;
-    //  }
-
-    //  set
-    //  {
-    //    if (!this.IsDummy)
-    //    {
-    //      throw new ArgumentOutOfRangeException("value", "Der StundenplaneintragLetzteUnterrichtsstundeIndex kann nicht zugewiesen werden.");
-    //    }
-
-    //    this.letzteUnterrichtsstundeIndex = value;
-    //    this.RaisePropertyChanged("ErsteUnterrichtsstundeIndex");
-    //  }
-    //}
 
     /// <summary>
     /// Gibt eine lesbare Repräsentation des ViewModels
@@ -136,7 +85,11 @@
     /// <returns>Ein <see cref="string"/> mit einer Kurzform des ViewModels.</returns>
     public override string ToString()
     {
-      return string.Format("WochenplanEintragCollection am Tag {0}", this.WochentagIndex);
+      return string.Format(
+        "WochenplanEintragCollection am Tag {0} von Stunde {1} bis {2}",
+        this.WochentagIndex,
+        this.ErsteUnterrichtsstundeIndex,
+        this.LetzteUnterrichtsstundeIndex);
     }
   }
 }
