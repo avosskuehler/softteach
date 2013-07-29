@@ -182,12 +182,12 @@
       if (this._IsInBatchCounter < 0)
         this._IsInBatchCounter = 0;
 
-      // Remove empty changesets from the stack.
-      if (this._CurrentBatchChangeSet.Changes.Count == 0)
-      {
-        this._UndoStack.Pop();
-        this.OnUndoStackChanged();
-      }
+      //// Remove empty changesets from the stack.
+      //if (this._CurrentBatchChangeSet.Changes.Count == 0)
+      //{
+      //  this._UndoStack.Pop();
+      //  this.OnUndoStackChanged();
+      //}
 
       if (this._IsInBatchCounter == 0)
       {

@@ -689,8 +689,6 @@
         return;
       }
 
-      // Editing stoppen, da sonst kein Refresh funktioniert
-      targetGrid.CancelEdit();
 
       if (dropInfo.Data is PhaseViewModel)
       {
@@ -702,6 +700,11 @@
       }
 
       SequencingService.SetCollectionSequence(this.Phasen);
+
+      // Editing stoppen, da sonst kein Refresh funktioniert
+      targetGrid.CommitEdit(DataGridEditingUnit.Cell, true);
+      targetGrid.CommitEdit(DataGridEditingUnit.Row, true);
+
       try
       {
         this.PhasenView.Refresh();
@@ -966,6 +969,7 @@
       var filename = this.CopyFileToBaseDirectory(dlg.DateinameMitPfad);
       dateiverweis.Dateiname = filename;
       dateiverweis.Dateityp = dlg.Dateityp.Model;
+      dateiverweis.Stundenentwurf = this.Model;
 
       // App.UnitOfWork.GetRepository<Dateiverweis>().Add(dateiverweis);
       var vm = new DateiverweisViewModel(dateiverweis);

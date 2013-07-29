@@ -41,7 +41,8 @@
       this.ResetJahrtypFilterCommand = new DelegateCommand(() => this.JahrtypFilter = null, () => this.JahrtypFilter != null);
       this.ResetFachFilterCommand = new DelegateCommand(() => this.FachFilter = null, () => this.FachFilter != null);
 
-      this.CurrentJahresplan = App.MainViewModel.Jahrespläne.Count > 0 ? App.MainViewModel.Jahrespläne[0] : null;
+      var numberOfJahrespläne = App.MainViewModel.Jahrespläne.Count;
+      this.CurrentJahresplan = numberOfJahrespläne > 0 ? App.MainViewModel.Jahrespläne[numberOfJahrespläne - 1] : null;
       this.JahrespläneView = CollectionViewSource.GetDefaultView(App.MainViewModel.Jahrespläne);
       this.JahrespläneView.Filter = this.CustomFilter;
       this.JahrespläneView.SortDescriptions.Add(new SortDescription("JahresplanJahrtyp", ListSortDirection.Ascending));

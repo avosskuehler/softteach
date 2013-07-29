@@ -393,11 +393,13 @@ namespace Liduv.ViewModel.Termine
     /// </summary>
     private void SearchStundenentwurf()
     {
-      if (this.StundeStundenentwurf != null) App.MainViewModel.StundenentwurfWorkspace.CurrentStundenentwurf = this.StundeStundenentwurf;
+      App.MainViewModel.StundenentwurfWorkspace.CurrentStundenentwurf = this.StundeStundenentwurf;
+
       var dlg = new SearchStundenentwurfDialog(App.MainViewModel.StundenentwurfWorkspace);
       if (dlg.ShowDialog().GetValueOrDefault(false))
       {
-        if (this.StundeStundenentwurf.StundenentwurfPhasenKurzform == string.Empty) App.MainViewModel.Stundenentwürfe.RemoveTest(this.StundeStundenentwurf);
+        if (this.StundeStundenentwurf != null &&
+          this.StundeStundenentwurf.StundenentwurfPhasenKurzform == string.Empty) App.MainViewModel.Stundenentwürfe.RemoveTest(this.StundeStundenentwurf);
         this.StundeStundenentwurf = dlg.SelectedStundenentwurfViewModel;
         this.UpdateStundenentwurfStundenzahl();
       }
