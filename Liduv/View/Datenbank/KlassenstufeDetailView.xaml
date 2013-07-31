@@ -18,41 +18,35 @@
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
-    <GroupBox Grid.Row="1" Header="Lerngruppen der Klassenstufe">
-      <Grid>
-        <Grid.RowDefinitions>
-          <RowDefinition Height="Auto"/>
-          <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="left" Margin="3">
-          <Button Name="AddButton" 
-                            Command="{Binding Path=AddKlasseCommand}">
-            <StackPanel Orientation="Horizontal">
-              <Grid>
-                <Image Source="/Liduv;component/Images/Klasse32.png"/>
-                <Image Source="/Liduv;component/Images/AddOverlay32.png"/>
-              </Grid>
-              <Label Content="hinzufügen" VerticalContentAlignment="Center"/>
-            </StackPanel>
-          </Button>
-          <Label></Label>
-          <Button Name="RemoveButton" 
-                            Command="{Binding Path=DeleteKlasseCommand}">
-            <StackPanel Orientation="Horizontal">
-              <Grid>
-                <Image Source="/Liduv;component/Images/Klasse32.png"/>
-                <Image Source="/Liduv;component/Images/RemoveOverlay32.png"/>
-              </Grid>
-              <Label Content="entfernen" VerticalContentAlignment="Center"/>
-            </StackPanel>
-          </Button>
-        </StackPanel>
-        <DataGrid Grid.Row="1" Margin="3" SelectedItem="{Binding Path=CurrentKlasse, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource KlassenSorted}}" AutoGenerateColumns="False">
-          <DataGrid.Columns>
-            <DataGridTextColumn Header="Lerngruppen" Binding="{Binding Path=KlasseBezeichnung}" Width="*"/>
-          </DataGrid.Columns>
-        </DataGrid>
-      </Grid>
-    </GroupBox>
+    <StackPanel Grid.Row="0" Orientation="Vertical">
+      <Label Content="Lerngruppen der Klassenstufe"/>
+      <StackPanel Orientation="Horizontal">
+        <Button Name="AddButton" Command="{Binding Path=AddKlasseCommand}"
+                                   Style="{Binding Source={StaticResource {x:Static ToolBar.ButtonStyleKey}}}">
+          <StackPanel Orientation="Horizontal">
+            <Grid>
+              <Image Source="/Liduv;component/Images/Klasse32.png"/>
+              <Image Source="/Liduv;component/Images/AddOverlay32.png"/>
+            </Grid>
+          </StackPanel>
+        </Button>
+        <Label></Label>
+        <Button Name="RemoveButton" 
+                            Command="{Binding Path=DeleteKlasseCommand}"
+                                   Style="{Binding Source={StaticResource {x:Static ToolBar.ButtonStyleKey}}}">
+          <StackPanel Orientation="Horizontal">
+            <Grid>
+              <Image Source="/Liduv;component/Images/Klasse32.png"/>
+              <Image Source="/Liduv;component/Images/RemoveOverlay32.png"/>
+            </Grid>
+          </StackPanel>
+        </Button>
+      </StackPanel>
+    </StackPanel>
+    <DataGrid Grid.Row="1" Margin="3" SelectedItem="{Binding Path=CurrentKlasse, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource KlassenSorted}}" AutoGenerateColumns="False">
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="Lerngruppen" Binding="{Binding Path=KlasseBezeichnung}" Width="*"/>
+      </DataGrid.Columns>
+    </DataGrid>
   </Grid>
 </UserControl>
