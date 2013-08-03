@@ -365,7 +365,15 @@ namespace Liduv.ViewModel.Jahrespläne
     {
       using (new UndoBatch(App.MainViewModel, string.Format("Lerngruppentermin {0} löschen", lerngruppenterminViewModel.TerminBeschreibung), false))
       {
-        var success = App.MainViewModel.Lerngruppentermine.RemoveTest(lerngruppenterminViewModel);
+        if (lerngruppenterminViewModel is StundeViewModel)
+        {
+          var success = App.MainViewModel.Stunden.RemoveTest(lerngruppenterminViewModel as StundeViewModel);
+        }
+        else
+        {
+          var success = App.MainViewModel.Lerngruppentermine.RemoveTest(lerngruppenterminViewModel);
+        }
+
         var result = this.Lerngruppentermine.RemoveTest(lerngruppenterminViewModel);
         this.CurrentLerngruppentermin = null;
         this.UpdateBeschreibung();

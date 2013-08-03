@@ -69,7 +69,7 @@
 
       // Build data structures for schülerlisten
       this.Schülereinträge = new ObservableCollection<SchülereintragViewModel>();
-      foreach (var schülereintrag in schülerliste.Schülereinträge)//.OrderBy(o => o.Person.Nachname))
+      foreach (var schülereintrag in schülerliste.Schülereinträge)
       {
         var vm = new SchülereintragViewModel(schülereintrag);
         App.MainViewModel.Schülereinträge.Add(vm);

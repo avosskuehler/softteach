@@ -105,8 +105,8 @@
         App.MainViewModel.Dateiverweise.Add(vm);
         this.Dateiverweise.Add(vm);
       }
-
-      this.ModulView = CollectionViewSource.GetDefaultView(App.MainViewModel.Module);
+       
+      this.ModulView = new ListCollectionView(App.MainViewModel.Module);
       this.ModulView.Filter = this.ModulFilter;
       this.ModulView.SortDescriptions.Add(new SortDescription("ModulBezeichnung", ListSortDirection.Ascending));
       this.ModulView.Refresh();
