@@ -494,7 +494,7 @@
       Selection.Instance.Stundenentwurf = stunde.StundeStundenentwurf;
 
       bool undo;
-      using (new UndoBatch(App.MainViewModel, string.Format("Wochenplaneintrag {0} gelöscht.", this), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("Noten hinzugefügt"), false))
       {
         var dlg = new StundennotenDialog();
         var schülerliste =
@@ -506,7 +506,7 @@
             && o.SchülerlisteKlasse.KlasseBezeichnung == stunde.LerngruppenterminKlasse);
         var viewModel = new StundennotenWorkspaceViewModel(schülerliste, stunde);
         dlg.DataContext = viewModel;
-        undo = dlg.ShowDialog().GetValueOrDefault(false);
+        undo = !dlg.ShowDialog().GetValueOrDefault(false);
       }
 
       if (undo)

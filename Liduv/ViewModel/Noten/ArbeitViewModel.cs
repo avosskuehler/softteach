@@ -655,13 +655,14 @@
         {
           var klassenarbeitNoten = schülereintragViewModel.Noten.Where(
             o => o.NoteIstSchriftlich
-              && o.NoteNotentyp == Notentyp.SchriftlichKlassenarbeit
+              && (o.NoteNotentyp == Notentyp.SchriftlichKlassenarbeit
+              || o.NoteNotentyp == Notentyp.SchriftlichSonstige)
               && o.NoteArbeit.ArbeitDatum == this.ArbeitDatum
               && o.NoteArbeit.ArbeitLfdNr == this.ArbeitLfdNr);
           var noteViewModels = klassenarbeitNoten as IList<NoteViewModel> ?? klassenarbeitNoten.ToList();
           if (noteViewModels.Count() > 1)
           {
-            throw new ArgumentOutOfRangeException("Nur eine Note pro Klassenarbeit zugelassen");
+            throw new ArgumentOutOfRangeException("Nur eine Note pro Arbeit zugelassen");
           }
 
           if (noteViewModels.Count == 0)

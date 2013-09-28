@@ -66,6 +66,7 @@
 
       this.AddSchülereintragCommand = new DelegateCommand(this.AddSchülereintrag);
       this.DeleteSchülereintragCommand = new DelegateCommand(this.DeleteCurrentSchülereintrag, () => this.CurrentSchülereintrag != null);
+      this.ExportSchülerlisteCommand = new DelegateCommand(this.ExportSchülerliste);
 
       // Build data structures for schülerlisten
       this.Schülereinträge = new ObservableCollection<SchülereintragViewModel>();
@@ -101,6 +102,11 @@
     /// </summary>
     public DelegateCommand DeleteSchülereintragCommand { get; private set; }
 
+    /// <summary>
+    /// Holt den Befehl die Schülerliste nach Excel zu exportieren
+    /// </summary>
+    public DelegateCommand ExportSchülerlisteCommand { get; private set; }
+    
     /// <summary>
     /// Holt den underlying Schülerliste this ViewModel is based on
     /// </summary>
@@ -472,6 +478,14 @@
       }
     }
 
+     /// <summary>
+    /// Exportiert die momentane Schülerliste nach Excel
+    /// </summary>
+    private void ExportSchülerliste()
+    {
+      ExportData.ToXls(this);
+    }
+   
     /// <summary>
     /// Tritt auf, wenn die SchülereinträgeCollection verändert wurde.
     /// Gibt die Änderungen an den Undostack weiter.

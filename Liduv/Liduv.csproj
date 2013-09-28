@@ -93,6 +93,9 @@
       <HintPath>..\packages\gong-wpf-dragdrop.0.1.3.8\lib\net40\GongSolutions.Wpf.DragDrop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\Windows\Microsoft.NET\Framework\v4.0.30319\WPF\PresentationUI.dll</HintPath>
@@ -371,6 +374,7 @@
     <Compile Include="ViewModel\Curricula\ReiheViewModel.cs" />
     <Compile Include="ViewModel\Datenbank\DateitypWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Datenbank\DateitypViewModel.cs" />
+    <Compile Include="ViewModel\Helper\ExportData.cs" />
     <Compile Include="ViewModel\Helper\ISequencedObject.cs" />
     <Compile Include="ViewModel\Helper\Extensions.cs" />
     <Compile Include="ViewModel\Helper\PushBinding\FreezableBinding.cs" />
@@ -577,6 +581,9 @@
     <Compile Include="View\Datenbank\JahrgangsstufeDetailView.xaml.cs">
       <DependentUpon>JahrgangsstufeDetailView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Noten\NotenlistePrintView.xaml.cs">
+      <DependentUpon>NotenlistePrintView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Termine\AddLerngruppenterminDialog.xaml.cs">
       <DependentUpon>AddLerngruppenterminDialog.xaml</DependentUpon>
     </Compile>
@@ -656,8 +663,8 @@
     <Compile Include="View\Stundenentwürfe\SearchStundenentwurfDialog.xaml.cs">
       <DependentUpon>SearchStundenentwurfDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Noten\NotenlistePrintView.xaml.cs">
-      <DependentUpon>NotenlistePrintView.xaml</DependentUpon>
+    <Compile Include="View\Noten\NotenlisteDetailPrintView.xaml.cs">
+      <DependentUpon>NotenlisteDetailPrintView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Stundenentwürfe\StundenentwurfFixedDocument.xaml.cs">
       <DependentUpon>StundenentwurfFixedDocument.xaml</DependentUpon>
@@ -1265,6 +1272,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\Noten\NotenlistePrintView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Termine\AddLerngruppenterminDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1369,7 +1380,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Noten\NotenlistePrintView.xaml">
+    <Page Include="View\Noten\NotenlisteDetailPrintView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

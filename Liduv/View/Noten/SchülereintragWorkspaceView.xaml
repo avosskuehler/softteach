@@ -68,6 +68,15 @@
               <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Notenliste drucken.</Label>
             </StackPanel>
           </Button>
+          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=PrintNotenlisteDetailCommand}" ToolTip="Notenliste mit Details drucken.">
+            <StackPanel Orientation="Horizontal">
+              <Grid>
+                <Image Source="/Liduv;component/Images/Note32.png"/>
+                <Image Source="/Liduv;component/Images/PrintOverlay32.png"/>
+              </Grid>
+              <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Notenliste + Details drucken.</Label>
+            </StackPanel>
+          </Button>
         </StackPanel>
         <ContentControl Grid.Row="1" Content="{Binding Path=CurrentSchülereintrag}">
           <ContentControl.Resources>

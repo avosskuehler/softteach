@@ -9,15 +9,17 @@
 
 namespace Liduv.View.Noten
 {
+  using System.Windows.Controls;
+
   /// <summary>
-  /// Interaction logic for NotenlistePrintView.xaml
+  /// Interaction logic for NotenlisteDetailPrintView.xaml
   /// </summary>
-  public partial class NotenlistePrintView
+  public partial class NotenlisteDetailPrintView
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="NotenlistePrintView"/> Klasse.
+    /// Initialisiert eine neue Instanz der <see cref="NotenlisteDetailPrintView"/> Klasse.
     /// </summary>
-    public NotenlistePrintView()
+    public NotenlisteDetailPrintView()
     {
       this.InitializeComponent();
     }

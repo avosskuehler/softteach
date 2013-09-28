@@ -384,7 +384,8 @@ namespace Liduv.ViewModel.Termine
     /// </summary>
     private void RemoveStundenentwurf()
     {
-      App.MainViewModel.Stundenentwürfe.RemoveTest(this.StundeStundenentwurf);
+      if (this.StundeStundenentwurf != null &&
+        this.StundeStundenentwurf.StundenentwurfPhasenKurzform == string.Empty) App.MainViewModel.Stundenentwürfe.RemoveTest(this.StundeStundenentwurf);
       this.StundeStundenentwurf = null;
     }
 

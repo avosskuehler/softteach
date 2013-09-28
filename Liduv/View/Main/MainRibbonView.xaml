@@ -65,15 +65,15 @@
                         Command="{Binding Path=UndoCommand}"
                         SmallImageSource="/Liduv;component/Images/Undo16.png" 
                         ToolTip="Undo">
-            <TreeView x:Name="UndoStackListBoxQAT"
-            ItemsSource="{Binding Source={x:Static liduv:App.MainViewModel}, Path=UndoStack, Mode=OneWay}"/>
+            <!--<TreeView x:Name="UndoStackListBoxQAT"
+            ItemsSource="{Binding Source={x:Static liduv:App.MainViewModel}, Path=UndoStack, Mode=OneWay}"/>-->
 
-            <!--<RibbonSplitButton.ItemContainerStyle></RibbonSplitButton.ItemContainerStyle>
+            <!--<RibbonSplitButton.ItemContainerStyle></RibbonSplitButton.ItemContainerStyle>-->
             <RibbonGallery SelectedValue="Green"
                           SelectedValuePath="Content"
                           MaxColumnCount="1">
               <RibbonGalleryCategory ItemsSource="{Binding Source={x:Static liduv:App.MainViewModel}, Path=UndoStack, Mode=OneWay}" DisplayMemberPath="Description"/>
-            </RibbonGallery>-->
+            </RibbonGallery>
 
           </RibbonSplitButton>
           <RibbonSplitButton x:Name="QatButtonRedo" 

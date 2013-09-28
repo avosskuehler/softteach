@@ -50,6 +50,7 @@
 
       this.AddHausaufgabenCommand = new DelegateCommand(this.AddHausaufgaben);
       this.PrintNotenlisteCommand = new DelegateCommand(this.PrintNotenliste);
+      this.PrintNotenlisteDetailCommand = new DelegateCommand(this.PrintNotenlisteDetail);
     }
 
     /// <summary>
@@ -61,6 +62,11 @@
     /// Holt den Befehl, um die Notenliste der aktuellen Schülerliste auszudrucken
     /// </summary>
     public DelegateCommand PrintNotenlisteCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl, um die Notenliste der aktuellen Schülerliste auszudrucken
+    /// </summary>
+    public DelegateCommand PrintNotenlisteDetailCommand { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Schülereintrag currently selected in this workspace
@@ -154,6 +160,50 @@
 
       // create the print output usercontrol
       var content = new NotenlistePrintView
+      {
+        DataContext = this.CurrentSchülerliste,
+        Width = fixedPage.Width,
+        Height = fixedPage.Height
+      };
+
+      fixedPage.Children.Add(content);
+
+      // Update the layout of our FixedPage
+      var size = document.DocumentPaginator.PageSize;
+      fixedPage.Measure(size);
+      fixedPage.Arrange(new Rect(new Point(), size));
+      fixedPage.UpdateLayout();
+
+      // print it out
+      var title = "Noten" + this.CurrentSchülerliste.SchülerlisteKlasse.KlasseBezeichnung;
+      pd.PrintVisual(fixedPage, title);
+    }
+
+    /// <summary>
+    /// Druckt die aktuelle Notenliste der Klasse aus
+    /// </summary>
+    private void PrintNotenlisteDetail()
+    {
+      // select printer and get printer settings
+      var pd = new PrintDialog();
+      if (pd.ShowDialog() != true)
+      {
+        return;
+      }
+
+      // create a document
+      var document = new FixedDocument { Name = "NotenlisteAusdruck" };
+      document.DocumentPaginator.PageSize = new Size(pd.PrintableAreaWidth, pd.PrintableAreaHeight);
+
+      // create a page
+      var fixedPage = new FixedPage
+      {
+        Width = document.DocumentPaginator.PageSize.Width,
+        Height = document.DocumentPaginator.PageSize.Height
+      };
+
+      // create the print output usercontrol
+      var content = new NotenlisteDetailPrintView
       {
         DataContext = this.CurrentSchülerliste,
         Width = fixedPage.Width,

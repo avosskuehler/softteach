@@ -105,7 +105,7 @@
         App.MainViewModel.Dateiverweise.Add(vm);
         this.Dateiverweise.Add(vm);
       }
-       
+
       this.ModulView = new ListCollectionView(App.MainViewModel.Module);
       this.ModulView.Filter = this.ModulFilter;
       this.ModulView.SortDescriptions.Add(new SortDescription("ModulBezeichnung", ListSortDirection.Ascending));
@@ -899,16 +899,12 @@
         }
 
         var entwurfViewModel = nächsteStunde.StundeStundenentwurf;
-        var moveItems = this.SelectedPhasen;
-        foreach (var item in moveItems)
+        var moveItems = new List<PhaseViewModel>(this.SelectedPhasen.Cast<PhaseViewModel>());
+        foreach (var phaseViewModel in moveItems)
         {
-          if (item is PhaseViewModel)
-          {
-            var phaseViewModel = item as PhaseViewModel;
             var phaseClone = (PhaseViewModel)phaseViewModel.Clone();
             entwurfViewModel.AddPhase(phaseClone, 0);
             this.DeletePhase(phaseViewModel);
-          }
         }
       }
     }
@@ -1030,6 +1026,11 @@
     {
       Clipboard.Clear();
       this.copyToClipboardList.Clear();
+
+      if (this.SelectedPhasen == null)
+      {
+        throw new ArgumentNullException("SelectedPhasen sind null!");
+      }
 
       foreach (var row in this.SelectedPhasen)
       {
