@@ -55,6 +55,17 @@
             <!--<Label Padding="5,0,0,0" VerticalContentAlignment="Center">Stundenplanänderung eingeben</Label>-->
           </StackPanel>
         </Button>
+        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                    Command="{Binding Path=GruppenEinteilenCommand}" 
+                    ToolTip="Schülerliste in Excel öffnen.">
+          <StackPanel Orientation="Horizontal">
+            <Grid>
+              <Image Source="/Liduv;component/Images/Person32.png"/>
+              <Image Source="/Liduv;component/Images/WuerfelOverlay32.png"/>
+            </Grid>
+            <!--<Label Padding="5,0,0,0" VerticalContentAlignment="Center">Stundenplanänderung eingeben</Label>-->
+          </StackPanel>
+        </Button>
         <Label VerticalAlignment="Center">Anzahl:</Label>
         <Label VerticalAlignment="Center" Content="{Binding Path=Schülerzahl}"/>
         <Label VerticalAlignment="Center">Notengewichtung:</Label>

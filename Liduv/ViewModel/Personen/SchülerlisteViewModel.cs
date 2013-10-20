@@ -1,13 +1,18 @@
 ﻿namespace Liduv.ViewModel.Personen
 {
   using System;
+  using System.Collections.Generic;
   using System.Collections.ObjectModel;
   using System.Collections.Specialized;
   using System.ComponentModel;
   using System.Linq;
+  using System.Windows;
+  using System.Windows.Controls;
   using System.Windows.Data;
+  using System.Windows.Documents;
 
   using Liduv.Model.EntityFramework;
+  using Liduv.Setting;
   using Liduv.UndoRedo;
   using Liduv.View.Personen;
   using Liduv.ViewModel.Datenbank;
@@ -67,6 +72,9 @@
       this.AddSchülereintragCommand = new DelegateCommand(this.AddSchülereintrag);
       this.DeleteSchülereintragCommand = new DelegateCommand(this.DeleteCurrentSchülereintrag, () => this.CurrentSchülereintrag != null);
       this.ExportSchülerlisteCommand = new DelegateCommand(this.ExportSchülerliste);
+      this.GruppenEinteilenCommand = new DelegateCommand(this.GruppenEinteilen);
+      this.GruppenNeuEinteilenCommand = new DelegateCommand(this.GruppenNeuEinteilen);
+      this.GruppenAusdruckenCommand = new DelegateCommand(this.GruppenAusdrucken);
 
       // Build data structures for schülerlisten
       this.Schülereinträge = new ObservableCollection<SchülereintragViewModel>();
@@ -82,6 +90,8 @@
       this.SchülereinträgeView = CollectionViewSource.GetDefaultView(this.Schülereinträge);
       this.SchülereinträgeView.SortDescriptions.Add(new SortDescription("SchülereintragSortByNachnameProperty", ListSortDirection.Ascending));
       this.SchülereinträgeView.Refresh();
+
+      this.Gruppenmitgliederanzahl = 4;
 
       App.MainViewModel.NotenWichtungen.CollectionChanged += (sender, e) =>
       {
@@ -106,7 +116,23 @@
     /// Holt den Befehl die Schülerliste nach Excel zu exportieren
     /// </summary>
     public DelegateCommand ExportSchülerlisteCommand { get; private set; }
-    
+
+    /// <summary>
+    /// Holt den Befehl einen Dialog aufzurufen, indem
+    /// die Schüler der Schülerliste in Gruppen eingeteilt werden.
+    /// </summary>
+    public DelegateCommand GruppenEinteilenCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl die Schüler der Schülerliste in Gruppen einzuteilen.
+    /// </summary>
+    public DelegateCommand GruppenNeuEinteilenCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl die eingeteilten Gruppen auszudrucken.
+    /// </summary>
+    public DelegateCommand GruppenAusdruckenCommand { get; private set; }
+
     /// <summary>
     /// Holt den underlying Schülerliste this ViewModel is based on
     /// </summary>
@@ -118,9 +144,24 @@
     public ObservableCollection<SchülereintragViewModel> Schülereinträge { get; private set; }
 
     /// <summary>
+    /// Holt den schülereinträge for this schülerliste
+    /// </summary>
+    public ObservableCollection<List<SchülereintragViewModel>> Gruppen { get; private set; }
+
+    /// <summary>
     /// Holt oder setzt die sortierten Phasen
     /// </summary>
     public ICollectionView SchülereinträgeView { get; set; }
+
+    /// <summary>
+    /// Holt oder setzt die sortierten Phasen
+    /// </summary>
+    public ICollectionView GruppenView { get; set; }
+
+    /// <summary>
+    /// Holt oder setzt die maximale Anzahl der Gruppenmitglieder
+    /// </summary>
+    public int Gruppenmitgliederanzahl { get; set; }
 
     /// <summary>
     /// Holt oder setzt die currently selected schülereintrag
@@ -478,14 +519,86 @@
       }
     }
 
-     /// <summary>
+    /// <summary>
     /// Exportiert die momentane Schülerliste nach Excel
     /// </summary>
     private void ExportSchülerliste()
     {
       ExportData.ToXls(this);
     }
-   
+
+    /// <summary>
+    /// Öffnet einen Dialog mit dem Gruppen eingeteilt werden können
+    /// </summary>
+    private void GruppenEinteilen()
+    {
+      var dlg = new GruppenErstellenDialog(this);
+      dlg.ShowDialog();
+    }
+
+    /// <summary>
+    /// Mischt die Gruppen nach den gegebenen Parametern neu
+    /// </summary>
+    private void GruppenNeuEinteilen()
+    {
+      // Mische die Schüler
+      var randomizedSchülereinträge = this.Schülereinträge.Shuffle();
+      var gruppenAnzahl = (int)Math.Round(this.Schülereinträge.Count / (float)this.Gruppenmitgliederanzahl, 0);
+      var gruppen = randomizedSchülereinträge.Split(gruppenAnzahl);
+      this.GruppenView = CollectionViewSource.GetDefaultView(gruppen);
+      if (this.GruppenView.SortDescriptions.Count == 0)
+      {
+        this.GruppenView.SortDescriptions.Add(new SortDescription("Key", ListSortDirection.Ascending));
+      }
+
+      this.GruppenView.Refresh();
+      this.RaisePropertyChanged("GruppenView");
+    }
+
+    /// <summary>
+    /// Druckt die aktuelle Gruppenzusammenstellung aus.
+    /// </summary>
+    private void GruppenAusdrucken()    
+    {
+      // select printer and get printer settings
+      var pd = new PrintDialog();
+      if (pd.ShowDialog() != true)
+      {
+        return;
+      }
+
+      // create a document
+      var document = new FixedDocument { Name = "GruppenAusdruck" };
+      document.DocumentPaginator.PageSize = new Size(pd.PrintableAreaWidth, pd.PrintableAreaHeight);
+
+      // create a page
+      var fixedPage = new FixedPage
+      {
+        Width = document.DocumentPaginator.PageSize.Width,
+        Height = document.DocumentPaginator.PageSize.Height
+      };
+
+      // create the print output usercontrol
+      var content = new GruppenPrintView
+      {
+        DataContext = this,
+        Width = fixedPage.Width,
+        Height = fixedPage.Height
+      };
+
+      fixedPage.Children.Add(content);
+
+      // Update the layout of our FixedPage
+      var size = document.DocumentPaginator.PageSize;
+      fixedPage.Measure(size);
+      fixedPage.Arrange(new Rect(new Point(), size));
+      fixedPage.UpdateLayout();
+
+      // print it out
+      var title = "Gruppeneinteilung für " + this.SchülerlisteKurzbezeichnung;
+      pd.PrintVisual(fixedPage, title);
+    }
+
     /// <summary>
     /// Tritt auf, wenn die SchülereinträgeCollection verändert wurde.
     /// Gibt die Änderungen an den Undostack weiter.

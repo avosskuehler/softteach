@@ -5,6 +5,7 @@
   using System.Collections.Generic;
   using System.ComponentModel;
   using System.Linq;
+  using System.Windows.Forms.VisualStyles;
 
   public static class Extensions
   {
@@ -25,6 +26,13 @@
       return ShuffleInternal(array, Math.Min(count, array.Length)).Take(count);
     }
 
+    public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
+    {
+      var array = source.ToArray();
+      var count = array.Length;
+      return ShuffleInternal(array, Math.Min(count, array.Length)).Take(count);
+    }
+
     private static IEnumerable<T> ShuffleInternal<T>(T[] array, int count)
     {
       var random = new Random();
@@ -37,6 +45,15 @@
       }
 
       return array;
+    }
+
+    public static IEnumerable<IEnumerable<T>> Split<T>(this IEnumerable<T> list, int parts)
+    {
+      var i = 0;
+      var splits = from item in list
+                   group item by i++ % parts into part
+                   select part.AsEnumerable();
+      return splits;
     }
 
     public static void Each<T>(this IEnumerable<T> items, Action<T> action)

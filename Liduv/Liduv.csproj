@@ -584,6 +584,12 @@
     <Compile Include="View\Noten\NotenlistePrintView.xaml.cs">
       <DependentUpon>NotenlistePrintView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Personen\GruppenErstellenDialog.xaml.cs">
+      <DependentUpon>GruppenErstellenDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Personen\GruppenPrintView.xaml.cs">
+      <DependentUpon>GruppenPrintView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Termine\AddLerngruppenterminDialog.xaml.cs">
       <DependentUpon>AddLerngruppenterminDialog.xaml</DependentUpon>
     </Compile>
@@ -1020,6 +1026,9 @@
     <Resource Include="Images\Undo16.png" />
     <Resource Include="Images\MoveOverlay16.png" />
     <Resource Include="Images\MoveOverlay32.png" />
+    <Resource Include="Images\WuerfelOverlay32.png" />
+    <Resource Include="Images\Wuerfel16.png" />
+    <Resource Include="Images\Print16.png" />
     <Content Include="Model\EntityFramework\PopulateLiduvModelWithDefaults.sql" />
     <None Include="Model\EntityFramework\LiduvModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -1273,6 +1282,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Noten\NotenlistePrintView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Personen\GruppenErstellenDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Personen\GruppenPrintView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

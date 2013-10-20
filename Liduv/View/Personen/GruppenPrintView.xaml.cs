@@ -7,17 +7,17 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Liduv.View.Noten
+namespace Liduv.View.Personen
 {
   /// <summary>
-  /// Interaction logic for NotenlistePrintView.xaml
-  /// </summary>NotenlistePrintView
-  public partial class NotenlistePrintView
+  /// Interaction logic for GruppenPrintView.xaml
+  /// </summary>
+  public partial class GruppenPrintView
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="NotenlistePrintView"/> Klasse.
+    /// Initialisiert eine neue Instanz der <see cref="GruppenPrintView"/> Klasse.
     /// </summary>
-    public NotenlistePrintView()
+    public GruppenPrintView()
     {
       this.InitializeComponent();
     }
