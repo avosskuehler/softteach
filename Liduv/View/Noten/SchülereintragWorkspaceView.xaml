@@ -30,10 +30,13 @@
                     HorizontalAlignment="Stretch"/>
           <DataGrid Grid.Row="2" SelectedItem="{Binding Path=CurrentSchülereintrag, Mode=TwoWay}" ItemsSource="{Binding Path=CurrentSchülerliste.Schülereinträge}" AutoGenerateColumns="False" >
             <DataGrid.Columns>
-              <DataGridTextColumn Header="Klasse" Binding="{Binding Path=Model.Schülerliste.Klasse.Bezeichnung}" SortMemberPath="Bezeichnung"/>
-              <DataGridTextColumn Header="Fach" Binding="{Binding Path=Model.Schülerliste.Fach.Bezeichnung}" SortMemberPath="Bezeichnung"/>
-              <DataGridTextColumn Header="Vorname" Binding="{Binding Path=SchülereintragPerson.PersonVorname}" SortMemberPath="PersonVorname"/>
-              <DataGridTextColumn Header="Nachname" Binding="{Binding Path=SchülereintragPerson.PersonNachname}" SortMemberPath="PersonNachname"  Width="*"/>
+              <DataGridTextColumn Header="Vorname" 
+                                  Binding="{Binding Path=SchülereintragPerson.PersonVorname}"
+                                  SortMemberPath="SchülereintragPerson.PersonVorname"/>
+              <DataGridTextColumn Header="Nachname" 
+                                  Binding="{Binding Path=SchülereintragPerson.PersonNachname}" 
+                                  SortMemberPath="SchülereintragPerson.PersonNachname" 
+                                  Width="*"/>
             </DataGrid.Columns>
           </DataGrid>
         </Grid>

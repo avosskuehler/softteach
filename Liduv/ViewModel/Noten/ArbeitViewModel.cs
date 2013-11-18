@@ -657,6 +657,7 @@
             o => o.NoteIstSchriftlich
               && (o.NoteNotentyp == Notentyp.SchriftlichKlassenarbeit
               || o.NoteNotentyp == Notentyp.SchriftlichSonstige)
+              && o.NoteArbeit != null
               && o.NoteArbeit.ArbeitDatum == this.ArbeitDatum
               && o.NoteArbeit.ArbeitLfdNr == this.ArbeitLfdNr);
           var noteViewModels = klassenarbeitNoten as IList<NoteViewModel> ?? klassenarbeitNoten.ToList();
