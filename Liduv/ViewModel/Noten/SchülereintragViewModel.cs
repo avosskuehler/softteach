@@ -572,23 +572,14 @@
     {
       get
       {
-        var nichtGemachteHausaufgaben = this.Hausaufgaben.Count();
-        var nachgereichteHausaufgaben = this.Hausaufgaben.Count(o => o.HausaufgabeIstNachgereicht);
-        var nichtGemachteNichtNachgereichteHausaufgaben = nichtGemachteHausaufgaben - nachgereichteHausaufgaben;
-
-        var bewertung = 0;
-        bewertung += nichtGemachteNichtNachgereichteHausaufgaben * 2;
-        bewertung += nachgereichteHausaufgaben;
-
-        switch (bewertung)
+        switch (this.BerechneHausaufgabenBepunktung())
         {
-          case 0:
-          case 1:
-            return App.GetImageSource("PfeilO32.png");
-          case 2:
-          case 3:
-            return App.GetImageSource("PfeilSO32.png");
           default:
+          case 0:
+            return App.GetImageSource("PfeilO32.png");
+          case -1:
+            return App.GetImageSource("PfeilSO32.png");
+          case -2:
             return App.GetImageSource("PfeilS32.png");
         }
       }
@@ -601,25 +592,19 @@
     {
       get
       {
-        var anzahlTendenzen = this.Notentendenzen.Count();
-        var tendenzSumme = this.Notentendenzen.Sum(o => o.NotentendenzTendenz.TendenzWichtung);
-        var schlüssel = (int)Math.Round(tendenzSumme / (float)anzahlTendenzen, 0);
-
-        switch (schlüssel)
+        switch (this.BerechneTendenzBepunktung())
         {
-          case 0:
-          case 1:
-            return App.GetImageSource("PfeilN32.png");
           case 2:
+            return App.GetImageSource("PfeilN32.png");
+          case 1:
             return App.GetImageSource("PfeilNO32.png");
-          case 3:
-            return App.GetImageSource("PfeilO32.png");
-          case 4:
-            return App.GetImageSource("PfeilSO32.png");
-          case 5:
-            return App.GetImageSource("PfeilS32.png");
           default:
+          case 0:
             return App.GetImageSource("PfeilO32.png");
+          case -1:
+            return App.GetImageSource("PfeilSO32.png");
+          case -2:
+            return App.GetImageSource("PfeilS32.png");
         }
       }
     }
@@ -884,15 +869,19 @@
     /// oder "?" wenn nicht genügend Noten vorhanden sind.</returns>
     private string BerechneGesamtnote()
     {
-      if (this.mündlicheGesamtnote == 0 || this.schriftlicheGesamtnote == 0)
-      {
-        return "?";
-      }
+      //if (this.mündlicheGesamtnote == 0 || this.schriftlicheGesamtnote == 0)
+      //{
+      //  return "?";
+      //}
 
       var mündlicheWichtung = this.Model.Schülerliste.NotenWichtung.MündlichGesamt;
       var schriftlichWichtung = this.Model.Schülerliste.NotenWichtung.SchriftlichGesamt;
       var gesamtNote = (this.mündlicheGesamtnote * mündlicheWichtung) + (this.schriftlicheGesamtnote * schriftlichWichtung);
       var gesamtNoteGerundet = (int)Math.Round(gesamtNote, 0);
+      gesamtNoteGerundet += this.BerechneHausaufgabenBepunktung();
+      gesamtNoteGerundet += this.BerechneTendenzBepunktung();
+      gesamtNoteGerundet = Math.Max(gesamtNoteGerundet, 0);
+      gesamtNoteGerundet = Math.Min(gesamtNoteGerundet, 15);
       var zensur = App.MainViewModel.Zensuren.First(o => o.ZensurNotenpunkte == gesamtNoteGerundet);
       return this.GetNotenString(zensur);
     }
@@ -933,7 +922,7 @@
       }
 
       // || sonstigeNotenDurchschnitt == 0)
-      if (qualitätsNotenDurchschnitt == 0 || quantitätsNotenDurchschnitt == 0)
+      if (!qualitätsNoten.Any() || !quantitätsNoten.Any())
       {
         return "?";
       }
@@ -974,7 +963,7 @@
          0);
       }
 
-      if (klausurNotenDurchschnitt == 0)
+      if (!klausurenNoten.Any())
       {
         return "?";
       }
@@ -1442,5 +1431,44 @@
         this.UpdateNoten();
       }
     }
+
+    /// <summary>
+    /// Berechnet aus den nicht gemachten und nachgereichten Hausaufgaben einen Punktabzug.
+    /// Nachgereichte zählen einen Punkt, nicht nachgereichte zwei Punkte.
+    /// 0/1 Punkt = kein Abzug
+    /// 2/3 Punkte = ein Notenpunkt Abzug
+    /// >3 Punkte = zwei Notenpunkte Abzug
+    /// </summary>
+    /// <returns>Ein Wert in Notenpunkten, der zur Gesamtnote hinzugerechnet werden muss (da negativ)</returns>
+    private int BerechneHausaufgabenBepunktung()
+    {
+      var nichtGemachteHausaufgaben = this.Hausaufgaben.Count();
+      var nachgereichteHausaufgaben = this.Hausaufgaben.Count(o => o.HausaufgabeIstNachgereicht);
+      var nichtGemachteNichtNachgereichteHausaufgaben = nichtGemachteHausaufgaben - nachgereichteHausaufgaben;
+
+      var bewertung = 0;
+      bewertung += nichtGemachteNichtNachgereichteHausaufgaben * 2;
+      bewertung += nachgereichteHausaufgaben;
+
+      return bewertung > 6 ? -2 : bewertung < 4 ? 0 : -1;
+    }
+
+    /// <summary>
+    /// Berechnete aus Tendenzen einen Punktgewinn oder -abzug.
+    /// </summary>
+    /// <returns>Einen Wert in Notenpunkten der zur Gesamtnote hinzugerechnet werden muss.</returns>
+    private int BerechneTendenzBepunktung()
+    {
+      var anzahlTendenzen = this.Notentendenzen.Count();
+      if (anzahlTendenzen == 0)
+      {
+        return 0;
+      }
+
+      var tendenzSumme = this.Notentendenzen.Sum(o => o.NotentendenzTendenz.TendenzWichtung);
+      var schlüssel = (int)Math.Round(tendenzSumme / (float)anzahlTendenzen, 0);
+      return schlüssel != 0 ? schlüssel * -1 + 3 : 2;
+    }
+
   }
 }

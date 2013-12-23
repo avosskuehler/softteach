@@ -175,7 +175,7 @@
       fixedPage.UpdateLayout();
 
       // print it out
-      var title = "Noten" + this.CurrentSchülerliste.SchülerlisteKlasse.KlasseBezeichnung;
+      var title = "Noten" + this.CurrentSchülerliste.SchülerlisteKlasse.KlasseBezeichnung + this.CurrentSchülerliste.SchülerlisteFach.FachBezeichnung;
       pd.PrintVisual(fixedPage, title);
     }
 
@@ -219,7 +219,7 @@
       fixedPage.UpdateLayout();
 
       // print it out
-      var title = "Noten" + this.CurrentSchülerliste.SchülerlisteKlasse.KlasseBezeichnung;
+      var title = "Noten" + this.CurrentSchülerliste.SchülerlisteKlasse.KlasseBezeichnung + this.CurrentSchülerliste.SchülerlisteFach.FachBezeichnung;
       pd.PrintVisual(fixedPage, title);
     }
 

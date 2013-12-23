@@ -30,7 +30,21 @@
       this.CurrentNote = noteViewModel;
 
       this.FilteredNotentypen = CollectionViewSource.GetDefaultView(Enum.GetValues(typeof(Notentyp)));
-      this.IsMündlich = true;
+      switch (noteViewModel.NoteNotentyp)
+      {
+        case Notentyp.MündlichGesamt:
+        case Notentyp.MündlichQualität:
+        case Notentyp.MündlichQuantität:
+        case Notentyp.MündlichSonstige:
+          this.IsMündlich = true;
+          break;
+        case Notentyp.SchriftlichKlassenarbeit:
+        case Notentyp.SchriftlichSonstige:
+        case Notentyp.SchriftlichGesamt:
+          this.IsMündlich = false;
+          break;
+      }
+
       this.FilteredNotentypen.Filter = this.Notentypfilter;
     }
 
@@ -70,7 +84,11 @@
       set
       {
         this.isMündlich = value;
-        this.CurrentNote.NoteNotentyp = this.isMündlich ? Notentyp.MündlichQualität : Notentyp.SchriftlichSonstige;
+        if (!value)
+        {
+          this.CurrentNote.NoteNotentyp = Notentyp.SchriftlichSonstige;
+        }
+
         this.RaisePropertyChanged("IsMündlich");
         this.FilteredNotentypen.Refresh();
       }
