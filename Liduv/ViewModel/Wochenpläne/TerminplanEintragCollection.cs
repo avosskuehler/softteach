@@ -9,17 +9,17 @@
   /// Für jeden Termin der Woche (Unterrichtsstunde, AG, Treffen) wird ein Wochenplaneintrag erstellt.
   /// Er erscheint im Wochenplan.
   /// </summary>
-  public class WochenplanEintragCollection : ViewModelBase
+  public class TerminplanEintragCollection : ViewModelBase
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="WochenplanEintragCollection"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="TerminplanEintragCollection"/> Klasse. 
     /// </summary>
     /// <param name="wochentagIndex"> The wochentag Index. </param>
     /// <param name="einträge">Die Liste der Wochenplaneinträge.</param>
-    public WochenplanEintragCollection(int wochentagIndex, List<WochenplanEintrag> einträge)
+    public TerminplanEintragCollection(int wochentagIndex, List<TerminplanEintrag> einträge)
     {
       this.WochentagIndex = wochentagIndex;
-      this.WochenplanEinträge = einträge;
+      this.TerminplanEinträge = einträge;
       this.ErsteUnterrichtsstundeIndex = einträge.Min(o => o.ErsteUnterrichtsstundeIndex);
       this.LetzteUnterrichtsstundeIndex = einträge.Max(o => o.LetzteUnterrichtsstundeIndex);
     }
@@ -28,7 +28,7 @@
     /// Holt the parent <see cref="WochenplanWorkspaceViewModel"/> to which this WochenplanEintrag
     /// is added to.
     /// </summary>
-    public List<WochenplanEintrag> WochenplanEinträge { get; private set; }
+    public List<TerminplanEintrag> TerminplanEinträge { get; private set; }
 
     /// <summary>
     /// Holt den 0-basierte Index des Wochentags für diesen Wochenplaneintrag
@@ -52,7 +52,7 @@
     {
       get
       {
-        return this.WochenplanEinträge.Count;
+        return this.TerminplanEinträge.Count;
       }
     }
 
@@ -63,7 +63,7 @@
     {
       get
       {
-        var maxStunden = this.WochenplanEinträge.Max(o => o.Stundenanzahl);
+        var maxStunden = this.TerminplanEinträge.Max(o => o.Stundenanzahl);
         return maxStunden;
       }
     }
@@ -75,7 +75,7 @@
     {
       get
       {
-        return this.WochenplanEinträge.Any(o => o.IsDummy);
+        return this.TerminplanEinträge.Any(o => o.IsDummy);
       }
     }
 
@@ -86,7 +86,7 @@
     public override string ToString()
     {
       return string.Format(
-        "WochenplanEintragCollection am Tag {0} von Stunde {1} bis {2}",
+        "TerminplanEintragCollection am Tag {0} von Stunde {1} bis {2}",
         this.WochentagIndex,
         this.ErsteUnterrichtsstundeIndex,
         this.LetzteUnterrichtsstundeIndex);

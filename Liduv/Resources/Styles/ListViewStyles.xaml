@@ -21,9 +21,9 @@
   <!--MouseEnter="SurroundBorderMouseEnter" 
           MouseLeave="SurroundBorderMouseLeave"
           MouseLeftButtonDown="SurroundBorderMouseLeftButtonDown"-->
-  <DataTemplate x:Key="WochenplanEintragDetail">
+  <DataTemplate x:Key="TerminplanEintragDetail">
     <Border x:Name="SurroundBorder" Background="Transparent" Padding="0">
-      <Border Background="{Binding Path=WochenplaneintragBackground}" CornerRadius="3">
+      <Border Background="{Binding Path=TerminplaneintragBackground}" CornerRadius="3">
         <Border.Triggers>
           <EventTrigger RoutedEvent="UIElement.MouseEnter">
             <BeginStoryboard>
@@ -60,22 +60,22 @@
             <RowDefinition Height="*" MinHeight="20"/>
           </Grid.RowDefinitions>
           <Label Grid.Row="0" Grid.Column="0" Padding="5,0,5,0" VerticalAlignment="Center" 
-               Content="{Binding Path=WochenplaneintragKlasse}"/>
+               Content="{Binding Path=TerminplaneintragKlasse}"/>
           <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource DisplayStyle}" HorizontalAlignment="Right">
             <StackPanel Orientation="Horizontal">
               <StackPanel Orientation="Horizontal" Visibility="Hidden" HorizontalAlignment="Right" 
                       x:Name="EditButtons">
-                <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=EditWochenplaneintragCommand}">
+                <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=EditTerminplaneintragCommand}">
                   <Image Source="/Liduv;component/Images/Edit16.png"/>
                 </Button>
-                <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=RemoveWochenplaneintragCommand}">
+                <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=RemoveTerminplaneintragCommand}">
                   <Image Source="/Liduv;component/Images/Remove16.png"/>
                 </Button>
                 <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddNotenCommand}">
                   <Image Source="/Liduv;component/Images/Note16.png"/>
                 </Button>
               </StackPanel>
-              <Button Command="{Binding Path=ProofWochenplaneintragCommand}" 
+              <Button Command="{Binding Path=ProofTerminplaneintragCommand}" 
                     Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
                 <Image Source="{Binding Path=ProofImage}"/>
               </Button>
@@ -84,9 +84,9 @@
           <Label Grid.Row="1" Padding="5,0,5,5" 
                VerticalAlignment="Bottom"  
                HorizontalAlignment="Right"
-               Content="{Binding Path=WochenplaneintragOrt}"/>
+               Content="{Binding Path=TerminplaneintragOrt}"/>
           <TextBlock Grid.Row="1" Padding="5,0,5,0" VerticalAlignment="Top"  
-               Text="{Binding Path=WochenplaneintragThema}" TextWrapping="Wrap"/>
+               Text="{Binding Path=TerminplaneintragThema}" TextWrapping="Wrap"/>
         </Grid>
       </Border>
     </Border>
@@ -768,8 +768,6 @@
   </Style>
 
   <DataTemplate x:Key="KlassenlisteNotenView">
-    <!--<Button Style="{StaticResource HausaufgabeButton}" Name="HAButton" Command="{Binding Path=AddHausaufgabeCommand}">-->
-    <!--Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"-->
     <DataTemplate.Resources>
       <SolidColorBrush x:Key="AnimatedBrush" Color="Transparent" />
     </DataTemplate.Resources>

@@ -5,6 +5,7 @@
   using System.Linq;
   using System.Windows.Media;
 
+  using Liduv.Model.EntityFramework;
   using Liduv.Setting;
   using Liduv.UndoRedo;
   using Liduv.View.Noten;
@@ -13,13 +14,13 @@
   using Liduv.ViewModel.Termine;
 
   /// <summary>
-  /// Für jeden Termin der Woche (Unterrichtsstunde, AG, Treffen) wird ein Wochenplaneintrag erstellt.
-  /// Er erscheint im Wochenplan.
+  /// Für jeden Termin der Woche (Unterrichtsstunde, AG, Treffen) wird ein Terminplaneintrag erstellt.
+  /// Er erscheint im Wochenplan oder im Tagesplan
   /// </summary>
-  public class WochenplanEintrag : ViewModelBase
+  public class TerminplanEintrag : ViewModelBase
   {
     /// <summary>
-    /// Der 0-basierte Index des Wochentags für diesen Wochenplaneintrag
+    /// Der 0-basierte Index des Wochentags für diesen Terminplaneintrag
     /// </summary>
     private int wochentagIndex;
 
@@ -33,14 +34,17 @@
     /// </summary>
     private int letzteUnterrichtsstundeIndex;
 
+    /// <summary>
+    /// The termin view model
+    /// </summary>
     private TerminViewModel terminViewModel;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="WochenplanEintrag"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="TerminplanEintrag"/> Klasse. 
     /// </summary>
-    /// <param name="parent"> The underlying stundenplaneintrag this ViewModel is to be based on </param>
+    /// <param name="parent"> The underlying terminplanworkspace this ViewModel is to be based on </param>
     /// <param name="terminViewModel"> The termin View Model. </param>
-    public WochenplanEintrag(WochenplanWorkspaceViewModel parent, TerminViewModel terminViewModel)
+    public TerminplanEintrag(TerminplanWorkspaceViewModel parent, TerminViewModel terminViewModel)
     {
       if (parent == null)
       {
@@ -49,26 +53,26 @@
 
       this.TerminViewModel = terminViewModel;
       this.Parent = parent;
-      this.EditWochenplaneintragCommand = new DelegateCommand(this.EditWochenplaneintrag, () => this.TerminViewModel != null);
-      this.RemoveWochenplaneintragCommand = new DelegateCommand(this.RemoveWochenplaneintrag, () => this.TerminViewModel != null);
-      this.ProofWochenplaneintragCommand = new DelegateCommand(this.ProofWochenplaneintrag, () => this.TerminViewModel != null);
+      this.EditTerminplaneintragCommand = new DelegateCommand(this.EditTerminplaneintrag, () => this.TerminViewModel != null);
+      this.RemoveTerminplaneintragCommand = new DelegateCommand(this.RemoveTerminplaneintrag, () => this.TerminViewModel != null);
+      this.ProofTerminplaneintragCommand = new DelegateCommand(this.ProofTerminplaneintrag, () => this.TerminViewModel != null);
       this.AddNotenCommand = new DelegateCommand(this.AddNoten, () => this.TerminViewModel != null);
     }
 
     /// <summary>
-    /// Holt den Befehl zur proof or unproof the current Wochenplaneintrag
+    /// Holt den Befehl zur proof or unproof the current Terminplaneintrag
     /// </summary>
-    public DelegateCommand ProofWochenplaneintragCommand { get; private set; }
+    public DelegateCommand ProofTerminplaneintragCommand { get; private set; }
 
     /// <summary>
-    /// Holt den Befehl zur editing the current Wochenplaneintrag
+    /// Holt den Befehl zur editing the current Terminplaneintrag
     /// </summary>
-    public DelegateCommand EditWochenplaneintragCommand { get; private set; }
+    public DelegateCommand EditTerminplaneintragCommand { get; private set; }
 
     /// <summary>
-    /// Holt den Befehl zur removing the current Wochenplaneintrag
+    /// Holt den Befehl zur removing the current Terminplaneintrag
     /// </summary>
-    public DelegateCommand RemoveWochenplaneintragCommand { get; private set; }
+    public DelegateCommand RemoveTerminplaneintragCommand { get; private set; }
 
     /// <summary>
     /// Holt den Befehl Noten einzutragen
@@ -76,13 +80,13 @@
     public DelegateCommand AddNotenCommand { get; private set; }
 
     /// <summary>
-    /// Holt the parent <see cref="WochenplanWorkspaceViewModel"/> to which this WochenplanEintrag
+    /// Holt the parent <see cref="TerminplanWorkspaceViewModel"/> to which this Terminplaneintrag
     /// is added to.
     /// </summary>
-    public WochenplanWorkspaceViewModel Parent { get; private set; }
+    public TerminplanWorkspaceViewModel Parent { get; private set; }
 
     /// <summary>
-    /// Holt oder setzt den Termin, der zu diesem Wochenplaneintrag gehört.
+    /// Holt oder setzt den Termin, der zu diesem Terminplaneintrag gehört.
     /// </summary>
     public TerminViewModel TerminViewModel
     {
@@ -108,7 +112,7 @@
     }
 
     /// <summary>
-    /// Holt einen Wert, der angibt, ob dieser Wochenplaneintrag leer ist (ohne Termine).
+    /// Holt einen Wert, der angibt, ob dieser Terminplaneintrag leer ist (ohne Termine).
     /// </summary>
     public bool IsDummy
     {
@@ -119,7 +123,7 @@
     }
 
     /// <summary>
-    /// Holt oder setzt den 0-basierte Index des Wochentags für diesen Wochenplaneintrag
+    /// Holt oder setzt den 0-basierte Index des Wochentags für diesen Terminplaneintrag
     /// </summary>
     public int WochentagIndex
     {
@@ -250,7 +254,7 @@
     /// <summary>
     /// Holt den Ort des Wochenplaneintrags
     /// </summary>
-    public string WochenplaneintragOrt
+    public string TerminplaneintragOrt
     {
       get
       {
@@ -266,7 +270,7 @@
     /// <summary>
     /// Holt die beschreibung des Wochenplaneintrags
     /// </summary>
-    public string WochenplaneintragThema
+    public string TerminplaneintragThema
     {
       get
       {
@@ -284,7 +288,7 @@
     /// <summary>
     /// Holt die Klasse des Wochenplaneintrags
     /// </summary>
-    public string WochenplaneintragKlasse
+    public string TerminplaneintragKlasse
     {
       get
       {
@@ -333,7 +337,7 @@
     /// Holt den <see cref="SolidColorBrush"/> to display this wochenplaneintrag
     /// depending on fach and klasse
     /// </summary>
-    public SolidColorBrush WochenplaneintragBackground
+    public SolidColorBrush TerminplaneintragBackground
     {
       get
       {
@@ -351,7 +355,7 @@
     /// <summary>
     /// Holt oder setzt einen Wert, der angibt, ob dieser Eintrag geprüft ist.
     /// </summary>
-    public bool WochenplaneintragIstGeprüft
+    public bool TerminplaneintragIstGeprüft
     {
       get
       {
@@ -383,7 +387,19 @@
     {
       get
       {
-        return App.GetImageSource(this.WochenplaneintragIstGeprüft ? "ProofValid16.png" : "ProofOpen16.png");
+        return App.GetImageSource(this.TerminplaneintragIstGeprüft ? "ProofValid16.png" : "ProofOpen16.png");
+      }
+    }
+
+    /// <summary>
+    /// Holt die imagesource for the proof icon
+    /// </summary>
+    [DependsUpon("WochenplaneintragIstGeprüft")]
+    public ImageSource ProofImage48
+    {
+      get
+      {
+        return App.GetImageSource(this.TerminplaneintragIstGeprüft ? "ProofValid48.png" : "ProofOpen48.png");
       }
     }
 
@@ -393,7 +409,7 @@
     /// <returns>Ein <see cref="string"/> mit einer Kurzform des ViewModels.</returns>
     public override string ToString()
     {
-      return string.Format("WochenplanEintrag: {0} {1}, Raum {2}", this.WochenplaneintragKlasse, this.WochenplaneintragThema, this.WochenplaneintragOrt);
+      return string.Format("TerminplanEintrag: {0} {1}, Raum {2}", this.TerminplaneintragKlasse, this.TerminplaneintragThema, this.TerminplaneintragOrt);
     }
 
     /// <summary>
@@ -406,36 +422,36 @@
       if (e.PropertyName == "StundeStundenentwurf" || e.PropertyName == "TerminBeschreibung")
       {
         this.Parent.UpdateProperties(this.wochentagIndex, this.ErsteUnterrichtsstundeIndex, this.Stundenanzahl);
-        this.RaisePropertyChanged("WochenplaneintragThema");
+        this.RaisePropertyChanged("TerminplaneintragThema");
       }
     }
 
     /// <summary>
     /// Handles deletion of the current Wochenplaneintrag
     /// </summary>
-    private void RemoveWochenplaneintrag()
+    private void RemoveTerminplaneintrag()
     {
       if (this.TerminViewModel != null)
       {
-        using (new UndoBatch(App.MainViewModel, string.Format("Wochenplaneintrag {0} gelöscht.", this), false))
+        using (new UndoBatch(App.MainViewModel, string.Format("Terminplaneintrag {0} gelöscht.", this), false))
         {
           var wochenIndex = this.wochentagIndex;
           var ersteStundeIndex = this.ErsteUnterrichtsstundeIndex;
           var stundenzahl = this.Stundenanzahl;
 
-          this.Parent.RemoveWochenplaneintrag(this);
+          this.Parent.RemoveTerminplaneintrag(this);
           this.TerminViewModel.DeleteTerminCommand.Execute(null);
           this.TerminViewModel = null;
           this.Parent.UpdateProperties(wochenIndex, ersteStundeIndex, stundenzahl);
-          this.RaisePropertyChanged("WochenplaneintragThema");
+          this.RaisePropertyChanged("TerminplaneintragThema");
         }
       }
     }
 
     /// <summary>
-    /// Handles edit of the current Wochenplaneintrag
+    /// Handles edit of the current Terminplaneintrag
     /// </summary>
-    private void EditWochenplaneintrag()
+    private void EditTerminplaneintrag()
     {
       if (this.TerminViewModel == null)
       {
@@ -469,12 +485,12 @@
         }
 
         this.Parent.UpdateProperties(this.wochentagIndex, this.ErsteUnterrichtsstundeIndex, this.Stundenanzahl);
-        this.RaisePropertyChanged("WochenplaneintragThema");
+        this.RaisePropertyChanged("TerminplaneintragThema");
       }
     }
 
     /// <summary>
-    /// Fragt Noten für diese Stunde ab.
+    /// Fragt Noten für diesen Termin ab.
     /// </summary>
     private void AddNoten()
     {
@@ -492,21 +508,30 @@
       Selection.Instance.Fach = App.MainViewModel.Fächer.First(o => o.FachBezeichnung == stunde.LerngruppenterminFach);
       Selection.Instance.Klasse = App.MainViewModel.Klassen.First(o => o.KlasseBezeichnung == stunde.LerngruppenterminKlasse);
       Selection.Instance.Stundenentwurf = stunde.StundeStundenentwurf;
+      var schülerliste =
+        App.MainViewModel.Schülerlisten.First(
+          o =>
+          o.SchülerlisteFach.FachBezeichnung == stunde.LerngruppenterminFach
+          && o.SchülerlisteHalbjahrtyp.HalbjahrtypBezeichnung == stunde.LerngruppenterminHalbjahr
+          && o.SchülerlisteJahrtyp.JahrtypBezeichnung == stunde.LerngruppenterminSchuljahr
+          && o.SchülerlisteKlasse.KlasseBezeichnung == stunde.LerngruppenterminKlasse);
+      var viewModel = new StundennotenWorkspaceViewModel(schülerliste, stunde);
 
-      bool undo;
+      bool undo = false;
       using (new UndoBatch(App.MainViewModel, string.Format("Noten hinzugefügt"), false))
       {
-        var dlg = new StundennotenDialog();
-        var schülerliste =
-          App.MainViewModel.Schülerlisten.First(
-            o =>
-            o.SchülerlisteFach.FachBezeichnung == stunde.LerngruppenterminFach
-            && o.SchülerlisteHalbjahrtyp.HalbjahrtypBezeichnung == stunde.LerngruppenterminHalbjahr
-            && o.SchülerlisteJahrtyp.JahrtypBezeichnung == stunde.LerngruppenterminSchuljahr
-            && o.SchülerlisteKlasse.KlasseBezeichnung == stunde.LerngruppenterminKlasse);
-        var viewModel = new StundennotenWorkspaceViewModel(schülerliste, stunde);
-        dlg.DataContext = viewModel;
-        undo = !dlg.ShowDialog().GetValueOrDefault(false);
+        if (Configuration.Instance.IsMetroMode)
+        {
+          var notenPage = new MetroStundennotenPage();
+          notenPage.DataContext = viewModel;
+          Configuration.Instance.NavigationService.Navigate(notenPage);
+        }
+        else
+        {
+          var dlg = new StundennotenDialog();
+          dlg.DataContext = viewModel;
+          undo = !dlg.ShowDialog().GetValueOrDefault(false);
+        }
       }
 
       if (undo)
@@ -516,11 +541,11 @@
     }
 
     /// <summary>
-    /// Ändert den Prüfstatus des Wochenplaneintrags.
+    /// Ändert den Prüfstatus des Terminplaneintrags.
     /// </summary>
-    private void ProofWochenplaneintrag()
+    private void ProofTerminplaneintrag()
     {
-      this.WochenplaneintragIstGeprüft = !this.WochenplaneintragIstGeprüft;
+      this.TerminplaneintragIstGeprüft = !this.TerminplaneintragIstGeprüft;
     }
   }
 }

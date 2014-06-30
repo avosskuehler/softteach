@@ -1343,6 +1343,13 @@
       {
         note.Bezeichnung = stundenentwurf.StundenentwurfStundenthema;
         note.Datum = stundenentwurf.StundenentwurfDatum;
+
+        var alteNote =
+          this.Noten.FirstOrDefault(o => o.NoteDatum == stundenentwurf.StundenentwurfDatum & o.NoteNotentyp == notentyp);
+        if (alteNote != null)
+        {
+          var result = this.Noten.Remove(alteNote);
+        }
       }
 
       note.IstSchriftlich = false;

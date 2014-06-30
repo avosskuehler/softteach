@@ -33,18 +33,7 @@ namespace Liduv.View.Main
     public MainRibbonView()
     {
       this.InitializeComponent();
-
-      // Load latest configuration if there is any.
-      Configuration.Deserialize();
-
-      // Load user settings
-      var set = Settings.Default;
-      Selection.Instance.SetSelection(
-        set.Schuljahr,
-        set.Halbjahr,
-        set.Fach,
-        set.Klasse,
-        set.Modul);
+      this.DataContext = App.MainViewModel;
     }
 
     private void WindowLoaded(object sender, RoutedEventArgs e)
@@ -767,6 +756,17 @@ namespace Liduv.View.Main
     private void CloseCommandHandler(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
     {
       this.Close();
+    }
+
+    /// <summary>
+    /// Handles the OnClick event of the MetroButton control.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+    private void MetroButton_OnClick(object sender, RoutedEventArgs e)
+    {
+      Configuration.Instance.IsMetroMode = true;
+      this.Hide();
     }
   }
 }

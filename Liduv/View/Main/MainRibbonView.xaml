@@ -22,35 +22,42 @@
     <CommandBinding Command="ApplicationCommands.Close" Executed="CloseCommandHandler"/>
   </RibbonWindow.CommandBindings>
   <RibbonWindow.Resources>
-    <DataTemplate DataType="{x:Type wochenpläneViewModel:WochenplanWorkspaceViewModel}">
-      <wochenplanView:WochenplanWorkspaceView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type jahrespläneViewModel:JahresplanWorkspaceViewModel}">
-      <jahrespläneView:JahresplanWorkspaceView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type curriculaViewModel:CurriculumWorkspaceViewModel}">
-      <curriculaView:CurriculumWorkspaceView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type notenViewModel:SchülereintragWorkspaceViewModel}">
-      <notenView:SchülereintragWorkspaceView />
-    </DataTemplate>
-    <HierarchicalDataTemplate DataType="{x:Type undoRedo:ChangeSet}"
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Liduv;component/Resources/LiduvResources.xaml"/>
+        <ResourceDictionary>
+          <DataTemplate DataType="{x:Type wochenpläneViewModel:WochenplanWorkspaceViewModel}">
+            <wochenplanView:WochenplanWorkspaceView />
+          </DataTemplate>
+          <DataTemplate DataType="{x:Type jahrespläneViewModel:JahresplanWorkspaceViewModel}">
+            <jahrespläneView:JahresplanWorkspaceView />
+          </DataTemplate>
+          <DataTemplate DataType="{x:Type curriculaViewModel:CurriculumWorkspaceViewModel}">
+            <curriculaView:CurriculumWorkspaceView />
+          </DataTemplate>
+          <DataTemplate DataType="{x:Type notenViewModel:SchülereintragWorkspaceViewModel}">
+            <notenView:SchülereintragWorkspaceView />
+          </DataTemplate>
+          <HierarchicalDataTemplate DataType="{x:Type undoRedo:ChangeSet}"
                                 ItemsSource="{Binding Path=Changes}">
-      <TextBlock Text="{Binding Path=Description}"/>
-    </HierarchicalDataTemplate>
-    <HierarchicalDataTemplate DataType="{x:Type changeTypes:Change}">
-      <TextBlock Text="{Binding Path=Description}"/>
-    </HierarchicalDataTemplate>
-    <CollectionViewSource Source="{Binding Source={x:Static liduv:App.MainViewModel}, Path=Fächer}" x:Key="FächerSorted">
-      <CollectionViewSource.SortDescriptions>
-        <scm:SortDescription PropertyName="FachBezeichnung"/>
-      </CollectionViewSource.SortDescriptions>
-    </CollectionViewSource>
-    <CollectionViewSource Source="{Binding Source={x:Static liduv:App.MainViewModel}, Path=Klassen}" x:Key="KlassenSorted">
-      <CollectionViewSource.SortDescriptions>
-        <scm:SortDescription PropertyName="KlasseBezeichnung"/>
-      </CollectionViewSource.SortDescriptions>
-    </CollectionViewSource>
+            <TextBlock Text="{Binding Path=Description}"/>
+          </HierarchicalDataTemplate>
+          <HierarchicalDataTemplate DataType="{x:Type changeTypes:Change}">
+            <TextBlock Text="{Binding Path=Description}"/>
+          </HierarchicalDataTemplate>
+          <CollectionViewSource Source="{Binding Source={x:Static liduv:App.MainViewModel}, Path=Fächer}" x:Key="FächerSorted">
+            <CollectionViewSource.SortDescriptions>
+              <scm:SortDescription PropertyName="FachBezeichnung"/>
+            </CollectionViewSource.SortDescriptions>
+          </CollectionViewSource>
+          <CollectionViewSource Source="{Binding Source={x:Static liduv:App.MainViewModel}, Path=Klassen}" x:Key="KlassenSorted">
+            <CollectionViewSource.SortDescriptions>
+              <scm:SortDescription PropertyName="KlasseBezeichnung"/>
+            </CollectionViewSource.SortDescriptions>
+          </CollectionViewSource>
+        </ResourceDictionary>
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
   </RibbonWindow.Resources>
   <Grid x:Name="LayoutRoot">
     <Grid.RowDefinitions>
@@ -61,6 +68,7 @@
     <Ribbon Grid.Row="0" x:Name="Ribbon">
       <Ribbon.QuickAccessToolBar>
         <RibbonQuickAccessToolBar >
+          <RibbonButton x:Name="MetroButton" Click="MetroButton_OnClick"  SmallImageSource="/Liduv;component/Images/OpenCalcOverlay32.png" ToolTip="Metro Surface"/>
           <RibbonSplitButton x:Name="QatButtonUndo" 
                         Command="{Binding Path=UndoCommand}"
                         SmallImageSource="/Liduv;component/Images/Undo16.png" 

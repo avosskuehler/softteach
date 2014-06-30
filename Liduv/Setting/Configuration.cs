@@ -22,6 +22,7 @@ namespace Liduv.Setting
   using System.IO;
   using System.Runtime.Serialization;
   using System.Windows;
+  using System.Windows.Navigation;
 
   using Liduv.Model;
   using Liduv.Model.EntityFramework;
@@ -32,6 +33,18 @@ namespace Liduv.Setting
   public class Configuration : DependencyObject, INotifyPropertyChanged
   {
     #region Constants and Fields
+
+    /// <summary>
+    /// Metro mode
+    /// </summary>
+    public static readonly DependencyProperty IsMetroModeProperty = DependencyProperty.Register(
+      "IsMetroMode", typeof(bool), typeof(Configuration), new FrameworkPropertyMetadata(OnPropertyChanged));
+
+   /// <summary>
+    /// The navigation service to navigate in metro mode between pages
+    /// </summary>
+    public static readonly DependencyProperty NavigationServiceProperty = DependencyProperty.Register(
+      "NavigationService", typeof(NavigationService), typeof(Configuration), new FrameworkPropertyMetadata(OnPropertyChanged));
 
     /// <summary>
     /// Datenverzeichnis
@@ -100,6 +113,35 @@ namespace Liduv.Setting
         // check again, if the underlying instance is null
         // return the existing/new instance
         return instance ?? (instance = new Configuration());
+      }
+    }
+
+    /// <summary>
+    ///   Holt oder setzt einen Wert, der angibt, ob das Programm im Metro Mode ist.
+    /// </summary>
+    public bool IsMetroMode
+    {
+      get
+      {
+        return (bool)this.GetValue(IsMetroModeProperty);
+      }
+
+      set
+      {
+        this.SetValue(IsMetroModeProperty, value);
+      }
+    }
+
+    public NavigationService NavigationService
+    {
+      get
+      {
+        return (NavigationService)this.GetValue(NavigationServiceProperty);
+      }
+
+      set
+      {
+        this.SetValue(NavigationServiceProperty, value);
       }
     }
 
@@ -311,5 +353,6 @@ namespace Liduv.Setting
     }
 
     #endregion
+
   }
 }

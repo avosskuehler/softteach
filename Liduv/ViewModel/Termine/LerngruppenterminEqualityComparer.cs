@@ -33,13 +33,13 @@ namespace Liduv.ViewModel.Termine
     /// <returns></returns>
     public bool Equals(LerngruppenterminViewModel x, LerngruppenterminViewModel y)
     {
-      //Check whether the compared objects reference the same data.
+      // Check whether the compared objects reference the same data.
       if (ReferenceEquals(x, y)) return true;
 
-      //Check whether any of the compared objects is null.
+      // Check whether any of the compared objects is null.
       if (ReferenceEquals(x, null) || ReferenceEquals(y, null)) return false;
 
-      //Check whether the WochenplanEinträge are equal.
+      // Check whether the WochenplanEinträge are equal.
       return x.LerngruppenterminDatum == y.LerngruppenterminDatum
         && x.LerngruppenterminFach == y.LerngruppenterminFach
         && x.LerngruppenterminKlasse == y.LerngruppenterminKlasse;
@@ -53,19 +53,14 @@ namespace Liduv.ViewModel.Termine
     /// <returns></returns>
     public int GetHashCode(LerngruppenterminViewModel lerngruppentermin)
     {
-      //Check whether the object is null
+      // Check whether the object is null
       if (ReferenceEquals(lerngruppentermin, null)) return 0;
 
-      //Get hash code for the WochenplaneintragThema field if it is not null.
       int hashLerngruppenterminDatum = lerngruppentermin.LerngruppenterminDatum.GetHashCode();
-
-      //Get hash code for the StundenplaneintragWochentagIndex field.
       int hashLerngruppenterminFach = lerngruppentermin.LerngruppenterminFach.GetHashCode();
-
-      //Get hash code for the StundenplaneintragErsteUnterrichtsstundeIndex field.
       int hashLerngruppenterminKlasse = lerngruppentermin.LerngruppenterminKlasse.GetHashCode();
 
-      //Calculate the hash code for the Lerngruppentermin.
+      // Calculate the hash code for the Lerngruppentermin.
       return hashLerngruppenterminDatum ^ hashLerngruppenterminFach ^ hashLerngruppenterminKlasse;
     }
   }

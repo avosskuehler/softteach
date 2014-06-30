@@ -8,6 +8,7 @@ namespace Liduv.ViewModel.Termine
   using System.Windows.Controls;
   using System.Windows.Documents;
   using System.Windows.Markup;
+  using System.Windows.Navigation;
 
   using Liduv.Model.EntityFramework;
   using Liduv.Setting;
@@ -246,6 +247,20 @@ namespace Liduv.ViewModel.Termine
     }
 
     /// <summary>
+    /// Holt den Stundenthema of the Stundenentwurf assigned to this stunde
+    /// </summary>
+    [DependsUpon("LerngruppenterminKlasse")]
+    [DependsUpon("LerngruppenterminFach")]
+    [DependsUpon("LerngruppenterminDatum")]
+    public string StundeMetroTitel
+    {
+      get
+      {
+        return this.LerngruppenterminKlasse + " " + this.LerngruppenterminFach + " " + this.LerngruppenterminDatum.ToLongDateString();
+      }
+    }
+
+    /// <summary>
     /// Holt den date of this stunde as as string
     /// </summary>
     [DependsUpon("LerngruppenterminDatum")]
@@ -330,21 +345,33 @@ namespace Liduv.ViewModel.Termine
 
     protected override void EditLerngruppentermin()
     {
-      bool undo;
+      bool undo = false;
       using (new UndoBatch(App.MainViewModel, string.Format("Stunde {0} editieren", this), false))
       {
-        var dlg = new AddStundeDialog(this);
-        Selection.Instance.Stunde = this;
-        Selection.Instance.Stundenentwurf = this.StundeStundenentwurf;
-        if (!(undo = !dlg.ShowDialog().GetValueOrDefault(false)))
+        if (Configuration.Instance.IsMetroMode)
         {
-          this.ParentTagesplan.UpdateBeschreibung();
-          this.TerminBeschreibung = dlg.StundeViewModel.TerminBeschreibung;
-          this.TerminTermintyp = dlg.StundeViewModel.TerminTermintyp;
-          this.TerminErsteUnterrichtsstunde = dlg.StundeViewModel.TerminErsteUnterrichtsstunde;
-          this.TerminLetzteUnterrichtsstunde = dlg.StundeViewModel.TerminLetzteUnterrichtsstunde;
-          this.StundeStundenentwurf = dlg.StundeViewModel.StundeStundenentwurf;
-          this.TerminTermintyp = dlg.StundeViewModel.TerminTermintyp;
+          var stundePage = new MetroStundenentwurfDetailView();
+
+          // Set correct times
+          this.UpdateStundenentwurfPhasenzeitraum();
+          stundePage.DataContext = this;
+          Configuration.Instance.NavigationService.Navigate(stundePage);
+        }
+        else
+        {
+          var dlg = new AddStundeDialog(this);
+          Selection.Instance.Stunde = this;
+          Selection.Instance.Stundenentwurf = this.StundeStundenentwurf;
+          if (!(undo = !dlg.ShowDialog().GetValueOrDefault(false)))
+          {
+            this.ParentTagesplan.UpdateBeschreibung();
+            this.TerminBeschreibung = dlg.StundeViewModel.TerminBeschreibung;
+            this.TerminTermintyp = dlg.StundeViewModel.TerminTermintyp;
+            this.TerminErsteUnterrichtsstunde = dlg.StundeViewModel.TerminErsteUnterrichtsstunde;
+            this.TerminLetzteUnterrichtsstunde = dlg.StundeViewModel.TerminLetzteUnterrichtsstunde;
+            this.StundeStundenentwurf = dlg.StundeViewModel.StundeStundenentwurf;
+            this.TerminTermintyp = dlg.StundeViewModel.TerminTermintyp;
+          }
         }
       }
 

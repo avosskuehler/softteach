@@ -428,6 +428,11 @@
     public WochenplanWorkspaceViewModel WochenplanWorkspace { get; private set; }
 
     /// <summary>
+    /// Holt den workspace for managing Tagespläne
+    /// </summary>
+    public TagesplanWorkspaceViewModel TagesplanWorkspace { get; private set; }
+
+    /// <summary>
     /// Holt den workspace for managing Stundenpläne
     /// </summary>
     public StundenplanWorkspaceViewModel StundenplanWorkspace { get; private set; }
@@ -890,6 +895,7 @@
         this.StundenplanWorkspace = new StundenplanWorkspaceViewModel();
         this.SchulterminWorkspace = new SchulterminWorkspaceViewModel();
         this.WochenplanWorkspace = new WochenplanWorkspaceViewModel();
+        this.TagesplanWorkspace = new TagesplanWorkspaceViewModel();
         this.MediumWorkspace = new MediumWorkspaceViewModel();
         this.DateitypWorkspace = new DateitypWorkspaceViewModel();
         this.FachWorkspace = new FachWorkspaceViewModel();

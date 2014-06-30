@@ -11,14 +11,14 @@ namespace Liduv.View.Wochenpläne
   /// <summary>
   /// Interaction logic for WochenplaneinträgeDetailView.xaml
   /// </summary>
-  public partial class WochenplaneinträgeDetailView
+  public partial class TerminplaneinträgeDetailView
   {
     private bool isCurrentlyClicked;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="WochenplaneinträgeDetailView"/> Klasse.
+    /// Initialisiert eine neue Instanz der <see cref="TerminplaneinträgeDetailView"/> Klasse.
     /// </summary>
-    public WochenplaneinträgeDetailView()
+    public TerminplaneinträgeDetailView()
     {
       this.InitializeComponent();
       WochenplanSelection.Instance.Plangrid.PreviewMouseLeftButtonDown += this.PlangridMouseLeftButtonDown;
@@ -42,7 +42,7 @@ namespace Liduv.View.Wochenpläne
     {
       if (e.LeftButton == MouseButtonState.Pressed)
       {
-        var wochenplanEintragCollection = this.DataContext as WochenplanEintragCollection;
+        var wochenplanEintragCollection = this.DataContext as TerminplanEintragCollection;
         if (wochenplanEintragCollection == null) return;
         if (WochenplanSelection.Instance.WochentagIndex != wochenplanEintragCollection.WochentagIndex) return;
 
@@ -62,7 +62,7 @@ namespace Liduv.View.Wochenpläne
 
     private void SurroundBorderMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-      var wochenplanEintragCollection = this.DataContext as WochenplanEintragCollection;
+      var wochenplanEintragCollection = this.DataContext as TerminplanEintragCollection;
 
       // Enable edit 
       if (wochenplanEintragCollection != null && wochenplanEintragCollection.IsDummy)
@@ -83,7 +83,7 @@ namespace Liduv.View.Wochenpläne
       // muss für die Markierung von Stunden im Wochenplan das Mousecapturing
       // deaktiviert werden, sonst werden die MouseEnter events 
       // für die anderen Stunden nicht ausgelöst.
-      var collection = this.SurroundBorder.DataContext as WochenplanEintragCollection;
+      var collection = this.SurroundBorder.DataContext as TerminplanEintragCollection;
       if (collection != null && collection.IsDummy)
       {
         Mouse.Capture(null);

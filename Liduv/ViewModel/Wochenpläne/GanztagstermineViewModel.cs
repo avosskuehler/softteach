@@ -25,16 +25,16 @@ namespace Liduv.ViewModel.Wochenpläne
     /// Initialisiert eine neue Instanz der <see cref="GanztagstermineViewModel"/> Klasse. 
     /// </summary>
     /// <param name="ganztagsterminEinträge"> The ganztagstermin Einträge. </param>
-    public GanztagstermineViewModel(List<WochenplanEintrag> ganztagsterminEinträge)
+    public GanztagstermineViewModel(List<TerminplanEintrag> ganztagsterminEinträge)
     {
       this.GanztagsterminEinträge = ganztagsterminEinträge;
     }
 
     /// <summary>
-    /// Holt die <see cref="WochenplanEintrag"/> Einträge, für die ggf.
+    /// Holt die <see cref="TerminplanEintrag"/> Einträge, für die ggf.
     /// Ganztagstermine angelegt werden sollen
     /// </summary>
-    public List<WochenplanEintrag> GanztagsterminEinträge { get; private set; }
+    public List<TerminplanEintrag> GanztagsterminEinträge { get; private set; }
 
     /// <summary>
     /// Holt einen Wert, der angibt, ob dieser Ganztagstermin ist ein Dummy, weil ohne Einträge

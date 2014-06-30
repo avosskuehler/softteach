@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
- 
+
   <SolidColorBrush x:Key="HausaufgabeNichtGemachtBrush" Color="#99FF0000"/>
   <SolidColorBrush x:Key="HausaufgabeNachgereichtBrush" Color="#99FFA500"/>
 
@@ -8,16 +8,16 @@
   <SolidColorBrush x:Key="SequenzBackgroundBrush" Color="#99F0DDFF"/>
   <SolidColorBrush x:Key="StundeBackgroundBrush" Color="#996422ED"/>
   <SolidColorBrush x:Key="PhaseBackgroundBrush" Color="#99DDDDDD"/>
-
+  <SolidColorBrush x:Key="MetroHeaderBackground" Color="SteelBlue"/>
 
   <SolidColorBrush x:Key="NotentendenzBrush" Color="#99999999"/>
   <SolidColorBrush x:Key="NotenBrush" Color="#99009900"/>
   <SolidColorBrush x:Key="GlyphBrush" Color="#FF567DB1" />
   <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#A5FFFFFF"/>
-  
+
   <SolidColorBrush x:Key="SideButtonsExternalBorderBrush" Color="#FFB0CBEF"/>
   <SolidColorBrush x:Key="SideButtonsInternalBorderBrush" Color="#3c6eb0"/>
-  
+
   <LinearGradientBrush x:Key="SideButtonsBackgroundBrush" StartPoint="0.5,0" EndPoint="0.5,1">
     <GradientStop Color="#ffffff" Offset="0"></GradientStop>
     <GradientStop Color="#bed0e8" Offset="0.4"></GradientStop>

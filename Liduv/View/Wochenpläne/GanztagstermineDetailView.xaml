@@ -3,18 +3,42 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:WochenpläneView="clr-namespace:Liduv.View.Wochenpläne"
-             xmlns:Wochenpläne="clr-namespace:Liduv.ViewModel.Wochenpläne" 
+             xmlns:wochenpläneView="clr-namespace:Liduv.View.Wochenpläne"
+             xmlns:wochenpläne="clr-namespace:Liduv.ViewModel.Wochenpläne" 
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="200" >
   <UserControl.Resources>
-    <DataTemplate DataType="{x:Type Wochenpläne:WochenplanEintrag}">
-      <WochenpläneView:GanztagsterminSingleView />
+    <DataTemplate DataType="{x:Type wochenpläne:TerminplanEintrag}">
+      <wochenpläneView:GanztagsterminSingleView />
     </DataTemplate>
+    <Style x:Key="UnselectableListboxStyle">
+      <Style.Resources>
+        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
+        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Transparent" />
+      </Style.Resources>
+    </Style>
   </UserControl.Resources>
-  <ListBox Grid.Row="1"
-           ItemsSource="{Binding Path=GanztagsterminEinträge}"
+  <ListBox ItemsSource="{Binding Path=GanztagsterminEinträge}"
+           Style="{StaticResource UnselectableListboxStyle}"
+           Background="Transparent" 
+           BorderBrush="Transparent" 
            HorizontalContentAlignment="Stretch"
-           BorderThickness="0"
-           />
+           VerticalContentAlignment="Stretch"
+           BorderThickness="0">
+    <ItemsControl.ItemContainerStyle>
+      <Style>
+        <Setter Property="ListBoxItem.Padding" Value="0"/>
+        <Setter Property="ListBoxItem.Background" Value="Transparent"/>
+        <Setter Property="FrameworkElement.HorizontalAlignment"  Value="Stretch"/>
+        <Setter Property="FrameworkElement.VerticalAlignment"  Value="Stretch"/>
+        <Style.Triggers>
+          <Trigger Property="ListBoxItem.IsSelected" Value="False">
+            <Setter Property="ListBoxItem.Background" Value="Transparent"/>
+          </Trigger>
+        </Style.Triggers>
+      </Style>
+    </ItemsControl.ItemContainerStyle>
+
+  </ListBox>
 </UserControl>

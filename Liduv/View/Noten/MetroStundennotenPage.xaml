@@ -1,0 +1,74 @@
+﻿<Page x:Class="Liduv.View.Noten.MetroStundennotenPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:noten="clr-namespace:Liduv.View.Noten"
+      xmlns:notenViewModel="clr-namespace:Liduv.ViewModel.Noten"
+      mc:Ignorable="d" 
+      d:DesignHeight="768" 
+      d:DesignWidth="1366"
+      Title="Stundennoten"
+      FontSize="20">
+  <Page.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Liduv;component/Resources/MetroResources.xaml"/>
+        <ResourceDictionary >
+          <DataTemplate DataType="{x:Type notenViewModel:SchülereintragViewModel}" x:Key="NotenTemplate">
+            <noten:MetroKlassenlisteNotenDetailView />
+          </DataTemplate>
+        </ResourceDictionary>
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Page.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <Border Grid.Row="0" Background="{StaticResource MetroHeaderBackground}">
+      <StackPanel Orientation="Horizontal">
+        <Label Foreground="White" >Stundennoten für</Label>
+        <Label Foreground="White" Content="{Binding Path=Stunde.StundeStundenentwurfTitel}"/>
+        <Label Foreground="White">vom</Label>
+        <Label Foreground="White" Content="{Binding Path=Stunde.StundeDatum}"/>
+      </StackPanel>
+    </Border>
+    <StackPanel Grid.Row="1" Orientation="Horizontal">
+      <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddHausaufgabenCommand}" ToolTip="Nicht gemachte Hausaufgaben eintragen.">
+        <StackPanel Orientation="Horizontal">
+          <Grid>
+            <Image Source="/Liduv;component/Images/Hausaufgabe32.png"/>
+            <Image Source="/Liduv;component/Images/AddOverlay32.png"/>
+          </Grid>
+          <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Nicht gemachte Hausaufgaben eintragen.</Label>
+        </StackPanel>
+      </Button>
+      <Label Width="50"/>
+      <UniformGrid Columns="2" VerticalAlignment="Center">
+        <RadioButton Content="Zufällige Auswahl" IsChecked="True"/>
+        <RadioButton Content="Alle Schüler zeigen" IsChecked="{Binding Path=IsShowingAlleSchüler}"/>
+      </UniformGrid>
+
+    </StackPanel>
+    <ListBox Grid.Row="2"
+                 ItemsSource="{Binding Path=SchülerView}"             
+                 BorderThickness="0"
+                 Name="NotenListBox"
+                 ItemTemplate="{StaticResource NotenTemplate}"
+                 ItemContainerStyle="{StaticResource UnselectableListBoxItem}">
+      <ListBox.ItemsPanel>
+        <ItemsPanelTemplate>
+          <WrapPanel Height="{Binding ElementName=NotenListBox, Path=ActualHeight, Converter={StaticResource WrapPanelWidthConverter}}" Orientation="Vertical"/>
+        </ItemsPanelTemplate>
+      </ListBox.ItemsPanel>
+      <!--<ListBox.ItemContainerStyle >
+            <Style TargetType="ListBoxItem">
+               <Setter Property="Padding" Value="0"/>
+            </Style>
+          </ListBox.ItemContainerStyle>-->
+    </ListBox>
+  </Grid>
+</Page>

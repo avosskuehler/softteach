@@ -6,12 +6,12 @@ namespace Liduv.View.Wochenpläne
   /// <summary>
   /// Interaction logic for WochenplaneintragDetailView.xaml
   /// </summary>
-  public partial class WochenplaneintragDetailView
+  public partial class TerminplaneintragDetailView
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="WochenplaneintragDetailView"/> Klasse.
+    /// Initialisiert eine neue Instanz der <see cref="TerminplaneintragDetailView"/> Klasse.
     /// </summary>
-    public WochenplaneintragDetailView()
+    public TerminplaneintragDetailView()
     {
       this.InitializeComponent();
     }

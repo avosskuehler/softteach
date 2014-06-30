@@ -18,7 +18,6 @@
 namespace Liduv
 {
   using System;
-  using System.Collections;
   using System.Diagnostics;
   using System.IO;
   using System.Printing;
@@ -26,7 +25,6 @@ namespace Liduv
   using System.Windows.Controls;
   using System.Windows.Input;
   using System.Windows.Media;
-  using System.Windows.Media.Animation;
   using System.Windows.Media.Imaging;
   using System.Windows.Threading;
 
@@ -36,6 +34,8 @@ namespace Liduv
   using Liduv.Setting;
   using Liduv.View.Main;
   using Liduv.ViewModel;
+
+  using MahApps.Metro.Controls;
 
   /// <summary>
   /// Interaction logic for App.xaml
@@ -191,8 +191,46 @@ namespace Liduv
       UnitOfWork = new UnitOfWork();
       MainViewModel = new MainViewModel();
       MainViewModel.Populate();
-      var window = new MainRibbonView { DataContext = MainViewModel };
-      window.Show();
+      //var window = new MainRibbonView { DataContext = MainViewModel };
+      //window.Show();
+      var navWin = new MetroNavigationWindow();
+      navWin.Closing += navWin_Closing;
+      navWin.Title = "Liduv";
+      navWin.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/Liduv;component/Resources/MetroResources.xaml", UriKind.Absolute) });
+      //uncomment the next two lines if you want the clean style.
+      //navWin.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/MahApps.Metro;component/Styles/Clean/CleanWindow.xaml", UriKind.Absolute) });
+      //navWin.SetResourceReference(StyleProperty, "CleanWindowStyleKey");
+      Configuration.Instance.IsMetroMode = true;
+      navWin.Show();
+      navWin.Navigate(new LandingPage());
+    }
+    
+    /// <summary>
+    /// Handles the Closing event of the navWin control.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The <see cref="System.ComponentModel.CancelEventArgs"/> instance containing the event data.</param>
+    private void navWin_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+    {
+      Selection.Instance.UpdateUserSettings();
+      Settings.Default.Save();
+
+      //// Check if there is nothing to change
+      //if (((Stack<ChangeSet>)App.MainViewModel.UndoStack).Count == 0)
+      //{
+      //  return;
+      //}
+
+      var dlg = new AskForSavingChangesDialog();
+      dlg.ShowDialog();
+      if (dlg.Result == null)
+      {
+        e.Cancel = true;
+      }
+      else if (dlg.Result.Value)
+      {
+        App.UnitOfWork.SaveChanges();
+      }
     }
 
     /// <summary>

@@ -550,22 +550,23 @@ namespace Liduv.ViewModel.Jahrespläne
     /// </summary>
     private void CreateContextMenu()
     {
-      this.tagesplanContextMenu = new ContextMenu();
-      var addStundenentwurfItem = new MenuItem
-      {
-        Header = "Stunde anlegen",
-        Command = this.AddStundeCommand,
-        Icon = App.GetImage("Stundenentwurf16.png")
-      };
-      this.tagesplanContextMenu.Items.Add(addStundenentwurfItem);
+      // TODO: Readd faster version
+      //this.tagesplanContextMenu = new ContextMenu();
+      //var addStundenentwurfItem = new MenuItem
+      //{
+      //  Header = "Stunde anlegen",
+      //  Command = this.AddStundeCommand,
+      //  Icon = App.GetImage("Stundenentwurf16.png")
+      //};
+      //this.tagesplanContextMenu.Items.Add(addStundenentwurfItem);
 
-      var addTerminItem = new MenuItem
-      {
-        Header = "Lerngruppentermin anlegen",
-        Command = this.AddLerngruppenterminCommand,
-        Icon = App.GetImage("Lerngruppentermin16.png")
-      };
-      this.tagesplanContextMenu.Items.Add(addTerminItem);
+      //var addTerminItem = new MenuItem
+      //{
+      //  Header = "Lerngruppentermin anlegen",
+      //  Command = this.AddLerngruppenterminCommand,
+      //  Icon = App.GetImage("Lerngruppentermin16.png")
+      //};
+      //this.tagesplanContextMenu.Items.Add(addTerminItem);
     }
   }
 }

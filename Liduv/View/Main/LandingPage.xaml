@@ -1,0 +1,28 @@
+﻿<Page x:Class="Liduv.View.Main.LandingPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="600"
+	    Title="Willkommen bei Liduv"
+      Loaded="LandingPage_OnLoaded">
+  <Page.Resources>
+    <ResourceDictionary Source="/Liduv;component/Resources/MetroResources.xaml"/>
+  </Page.Resources>
+
+  <UniformGrid HorizontalAlignment="Left" VerticalAlignment="Top">
+    <Button Background="Green" Width="200" Height="200" Click="WochenplanOnClick" Margin="20">
+      <Label Content="Wochenplan" FontSize="20"/>
+    </Button>
+    <Button Background="Red" Width="200" Height="200">
+      <Label Content="Noten" FontSize="20"/>
+    </Button>
+    <Button Background="Yellow" Width="200" Height="200"  Click="TagesplanOnClick">
+      <Label Content="Tagesplan" FontSize="20"/>
+    </Button>
+    <Button Width="200" Height="200" Click="DesktopOnClick">
+      <Label Content="Desktopansicht" FontSize="20"/>
+    </Button>
+  </UniformGrid>
+</Page>
