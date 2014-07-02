@@ -27,8 +27,6 @@
                     </Border.Background>
 
                     <ContentPresenter Margin="10,3"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Left"
                             RecognizesAccessKey="True" />
                   </Border>
                 </Grid>

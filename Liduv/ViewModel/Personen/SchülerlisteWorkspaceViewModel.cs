@@ -35,6 +35,11 @@
     private JahrtypViewModel jahrtypFilter;
 
     /// <summary>
+    /// Der Halbjahrtyp, deren Schülerlisten nur dargestellt werden sollen.
+    /// </summary>
+    private HalbjahrtypViewModel halbjahrtypFilter;
+
+    /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="SchülerlisteWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public SchülerlisteWorkspaceViewModel()
@@ -157,6 +162,25 @@
     }
 
     /// <summary>
+    /// Holt oder setzt den halbjahr filter für die Schülerlisten
+    /// </summary>
+    public HalbjahrtypViewModel HalbjahrtypFilter
+    {
+      get
+      {
+        return this.halbjahrtypFilter;
+      }
+
+      set
+      {
+        this.halbjahrtypFilter = value;
+        this.RaisePropertyChanged("HalbjahrtypFilter");
+        this.SchülerlistenView.Refresh();
+      }
+    }
+
+
+    /// <summary>
     /// Filtert die Terminliste nach Jahrtyp und Termintyp
     /// </summary>
     /// <param name="item">Das TerminViewModel, das gefiltert werden soll</param>
@@ -169,15 +193,39 @@
         return false;
       }
 
+      if (this.jahrtypFilter != null && this.fachFilter != null && this.halbjahrtypFilter != null)
+      {
+        return schülerlisteViewModel.SchülerlisteJahrtyp.JahrtypBezeichnung == this.jahrtypFilter.JahrtypBezeichnung
+          && schülerlisteViewModel.SchülerlisteHalbjahrtyp.HalbjahrtypBezeichnung == this.halbjahrtypFilter.HalbjahrtypBezeichnung
+          && schülerlisteViewModel.SchülerlisteFach.FachBezeichnung == this.fachFilter.FachBezeichnung;
+      }
+
       if (this.jahrtypFilter != null && this.fachFilter != null)
       {
         return schülerlisteViewModel.SchülerlisteJahrtyp.JahrtypBezeichnung == this.jahrtypFilter.JahrtypBezeichnung
           && schülerlisteViewModel.SchülerlisteFach.FachBezeichnung == this.fachFilter.FachBezeichnung;
       }
 
+      if (this.jahrtypFilter != null && this.halbjahrtypFilter != null)
+      {
+        return schülerlisteViewModel.SchülerlisteJahrtyp.JahrtypBezeichnung == this.jahrtypFilter.JahrtypBezeichnung
+          && schülerlisteViewModel.SchülerlisteHalbjahrtyp.HalbjahrtypBezeichnung == this.halbjahrtypFilter.HalbjahrtypBezeichnung;
+      }
+
+      if (this.fachFilter != null && this.halbjahrtypFilter != null)
+      {
+        return schülerlisteViewModel.SchülerlisteHalbjahrtyp.HalbjahrtypBezeichnung == this.halbjahrtypFilter.HalbjahrtypBezeichnung
+          && schülerlisteViewModel.SchülerlisteFach.FachBezeichnung == this.fachFilter.FachBezeichnung;
+      }
+
       if (this.jahrtypFilter != null)
       {
         return schülerlisteViewModel.SchülerlisteJahrtyp.JahrtypBezeichnung == this.jahrtypFilter.JahrtypBezeichnung;
+      }
+
+      if (this.halbjahrtypFilter != null)
+      {
+        return schülerlisteViewModel.SchülerlisteHalbjahrtyp.HalbjahrtypBezeichnung == this.halbjahrtypFilter.HalbjahrtypBezeichnung;
       }
 
       if (this.fachFilter != null)

@@ -15,7 +15,7 @@
     <Button Background="Green" Width="200" Height="200" Click="WochenplanOnClick" Margin="20">
       <Label Content="Wochenplan" FontSize="20"/>
     </Button>
-    <Button Background="Red" Width="200" Height="200">
+    <Button Background="Red" Width="200" Height="200" Click="NotenOnClick">
       <Label Content="Noten" FontSize="20"/>
     </Button>
     <Button Background="Yellow" Width="200" Height="200"  Click="TagesplanOnClick">

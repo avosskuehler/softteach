@@ -5,7 +5,7 @@
   <Style TargetType="{x:Type Page}">
     <Setter Property="FontSize" Value="20" />
   </Style>
-  
+
   <FontFamily x:Key="DefaultFont">Segoe UI, Lucida Sans Unicode, Verdana</FontFamily>
   <FontFamily x:Key="HeaderFontFamily">Segoe UI Light, Lucida Sans Unicode, Verdana</FontFamily>
   <FontFamily x:Key="ContentFontFamily">Segoe UI, Lucida Sans Unicode, Verdana</FontFamily>
@@ -21,7 +21,7 @@
 
   <system:Double x:Key="MenuFontSize">18</system:Double>
   <system:Double x:Key="ContextMenuFontSize">18</system:Double>
-  
+
   <!--TagesplanStyles-->
   <Style x:Key="TagesplanRowHeaderBorder">
     <Setter Property="Border.Padding" Value="5,5,0,0"/>
@@ -29,14 +29,14 @@
     <Setter Property="Border.BorderBrush" Value="Gray"/>
     <Setter Property="Border.BorderThickness" Value="1, 0, 0, 2"/>-->
   </Style>
-  
+
   <Style x:Key="WochenplanRowHeaderBorder">
     <Setter Property="Border.Padding" Value="5,5,0,0"/>
     <!--<Setter Property="Border.Background" Value="LightGray"/>
     <Setter Property="Border.BorderBrush" Value="Gray"/>
     <Setter Property="Border.BorderThickness" Value="1, 0, 0, 2"/>-->
   </Style>
-  
+
   <Style x:Key="WochenplanHeaderBorder">
     <Setter Property="Border.Padding" Value="0"/>
     <Setter Property="Border.Background" Value="LightGreen"/>
@@ -44,22 +44,80 @@
     <Setter Property="Border.BorderThickness" Value="1, 0, 0, 2"/>-->
   </Style>
 
-  <!--<Style TargetType="{x:Type Control}" x:Key="BigFontStyle">
-    <Setter Property="FontSize" Value="60" />
+  <LinearGradientBrush x:Key="ItemsBackgroundBrush" StartPoint="0,0.2" EndPoint="1,0.8">
+    <GradientStop Offset="0" Color="#FFD1E7F6" />
+    <GradientStop Offset="0.7" Color="#FFF1F6FB" />
+    <GradientStop Offset="1" Color="#FFD1E7F6" />
+  </LinearGradientBrush>
+
+  <Color x:Key="ToggleButtonBackColor" A="255" R="209" G="231" B="246"/>
+  <Color x:Key="MouseOverColor" A="255" R="211" G="211" B="211"/>
+  <Color x:Key="DisabledColor" A="255" R="169" G="169" B="169"/>
+  <Color x:Key="SelectionColor" A="255" R="144" G="238" B="144"/>
+  <Color x:Key="NeutralColor" A="0" R="255" G="255" B="255"/>
+
+  <Style TargetType="{x:Type RadioButton}" x:Key="MetroToggleRadioButton">
+    <Setter Property="SnapsToDevicePixels" Value="true" />
+    <Setter Property="OverridesDefaultStyle" Value="true" />
+    <Setter Property="Margin" Value="5"/>
+    <Setter Property="FontSize" Value="20"/>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type RadioButton}">
+          <BulletDecorator Background="Transparent">
+            <BulletDecorator.Bullet>
+              <Grid x:Name="ParentGrid">
+                <Grid.Background>
+                  <SolidColorBrush Color="{StaticResource NeutralColor}"/>
+                </Grid.Background>
+                <Border x:Name="CheckMark" Margin="2" Height="120" MinWidth="150">
+                  <Border.Background>
+                      <SolidColorBrush Color="{StaticResource ToggleButtonBackColor}"/>
+                    </Border.Background>
+                  <Label VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <ContentPresenter Margin="10,3"
+                            RecognizesAccessKey="True" />
+                  </Label>
+                </Border>
+              </Grid>
+            </BulletDecorator.Bullet>
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="MouseOver">
+                  <Storyboard>
+                    <ColorAnimation Duration="0:0:0.10" Storyboard.TargetName="ParentGrid" Storyboard.TargetProperty="Background.Color" To="{StaticResource MouseOverColor}"/>
+                  </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Pressed">
+                  <Storyboard>
+                    <ColorAnimation Duration="0:0:0.10" Storyboard.TargetName="CheckMark" Storyboard.TargetProperty="Background.Color" To="{StaticResource SelectionColor}"/>
+                  </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Disabled">
+                  <Storyboard>
+                    <ColorAnimation Duration="0:0:0.10" Storyboard.TargetName="CheckMark" Storyboard.TargetProperty="Background.Color" To="{StaticResource DisabledColor}"/>
+                  </Storyboard>
+                </VisualState>
+              </VisualStateGroup>
+              <VisualStateGroup x:Name="CheckStates">
+                <VisualState x:Name="Checked">
+                  <Storyboard>
+                    <ColorAnimation  Duration="0:0:0.10" Storyboard.TargetName="CheckMark" Storyboard.TargetProperty="Background.Color" To="{StaticResource SelectionColor}"/>
+                  </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Unchecked">
+                  <Storyboard>
+                    <ColorAnimation Duration="0:0:0.10" Storyboard.TargetName="CheckMark" Storyboard.TargetProperty="Background.Color" To="{StaticResource ToggleButtonBackColor}"/>
+                  </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Indeterminate" />
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+          </BulletDecorator>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
   </Style>
-  
-  <Style TargetType="{x:Type Button}" BasedOn="{StaticResource BigFontStyle}"></Style>
-  <Style TargetType="{x:Type Label}" BasedOn="{StaticResource BigFontStyle}"></Style>
-  <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource BigFontStyle}"></Style>
-  <Style TargetType="{x:Type ListView}" BasedOn="{StaticResource BigFontStyle}"></Style>
-  <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource BigFontStyle}"></Style>
-  <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource BigFontStyle}">
-    <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="BorderBrush" Value="#FF333333" />
-    --><!--<Setter Property="CanUserAddRows" Value="True"/>--><!--
-    <Setter Property="SelectionMode" Value="Single" />
-    <Setter Property="HorizontalGridLinesBrush" Value="DarkGray" />
-    <Setter Property="VerticalGridLinesBrush" Value="LightGray" />
-    --><!--<Setter Property="AlternatingRowBackground" Value="#FFEDEDED" />--><!--
-  </Style>-->
+
 </ResourceDictionary>

@@ -502,6 +502,18 @@
     <Compile Include="View\Datenbank\HausaufgabenDBView.xaml.cs">
       <DependentUpon>HausaufgabenDBView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Datenbank\MetroSchülerlisteDetailView.xaml.cs">
+      <DependentUpon>MetroSchülerlisteDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Datenbank\MetroFachDetailView.xaml.cs">
+      <DependentUpon>MetroFachDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Datenbank\MetroHalbjahrDetailView.xaml.cs">
+      <DependentUpon>MetroHalbjahrDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Datenbank\MetroSchuljahrDetailView.xaml.cs">
+      <DependentUpon>MetroSchuljahrDetailView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Datenbank\NotenWichtungenDBView.xaml.cs">
       <DependentUpon>NotenWichtungenDBView.xaml</DependentUpon>
     </Compile>
@@ -592,6 +604,9 @@
     <Compile Include="View\Main\LandingPage.xaml.cs">
       <DependentUpon>LandingPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Noten\MetroNotenLandingPage.xaml.cs">
+      <DependentUpon>MetroNotenLandingPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Noten\MetroKlassenlisteNotenDetailView.xaml.cs">
       <DependentUpon>MetroKlassenlisteNotenDetailView.xaml</DependentUpon>
     </Compile>
@@ -606,6 +621,9 @@
     </Compile>
     <Compile Include="View\Personen\GruppenPrintView.xaml.cs">
       <DependentUpon>GruppenPrintView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Personen\MetroSchülerlistenPage.xaml.cs">
+      <DependentUpon>MetroSchülerlistenPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Stundenentwürfe\MetroStundenentwurfDetailView.xaml.cs">
       <DependentUpon>MetroStundenentwurfDetailView.xaml</DependentUpon>
@@ -1217,6 +1235,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\Datenbank\MetroSchülerlisteDetailView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Datenbank\MetroFachDetailView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Datenbank\MetroHalbjahrDetailView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Datenbank\MetroSchuljahrDetailView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Datenbank\NotenWichtungenDBView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1337,6 +1371,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Noten\MetroNotenLandingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Noten\MetroKlassenlisteNotenDetailView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1354,6 +1392,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Personen\GruppenPrintView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Personen\MetroSchülerlistenPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

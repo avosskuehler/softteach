@@ -4,6 +4,7 @@
   using System.Windows.Controls;
 
   using Liduv.Setting;
+  using Liduv.View.Noten;
   using Liduv.View.Wochenpläne;
 
   /// <summary>
@@ -54,6 +55,12 @@
     private void LandingPage_OnLoaded(object sender, RoutedEventArgs e)
     {
       Configuration.Instance.NavigationService = this.NavigationService;
+    }
+
+    private void NotenOnClick(object sender, RoutedEventArgs e)
+    {
+      Configuration.Instance.IsMetroMode = true;
+      this.NavigationService.Navigate(new MetroNotenLandingPage());
     }
   }
 }
