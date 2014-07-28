@@ -1,0 +1,145 @@
+﻿<Page x:Class="Liduv.View.Personen.MetroGruppenPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:personen="clr-namespace:Liduv.ViewModel.Personen"
+      xmlns:setting="clr-namespace:Liduv.Setting"
+      xmlns:personenView="clr-namespace:Liduv.View.Personen"
+      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:liduv="clr-namespace:Liduv"
+      mc:Ignorable="d" 
+      d:DesignHeight="768" 
+      d:DesignWidth="1366"
+      Title="Gruppen"
+      FontSize="20"
+      DataContext="{Binding Source={x:Static setting:Selection.Instance}, Path=Schülerliste}">
+  <Page.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Liduv;component/Resources/MetroResources.xaml"/>
+        <ResourceDictionary >
+          <DataTemplate DataType="{x:Type personen:PersonViewModel}" x:Key="PersonenDataTemplate">
+            <personenView:MetroPersonDetailView />
+          </DataTemplate>
+          <Style x:Key="MetroDragDropItemStyle" TargetType="ListBoxItem">
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Template">
+              <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                  <Border x:Name="Border" SnapsToDevicePixels="true" IsManipulationEnabled="True"
+                            TouchDown="Person_OnTouchDown"
+                            TouchMove="Person_TouchMove"
+                            TouchUp="Person_OnTouchUp">
+                    <Border.Background>
+                      <SolidColorBrush Color="Transparent" />
+                    </Border.Background>
+                    <VisualStateManager.VisualStateGroups>
+                      <VisualStateGroup x:Name="SelectionStates">
+                        <!--Clear all selection states-->
+                        <VisualState x:Name="Unselected" />
+                        <VisualState x:Name="Selected"/>
+                        <VisualState x:Name="SelectedUnfocused"/>
+                      </VisualStateGroup>
+                      <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="MouseOver">
+                          <Storyboard>
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
+                                                  Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                              <EasingColorKeyFrame KeyTime="0" Value="{StaticResource MouseOverBackgroundColor}" />
+                            </ColorAnimationUsingKeyFrames>
+                          </Storyboard>
+                        </VisualState>
+                        <VisualState x:Name="Disabled"/>
+                      </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                    <ContentPresenter />
+                  </Border>
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+          </Style>
+          <DataTemplate x:Key="MetroSchülerlisteGruppenView">
+            <Border Background="{StaticResource MetroHeaderBackground}" CornerRadius="10" Padding="2" Margin="5">
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto"/>
+                  <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label Style="{StaticResource MetroSubHeader}" Foreground="White" Grid.Row="0" Content="{Binding Path=Key}" Margin="6,2,6,2"/>
+                <ListBox Grid.Row="1" ItemsSource="{Binding Path=Value}"
+                 BorderThickness="0"
+                 Stylus.IsPressAndHoldEnabled="False"
+                 Drop="Group_OnDrop"
+                 DragOver="Group_OnDragOver"
+                 AllowDrop="True"
+                 ItemTemplate="{StaticResource SchülerlisteSingleView}"
+                 ItemContainerStyle="{StaticResource MetroDragDropItemStyle}">
+                  <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                      <StackPanel/>
+                    </ItemsPanelTemplate>
+                  </ListBox.ItemsPanel>
+                </ListBox>
+              </Grid>
+            </Border>
+          </DataTemplate>
+
+        </ResourceDictionary>
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Page.Resources>
+  <Grid Stylus.IsPressAndHoldEnabled="False">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <Border Grid.Row="0" Background="{StaticResource MetroHeaderBackground}">
+      <StackPanel Orientation="Horizontal">
+        <Image Source="/Liduv;component/Images/Schülerliste32.png"/>
+        <Label Foreground="White" HorizontalAlignment="Center">Wie sollen die Gruppen eingeteilt werden?</Label>
+      </StackPanel>
+    </Border>
+    <Grid Grid.Row="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="0" Content="Anzahl der Schüler pro Gruppe" VerticalAlignment="Center"/>
+      <controls:NumericUpDown Grid.Column="1" TabIndex="1" HorizontalAlignment="Left"
+                              Value="{Binding Path=Gruppenmitgliederanzahl, Mode=TwoWay}"
+                              FontSize="24"
+                              Minimum="1"
+                              Maximum="50"
+                              Margin="10,0"/>
+      <Button Grid.Column="2" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                    Command="{Binding Path=GruppenNeuEinteilenCommand}" 
+                    ToolTip="Gruppen neu einteilen.">
+        <Image Source="/Liduv;component/Images/Würfel48.png"/>
+      </Button>
+      <Button Grid.Column="3" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                    Command="{Binding Path=GruppenAusdruckenCommand}" 
+                    ToolTip="Gruppen neu einteilen.">
+        <Image Source="/Liduv;component/Images/Printer48.png"/>
+      </Button>
+    </Grid>
+    <ListBox Grid.Column="0" Grid.Row="2"
+                 ItemsSource="{Binding Path=GruppenView}"             
+                 BorderThickness="0"
+                 Name="GruppenListBox"
+                 ItemTemplate="{StaticResource MetroSchülerlisteGruppenView}"
+                 ItemContainerStyle="{StaticResource MetroListBoxItem}">
+      <ListBox.ItemsPanel>
+        <ItemsPanelTemplate>
+          <WrapPanel Width="{Binding ElementName=GruppenListBox, Path=ActualWidth}"/>
+        </ItemsPanelTemplate>
+      </ListBox.ItemsPanel>
+    </ListBox>
+  </Grid>
+</Page>

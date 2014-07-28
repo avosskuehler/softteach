@@ -53,6 +53,7 @@
 
       this.TerminViewModel = terminViewModel;
       this.Parent = parent;
+      this.ViewTerminplaneintragCommand = new DelegateCommand(this.ViewTerminplaneintrag, () => this.TerminViewModel != null);
       this.EditTerminplaneintragCommand = new DelegateCommand(this.EditTerminplaneintrag, () => this.TerminViewModel != null);
       this.RemoveTerminplaneintragCommand = new DelegateCommand(this.RemoveTerminplaneintrag, () => this.TerminViewModel != null);
       this.ProofTerminplaneintragCommand = new DelegateCommand(this.ProofTerminplaneintrag, () => this.TerminViewModel != null);
@@ -63,6 +64,11 @@
     /// Holt den Befehl zur proof or unproof the current Terminplaneintrag
     /// </summary>
     public DelegateCommand ProofTerminplaneintragCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl zur Ansicht des aktuellen Terminplaneintrags
+    /// </summary>
+    public DelegateCommand ViewTerminplaneintragCommand { get; private set; }
 
     /// <summary>
     /// Holt den Befehl zur editing the current Terminplaneintrag
@@ -445,6 +451,48 @@
           this.Parent.UpdateProperties(wochenIndex, ersteStundeIndex, stundenzahl);
           this.RaisePropertyChanged("TerminplaneintragThema");
         }
+      }
+    }
+
+    /// <summary>
+    /// Zeigt den aktuellen Terminplaneintrag
+    /// </summary>
+    private void ViewTerminplaneintrag()
+    {
+      if (this.TerminViewModel == null)
+      {
+        return;
+      }
+
+
+      //using (new UndoBatch(App.MainViewModel, string.Format("Wochenplaneintrag {0} editiert.", this), false))
+      {
+        if (this.TerminViewModel is LerngruppenterminViewModel)
+        {
+          var lerngruppentermin = this.TerminViewModel as LerngruppenterminViewModel;
+          Selection.Instance.Fach =
+            App.MainViewModel.Fächer.First(o => o.FachBezeichnung == lerngruppentermin.LerngruppenterminFach);
+          Selection.Instance.Klasse =
+            App.MainViewModel.Klassen.First(o => o.KlasseBezeichnung == lerngruppentermin.LerngruppenterminKlasse);
+          if (lerngruppentermin is StundeViewModel)
+          {
+            var stunde = lerngruppentermin as StundeViewModel;
+            if (stunde.StundeStundenentwurf != null && stunde.StundeStundenentwurf.StundenentwurfModul != null)
+            {
+              Selection.Instance.Modul = stunde.StundeStundenentwurf.StundenentwurfModul;
+            }
+          }
+
+          lerngruppentermin.ViewLerngruppenterminCommand.Execute(null);
+        }
+        else if (this.TerminViewModel is SchulterminViewModel)
+        {
+          var schultermin = this.TerminViewModel as SchulterminViewModel;
+          schultermin.EditSchultermin();
+        }
+
+        this.Parent.UpdateProperties(this.wochentagIndex, this.ErsteUnterrichtsstundeIndex, this.Stundenanzahl);
+        this.RaisePropertyChanged("TerminplaneintragThema");
       }
     }
 

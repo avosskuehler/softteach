@@ -4,6 +4,7 @@ namespace Liduv.View.Datenbank
   using System.Windows;
 
   using Liduv.Setting;
+  using Liduv.View.Personen;
   using Liduv.ViewModel.Personen;
 
   /// <summary>
@@ -27,7 +28,18 @@ namespace Liduv.View.Datenbank
     private void SchülerlisteButtonOnClick(object sender, RoutedEventArgs e)
     {
       Selection.Instance.Schülerliste = this.DataContext as SchülerlisteViewModel;
-      //Configuration.Instance.NavigationService.Navigate(new MetroSchülerlistePage());
+      switch (Configuration.Instance.NavigateTarget)
+      {
+        case NavigateTarget.Gruppen:
+          Configuration.Instance.NavigationService.Navigate(new MetroGruppenPage());
+          break;
+        case NavigateTarget.Noten:
+          Configuration.Instance.NavigationService.Navigate(new MetroSchülerlistePage());
+          break;
+        case NavigateTarget.Sitzpläne:
+          //Configuration.Instance.NavigationService.Navigate(new MetroSchülerlistePage());
+          break;
+      }
     }
   }
 }

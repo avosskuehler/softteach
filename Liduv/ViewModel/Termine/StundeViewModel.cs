@@ -14,12 +14,17 @@ namespace Liduv.ViewModel.Termine
   using Liduv.Setting;
   using Liduv.UndoRedo;
   using Liduv.View.Jahrespläne;
+  using Liduv.View.Noten;
   using Liduv.View.Stundenentwürfe;
   using Liduv.View.Termine;
   using Liduv.ViewModel.Datenbank;
   using Liduv.ViewModel.Helper;
   using Liduv.ViewModel.Jahrespläne;
+  using Liduv.ViewModel.Noten;
+  using Liduv.ViewModel.Personen;
   using Liduv.ViewModel.Stundenentwürfe;
+
+  using MahApps.Metro.Controls.Dialogs;
 
   /// <summary>
   /// ViewModel of an individual stunde
@@ -43,13 +48,25 @@ namespace Liduv.ViewModel.Termine
     public StundeViewModel(TagesplanViewModel parentTagesplan, Stunde stunde)
       : base(parentTagesplan, stunde)
     {
+      this.AddStundennotenCommand = new DelegateCommand(this.AddStundennoten);
       this.AddStundenentwurfCommand = new DelegateCommand(this.AddStundenentwurf);
       this.RemoveStundenentwurfCommand = new DelegateCommand(this.RemoveStundenentwurf, () => this.StundeStundenentwurf != null);
       this.SearchStundenentwurfCommand = new DelegateCommand(this.SearchStundenentwurf);
       this.PreviewStundenentwurfCommand = new DelegateCommand(this.PreviewStundenentwurf, () => this.StundeStundenentwurf != null);
       this.PrintStundenentwurfCommand = new DelegateCommand(this.PrintStundenentwurf, () => this.StundeStundenentwurf != null);
       this.PrintAllStundenentwurfCommand = new DelegateCommand(this.PrintAllStundenentwurf, () => this.StundeStundenentwurf != null);
+      this.AddHausaufgabenCommand = new DelegateCommand(this.AddHausaufgaben);
     }
+
+    /// <summary>
+    /// Holt den Befehl, um vergessen Hausaufgaben anzulegen.
+    /// </summary>
+    public DelegateCommand AddHausaufgabenCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl um Noten für die Stunde zu geben
+    /// </summary>
+    public DelegateCommand AddStundennotenCommand { get; private set; }
 
     /// <summary>
     /// Holt den Befehl zur adding a new stundenentwurf
@@ -343,14 +360,35 @@ namespace Liduv.ViewModel.Termine
       }
     }
 
+    /// <summary>
+    /// Zeigt den aktuellen Lerngruppentermin
+    /// </summary>
+    protected override void ViewLerngruppentermin()
+    {
+      this.UpdateSchülerlisteInSelection();
+      if (Configuration.Instance.IsMetroMode)
+      {
+        var stundePage = new MetroStundenentwurfPage();
+
+        // Set correct times
+        this.UpdateStundenentwurfPhasenzeitraum();
+        stundePage.DataContext = this;
+        Configuration.Instance.NavigationService.Navigate(stundePage);
+      }
+    }
+
+    /// <summary>
+    /// Handles deletion of the current Lerngruppentermin
+    /// </summary>
     protected override void EditLerngruppentermin()
     {
+      this.UpdateSchülerlisteInSelection();
       bool undo = false;
       using (new UndoBatch(App.MainViewModel, string.Format("Stunde {0} editieren", this), false))
       {
         if (Configuration.Instance.IsMetroMode)
         {
-          var stundePage = new MetroStundenentwurfDetailView();
+          var stundePage = new MetroStundenentwurfDetailPage();
 
           // Set correct times
           this.UpdateStundenentwurfPhasenzeitraum();
@@ -532,6 +570,41 @@ namespace Liduv.ViewModel.Termine
       foreach (var dateiverweisViewModel in this.StundeStundenentwurf.Dateiverweise)
       {
         App.PrintFile(dateiverweisViewModel.DateiverweisDateiname);
+      }
+    }
+
+    /// <summary>
+    /// Ruft den Dialog zur Eingabe von Noten für die momentane Stunde auf
+    /// </summary>
+    private void AddStundennoten()
+    {
+      this.UpdateSchülerlisteInSelection();
+      var viewModel = new StundennotenWorkspaceViewModel(Selection.Instance.Schülerliste, this);
+
+      bool undo = false;
+      using (new UndoBatch(App.MainViewModel, string.Format("Noten hinzugefügt"), false))
+      {
+        if (Configuration.Instance.IsMetroMode)
+        {
+          var notenPage = new MetroStundennotenPage();
+          notenPage.DataContext = viewModel;
+          Configuration.Instance.NavigationService.Navigate(notenPage);
+        }
+      }
+    }
+
+     /// <summary>
+    /// Hier wird der Dialog zur Hausaufgabenkontrolle aufgerufen
+    /// </summary>
+    private async void AddHausaufgaben()
+    {
+      this.UpdateSchülerlisteInSelection();
+      var undo = false;
+      using (new UndoBatch(App.MainViewModel, string.Format("Hausaufgaben hinzugefügt."), false))
+      {
+        var addDlg = new MetroAddHausaufgabeDialog(this.LerngruppenterminDatum);
+        var metroWindow = Configuration.Instance.MetroWindow;
+        await metroWindow.ShowMetroDialogAsync(addDlg);
       }
     }
   }

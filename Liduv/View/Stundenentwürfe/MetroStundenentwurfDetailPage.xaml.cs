@@ -5,12 +5,12 @@
   /// <summary>
   /// Interaction logic for MetroStundenentwurfDetailView.xaml
   /// </summary>
-  public partial class MetroStundenentwurfDetailView
+  public partial class MetroStundenentwurfDetailPage
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="MetroStundenentwurfDetailView"/> Klasse.
+    /// Initialisiert eine neue Instanz der <see cref="MetroStundenentwurfDetailPage"/> Klasse.
     /// </summary>
-    public MetroStundenentwurfDetailView()
+    public MetroStundenentwurfDetailPage()
     {
       this.InitializeComponent();
     }

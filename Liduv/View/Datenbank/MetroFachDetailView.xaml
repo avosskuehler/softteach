@@ -5,9 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
              d:DesignHeight="130" d:DesignWidth="300"
-             FontSize="18">
+             FontSize="18"
+             Loaded="MetroFachDetailView_OnLoaded">
   <UserControl.Resources>
     <ResourceDictionary Source="/Resources/MetroResources.xaml"/>
   </UserControl.Resources>
-  <RadioButton GroupName="Fach" Style="{StaticResource MetroToggleRadioButton}" Click="FachButtonOnClick" Content="{Binding Path=FachBezeichnung}"/>
+  <RadioButton Name="FachRadioButton" GroupName="Fach" Style="{StaticResource MetroToggleRadioButton}" Click="FachButtonOnClick" Content="{Binding Path=FachBezeichnung}"/>
 </UserControl>

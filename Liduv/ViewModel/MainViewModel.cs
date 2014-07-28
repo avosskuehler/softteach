@@ -5,7 +5,9 @@
   using System.Collections.ObjectModel;
   using System.Collections.Specialized;
   using System.Diagnostics;
+  using System.Globalization;
   using System.IO;
+  using System.Linq;
   using System.Windows.Data;
   using System.Windows.Input;
   using Liduv.ExceptionHandling;
@@ -545,6 +547,20 @@
     #endregion Workspaces
 
     /// <summary>
+    /// Holt eine Liste der ganzen Noten als String.
+    /// </summary>
+    public List<string> ZensurenList
+    {
+      get
+      {
+        var list = new List<string>(this.Zensuren.Count);
+        list.AddRange(this.Zensuren.Select(zensurViewModel => zensurViewModel.ZensurGanzeNote.ToString("N0")));
+        return list;
+      }
+    }
+
+
+    /// <summary>
     /// Führt einen UndoSchritt aus.
     /// </summary>
     public void ExecuteUndoCommand()
@@ -989,7 +1005,7 @@
       }
     }
 
-    /// <summary>
+     /// <summary>
     /// Diese Methode aktualisiert den Datenbankkontext und speichert die Änderungen
     /// in der Datenbank.
     /// </summary>

@@ -12,6 +12,8 @@
   using Liduv.ViewModel.Datenbank;
   using Liduv.ViewModel.Helper;
 
+  using MahApps.Metro.Controls.Dialogs;
+
   /// <summary>
   /// ViewModel of an individual note
   /// </summary>
@@ -103,6 +105,7 @@
       }
     }
 
+
     /// <summary>
     /// Holt oder setzt die Datim
     /// </summary>
@@ -119,6 +122,17 @@
         this.UndoablePropertyChanging(this, "NoteDatum", this.Model.Datum, value);
         this.Model.Datum = value;
         this.RaisePropertyChanged("NoteDatum");
+      }
+    }
+
+    /// <summary>
+    /// Holt oder setzt die Datim
+    /// </summary>
+    public string NoteDatumFormatted
+    {
+      get
+      {
+        return this.Model.Datum.ToShortDateString();
       }
     }
 
@@ -263,6 +277,15 @@
       }
     }
 
+    [DependsUpon("NoteZensur")]
+    public int NoteZensurGanzeNote
+    {
+      get
+      {
+        return this.NoteZensur.ZensurGanzeNote;
+      }
+    }
+
     /// <summary>
     /// Holt oder setzt die Arbeit currently assigned to this Note
     /// </summary>
@@ -307,13 +330,23 @@
     /// Diese Methode wird aufgerufen, wenn der Benutzer eine Note anklickt.
     /// Es öffnet sich der Editierdialog für Noten
     /// </summary>
-    private void EditNote()
+    private async void EditNote()
     {
       var workspace = new NotenWorkspaceViewModel(this);
-      var dlg = new AddNoteDialog(workspace);
-      if (dlg.ShowDialog().GetValueOrDefault(false))
+      if (Configuration.Instance.IsMetroMode)
       {
-        Selection.Instance.Schülereintrag.UpdateNoten();
+        var metroWindow = Configuration.Instance.MetroWindow;
+        metroWindow.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Accented;
+        var dialog = new MetroNoteDialog(workspace);
+        await metroWindow.ShowMetroDialogAsync(dialog);
+      }
+      else
+      {
+        var dlg = new AddNoteDialog(workspace);
+        if (dlg.ShowDialog().GetValueOrDefault(false))
+        {
+          Selection.Instance.Schülereintrag.UpdateNoten();
+        }
       }
     }
 

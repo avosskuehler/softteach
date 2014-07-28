@@ -1,5 +1,6 @@
 ﻿namespace Liduv.View.Main
 {
+  using System.Security.RightsManagement;
   using System.Windows;
   using System.Windows.Controls;
 
@@ -60,7 +61,15 @@
     private void NotenOnClick(object sender, RoutedEventArgs e)
     {
       Configuration.Instance.IsMetroMode = true;
-      this.NavigationService.Navigate(new MetroNotenLandingPage());
+      Configuration.Instance.NavigateTarget = NavigateTarget.Noten;
+      this.NavigationService.Navigate(new MetroSelectSchülerlistePage());
+    }
+
+    private void GruppenOnClick(object sender, RoutedEventArgs e)
+    {
+      Configuration.Instance.IsMetroMode = true;
+      Configuration.Instance.NavigateTarget = NavigateTarget.Gruppen;
+      this.NavigationService.Navigate(new MetroSelectSchülerlistePage());
     }
   }
 }

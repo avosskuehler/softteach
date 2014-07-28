@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
              d:DesignHeight="130" d:DesignWidth="160"
-             FontSize="18">
+             FontSize="18"
+             Loaded="MetroSchuljahrDetailView_OnLoaded">
   <UserControl.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
@@ -15,5 +16,5 @@
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </UserControl.Resources>
-  <RadioButton GroupName="Schuljahr" Style="{StaticResource MetroToggleRadioButton}" Width="150" Click="SchuljahrButtonOnClick" Content="{Binding Path=JahrtypBezeichnung}"/>
+  <RadioButton x:Name="SchuljahrRadioButton" GroupName="Schuljahr" Style="{StaticResource MetroToggleRadioButton}" Width="150" Click="SchuljahrButtonOnClick" Content="{Binding Path=JahrtypBezeichnung}"/>
 </UserControl>

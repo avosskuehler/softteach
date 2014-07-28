@@ -4,7 +4,6 @@ namespace Liduv.View.Datenbank
   using System.Windows;
 
   using Liduv.Setting;
-  using Liduv.View.Noten;
   using Liduv.ViewModel.Datenbank;
 
   /// <summary>
@@ -28,6 +27,20 @@ namespace Liduv.View.Datenbank
     private void HalbjahrButtonOnClick(object sender, RoutedEventArgs e)
     {
       Selection.Instance.Halbjahr = this.DataContext as HalbjahrtypViewModel;
+    }
+
+    /// <summary>
+    /// Handles the OnLoaded event of the MetroHalbjahrDetailView control.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+    private void MetroHalbjahrDetailView_OnLoaded(object sender, RoutedEventArgs e)
+    {
+      var model = this.DataContext as HalbjahrtypViewModel;
+      if (model == Selection.Instance.Halbjahr)
+      {
+        this.HalbjahrRadioButton.IsChecked = true;
+      }
     }
   }
 }

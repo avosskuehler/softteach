@@ -95,9 +95,26 @@
     }
 
     /// <summary>
-    /// The filter predicate that filters the person table view only showing schüler
+    /// Holt den Titel der Note.
+    /// D.h. eine Beschreibung für wen die Note gegeben wird.
     /// </summary>
-    /// <param name="de">The <see cref="PersonViewModel"/> that should be filtered</param>
+    public string NoteTitel
+    {
+      get
+      {
+        return
+          this.CurrentNote.Model.Schülereintrag.Schülerliste.Fach.Bezeichnung +
+          "note für " +
+          this.CurrentNote.Model.Schülereintrag.Person.Vorname +
+          " " +
+          this.CurrentNote.Model.Schülereintrag.Person.Nachname;
+      }
+    }
+
+    /// <summary>
+    /// The filter predicate that filters the notentyp view only showing specific notentypen
+    /// </summary>
+    /// <param name="de">The <see cref="Notentyp"/> that should be filtered</param>
     /// <returns>True if the given object should remain in the list.</returns>
     private bool Notentypfilter(object de)
     {

@@ -91,6 +91,8 @@
       this.SchülereinträgeView.SortDescriptions.Add(new SortDescription("SchülereintragSortByNachnameProperty", ListSortDirection.Ascending));
       this.SchülereinträgeView.Refresh();
 
+      this.SchülereinträgeInGruppen = new ObservableCollection<SchülereintragViewModel>();
+
       this.Gruppenmitgliederanzahl = 4;
 
       App.MainViewModel.NotenWichtungen.CollectionChanged += (sender, e) =>
@@ -139,24 +141,49 @@
     public Schülerliste Model { get; private set; }
 
     /// <summary>
-    /// Holt den schülereinträge for this schülerliste
+    /// Holt die schülereinträge for this schülerliste
     /// </summary>
     public ObservableCollection<SchülereintragViewModel> Schülereinträge { get; private set; }
 
     /// <summary>
-    /// Holt den schülereinträge for this schülerliste
+    /// Holt die schülereinträge for this schülerliste
     /// </summary>
-    public ObservableCollection<List<SchülereintragViewModel>> Gruppen { get; private set; }
+    public ObservableCollection<SchülereintragViewModel> SchülereinträgeInGruppen { get; private set; }
 
     /// <summary>
-    /// Holt oder setzt die sortierten Phasen
+    /// Holt oder setzt die Schülereinträge
     /// </summary>
     public ICollectionView SchülereinträgeView { get; set; }
 
+    private ICollectionView gruppenView;
+
     /// <summary>
-    /// Holt oder setzt die sortierten Phasen
+    /// Holt oder setzt die gemischten Gruppen
     /// </summary>
-    public ICollectionView GruppenView { get; set; }
+    public ICollectionView GruppenView
+    {
+      get
+      {
+        var gruppenAnzahl = (int)Math.Round(this.Schülereinträge.Count / (float)this.Gruppenmitgliederanzahl, 0);
+        var gruppen = this.SchülereinträgeInGruppen.Split(gruppenAnzahl);
+        var gruppenWithTitle = new Dictionary<string, IEnumerable<SchülereintragViewModel>>();
+        var i = 1;
+        foreach (var gruppe in gruppen)
+        {
+          gruppenWithTitle.Add("Gruppe " + i, gruppe);
+          i++;
+        }
+
+        this.gruppenView = CollectionViewSource.GetDefaultView(gruppenWithTitle);
+        if (this.gruppenView.SortDescriptions.Count == 0)
+        {
+          this.gruppenView.SortDescriptions.Add(new SortDescription("Key", ListSortDirection.Ascending));
+        }
+
+        this.gruppenView.Refresh();
+        return this.gruppenView;
+      }
+    }
 
     /// <summary>
     /// Holt oder setzt die maximale Anzahl der Gruppenmitglieder
@@ -542,23 +569,14 @@
     private void GruppenNeuEinteilen()
     {
       // Mische die Schüler
-      var randomizedSchülereinträge = this.Schülereinträge.Shuffle();
-      var gruppenAnzahl = (int)Math.Round(this.Schülereinträge.Count / (float)this.Gruppenmitgliederanzahl, 0);
-      var gruppen = randomizedSchülereinträge.Split(gruppenAnzahl);
-      this.GruppenView = CollectionViewSource.GetDefaultView(gruppen);
-      if (this.GruppenView.SortDescriptions.Count == 0)
-      {
-        this.GruppenView.SortDescriptions.Add(new SortDescription("Key", ListSortDirection.Ascending));
-      }
-
-      this.GruppenView.Refresh();
+      this.SchülereinträgeInGruppen = new ObservableCollection<SchülereintragViewModel>(this.Schülereinträge.Shuffle());
       this.RaisePropertyChanged("GruppenView");
     }
 
     /// <summary>
     /// Druckt die aktuelle Gruppenzusammenstellung aus.
     /// </summary>
-    private void GruppenAusdrucken()    
+    private void GruppenAusdrucken()
     {
       // select printer and get printer settings
       var pd = new PrintDialog();

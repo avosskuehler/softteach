@@ -33,7 +33,20 @@ namespace Liduv.View.Datenbank
       App.MainViewModel.SchülerlisteWorkspace.JahrtypFilter = Selection.Instance.Schuljahr;
       App.MainViewModel.SchülerlisteWorkspace.HalbjahrtypFilter = Selection.Instance.Halbjahr;
       App.MainViewModel.SchülerlisteWorkspace.FachFilter = Selection.Instance.Fach;
-      Configuration.Instance.NavigationService.Navigate(new MetroSchülerlistenPage());
+    }
+
+    /// <summary>
+    /// Handles the OnLoaded event of the MetroFachDetailView control.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+    private void MetroFachDetailView_OnLoaded(object sender, RoutedEventArgs e)
+    {
+      var model = this.DataContext as FachViewModel;
+      if (model == Selection.Instance.Fach)
+      {
+        this.FachRadioButton.IsChecked = true;
+      }
     }
   }
 }

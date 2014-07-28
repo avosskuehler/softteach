@@ -12,7 +12,6 @@
     <Style TargetType="{x:Type RadioButton}" x:Key="MetroNotenClickButton">
       <Setter Property="SnapsToDevicePixels" Value="true" />
       <Setter Property="OverridesDefaultStyle" Value="true" />
-      <Setter Property="FocusVisualStyle" Value="{DynamicResource RadioButtonFocusVisual}" />
       <Setter Property="Margin" Value="1"/>
       <Setter Property="Padding" Value="10,3"/>
       <Setter Property="Template">

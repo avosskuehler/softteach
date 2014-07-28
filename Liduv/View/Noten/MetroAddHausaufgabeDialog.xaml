@@ -1,0 +1,44 @@
+﻿<dialogs:BaseMetroDialog 
+  x:Class="Liduv.View.Noten.MetroAddHausaufgabeDialog"
+  xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:liduv="clr-namespace:Liduv"
+  xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+  xmlns:noten="clr-namespace:Liduv.ViewModel.Noten"
+  xmlns:sys="clr-namespace:System;assembly=mscorlib"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+  mc:Ignorable="d"
+  d:DesignWidth="991.045" d:DesignHeight="479.114">
+  <dialogs:BaseMetroDialog.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Liduv;component/Resources/MetroResources.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatSlider.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/Dialogs/BaseMetroDialog.xaml" />
+        <ResourceDictionary >
+          <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="Notentypen">
+            <ObjectDataProvider.MethodParameters>
+              <x:Type TypeName="noten:Notentyp" />
+            </ObjectDataProvider.MethodParameters>
+          </ObjectDataProvider>
+        </ResourceDictionary>
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </dialogs:BaseMetroDialog.Resources>
+  <Grid>
+    <StackPanel>
+      <DatePicker Width="180"
+				x:Name="NoteGültigAmDate" 
+				Margin="5"
+				FontSize="24"
+				HorizontalAlignment="Left"
+				SelectedDate="{Binding Datum, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+				controls:TextboxHelper.Watermark="Datum ..." />
+      <Label Style="{StaticResource MetroLabelStyle}">Bezeichnung der Hausaufgabe</Label>
+      <TextBox Style="{StaticResource MetroLabelStyle}" Margin="5" Text="{Binding Bezeichnung}"/>
+      <Button Width="100" FontSize="20" Margin="10" Content="Fertig" Style="{DynamicResource AccentedSquareButtonStyle}" Click="FertigButtonOnClick"/>
+    </StackPanel>
+  </Grid>
+</dialogs:BaseMetroDialog>

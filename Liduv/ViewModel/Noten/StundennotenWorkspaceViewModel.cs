@@ -15,6 +15,8 @@
   using Liduv.ViewModel.Personen;
   using Liduv.ViewModel.Termine;
 
+  using MahApps.Metro.Controls.Dialogs;
+
   /// <summary>
   /// ViewModel for managing Stundennote
   /// </summary>
@@ -138,8 +140,18 @@
     /// <summary>
     /// Hier wird der Dialog zur Hausaufgabenkontrolle aufgerufen
     /// </summary>
-    private void AddHausaufgaben()
+    private async void AddHausaufgaben()
     {
+      Selection.Instance.Schülerliste = this.schülerliste;
+
+      if (Configuration.Instance.IsMetroMode)
+      {
+        var addDlg = new MetroAddHausaufgabeDialog(this.stunde.LerngruppenterminDatum);
+        var metroWindow = Configuration.Instance.MetroWindow;
+        await metroWindow.ShowMetroDialogAsync(addDlg);
+        return;
+      }
+
       var undo = false;
       using (new UndoBatch(App.MainViewModel, string.Format("Hausaufgaben hinzugefügt."), false))
       {

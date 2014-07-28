@@ -27,6 +27,8 @@ namespace Liduv.Setting
   using Liduv.Model;
   using Liduv.Model.EntityFramework;
 
+  using MahApps.Metro.Controls;
+
   /// <summary>
   /// The selection.
   /// </summary>
@@ -35,11 +37,23 @@ namespace Liduv.Setting
     #region Constants and Fields
 
     /// <summary>
+    /// Navigate Target
+    /// </summary>
+    public static readonly DependencyProperty NavigateTargetProperty = DependencyProperty.Register(
+      "NavigateTarget", typeof(NavigateTarget), typeof(Configuration), new FrameworkPropertyMetadata(OnPropertyChanged));
+
+    /// <summary>
     /// Metro mode
     /// </summary>
     public static readonly DependencyProperty IsMetroModeProperty = DependencyProperty.Register(
       "IsMetroMode", typeof(bool), typeof(Configuration), new FrameworkPropertyMetadata(OnPropertyChanged));
 
+    /// <summary>
+    /// Metro window
+    /// </summary>
+    public static readonly DependencyProperty MetroWindowProperty = DependencyProperty.Register(
+      "MetroWindow", typeof(MetroWindow), typeof(Configuration), new FrameworkPropertyMetadata(OnPropertyChanged));
+   
    /// <summary>
     /// The navigation service to navigate in metro mode between pages
     /// </summary>
@@ -132,6 +146,23 @@ namespace Liduv.Setting
       }
     }
 
+    /// <summary>
+    ///   Holt oder setzt einen Wert, der angibt, wohin das Programm nach
+    /// der Auswahl der Schülerliste springen soll (im Metro mode)
+    /// </summary>
+    public NavigateTarget NavigateTarget
+    {
+      get
+      {
+        return (NavigateTarget)this.GetValue(NavigateTargetProperty);
+      }
+
+      set
+      {
+        this.SetValue(NavigateTargetProperty, value);
+      }
+    }
+
     public NavigationService NavigationService
     {
       get
@@ -142,6 +173,19 @@ namespace Liduv.Setting
       set
       {
         this.SetValue(NavigationServiceProperty, value);
+      }
+    }
+
+    public MetroWindow MetroWindow
+    {
+      get
+      {
+        return (MetroWindow)this.GetValue(MetroWindowProperty);
+      }
+
+      set
+      {
+        this.SetValue(MetroWindowProperty, value);
       }
     }
 

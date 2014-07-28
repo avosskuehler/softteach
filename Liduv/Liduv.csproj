@@ -90,7 +90,7 @@
     </Reference>
     <Reference Include="GongSolutions.Wpf.DragDrop, Version=0.1.3.8, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\gong-wpf-dragdrop.0.1.3.8\lib\net40\GongSolutions.Wpf.DragDrop.dll</HintPath>
+      <HintPath>..\DLL\GongSolutions.Wpf.DragDrop.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro">
       <HintPath>..\packages\MahApps.Metro.0.14.0-ALPHA86\lib\net45\MahApps.Metro.dll</HintPath>
@@ -98,6 +98,15 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="OxyPlot">
+      <HintPath>..\packages\OxyPlot.Core.2014.1.319.1\lib\portable-net4+sl4+wp71+win8\OxyPlot.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot.Wpf">
+      <HintPath>..\packages\OxyPlot.Wpf.2014.1.319.1\lib\NET45\OxyPlot.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot.Xps">
+      <HintPath>..\packages\OxyPlot.Wpf.2014.1.319.1\lib\NET45\OxyPlot.Xps.dll</HintPath>
     </Reference>
     <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -320,6 +329,7 @@
     <Compile Include="Resources\Controls\MultiSelectorBehaviours.cs" />
     <Compile Include="Resources\Controls\TwoListSynchronizer.cs" />
     <Compile Include="Setting\Configuration.cs" />
+    <Compile Include="Setting\NavigateTarget.cs" />
     <Compile Include="Setting\Schule.cs" />
     <Compile Include="Setting\Selection.cs" />
     <Compile Include="Resources\Converter\FloatProzentConverter.cs" />
@@ -604,8 +614,23 @@
     <Compile Include="View\Main\LandingPage.xaml.cs">
       <DependentUpon>LandingPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Noten\MetroNotenLandingPage.xaml.cs">
-      <DependentUpon>MetroNotenLandingPage.xaml</DependentUpon>
+    <Compile Include="View\Noten\MetroAddHausaufgabenDialog.xaml.cs">
+      <DependentUpon>MetroAddHausaufgabenDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Noten\MetroAddHausaufgabeDialog.xaml.cs">
+      <DependentUpon>MetroAddHausaufgabeDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Noten\MetroHausaufgabeDialog.xaml.cs">
+      <DependentUpon>MetroHausaufgabeDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Noten\MetroNotentendenzDialog.xaml.cs">
+      <DependentUpon>MetroNotentendenzDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Noten\MetroNoteDialog.xaml.cs">
+      <DependentUpon>MetroNoteDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Noten\MetroSelectSchülerlistePage.xaml.cs">
+      <DependentUpon>MetroSelectSchülerlistePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Noten\MetroKlassenlisteNotenDetailView.xaml.cs">
       <DependentUpon>MetroKlassenlisteNotenDetailView.xaml</DependentUpon>
@@ -616,17 +641,29 @@
     <Compile Include="View\Noten\MetroStundennotenPage.xaml.cs">
       <DependentUpon>MetroStundennotenPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Noten\MetroSchülereintragNotenPage.xaml.cs">
+      <DependentUpon>MetroSchülereintragNotenPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Personen\GruppenErstellenDialog.xaml.cs">
       <DependentUpon>GruppenErstellenDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Personen\GruppenPrintView.xaml.cs">
       <DependentUpon>GruppenPrintView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Personen\MetroSchülerlistenPage.xaml.cs">
-      <DependentUpon>MetroSchülerlistenPage.xaml</DependentUpon>
+    <Compile Include="View\Personen\MetroPersonDetailView.xaml.cs">
+      <DependentUpon>MetroPersonDetailView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Stundenentwürfe\MetroStundenentwurfDetailView.xaml.cs">
-      <DependentUpon>MetroStundenentwurfDetailView.xaml</DependentUpon>
+    <Compile Include="View\Personen\MetroGruppenPage.xaml.cs">
+      <DependentUpon>MetroGruppenPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Personen\MetroSchülerlistePage.xaml.cs">
+      <DependentUpon>MetroSchülerlistePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Stundenentwürfe\MetroStundenentwurfDetailPage.xaml.cs">
+      <DependentUpon>MetroStundenentwurfDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Stundenentwürfe\MetroStundenentwurfPage.xaml.cs">
+      <DependentUpon>MetroStundenentwurfPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Termine\AddLerngruppenterminDialog.xaml.cs">
       <DependentUpon>AddLerngruppenterminDialog.xaml</DependentUpon>
@@ -1080,13 +1117,23 @@
     <Resource Include="Images\MoveOverlay16.png" />
     <Resource Include="Images\MoveOverlay32.png" />
     <Resource Include="Images\WuerfelOverlay32.png" />
-    <Resource Include="Images\Wuerfel16.png" />
-    <Resource Include="Images\Print16.png" />
     <Resource Include="Images\Edit48.png" />
     <Resource Include="Images\Note48.png" />
     <Resource Include="Images\ProofOpen48.png" />
     <Resource Include="Images\ProofValid48.png" />
     <Resource Include="Images\Remove48.png" />
+    <Resource Include="Images\ChartTypeLine16.png" />
+    <Resource Include="Images\ChartTypeLine32.png" />
+    <Resource Include="Images\View48.png" />
+    <Resource Include="Images\Kopierer48.png" />
+    <Resource Include="Images\Laptop48.png" />
+    <Resource Include="Images\Hausaufgabe48.png" />
+    <Resource Include="Images\Würfel16.png" />
+    <Resource Include="Images\Würfel32.png" />
+    <Resource Include="Images\Würfel48.png" />
+    <Resource Include="Images\Printer16.png" />
+    <Resource Include="Images\Printer32.png" />
+    <Resource Include="Images\Printer48.png" />
     <Content Include="Model\EntityFramework\PopulateLiduvModelWithDefaults.sql" />
     <None Include="Model\EntityFramework\LiduvModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -1371,7 +1418,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Noten\MetroNotenLandingPage.xaml">
+    <Page Include="View\Noten\MetroAddHausaufgabenDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Noten\MetroAddHausaufgabeDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Noten\MetroHausaufgabeDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Noten\MetroNotentendenzDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Noten\MetroNoteDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Noten\MetroSelectSchülerlistePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1387,6 +1454,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\Noten\MetroSchülereintragNotenPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Personen\GruppenErstellenDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1395,11 +1466,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Personen\MetroSchülerlistenPage.xaml">
+    <Page Include="View\Personen\MetroPersonDetailView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Stundenentwürfe\MetroStundenentwurfDetailView.xaml">
+    <Page Include="View\Personen\MetroGruppenPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Personen\MetroSchülerlistePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Stundenentwürfe\MetroStundenentwurfDetailPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Stundenentwürfe\MetroStundenentwurfPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

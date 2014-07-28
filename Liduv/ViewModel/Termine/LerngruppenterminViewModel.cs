@@ -1,9 +1,11 @@
 ﻿namespace Liduv.ViewModel.Termine
 {
   using System;
+  using System.Linq;
   using System.Windows.Media;
 
   using Liduv.Model.EntityFramework;
+  using Liduv.Setting;
   using Liduv.UndoRedo;
   using Liduv.View.Jahrespläne;
   using Liduv.View.Termine;
@@ -44,6 +46,7 @@
       }
 
       this.ParentTagesplan = parentTagesplan;
+      this.ViewLerngruppenterminCommand = new DelegateCommand(this.ViewLerngruppentermin);
       this.EditLerngruppenterminCommand = new DelegateCommand(this.EditLerngruppentermin);
       this.RemoveLerngruppenterminCommand = new DelegateCommand(this.DeleteTermin);
     }
@@ -52,6 +55,11 @@
     /// Holt den tagesplan this lerngruppentermin belongs to.
     /// </summary>
     public TagesplanViewModel ParentTagesplan { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl zur Ansicht des aktuellen Lerngruppentermins
+    /// </summary>
+    public DelegateCommand ViewLerngruppenterminCommand { get; private set; }
 
     /// <summary>
     /// Holt den Befehl zur editing the current Lerngruppentermin
@@ -165,6 +173,29 @@
     }
 
     /// <summary>
+    /// Zeigt den aktuellen Lerngruppentermin
+    /// </summary>
+    protected virtual void ViewLerngruppentermin()
+    {
+      var dlg = new AddLerngruppenterminDialog
+      {
+        Terminbezeichnung = this.TerminBeschreibung,
+        TerminTermintyp = this.TerminTermintyp,
+        TerminErsteUnterrichtsstunde = this.TerminErsteUnterrichtsstunde,
+        TerminLetzteUnterrichtsstunde = this.TerminLetzteUnterrichtsstunde
+      };
+
+      if (dlg.ShowDialog().GetValueOrDefault(false))
+      {
+        this.TerminBeschreibung = dlg.Terminbezeichnung;
+        this.TerminTermintyp = dlg.TerminTermintyp;
+        this.TerminErsteUnterrichtsstunde = dlg.TerminErsteUnterrichtsstunde;
+        this.TerminLetzteUnterrichtsstunde = dlg.TerminLetzteUnterrichtsstunde;
+        this.ParentTagesplan.UpdateBeschreibung();
+      }
+    }
+
+    /// <summary>
     /// Handles deletion of the current Lerngruppentermin
     /// </summary>
     protected virtual void EditLerngruppentermin()
@@ -188,6 +219,21 @@
           this.ParentTagesplan.UpdateBeschreibung();
         }
       }
+    }
+
+    /// <summary>
+    /// Aktualisiert die Schülerliste in der singleton Selection Klasse
+    /// </summary>
+    protected void UpdateSchülerlisteInSelection()
+    {
+      var schülerliste =
+        App.MainViewModel.Schülerlisten.First(
+          o =>
+          o.SchülerlisteFach.FachBezeichnung == this.LerngruppenterminFach
+          && o.SchülerlisteHalbjahrtyp.HalbjahrtypBezeichnung == this.LerngruppenterminHalbjahr
+          && o.SchülerlisteJahrtyp.JahrtypBezeichnung == this.LerngruppenterminSchuljahr
+          && o.SchülerlisteKlasse.KlasseBezeichnung == this.LerngruppenterminKlasse);
+      Selection.Instance.Schülerliste = schülerliste;
     }
   }
 }

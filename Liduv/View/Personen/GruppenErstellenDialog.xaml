@@ -36,12 +36,12 @@
         <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                     Command="{Binding Path=GruppenNeuEinteilenCommand}" 
                     ToolTip="Gruppen neu einteilen.">
-          <Image Source="/Liduv;component/Images/Wuerfel16.png"/>
+          <Image Source="/Liduv;component/Images/Würfel16.png"/>
         </Button>
         <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                     Command="{Binding Path=GruppenAusdruckenCommand}" 
                     ToolTip="Gruppen neu einteilen.">
-          <Image Source="/Liduv;component/Images/Print16.png"/>
+          <Image Source="/Liduv;component/Images/Printer16.png"/>
         </Button>
       </ToolBar>
       <ListBox Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2"

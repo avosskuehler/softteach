@@ -301,24 +301,14 @@ namespace Liduv.Setting
     }
 
     /// <summary>
-    /// The set selection.
+    /// Holt das Datum der Hausaufgabe in der form LongDateString
     /// </summary>
-    /// <param name="newSchuljahr"> The schuljahr. </param>
-    /// <param name="newHalbjahr"> The halbjahr. </param>
-    /// <param name="newFach">The fach. </param>
-    /// <param name="newKlasse"> The klasse. </param>
-    /// <param name="newModul"> The modul. </param>    
-    public void SetSelection(
-      string newSchuljahr,
-      string newHalbjahr,
-      string newFach,
-      string newKlasse,
-      string newModul)
+    public string HausaufgabeDatumString
     {
-      this.Schuljahr = App.MainViewModel.Jahrtypen.FirstOrDefault(o => o.JahrtypBezeichnung == newSchuljahr);
-      this.Halbjahr = App.MainViewModel.Halbjahrtypen.FirstOrDefault(o => o.HalbjahrtypBezeichnung == newHalbjahr);
-      this.Fach = App.MainViewModel.Fächer.FirstOrDefault(o => o.FachBezeichnung == newFach);
-      this.Klasse = App.MainViewModel.Klassen.FirstOrDefault(o => o.KlasseBezeichnung == newKlasse);
+      get
+      {
+        return this.hausaufgabeDatum.ToLongDateString();
+      }
     }
 
     /// <summary>
@@ -327,6 +317,14 @@ namespace Liduv.Setting
     public void ReNotifySchuljahr()
     {
       this.OnPropertyChanged("Schuljahr");
+    }
+
+    /// <summary>
+    /// Populates the selection values from the application settings.
+    /// </summary>
+    public void PopulateFromSettings()
+    {
+      this.SetSelection(Settings.Default.Schuljahr, Settings.Default.Halbjahr, Settings.Default.Fach, Settings.Default.Klasse, Settings.Default.Modul);
     }
 
     /// <summary>
@@ -354,5 +352,28 @@ namespace Liduv.Setting
         this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
       }
     }
+
+    /// <summary>
+    /// The set selection.
+    /// </summary>
+    /// <param name="newSchuljahr"> The schuljahr. </param>
+    /// <param name="newHalbjahr"> The halbjahr. </param>
+    /// <param name="newFach">The fach. </param>
+    /// <param name="newKlasse"> The klasse. </param>
+    /// <param name="newModul"> The modul. </param>    
+    private void SetSelection(
+      string newSchuljahr,
+      string newHalbjahr,
+      string newFach,
+      string newKlasse,
+      string newModul)
+    {
+      this.Schuljahr = App.MainViewModel.Jahrtypen.FirstOrDefault(o => o.JahrtypBezeichnung == newSchuljahr);
+      this.Halbjahr = App.MainViewModel.Halbjahrtypen.FirstOrDefault(o => o.HalbjahrtypBezeichnung == newHalbjahr);
+      this.Fach = App.MainViewModel.Fächer.FirstOrDefault(o => o.FachBezeichnung == newFach);
+      this.Klasse = App.MainViewModel.Klassen.FirstOrDefault(o => o.KlasseBezeichnung == newKlasse);
+      this.Modul = App.MainViewModel.Module.FirstOrDefault(o => o.ModulBezeichnung == newModul);
+    }
+
   }
 }

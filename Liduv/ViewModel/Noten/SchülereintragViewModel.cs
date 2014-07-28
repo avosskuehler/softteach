@@ -6,8 +6,11 @@
   using System.Collections.Specialized;
   using System.Globalization;
   using System.Linq;
+  using System.Windows;
   using System.Windows.Input;
   using System.Windows.Media;
+
+  using GongSolutions.Wpf.DragDrop;
 
   using Liduv.ExceptionHandling;
   using Liduv.Model.EntityFramework;
@@ -18,10 +21,12 @@
   using Liduv.ViewModel.Helper;
   using Liduv.ViewModel.Personen;
 
+  using MahApps.Metro.Controls.Dialogs;
+
   /// <summary>
   /// ViewModel of an individual schülereintrag
   /// </summary>
-  public class SchülereintragViewModel : ViewModelBase, IComparable
+  public class SchülereintragViewModel : ViewModelBase, IComparable, IDropTarget
   {
     /// <summary>
     /// Die zuletzt berechnete Gesamtnote für alle mündlichen Leistungen.
@@ -398,6 +403,95 @@
     }
 
     /// <summary>
+    /// Holt eine Liste aller mündlichen Noten zur Qualität.
+    /// </summary>
+    public IEnumerable<NoteViewModel> MündlicheQualitätNotenCollection
+    {
+      get { return this.Noten.Where(o => o.NoteNotentyp == Notentyp.MündlichQualität); }
+    }
+
+    /// <summary>
+    /// Holt das erste Datum der aktuellen mündlichen Qualitätsnoten
+    /// </summary>
+    [DependsUpon("MündlicheQualitätNotenCollection")]
+    public DateTime MündlicheQualitätFirstDateTime
+    {
+      get
+      {
+        if (!this.MündlicheQualitätNotenCollection.Any())
+        {
+          return DateTime.Now;
+        }
+
+        var qualitätNoten = this.MündlicheQualitätNotenCollection.OrderBy(o => o.NoteDatum);
+        return qualitätNoten.First().NoteDatum.AddDays(-10);
+      }
+    }
+
+    /// <summary>
+    /// Holt das späteste Datum der aktuellen mündlichen Qualitätsnoten
+    /// </summary>
+    [DependsUpon("MündlicheQualitätNotenCollection")]
+    public DateTime MündlicheQualitätLastDateTime
+    {
+      get
+      {
+        if (!this.MündlicheQualitätNotenCollection.Any())
+        {
+          return DateTime.Now;
+        }
+
+        var qualitätNoten = this.MündlicheQualitätNotenCollection.OrderBy(o => o.NoteDatum);
+        return qualitätNoten.Last().NoteDatum.AddDays(10);
+      }
+    }
+
+    /// <summary>
+    /// Holt das erste Datum der aktuellen mündlichen Quantitätsnoten
+    /// </summary>
+    [DependsUpon("MündlicheQuantitätNotenCollection")]
+    public DateTime MündlicheQuantitätFirstDateTime
+    {
+      get
+      {
+        if (!this.MündlicheQuantitätNotenCollection.Any())
+        {
+          return DateTime.Now;
+        }
+
+        var quantitätNoten = this.MündlicheQuantitätNotenCollection.OrderBy(o => o.NoteDatum);
+        return quantitätNoten.First().NoteDatum.AddDays(-10);
+      }
+    }
+
+    /// <summary>
+    /// Holt das späteste Datum der aktuellen mündlichen Quantitätsnoten
+    /// </summary>
+    [DependsUpon("MündlicheQuantitätNotenCollection")]
+    public DateTime MündlicheQuantitätLastDateTime
+    {
+      get
+      {
+        if (!this.MündlicheQuantitätNotenCollection.Any())
+        {
+          return DateTime.Now;
+        }
+
+        var quantitätNoten = this.MündlicheQuantitätNotenCollection.OrderBy(o => o.NoteDatum);
+        return quantitätNoten.Last().NoteDatum.AddDays(10);
+      }
+    }
+
+
+    /// <summary>
+    /// Holt eine Liste aller mündlichen Noten zur Quantität.
+    /// </summary>
+    public IEnumerable<NoteViewModel> MündlicheQuantitätNotenCollection
+    {
+      get { return this.Noten.Where(o => o.NoteNotentyp == Notentyp.MündlichQuantität); }
+    }
+
+    /// <summary>
     /// Holt die Durchschnittsnote der mündlichen Qualität.
     /// </summary>
     public string MündlicheQualitätNote
@@ -441,6 +535,24 @@
     public float MündlicheQuantitätWichtung
     {
       get { return this.Model.Schülerliste.NotenWichtung.MündlichQuantität; }
+    }
+
+    /// <summary>
+    /// Holt den Gewichtungsanteil der mündlichen Note für
+    /// die aktuelle Schülerliste
+    /// </summary>
+    public float MündlicheNotenWichtung
+    {
+      get { return this.Model.Schülerliste.NotenWichtung.MündlichGesamt; }
+    }
+
+    /// <summary>
+    /// Holt den Gewichtungsanteil der schriftlichen Note für
+    /// die aktuelle Schülerliste
+    /// </summary>
+    public float SchriftlicheNotenWichtung
+    {
+      get { return this.Model.Schülerliste.NotenWichtung.SchriftlichGesamt; }
     }
 
     /// <summary>
@@ -614,7 +726,7 @@
     /// </summary>
     public string NichtgemachteHausaufgaben
     {
-      get { return "Nicht gemacht: " + this.Hausaufgaben.Count(); }
+      get { return "nicht gemacht: " + this.Hausaufgaben.Count(); }
     }
 
     /// <summary>
@@ -779,18 +891,25 @@
     {
       this.RaisePropertyChanged("CurrentArbeitPunktsumme");
       this.RaisePropertyChanged("CurrentArbeitNote");
+
+      this.RaisePropertyChanged("Hausaufgaben");
       this.RaisePropertyChanged("NachgereichteHausaufgaben");
       this.RaisePropertyChanged("NichtgemachteHausaufgaben");
       this.RaisePropertyChanged("NichtGemachteHausaufgabenAnzahl");
       this.RaisePropertyChanged("HausaufgabenTendenzImage");
+
+      this.RaisePropertyChanged("Notentendenzen");
       this.RaisePropertyChanged("TendenzenTendenzImage");
 
       this.RaisePropertyChanged("MündlicheNotenCollection");
+      this.RaisePropertyChanged("MündlicheQualitätNotenCollection");
+      this.RaisePropertyChanged("MündlicheQuantitätNotenCollection");
       this.RaisePropertyChanged("MündlicheQualitätNote");
       this.RaisePropertyChanged("MündlicheQuantitätNote");
       this.RaisePropertyChanged("MündlicheWeitereNotenCollection");
       this.RaisePropertyChanged("MündlichWeitereNotenGesamtnote");
       this.RaisePropertyChanged("MündlicheGesamtNote");
+
 
       this.RaisePropertyChanged("SchriftlichWeitereNotenCollection");
       this.RaisePropertyChanged("SchriftlichWeitereNotenGesamtnote");
@@ -835,6 +954,40 @@
       }
 
       return string.Compare(this.Model.Person.Vorname, compareSchülereintrag.Model.Person.Vorname, StringComparison.Ordinal);
+    }
+
+    /// <summary>
+    /// The drag over.
+    /// </summary>
+    /// <param name="dropInfo">
+    /// The drop info.
+    /// </param>
+    public void DragOver(IDropInfo dropInfo)
+    {
+      var sourceItem = dropInfo.Data;
+      var targetItem = dropInfo.TargetItem;
+      if (sourceItem is NoteViewModel || sourceItem is HausaufgabeViewModel || sourceItem is TendenzViewModel)
+      {
+        dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
+        dropInfo.Effects = DragDropEffects.Move;
+      }
+    }
+
+    public void Drop(IDropInfo dropInfo)
+    {
+      using (new UndoBatch(App.MainViewModel, string.Format("Drag and Drop im Schülereintrag"), false))
+      {
+        var dropItem = dropInfo.Data;
+        if (dropItem is NoteViewModel)
+        {
+          var noteViewModel = dropItem as NoteViewModel;
+          //this.DeleteNote(noteViewModel);
+          //if (dropInfo.VisualTarget is ListBox)
+          //{
+          //  var targetListBox = dropInfo.VisualTarget as ListBox;
+          //}
+        }
+      }
     }
 
     /// <summary>
@@ -1087,8 +1240,13 @@
     /// <param name="hausaufgabeViewModel">
     /// Die Hausaufgabe die gelöscht werden soll.
     /// </param>
-    private void DeleteHausaufgabe(HausaufgabeViewModel hausaufgabeViewModel)
+    public void DeleteHausaufgabe(HausaufgabeViewModel hausaufgabeViewModel)
     {
+      if (hausaufgabeViewModel == null)
+      {
+        return;
+      }
+
       using (new UndoBatch(App.MainViewModel, string.Format("Hausaufgabe {0} gelöscht.", hausaufgabeViewModel), false))
       {
         var success = App.MainViewModel.Hausaufgaben.RemoveTest(hausaufgabeViewModel);
@@ -1189,8 +1347,13 @@
     /// Handles deletion of the given phase
     /// </summary>
     /// <param name="noteViewModel"> The note View Model. </param>
-    private void DeleteNote(NoteViewModel noteViewModel)
+    public void DeleteNote(NoteViewModel noteViewModel)
     {
+      if (noteViewModel == null)
+      {
+        return;
+      }
+
       using (new UndoBatch(App.MainViewModel, string.Format("Note {0} gelöscht.", noteViewModel), false))
       {
         var success = App.MainViewModel.Noten.RemoveTest(noteViewModel);
@@ -1202,7 +1365,7 @@
     /// <summary>
     /// Handles addition a new Note to this Schülereintrag
     /// </summary>
-    private void AddNote()
+    private async void AddNote()
     {
       var note = new Note();
       note.Bezeichnung = string.Empty;
@@ -1210,14 +1373,26 @@
       note.IstSchriftlich = false;
       note.Notentyp = Notentyp.MündlichQualität.ToString();
       note.Wichtung = 1;
+      note.Zensur = App.MainViewModel.Zensuren.FirstOrDefault().Model;
       note.Schülereintrag = this.Model;
       var vm = new NoteViewModel(note);
       var workspace = new NotenWorkspaceViewModel(vm);
       bool undo;
       using (new UndoBatch(App.MainViewModel, string.Format("Note {0} hinzugefügt.", vm), false))
       {
-        var dlg = new AddNoteDialog(workspace);
-        undo = !dlg.ShowDialog().GetValueOrDefault(false);
+        if (Configuration.Instance.IsMetroMode)
+        {
+          var metroWindow = Configuration.Instance.MetroWindow;
+          metroWindow.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Accented;
+          var dialog = new MetroNoteDialog(workspace);
+          await metroWindow.ShowMetroDialogAsync(dialog);
+          undo = false;
+        }
+        else
+        {
+          var dlg = new AddNoteDialog(workspace);
+          undo = !dlg.ShowDialog().GetValueOrDefault(false);
+        }
       }
 
       if (undo)
@@ -1394,9 +1569,14 @@
     /// Handles deletion of the given notentendenzViewModel
     /// </summary>
     /// <param name="notentendenzViewModel">The notentendenz View Model.</param>
-    private void DeleteNotentendenz(NotentendenzViewModel notentendenzViewModel)
+    public void DeleteNotentendenz(NotentendenzViewModel notentendenzViewModel)
     {
-      using (new UndoBatch(App.MainViewModel, string.Format("Notentendenz {0} hinzugefügt.", notentendenzViewModel), false))
+      if (notentendenzViewModel == null)
+      {
+        return;
+      }
+
+      using (new UndoBatch(App.MainViewModel, string.Format("Notentendenz {0} gelöscht.", notentendenzViewModel), false))
       {
         var success = App.MainViewModel.Notentendenzen.RemoveTest(notentendenzViewModel);
         var result = this.Notentendenzen.RemoveTest(notentendenzViewModel);
@@ -1407,7 +1587,7 @@
     /// <summary>
     /// Handles addition a new Notentendenz to this Schülereintrag
     /// </summary>
-    private void AddNotentendenz()
+    private async void AddNotentendenz()
     {
       var notentendenz = new Notentendenz();
       notentendenz.Bezeichnung = string.Empty;
@@ -1416,22 +1596,37 @@
       notentendenz.Tendenztyp = App.MainViewModel.Tendenztypen.First().Model;
       notentendenz.Schülereintrag = this.Model;
       var vm = new NotentendenzViewModel(notentendenz);
-      var dlg = new NotentendenzDialog { CurrentNotentendenz = vm };
 
       bool undo;
-      using (new UndoBatch(App.MainViewModel, string.Format("Notentendenz {0} hinzugefügt.", vm), false))
+      if (Configuration.Instance.IsMetroMode)
       {
-        dlg.CurrentNotentendenz = vm;
-        undo = !dlg.ShowDialog().GetValueOrDefault(false);
-      }
-
-      if (undo)
-      {
-        App.MainViewModel.ExecuteUndoCommand();
+        var metroWindow = Configuration.Instance.MetroWindow;
+        metroWindow.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Accented;
+        var dialog = new MetroNotentendenzDialog(vm);
+        await metroWindow.ShowMetroDialogAsync(dialog);
+        undo = false;
       }
       else
       {
-        vm = dlg.CurrentNotentendenz;
+        var dlg = new NotentendenzDialog { CurrentNotentendenz = vm };
+        using (new UndoBatch(App.MainViewModel, string.Format("Notentendenz {0} hinzugefügt.", vm), false))
+        {
+          dlg.CurrentNotentendenz = vm;
+          undo = !dlg.ShowDialog().GetValueOrDefault(false);
+        }
+
+        if (undo)
+        {
+          App.MainViewModel.ExecuteUndoCommand();
+        }
+        else
+        {
+          vm = dlg.CurrentNotentendenz;
+        }
+      }
+
+      if (!undo)
+      {
         App.MainViewModel.Notentendenzen.Add(vm);
         this.Notentendenzen.Add(vm);
         this.CurrentNotentendenz = vm;

@@ -45,10 +45,8 @@
                                    EndPoint="0,1">
                 <LinearGradientBrush.GradientStops>
                   <GradientStopCollection>
-                    <GradientStop Color="{DynamicResource BorderLightColor}"
-                                  Offset="0.0" />
-                    <GradientStop Color="{DynamicResource BorderDarkColor}"
-                                  Offset="1.0" />
+                    <GradientStop Color="LightGray" Offset="0.0" />
+                    <GradientStop Color="DarkGray" Offset="1.0" />
                   </GradientStopCollection>
                 </LinearGradientBrush.GradientStops>
               </LinearGradientBrush>

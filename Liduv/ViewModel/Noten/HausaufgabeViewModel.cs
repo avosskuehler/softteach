@@ -12,6 +12,8 @@
   using Liduv.View.Noten;
   using Liduv.ViewModel.Helper;
 
+  using MahApps.Metro.Controls.Dialogs;
+
   /// <summary>
   /// ViewModel of an individual hausaufgabe
   /// </summary>
@@ -160,6 +162,22 @@
     }
 
     /// <summary>
+    /// Holt den Titel der Hausaufgabe.
+    /// </summary>
+    public string HausaufgabeTitel
+    {
+      get
+      {
+        return
+          this.Model.Schülereintrag.Schülerliste.Fach.Bezeichnung +
+          "hausaufgabe von " +
+          this.Model.Schülereintrag.Person.Vorname +
+          " " +
+          this.Model.Schülereintrag.Person.Nachname;
+      }
+    }
+
+    /// <summary>
     /// Gibt eine lesbare Repräsentation des ViewModels
     /// </summary>
     /// <returns>Ein <see cref="string"/> mit einer Kurzform des ViewModels.</returns>
@@ -189,8 +207,16 @@
     /// <summary>
     /// Ändert eine Hausaufgabe
     /// </summary>
-    private void EditHausaufgabe()
+    private async void EditHausaufgabe()
     {
+      if (Configuration.Instance.IsMetroMode)
+      {
+        var metroWindow = Configuration.Instance.MetroWindow;
+        var dialog = new MetroHausaufgabeDialog(this);
+        await metroWindow.ShowMetroDialogAsync(dialog);
+        return;
+      }
+
       var dlg = new AddHausaufgabeDialog();
       dlg.Datum = this.HausaufgabeDatum;
       dlg.Bezeichnung = this.HausaufgabeBezeichnung;
@@ -200,7 +226,6 @@
         {
           this.HausaufgabeDatum = dlg.Datum;
           this.HausaufgabeBezeichnung = dlg.Bezeichnung;
-          //((App)Application.Current).RepopulateSubtables();
           Selection.Instance.Schülereintrag.UpdateNoten();
         }
       }
@@ -214,7 +239,6 @@
       using (new UndoBatch(App.MainViewModel, string.Format("Hausaufgabenstatus von {0} geändert.", this), false))
       {
         this.HausaufgabeIstNachgereicht = !this.HausaufgabeIstNachgereicht;
-        //((App)Application.Current).RepopulateSubtables();
         Selection.Instance.Schülereintrag.UpdateNoten();
       }
     }

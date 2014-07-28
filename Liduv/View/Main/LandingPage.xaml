@@ -11,18 +11,21 @@
     <ResourceDictionary Source="/Liduv;component/Resources/MetroResources.xaml"/>
   </Page.Resources>
 
-  <UniformGrid HorizontalAlignment="Left" VerticalAlignment="Top">
-    <Button Background="Green" Width="200" Height="200" Click="WochenplanOnClick" Margin="20">
-      <Label Content="Wochenplan" FontSize="20"/>
-    </Button>
-    <Button Background="Red" Width="200" Height="200" Click="NotenOnClick">
-      <Label Content="Noten" FontSize="20"/>
-    </Button>
-    <Button Background="Yellow" Width="200" Height="200"  Click="TagesplanOnClick">
+  <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Stylus.IsPressAndHoldEnabled="False">
+    <Button Background="Yellow" Width="200" Height="200"  Click="TagesplanOnClick" Margin="5">
       <Label Content="Tagesplan" FontSize="20"/>
     </Button>
-    <Button Width="200" Height="200" Click="DesktopOnClick">
+    <Button Background="Green" Width="200" Height="200" Click="WochenplanOnClick" Margin="5" >
+      <Label Content="Wochenplan" FontSize="20"/>
+    </Button>
+    <Button Background="Red" Width="200" Height="200" Click="NotenOnClick" Margin="5">
+      <Label Content="Noten" FontSize="20"/>
+    </Button>
+    <Button Background="CornflowerBlue" Width="200" Height="200" Click="GruppenOnClick" Margin="5">
+      <Label Content="Gruppen" FontSize="20"/>
+    </Button>
+    <Button Width="200" Height="200" Click="DesktopOnClick" Margin="5">
       <Label Content="Desktopansicht" FontSize="20"/>
     </Button>
-  </UniformGrid>
+  </WrapPanel>
 </Page>

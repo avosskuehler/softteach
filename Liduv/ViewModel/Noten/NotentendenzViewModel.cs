@@ -13,6 +13,8 @@
   using Liduv.ViewModel.Datenbank;
   using Liduv.ViewModel.Helper;
 
+  using MahApps.Metro.Controls.Dialogs;
+
   /// <summary>
   /// ViewModel of an individual note
   /// </summary>
@@ -203,13 +205,42 @@
     }
 
     /// <summary>
+    /// Gibt dem Titel für diese Notentendenz
+    /// </summary>
+    /// <value>
+    /// The notentendenz titel.
+    /// </value>
+    public string NotentendenzTitel
+    {
+      get
+      {
+        return
+          this.Model.Schülereintrag.Schülerliste.Fach.Bezeichnung +
+          " Tendenz von " +
+          this.Model.Schülereintrag.Person.Vorname +
+          " " +
+          this.Model.Schülereintrag.Person.Nachname;
+      }
+    }
+
+    /// <summary>
     /// Ändert die Notentendenz.
     /// </summary>
-    private void EditNotentendenz()
+    private async void EditNotentendenz()
     {
+      if (Configuration.Instance.IsMetroMode)
+      {
+        var metroWindow = Configuration.Instance.MetroWindow;
+        metroWindow.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Accented;
+        var dialog = new MetroNotentendenzDialog(this);
+        await metroWindow.ShowMetroDialogAsync(dialog);
+        return;
+      }
+
       bool undo;
       using (new UndoBatch(App.MainViewModel, string.Format("Notentendenz {0} geändert.", this), false))
       {
+
         var dlg = new NotentendenzDialog { CurrentNotentendenz = this };
         undo = !dlg.ShowDialog().GetValueOrDefault(false);
       }
@@ -220,7 +251,6 @@
       }
       else
       {
-        //((App)Application.Current).RepopulateSubtables();
         Selection.Instance.Schülereintrag.UpdateNoten();
       }
     }

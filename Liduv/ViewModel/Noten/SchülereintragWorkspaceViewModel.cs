@@ -1,6 +1,7 @@
 ﻿namespace Liduv.ViewModel.Noten
 {
   using System;
+  using System.Linq;
   using System.Windows;
   using System.Windows.Controls;
   using System.Windows.Documents;
@@ -9,6 +10,8 @@
 
   using Liduv.UndoRedo;
   using Liduv.View.Noten;
+
+  using MahApps.Metro.Controls.Dialogs;
 
   using Personen;
   using Setting;
@@ -107,8 +110,18 @@
     /// <summary>
     /// Ruft Dialoge auf, mit denen nicht gemachte Hausaufgaben eingetragen werden.
     /// </summary>
-    private void AddHausaufgaben()
+    private async void AddHausaufgaben()
     {
+      Selection.Instance.Schülerliste = this.CurrentSchülerliste;
+
+      if (Configuration.Instance.IsMetroMode)
+      {
+        var addDlg = new MetroAddHausaufgabeDialog(DateTime.Now);
+        var metroWindow = Configuration.Instance.MetroWindow;
+        await metroWindow.ShowMetroDialogAsync(addDlg);
+        return;
+      }
+
       var undo = false;
       using (new UndoBatch(App.MainViewModel, string.Format("Hausaufgaben hinzugefügt."), false))
       {
