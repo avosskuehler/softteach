@@ -11,6 +11,9 @@
   using System.Windows.Data;
   using System.Windows.Documents;
 
+  using GongSolutions.Wpf.DragDrop;
+  using GongSolutions.Wpf.DragDrop.Utilities;
+
   using Liduv.Model.EntityFramework;
   using Liduv.Setting;
   using Liduv.UndoRedo;
@@ -22,8 +25,12 @@
   /// <summary>
   /// ViewModel of an individual Schülerliste
   /// </summary>
-  public class SchülerlisteViewModel : ViewModelBase, IComparable, ICloneable
+  public class SchülerlisteViewModel : ViewModelBase, IComparable, ICloneable, IDropTarget
   {
+    private ICollectionView gruppenView;
+
+    private ICollectionView metroGruppenView;
+
     /// <summary>
     /// The schüler currently selected
     /// </summary>
@@ -88,10 +95,22 @@
       this.Schülereinträge.CollectionChanged += this.SchülereinträgeCollectionChanged;
 
       this.SchülereinträgeView = CollectionViewSource.GetDefaultView(this.Schülereinträge);
-      this.SchülereinträgeView.SortDescriptions.Add(new SortDescription("SchülereintragSortByNachnameProperty", ListSortDirection.Ascending));
-      this.SchülereinträgeView.Refresh();
+      this.UpdateSort();
 
-      this.SchülereinträgeInGruppen = new ObservableCollection<SchülereintragViewModel>();
+      this.SchülereinträgeGemischt = this.Schülereinträge.ToList();
+
+      this.metroGruppenView = CollectionViewSource.GetDefaultView(this.SchülereinträgeGemischt);
+      if (this.metroGruppenView.GroupDescriptions.Count == 0)
+      {
+        this.metroGruppenView.GroupDescriptions.Add(new PropertyGroupDescription("SchülereintragSortByGruppennummerProperty"));
+      }
+
+      if (this.metroGruppenView.SortDescriptions.Count == 0)
+      {
+        this.metroGruppenView.SortDescriptions.Add(new SortDescription("SchülereintragSortByGruppennummerProperty", ListSortDirection.Ascending));
+        this.metroGruppenView.SortDescriptions.Add(new SortDescription("SchülereintragSortByVornameProperty", ListSortDirection.Ascending));
+      }
+
 
       this.Gruppenmitgliederanzahl = 4;
 
@@ -148,14 +167,12 @@
     /// <summary>
     /// Holt die schülereinträge for this schülerliste
     /// </summary>
-    public ObservableCollection<SchülereintragViewModel> SchülereinträgeInGruppen { get; private set; }
+    public List<SchülereintragViewModel> SchülereinträgeGemischt { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Schülereinträge
     /// </summary>
     public ICollectionView SchülereinträgeView { get; set; }
-
-    private ICollectionView gruppenView;
 
     /// <summary>
     /// Holt oder setzt die gemischten Gruppen
@@ -165,7 +182,7 @@
       get
       {
         var gruppenAnzahl = (int)Math.Round(this.Schülereinträge.Count / (float)this.Gruppenmitgliederanzahl, 0);
-        var gruppen = this.SchülereinträgeInGruppen.Split(gruppenAnzahl);
+        var gruppen = this.Schülereinträge.Split(gruppenAnzahl);
         var gruppenWithTitle = new Dictionary<string, IEnumerable<SchülereintragViewModel>>();
         var i = 1;
         foreach (var gruppe in gruppen)
@@ -182,6 +199,18 @@
 
         this.gruppenView.Refresh();
         return this.gruppenView;
+      }
+    }
+
+    /// <summary>
+    /// Holt oder setzt die gemischten Gruppen
+    /// </summary>
+    public ICollectionView MetroGruppenView
+    {
+      get
+      {
+        this.metroGruppenView.Refresh();
+        return this.metroGruppenView;
       }
     }
 
@@ -569,8 +598,22 @@
     private void GruppenNeuEinteilen()
     {
       // Mische die Schüler
-      this.SchülereinträgeInGruppen = new ObservableCollection<SchülereintragViewModel>(this.Schülereinträge.Shuffle());
+      this.SchülereinträgeGemischt = this.Schülereinträge.Shuffle().ToList();
+      var gruppenAnzahl = (int)Math.Round(this.Schülereinträge.Count / (float)this.Gruppenmitgliederanzahl, 0);
+      var gruppen = this.SchülereinträgeGemischt.Split(gruppenAnzahl);
+      var gruppenNummer = 0;
+
+      foreach (var gruppe in gruppen)
+      {
+        gruppenNummer++;
+        foreach (var schülereintragViewModel in gruppe)
+        {
+          schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
+        }
+      }
+
       this.RaisePropertyChanged("GruppenView");
+      this.RaisePropertyChanged("MetroGruppenView");
     }
 
     /// <summary>
@@ -636,5 +679,80 @@
       this.SchülereinträgeView.SortDescriptions.Add(new SortDescription("SchülereintragSortByNachnameProperty", ListSortDirection.Ascending));
       this.SchülereinträgeView.Refresh();
     }
+
+    /// <summary>
+    /// The drag over.
+    /// </summary>
+    /// <param name="dropInfo">
+    /// The drop info.
+    /// </param>
+    public void DragOver(IDropInfo dropInfo)
+    {
+      var sourceItem = dropInfo.Data;
+      var targetItem = dropInfo.TargetItem;
+      if (sourceItem is SchülereintragViewModel && targetItem is SchülereintragViewModel)
+      {
+        var source = sourceItem as SchülereintragViewModel;
+        var target = targetItem as SchülereintragViewModel;
+        if (source.SchülereintragPerson.Gruppennummer != target.SchülereintragPerson.Gruppennummer)
+        {
+          dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
+          dropInfo.Effects = DragDropEffects.Move;
+        }
+        else
+        {
+          dropInfo.Effects = DragDropEffects.None;
+        }
+      }
+      else if (targetItem == null)
+      {
+        dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
+        dropInfo.Effects = DragDropEffects.Move;
+      }
+    }
+
+    public void Drop(IDropInfo dropInfo)
+    {
+      using (new UndoBatch(App.MainViewModel, string.Format("Drag and Drop im Curriculum"), false))
+      {
+        var sourceItem = dropInfo.Data;
+        var targetItem = dropInfo.TargetItem;
+        if (sourceItem is SchülereintragViewModel && targetItem is SchülereintragViewModel)
+        {
+          var source = sourceItem as SchülereintragViewModel;
+          var target = targetItem as SchülereintragViewModel;
+          var targetGruppenNummer = target.SchülereintragPerson.Gruppennummer;
+          target.SchülereintragPerson.Gruppennummer = source.SchülereintragPerson.Gruppennummer;
+          source.SchülereintragPerson.Gruppennummer = targetGruppenNummer;
+        }
+        else if (targetItem == null)
+        {
+          var gruppenAnzahl = (int)Math.Round(this.Schülereinträge.Count / (float)this.Gruppenmitgliederanzahl, 0);
+          var source = sourceItem as SchülereintragViewModel;
+          var sourceGruppenNummer = source.SchülereintragPerson.Gruppennummer;
+          var up = dropInfo.DropPosition.X - dropInfo.DragInfo.DragStartPosition.X > 0;
+          if (!up && dropInfo.DropPosition.Y > dropInfo.DragInfo.DragStartPosition.Y + 100)
+          {
+            up = true;
+          }
+
+          var newGruppennummer = up ? sourceGruppenNummer + 1 : sourceGruppenNummer - 1;
+          if (newGruppennummer > gruppenAnzahl)
+          {
+            newGruppennummer = 1;
+          }
+
+          if (newGruppennummer < 1)
+          {
+            newGruppennummer = gruppenAnzahl;
+          }
+
+          source.SchülereintragPerson.Gruppennummer = newGruppennummer;
+        }
+
+        this.RaisePropertyChanged("MetroGruppenView");
+      }
+    }
+
   }
 }

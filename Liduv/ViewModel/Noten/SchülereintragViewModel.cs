@@ -26,7 +26,7 @@
   /// <summary>
   /// ViewModel of an individual schülereintrag
   /// </summary>
-  public class SchülereintragViewModel : ViewModelBase, IComparable, IDropTarget
+  public class SchülereintragViewModel : ViewModelBase, IComparable
   {
     /// <summary>
     /// Die zuletzt berechnete Gesamtnote für alle mündlichen Leistungen.
@@ -354,12 +354,48 @@
       }
     }
 
+    /// <summary>
+    /// Gets the schülereintrag sort by nachname property.
+    /// </summary>
+    /// <value>
+    /// The schülereintrag sort by nachname property.
+    /// </value>
     [DependsUpon("SchülereintragPerson")]
     public string SchülereintragSortByNachnameProperty
     {
       get
       {
         return this.SchülereintragPerson.PersonNachname;
+      }
+    }
+
+    /// <summary>
+    /// Gets the schülereintrag sort by vorname property.
+    /// </summary>
+    /// <value>
+    /// The schülereintrag sort by vorname property.
+    /// </value>
+    [DependsUpon("SchülereintragPerson")]
+    public string SchülereintragSortByVornameProperty
+    {
+      get
+      {
+        return this.SchülereintragPerson.PersonVorname;
+      }
+    }
+
+    /// <summary>
+    /// Gets the schülereintrag sort by gruppennummer property.
+    /// </summary>
+    /// <value>
+    /// The schülereintrag sort by gruppennummer property.
+    /// </value>
+    [DependsUpon("SchülereintragPerson")]
+    public int SchülereintragSortByGruppennummerProperty
+    {
+      get
+      {
+        return this.SchülereintragPerson.Gruppennummer;
       }
     }
 
@@ -954,40 +990,6 @@
       }
 
       return string.Compare(this.Model.Person.Vorname, compareSchülereintrag.Model.Person.Vorname, StringComparison.Ordinal);
-    }
-
-    /// <summary>
-    /// The drag over.
-    /// </summary>
-    /// <param name="dropInfo">
-    /// The drop info.
-    /// </param>
-    public void DragOver(IDropInfo dropInfo)
-    {
-      var sourceItem = dropInfo.Data;
-      var targetItem = dropInfo.TargetItem;
-      if (sourceItem is NoteViewModel || sourceItem is HausaufgabeViewModel || sourceItem is TendenzViewModel)
-      {
-        dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
-        dropInfo.Effects = DragDropEffects.Move;
-      }
-    }
-
-    public void Drop(IDropInfo dropInfo)
-    {
-      using (new UndoBatch(App.MainViewModel, string.Format("Drag and Drop im Schülereintrag"), false))
-      {
-        var dropItem = dropInfo.Data;
-        if (dropItem is NoteViewModel)
-        {
-          var noteViewModel = dropItem as NoteViewModel;
-          //this.DeleteNote(noteViewModel);
-          //if (dropInfo.VisualTarget is ListBox)
-          //{
-          //  var targetListBox = dropInfo.VisualTarget as ListBox;
-          //}
-        }
-      }
     }
 
     /// <summary>

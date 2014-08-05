@@ -792,7 +792,11 @@
         termin.Datum = geburstagInDerWoche;
         var alter = person.PersonAlter(this.WochenplanMontag.AddDays((int)geburstagInDerWoche.DayOfWeek));
         termin.Beschreibung = string.Format("{0} {1} ({2})", person.PersonVorname, person.PersonNachname, alter);
-        termin.Jahrtyp = App.MainViewModel.Jahrtypen.First(o => o.JahrtypJahr == jahresplanJahr).Model;
+        var jahrtypViewModel = App.MainViewModel.Jahrtypen.FirstOrDefault(o => o.JahrtypJahr == jahresplanJahr);
+        if (jahrtypViewModel != null)
+        {
+          termin.Jahrtyp = jahrtypViewModel.Model;
+        }
 
         var geburtstagTerminViewModel = new SchulterminViewModel(termin);
         var geburtstagEintrag = new TerminplanEintrag(this, geburtstagTerminViewModel);

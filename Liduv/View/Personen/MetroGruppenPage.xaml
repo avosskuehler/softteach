@@ -8,6 +8,8 @@
       xmlns:personenView="clr-namespace:Liduv.View.Personen"
       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
       xmlns:liduv="clr-namespace:Liduv"
+      xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
+      xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
       mc:Ignorable="d" 
       d:DesignHeight="768" 
       d:DesignWidth="1366"
@@ -19,75 +21,18 @@
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Liduv;component/Resources/MetroResources.xaml"/>
         <ResourceDictionary >
+          <CollectionViewSource x:Key="GroupedSchülereinträgeViewSource" Source="{Binding Schülereinträge}">
+            <CollectionViewSource.SortDescriptions>
+              <scm:SortDescription PropertyName="SchülereintragPerson.PersonVorname" Direction="Ascending" />
+              <scm:SortDescription PropertyName="SchülereintragPerson.PersonNachname" Direction="Ascending" />
+            </CollectionViewSource.SortDescriptions>
+            <CollectionViewSource.GroupDescriptions>
+              <PropertyGroupDescription PropertyName="SchülereintragPerson.Gruppennummer"/>
+            </CollectionViewSource.GroupDescriptions>
+          </CollectionViewSource>
           <DataTemplate DataType="{x:Type personen:PersonViewModel}" x:Key="PersonenDataTemplate">
             <personenView:MetroPersonDetailView />
           </DataTemplate>
-          <Style x:Key="MetroDragDropItemStyle" TargetType="ListBoxItem">
-            <Setter Property="SnapsToDevicePixels" Value="true" />
-            <Setter Property="OverridesDefaultStyle" Value="true" />
-            <Setter Property="Padding" Value="0"/>
-            <Setter Property="Template">
-              <Setter.Value>
-                <ControlTemplate TargetType="ListBoxItem">
-                  <Border x:Name="Border" SnapsToDevicePixels="true" IsManipulationEnabled="True"
-                            TouchDown="Person_OnTouchDown"
-                            TouchMove="Person_TouchMove"
-                            TouchUp="Person_OnTouchUp">
-                    <Border.Background>
-                      <SolidColorBrush Color="Transparent" />
-                    </Border.Background>
-                    <VisualStateManager.VisualStateGroups>
-                      <VisualStateGroup x:Name="SelectionStates">
-                        <!--Clear all selection states-->
-                        <VisualState x:Name="Unselected" />
-                        <VisualState x:Name="Selected"/>
-                        <VisualState x:Name="SelectedUnfocused"/>
-                      </VisualStateGroup>
-                      <VisualStateGroup x:Name="CommonStates">
-                        <VisualState x:Name="Normal" />
-                        <VisualState x:Name="MouseOver">
-                          <Storyboard>
-                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
-                                                  Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
-                              <EasingColorKeyFrame KeyTime="0" Value="{StaticResource MouseOverBackgroundColor}" />
-                            </ColorAnimationUsingKeyFrames>
-                          </Storyboard>
-                        </VisualState>
-                        <VisualState x:Name="Disabled"/>
-                      </VisualStateGroup>
-                    </VisualStateManager.VisualStateGroups>
-                    <ContentPresenter />
-                  </Border>
-                </ControlTemplate>
-              </Setter.Value>
-            </Setter>
-          </Style>
-          <DataTemplate x:Key="MetroSchülerlisteGruppenView">
-            <Border Background="{StaticResource MetroHeaderBackground}" CornerRadius="10" Padding="2" Margin="5">
-              <Grid>
-                <Grid.RowDefinitions>
-                  <RowDefinition Height="Auto"/>
-                  <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Label Style="{StaticResource MetroSubHeader}" Foreground="White" Grid.Row="0" Content="{Binding Path=Key}" Margin="6,2,6,2"/>
-                <ListBox Grid.Row="1" ItemsSource="{Binding Path=Value}"
-                 BorderThickness="0"
-                 Stylus.IsPressAndHoldEnabled="False"
-                 Drop="Group_OnDrop"
-                 DragOver="Group_OnDragOver"
-                 AllowDrop="True"
-                 ItemTemplate="{StaticResource SchülerlisteSingleView}"
-                 ItemContainerStyle="{StaticResource MetroDragDropItemStyle}">
-                  <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                      <StackPanel/>
-                    </ItemsPanelTemplate>
-                  </ListBox.ItemsPanel>
-                </ListBox>
-              </Grid>
-            </Border>
-          </DataTemplate>
-
         </ResourceDictionary>
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
@@ -129,17 +74,28 @@
         <Image Source="/Liduv;component/Images/Printer48.png"/>
       </Button>
     </Grid>
-    <ListBox Grid.Column="0" Grid.Row="2"
-                 ItemsSource="{Binding Path=GruppenView}"             
+    <ListBox Grid.Column="0" Grid.Row="2" ItemsSource="{Binding MetroGruppenView}" 
+                 ItemTemplate="{StaticResource MetroSchülereintragGruppenView}"
                  BorderThickness="0"
-                 Name="GruppenListBox"
-                 ItemTemplate="{StaticResource MetroSchülerlisteGruppenView}"
-                 ItemContainerStyle="{StaticResource MetroListBoxItem}">
+                 dd:DragDrop.IsDragSource="True" 
+                 dd:DragDrop.IsDropTarget="True"
+                 dd:DragDrop.DragAdornerTemplate="{StaticResource SchülereintragDragAdorner}"
+                 dd:DragDrop.DropHandler="{Binding}"
+                 Name="GruppenListBox">
       <ListBox.ItemsPanel>
         <ItemsPanelTemplate>
-          <WrapPanel Width="{Binding ElementName=GruppenListBox, Path=ActualWidth}"/>
+          <StackPanel dd:DragDrop.IsDropTarget="True"/>
         </ItemsPanelTemplate>
       </ListBox.ItemsPanel>
+      <ListBox.GroupStyle>
+        <GroupStyle ContainerStyle="{StaticResource MetroGruppenGroupHeaderStyle}">
+          <GroupStyle.Panel>
+            <ItemsPanelTemplate>
+              <WrapPanel Orientation="Horizontal" Width="{Binding ActualWidth, ElementName=GruppenListBox}"/>
+            </ItemsPanelTemplate>
+          </GroupStyle.Panel>
+        </GroupStyle>
+      </ListBox.GroupStyle>
     </ListBox>
   </Grid>
 </Page>

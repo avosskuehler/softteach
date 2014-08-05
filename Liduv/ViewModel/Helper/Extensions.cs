@@ -5,7 +5,10 @@
   using System.Collections.Generic;
   using System.ComponentModel;
   using System.Linq;
+  using System.Windows;
+  using System.Windows.Controls;
   using System.Windows.Forms.VisualStyles;
+  using System.Windows.Media;
 
   public static class Extensions
   {
@@ -110,6 +113,32 @@
           }
         }
       }
+    }
+
+    public static object GetObjectAtPoint<TItemContainer>(this ItemsControl control, Point p)
+                                     where TItemContainer : DependencyObject
+    {
+        // ItemContainer - can be ListViewItem, or TreeViewItem and so on(depends on control)
+        var obj = GetContainerAtPoint<TItemContainer>(control, p);
+        if (obj == null)
+            return null;
+
+        return control.ItemContainerGenerator.ItemFromContainer(obj);
+    }
+
+    public static TItemContainer GetContainerAtPoint<TItemContainer>(this ItemsControl control, Point p)
+      where TItemContainer : DependencyObject
+    {
+      HitTestResult result = VisualTreeHelper.HitTest(control, p);
+      DependencyObject obj = result.VisualHit;
+
+      while (VisualTreeHelper.GetParent(obj) != null && !(obj is TItemContainer))
+      {
+        obj = VisualTreeHelper.GetParent(obj);
+      }
+
+      // Will return null if not found
+      return obj as TItemContainer;
     }
   }
 }

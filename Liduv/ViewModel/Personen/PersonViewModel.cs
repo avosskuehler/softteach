@@ -403,6 +403,11 @@
     }
 
     /// <summary>
+    /// Holt oder setzt die Gruppennummer
+    /// </summary>
+    public int Gruppennummer { get; set; }
+
+    /// <summary>
     /// Holt oder setzt die Foto of this Person as a BitmapSource
     /// </summary>
     [DependsUpon("PersonFoto")]
