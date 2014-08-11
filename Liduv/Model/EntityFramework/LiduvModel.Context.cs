@@ -71,5 +71,10 @@ namespace Liduv.Model.EntityFramework
         public DbSet<NotenWichtung> NotenWichtungen { get; set; }
         public DbSet<Prozentbereich> Prozentbereiche { get; set; }
         public DbSet<Bewertungsschema> Bewertungsschemata { get; set; }
+        public DbSet<Raum> Räume { get; set; }
+        public DbSet<Raumplan> Raumpläne { get; set; }
+        public DbSet<Sitzplan> Sitzpläne { get; set; }
+        public DbSet<Sitzplaneintrag> Sitzplaneinträge { get; set; }
+        public DbSet<Sitzplatz> Sitzplätze { get; set; }
     }
 }

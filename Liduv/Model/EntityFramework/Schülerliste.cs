@@ -17,6 +17,7 @@ namespace Liduv.Model.EntityFramework
         public Schülerliste()
         {
             this.Schülereinträge = new HashSet<Schülereintrag>();
+            this.Sitzpläne = new HashSet<Sitzplan>();
         }
     
         public int Id { get; set; }
@@ -32,5 +33,6 @@ namespace Liduv.Model.EntityFramework
         public virtual Fach Fach { get; set; }
         public virtual NotenWichtung NotenWichtung { get; set; }
         public virtual Jahrtyp Jahrtyp { get; set; }
+        public virtual ICollection<Sitzplan> Sitzpläne { get; set; }
     }
 }

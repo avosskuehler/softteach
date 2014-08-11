@@ -18,6 +18,7 @@ namespace Liduv.View.Main
   using Liduv.View.Datenbank;
   using Liduv.View.Noten;
   using Liduv.View.Personen;
+  using Liduv.View.Sitzpläne;
   using Liduv.View.Stundenpläne;
   using Liduv.View.Termine;
   using Liduv.ViewModel.Termine;
@@ -675,6 +676,23 @@ namespace Liduv.View.Main
     }
 
     #endregion // Noten
+
+    #region Sitzpläne
+
+    /// <summary>
+    /// Event handler for the Tendenzen button in the ribbon section database, ribbon group Noten.
+    /// Shows a workspace for Tendenzen.
+    /// </summary>
+    /// <param name="sender">Source of the event</param>
+    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
+    private void RäumeButtonClick(object sender, RoutedEventArgs e)
+    {
+      var raumView = new RäumeDBView { DataContext = App.MainViewModel.RaumWorkspace };
+      raumView.ShowDialog();
+    }
+
+    #endregion //Noten
+
     #endregion // DatabaseTab
 
     private void ArbeitAnlegenButtonClick(object sender, RoutedEventArgs e)

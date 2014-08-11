@@ -10,6 +10,7 @@
   using Liduv.View.Stundenpläne;
   using Liduv.ViewModel.Datenbank;
   using Liduv.ViewModel.Helper;
+  using Liduv.ViewModel.Sitzpläne;
 
   /// <summary>
   /// ViewModel of an individual stundenplaneintrag
@@ -25,6 +26,11 @@
     /// The klasse currently assigned to this stundenplaneintrag
     /// </summary>
     private KlasseViewModel klasse;
+
+    /// <summary>
+    /// The raum currently assigned to this stundenplaneintrag
+    /// </summary>
+    private RaumViewModel raum;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="StundenplaneintragViewModel"/> Klasse. 
@@ -91,23 +97,41 @@
     public Stundenplaneintrag Model { get; private set; }
 
     /// <summary>
-    /// Holt oder setzt die Raum
+    /// Holt oder setzt denRaum für den Stundenplaneintrag
     /// </summary>
-    public string StundenplaneintragRaum
+    public RaumViewModel StundenplaneintragRaum
     {
       get
       {
-        return this.Model.Raum;
+        // We need to reflect any changes made in the model so we check the current value before returning
+        if (this.Model.Raum == null)
+        {
+          return null;
+        }
+
+        if (this.raum == null || this.raum.Model != this.Model.Raum)
+        {
+          this.raum = App.MainViewModel.Räume.SingleOrDefault(d => d.Model == this.Model.Raum);
+        }
+
+        return this.raum;
       }
 
       set
       {
-        if (value == this.Model.Raum) return;
-        this.UndoablePropertyChanging(this, "StundenplaneintragRaum", this.Model.Raum, value);
-        this.Model.Raum = value;
+        if (value == null) return;
+        if (this.raum != null)
+        {
+          if (value.RaumBezeichnung == this.raum.RaumBezeichnung) return;
+        }
+
+        this.UndoablePropertyChanging(this, "StundenplaneintragRaum", this.raum, value);
+        this.raum = value;
+        this.Model.Raum = value.Model;
         this.RaisePropertyChanged("StundenplaneintragRaum");
       }
     }
+
 
     /// <summary>
     /// Holt oder setzt die WochentagIndex

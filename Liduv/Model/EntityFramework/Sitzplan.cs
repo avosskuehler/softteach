@@ -12,27 +12,20 @@ namespace Liduv.Model.EntityFramework
     using System;
     using System.Collections.Generic;
     
-    public partial class Schülereintrag
+    public partial class Sitzplan
     {
-        public Schülereintrag()
+        public Sitzplan()
         {
-            this.Ergebnisse = new HashSet<Ergebnis>();
-            this.Noten = new HashSet<Note>();
-            this.Hausaufgaben = new HashSet<Hausaufgabe>();
-            this.Notentendenzen = new HashSet<Notentendenz>();
             this.Sitzplaneinträge = new HashSet<Sitzplaneintrag>();
         }
     
         public int Id { get; set; }
+        public int RaumplanId { get; set; }
         public int SchülerlisteId { get; set; }
-        public int PersonId { get; set; }
+        public System.DateTime GültigAb { get; set; }
     
+        public virtual Raumplan Raumplan { get; set; }
         public virtual Schülerliste Schülerliste { get; set; }
-        public virtual ICollection<Ergebnis> Ergebnisse { get; set; }
-        public virtual Person Person { get; set; }
-        public virtual ICollection<Note> Noten { get; set; }
-        public virtual ICollection<Hausaufgabe> Hausaufgaben { get; set; }
-        public virtual ICollection<Notentendenz> Notentendenzen { get; set; }
         public virtual ICollection<Sitzplaneintrag> Sitzplaneinträge { get; set; }
     }
 }

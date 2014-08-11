@@ -877,7 +877,7 @@
       int wochentagIndex,
       Fach fach,
       Klasse klasse,
-      string raum)
+      Raum raum)
     {
       var stundenplaneintrag = new Stundenplaneintrag();
       stundenplaneintrag.ErsteUnterrichtsstundeIndex = ersteUnterrichtsstundeIndex;
@@ -943,7 +943,7 @@
                         LetzteUnterrichtsstundeIndex =
                           stundenplaneintragViewModel
                           .StundenplaneintragLetzteUnterrichtsstundeIndex,
-                        Raum = stundenplaneintragViewModel.StundenplaneintragRaum,
+                        Raum = stundenplaneintragViewModel.StundenplaneintragRaum.Model,
                         WochentagIndex =
                           stundenplaneintragViewModel.StundenplaneintragWochentagIndex,
                         Stundenplan = this.Model
@@ -1001,7 +1001,7 @@
           clone.Fach = stundenplanEintrag.StundenplaneintragFach.Model;
           clone.Klasse = stundenplanEintrag.StundenplaneintragKlasse.Model;
           clone.LetzteUnterrichtsstundeIndex = stundenplanEintrag.StundenplaneintragLetzteUnterrichtsstundeIndex;
-          clone.Raum = stundenplanEintrag.StundenplaneintragRaum;
+          clone.Raum = stundenplanEintrag.StundenplaneintragRaum.Model;
           clone.WochentagIndex = stundenplanEintrag.StundenplaneintragWochentagIndex;
           clone.Stundenplan = stundenplan;
           var stundenplanEintragViewModel = new StundenplaneintragViewModel(clone);

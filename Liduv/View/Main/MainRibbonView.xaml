@@ -550,6 +550,14 @@
                                LargeImageSource="/Liduv;component/Images/Bewertungsschema32.png"
                                SmallImageSource="/Liduv;component/Images/Bewertungsschema16.png"/>
           </RibbonControlGroup>
+          <RibbonSeparator/>
+          <RibbonControlGroup>
+            <RibbonButton x:Name="RäumeButton"
+                               Label="Räume" 
+                               Click="RäumeButtonClick"
+                               LargeImageSource="/Liduv;component/Images/Raum32.png"
+                               SmallImageSource="/Liduv;component/Images/Raum16.png"/>
+           </RibbonControlGroup>
         </RibbonGroup>
       </RibbonTab>
       <RibbonTab x:Name="ToolsTab" Header="Tools">

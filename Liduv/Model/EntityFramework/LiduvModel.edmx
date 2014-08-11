@@ -4,355 +4,12 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Liduv.Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityContainer Name="LiduvModelStoreContainer">
-          <EntitySet Name="Arbeiten" EntityType="Liduv.Model.Store.Arbeiten" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Aufgaben" EntityType="Liduv.Model.Store.Aufgaben" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="BetroffeneKlassen" EntityType="Liduv.Model.Store.BetroffeneKlassen" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Bewertungsschemata" EntityType="Liduv.Model.Store.Bewertungsschemata" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Curricula" EntityType="Liduv.Model.Store.Curricula" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Dateitypen" EntityType="Liduv.Model.Store.Dateitypen" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Dateiverweise" EntityType="Liduv.Model.Store.Dateiverweise" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Ergebnisse" EntityType="Liduv.Model.Store.Ergebnisse" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Fächer" EntityType="Liduv.Model.Store.Fächer" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Fachstundenanzahlen" EntityType="Liduv.Model.Store.Fachstundenanzahlen" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Ferien" EntityType="Liduv.Model.Store.Ferien" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Halbjahrespläne" EntityType="Liduv.Model.Store.Halbjahrespläne" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Halbjahrtypen" EntityType="Liduv.Model.Store.Halbjahrtypen" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Hausaufgaben" EntityType="Liduv.Model.Store.Hausaufgaben" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Jahrespläne" EntityType="Liduv.Model.Store.Jahrespläne" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Jahrgangsstufen" EntityType="Liduv.Model.Store.Jahrgangsstufen" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Jahrtypen" EntityType="Liduv.Model.Store.Jahrtypen" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Klassen" EntityType="Liduv.Model.Store.Klassen" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Klassenstufen" EntityType="Liduv.Model.Store.Klassenstufen" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Medien" EntityType="Liduv.Model.Store.Medien" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Module" EntityType="Liduv.Model.Store.Module" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Monatspläne" EntityType="Liduv.Model.Store.Monatspläne" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Monatstypen" EntityType="Liduv.Model.Store.Monatstypen" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Noten" EntityType="Liduv.Model.Store.Noten" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Notentendenzen" EntityType="Liduv.Model.Store.Notentendenzen" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="NotenWichtungen" EntityType="Liduv.Model.Store.NotenWichtungen" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Personen" EntityType="Liduv.Model.Store.Personen" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Phasen" EntityType="Liduv.Model.Store.Phasen" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Prozentbereiche" EntityType="Liduv.Model.Store.Prozentbereiche" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Reihen" EntityType="Liduv.Model.Store.Reihen" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Schülereinträge" EntityType="Liduv.Model.Store.Schülereinträge" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Schülerlisten" EntityType="Liduv.Model.Store.Schülerlisten" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Schultage" EntityType="Liduv.Model.Store.Schultage" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Schulwochen" EntityType="Liduv.Model.Store.Schulwochen" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Sequenzen" EntityType="Liduv.Model.Store.Sequenzen" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Sozialformen" EntityType="Liduv.Model.Store.Sozialformen" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Stundenentwürfe" EntityType="Liduv.Model.Store.Stundenentwürfe" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Stundenpläne" EntityType="Liduv.Model.Store.Stundenpläne" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Stundenplaneinträge" EntityType="Liduv.Model.Store.Stundenplaneinträge" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Tagespläne" EntityType="Liduv.Model.Store.Tagespläne" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Tendenzen" EntityType="Liduv.Model.Store.Tendenzen" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Tendenztypen" EntityType="Liduv.Model.Store.Tendenztypen" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Termine" EntityType="Liduv.Model.Store.Termine" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Termine_Lerngruppentermin" EntityType="Liduv.Model.Store.Termine_Lerngruppentermin" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Termine_Schultermin" EntityType="Liduv.Model.Store.Termine_Schultermin" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Termine_Stunde" EntityType="Liduv.Model.Store.Termine_Stunde" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Termintypen" EntityType="Liduv.Model.Store.Termintypen" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Unterrichtsstunden" EntityType="Liduv.Model.Store.Unterrichtsstunden" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Zensuren" EntityType="Liduv.Model.Store.Zensuren" store:Type="Tables" Schema="dbo" />
-          <AssociationSet Name="FK_ArbeitAufgabe" Association="Liduv.Model.Store.FK_ArbeitAufgabe">
-            <End Role="Arbeiten" EntitySet="Arbeiten" />
-            <End Role="Aufgaben" EntitySet="Aufgaben" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AufgabeErgebnis" Association="Liduv.Model.Store.FK_AufgabeErgebnis">
-            <End Role="Aufgaben" EntitySet="Aufgaben" />
-            <End Role="Ergebnisse" EntitySet="Ergebnisse" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BewertungsschemaArbeit" Association="Liduv.Model.Store.FK_BewertungsschemaArbeit">
-            <End Role="Bewertungsschemata" EntitySet="Bewertungsschemata" />
-            <End Role="Arbeiten" EntitySet="Arbeiten" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BewertungsschemaProzentbereich" Association="Liduv.Model.Store.FK_BewertungsschemaProzentbereich">
-            <End Role="Bewertungsschemata" EntitySet="Bewertungsschemata" />
-            <End Role="Prozentbereiche" EntitySet="Prozentbereiche" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CurriculumReihe" Association="Liduv.Model.Store.FK_CurriculumReihe">
-            <End Role="Curricula" EntitySet="Curricula" />
-            <End Role="Reihen" EntitySet="Reihen" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DateitypDateiverweis" Association="Liduv.Model.Store.FK_DateitypDateiverweis">
-            <End Role="Dateitypen" EntitySet="Dateitypen" />
-            <End Role="Dateiverweise" EntitySet="Dateiverweise" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ErsteUnterrichtsstundeTermin" Association="Liduv.Model.Store.FK_ErsteUnterrichtsstundeTermin">
-            <End Role="Unterrichtsstunden" EntitySet="Unterrichtsstunden" />
-            <End Role="Termine" EntitySet="Termine" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FachArbeit" Association="Liduv.Model.Store.FK_FachArbeit">
-            <End Role="Fächer" EntitySet="Fächer" />
-            <End Role="Arbeiten" EntitySet="Arbeiten" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FachCurriculum" Association="Liduv.Model.Store.FK_FachCurriculum">
-            <End Role="Fächer" EntitySet="Fächer" />
-            <End Role="Curricula" EntitySet="Curricula" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FachFachstundenanzahl" Association="Liduv.Model.Store.FK_FachFachstundenanzahl">
-            <End Role="Fächer" EntitySet="Fächer" />
-            <End Role="Fachstundenanzahlen" EntitySet="Fachstundenanzahlen" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FachJahresplan" Association="Liduv.Model.Store.FK_FachJahresplan">
-            <End Role="Fächer" EntitySet="Fächer" />
-            <End Role="Jahrespläne" EntitySet="Jahrespläne" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FachModul" Association="Liduv.Model.Store.FK_FachModul">
-            <End Role="Fächer" EntitySet="Fächer" />
-            <End Role="Module" EntitySet="Module" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FachSchülerlisten" Association="Liduv.Model.Store.FK_FachSchülerlisten">
-            <End Role="Fächer" EntitySet="Fächer" />
-            <End Role="Schülerlisten" EntitySet="Schülerlisten" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FachStundenentwurf" Association="Liduv.Model.Store.FK_FachStundenentwurf">
-            <End Role="Fächer" EntitySet="Fächer" />
-            <End Role="Stundenentwürfe" EntitySet="Stundenentwürfe" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FachStundenplaneintrag" Association="Liduv.Model.Store.FK_FachStundenplaneintrag">
-            <End Role="Fächer" EntitySet="Fächer" />
-            <End Role="Stundenplaneinträge" EntitySet="Stundenplaneinträge" />
-          </AssociationSet>
-          <AssociationSet Name="FK_HalbjahresplanMonatsplan" Association="Liduv.Model.Store.FK_HalbjahresplanMonatsplan">
-            <End Role="Halbjahrespläne" EntitySet="Halbjahrespläne" />
-            <End Role="Monatspläne" EntitySet="Monatspläne" />
-          </AssociationSet>
-          <AssociationSet Name="FK_HalbjahrtypArbeit" Association="Liduv.Model.Store.FK_HalbjahrtypArbeit">
-            <End Role="Halbjahrtypen" EntitySet="Halbjahrtypen" />
-            <End Role="Arbeiten" EntitySet="Arbeiten" />
-          </AssociationSet>
-          <AssociationSet Name="FK_HalbjahrtypCurriculum" Association="Liduv.Model.Store.FK_HalbjahrtypCurriculum">
-            <End Role="Halbjahrtypen" EntitySet="Halbjahrtypen" />
-            <End Role="Curricula" EntitySet="Curricula" />
-          </AssociationSet>
-          <AssociationSet Name="FK_HalbjahrtypSchülerliste" Association="Liduv.Model.Store.FK_HalbjahrtypSchülerliste">
-            <End Role="Halbjahrtypen" EntitySet="Halbjahrtypen" />
-            <End Role="Schülerlisten" EntitySet="Schülerlisten" />
-          </AssociationSet>
-          <AssociationSet Name="FK_HalbjahrtypSchulhalbjahr" Association="Liduv.Model.Store.FK_HalbjahrtypSchulhalbjahr">
-            <End Role="Halbjahrtypen" EntitySet="Halbjahrtypen" />
-            <End Role="Halbjahrespläne" EntitySet="Halbjahrespläne" />
-          </AssociationSet>
-          <AssociationSet Name="FK_HalbjahrtypStundenplan" Association="Liduv.Model.Store.FK_HalbjahrtypStundenplan">
-            <End Role="Halbjahrtypen" EntitySet="Halbjahrtypen" />
-            <End Role="Stundenpläne" EntitySet="Stundenpläne" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Hausaufgaben_Schülereinträge" Association="Liduv.Model.Store.FK_Hausaufgaben_Schülereinträge">
-            <End Role="Schülereinträge" EntitySet="Schülereinträge" />
-            <End Role="Hausaufgaben" EntitySet="Hausaufgaben" />
-          </AssociationSet>
-          <AssociationSet Name="FK_JahresplanHalbjahresplan" Association="Liduv.Model.Store.FK_JahresplanHalbjahresplan">
-            <End Role="Jahrespläne" EntitySet="Jahrespläne" />
-            <End Role="Halbjahrespläne" EntitySet="Halbjahrespläne" />
-          </AssociationSet>
-          <AssociationSet Name="FK_JahrgangsstufeKlassenstufe" Association="Liduv.Model.Store.FK_JahrgangsstufeKlassenstufe">
-            <End Role="Jahrgangsstufen" EntitySet="Jahrgangsstufen" />
-            <End Role="Klassenstufen" EntitySet="Klassenstufen" />
-          </AssociationSet>
-          <AssociationSet Name="FK_JahrgangsstufeModul" Association="Liduv.Model.Store.FK_JahrgangsstufeModul">
-            <End Role="Jahrgangsstufen" EntitySet="Jahrgangsstufen" />
-            <End Role="Module" EntitySet="Module" />
-          </AssociationSet>
-          <AssociationSet Name="FK_JahrgangsstufeStundenentwurf" Association="Liduv.Model.Store.FK_JahrgangsstufeStundenentwurf">
-            <End Role="Jahrgangsstufen" EntitySet="Jahrgangsstufen" />
-            <End Role="Stundenentwürfe" EntitySet="Stundenentwürfe" />
-          </AssociationSet>
-          <AssociationSet Name="FK_JahrtypArbeit" Association="Liduv.Model.Store.FK_JahrtypArbeit">
-            <End Role="Jahrtypen" EntitySet="Jahrtypen" />
-            <End Role="Arbeiten" EntitySet="Arbeiten" />
-          </AssociationSet>
-          <AssociationSet Name="FK_JahrtypCurriculum" Association="Liduv.Model.Store.FK_JahrtypCurriculum">
-            <End Role="Jahrtypen" EntitySet="Jahrtypen" />
-            <End Role="Curricula" EntitySet="Curricula" />
-          </AssociationSet>
-          <AssociationSet Name="FK_JahrtypFerien" Association="Liduv.Model.Store.FK_JahrtypFerien">
-            <End Role="Jahrtypen" EntitySet="Jahrtypen" />
-            <End Role="Ferien" EntitySet="Ferien" />
-          </AssociationSet>
-          <AssociationSet Name="FK_JahrtypJahresplan" Association="Liduv.Model.Store.FK_JahrtypJahresplan">
-            <End Role="Jahrtypen" EntitySet="Jahrtypen" />
-            <End Role="Jahrespläne" EntitySet="Jahrespläne" />
-          </AssociationSet>
-          <AssociationSet Name="FK_JahrtypSchülerlisten" Association="Liduv.Model.Store.FK_JahrtypSchülerlisten">
-            <End Role="Jahrtypen" EntitySet="Jahrtypen" />
-            <End Role="Schülerlisten" EntitySet="Schülerlisten" />
-          </AssociationSet>
-          <AssociationSet Name="FK_JahrtypSchultermin" Association="Liduv.Model.Store.FK_JahrtypSchultermin">
-            <End Role="Jahrtypen" EntitySet="Jahrtypen" />
-            <End Role="Termine_Schultermin" EntitySet="Termine_Schultermin" />
-          </AssociationSet>
-          <AssociationSet Name="FK_JahrtypSchulwoche" Association="Liduv.Model.Store.FK_JahrtypSchulwoche">
-            <End Role="Jahrtypen" EntitySet="Jahrtypen" />
-            <End Role="Schulwochen" EntitySet="Schulwochen" />
-          </AssociationSet>
-          <AssociationSet Name="FK_JahrtypStundenplan" Association="Liduv.Model.Store.FK_JahrtypStundenplan">
-            <End Role="Jahrtypen" EntitySet="Jahrtypen" />
-            <End Role="Stundenpläne" EntitySet="Stundenpläne" />
-          </AssociationSet>
-          <AssociationSet Name="FK_KlasseArbeit" Association="Liduv.Model.Store.FK_KlasseArbeit">
-            <End Role="Klassen" EntitySet="Klassen" />
-            <End Role="Arbeiten" EntitySet="Arbeiten" />
-          </AssociationSet>
-          <AssociationSet Name="FK_KlasseBetroffeneKlasse" Association="Liduv.Model.Store.FK_KlasseBetroffeneKlasse">
-            <End Role="Klassen" EntitySet="Klassen" />
-            <End Role="BetroffeneKlassen" EntitySet="BetroffeneKlassen" />
-          </AssociationSet>
-          <AssociationSet Name="FK_KlasseJahresplan" Association="Liduv.Model.Store.FK_KlasseJahresplan">
-            <End Role="Klassen" EntitySet="Klassen" />
-            <End Role="Jahrespläne" EntitySet="Jahrespläne" />
-          </AssociationSet>
-          <AssociationSet Name="FK_KlassenstufeCurriculum" Association="Liduv.Model.Store.FK_KlassenstufeCurriculum">
-            <End Role="Klassenstufen" EntitySet="Klassenstufen" />
-            <End Role="Curricula" EntitySet="Curricula" />
-          </AssociationSet>
-          <AssociationSet Name="FK_KlassenstufeFachstundenanzahl" Association="Liduv.Model.Store.FK_KlassenstufeFachstundenanzahl">
-            <End Role="Klassenstufen" EntitySet="Klassenstufen" />
-            <End Role="Fachstundenanzahlen" EntitySet="Fachstundenanzahlen" />
-          </AssociationSet>
-          <AssociationSet Name="FK_KlassenstufeKlasse" Association="Liduv.Model.Store.FK_KlassenstufeKlasse">
-            <End Role="Klassenstufen" EntitySet="Klassenstufen" />
-            <End Role="Klassen" EntitySet="Klassen" />
-          </AssociationSet>
-          <AssociationSet Name="FK_KlasseSchülerliste" Association="Liduv.Model.Store.FK_KlasseSchülerliste">
-            <End Role="Klassen" EntitySet="Klassen" />
-            <End Role="Schülerlisten" EntitySet="Schülerlisten" />
-          </AssociationSet>
-          <AssociationSet Name="FK_KlasseStundenplaneintrag" Association="Liduv.Model.Store.FK_KlasseStundenplaneintrag">
-            <End Role="Klassen" EntitySet="Klassen" />
-            <End Role="Stundenplaneinträge" EntitySet="Stundenplaneinträge" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Lerngruppentermin_inherits_Termin" Association="Liduv.Model.Store.FK_Lerngruppentermin_inherits_Termin">
-            <End Role="Termine" EntitySet="Termine" />
-            <End Role="Termine_Lerngruppentermin" EntitySet="Termine_Lerngruppentermin" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MediumPhase" Association="Liduv.Model.Store.FK_MediumPhase">
-            <End Role="Medien" EntitySet="Medien" />
-            <End Role="Phasen" EntitySet="Phasen" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ModulReihe" Association="Liduv.Model.Store.FK_ModulReihe">
-            <End Role="Module" EntitySet="Module" />
-            <End Role="Reihen" EntitySet="Reihen" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ModulStundenentwurf" Association="Liduv.Model.Store.FK_ModulStundenentwurf">
-            <End Role="Module" EntitySet="Module" />
-            <End Role="Stundenentwürfe" EntitySet="Stundenentwürfe" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MonatsplanTagesplan" Association="Liduv.Model.Store.FK_MonatsplanTagesplan">
-            <End Role="Monatspläne" EntitySet="Monatspläne" />
-            <End Role="Tagespläne" EntitySet="Tagespläne" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MonatstypKalendermonat" Association="Liduv.Model.Store.FK_MonatstypKalendermonat">
-            <End Role="Monatstypen" EntitySet="Monatstypen" />
-            <End Role="Monatspläne" EntitySet="Monatspläne" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Noten_Arbeiten" Association="Liduv.Model.Store.FK_Noten_Arbeiten">
-            <End Role="Arbeiten" EntitySet="Arbeiten" />
-            <End Role="Noten" EntitySet="Noten" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Noten_Schülereinträge" Association="Liduv.Model.Store.FK_Noten_Schülereinträge">
-            <End Role="Schülereinträge" EntitySet="Schülereinträge" />
-            <End Role="Noten" EntitySet="Noten" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Notentendenzen_Schülereinträge" Association="Liduv.Model.Store.FK_Notentendenzen_Schülereinträge">
-            <End Role="Schülereinträge" EntitySet="Schülereinträge" />
-            <End Role="Notentendenzen" EntitySet="Notentendenzen" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Notentendenzen_Tendenzen" Association="Liduv.Model.Store.FK_Notentendenzen_Tendenzen">
-            <End Role="Tendenzen" EntitySet="Tendenzen" />
-            <End Role="Notentendenzen" EntitySet="Notentendenzen" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Notentendenzen_Tendenztypen" Association="Liduv.Model.Store.FK_Notentendenzen_Tendenztypen">
-            <End Role="Tendenztypen" EntitySet="Tendenztypen" />
-            <End Role="Notentendenzen" EntitySet="Notentendenzen" />
-          </AssociationSet>
-          <AssociationSet Name="FK_NotenWichtungenSchülerliste" Association="Liduv.Model.Store.FK_NotenWichtungenSchülerliste">
-            <End Role="NotenWichtungen" EntitySet="NotenWichtungen" />
-            <End Role="Schülerlisten" EntitySet="Schülerlisten" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PersonSchülereintrag" Association="Liduv.Model.Store.FK_PersonSchülereintrag">
-            <End Role="Personen" EntitySet="Personen" />
-            <End Role="Schülereinträge" EntitySet="Schülereinträge" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ReiheSequenz" Association="Liduv.Model.Store.FK_ReiheSequenz">
-            <End Role="Reihen" EntitySet="Reihen" />
-            <End Role="Sequenzen" EntitySet="Sequenzen" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SchülereintragErgebnis" Association="Liduv.Model.Store.FK_SchülereintragErgebnis">
-            <End Role="Schülereinträge" EntitySet="Schülereinträge" />
-            <End Role="Ergebnisse" EntitySet="Ergebnisse" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SchülerlisteSchülereintrag" Association="Liduv.Model.Store.FK_SchülerlisteSchülereintrag">
-            <End Role="Schülerlisten" EntitySet="Schülerlisten" />
-            <End Role="Schülereinträge" EntitySet="Schülereinträge" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Schultermin_inherits_Termin" Association="Liduv.Model.Store.FK_Schultermin_inherits_Termin">
-            <End Role="Termine" EntitySet="Termine" />
-            <End Role="Termine_Schultermin" EntitySet="Termine_Schultermin" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SchulwocheSchultag" Association="Liduv.Model.Store.FK_SchulwocheSchultag">
-            <End Role="Schulwochen" EntitySet="Schulwochen" />
-            <End Role="Schultage" EntitySet="Schultage" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SozialformPhase" Association="Liduv.Model.Store.FK_SozialformPhase">
-            <End Role="Sozialformen" EntitySet="Sozialformen" />
-            <End Role="Phasen" EntitySet="Phasen" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Stunde_inherits_Lerngruppentermin" Association="Liduv.Model.Store.FK_Stunde_inherits_Lerngruppentermin">
-            <End Role="Termine_Lerngruppentermin" EntitySet="Termine_Lerngruppentermin" />
-            <End Role="Termine_Stunde" EntitySet="Termine_Stunde" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StundenentwurfDateiverweis" Association="Liduv.Model.Store.FK_StundenentwurfDateiverweis">
-            <End Role="Stundenentwürfe" EntitySet="Stundenentwürfe" />
-            <End Role="Dateiverweise" EntitySet="Dateiverweise" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StundenentwurfPhasen" Association="Liduv.Model.Store.FK_StundenentwurfPhasen">
-            <End Role="Stundenentwürfe" EntitySet="Stundenentwürfe" />
-            <End Role="Phasen" EntitySet="Phasen" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StundenentwurfStunde" Association="Liduv.Model.Store.FK_StundenentwurfStunde">
-            <End Role="Stundenentwürfe" EntitySet="Stundenentwürfe" />
-            <End Role="Termine_Stunde" EntitySet="Termine_Stunde" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StundenplanStundenplaneintrag" Association="Liduv.Model.Store.FK_StundenplanStundenplaneintrag">
-            <End Role="Stundenpläne" EntitySet="Stundenpläne" />
-            <End Role="Stundenplaneinträge" EntitySet="Stundenplaneinträge" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TagesplanLerngruppentermin" Association="Liduv.Model.Store.FK_TagesplanLerngruppentermin">
-            <End Role="Tagespläne" EntitySet="Tagespläne" />
-            <End Role="Termine_Lerngruppentermin" EntitySet="Termine_Lerngruppentermin" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TerminBetroffeneKlasse" Association="Liduv.Model.Store.FK_TerminBetroffeneKlasse">
-            <End Role="Termine_Schultermin" EntitySet="Termine_Schultermin" />
-            <End Role="BetroffeneKlassen" EntitySet="BetroffeneKlassen" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TermintypSchultag" Association="Liduv.Model.Store.FK_TermintypSchultag">
-            <End Role="Termintypen" EntitySet="Termintypen" />
-            <End Role="Schultage" EntitySet="Schultage" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TermintypTermin" Association="Liduv.Model.Store.FK_TermintypTermin">
-            <End Role="Termintypen" EntitySet="Termintypen" />
-            <End Role="Termine" EntitySet="Termine" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UnterrichtsstundeTermin" Association="Liduv.Model.Store.FK_UnterrichtsstundeTermin">
-            <End Role="Unterrichtsstunden" EntitySet="Unterrichtsstunden" />
-            <End Role="Termine" EntitySet="Termine" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ZensurNoten" Association="Liduv.Model.Store.FK_ZensurNoten">
-            <End Role="Zensuren" EntitySet="Zensuren" />
-            <End Role="Noten" EntitySet="Noten" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ZensurProzentbereich" Association="Liduv.Model.Store.FK_ZensurProzentbereich">
-            <End Role="Zensuren" EntitySet="Zensuren" />
-            <End Role="Prozentbereiche" EntitySet="Prozentbereiche" />
-          </AssociationSet>
-        </EntityContainer>
+    <Schema Namespace="Liduv.Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Arbeiten">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Bezeichnung" Type="varchar(max)" Nullable="false" />
           <Property Name="JahrtypId" Type="int" Nullable="false" />
           <Property Name="HalbjahrtypId" Type="int" Nullable="false" />
@@ -360,7 +17,7 @@
           <Property Name="FachId" Type="int" Nullable="false" />
           <Property Name="LfdNr" Type="int" Nullable="false" />
           <Property Name="BewertungsschemaId" Type="int" Nullable="false" />
-          <Property Name="Bepunktungstyp" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Bepunktungstyp" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Datum" Type="datetime" Nullable="false" />
           <Property Name="IstKlausur" Type="bit" Nullable="false" />
         </EntityType>
@@ -368,7 +25,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ArbeitId" Type="int" Nullable="false" />
           <Property Name="LfdNr" Type="int" Nullable="false" />
           <Property Name="MaxPunkte" Type="int" Nullable="false" />
@@ -378,7 +35,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TerminId" Type="int" Nullable="false" />
           <Property Name="KlasseId" Type="int" Nullable="false" />
         </EntityType>
@@ -386,14 +43,14 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Bezeichnung" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Bezeichnung" Type="nvarchar" MaxLength="200" Nullable="false" />
         </EntityType>
         <EntityType Name="Curricula">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FachId" Type="int" Nullable="false" />
           <Property Name="KlassenstufeId" Type="int" Nullable="false" />
           <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
@@ -404,7 +61,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Kürzel" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
@@ -412,7 +69,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Dateiname" Type="nvarchar(max)" Nullable="false" />
           <Property Name="DateitypId" Type="int" Nullable="false" />
           <Property Name="StundenentwurfId" Type="int" Nullable="false" />
@@ -421,7 +78,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AufgabeId" Type="int" Nullable="false" />
           <Property Name="SchülereintragId" Type="int" Nullable="false" />
           <Property Name="Punktzahl" Type="int" />
@@ -430,7 +87,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Farbe" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
@@ -438,7 +95,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FachId" Type="int" Nullable="false" />
           <Property Name="KlassenstufeId" Type="int" Nullable="false" />
           <Property Name="Stundenzahl" Type="int" Nullable="false" />
@@ -448,7 +105,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="JahrtypId" Type="int" Nullable="false" />
           <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
           <Property Name="ErsterFerientag" Type="datetime" Nullable="false" />
@@ -458,7 +115,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="JahresplanId" Type="int" Nullable="false" />
           <Property Name="HalbjahrtypId" Type="int" Nullable="false" />
         </EntityType>
@@ -466,7 +123,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
           <Property Name="HalbjahrIndex" Type="int" Nullable="false" />
         </EntityType>
@@ -474,7 +131,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Datum" Type="datetime" Nullable="false" />
           <Property Name="Bezeichnung" Type="nvarchar" MaxLength="50" />
           <Property Name="IstNachgereicht" Type="bit" Nullable="false" />
@@ -484,7 +141,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FachId" Type="int" Nullable="false" />
           <Property Name="KlasseId" Type="int" Nullable="false" />
           <Property Name="JahrtypId" Type="int" Nullable="false" />
@@ -493,15 +150,15 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Bepunktungstyp" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Bepunktungstyp" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Jahrtypen">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Jahr" Type="int" Nullable="false" />
         </EntityType>
@@ -509,7 +166,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="KlassenstufeId" Type="int" Nullable="false" />
           <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
@@ -517,7 +174,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="JahrgangsstufeId" Type="int" Nullable="false" />
           <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
@@ -525,14 +182,14 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Module">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FachId" Type="int" Nullable="false" />
           <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
           <Property Name="JahrgangsstufeId" Type="int" Nullable="false" />
@@ -543,7 +200,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="HalbjahresplanId" Type="int" Nullable="false" />
           <Property Name="MonatstypId" Type="int" Nullable="false" />
           <Property Name="Monatstyp_Id" Type="int" Nullable="false" />
@@ -552,7 +209,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
           <Property Name="MonatIndex" Type="int" Nullable="false" />
         </EntityType>
@@ -560,7 +217,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SchülereintragId" Type="int" Nullable="false" />
           <Property Name="ZensurId" Type="int" Nullable="false" />
           <Property Name="Datum" Type="datetime" Nullable="false" />
@@ -568,13 +225,13 @@
           <Property Name="IstSchriftlich" Type="bit" Nullable="false" />
           <Property Name="ArbeitId" Type="int" />
           <Property Name="Bezeichnung" Type="nvarchar(max)" />
-          <Property Name="Notentyp" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Notentyp" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Notentendenzen">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TendenztypId" Type="int" Nullable="false" />
           <Property Name="Datum" Type="datetime" Nullable="false" />
           <Property Name="TendenzId" Type="int" Nullable="false" />
@@ -585,7 +242,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
           <Property Name="MündlichQualität" Type="real" Nullable="false" />
           <Property Name="MündlichQuantität" Type="real" Nullable="false" />
@@ -599,7 +256,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Vorname" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Nachname" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Geschlecht" Type="bit" Nullable="false" />
@@ -621,7 +278,7 @@
             <PropertyRef Name="Id" />
             <PropertyRef Name="StundenentwurfId" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="StundenentwurfId" Type="int" Nullable="false" />
           <Property Name="Zeit" Type="int" Nullable="false" />
           <Property Name="MediumId" Type="int" Nullable="false" />
@@ -633,17 +290,33 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ZensurId" Type="int" Nullable="false" />
           <Property Name="VonProzent" Type="float" Nullable="false" />
           <Property Name="BisProzent" Type="float" Nullable="false" />
           <Property Name="BewertungsschemaId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Räume">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Raumpläne">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RaumId" Type="int" Nullable="false" />
+          <Property Name="Dateiname" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
         <EntityType Name="Reihen">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ModulId" Type="int" Nullable="false" />
           <Property Name="Thema" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Stundenbedarf" Type="int" Nullable="false" />
@@ -654,7 +327,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SchülerlisteId" Type="int" Nullable="false" />
           <Property Name="PersonId" Type="int" Nullable="false" />
         </EntityType>
@@ -662,7 +335,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="JahrtypId" Type="int" Nullable="false" />
           <Property Name="HalbjahrtypId" Type="int" Nullable="false" />
           <Property Name="KlasseId" Type="int" Nullable="false" />
@@ -673,7 +346,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SchulwocheId" Type="int" Nullable="false" />
           <Property Name="TermintypId" Type="int" Nullable="false" />
           <Property Name="Datum" Type="datetime" Nullable="false" />
@@ -682,7 +355,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="JahrtypId" Type="int" Nullable="false" />
           <Property Name="Montagsdatum" Type="datetime" Nullable="false" />
         </EntityType>
@@ -690,24 +363,53 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ReiheId" Type="int" Nullable="false" />
           <Property Name="AbfolgeIndex" Type="int" Nullable="false" />
           <Property Name="Stundenbedarf" Type="int" Nullable="false" />
           <Property Name="Thema" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
+        <EntityType Name="Sitzpläne">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RaumplanId" Type="int" Nullable="false" />
+          <Property Name="SchülerlisteId" Type="int" Nullable="false" />
+          <Property Name="GültigAb" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sitzplaneinträge">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SitzplanId" Type="int" Nullable="false" />
+          <Property Name="SitzplatzId" Type="int" Nullable="false" />
+          <Property Name="SchülereintragId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sitzplätze">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RaumplanId" Type="int" Nullable="false" />
+          <Property Name="LinksObenX" Type="float" Nullable="false" />
+          <Property Name="LinksObenY" Type="float" Nullable="false" />
+          <Property Name="Breite" Type="float" Nullable="false" />
+          <Property Name="Höhe" Type="float" Nullable="false" />
+        </EntityType>
         <EntityType Name="Sozialformen">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Stundenentwürfe">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FachId" Type="int" Nullable="false" />
           <Property Name="JahrgangsstufeId" Type="int" Nullable="false" />
           <Property Name="ModulId" Type="int" Nullable="false" />
@@ -723,7 +425,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
           <Property Name="JahrtypId" Type="int" Nullable="false" />
           <Property Name="HalbjahrtypId" Type="int" Nullable="false" />
@@ -733,20 +435,20 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="StundenplanId" Type="int" Nullable="false" />
           <Property Name="ErsteUnterrichtsstundeIndex" Type="int" Nullable="false" />
           <Property Name="LetzteUnterrichtsstundeIndex" Type="int" Nullable="false" />
           <Property Name="WochentagIndex" Type="int" Nullable="false" />
           <Property Name="FachId" Type="int" Nullable="false" />
           <Property Name="KlasseId" Type="int" Nullable="false" />
-          <Property Name="Raum" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RaumId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Tagespläne">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MonatsplanId" Type="int" Nullable="false" />
           <Property Name="Datum" Type="datetime" Nullable="false" />
           <Property Name="Ferientag" Type="bit" Nullable="false" />
@@ -756,22 +458,22 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Bezeichnung" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Bezeichnung" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Wichtung" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Tendenztypen">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Bezeichnung" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Bezeichnung" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Termine">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TermintypId" Type="int" Nullable="false" />
           <Property Name="Beschreibung" Type="nvarchar(max)" />
           <Property Name="ErsteUnterrichtsstundeId" Type="int" Nullable="false" />
@@ -805,7 +507,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Kalenderfarbe" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
@@ -813,26 +515,26 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Beginn" Type="time" Nullable="false" />
-          <Property Name="Ende" Type="time" Nullable="false" />
+          <Property Name="Beginn" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Ende" Type="time" Precision="7" Nullable="false" />
           <Property Name="Stundenindex" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Zensuren">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Notenpunkte" Type="int" Nullable="false" />
           <Property Name="NoteMitTendenz" Type="nvarchar(max)" Nullable="false" />
           <Property Name="GanzeNote" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_ArbeitAufgabe">
-          <End Role="Arbeiten" Type="Liduv.Model.Store.Arbeiten" Multiplicity="1">
+          <End Role="Arbeiten" Type="Self.Arbeiten" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Aufgaben" Type="Liduv.Model.Store.Aufgaben" Multiplicity="*" />
+          <End Role="Aufgaben" Type="Self.Aufgaben" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Arbeiten">
               <PropertyRef Name="Id" />
@@ -843,10 +545,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AufgabeErgebnis">
-          <End Role="Aufgaben" Type="Liduv.Model.Store.Aufgaben" Multiplicity="1">
+          <End Role="Aufgaben" Type="Self.Aufgaben" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Ergebnisse" Type="Liduv.Model.Store.Ergebnisse" Multiplicity="*" />
+          <End Role="Ergebnisse" Type="Self.Ergebnisse" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Aufgaben">
               <PropertyRef Name="Id" />
@@ -857,8 +559,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_BewertungsschemaArbeit">
-          <End Role="Bewertungsschemata" Type="Liduv.Model.Store.Bewertungsschemata" Multiplicity="1" />
-          <End Role="Arbeiten" Type="Liduv.Model.Store.Arbeiten" Multiplicity="*" />
+          <End Role="Bewertungsschemata" Type="Self.Bewertungsschemata" Multiplicity="1" />
+          <End Role="Arbeiten" Type="Self.Arbeiten" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Bewertungsschemata">
               <PropertyRef Name="Id" />
@@ -869,8 +571,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_BewertungsschemaProzentbereich">
-          <End Role="Bewertungsschemata" Type="Liduv.Model.Store.Bewertungsschemata" Multiplicity="1" />
-          <End Role="Prozentbereiche" Type="Liduv.Model.Store.Prozentbereiche" Multiplicity="*" />
+          <End Role="Bewertungsschemata" Type="Self.Bewertungsschemata" Multiplicity="1" />
+          <End Role="Prozentbereiche" Type="Self.Prozentbereiche" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Bewertungsschemata">
               <PropertyRef Name="Id" />
@@ -881,10 +583,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CurriculumReihe">
-          <End Role="Curricula" Type="Liduv.Model.Store.Curricula" Multiplicity="1">
+          <End Role="Curricula" Type="Self.Curricula" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Reihen" Type="Liduv.Model.Store.Reihen" Multiplicity="*" />
+          <End Role="Reihen" Type="Self.Reihen" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Curricula">
               <PropertyRef Name="Id" />
@@ -895,10 +597,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DateitypDateiverweis">
-          <End Role="Dateitypen" Type="Liduv.Model.Store.Dateitypen" Multiplicity="1">
+          <End Role="Dateitypen" Type="Self.Dateitypen" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Dateiverweise" Type="Liduv.Model.Store.Dateiverweise" Multiplicity="*" />
+          <End Role="Dateiverweise" Type="Self.Dateiverweise" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Dateitypen">
               <PropertyRef Name="Id" />
@@ -909,8 +611,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ErsteUnterrichtsstundeTermin">
-          <End Role="Unterrichtsstunden" Type="Liduv.Model.Store.Unterrichtsstunden" Multiplicity="1" />
-          <End Role="Termine" Type="Liduv.Model.Store.Termine" Multiplicity="*" />
+          <End Role="Unterrichtsstunden" Type="Self.Unterrichtsstunden" Multiplicity="1" />
+          <End Role="Termine" Type="Self.Termine" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Unterrichtsstunden">
               <PropertyRef Name="Id" />
@@ -921,10 +623,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FachArbeit">
-          <End Role="Fächer" Type="Liduv.Model.Store.Fächer" Multiplicity="1">
+          <End Role="Fächer" Type="Self.Fächer" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Arbeiten" Type="Liduv.Model.Store.Arbeiten" Multiplicity="*" />
+          <End Role="Arbeiten" Type="Self.Arbeiten" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Fächer">
               <PropertyRef Name="Id" />
@@ -935,10 +637,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FachCurriculum">
-          <End Role="Fächer" Type="Liduv.Model.Store.Fächer" Multiplicity="1">
+          <End Role="Fächer" Type="Self.Fächer" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Curricula" Type="Liduv.Model.Store.Curricula" Multiplicity="*" />
+          <End Role="Curricula" Type="Self.Curricula" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Fächer">
               <PropertyRef Name="Id" />
@@ -949,8 +651,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FachFachstundenanzahl">
-          <End Role="Fächer" Type="Liduv.Model.Store.Fächer" Multiplicity="1" />
-          <End Role="Fachstundenanzahlen" Type="Liduv.Model.Store.Fachstundenanzahlen" Multiplicity="*" />
+          <End Role="Fächer" Type="Self.Fächer" Multiplicity="1" />
+          <End Role="Fachstundenanzahlen" Type="Self.Fachstundenanzahlen" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Fächer">
               <PropertyRef Name="Id" />
@@ -961,8 +663,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FachJahresplan">
-          <End Role="Fächer" Type="Liduv.Model.Store.Fächer" Multiplicity="1" />
-          <End Role="Jahrespläne" Type="Liduv.Model.Store.Jahrespläne" Multiplicity="*" />
+          <End Role="Fächer" Type="Self.Fächer" Multiplicity="1" />
+          <End Role="Jahrespläne" Type="Self.Jahrespläne" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Fächer">
               <PropertyRef Name="Id" />
@@ -973,10 +675,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FachModul">
-          <End Role="Fächer" Type="Liduv.Model.Store.Fächer" Multiplicity="1">
+          <End Role="Fächer" Type="Self.Fächer" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Module" Type="Liduv.Model.Store.Module" Multiplicity="*" />
+          <End Role="Module" Type="Self.Module" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Fächer">
               <PropertyRef Name="Id" />
@@ -987,10 +689,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FachSchülerlisten">
-          <End Role="Fächer" Type="Liduv.Model.Store.Fächer" Multiplicity="1">
+          <End Role="Fächer" Type="Self.Fächer" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Schülerlisten" Type="Liduv.Model.Store.Schülerlisten" Multiplicity="*" />
+          <End Role="Schülerlisten" Type="Self.Schülerlisten" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Fächer">
               <PropertyRef Name="Id" />
@@ -1001,8 +703,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FachStundenentwurf">
-          <End Role="Fächer" Type="Liduv.Model.Store.Fächer" Multiplicity="1" />
-          <End Role="Stundenentwürfe" Type="Liduv.Model.Store.Stundenentwürfe" Multiplicity="*" />
+          <End Role="Fächer" Type="Self.Fächer" Multiplicity="1" />
+          <End Role="Stundenentwürfe" Type="Self.Stundenentwürfe" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Fächer">
               <PropertyRef Name="Id" />
@@ -1012,25 +714,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_FachStundenplaneintrag">
-          <End Role="Fächer" Type="Liduv.Model.Store.Fächer" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Stundenplaneinträge" Type="Liduv.Model.Store.Stundenplaneinträge" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Fächer">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Stundenplaneinträge">
-              <PropertyRef Name="FachId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_HalbjahresplanMonatsplan">
-          <End Role="Halbjahrespläne" Type="Liduv.Model.Store.Halbjahrespläne" Multiplicity="1">
+          <End Role="Halbjahrespläne" Type="Self.Halbjahrespläne" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Monatspläne" Type="Liduv.Model.Store.Monatspläne" Multiplicity="*" />
+          <End Role="Monatspläne" Type="Self.Monatspläne" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Halbjahrespläne">
               <PropertyRef Name="Id" />
@@ -1041,10 +729,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_HalbjahrtypArbeit">
-          <End Role="Halbjahrtypen" Type="Liduv.Model.Store.Halbjahrtypen" Multiplicity="1">
+          <End Role="Halbjahrtypen" Type="Self.Halbjahrtypen" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Arbeiten" Type="Liduv.Model.Store.Arbeiten" Multiplicity="*" />
+          <End Role="Arbeiten" Type="Self.Arbeiten" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Halbjahrtypen">
               <PropertyRef Name="Id" />
@@ -1055,10 +743,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_HalbjahrtypCurriculum">
-          <End Role="Halbjahrtypen" Type="Liduv.Model.Store.Halbjahrtypen" Multiplicity="1">
+          <End Role="Halbjahrtypen" Type="Self.Halbjahrtypen" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Curricula" Type="Liduv.Model.Store.Curricula" Multiplicity="*" />
+          <End Role="Curricula" Type="Self.Curricula" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Halbjahrtypen">
               <PropertyRef Name="Id" />
@@ -1069,10 +757,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_HalbjahrtypSchülerliste">
-          <End Role="Halbjahrtypen" Type="Liduv.Model.Store.Halbjahrtypen" Multiplicity="1">
+          <End Role="Halbjahrtypen" Type="Self.Halbjahrtypen" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Schülerlisten" Type="Liduv.Model.Store.Schülerlisten" Multiplicity="*" />
+          <End Role="Schülerlisten" Type="Self.Schülerlisten" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Halbjahrtypen">
               <PropertyRef Name="Id" />
@@ -1083,8 +771,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_HalbjahrtypSchulhalbjahr">
-          <End Role="Halbjahrtypen" Type="Liduv.Model.Store.Halbjahrtypen" Multiplicity="1" />
-          <End Role="Halbjahrespläne" Type="Liduv.Model.Store.Halbjahrespläne" Multiplicity="*" />
+          <End Role="Halbjahrtypen" Type="Self.Halbjahrtypen" Multiplicity="1" />
+          <End Role="Halbjahrespläne" Type="Self.Halbjahrespläne" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Halbjahrtypen">
               <PropertyRef Name="Id" />
@@ -1095,10 +783,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_HalbjahrtypStundenplan">
-          <End Role="Halbjahrtypen" Type="Liduv.Model.Store.Halbjahrtypen" Multiplicity="1">
+          <End Role="Halbjahrtypen" Type="Self.Halbjahrtypen" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Stundenpläne" Type="Liduv.Model.Store.Stundenpläne" Multiplicity="*" />
+          <End Role="Stundenpläne" Type="Self.Stundenpläne" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Halbjahrtypen">
               <PropertyRef Name="Id" />
@@ -1109,8 +797,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Hausaufgaben_Schülereinträge">
-          <End Role="Schülereinträge" Type="Liduv.Model.Store.Schülereinträge" Multiplicity="1" />
-          <End Role="Hausaufgaben" Type="Liduv.Model.Store.Hausaufgaben" Multiplicity="*" />
+          <End Role="Schülereinträge" Type="Self.Schülereinträge" Multiplicity="1" />
+          <End Role="Hausaufgaben" Type="Self.Hausaufgaben" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Schülereinträge">
               <PropertyRef Name="Id" />
@@ -1121,10 +809,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_JahresplanHalbjahresplan">
-          <End Role="Jahrespläne" Type="Liduv.Model.Store.Jahrespläne" Multiplicity="1">
+          <End Role="Jahrespläne" Type="Self.Jahrespläne" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Halbjahrespläne" Type="Liduv.Model.Store.Halbjahrespläne" Multiplicity="*" />
+          <End Role="Halbjahrespläne" Type="Self.Halbjahrespläne" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Jahrespläne">
               <PropertyRef Name="Id" />
@@ -1135,10 +823,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_JahrgangsstufeKlassenstufe">
-          <End Role="Jahrgangsstufen" Type="Liduv.Model.Store.Jahrgangsstufen" Multiplicity="1">
+          <End Role="Jahrgangsstufen" Type="Self.Jahrgangsstufen" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Klassenstufen" Type="Liduv.Model.Store.Klassenstufen" Multiplicity="*" />
+          <End Role="Klassenstufen" Type="Self.Klassenstufen" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Jahrgangsstufen">
               <PropertyRef Name="Id" />
@@ -1149,8 +837,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_JahrgangsstufeModul">
-          <End Role="Jahrgangsstufen" Type="Liduv.Model.Store.Jahrgangsstufen" Multiplicity="1" />
-          <End Role="Module" Type="Liduv.Model.Store.Module" Multiplicity="*" />
+          <End Role="Jahrgangsstufen" Type="Self.Jahrgangsstufen" Multiplicity="1" />
+          <End Role="Module" Type="Self.Module" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Jahrgangsstufen">
               <PropertyRef Name="Id" />
@@ -1161,10 +849,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_JahrgangsstufeStundenentwurf">
-          <End Role="Jahrgangsstufen" Type="Liduv.Model.Store.Jahrgangsstufen" Multiplicity="1">
+          <End Role="Jahrgangsstufen" Type="Self.Jahrgangsstufen" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Stundenentwürfe" Type="Liduv.Model.Store.Stundenentwürfe" Multiplicity="*" />
+          <End Role="Stundenentwürfe" Type="Self.Stundenentwürfe" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Jahrgangsstufen">
               <PropertyRef Name="Id" />
@@ -1175,10 +863,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_JahrtypArbeit">
-          <End Role="Jahrtypen" Type="Liduv.Model.Store.Jahrtypen" Multiplicity="1">
+          <End Role="Jahrtypen" Type="Self.Jahrtypen" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Arbeiten" Type="Liduv.Model.Store.Arbeiten" Multiplicity="*" />
+          <End Role="Arbeiten" Type="Self.Arbeiten" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Jahrtypen">
               <PropertyRef Name="Id" />
@@ -1189,10 +877,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_JahrtypCurriculum">
-          <End Role="Jahrtypen" Type="Liduv.Model.Store.Jahrtypen" Multiplicity="1">
+          <End Role="Jahrtypen" Type="Self.Jahrtypen" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Curricula" Type="Liduv.Model.Store.Curricula" Multiplicity="*" />
+          <End Role="Curricula" Type="Self.Curricula" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Jahrtypen">
               <PropertyRef Name="Id" />
@@ -1203,10 +891,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_JahrtypFerien">
-          <End Role="Jahrtypen" Type="Liduv.Model.Store.Jahrtypen" Multiplicity="1">
+          <End Role="Jahrtypen" Type="Self.Jahrtypen" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Ferien" Type="Liduv.Model.Store.Ferien" Multiplicity="*" />
+          <End Role="Ferien" Type="Self.Ferien" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Jahrtypen">
               <PropertyRef Name="Id" />
@@ -1217,8 +905,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_JahrtypJahresplan">
-          <End Role="Jahrtypen" Type="Liduv.Model.Store.Jahrtypen" Multiplicity="1" />
-          <End Role="Jahrespläne" Type="Liduv.Model.Store.Jahrespläne" Multiplicity="*" />
+          <End Role="Jahrtypen" Type="Self.Jahrtypen" Multiplicity="1" />
+          <End Role="Jahrespläne" Type="Self.Jahrespläne" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Jahrtypen">
               <PropertyRef Name="Id" />
@@ -1229,10 +917,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_JahrtypSchülerlisten">
-          <End Role="Jahrtypen" Type="Liduv.Model.Store.Jahrtypen" Multiplicity="1">
+          <End Role="Jahrtypen" Type="Self.Jahrtypen" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Schülerlisten" Type="Liduv.Model.Store.Schülerlisten" Multiplicity="*" />
+          <End Role="Schülerlisten" Type="Self.Schülerlisten" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Jahrtypen">
               <PropertyRef Name="Id" />
@@ -1243,10 +931,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_JahrtypSchultermin">
-          <End Role="Jahrtypen" Type="Liduv.Model.Store.Jahrtypen" Multiplicity="1">
+          <End Role="Jahrtypen" Type="Self.Jahrtypen" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Termine_Schultermin" Type="Liduv.Model.Store.Termine_Schultermin" Multiplicity="*" />
+          <End Role="Termine_Schultermin" Type="Self.Termine_Schultermin" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Jahrtypen">
               <PropertyRef Name="Id" />
@@ -1257,10 +945,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_JahrtypSchulwoche">
-          <End Role="Jahrtypen" Type="Liduv.Model.Store.Jahrtypen" Multiplicity="1">
+          <End Role="Jahrtypen" Type="Self.Jahrtypen" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Schulwochen" Type="Liduv.Model.Store.Schulwochen" Multiplicity="*" />
+          <End Role="Schulwochen" Type="Self.Schulwochen" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Jahrtypen">
               <PropertyRef Name="Id" />
@@ -1271,10 +959,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_JahrtypStundenplan">
-          <End Role="Jahrtypen" Type="Liduv.Model.Store.Jahrtypen" Multiplicity="1">
+          <End Role="Jahrtypen" Type="Self.Jahrtypen" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Stundenpläne" Type="Liduv.Model.Store.Stundenpläne" Multiplicity="*" />
+          <End Role="Stundenpläne" Type="Self.Stundenpläne" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Jahrtypen">
               <PropertyRef Name="Id" />
@@ -1285,10 +973,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_KlasseArbeit">
-          <End Role="Klassen" Type="Liduv.Model.Store.Klassen" Multiplicity="1">
+          <End Role="Klassen" Type="Self.Klassen" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Arbeiten" Type="Liduv.Model.Store.Arbeiten" Multiplicity="*" />
+          <End Role="Arbeiten" Type="Self.Arbeiten" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Klassen">
               <PropertyRef Name="Id" />
@@ -1299,10 +987,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_KlasseBetroffeneKlasse">
-          <End Role="Klassen" Type="Liduv.Model.Store.Klassen" Multiplicity="1">
+          <End Role="Klassen" Type="Self.Klassen" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="BetroffeneKlassen" Type="Liduv.Model.Store.BetroffeneKlassen" Multiplicity="*" />
+          <End Role="BetroffeneKlassen" Type="Self.BetroffeneKlassen" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Klassen">
               <PropertyRef Name="Id" />
@@ -1313,8 +1001,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_KlasseJahresplan">
-          <End Role="Klassen" Type="Liduv.Model.Store.Klassen" Multiplicity="1" />
-          <End Role="Jahrespläne" Type="Liduv.Model.Store.Jahrespläne" Multiplicity="*" />
+          <End Role="Klassen" Type="Self.Klassen" Multiplicity="1" />
+          <End Role="Jahrespläne" Type="Self.Jahrespläne" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Klassen">
               <PropertyRef Name="Id" />
@@ -1325,10 +1013,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_KlassenstufeCurriculum">
-          <End Role="Klassenstufen" Type="Liduv.Model.Store.Klassenstufen" Multiplicity="1">
+          <End Role="Klassenstufen" Type="Self.Klassenstufen" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Curricula" Type="Liduv.Model.Store.Curricula" Multiplicity="*" />
+          <End Role="Curricula" Type="Self.Curricula" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Klassenstufen">
               <PropertyRef Name="Id" />
@@ -1339,8 +1027,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_KlassenstufeFachstundenanzahl">
-          <End Role="Klassenstufen" Type="Liduv.Model.Store.Klassenstufen" Multiplicity="1" />
-          <End Role="Fachstundenanzahlen" Type="Liduv.Model.Store.Fachstundenanzahlen" Multiplicity="*" />
+          <End Role="Klassenstufen" Type="Self.Klassenstufen" Multiplicity="1" />
+          <End Role="Fachstundenanzahlen" Type="Self.Fachstundenanzahlen" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Klassenstufen">
               <PropertyRef Name="Id" />
@@ -1351,10 +1039,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_KlassenstufeKlasse">
-          <End Role="Klassenstufen" Type="Liduv.Model.Store.Klassenstufen" Multiplicity="1">
+          <End Role="Klassenstufen" Type="Self.Klassenstufen" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Klassen" Type="Liduv.Model.Store.Klassen" Multiplicity="*" />
+          <End Role="Klassen" Type="Self.Klassen" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Klassenstufen">
               <PropertyRef Name="Id" />
@@ -1365,10 +1053,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_KlasseSchülerliste">
-          <End Role="Klassen" Type="Liduv.Model.Store.Klassen" Multiplicity="1">
+          <End Role="Klassen" Type="Self.Klassen" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Schülerlisten" Type="Liduv.Model.Store.Schülerlisten" Multiplicity="*" />
+          <End Role="Schülerlisten" Type="Self.Schülerlisten" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Klassen">
               <PropertyRef Name="Id" />
@@ -1378,23 +1066,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_KlasseStundenplaneintrag">
-          <End Role="Klassen" Type="Liduv.Model.Store.Klassen" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Stundenplaneinträge" Type="Liduv.Model.Store.Stundenplaneinträge" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Klassen">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Stundenplaneinträge">
-              <PropertyRef Name="KlasseId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Lerngruppentermin_inherits_Termin">
-          <End Role="Termine" Type="Liduv.Model.Store.Termine" Multiplicity="1" />
-          <End Role="Termine_Lerngruppentermin" Type="Liduv.Model.Store.Termine_Lerngruppentermin" Multiplicity="0..1" />
+          <End Role="Termine" Type="Self.Termine" Multiplicity="1" />
+          <End Role="Termine_Lerngruppentermin" Type="Self.Termine_Lerngruppentermin" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="Termine">
               <PropertyRef Name="Id" />
@@ -1405,8 +1079,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MediumPhase">
-          <End Role="Medien" Type="Liduv.Model.Store.Medien" Multiplicity="1" />
-          <End Role="Phasen" Type="Liduv.Model.Store.Phasen" Multiplicity="*" />
+          <End Role="Medien" Type="Self.Medien" Multiplicity="1" />
+          <End Role="Phasen" Type="Self.Phasen" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Medien">
               <PropertyRef Name="Id" />
@@ -1417,8 +1091,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ModulReihe">
-          <End Role="Module" Type="Liduv.Model.Store.Module" Multiplicity="1" />
-          <End Role="Reihen" Type="Liduv.Model.Store.Reihen" Multiplicity="*" />
+          <End Role="Module" Type="Self.Module" Multiplicity="1" />
+          <End Role="Reihen" Type="Self.Reihen" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Module">
               <PropertyRef Name="Id" />
@@ -1429,10 +1103,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ModulStundenentwurf">
-          <End Role="Module" Type="Liduv.Model.Store.Module" Multiplicity="1">
+          <End Role="Module" Type="Self.Module" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Stundenentwürfe" Type="Liduv.Model.Store.Stundenentwürfe" Multiplicity="*" />
+          <End Role="Stundenentwürfe" Type="Self.Stundenentwürfe" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Module">
               <PropertyRef Name="Id" />
@@ -1443,10 +1117,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MonatsplanTagesplan">
-          <End Role="Monatspläne" Type="Liduv.Model.Store.Monatspläne" Multiplicity="1">
+          <End Role="Monatspläne" Type="Self.Monatspläne" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Tagespläne" Type="Liduv.Model.Store.Tagespläne" Multiplicity="*" />
+          <End Role="Tagespläne" Type="Self.Tagespläne" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Monatspläne">
               <PropertyRef Name="Id" />
@@ -1457,8 +1131,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MonatstypKalendermonat">
-          <End Role="Monatstypen" Type="Liduv.Model.Store.Monatstypen" Multiplicity="1" />
-          <End Role="Monatspläne" Type="Liduv.Model.Store.Monatspläne" Multiplicity="*" />
+          <End Role="Monatstypen" Type="Self.Monatstypen" Multiplicity="1" />
+          <End Role="Monatspläne" Type="Self.Monatspläne" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Monatstypen">
               <PropertyRef Name="Id" />
@@ -1469,8 +1143,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Noten_Arbeiten">
-          <End Role="Arbeiten" Type="Liduv.Model.Store.Arbeiten" Multiplicity="0..1" />
-          <End Role="Noten" Type="Liduv.Model.Store.Noten" Multiplicity="*" />
+          <End Role="Arbeiten" Type="Self.Arbeiten" Multiplicity="0..1" />
+          <End Role="Noten" Type="Self.Noten" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Arbeiten">
               <PropertyRef Name="Id" />
@@ -1481,8 +1155,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Noten_Schülereinträge">
-          <End Role="Schülereinträge" Type="Liduv.Model.Store.Schülereinträge" Multiplicity="1" />
-          <End Role="Noten" Type="Liduv.Model.Store.Noten" Multiplicity="*" />
+          <End Role="Schülereinträge" Type="Self.Schülereinträge" Multiplicity="1" />
+          <End Role="Noten" Type="Self.Noten" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Schülereinträge">
               <PropertyRef Name="Id" />
@@ -1493,8 +1167,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Notentendenzen_Schülereinträge">
-          <End Role="Schülereinträge" Type="Liduv.Model.Store.Schülereinträge" Multiplicity="1" />
-          <End Role="Notentendenzen" Type="Liduv.Model.Store.Notentendenzen" Multiplicity="*" />
+          <End Role="Schülereinträge" Type="Self.Schülereinträge" Multiplicity="1" />
+          <End Role="Notentendenzen" Type="Self.Notentendenzen" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Schülereinträge">
               <PropertyRef Name="Id" />
@@ -1505,10 +1179,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Notentendenzen_Tendenzen">
-          <End Role="Tendenzen" Type="Liduv.Model.Store.Tendenzen" Multiplicity="1">
+          <End Role="Tendenzen" Type="Self.Tendenzen" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Notentendenzen" Type="Liduv.Model.Store.Notentendenzen" Multiplicity="*" />
+          <End Role="Notentendenzen" Type="Self.Notentendenzen" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Tendenzen">
               <PropertyRef Name="Id" />
@@ -1519,10 +1193,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Notentendenzen_Tendenztypen">
-          <End Role="Tendenztypen" Type="Liduv.Model.Store.Tendenztypen" Multiplicity="1">
+          <End Role="Tendenztypen" Type="Self.Tendenztypen" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Notentendenzen" Type="Liduv.Model.Store.Notentendenzen" Multiplicity="*" />
+          <End Role="Notentendenzen" Type="Self.Notentendenzen" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Tendenztypen">
               <PropertyRef Name="Id" />
@@ -1533,8 +1207,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_NotenWichtungenSchülerliste">
-          <End Role="NotenWichtungen" Type="Liduv.Model.Store.NotenWichtungen" Multiplicity="1" />
-          <End Role="Schülerlisten" Type="Liduv.Model.Store.Schülerlisten" Multiplicity="*" />
+          <End Role="NotenWichtungen" Type="Self.NotenWichtungen" Multiplicity="1" />
+          <End Role="Schülerlisten" Type="Self.Schülerlisten" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="NotenWichtungen">
               <PropertyRef Name="Id" />
@@ -1545,8 +1219,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PersonSchülereintrag">
-          <End Role="Personen" Type="Liduv.Model.Store.Personen" Multiplicity="1" />
-          <End Role="Schülereinträge" Type="Liduv.Model.Store.Schülereinträge" Multiplicity="*" />
+          <End Role="Personen" Type="Self.Personen" Multiplicity="1" />
+          <End Role="Schülereinträge" Type="Self.Schülereinträge" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Personen">
               <PropertyRef Name="Id" />
@@ -1556,11 +1230,23 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Raumpläne_Räume">
+          <End Role="Räume" Type="Self.Räume" Multiplicity="1" />
+          <End Role="Raumpläne" Type="Self.Raumpläne" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Räume">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Raumpläne">
+              <PropertyRef Name="RaumId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ReiheSequenz">
-          <End Role="Reihen" Type="Liduv.Model.Store.Reihen" Multiplicity="1">
+          <End Role="Reihen" Type="Self.Reihen" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Sequenzen" Type="Liduv.Model.Store.Sequenzen" Multiplicity="*" />
+          <End Role="Sequenzen" Type="Self.Sequenzen" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Reihen">
               <PropertyRef Name="Id" />
@@ -1571,8 +1257,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SchülereintragErgebnis">
-          <End Role="Schülereinträge" Type="Liduv.Model.Store.Schülereinträge" Multiplicity="1" />
-          <End Role="Ergebnisse" Type="Liduv.Model.Store.Ergebnisse" Multiplicity="*" />
+          <End Role="Schülereinträge" Type="Self.Schülereinträge" Multiplicity="1" />
+          <End Role="Ergebnisse" Type="Self.Ergebnisse" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Schülereinträge">
               <PropertyRef Name="Id" />
@@ -1583,10 +1269,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SchülerlisteSchülereintrag">
-          <End Role="Schülerlisten" Type="Liduv.Model.Store.Schülerlisten" Multiplicity="1">
+          <End Role="Schülerlisten" Type="Self.Schülerlisten" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Schülereinträge" Type="Liduv.Model.Store.Schülereinträge" Multiplicity="*" />
+          <End Role="Schülereinträge" Type="Self.Schülereinträge" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Schülerlisten">
               <PropertyRef Name="Id" />
@@ -1597,8 +1283,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Schultermin_inherits_Termin">
-          <End Role="Termine" Type="Liduv.Model.Store.Termine" Multiplicity="1" />
-          <End Role="Termine_Schultermin" Type="Liduv.Model.Store.Termine_Schultermin" Multiplicity="0..1" />
+          <End Role="Termine" Type="Self.Termine" Multiplicity="1" />
+          <End Role="Termine_Schultermin" Type="Self.Termine_Schultermin" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="Termine">
               <PropertyRef Name="Id" />
@@ -1609,10 +1295,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SchulwocheSchultag">
-          <End Role="Schulwochen" Type="Liduv.Model.Store.Schulwochen" Multiplicity="1">
+          <End Role="Schulwochen" Type="Self.Schulwochen" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Schultage" Type="Liduv.Model.Store.Schultage" Multiplicity="*" />
+          <End Role="Schultage" Type="Self.Schultage" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Schulwochen">
               <PropertyRef Name="Id" />
@@ -1622,9 +1308,81 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Sitzpläne_Raumpläne">
+          <End Role="Raumpläne" Type="Self.Raumpläne" Multiplicity="1" />
+          <End Role="Sitzpläne" Type="Self.Sitzpläne" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Raumpläne">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sitzpläne">
+              <PropertyRef Name="RaumplanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sitzpläne_Schülerlisten">
+          <End Role="Schülerlisten" Type="Self.Schülerlisten" Multiplicity="1" />
+          <End Role="Sitzpläne" Type="Self.Sitzpläne" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schülerlisten">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sitzpläne">
+              <PropertyRef Name="SchülerlisteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sitzplaneinträge_Schülereinträge">
+          <End Role="Schülereinträge" Type="Self.Schülereinträge" Multiplicity="1" />
+          <End Role="Sitzplaneinträge" Type="Self.Sitzplaneinträge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schülereinträge">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sitzplaneinträge">
+              <PropertyRef Name="SchülereintragId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sitzplaneinträge_Sitzpläne">
+          <End Role="Sitzpläne" Type="Self.Sitzpläne" Multiplicity="1" />
+          <End Role="Sitzplaneinträge" Type="Self.Sitzplaneinträge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sitzpläne">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sitzplaneinträge">
+              <PropertyRef Name="SitzplanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sitzplaneinträge_Sitzplätze">
+          <End Role="Sitzplätze" Type="Self.Sitzplätze" Multiplicity="1" />
+          <End Role="Sitzplaneinträge" Type="Self.Sitzplaneinträge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sitzplätze">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sitzplaneinträge">
+              <PropertyRef Name="SitzplatzId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sitzplätze_Raumpläne">
+          <End Role="Raumpläne" Type="Self.Raumpläne" Multiplicity="1" />
+          <End Role="Sitzplätze" Type="Self.Sitzplätze" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Raumpläne">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sitzplätze">
+              <PropertyRef Name="RaumplanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SozialformPhase">
-          <End Role="Sozialformen" Type="Liduv.Model.Store.Sozialformen" Multiplicity="1" />
-          <End Role="Phasen" Type="Liduv.Model.Store.Phasen" Multiplicity="*" />
+          <End Role="Sozialformen" Type="Self.Sozialformen" Multiplicity="1" />
+          <End Role="Phasen" Type="Self.Phasen" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Sozialformen">
               <PropertyRef Name="Id" />
@@ -1635,8 +1393,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Stunde_inherits_Lerngruppentermin">
-          <End Role="Termine_Lerngruppentermin" Type="Liduv.Model.Store.Termine_Lerngruppentermin" Multiplicity="1" />
-          <End Role="Termine_Stunde" Type="Liduv.Model.Store.Termine_Stunde" Multiplicity="0..1" />
+          <End Role="Termine_Lerngruppentermin" Type="Self.Termine_Lerngruppentermin" Multiplicity="1" />
+          <End Role="Termine_Stunde" Type="Self.Termine_Stunde" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="Termine_Lerngruppentermin">
               <PropertyRef Name="Id" />
@@ -1647,10 +1405,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_StundenentwurfDateiverweis">
-          <End Role="Stundenentwürfe" Type="Liduv.Model.Store.Stundenentwürfe" Multiplicity="1">
+          <End Role="Stundenentwürfe" Type="Self.Stundenentwürfe" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Dateiverweise" Type="Liduv.Model.Store.Dateiverweise" Multiplicity="*" />
+          <End Role="Dateiverweise" Type="Self.Dateiverweise" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Stundenentwürfe">
               <PropertyRef Name="Id" />
@@ -1661,10 +1419,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_StundenentwurfPhasen">
-          <End Role="Stundenentwürfe" Type="Liduv.Model.Store.Stundenentwürfe" Multiplicity="1">
+          <End Role="Stundenentwürfe" Type="Self.Stundenentwürfe" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Phasen" Type="Liduv.Model.Store.Phasen" Multiplicity="*" />
+          <End Role="Phasen" Type="Self.Phasen" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Stundenentwürfe">
               <PropertyRef Name="Id" />
@@ -1675,8 +1433,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_StundenentwurfStunde">
-          <End Role="Stundenentwürfe" Type="Liduv.Model.Store.Stundenentwürfe" Multiplicity="0..1" />
-          <End Role="Termine_Stunde" Type="Liduv.Model.Store.Termine_Stunde" Multiplicity="*" />
+          <End Role="Stundenentwürfe" Type="Self.Stundenentwürfe" Multiplicity="0..1" />
+          <End Role="Termine_Stunde" Type="Self.Termine_Stunde" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Stundenentwürfe">
               <PropertyRef Name="Id" />
@@ -1686,25 +1444,35 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_StundenplanStundenplaneintrag">
-          <End Role="Stundenpläne" Type="Liduv.Model.Store.Stundenpläne" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Stundenplaneinträge" Type="Liduv.Model.Store.Stundenplaneinträge" Multiplicity="*" />
+        <Association Name="FK_Stundenplaneinträge_Räume">
+          <End Role="Räume" Type="Self.Räume" Multiplicity="1" />
+          <End Role="Stundenplaneinträge" Type="Self.Stundenplaneinträge" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Stundenpläne">
+            <Principal Role="Räume">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Stundenplaneinträge">
-              <PropertyRef Name="StundenplanId" />
+              <PropertyRef Name="RaumId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Stundenplaneinträge_Stundenplaneinträge">
+          <End Role="Stundenplaneinträge" Type="Self.Stundenplaneinträge" Multiplicity="1" />
+          <End Role="Stundenplaneinträge1" Type="Self.Stundenplaneinträge" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Stundenplaneinträge">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stundenplaneinträge1">
+              <PropertyRef Name="Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TagesplanLerngruppentermin">
-          <End Role="Tagespläne" Type="Liduv.Model.Store.Tagespläne" Multiplicity="1">
+          <End Role="Tagespläne" Type="Self.Tagespläne" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Termine_Lerngruppentermin" Type="Liduv.Model.Store.Termine_Lerngruppentermin" Multiplicity="*" />
+          <End Role="Termine_Lerngruppentermin" Type="Self.Termine_Lerngruppentermin" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Tagespläne">
               <PropertyRef Name="Id" />
@@ -1715,10 +1483,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TerminBetroffeneKlasse">
-          <End Role="Termine_Schultermin" Type="Liduv.Model.Store.Termine_Schultermin" Multiplicity="1">
+          <End Role="Termine_Schultermin" Type="Self.Termine_Schultermin" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="BetroffeneKlassen" Type="Liduv.Model.Store.BetroffeneKlassen" Multiplicity="*" />
+          <End Role="BetroffeneKlassen" Type="Self.BetroffeneKlassen" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Termine_Schultermin">
               <PropertyRef Name="Id" />
@@ -1729,8 +1497,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TermintypSchultag">
-          <End Role="Termintypen" Type="Liduv.Model.Store.Termintypen" Multiplicity="1" />
-          <End Role="Schultage" Type="Liduv.Model.Store.Schultage" Multiplicity="*" />
+          <End Role="Termintypen" Type="Self.Termintypen" Multiplicity="1" />
+          <End Role="Schultage" Type="Self.Schultage" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Termintypen">
               <PropertyRef Name="Id" />
@@ -1741,8 +1509,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TermintypTermin">
-          <End Role="Termintypen" Type="Liduv.Model.Store.Termintypen" Multiplicity="1" />
-          <End Role="Termine" Type="Liduv.Model.Store.Termine" Multiplicity="*" />
+          <End Role="Termintypen" Type="Self.Termintypen" Multiplicity="1" />
+          <End Role="Termine" Type="Self.Termine" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Termintypen">
               <PropertyRef Name="Id" />
@@ -1753,8 +1521,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_UnterrichtsstundeTermin">
-          <End Role="Unterrichtsstunden" Type="Liduv.Model.Store.Unterrichtsstunden" Multiplicity="1" />
-          <End Role="Termine" Type="Liduv.Model.Store.Termine" Multiplicity="*" />
+          <End Role="Unterrichtsstunden" Type="Self.Unterrichtsstunden" Multiplicity="1" />
+          <End Role="Termine" Type="Self.Termine" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Unterrichtsstunden">
               <PropertyRef Name="Id" />
@@ -1765,10 +1533,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ZensurNoten">
-          <End Role="Zensuren" Type="Liduv.Model.Store.Zensuren" Multiplicity="1">
+          <End Role="Zensuren" Type="Self.Zensuren" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Noten" Type="Liduv.Model.Store.Noten" Multiplicity="*" />
+          <End Role="Noten" Type="Self.Noten" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Zensuren">
               <PropertyRef Name="Id" />
@@ -1779,10 +1547,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ZensurProzentbereich">
-          <End Role="Zensuren" Type="Liduv.Model.Store.Zensuren" Multiplicity="1">
+          <End Role="Zensuren" Type="Self.Zensuren" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Prozentbereiche" Type="Liduv.Model.Store.Prozentbereiche" Multiplicity="*" />
+          <End Role="Prozentbereiche" Type="Self.Prozentbereiche" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Zensuren">
               <PropertyRef Name="Id" />
@@ -1792,6 +1560,378 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityContainer Name="LiduvModelStoreContainer">
+          <EntitySet Name="Arbeiten" EntityType="Self.Arbeiten" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Aufgaben" EntityType="Self.Aufgaben" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BetroffeneKlassen" EntityType="Self.BetroffeneKlassen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Bewertungsschemata" EntityType="Self.Bewertungsschemata" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Curricula" EntityType="Self.Curricula" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Dateitypen" EntityType="Self.Dateitypen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Dateiverweise" EntityType="Self.Dateiverweise" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ergebnisse" EntityType="Self.Ergebnisse" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fächer" EntityType="Self.Fächer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fachstundenanzahlen" EntityType="Self.Fachstundenanzahlen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ferien" EntityType="Self.Ferien" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Halbjahrespläne" EntityType="Self.Halbjahrespläne" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Halbjahrtypen" EntityType="Self.Halbjahrtypen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hausaufgaben" EntityType="Self.Hausaufgaben" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Jahrespläne" EntityType="Self.Jahrespläne" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Jahrgangsstufen" EntityType="Self.Jahrgangsstufen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Jahrtypen" EntityType="Self.Jahrtypen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Klassen" EntityType="Self.Klassen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Klassenstufen" EntityType="Self.Klassenstufen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Medien" EntityType="Self.Medien" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Module" EntityType="Self.Module" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Monatspläne" EntityType="Self.Monatspläne" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Monatstypen" EntityType="Self.Monatstypen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Noten" EntityType="Self.Noten" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notentendenzen" EntityType="Self.Notentendenzen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NotenWichtungen" EntityType="Self.NotenWichtungen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Personen" EntityType="Self.Personen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Phasen" EntityType="Self.Phasen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Prozentbereiche" EntityType="Self.Prozentbereiche" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Räume" EntityType="Self.Räume" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Raumpläne" EntityType="Self.Raumpläne" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reihen" EntityType="Self.Reihen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Schülereinträge" EntityType="Self.Schülereinträge" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Schülerlisten" EntityType="Self.Schülerlisten" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Schultage" EntityType="Self.Schultage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Schulwochen" EntityType="Self.Schulwochen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sequenzen" EntityType="Self.Sequenzen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sitzpläne" EntityType="Self.Sitzpläne" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sitzplaneinträge" EntityType="Self.Sitzplaneinträge" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sitzplätze" EntityType="Self.Sitzplätze" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sozialformen" EntityType="Self.Sozialformen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stundenentwürfe" EntityType="Self.Stundenentwürfe" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stundenpläne" EntityType="Self.Stundenpläne" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stundenplaneinträge" EntityType="Self.Stundenplaneinträge" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tagespläne" EntityType="Self.Tagespläne" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tendenzen" EntityType="Self.Tendenzen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tendenztypen" EntityType="Self.Tendenztypen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Termine" EntityType="Self.Termine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Termine_Lerngruppentermin" EntityType="Self.Termine_Lerngruppentermin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Termine_Schultermin" EntityType="Self.Termine_Schultermin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Termine_Stunde" EntityType="Self.Termine_Stunde" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Termintypen" EntityType="Self.Termintypen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Unterrichtsstunden" EntityType="Self.Unterrichtsstunden" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Zensuren" EntityType="Self.Zensuren" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ArbeitAufgabe" Association="Self.FK_ArbeitAufgabe">
+            <End Role="Arbeiten" EntitySet="Arbeiten" />
+            <End Role="Aufgaben" EntitySet="Aufgaben" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AufgabeErgebnis" Association="Self.FK_AufgabeErgebnis">
+            <End Role="Aufgaben" EntitySet="Aufgaben" />
+            <End Role="Ergebnisse" EntitySet="Ergebnisse" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BewertungsschemaArbeit" Association="Self.FK_BewertungsschemaArbeit">
+            <End Role="Bewertungsschemata" EntitySet="Bewertungsschemata" />
+            <End Role="Arbeiten" EntitySet="Arbeiten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BewertungsschemaProzentbereich" Association="Self.FK_BewertungsschemaProzentbereich">
+            <End Role="Bewertungsschemata" EntitySet="Bewertungsschemata" />
+            <End Role="Prozentbereiche" EntitySet="Prozentbereiche" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurriculumReihe" Association="Self.FK_CurriculumReihe">
+            <End Role="Curricula" EntitySet="Curricula" />
+            <End Role="Reihen" EntitySet="Reihen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DateitypDateiverweis" Association="Self.FK_DateitypDateiverweis">
+            <End Role="Dateitypen" EntitySet="Dateitypen" />
+            <End Role="Dateiverweise" EntitySet="Dateiverweise" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ErsteUnterrichtsstundeTermin" Association="Self.FK_ErsteUnterrichtsstundeTermin">
+            <End Role="Unterrichtsstunden" EntitySet="Unterrichtsstunden" />
+            <End Role="Termine" EntitySet="Termine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FachArbeit" Association="Self.FK_FachArbeit">
+            <End Role="Fächer" EntitySet="Fächer" />
+            <End Role="Arbeiten" EntitySet="Arbeiten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FachCurriculum" Association="Self.FK_FachCurriculum">
+            <End Role="Fächer" EntitySet="Fächer" />
+            <End Role="Curricula" EntitySet="Curricula" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FachFachstundenanzahl" Association="Self.FK_FachFachstundenanzahl">
+            <End Role="Fächer" EntitySet="Fächer" />
+            <End Role="Fachstundenanzahlen" EntitySet="Fachstundenanzahlen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FachJahresplan" Association="Self.FK_FachJahresplan">
+            <End Role="Fächer" EntitySet="Fächer" />
+            <End Role="Jahrespläne" EntitySet="Jahrespläne" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FachModul" Association="Self.FK_FachModul">
+            <End Role="Fächer" EntitySet="Fächer" />
+            <End Role="Module" EntitySet="Module" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FachSchülerlisten" Association="Self.FK_FachSchülerlisten">
+            <End Role="Fächer" EntitySet="Fächer" />
+            <End Role="Schülerlisten" EntitySet="Schülerlisten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FachStundenentwurf" Association="Self.FK_FachStundenentwurf">
+            <End Role="Fächer" EntitySet="Fächer" />
+            <End Role="Stundenentwürfe" EntitySet="Stundenentwürfe" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HalbjahresplanMonatsplan" Association="Self.FK_HalbjahresplanMonatsplan">
+            <End Role="Halbjahrespläne" EntitySet="Halbjahrespläne" />
+            <End Role="Monatspläne" EntitySet="Monatspläne" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HalbjahrtypArbeit" Association="Self.FK_HalbjahrtypArbeit">
+            <End Role="Halbjahrtypen" EntitySet="Halbjahrtypen" />
+            <End Role="Arbeiten" EntitySet="Arbeiten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HalbjahrtypCurriculum" Association="Self.FK_HalbjahrtypCurriculum">
+            <End Role="Halbjahrtypen" EntitySet="Halbjahrtypen" />
+            <End Role="Curricula" EntitySet="Curricula" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HalbjahrtypSchülerliste" Association="Self.FK_HalbjahrtypSchülerliste">
+            <End Role="Halbjahrtypen" EntitySet="Halbjahrtypen" />
+            <End Role="Schülerlisten" EntitySet="Schülerlisten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HalbjahrtypSchulhalbjahr" Association="Self.FK_HalbjahrtypSchulhalbjahr">
+            <End Role="Halbjahrtypen" EntitySet="Halbjahrtypen" />
+            <End Role="Halbjahrespläne" EntitySet="Halbjahrespläne" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HalbjahrtypStundenplan" Association="Self.FK_HalbjahrtypStundenplan">
+            <End Role="Halbjahrtypen" EntitySet="Halbjahrtypen" />
+            <End Role="Stundenpläne" EntitySet="Stundenpläne" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Hausaufgaben_Schülereinträge" Association="Self.FK_Hausaufgaben_Schülereinträge">
+            <End Role="Schülereinträge" EntitySet="Schülereinträge" />
+            <End Role="Hausaufgaben" EntitySet="Hausaufgaben" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JahresplanHalbjahresplan" Association="Self.FK_JahresplanHalbjahresplan">
+            <End Role="Jahrespläne" EntitySet="Jahrespläne" />
+            <End Role="Halbjahrespläne" EntitySet="Halbjahrespläne" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JahrgangsstufeKlassenstufe" Association="Self.FK_JahrgangsstufeKlassenstufe">
+            <End Role="Jahrgangsstufen" EntitySet="Jahrgangsstufen" />
+            <End Role="Klassenstufen" EntitySet="Klassenstufen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JahrgangsstufeModul" Association="Self.FK_JahrgangsstufeModul">
+            <End Role="Jahrgangsstufen" EntitySet="Jahrgangsstufen" />
+            <End Role="Module" EntitySet="Module" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JahrgangsstufeStundenentwurf" Association="Self.FK_JahrgangsstufeStundenentwurf">
+            <End Role="Jahrgangsstufen" EntitySet="Jahrgangsstufen" />
+            <End Role="Stundenentwürfe" EntitySet="Stundenentwürfe" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JahrtypArbeit" Association="Self.FK_JahrtypArbeit">
+            <End Role="Jahrtypen" EntitySet="Jahrtypen" />
+            <End Role="Arbeiten" EntitySet="Arbeiten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JahrtypCurriculum" Association="Self.FK_JahrtypCurriculum">
+            <End Role="Jahrtypen" EntitySet="Jahrtypen" />
+            <End Role="Curricula" EntitySet="Curricula" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JahrtypFerien" Association="Self.FK_JahrtypFerien">
+            <End Role="Jahrtypen" EntitySet="Jahrtypen" />
+            <End Role="Ferien" EntitySet="Ferien" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JahrtypJahresplan" Association="Self.FK_JahrtypJahresplan">
+            <End Role="Jahrtypen" EntitySet="Jahrtypen" />
+            <End Role="Jahrespläne" EntitySet="Jahrespläne" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JahrtypSchülerlisten" Association="Self.FK_JahrtypSchülerlisten">
+            <End Role="Jahrtypen" EntitySet="Jahrtypen" />
+            <End Role="Schülerlisten" EntitySet="Schülerlisten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JahrtypSchultermin" Association="Self.FK_JahrtypSchultermin">
+            <End Role="Jahrtypen" EntitySet="Jahrtypen" />
+            <End Role="Termine_Schultermin" EntitySet="Termine_Schultermin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JahrtypSchulwoche" Association="Self.FK_JahrtypSchulwoche">
+            <End Role="Jahrtypen" EntitySet="Jahrtypen" />
+            <End Role="Schulwochen" EntitySet="Schulwochen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JahrtypStundenplan" Association="Self.FK_JahrtypStundenplan">
+            <End Role="Jahrtypen" EntitySet="Jahrtypen" />
+            <End Role="Stundenpläne" EntitySet="Stundenpläne" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KlasseArbeit" Association="Self.FK_KlasseArbeit">
+            <End Role="Klassen" EntitySet="Klassen" />
+            <End Role="Arbeiten" EntitySet="Arbeiten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KlasseBetroffeneKlasse" Association="Self.FK_KlasseBetroffeneKlasse">
+            <End Role="Klassen" EntitySet="Klassen" />
+            <End Role="BetroffeneKlassen" EntitySet="BetroffeneKlassen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KlasseJahresplan" Association="Self.FK_KlasseJahresplan">
+            <End Role="Klassen" EntitySet="Klassen" />
+            <End Role="Jahrespläne" EntitySet="Jahrespläne" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KlassenstufeCurriculum" Association="Self.FK_KlassenstufeCurriculum">
+            <End Role="Klassenstufen" EntitySet="Klassenstufen" />
+            <End Role="Curricula" EntitySet="Curricula" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KlassenstufeFachstundenanzahl" Association="Self.FK_KlassenstufeFachstundenanzahl">
+            <End Role="Klassenstufen" EntitySet="Klassenstufen" />
+            <End Role="Fachstundenanzahlen" EntitySet="Fachstundenanzahlen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KlassenstufeKlasse" Association="Self.FK_KlassenstufeKlasse">
+            <End Role="Klassenstufen" EntitySet="Klassenstufen" />
+            <End Role="Klassen" EntitySet="Klassen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KlasseSchülerliste" Association="Self.FK_KlasseSchülerliste">
+            <End Role="Klassen" EntitySet="Klassen" />
+            <End Role="Schülerlisten" EntitySet="Schülerlisten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lerngruppentermin_inherits_Termin" Association="Self.FK_Lerngruppentermin_inherits_Termin">
+            <End Role="Termine" EntitySet="Termine" />
+            <End Role="Termine_Lerngruppentermin" EntitySet="Termine_Lerngruppentermin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MediumPhase" Association="Self.FK_MediumPhase">
+            <End Role="Medien" EntitySet="Medien" />
+            <End Role="Phasen" EntitySet="Phasen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ModulReihe" Association="Self.FK_ModulReihe">
+            <End Role="Module" EntitySet="Module" />
+            <End Role="Reihen" EntitySet="Reihen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ModulStundenentwurf" Association="Self.FK_ModulStundenentwurf">
+            <End Role="Module" EntitySet="Module" />
+            <End Role="Stundenentwürfe" EntitySet="Stundenentwürfe" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MonatsplanTagesplan" Association="Self.FK_MonatsplanTagesplan">
+            <End Role="Monatspläne" EntitySet="Monatspläne" />
+            <End Role="Tagespläne" EntitySet="Tagespläne" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MonatstypKalendermonat" Association="Self.FK_MonatstypKalendermonat">
+            <End Role="Monatstypen" EntitySet="Monatstypen" />
+            <End Role="Monatspläne" EntitySet="Monatspläne" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Noten_Arbeiten" Association="Self.FK_Noten_Arbeiten">
+            <End Role="Arbeiten" EntitySet="Arbeiten" />
+            <End Role="Noten" EntitySet="Noten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Noten_Schülereinträge" Association="Self.FK_Noten_Schülereinträge">
+            <End Role="Schülereinträge" EntitySet="Schülereinträge" />
+            <End Role="Noten" EntitySet="Noten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notentendenzen_Schülereinträge" Association="Self.FK_Notentendenzen_Schülereinträge">
+            <End Role="Schülereinträge" EntitySet="Schülereinträge" />
+            <End Role="Notentendenzen" EntitySet="Notentendenzen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notentendenzen_Tendenzen" Association="Self.FK_Notentendenzen_Tendenzen">
+            <End Role="Tendenzen" EntitySet="Tendenzen" />
+            <End Role="Notentendenzen" EntitySet="Notentendenzen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notentendenzen_Tendenztypen" Association="Self.FK_Notentendenzen_Tendenztypen">
+            <End Role="Tendenztypen" EntitySet="Tendenztypen" />
+            <End Role="Notentendenzen" EntitySet="Notentendenzen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotenWichtungenSchülerliste" Association="Self.FK_NotenWichtungenSchülerliste">
+            <End Role="NotenWichtungen" EntitySet="NotenWichtungen" />
+            <End Role="Schülerlisten" EntitySet="Schülerlisten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonSchülereintrag" Association="Self.FK_PersonSchülereintrag">
+            <End Role="Personen" EntitySet="Personen" />
+            <End Role="Schülereinträge" EntitySet="Schülereinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Raumpläne_Räume" Association="Self.FK_Raumpläne_Räume">
+            <End Role="Räume" EntitySet="Räume" />
+            <End Role="Raumpläne" EntitySet="Raumpläne" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReiheSequenz" Association="Self.FK_ReiheSequenz">
+            <End Role="Reihen" EntitySet="Reihen" />
+            <End Role="Sequenzen" EntitySet="Sequenzen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SchülereintragErgebnis" Association="Self.FK_SchülereintragErgebnis">
+            <End Role="Schülereinträge" EntitySet="Schülereinträge" />
+            <End Role="Ergebnisse" EntitySet="Ergebnisse" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SchülerlisteSchülereintrag" Association="Self.FK_SchülerlisteSchülereintrag">
+            <End Role="Schülerlisten" EntitySet="Schülerlisten" />
+            <End Role="Schülereinträge" EntitySet="Schülereinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schultermin_inherits_Termin" Association="Self.FK_Schultermin_inherits_Termin">
+            <End Role="Termine" EntitySet="Termine" />
+            <End Role="Termine_Schultermin" EntitySet="Termine_Schultermin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SchulwocheSchultag" Association="Self.FK_SchulwocheSchultag">
+            <End Role="Schulwochen" EntitySet="Schulwochen" />
+            <End Role="Schultage" EntitySet="Schultage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sitzpläne_Raumpläne" Association="Self.FK_Sitzpläne_Raumpläne">
+            <End Role="Raumpläne" EntitySet="Raumpläne" />
+            <End Role="Sitzpläne" EntitySet="Sitzpläne" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sitzpläne_Schülerlisten" Association="Self.FK_Sitzpläne_Schülerlisten">
+            <End Role="Schülerlisten" EntitySet="Schülerlisten" />
+            <End Role="Sitzpläne" EntitySet="Sitzpläne" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sitzplaneinträge_Schülereinträge" Association="Self.FK_Sitzplaneinträge_Schülereinträge">
+            <End Role="Schülereinträge" EntitySet="Schülereinträge" />
+            <End Role="Sitzplaneinträge" EntitySet="Sitzplaneinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sitzplaneinträge_Sitzpläne" Association="Self.FK_Sitzplaneinträge_Sitzpläne">
+            <End Role="Sitzpläne" EntitySet="Sitzpläne" />
+            <End Role="Sitzplaneinträge" EntitySet="Sitzplaneinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sitzplaneinträge_Sitzplätze" Association="Self.FK_Sitzplaneinträge_Sitzplätze">
+            <End Role="Sitzplätze" EntitySet="Sitzplätze" />
+            <End Role="Sitzplaneinträge" EntitySet="Sitzplaneinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sitzplätze_Raumpläne" Association="Self.FK_Sitzplätze_Raumpläne">
+            <End Role="Raumpläne" EntitySet="Raumpläne" />
+            <End Role="Sitzplätze" EntitySet="Sitzplätze" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SozialformPhase" Association="Self.FK_SozialformPhase">
+            <End Role="Sozialformen" EntitySet="Sozialformen" />
+            <End Role="Phasen" EntitySet="Phasen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Stunde_inherits_Lerngruppentermin" Association="Self.FK_Stunde_inherits_Lerngruppentermin">
+            <End Role="Termine_Lerngruppentermin" EntitySet="Termine_Lerngruppentermin" />
+            <End Role="Termine_Stunde" EntitySet="Termine_Stunde" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StundenentwurfDateiverweis" Association="Self.FK_StundenentwurfDateiverweis">
+            <End Role="Stundenentwürfe" EntitySet="Stundenentwürfe" />
+            <End Role="Dateiverweise" EntitySet="Dateiverweise" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StundenentwurfPhasen" Association="Self.FK_StundenentwurfPhasen">
+            <End Role="Stundenentwürfe" EntitySet="Stundenentwürfe" />
+            <End Role="Phasen" EntitySet="Phasen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StundenentwurfStunde" Association="Self.FK_StundenentwurfStunde">
+            <End Role="Stundenentwürfe" EntitySet="Stundenentwürfe" />
+            <End Role="Termine_Stunde" EntitySet="Termine_Stunde" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Stundenplaneinträge_Räume" Association="Self.FK_Stundenplaneinträge_Räume">
+            <End Role="Räume" EntitySet="Räume" />
+            <End Role="Stundenplaneinträge" EntitySet="Stundenplaneinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Stundenplaneinträge_Stundenplaneinträge" Association="Self.FK_Stundenplaneinträge_Stundenplaneinträge">
+            <End Role="Stundenplaneinträge" EntitySet="Stundenplaneinträge" />
+            <End Role="Stundenplaneinträge1" EntitySet="Stundenplaneinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TagesplanLerngruppentermin" Association="Self.FK_TagesplanLerngruppentermin">
+            <End Role="Tagespläne" EntitySet="Tagespläne" />
+            <End Role="Termine_Lerngruppentermin" EntitySet="Termine_Lerngruppentermin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TerminBetroffeneKlasse" Association="Self.FK_TerminBetroffeneKlasse">
+            <End Role="Termine_Schultermin" EntitySet="Termine_Schultermin" />
+            <End Role="BetroffeneKlassen" EntitySet="BetroffeneKlassen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TermintypSchultag" Association="Self.FK_TermintypSchultag">
+            <End Role="Termintypen" EntitySet="Termintypen" />
+            <End Role="Schultage" EntitySet="Schultage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TermintypTermin" Association="Self.FK_TermintypTermin">
+            <End Role="Termintypen" EntitySet="Termintypen" />
+            <End Role="Termine" EntitySet="Termine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UnterrichtsstundeTermin" Association="Self.FK_UnterrichtsstundeTermin">
+            <End Role="Unterrichtsstunden" EntitySet="Unterrichtsstunden" />
+            <End Role="Termine" EntitySet="Termine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ZensurNoten" Association="Self.FK_ZensurNoten">
+            <End Role="Zensuren" EntitySet="Zensuren" />
+            <End Role="Noten" EntitySet="Noten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ZensurProzentbereich" Association="Self.FK_ZensurProzentbereich">
+            <End Role="Zensuren" EntitySet="Zensuren" />
+            <End Role="Prozentbereiche" EntitySet="Prozentbereiche" />
+          </AssociationSet>
+        </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -2123,6 +2263,47 @@
             <End Role="Jahrtyp" EntitySet="Jahrtypen" />
             <End Role="Schülerliste" EntitySet="Schülerlisten" />
           </AssociationSet>
+          <EntitySet Name="Räume" EntityType="Liduv.Model.Raum" />
+          <EntitySet Name="Raumpläne" EntityType="Liduv.Model.Raumplan" />
+          <EntitySet Name="Sitzpläne" EntityType="Liduv.Model.Sitzplan" />
+          <EntitySet Name="Sitzplaneinträge" EntityType="Liduv.Model.Sitzplaneintrag" />
+          <EntitySet Name="Sitzplätze" EntityType="Liduv.Model.Sitzplatz" />
+          <AssociationSet Name="FK_Raumpläne_Räume" Association="Liduv.Model.FK_Raumpläne_Räume">
+            <End Role="Räume" EntitySet="Räume" />
+            <End Role="Raumpläne" EntitySet="Raumpläne" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sitzpläne_Raumpläne" Association="Liduv.Model.FK_Sitzpläne_Raumpläne">
+            <End Role="Raumpläne" EntitySet="Raumpläne" />
+            <End Role="Sitzpläne" EntitySet="Sitzpläne" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sitzplätze_Raumpläne" Association="Liduv.Model.FK_Sitzplätze_Raumpläne">
+            <End Role="Raumpläne" EntitySet="Raumpläne" />
+            <End Role="Sitzplätze" EntitySet="Sitzplätze" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sitzplaneinträge_Schülereinträge" Association="Liduv.Model.FK_Sitzplaneinträge_Schülereinträge">
+            <End Role="Schülereintrag" EntitySet="Schülereinträge" />
+            <End Role="Sitzplaneinträge" EntitySet="Sitzplaneinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sitzpläne_Schülerlisten" Association="Liduv.Model.FK_Sitzpläne_Schülerlisten">
+            <End Role="Schülerliste" EntitySet="Schülerlisten" />
+            <End Role="Sitzpläne" EntitySet="Sitzpläne" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sitzplaneinträge_Sitzpläne" Association="Liduv.Model.FK_Sitzplaneinträge_Sitzpläne">
+            <End Role="Sitzpläne" EntitySet="Sitzpläne" />
+            <End Role="Sitzplaneinträge" EntitySet="Sitzplaneinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sitzplaneinträge_Sitzplätze" Association="Liduv.Model.FK_Sitzplaneinträge_Sitzplätze">
+            <End Role="Sitzplätze" EntitySet="Sitzplätze" />
+            <End Role="Sitzplaneinträge" EntitySet="Sitzplaneinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Stundenplaneinträge_Räume" Association="Liduv.Model.FK_Stundenplaneinträge_Räume">
+            <End Role="Räume" EntitySet="Räume" />
+            <End Role="Stundenplaneintrag" EntitySet="Stundenplaneinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Stundenplaneinträge_Stundenplaneinträge" Association="Liduv.Model.FK_Stundenplaneinträge_Stundenplaneinträge">
+            <End Role="Stundenplaneintrag" EntitySet="Stundenplaneinträge" />
+            <End Role="Stundenplaneintrag1" EntitySet="Stundenplaneinträge" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Stundenentwurf">
           <Key>
@@ -2306,7 +2487,7 @@
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="Bezeichnung" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Type="Time" Name="Beginn" Nullable="false" Precision="7" />
-          <Property Type="Time" Name="Ende" Nullable="false" Precision="7" />
+          <Property Type="Time" Name="Ende" Precision="7" Nullable="false" />
           <Property Type="Int32" Name="Stundenindex" Nullable="false" />
           <NavigationProperty Name="TerminErste" Relationship="Liduv.Model.ErsteUnterrichtsstundeTermin" FromRole="Unterrichtsstunde" ToRole="Termin" />
           <NavigationProperty Name="TerminLetzte" Relationship="Liduv.Model.UnterrichtsstundeTermin" FromRole="Unterrichtsstunde" ToRole="Termin" />
@@ -2416,7 +2597,10 @@
           <Property Type="Int32" Name="WochentagIndex" Nullable="false" />
           <Property Type="Int32" Name="FachId" Nullable="false" />
           <Property Type="Int32" Name="KlasseId" Nullable="false" />
-          <Property Type="String" Name="Raum" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="RaumId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Raum" Relationship="Liduv.Model.FK_Stundenplaneinträge_Räume" FromRole="Stundenplaneintrag" ToRole="Räume" />
+          <NavigationProperty Name="Stundenplaneinträge1" Relationship="Liduv.Model.FK_Stundenplaneinträge_Stundenplaneinträge" FromRole="Stundenplaneintrag" ToRole="Stundenplaneintrag1" />
+          <NavigationProperty Name="Stundenplaneinträge2" Relationship="Liduv.Model.FK_Stundenplaneinträge_Stundenplaneinträge" FromRole="Stundenplaneintrag1" ToRole="Stundenplaneintrag" />
         </EntityType>
         <Association Name="KlasseStundenplaneintrag">
           <End Type="Liduv.Model.Klasse" Role="Klasse" Multiplicity="1">
@@ -3301,6 +3485,7 @@
           <Property Type="Int32" Name="NotenWichtungId" Nullable="false" />
           <NavigationProperty Name="NotenWichtung" Relationship="Liduv.Model.FK_NotenWichtungenSchülerliste" FromRole="Schülerliste" ToRole="NotenWichtung" />
           <NavigationProperty Name="Jahrtyp" Relationship="Liduv.Model.FK_JahrtypSchülerlisten" FromRole="Schülerliste" ToRole="Jahrtyp" />
+          <NavigationProperty Name="Sitzpläne" Relationship="Liduv.Model.FK_Sitzpläne_Schülerlisten" FromRole="Schülerliste" ToRole="Sitzpläne" />
         </EntityType>
         <Association Name="HalbjahrtypSchülerliste">
           <End Type="Liduv.Model.Halbjahrtyp" Role="Halbjahrtyp" Multiplicity="1">
@@ -3343,6 +3528,7 @@
           <NavigationProperty Name="Noten" Relationship="Liduv.Model.FK_Noten_Schülereinträge" FromRole="Schülereintrag" ToRole="Noten" />
           <NavigationProperty Name="Hausaufgaben" Relationship="Liduv.Model.FK_Hausaufgaben_Schülereinträge" FromRole="Schülereintrag" ToRole="Hausaufgaben" />
           <NavigationProperty Name="Notentendenzen" Relationship="Liduv.Model.FK_Notentendenzen_Schülereinträge" FromRole="Schülereintrag" ToRole="Notentendenzen" />
+          <NavigationProperty Name="Sitzplaneinträge" Relationship="Liduv.Model.FK_Sitzplaneinträge_Schülereinträge" FromRole="Schülereintrag" ToRole="Sitzplaneinträge" />
         </EntityType>
         <Association Name="SchülerlisteSchülereintrag">
           <End Type="Liduv.Model.Schülerliste" Role="Schülerliste" Multiplicity="1">
@@ -3668,6 +3854,185 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Raum">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" a:StoreGeneratedPattern="Identity" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Bezeichnung" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Raumpläne" Relationship="Liduv.Model.FK_Raumpläne_Räume" FromRole="Räume" ToRole="Raumpläne" />
+          <NavigationProperty Name="Stundenplaneinträge" Relationship="Liduv.Model.FK_Stundenplaneinträge_Räume" FromRole="Räume" ToRole="Stundenplaneintrag" />
+        </EntityType>
+        <EntityType Name="Raumplan">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" a:StoreGeneratedPattern="Identity" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="RaumId" Type="Int32" Nullable="false" />
+          <Property Name="Dateiname" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Raum" Relationship="Liduv.Model.FK_Raumpläne_Räume" FromRole="Raumpläne" ToRole="Räume" />
+          <NavigationProperty Name="Sitzpläne" Relationship="Liduv.Model.FK_Sitzpläne_Raumpläne" FromRole="Raumpläne" ToRole="Sitzpläne" />
+          <NavigationProperty Name="Sitzplätze" Relationship="Liduv.Model.FK_Sitzplätze_Raumpläne" FromRole="Raumpläne" ToRole="Sitzplätze" />
+          <Property Name="Bezeichnung" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Sitzplan">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" a:StoreGeneratedPattern="Identity" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="RaumplanId" Type="Int32" Nullable="false" />
+          <Property Name="SchülerlisteId" Type="Int32" Nullable="false" />
+          <Property Name="GültigAb" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Raumplan" Relationship="Liduv.Model.FK_Sitzpläne_Raumpläne" FromRole="Sitzpläne" ToRole="Raumpläne" />
+          <NavigationProperty Name="Schülerliste" Relationship="Liduv.Model.FK_Sitzpläne_Schülerlisten" FromRole="Sitzpläne" ToRole="Schülerliste" />
+          <NavigationProperty Name="Sitzplaneinträge" Relationship="Liduv.Model.FK_Sitzplaneinträge_Sitzpläne" FromRole="Sitzpläne" ToRole="Sitzplaneinträge" />
+        </EntityType>
+        <EntityType Name="Sitzplaneintrag">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" a:StoreGeneratedPattern="Identity" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="SitzplanId" Type="Int32" Nullable="false" />
+          <Property Name="SitzplatzId" Type="Int32" Nullable="false" />
+          <Property Name="SchülereintragId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Schülereintrag" Relationship="Liduv.Model.FK_Sitzplaneinträge_Schülereinträge" FromRole="Sitzplaneinträge" ToRole="Schülereintrag" />
+          <NavigationProperty Name="Sitzplan" Relationship="Liduv.Model.FK_Sitzplaneinträge_Sitzpläne" FromRole="Sitzplaneinträge" ToRole="Sitzpläne" />
+          <NavigationProperty Name="Sitzplatz" Relationship="Liduv.Model.FK_Sitzplaneinträge_Sitzplätze" FromRole="Sitzplaneinträge" ToRole="Sitzplätze" />
+        </EntityType>
+        <EntityType Name="Sitzplatz">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" a:StoreGeneratedPattern="Identity" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="RaumplanId" Type="Int32" Nullable="false" />
+          <Property Name="LinksObenX" Type="Double" Nullable="false" />
+          <Property Name="LinksObenY" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Raumplan" Relationship="Liduv.Model.FK_Sitzplätze_Raumpläne" FromRole="Sitzplätze" ToRole="Raumpläne" />
+          <NavigationProperty Name="Sitzplaneinträge" Relationship="Liduv.Model.FK_Sitzplaneinträge_Sitzplätze" FromRole="Sitzplätze" ToRole="Sitzplaneinträge" />
+          <Property Name="Breite" Type="Double" Nullable="false" />
+          <Property Name="Höhe" Type="Double" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Raumpläne_Räume">
+          <End Type="Liduv.Model.Raum" Role="Räume" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Liduv.Model.Raumplan" Role="Raumpläne" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Räume">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Raumpläne">
+              <PropertyRef Name="RaumId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sitzpläne_Raumpläne">
+          <End Type="Liduv.Model.Raumplan" Role="Raumpläne" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Liduv.Model.Sitzplan" Role="Sitzpläne" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Raumpläne">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sitzpläne">
+              <PropertyRef Name="RaumplanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sitzplätze_Raumpläne">
+          <End Type="Liduv.Model.Raumplan" Role="Raumpläne" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Liduv.Model.Sitzplatz" Role="Sitzplätze" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Raumpläne">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sitzplätze">
+              <PropertyRef Name="RaumplanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sitzplaneinträge_Schülereinträge">
+          <End Type="Liduv.Model.Schülereintrag" Role="Schülereintrag" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Liduv.Model.Sitzplaneintrag" Role="Sitzplaneinträge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schülereintrag">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sitzplaneinträge">
+              <PropertyRef Name="SchülereintragId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sitzpläne_Schülerlisten">
+          <End Type="Liduv.Model.Schülerliste" Role="Schülerliste" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Liduv.Model.Sitzplan" Role="Sitzpläne" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schülerliste">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sitzpläne">
+              <PropertyRef Name="SchülerlisteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sitzplaneinträge_Sitzpläne">
+          <End Type="Liduv.Model.Sitzplan" Role="Sitzpläne" Multiplicity="1" />
+          <End Type="Liduv.Model.Sitzplaneintrag" Role="Sitzplaneinträge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sitzpläne">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sitzplaneinträge">
+              <PropertyRef Name="SitzplanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sitzplaneinträge_Sitzplätze">
+          <End Type="Liduv.Model.Sitzplatz" Role="Sitzplätze" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Liduv.Model.Sitzplaneintrag" Role="Sitzplaneinträge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sitzplätze">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sitzplaneinträge">
+              <PropertyRef Name="SitzplatzId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Stundenplaneinträge_Räume">
+          <End Type="Liduv.Model.Raum" Role="Räume" Multiplicity="1" >
+          </End>
+          <End Type="Liduv.Model.Stundenplaneintrag" Role="Stundenplaneintrag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Räume">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stundenplaneintrag">
+              <PropertyRef Name="RaumId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Stundenplaneinträge_Stundenplaneinträge">
+          <End Type="Liduv.Model.Stundenplaneintrag" Role="Stundenplaneintrag" Multiplicity="1" />
+          <End Type="Liduv.Model.Stundenplaneintrag" Role="Stundenplaneintrag1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Stundenplaneintrag">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stundenplaneintrag1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3830,14 +4195,14 @@
     <EntitySetMapping Name="Stundenplaneinträge">
       <EntityTypeMapping TypeName="IsTypeOf(Liduv.Model.Stundenplaneintrag)">
         <MappingFragment StoreEntitySet="Stundenplaneinträge">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="RaumId" ColumnName="RaumId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="StundenplanId" ColumnName="StundenplanId" />
           <ScalarProperty Name="ErsteUnterrichtsstundeIndex" ColumnName="ErsteUnterrichtsstundeIndex" />
           <ScalarProperty Name="LetzteUnterrichtsstundeIndex" ColumnName="LetzteUnterrichtsstundeIndex" />
           <ScalarProperty Name="WochentagIndex" ColumnName="WochentagIndex" />
           <ScalarProperty Name="FachId" ColumnName="FachId" />
           <ScalarProperty Name="KlasseId" ColumnName="KlasseId" />
-          <ScalarProperty Name="Raum" ColumnName="Raum" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -4203,6 +4568,56 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Räume">
+            <EntityTypeMapping TypeName="Liduv.Model.Raum">
+              <MappingFragment StoreEntitySet="Räume">
+                <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Raumpläne">
+            <EntityTypeMapping TypeName="Liduv.Model.Raumplan">
+              <MappingFragment StoreEntitySet="Raumpläne">
+                <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
+                <ScalarProperty Name="Dateiname" ColumnName="Dateiname" />
+                <ScalarProperty Name="RaumId" ColumnName="RaumId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sitzpläne">
+            <EntityTypeMapping TypeName="Liduv.Model.Sitzplan">
+              <MappingFragment StoreEntitySet="Sitzpläne">
+                <ScalarProperty Name="GültigAb" ColumnName="GültigAb" />
+                <ScalarProperty Name="SchülerlisteId" ColumnName="SchülerlisteId" />
+                <ScalarProperty Name="RaumplanId" ColumnName="RaumplanId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sitzplaneinträge">
+            <EntityTypeMapping TypeName="Liduv.Model.Sitzplaneintrag">
+              <MappingFragment StoreEntitySet="Sitzplaneinträge">
+                <ScalarProperty Name="SchülereintragId" ColumnName="SchülereintragId" />
+                <ScalarProperty Name="SitzplatzId" ColumnName="SitzplatzId" />
+                <ScalarProperty Name="SitzplanId" ColumnName="SitzplanId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sitzplätze">
+            <EntityTypeMapping TypeName="Liduv.Model.Sitzplatz">
+              <MappingFragment StoreEntitySet="Sitzplätze">
+                <ScalarProperty Name="Höhe" ColumnName="Höhe" />
+                <ScalarProperty Name="Breite" ColumnName="Breite" />
+                <ScalarProperty Name="LinksObenY" ColumnName="LinksObenY" />
+                <ScalarProperty Name="LinksObenX" ColumnName="LinksObenX" />
+                <ScalarProperty Name="RaumplanId" ColumnName="RaumplanId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
@@ -4219,11 +4634,12 @@
         <edmx:DesignerProperty Name="EnablePluralization" Value="False" />
         <edmx:DesignerProperty Name="CodeGenerationStrategy" Value="None" />
         <edmx:DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <edmx:DesignerProperty Name="UseLegacyProvider" Value="True" />
       </edmx:DesignerInfoPropertySet>
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <edmx:Diagram Name="LiduvModel" ZoomLevel="88">
+      <edmx:Diagram Name="LiduvModel" ZoomLevel="67">
         <edmx:EntityTypeShape EntityType="Liduv.Model.Stundenentwurf" Width="1.5" PointX="10" PointY="7.75" Height="4.2879036458333335" IsExpanded="true" />
         <edmx:EntityTypeShape EntityType="Liduv.Model.Phase" Width="1.5" PointX="12.125" PointY="9.75" Height="2.9417936197916656" />
         <edmx:AssociationConnector Association="Liduv.Model.StundenentwurfPhasen">
@@ -4827,6 +5243,20 @@
         </edmx:AssociationConnector>
         <edmx:AssociationConnector Association="Liduv.Model.FK_HalbjahrtypCurriculum" />
         <edmx:AssociationConnector Association="Liduv.Model.FK_JahrtypSchülerlisten" />
+        <edmx:EntityTypeShape EntityType="Liduv.Model.Raum" Width="1.5" PointX="21.75" PointY="20.5" />
+        <edmx:EntityTypeShape EntityType="Liduv.Model.Raumplan" Width="1.5" PointX="23.875" PointY="20.5" />
+        <edmx:EntityTypeShape EntityType="Liduv.Model.Sitzplan" Width="1.5" PointX="23.875" PointY="17.375" />
+        <edmx:EntityTypeShape EntityType="Liduv.Model.Sitzplaneintrag" Width="1.5" PointX="26.125" PointY="17.375" />
+        <edmx:EntityTypeShape EntityType="Liduv.Model.Sitzplatz" Width="1.5" PointX="26.125" PointY="20.5" />
+        <edmx:AssociationConnector Association="Liduv.Model.FK_Raumpläne_Räume" />
+        <edmx:AssociationConnector Association="Liduv.Model.FK_Sitzpläne_Raumpläne" />
+        <edmx:AssociationConnector Association="Liduv.Model.FK_Sitzplätze_Raumpläne" />
+        <edmx:AssociationConnector Association="Liduv.Model.FK_Sitzplaneinträge_Schülereinträge" />
+        <edmx:AssociationConnector Association="Liduv.Model.FK_Sitzpläne_Schülerlisten" />
+        <edmx:AssociationConnector Association="Liduv.Model.FK_Sitzplaneinträge_Sitzpläne" />
+        <edmx:AssociationConnector Association="Liduv.Model.FK_Sitzplaneinträge_Sitzplätze" />
+        <edmx:AssociationConnector Association="Liduv.Model.FK_Stundenplaneinträge_Räume" />
+        <edmx:AssociationConnector Association="Liduv.Model.FK_Stundenplaneinträge_Stundenplaneinträge" />
         </edmx:Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -404,7 +404,7 @@
                     stunde.Termintyp =
                       App.MainViewModel.Termintypen.First(termintyp => termintyp.TermintypBezeichnung == "Unterricht")
                          .Model;
-                    stunde.Ort = stundenplaneintragViewModel.StundenplaneintragRaum;
+                    stunde.Ort = stundenplaneintragViewModel.StundenplaneintragRaum.RaumBezeichnung;
                     
                     var vm = new StundeViewModel(tagesplanViewModel, stunde);
                     App.MainViewModel.Stunden.Add(vm);

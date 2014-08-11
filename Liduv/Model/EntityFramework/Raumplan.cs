@@ -12,22 +12,21 @@ namespace Liduv.Model.EntityFramework
     using System;
     using System.Collections.Generic;
     
-    public partial class Stundenplaneintrag
+    public partial class Raumplan
     {
-        public int Id { get; set; }
-        public int StundenplanId { get; set; }
-        public int ErsteUnterrichtsstundeIndex { get; set; }
-        public int LetzteUnterrichtsstundeIndex { get; set; }
-        public int WochentagIndex { get; set; }
-        public int FachId { get; set; }
-        public int KlasseId { get; set; }
-        public int RaumId { get; set; }
+        public Raumplan()
+        {
+            this.Sitzpläne = new HashSet<Sitzplan>();
+            this.Sitzplätze = new HashSet<Sitzplatz>();
+        }
     
-        public virtual Klasse Klasse { get; set; }
-        public virtual Fach Fach { get; set; }
-        public virtual Stundenplan Stundenplan { get; set; }
+        public int Id { get; set; }
+        public int RaumId { get; set; }
+        public string Dateiname { get; set; }
+        public string Bezeichnung { get; set; }
+    
         public virtual Raum Raum { get; set; }
-        public virtual Stundenplaneintrag Stundenplaneinträge1 { get; set; }
-        public virtual Stundenplaneintrag Stundenplaneinträge2 { get; set; }
+        public virtual ICollection<Sitzplan> Sitzpläne { get; set; }
+        public virtual ICollection<Sitzplatz> Sitzplätze { get; set; }
     }
 }

@@ -21,6 +21,7 @@
   using Liduv.ViewModel.Jahrespläne;
   using Liduv.ViewModel.Noten;
   using Liduv.ViewModel.Personen;
+  using Liduv.ViewModel.Sitzpläne;
   using Liduv.ViewModel.Stundenentwürfe;
   using Liduv.ViewModel.Stundenpläne;
   using Liduv.ViewModel.Termine;
@@ -66,6 +67,9 @@
       this.Sequenzen = new ObservableCollection<SequenzViewModel>();
       this.Bewertungsschemata = new ObservableCollection<BewertungsschemaViewModel>();
       this.Prozentbereiche = new ObservableCollection<ProzentbereichViewModel>();
+      this.Räume = new ObservableCollection<RaumViewModel>();
+      this.Raumpläne = new ObservableCollection<RaumplanViewModel>();
+      this.Sitzplätze = new ObservableCollection<SitzplatzViewModel>();
 
       // The creation of the Arbeiten includes the creation of
       // the Aufgaben and Ergebnisse models
@@ -381,6 +385,32 @@
     /// </summary>
     public ObservableCollection<HausaufgabeViewModel> Hausaufgaben { get; private set; }
 
+    /// <summary>
+    /// Holt alle Räume der Datenbank
+    /// </summary>
+    public ObservableCollection<RaumViewModel> Räume { get; private set; }
+
+    /// <summary>
+    /// Holt alle Raumpläne der Datenbank
+    /// </summary>
+    public ObservableCollection<RaumplanViewModel> Raumpläne { get; private set; }
+
+    /// <summary>
+    /// Holt alle Sitzplätze der Datenbank
+    /// </summary>
+    public ObservableCollection<SitzplatzViewModel> Sitzplätze { get; private set; }
+
+    /// <summary>
+    /// Holt alle Sitzpläne der Datenbank
+    /// </summary>
+    public ObservableCollection<SitzplanViewModel> Sitzpläne { get; private set; }
+
+    /// <summary>
+    /// Holt alle Sitzplaneinträge der Datenbank
+    /// </summary>
+    public ObservableCollection<SitzplaneintragViewModel> Sitzplaneinträge { get; private set; }
+
+
     #endregion ModelCollections
 
     #region Commands
@@ -544,6 +574,11 @@
     /// </summary>
     public BewertungsschemaWorkspaceViewModel BewertungsschemaWorkspace { get; private set; }
 
+    /// <summary>
+    /// Holt das Modul zur Bearbeitung von Räumen.
+    /// </summary>
+    public RaumWorkspaceViewModel RaumWorkspace { get; private set; }
+
     #endregion Workspaces
 
     /// <summary>
@@ -619,6 +654,31 @@
       // TODO: Divide into multiple contexts for performance reasons
       try
       {
+        foreach (var raum in context.Räume)
+        {
+          this.Räume.Add(new RaumViewModel(raum));
+        }
+
+        foreach (var raumplan in context.Raumpläne)
+        {
+          this.Raumpläne.Add(new RaumplanViewModel(raumplan));
+        }
+
+        foreach (var sitzplatz in context.Sitzplätze)
+        {
+          this.Sitzplätze.Add(new SitzplatzViewModel(sitzplatz));
+        }
+
+        foreach (var sitzplan in context.Sitzpläne)
+        {
+          this.Sitzpläne.Add(new SitzplanViewModel(sitzplan));
+        }
+
+        foreach (var sitzplaneintrag in context.Sitzplaneinträge)
+        {
+          this.Sitzplaneinträge.Add(new SitzplaneintragViewModel(sitzplaneintrag));
+        }
+
         foreach (var jahrtyp in context.Jahrtypen)
         {
           this.Jahrtypen.Add(new JahrtypViewModel(jahrtyp));
@@ -932,6 +992,7 @@
         this.ZensurWorkspace = new ZensurWorkspaceViewModel();
         this.ArbeitWorkspace = new ArbeitWorkspaceViewModel();
         this.BewertungsschemaWorkspace = new BewertungsschemaWorkspaceViewModel();
+        this.RaumWorkspace = new RaumWorkspaceViewModel();
 
         this.RedoCommand = new DelegateCommand(this.ExecuteRedoCommand, this.CanExecuteRedoCommand);
         this.UndoCommand = new DelegateCommand(this.ExecuteUndoCommand, this.CanExecuteUndoCommand);
@@ -1005,7 +1066,7 @@
       }
     }
 
-     /// <summary>
+    /// <summary>
     /// Diese Methode aktualisiert den Datenbankkontext und speichert die Änderungen
     /// in der Datenbank.
     /// </summary>
