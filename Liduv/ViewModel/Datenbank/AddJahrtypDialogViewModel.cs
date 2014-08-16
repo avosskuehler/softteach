@@ -121,7 +121,7 @@
       this.Jahrtyp = vm;
       App.MainViewModel.Jahrtypen.Add(vm);
 
-      Selection.Instance.Schuljahr = this.Jahrtyp;
+      Selection.Instance.Jahrtyp = this.Jahrtyp;
 
       var herbstTermin = new DateTime(this.Jahrtyp.JahrtypJahr, 10, 1);
       this.AddFerien("Herbstferien", herbstTermin, 14);

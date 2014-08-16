@@ -83,7 +83,7 @@
     /// </summary>
     private void AddJahrtyp()
     {
-      var backup = Selection.Instance.Schuljahr;
+      var backup = Selection.Instance.Jahrtyp;
       using (new UndoBatch(App.MainViewModel, string.Format("Neues Schuljahr hinzugefügt"), false))
       {
         var dlgVm = new AddJahrtypDialogViewModel();
@@ -100,7 +100,7 @@
         else
         {
           App.MainViewModel.Jahrtypen.RemoveTest(dlgVm.Jahrtyp);
-          Selection.Instance.Schuljahr = backup;
+          Selection.Instance.Jahrtyp = backup;
         }
       }
     }

@@ -43,7 +43,7 @@ namespace Liduv.View.Curricula
     {
       this.InitializeComponent();
       this.DataContext = this;
-      this.Jahrtyp = Selection.Instance.Schuljahr;
+      this.Jahrtyp = Selection.Instance.Jahrtyp;
       this.Halbjahrtyp = Selection.Instance.Halbjahr;
       this.Fach = App.MainViewModel.Fächer[0];
       this.Klassenstufe = App.MainViewModel.Klassenstufen[0];

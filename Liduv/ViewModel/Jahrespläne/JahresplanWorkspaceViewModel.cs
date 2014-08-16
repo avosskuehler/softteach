@@ -211,7 +211,12 @@
     {
       if (e.PropertyName == "Schuljahr")
       {
-        this.JahrtypFilter = Selection.Instance.Schuljahr;
+        this.JahrtypFilter = Selection.Instance.Jahrtyp;
+        this.JahrespläneView.Refresh();
+      }
+      else if (e.PropertyName == "Fach")
+      {
+        this.FachFilter = Selection.Instance.Fach;
         this.JahrespläneView.Refresh();
       }
     }
@@ -254,7 +259,7 @@
     /// </summary>
     private void AddJahresplan()
     {
-      this.AddJahresplan(Selection.Instance.Schuljahr, Selection.Instance.Fach, Selection.Instance.Klasse, null);
+      this.AddJahresplan(Selection.Instance.Jahrtyp, Selection.Instance.Fach, Selection.Instance.Klasse, null);
     }
 
     /// <summary>

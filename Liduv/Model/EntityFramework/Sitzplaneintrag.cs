@@ -17,7 +17,7 @@ namespace Liduv.Model.EntityFramework
         public int Id { get; set; }
         public int SitzplanId { get; set; }
         public int SitzplatzId { get; set; }
-        public int SchülereintragId { get; set; }
+        public Nullable<int> SchülereintragId { get; set; }
     
         public virtual Schülereintrag Schülereintrag { get; set; }
         public virtual Sitzplan Sitzplan { get; set; }

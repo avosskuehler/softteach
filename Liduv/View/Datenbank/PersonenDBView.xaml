@@ -30,7 +30,7 @@
           <DataGridTextColumn Header="Nachname" Binding="{Binding Path=PersonNachname}"/>
           <DataGridTextColumn Header="Vorname" Binding="{Binding Path=PersonVorname}"/>
           <DataGridCheckBoxColumn Header="Lehrer" Binding="{Binding Path=PersonIstLehrer}"/>
-          <DataGridCheckBoxColumn Header="Männlich" Binding="{Binding Path=PersonIstMännlich}"/>
+          <DataGridCheckBoxColumn Header="Weiblich" Binding="{Binding Path=PersonIstWeiblich}"/>
           <DataGridTemplateColumn Header="Bild">
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>

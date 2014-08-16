@@ -18,24 +18,19 @@
 namespace Liduv.View.Sitzpläne
 {
   using System.Collections.Generic;
-  using System.Drawing;
-  using System.Linq;
-  using System.Windows;
   using System.Windows.Controls;
-  using System.Windows.Documents;
   using System.Windows.Input;
   using System.Windows.Media;
 
   using Liduv.ViewModel.Sitzpläne;
 
-  using Brush = System.Windows.Media.Brush;
   using Point = System.Windows.Point;
   using Rectangle = System.Windows.Shapes.Rectangle;
 
   /// <summary>
-  /// Interaction logic for EditRaumplanDialog.xaml
+  /// Interaction logic for SitzplanDetailView.xaml
   /// </summary>
-  public partial class EditRaumplanDialog
+  public partial class SitzplanDetailView
   {
     /// <summary>
     /// Die Position den Mausklicks
@@ -70,53 +65,15 @@ namespace Liduv.View.Sitzpläne
     #region Constructors and Destructors
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="EditRaumplanDialog"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="SitzplanDetailView"/> Klasse. 
     /// </summary>
-    public EditRaumplanDialog(RaumplanViewModel raumplan)
+    public SitzplanDetailView()
     {
-      this.Raumplan = raumplan;
-      this.DataContext = this;
       this.InitializeComponent();
       this.AddSitzplatzShapes();
     }
 
-
     #endregion
-
-    /// <summary>
-    /// Holt oder setzt den zu bearbeitenden Raumplan
-    /// </summary>
-    public RaumplanViewModel Raumplan { get; set; }
-
-    /// <summary>
-    /// Schließt den Dialog und übernimmt die Änderungen
-    /// </summary>
-    /// <param name="sender">The sender.</param>
-    /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
-    private void OkClick(object sender, RoutedEventArgs e)
-    {
-      this.DialogResult = true;
-
-      foreach (var sitzplatzViewModel in this.Raumplan.Sitzplätze)
-      {
-        sitzplatzViewModel.UpdateModelFromShape();
-      }
-
-      this.RemoveSitzplatzShapes();
-      this.Close();
-    }
-
-    /// <summary>
-    /// Schließt den Dialog ohne die Änderungen zu übernehmen
-    /// </summary>
-    /// <param name="sender">The sender.</param>
-    /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
-    private void CancelClick(object sender, RoutedEventArgs e)
-    {
-      this.DialogResult = false;
-      this.RemoveSitzplatzShapes();
-      this.Close();
-    }
 
     /// <summary>
     /// Handles the OnMouseLeftButtonDown event of the Canvas control.
@@ -125,25 +82,25 @@ namespace Liduv.View.Sitzpläne
     /// <param name="e">The <see cref="MouseButtonEventArgs"/> instance containing the event data.</param>
     private void Canvas_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-      var clickLocation = e.GetPosition(this.RaumplanCanvas);
-      this.currentSitzplatz = this.GetSitzplatzUnderCursor(clickLocation);
-      this.mouseDownPoint = clickLocation;
-      if (this.currentSitzplatz == null)
-      {
-        this.Raumplan.AddSitzplatz(clickLocation.X, clickLocation.Y, 0, 0);
-        this.RaumplanCanvas.Children.Add(this.Raumplan.CurrentSitzplatz.Shape);
-        this.currentSitzplatz = this.Raumplan.CurrentSitzplatz;
-        this.isMovingSitzplatz = false;
-      }
-      else
-      {
-        this.RaumplanCanvas.Cursor = Cursors.SizeAll;
-        this.isMovingSitzplatz = true;
-        this.topLeftOffset = new Point(
-          clickLocation.X - Canvas.GetLeft(this.currentSitzplatz.Shape),
-          clickLocation.Y - Canvas.GetTop(this.currentSitzplatz.Shape));
-        this.canCopySitzplatz = true;
-      }
+      //var clickLocation = e.GetPosition(this.SitzplanCanvas);
+      //this.currentSitzplatz = this.GetSitzplatzUnderCursor(clickLocation);
+      //this.mouseDownPoint = clickLocation;
+      //if (this.currentSitzplatz == null)
+      //{
+      //  this.Raumplan.AddSitzplatz(clickLocation.X, clickLocation.Y, 0, 0);
+      //  this.SitzplanCanvas.Children.Add(this.Raumplan.CurrentSitzplatz.Shape);
+      //  this.currentSitzplatz = this.Raumplan.CurrentSitzplatz;
+      //  this.isMovingSitzplatz = false;
+      //}
+      //else
+      //{
+      //  this.SitzplanCanvas.Cursor = Cursors.SizeAll;
+      //  this.isMovingSitzplatz = true;
+      //  this.topLeftOffset = new Point(
+      //    clickLocation.X - Canvas.GetLeft(this.currentSitzplatz.Shape),
+      //    clickLocation.Y - Canvas.GetTop(this.currentSitzplatz.Shape));
+      //  this.canCopySitzplatz = true;
+      //}
     }
 
     /// <summary>
@@ -153,16 +110,16 @@ namespace Liduv.View.Sitzpläne
     /// <param name="e">The <see cref="MouseButtonEventArgs"/> instance containing the event data.</param>
     private void Canvas_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
     {
-      var clickLocation = e.GetPosition(this.RaumplanCanvas);
-      this.currentSitzplatz = this.GetSitzplatzUnderCursor(clickLocation);
-      if (this.currentSitzplatz != null)
-      {
-        this.Raumplan.DeleteSitzplatz(this.currentSitzplatz);
-        this.RaumplanCanvas.Children.Remove(this.currentSitzplatz.Shape);
-        this.currentSitzplatz = null;
-        this.isMovingSitzplatz = false;
-        this.canCopySitzplatz = false;
-      }
+      //var clickLocation = e.GetPosition(this.SitzplanCanvas);
+      //this.currentSitzplatz = this.GetSitzplatzUnderCursor(clickLocation);
+      //if (this.currentSitzplatz != null)
+      //{
+      //  this.Raumplan.DeleteSitzplatz(this.currentSitzplatz);
+      //  this.SitzplanCanvas.Children.Remove(this.currentSitzplatz.Shape);
+      //  this.currentSitzplatz = null;
+      //  this.isMovingSitzplatz = false;
+      //  this.canCopySitzplatz = false;
+      //}
     }
 
     /// <summary>
@@ -172,47 +129,47 @@ namespace Liduv.View.Sitzpläne
     /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
     private void Canvas_OnMouseMove(object sender, MouseEventArgs e)
     {
-      var moveLocation = e.GetPosition(this.RaumplanCanvas);
-      if (e.LeftButton == MouseButtonState.Pressed)
-      {
-        if (this.isMovingSitzplatz)
-        {
-          if ((Keyboard.Modifiers & ModifierKeys.Control) > 0 && this.canCopySitzplatz)
-          {
-            Canvas.SetTop(this.currentSitzplatz.Shape, this.mouseDownPoint.Y - this.topLeftOffset.Y);
-            Canvas.SetLeft(this.currentSitzplatz.Shape, this.mouseDownPoint.X - this.topLeftOffset.X);
-            this.Raumplan.AddSitzplatz(moveLocation.X, moveLocation.Y,this.currentSitzplatz.Shape.Width, this.currentSitzplatz.Shape.Height);
-            this.RaumplanCanvas.Children.Add(this.Raumplan.CurrentSitzplatz.Shape);
-            this.currentSitzplatz = this.Raumplan.CurrentSitzplatz;
-            this.isMovingSitzplatz = true;
-            this.canCopySitzplatz = false;
-          }
-          else
-          {
-            Canvas.SetLeft(this.currentSitzplatz.Shape, moveLocation.X - this.topLeftOffset.X);
-            Canvas.SetTop(this.currentSitzplatz.Shape, moveLocation.Y - this.topLeftOffset.Y);
-          }
-        }
-        else
-        {
-          if (this.currentSitzplatz != null)
-          {
-            this.currentSitzplatz.Shape.Width = System.Math.Abs(moveLocation.X - this.mouseDownPoint.X);
-            this.currentSitzplatz.Shape.Height = System.Math.Abs(moveLocation.Y - this.mouseDownPoint.Y);
-          }
-        }
-      }
-      else
-      {
-        if (this.GetSitzplatzUnderCursor(moveLocation) != null)
-        {
-          this.RaumplanCanvas.Cursor = Cursors.Hand;
-        }
-        else
-        {
-          this.RaumplanCanvas.Cursor = Cursors.Arrow;
-        }
-      }
+      //var moveLocation = e.GetPosition(this.SitzplanCanvas);
+      //if (e.LeftButton == MouseButtonState.Pressed)
+      //{
+      //  if (this.isMovingSitzplatz)
+      //  {
+      //    if ((Keyboard.Modifiers & ModifierKeys.Control) > 0 && this.canCopySitzplatz)
+      //    {
+      //      Canvas.SetTop(this.currentSitzplatz.Shape, this.mouseDownPoint.Y - this.topLeftOffset.Y);
+      //      Canvas.SetLeft(this.currentSitzplatz.Shape, this.mouseDownPoint.X - this.topLeftOffset.X);
+      //      this.Raumplan.AddSitzplatz(moveLocation.X, moveLocation.Y,this.currentSitzplatz.Shape.Width, this.currentSitzplatz.Shape.Height);
+      //      this.SitzplanCanvas.Children.Add(this.Raumplan.CurrentSitzplatz.Shape);
+      //      this.currentSitzplatz = this.Raumplan.CurrentSitzplatz;
+      //      this.isMovingSitzplatz = true;
+      //      this.canCopySitzplatz = false;
+      //    }
+      //    else
+      //    {
+      //      Canvas.SetLeft(this.currentSitzplatz.Shape, moveLocation.X - this.topLeftOffset.X);
+      //      Canvas.SetTop(this.currentSitzplatz.Shape, moveLocation.Y - this.topLeftOffset.Y);
+      //    }
+      //  }
+      //  else
+      //  {
+      //    if (this.currentSitzplatz != null)
+      //    {
+      //      this.currentSitzplatz.Shape.Width = System.Math.Abs(moveLocation.X - this.mouseDownPoint.X);
+      //      this.currentSitzplatz.Shape.Height = System.Math.Abs(moveLocation.Y - this.mouseDownPoint.Y);
+      //    }
+      //  }
+      //}
+      //else
+      //{
+      //  if (this.GetSitzplatzUnderCursor(moveLocation) != null)
+      //  {
+      //    this.SitzplanCanvas.Cursor = Cursors.Hand;
+      //  }
+      //  else
+      //  {
+      //    this.SitzplanCanvas.Cursor = Cursors.Arrow;
+      //  }
+      //}
     }
 
     /// <summary>
@@ -227,7 +184,7 @@ namespace Liduv.View.Sitzpläne
         return;
       }
 
-      var upLocation = e.GetPosition(this.RaumplanCanvas);
+      var upLocation = e.GetPosition(this.SitzplanCanvas);
       if (this.isMovingSitzplatz)
       {
         Canvas.SetLeft(this.currentSitzplatz.Shape, upLocation.X - this.topLeftOffset.X);
@@ -247,7 +204,7 @@ namespace Liduv.View.Sitzpläne
     /// <returns>Das <see cref="SitzplatzViewModel"/> oder null, wenn kein Sitzplatz unter der Maus.</returns>
     private SitzplatzViewModel GetSitzplatzUnderCursor(Point mouseLocation)
     {
-      var result = VisualTreeHelper.HitTest(this.RaumplanCanvas, mouseLocation);
+      var result = VisualTreeHelper.HitTest(this.SitzplanCanvas, mouseLocation);
 
       if (result == null)
       {
@@ -269,10 +226,10 @@ namespace Liduv.View.Sitzpläne
     /// </summary>
     private void AddSitzplatzShapes()
     {
-      foreach (var sitzplatzViewModel in this.Raumplan.Sitzplätze)
-      {
-        this.RaumplanCanvas.Children.Add(sitzplatzViewModel.Shape);
-      }
+      //foreach (var sitzplatzViewModel in this.Raumplan.Sitzplätze)
+      //{
+      //  this.SitzplanCanvas.Children.Add(sitzplatzViewModel.Shape);
+      //}
     }
 
     /// <summary>
@@ -280,10 +237,10 @@ namespace Liduv.View.Sitzpläne
     /// </summary>
     private void RemoveSitzplatzShapes()
     {
-      foreach (var sitzplatzViewModel in this.Raumplan.Sitzplätze)
-      {
-        this.RaumplanCanvas.Children.Remove(sitzplatzViewModel.Shape);
-      }
+      //foreach (var sitzplatzViewModel in this.Raumplan.Sitzplätze)
+      //{
+      //  this.SitzplanCanvas.Children.Remove(sitzplatzViewModel.Shape);
+      //}
     }
   }
 }

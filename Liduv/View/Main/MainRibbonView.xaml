@@ -13,6 +13,8 @@
         xmlns:notenViewModel="clr-namespace:Liduv.ViewModel.Noten" xmlns:undoRedo="clr-namespace:Liduv.UndoRedo"
               xmlns:changeTypes="clr-namespace:Liduv.UndoRedo.ChangeTypes"
               xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+              xmlns:sitzplanView="clr-namespace:Liduv.View.Sitzpläne"
+              xmlns:sitzplanViewModel="clr-namespace:Liduv.ViewModel.Sitzpläne"
               Title="Liduv - Lehrer im Dienst - Unterrichtsvorbereitung" 
         x:Name="Window"
         Width="735" Height="324" Closing="MainRibbonViewClosing" 
@@ -38,6 +40,9 @@
           <DataTemplate DataType="{x:Type notenViewModel:SchülereintragWorkspaceViewModel}">
             <notenView:SchülereintragWorkspaceView />
           </DataTemplate>
+          <DataTemplate DataType="{x:Type sitzplanViewModel:SitzplanWorkspaceViewModel}">
+            <sitzplanView:SitzplanWorkspaceView />
+          </DataTemplate>
           <HierarchicalDataTemplate DataType="{x:Type undoRedo:ChangeSet}"
                                 ItemsSource="{Binding Path=Changes}">
             <TextBlock Text="{Binding Path=Description}"/>
@@ -53,6 +58,11 @@
           <CollectionViewSource Source="{Binding Source={x:Static liduv:App.MainViewModel}, Path=Klassen}" x:Key="KlassenSorted">
             <CollectionViewSource.SortDescriptions>
               <scm:SortDescription PropertyName="KlasseBezeichnung"/>
+            </CollectionViewSource.SortDescriptions>
+          </CollectionViewSource>
+          <CollectionViewSource Source="{Binding Source={x:Static liduv:App.MainViewModel}, Path=Jahrtypen}" x:Key="JahrtypenSorted">
+            <CollectionViewSource.SortDescriptions>
+              <scm:SortDescription PropertyName="JahrtypJahr"/>
             </CollectionViewSource.SortDescriptions>
           </CollectionViewSource>
         </ResourceDictionary>
@@ -130,8 +140,8 @@
               </RibbonGallery>
             </RibbonComboBox>
             <RibbonComboBox>
-              <RibbonGallery MaxColumnCount="1" SelectedItem="{Binding Source={x:Static setting:Selection.Instance}, Path=Schuljahr}">
-                <RibbonGalleryCategory ItemsSource="{Binding Source={x:Static liduv:App.MainViewModel}, Path=Jahrtypen}" DisplayMemberPath="JahrtypBezeichnung"/>
+              <RibbonGallery MaxColumnCount="1" SelectedItem="{Binding Source={x:Static setting:Selection.Instance}, Path=Jahrtyp}">
+                <RibbonGalleryCategory ItemsSource="{Binding Source={StaticResource JahrtypenSorted}}" DisplayMemberPath="JahrtypBezeichnung"/>
               </RibbonGallery>
             </RibbonComboBox>
           </StackPanel>
@@ -219,6 +229,18 @@
                                ToolTipDescription="Nutzen Sie diese Funktion, um eine Klassenarbeit oder Klausur anzulegen."
                                LargeImageSource="/Liduv;component/Images/Arbeit32.png"
                                SmallImageSource="/Liduv;component/Images/Arbeit16.png"/>
+
+        </RibbonGroup>
+        <RibbonGroup Header="Sitzpläne"
+                            LargeImageSource="/Liduv;component/Images/Sitzplatz32.png"
+                            SmallImageSource="/Liduv;component/Images/Sitzplatz16.png">
+          <RibbonButton x:Name="RäumeEditButton"
+                               Label="Räume" 
+                               Click="RäumeButtonClick"
+                               ToolTipTitle="Räume neu definieren"
+                               ToolTipDescription="Nutzen Sie diese Funktion, um Räume und Raumpläne neu anzulegen."
+                               LargeImageSource="/Liduv;component/Images/Raumplan32.png"
+                               SmallImageSource="/Liduv;component/Images/Raumplan16.png"/>
 
         </RibbonGroup>
       </RibbonTab>
@@ -554,7 +576,7 @@
           <RibbonControlGroup>
             <RibbonButton x:Name="RäumeButton"
                                Label="Räume" 
-                               Click="RäumeButtonClick"
+                               Click="RäumeDBButtonClick"
                                LargeImageSource="/Liduv;component/Images/Raum32.png"
                                SmallImageSource="/Liduv;component/Images/Raum16.png"/>
            </RibbonControlGroup>
@@ -585,6 +607,9 @@
       </TabItem>
       <TabItem Header="Noten">
         <ContentControl Margin="5" Content="{Binding Path=.SchülereintragWorkspace}" />
+      </TabItem>
+      <TabItem Header="Sitzpläne">
+        <ContentControl Margin="5" Content="{Binding Path=.SitzplanWorkspace}" />
       </TabItem>
     </TabControl>
   </Grid>

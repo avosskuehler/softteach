@@ -2,6 +2,10 @@
 {
   using System;
   using System.Linq;
+  using System.Windows;
+  using System.Windows.Controls;
+  using System.Windows.Media;
+  using System.Windows.Shapes;
 
   using Liduv.Model.EntityFramework;
   using Liduv.ViewModel.Helper;
@@ -13,6 +17,11 @@
   public class SitzplaneintragViewModel : ViewModelBase, IComparable
   {
     /// <summary>
+    /// Das Rechteck, das den Sitzplatz repräsentiert
+    /// </summary>
+    private Border shape;
+
+    /// <summary>
     /// Der Sitzplan der zu diesem Sitzplaneintrag gehört
     /// </summary>
     private SitzplanViewModel sitzplan;
@@ -21,7 +30,7 @@
     /// Der Sitzplatz der zu diesem Sitzplaneintrag gehört
     /// </summary>
     private SitzplatzViewModel sitzplatz;
-    
+
     /// <summary>
     /// Der Schülereintrag der zu diesem Sitzplaneintrag gehört
     /// </summary>
@@ -41,6 +50,8 @@
       }
 
       this.Model = sitzplaneintrag;
+
+      this.CreateShape();
     }
 
     /// <summary>
@@ -107,15 +118,14 @@
 
       set
       {
-        if (value == null) return;
-        if (this.schülereintrag != null)
+        if (this.schülereintrag != null && value != null)
         {
           if (value.SchülereintragÜberschrift == this.schülereintrag.SchülereintragÜberschrift) return;
         }
 
         this.UndoablePropertyChanging(this, "SitzplaneintragSchülereintrag", this.schülereintrag, value);
         this.schülereintrag = value;
-        this.Model.Schülereintrag = value.Model;
+        this.Model.Schülereintrag = value != null ? value.Model : null;
         this.RaisePropertyChanged("SitzplaneintragSchülereintrag");
       }
     }
@@ -157,6 +167,20 @@
     }
 
     /// <summary>
+    /// Holt das Umfassungrechteck für den Sitzplaneintrag als Shape
+    /// </summary>
+    [DependsUpon("SitzplaneintragSitzplatz")]
+    public Border Shape
+    {
+      get
+      {
+        this.CreateShape();
+
+        return this.shape;
+      }
+    }
+
+    /// <summary>
     /// Gibt eine lesbare Repräsentation des ViewModels
     /// </summary>
     /// <returns>Ein <see cref="string"/> mit einer Kurzform des ViewModels.</returns>
@@ -182,7 +206,35 @@
       }
 
       throw new ArgumentException("Object is not a SitzplaneintragViewModel");
-
     }
+
+    /// <summary>
+    /// Creates the shape.
+    /// </summary>
+    private void CreateShape()
+    {
+      if (this.shape == null)
+      {
+        this.shape = new Border();
+        var fillColor = new SolidColorBrush(Colors.DarkSeaGreen) { Opacity = 0.25 };
+        this.shape.Background = fillColor;
+        this.shape.CornerRadius = new CornerRadius(5);
+        this.shape.Width = this.SitzplaneintragSitzplatz.SitzplatzBreite;
+        this.shape.Height = this.SitzplaneintragSitzplatz.SitzplatzHöhe;
+        this.shape.Tag = this;
+        Canvas.SetTop(this.shape, this.SitzplaneintragSitzplatz.SitzplatzLinksObenY);
+        Canvas.SetLeft(this.shape, this.SitzplaneintragSitzplatz.SitzplatzLinksObenX);
+        var shapeLabel = new Label();
+        if (this.SitzplaneintragSchülereintrag != null)
+        {
+          shapeLabel.Content = this.SitzplaneintragSchülereintrag.SchülereintragPerson.PersonVorname;
+        }
+
+        //shapeLabel.Style = Application.Current.FindResource("MetroLabelStyle") as Style;
+        this.shape.Child = shapeLabel;
+        this.shape.Tag = this;
+      }
+    }
+
   }
 }

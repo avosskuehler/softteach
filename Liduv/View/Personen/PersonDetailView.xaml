@@ -3,24 +3,24 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:resources="clr-namespace:Liduv.Resources"
     xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop">
-    <Grid Background="{x:Static SystemColors.MenuBarBrush}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="80"/>
-            <ColumnDefinition Width="80"/>
-            <ColumnDefinition Width="65"/>
-            <ColumnDefinition />
-            <ColumnDefinition Width="65"/>
-            <ColumnDefinition />
-            <ColumnDefinition Width="65"/>
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="24" />
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Image Name="PersonImage" Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" 
+  <Grid Background="{x:Static SystemColors.MenuBarBrush}">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="80"/>
+      <ColumnDefinition Width="80"/>
+      <ColumnDefinition Width="65"/>
+      <ColumnDefinition />
+      <ColumnDefinition Width="65"/>
+      <ColumnDefinition />
+      <ColumnDefinition Width="65"/>
+      <ColumnDefinition />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition/>
+      <RowDefinition Height="24" />
+      <RowDefinition/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    <Image Name="PersonImage" Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" 
                Source="{Binding PersonBild}"
                MouseLeftButtonDown="Image_MouseLeftButtonDown" 
                AllowDrop="True"
@@ -28,43 +28,43 @@
                dd:DragDrop.IsDropTarget="True"
                dd:DragDrop.DropHandler="{Binding}"
                dd:DragDrop.DragAdornerTemplate="{StaticResource FotoDragAdorner}"/>
-        <GroupBox Margin="2,0,0,0"  Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Header="Geschlecht">
-            <StackPanel>
-                <RadioButton Content="m" VerticalAlignment="Center" IsChecked="{Binding PersonIstMännlich}"/>
-                <RadioButton Content="w" VerticalAlignment="Center" IsChecked="{Binding PersonIstWeiblich}"/>
-            </StackPanel>
-        </GroupBox>
-        <GroupBox Margin="2,0,0,0" Grid.Row="2" Grid.Column="1" Grid.RowSpan="2" Header="Typ">
-            <StackPanel>
-                <RadioButton Content="Lehrer" VerticalAlignment="Center" IsChecked="{Binding PersonIstLehrer}"/>
-                <RadioButton Grid.Column="0" Content="Schüler" VerticalAlignment="Center" IsChecked="{Binding PersonIstSchüler}"/>
-            </StackPanel>
-        </GroupBox>
-        <TextBlock Grid.Row="0" Grid.Column="2" Margin="3,1,3,1" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Black">Titel</TextBlock>
-        <TextBox Grid.Row="0" Grid.Column="3" Margin="3,1,3,1" VerticalAlignment="Center" MinWidth="30" Text="{Binding PersonTitel, Mode=TwoWay}"/>
-        <TextBlock Grid.Row="1" Grid.Column="2" Margin="3,1,3,1" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Black">Vorname</TextBlock>
-        <TextBox Grid.Row="1" Grid.Column="3" Margin="3,1,3,1" VerticalAlignment="Center" MinWidth="100" Text="{Binding PersonVorname, Mode=TwoWay}"/>
-        <TextBlock Grid.Row="2" Grid.Column="2" Margin="3,1,3,1" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Black">Nachname</TextBlock>
-        <TextBox Grid.Row="2" Grid.Column="3" Margin="3,1,3,1" VerticalAlignment="Center" MinWidth="100" Text="{Binding PersonNachname, Mode=TwoWay}"/>
-        <TextBlock Grid.Row="3" Grid.Column="2" Margin="3,1,3,1" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Black">Geburtstag</TextBlock>
-        <DatePicker Grid.Row="3" Grid.Column="3" Margin="3,1,3,1" VerticalAlignment="Center" SelectedDate="{Binding PersonGeburtstag, Mode=TwoWay}"></DatePicker>
+    <GroupBox Margin="2,0,0,0"  Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Header="Geschlecht">
+      <StackPanel>
+        <CheckBox Content="w" VerticalAlignment="Center" IsChecked="{Binding PersonIstWeiblich}"/>
+        <!--<RadioButton Content="w" VerticalAlignment="Center" IsChecked="{Binding PersonIstWeiblich}"/>-->
+      </StackPanel>
+    </GroupBox>
+    <GroupBox Margin="2,0,0,0" Grid.Row="2" Grid.Column="1" Grid.RowSpan="2" Header="Typ">
+      <StackPanel>
+        <RadioButton Content="Lehrer" VerticalAlignment="Center" IsChecked="{Binding PersonIstLehrer}"/>
+        <RadioButton Grid.Column="0" Content="Schüler" VerticalAlignment="Center" IsChecked="{Binding PersonIstSchüler}"/>
+      </StackPanel>
+    </GroupBox>
+    <TextBlock Grid.Row="0" Grid.Column="2" Margin="3,1,3,1" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Black">Titel</TextBlock>
+    <TextBox Grid.Row="0" Grid.Column="3" Margin="3,1,3,1" VerticalAlignment="Center" MinWidth="30" Text="{Binding PersonTitel, Mode=TwoWay}"/>
+    <TextBlock Grid.Row="1" Grid.Column="2" Margin="3,1,3,1" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Black">Vorname</TextBlock>
+    <TextBox Grid.Row="1" Grid.Column="3" Margin="3,1,3,1" VerticalAlignment="Center" MinWidth="100" Text="{Binding PersonVorname, Mode=TwoWay}"/>
+    <TextBlock Grid.Row="2" Grid.Column="2" Margin="3,1,3,1" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Black">Nachname</TextBlock>
+    <TextBox Grid.Row="2" Grid.Column="3" Margin="3,1,3,1" VerticalAlignment="Center" MinWidth="100" Text="{Binding PersonNachname, Mode=TwoWay}"/>
+    <TextBlock Grid.Row="3" Grid.Column="2" Margin="3,1,3,1" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Black">Geburtstag</TextBlock>
+    <DatePicker Grid.Row="3" Grid.Column="3" Margin="3,1,3,1" VerticalAlignment="Center" SelectedDate="{Binding PersonGeburtstag, Mode=TwoWay}"></DatePicker>
 
-        <TextBlock Grid.Row="0" Grid.Column="4" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Black">Telefon</TextBlock>
-        <TextBox Grid.Row="0" Grid.Column="5" Margin="3,1,3,1" VerticalAlignment="Center" MinWidth="80" Text="{Binding PersonTelefon, Mode=TwoWay}"/>
-        <TextBlock Grid.Row="1" Grid.Column="4" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Black">Fax</TextBlock>
-        <TextBox Grid.Row="1" Grid.Column="5" Margin="3,1,3,1" VerticalAlignment="Center" MinWidth="80" Text="{Binding PersonFax, Mode=TwoWay}"/>
-        <TextBlock Grid.Row="2" Grid.Column="4" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Black">Handy</TextBlock>
-        <TextBox Grid.Row="2" Grid.Column="5" Margin="3,1,3,1" VerticalAlignment="Center" MinWidth="80" Text="{Binding PersonHandy, Mode=TwoWay}"/>
-        <TextBlock Grid.Row="3" Grid.Column="4" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Black">EMail</TextBlock>
-        <TextBox Grid.Row="3" Grid.Column="5" Margin="3,1,3,1" VerticalAlignment="Center" MinWidth="200" Text="{Binding PersonEMail, Mode=TwoWay}"/>
+    <TextBlock Grid.Row="0" Grid.Column="4" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Black">Telefon</TextBlock>
+    <TextBox Grid.Row="0" Grid.Column="5" Margin="3,1,3,1" VerticalAlignment="Center" MinWidth="80" Text="{Binding PersonTelefon, Mode=TwoWay}"/>
+    <TextBlock Grid.Row="1" Grid.Column="4" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Black">Fax</TextBlock>
+    <TextBox Grid.Row="1" Grid.Column="5" Margin="3,1,3,1" VerticalAlignment="Center" MinWidth="80" Text="{Binding PersonFax, Mode=TwoWay}"/>
+    <TextBlock Grid.Row="2" Grid.Column="4" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Black">Handy</TextBlock>
+    <TextBox Grid.Row="2" Grid.Column="5" Margin="3,1,3,1" VerticalAlignment="Center" MinWidth="80" Text="{Binding PersonHandy, Mode=TwoWay}"/>
+    <TextBlock Grid.Row="3" Grid.Column="4" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Black">EMail</TextBlock>
+    <TextBox Grid.Row="3" Grid.Column="5" Margin="3,1,3,1" VerticalAlignment="Center" MinWidth="200" Text="{Binding PersonEMail, Mode=TwoWay}"/>
 
-        <TextBlock Grid.Row="0" Grid.Column="6" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Black">Straße</TextBlock>
-        <TextBox Grid.Row="0" Grid.Column="7" Margin="3,1,3,1" VerticalAlignment="Center" MinWidth="80" Text="{Binding PersonStraße}"/>
-        <TextBlock Grid.Row="1" Grid.Column="6" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Black">Nr</TextBlock>
-        <TextBox Grid.Row="1" Grid.Column="7" Margin="3,1,3,1" VerticalAlignment="Center" MinWidth="80" Text="{Binding PersonHausnummer}"/>
-        <TextBlock Grid.Row="2" Grid.Column="6" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Black">PLZ</TextBlock>
-        <TextBox Grid.Row="2" Grid.Column="7" Margin="3,1,3,1" VerticalAlignment="Center" MinWidth="80" Text="{Binding PersonPLZ}"/>
-        <TextBlock Grid.Row="3" Grid.Column="6" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Black">Ort</TextBlock>
-        <TextBox Grid.Row="3" Grid.Column="7" Margin="3,1,3,1" VerticalAlignment="Center" MinWidth="200" Text="{Binding PersonOrt}"/>
-    </Grid>
+    <TextBlock Grid.Row="0" Grid.Column="6" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Black">Straße</TextBlock>
+    <TextBox Grid.Row="0" Grid.Column="7" Margin="3,1,3,1" VerticalAlignment="Center" MinWidth="80" Text="{Binding PersonStraße}"/>
+    <TextBlock Grid.Row="1" Grid.Column="6" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Black">Nr</TextBlock>
+    <TextBox Grid.Row="1" Grid.Column="7" Margin="3,1,3,1" VerticalAlignment="Center" MinWidth="80" Text="{Binding PersonHausnummer}"/>
+    <TextBlock Grid.Row="2" Grid.Column="6" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Black">PLZ</TextBlock>
+    <TextBox Grid.Row="2" Grid.Column="7" Margin="3,1,3,1" VerticalAlignment="Center" MinWidth="80" Text="{Binding PersonPLZ}"/>
+    <TextBlock Grid.Row="3" Grid.Column="6" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Black">Ort</TextBlock>
+    <TextBox Grid.Row="3" Grid.Column="7" Margin="3,1,3,1" VerticalAlignment="Center" MinWidth="200" Text="{Binding PersonOrt}"/>
+  </Grid>
 </UserControl>

@@ -2,6 +2,9 @@
 {
   using System;
   using System.Windows;
+  using System.Windows.Controls;
+  using System.Windows.Media;
+  using System.Windows.Shapes;
 
   using Liduv.Model.EntityFramework;
   using Liduv.ViewModel.Helper;
@@ -11,6 +14,8 @@
   /// </summary>
   public class SitzplatzViewModel : ViewModelBase, IComparable
   {
+    private Rectangle shape;
+
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="SitzplatzViewModel"/> Klasse. 
     /// </summary>
@@ -25,6 +30,8 @@
       }
 
       this.Model = sitzplatz;
+
+      this.CreateShape();
     }
 
     /// <summary>
@@ -47,6 +54,7 @@
         if (value == this.Model.LinksObenX) return;
         this.UndoablePropertyChanging(this, "SitzplatzLinksObenX", this.Model.LinksObenX, value);
         this.Model.LinksObenX = value;
+        Canvas.SetLeft(this.shape, this.SitzplatzLinksObenX);
         this.RaisePropertyChanged("SitzplatzLinksObenX");
       }
     }
@@ -66,6 +74,7 @@
         if (value == this.Model.LinksObenY) return;
         this.UndoablePropertyChanging(this, "SitzplatzLinksObenY", this.Model.LinksObenY, value);
         this.Model.LinksObenY = value;
+        Canvas.SetLeft(this.shape, this.SitzplatzLinksObenY);
         this.RaisePropertyChanged("SitzplatzLinksObenY");
       }
     }
@@ -85,6 +94,7 @@
         if (value == this.Model.Breite) return;
         this.UndoablePropertyChanging(this, "SitzplatzBreite", this.Model.Breite, value);
         this.Model.Breite = value;
+        this.shape.Width = this.SitzplatzBreite;
         this.RaisePropertyChanged("SitzplatzBreite");
       }
     }
@@ -104,6 +114,7 @@
         if (value == this.Model.Höhe) return;
         this.UndoablePropertyChanging(this, "SitzplatzHöhe", this.Model.Höhe, value);
         this.Model.Höhe = value;
+        this.shape.Height = this.SitzplatzHöhe;
         this.RaisePropertyChanged("SitzplatzHöhe");
       }
     }
@@ -116,6 +127,23 @@
       get
       {
         return new Rect(this.SitzplatzLinksObenX, this.SitzplatzLinksObenY, this.SitzplatzBreite, this.SitzplatzHöhe);
+      }
+    }
+
+    /// <summary>
+    /// Holt das Umfassungrechteck für den Sitzplatz als Shape
+    /// </summary>
+    [DependsUpon("SitzplatzLinksObenX")]
+    [DependsUpon("SitzplatzLinksObenY")]
+    [DependsUpon("SitzplatzHöhe")]
+    [DependsUpon("SitzplatzBreite")]
+    public Rectangle Shape
+    {
+      get
+      {
+        this.CreateShape();
+
+        return this.shape;
       }
     }
 
@@ -145,7 +173,35 @@
       }
 
       throw new ArgumentException("Object is not a SitzplatzViewModel");
+    }
 
+    /// <summary>
+    /// Updates the model from the shapes coordinates.
+    /// </summary>
+    public void UpdateModelFromShape()
+    {
+      this.Model.LinksObenX = Canvas.GetLeft(this.shape);
+      this.Model.LinksObenY = Canvas.GetTop(this.shape);
+      this.Model.Breite = this.shape.Width;
+      this.Model.Höhe = this.shape.Height;
+    }
+
+    /// <summary>
+    /// Creates the shape.
+    /// </summary>
+    private void CreateShape()
+    {
+      if (this.shape == null)
+      {
+        this.shape = new Rectangle();
+        var fillColor = new SolidColorBrush(Colors.DarkSeaGreen) { Opacity = 0.25 };
+        this.shape.Fill = fillColor;
+        this.shape.Width = this.SitzplatzBreite;
+        this.shape.Height = this.SitzplatzHöhe;
+        this.shape.Tag = this;
+        Canvas.SetTop(this.shape, this.SitzplatzLinksObenY);
+        Canvas.SetLeft(this.shape, this.SitzplatzLinksObenX);
+      }
     }
   }
 }

@@ -310,7 +310,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
           <Property Name="RaumId" Type="int" Nullable="false" />
-          <Property Name="Dateiname" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Grundriss" Type="image" Nullable="false" />
         </EntityType>
         <EntityType Name="Reihen">
           <Key>
@@ -374,6 +374,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
           <Property Name="RaumplanId" Type="int" Nullable="false" />
           <Property Name="SchülerlisteId" Type="int" Nullable="false" />
           <Property Name="GültigAb" Type="datetime" Nullable="false" />
@@ -385,7 +386,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SitzplanId" Type="int" Nullable="false" />
           <Property Name="SitzplatzId" Type="int" Nullable="false" />
-          <Property Name="SchülereintragId" Type="int" Nullable="false" />
+          <Property Name="SchülereintragId" Type="int" />
         </EntityType>
         <EntityType Name="Sitzplätze">
           <Key>
@@ -1333,7 +1334,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Sitzplaneinträge_Schülereinträge">
-          <End Role="Schülereinträge" Type="Self.Schülereinträge" Multiplicity="1" />
+          <End Role="Schülereinträge" Type="Self.Schülereinträge" Multiplicity="0..1" />
           <End Role="Sitzplaneinträge" Type="Self.Sitzplaneinträge" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Schülereinträge">
@@ -3869,11 +3870,11 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" a:StoreGeneratedPattern="Identity" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="RaumId" Type="Int32" Nullable="false" />
-          <Property Name="Dateiname" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Raum" Relationship="Liduv.Model.FK_Raumpläne_Räume" FromRole="Raumpläne" ToRole="Räume" />
           <NavigationProperty Name="Sitzpläne" Relationship="Liduv.Model.FK_Sitzpläne_Raumpläne" FromRole="Raumpläne" ToRole="Sitzpläne" />
           <NavigationProperty Name="Sitzplätze" Relationship="Liduv.Model.FK_Sitzplätze_Raumpläne" FromRole="Raumpläne" ToRole="Sitzplätze" />
           <Property Name="Bezeichnung" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Grundriss" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="Sitzplan">
           <Key>
@@ -3886,6 +3887,7 @@
           <NavigationProperty Name="Raumplan" Relationship="Liduv.Model.FK_Sitzpläne_Raumpläne" FromRole="Sitzpläne" ToRole="Raumpläne" />
           <NavigationProperty Name="Schülerliste" Relationship="Liduv.Model.FK_Sitzpläne_Schülerlisten" FromRole="Sitzpläne" ToRole="Schülerliste" />
           <NavigationProperty Name="Sitzplaneinträge" Relationship="Liduv.Model.FK_Sitzplaneinträge_Sitzpläne" FromRole="Sitzpläne" ToRole="Sitzplaneinträge" />
+          <Property Name="Bezeichnung" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Sitzplaneintrag">
           <Key>
@@ -3894,7 +3896,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" a:StoreGeneratedPattern="Identity" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="SitzplanId" Type="Int32" Nullable="false" />
           <Property Name="SitzplatzId" Type="Int32" Nullable="false" />
-          <Property Name="SchülereintragId" Type="Int32" Nullable="false" />
+          <Property Name="SchülereintragId" Type="Int32" Nullable="true" />
           <NavigationProperty Name="Schülereintrag" Relationship="Liduv.Model.FK_Sitzplaneinträge_Schülereinträge" FromRole="Sitzplaneinträge" ToRole="Schülereintrag" />
           <NavigationProperty Name="Sitzplan" Relationship="Liduv.Model.FK_Sitzplaneinträge_Sitzpläne" FromRole="Sitzplaneinträge" ToRole="Sitzpläne" />
           <NavigationProperty Name="Sitzplatz" Relationship="Liduv.Model.FK_Sitzplaneinträge_Sitzplätze" FromRole="Sitzplaneinträge" ToRole="Sitzplätze" />
@@ -3955,8 +3957,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Sitzplaneinträge_Schülereinträge">
-          <End Type="Liduv.Model.Schülereintrag" Role="Schülereintrag" Multiplicity="1" >
-            <OnDelete Action="Cascade" />
+          <End Type="Liduv.Model.Schülereintrag" Role="Schülereintrag" Multiplicity="0..1" >
           </End>
           <End Type="Liduv.Model.Sitzplaneintrag" Role="Sitzplaneinträge" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3970,7 +3971,6 @@
         </Association>
         <Association Name="FK_Sitzpläne_Schülerlisten">
           <End Type="Liduv.Model.Schülerliste" Role="Schülerliste" Multiplicity="1" >
-            <OnDelete Action="Cascade" />
           </End>
           <End Type="Liduv.Model.Sitzplan" Role="Sitzpläne" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3983,7 +3983,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Sitzplaneinträge_Sitzpläne">
-          <End Type="Liduv.Model.Sitzplan" Role="Sitzpläne" Multiplicity="1" />
+          <End Type="Liduv.Model.Sitzplan" Role="Sitzpläne" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="Liduv.Model.Sitzplaneintrag" Role="Sitzplaneinträge" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Sitzpläne">
@@ -4579,8 +4581,8 @@
           <EntitySetMapping Name="Raumpläne">
             <EntityTypeMapping TypeName="Liduv.Model.Raumplan">
               <MappingFragment StoreEntitySet="Raumpläne">
+                <ScalarProperty Name="Grundriss" ColumnName="Grundriss" />
                 <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
-                <ScalarProperty Name="Dateiname" ColumnName="Dateiname" />
                 <ScalarProperty Name="RaumId" ColumnName="RaumId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -4589,6 +4591,7 @@
           <EntitySetMapping Name="Sitzpläne">
             <EntityTypeMapping TypeName="Liduv.Model.Sitzplan">
               <MappingFragment StoreEntitySet="Sitzpläne">
+                <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
                 <ScalarProperty Name="GültigAb" ColumnName="GültigAb" />
                 <ScalarProperty Name="SchülerlisteId" ColumnName="SchülerlisteId" />
                 <ScalarProperty Name="RaumplanId" ColumnName="RaumplanId" />
@@ -5243,11 +5246,11 @@
         </edmx:AssociationConnector>
         <edmx:AssociationConnector Association="Liduv.Model.FK_HalbjahrtypCurriculum" />
         <edmx:AssociationConnector Association="Liduv.Model.FK_JahrtypSchülerlisten" />
-        <edmx:EntityTypeShape EntityType="Liduv.Model.Raum" Width="1.5" PointX="21.75" PointY="20.5" />
-        <edmx:EntityTypeShape EntityType="Liduv.Model.Raumplan" Width="1.5" PointX="23.875" PointY="20.5" />
-        <edmx:EntityTypeShape EntityType="Liduv.Model.Sitzplan" Width="1.5" PointX="23.875" PointY="17.375" />
-        <edmx:EntityTypeShape EntityType="Liduv.Model.Sitzplaneintrag" Width="1.5" PointX="26.125" PointY="17.375" />
-        <edmx:EntityTypeShape EntityType="Liduv.Model.Sitzplatz" Width="1.5" PointX="26.125" PointY="20.5" />
+        <edmx:EntityTypeShape EntityType="Liduv.Model.Raum" Width="1.5" PointX="7.75" PointY="17.625" />
+        <edmx:EntityTypeShape EntityType="Liduv.Model.Raumplan" Width="1.5" PointX="9.875" PointY="17.625" />
+        <edmx:EntityTypeShape EntityType="Liduv.Model.Sitzplan" Width="1.5" PointX="9.875" PointY="14.5" />
+        <edmx:EntityTypeShape EntityType="Liduv.Model.Sitzplaneintrag" Width="1.5" PointX="12.125" PointY="14.5" />
+        <edmx:EntityTypeShape EntityType="Liduv.Model.Sitzplatz" Width="1.5" PointX="12.125" PointY="17.625" />
         <edmx:AssociationConnector Association="Liduv.Model.FK_Raumpläne_Räume" />
         <edmx:AssociationConnector Association="Liduv.Model.FK_Sitzpläne_Raumpläne" />
         <edmx:AssociationConnector Association="Liduv.Model.FK_Sitzplätze_Raumpläne" />

@@ -8,4 +8,5 @@
   <converter:WichtungProzentConverter x:Key="WichtungProzentConverter" />
   <converter:FloatProzentConverter x:Key="FloatProzentConverter" />
   <converter:WrapPanelWidthConverter x:Key="WrapPanelWidthConverter" />
+  <converter:SitzplatzWidthConverter x:Key="SitzplatzWidthConverter" />
 </ResourceDictionary>

@@ -22,8 +22,8 @@ namespace Liduv.Model.EntityFramework
     
         public int Id { get; set; }
         public int RaumId { get; set; }
-        public string Dateiname { get; set; }
         public string Bezeichnung { get; set; }
+        public byte[] Grundriss { get; set; }
     
         public virtual Raum Raum { get; set; }
         public virtual ICollection<Sitzplan> Sitzpläne { get; set; }

@@ -1,4 +1,4 @@
-﻿namespace Liduv.View.Datenbank
+﻿namespace Liduv.View.Sitzpläne
 {
   using System.Windows;
 

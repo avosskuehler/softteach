@@ -27,7 +27,7 @@ namespace Liduv.View.Datenbank
     /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
     private void SchuljahrButtonOnClick(object sender, RoutedEventArgs e)
     {
-      Selection.Instance.Schuljahr = this.DataContext as JahrtypViewModel;
+      Selection.Instance.Jahrtyp = this.DataContext as JahrtypViewModel;
     }
 
     /// <summary>
@@ -38,7 +38,7 @@ namespace Liduv.View.Datenbank
     private void MetroSchuljahrDetailView_OnLoaded(object sender, RoutedEventArgs e)
     {
       var model = this.DataContext as JahrtypViewModel;
-      if (model == Selection.Instance.Schuljahr)
+      if (model == Selection.Instance.Jahrtyp)
       {
         this.SchuljahrRadioButton.IsChecked = true;
       }

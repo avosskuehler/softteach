@@ -37,7 +37,7 @@ namespace Liduv.View.Personen
       this.InitializeComponent();
       this.DataContext = this;
       this.Halbjahrtyp = Selection.Instance.Halbjahr;
-      this.Jahrtyp = Selection.Instance.Schuljahr;
+      this.Jahrtyp = Selection.Instance.Jahrtyp;
       this.Klasse = Selection.Instance.Klasse;
       this.Fach = Selection.Instance.Fach;
       this.NotenWichtung = App.MainViewModel.NotenWichtungen.FirstOrDefault();

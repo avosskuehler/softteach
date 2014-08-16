@@ -14,6 +14,7 @@
 
   using Liduv.ExceptionHandling;
   using Liduv.Model.EntityFramework;
+  using Liduv.Resources.Controls;
   using Liduv.ViewModel.Helper;
 
   /// <summary>
@@ -84,6 +85,25 @@
     }
 
     /// <summary>
+    /// Holt den Vornamen in Kurzform
+    /// </summary>
+    public string PersonVornameKurz
+    {
+      get
+      {
+        var split = this.PersonVorname.Split(' ');
+        var split2 = split[0].Split('-');
+        if (split2.Count() > 1)
+        {
+          var posBindestrich = this.PersonVorname.IndexOf('-');
+          return this.PersonVorname.Substring(0, posBindestrich + 2);
+        }
+
+        return split[0];
+      }
+    }
+
+    /// <summary>
     /// Holt oder setzt die Nachname
     /// </summary>
     public string PersonNachname
@@ -121,22 +141,22 @@
       }
     }
 
-    /// <summary>
-    /// Holt oder setzt einen Wert, der angibt, ob die Person männlich ist
-    /// </summary>
-    [DependsUpon("PersonIstWeiblich")]
-    public bool PersonIstMännlich
-    {
-      get
-      {
-        return !this.PersonIstWeiblich;
-      }
+    ///// <summary>
+    ///// Holt oder setzt einen Wert, der angibt, ob die Person männlich ist
+    ///// </summary>
+    //[DependsUpon("PersonIstWeiblich")]
+    //public bool PersonIstMännlich
+    //{
+    //  get
+    //  {
+    //    return !this.PersonIstWeiblich;
+    //  }
 
-      set
-      {
-        this.PersonIstWeiblich = !value;
-      }
-    }
+    //  set
+    //  {
+    //    this.PersonIstWeiblich = !value;
+    //  }
+    //}
 
     /// <summary>
     /// Holt oder setzt einen Wert, der angibt, ob diese Person ein Lehrer ist.
@@ -418,7 +438,7 @@
         if (this.PersonFoto != null && this.bild == null)
         {
           var bmp = new System.Drawing.Bitmap(new MemoryStream(this.PersonFoto));
-          this.bild = CreateBitmapSourceFromBitmap(bmp);
+          this.bild = ImageTools.CreateBitmapSourceFromBitmap(bmp);
         }
 
         return this.bild;
@@ -428,7 +448,7 @@
       {
         if (value != null)
         {
-          var thumb = CreateBitmapFromBitmapImage(value);
+          var thumb = ImageTools.CreateBitmapFromBitmapImage(value);
           TypeConverter bitmapConverter = TypeDescriptor.GetConverter(thumb.GetType());
           this.PersonFoto = (byte[])bitmapConverter.ConvertTo(thumb, typeof(byte[]));
         }
@@ -476,64 +496,6 @@
 
         return info.ToString();
       }
-    }
-
-    /// <summary>
-    /// The create bitmap from bitmap image.
-    /// </summary>
-    /// <param name="source">
-    /// The source.
-    /// </param>
-    /// <returns>
-    /// The <see cref="Bitmap"/>.
-    /// </returns>
-    public static System.Drawing.Bitmap CreateBitmapFromBitmapImage(BitmapSource source)
-    {
-      var bmp = new System.Drawing.Bitmap(source.PixelWidth, source.PixelHeight);
-
-      // Lock the bitmap's bits.  
-      System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height);
-      System.Drawing.Imaging.BitmapData bmpData =
-        bmp.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, bmp.PixelFormat);
-
-      // Get the address of the first line
-      IntPtr ptr = bmpData.Scan0;
-      int bytes = bmpData.Stride * bmp.Height;
-      source.CopyPixels(Int32Rect.Empty, ptr, bytes, bmpData.Stride);
-
-      // Unlock the bits.
-      bmp.UnlockBits(bmpData);
-
-      return bmp;
-    }
-
-    /// <summary>
-    /// This methods converts the given bitmap into a BitmapSource
-    /// that can be used as an image source for wpf buttons.
-    /// </summary>
-    /// <param name="bmp">The <see cref="Bitmap"/> to be converted</param>
-    /// <returns>A <see cref="BitmapSource"/> containing the given bitmap.</returns>
-    public static BitmapSource CreateBitmapSourceFromBitmap(System.Drawing.Bitmap bmp)
-    {
-      return Imaging.CreateBitmapSourceFromHBitmap(
-        bmp.GetHbitmap(),
-        IntPtr.Zero,
-        Int32Rect.Empty,
-        BitmapSizeOptions.FromEmptyOptions());
-    }
-
-    public static System.Drawing.Bitmap ScaleImage(System.Drawing.Bitmap image, int maxWidth, int maxHeight)
-    {
-      var ratioX = (double)maxWidth / image.Width;
-      var ratioY = (double)maxHeight / image.Height;
-      var ratio = Math.Min(ratioX, ratioY);
-
-      var newWidth = (int)(image.Width * ratio);
-      var newHeight = (int)(image.Height * ratio);
-
-      var newImage = new System.Drawing.Bitmap(newWidth, newHeight);
-      System.Drawing.Graphics.FromImage(newImage).DrawImage(image, 0, 0, newWidth, newHeight);
-      return newImage;
     }
 
     /// <summary>
@@ -648,7 +610,7 @@
       {
         var data = dataObject.GetData("System.Drawing.Bitmap");
         var bmp = data as System.Drawing.Bitmap;
-        this.PersonBild = CreateBitmapSourceFromBitmap(ScaleImage(bmp, 80, 100));
+        this.PersonBild = ImageTools.CreateBitmapSourceFromBitmap(ImageTools.ScaleImage(bmp, 80, 100));
       }
       else if (dataObject.GetDataPresent("FileName"))
       {

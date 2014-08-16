@@ -3,9 +3,15 @@
   using System;
   using System.Collections.ObjectModel;
   using System.Collections.Specialized;
+  using System.ComponentModel;
   using System.Linq;
+  using System.Windows;
+  using System.Windows.Data;
+
+  using GongSolutions.Wpf.DragDrop;
 
   using Liduv.Model.EntityFramework;
+  using Liduv.Setting;
   using Liduv.UndoRedo;
   using Liduv.View.Personen;
   using Liduv.ViewModel.Helper;
@@ -15,13 +21,13 @@
   /// <summary>
   /// ViewModel of an individual sitzplan
   /// </summary>
-  public class SitzplanViewModel : ViewModelBase, IComparable
+  public class SitzplanViewModel : ViewModelBase, IComparable, IDropTarget
   {
     /// <summary>
     /// Der Raumplan der zu diesem Sitzplan gehört
     /// </summary>
     private RaumplanViewModel raumplan;
-    
+
     /// <summary>
     /// Der Schülerliste der zu diesem Sitzplan gehört
     /// </summary>
@@ -47,30 +53,78 @@
 
       this.Model = sitzplan;
 
-      this.AddSitzplaneintragCommand = new DelegateCommand(this.AddSitzplaneintrag);
-      this.DeleteSitzplaneintragCommand = new DelegateCommand(this.DeleteCurrentSitzplaneintrag, () => this.CurrentSitzplaneintrag != null);
+      this.SitzplanNeuEinteilenCommand = new DelegateCommand(this.SitzplanNeuEinteilen);
+      this.SitzplanLeerenCommand = new DelegateCommand(this.SitzplanLeeren);
+      this.SitzplanAusdruckenCommand = new DelegateCommand(this.SitzplanAusdrucken);
 
       // Build data structures for schülerlisten
       this.Sitzplaneinträge = new ObservableCollection<SitzplaneintragViewModel>();
-      foreach (var sitzplaneintrag in sitzplan.Sitzplaneinträge)
+
+      if (sitzplan.Sitzplaneinträge.Any())
       {
-        var vm = new SitzplaneintragViewModel(sitzplaneintrag);
-        App.MainViewModel.Sitzplaneinträge.Add(vm);
-        this.Sitzplaneinträge.Add(vm);
+        foreach (var sitzplaneintrag in sitzplan.Sitzplaneinträge)
+        {
+          var vm = new SitzplaneintragViewModel(sitzplaneintrag);
+          App.MainViewModel.Sitzplaneinträge.Add(vm);
+          this.Sitzplaneinträge.Add(vm);
+        }
+      }
+      else
+      {
+        // Noch keine Sitzplaneinträge vorhanden, erstelle also alle neu aus den Sitzplätzen des Raumplans
+        foreach (var sitzplatz in sitzplan.Raumplan.Sitzplätze)
+        {
+          var sitzplaneintrag = new Sitzplaneintrag();
+          sitzplaneintrag.Sitzplan = this.Model;
+          sitzplaneintrag.Sitzplatz = sitzplatz;
+
+          var vm = new SitzplaneintragViewModel(sitzplaneintrag);
+          App.MainViewModel.Sitzplaneinträge.Add(vm);
+          this.Sitzplaneinträge.Add(vm);
+          this.CurrentSitzplaneintrag = vm;
+        }
       }
 
       this.Sitzplaneinträge.CollectionChanged += this.SitzplaneinträgeCollectionChanged;
+
+      // Build data structures for Reihen
+      this.UsedSchülereinträge = new ObservableCollection<SchülereintragViewModel>();
+      this.AvailableSchülereinträge = new ObservableCollection<SchülereintragViewModel>();
+      foreach (var schülereintrag in sitzplan.Schülerliste.Schülereinträge.OrderBy(o => o.Person.Vorname))
+      {
+        var vm = new SchülereintragViewModel(schülereintrag);
+        if (this.Sitzplaneinträge.Any(o => o.SitzplaneintragSchülereintrag != null && o.SitzplaneintragSchülereintrag.Model.Id == vm.Model.Id))
+        {
+          this.UsedSchülereinträge.Add(vm);
+        }
+        else
+        {
+          this.AvailableSchülereinträge.Add(vm);
+        }
+      }
+
+      //this.SchülerlistenView = CollectionViewSource.GetDefaultView(App.MainViewModel.Schülerlisten);
+      //this.SchülerlistenView.SortDescriptions.Add(new SortDescription("SchülerlisteJahrtyp", ListSortDirection.Ascending));
+      //this.SchülerlistenView.SortDescriptions.Add(new SortDescription("SchülerlisteHalbjahrtyp", ListSortDirection.Ascending));
+      //this.SchülerlistenView.SortDescriptions.Add(new SortDescription("SchülerlisteKlasse", ListSortDirection.Ascending));
+      //this.SchülerlistenView.SortDescriptions.Add(new SortDescription("SchülerlisteFach", ListSortDirection.Ascending));
+      //this.SchülerlistenView.Filter = this.ShowOnlyActiveSchülerlisten;
     }
 
     /// <summary>
-    /// Holt den Befehl zur adding a new Schüler
+    /// Holt den Befehl um den Sitzplan neu einzuteilen
     /// </summary>
-    public DelegateCommand AddSitzplaneintragCommand { get; private set; }
+    public DelegateCommand SitzplanNeuEinteilenCommand { get; private set; }
 
     /// <summary>
-    /// Holt den Befehl zur deleting the current Schüler
+    /// Holt den Befehl um den Sitzplan zu leeren einzuteilen
     /// </summary>
-    public DelegateCommand DeleteSitzplaneintragCommand { get; private set; }
+    public DelegateCommand SitzplanLeerenCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl um den Sitzplan auszudrucken
+    /// </summary>
+    public DelegateCommand SitzplanAusdruckenCommand { get; private set; }
 
     /// <summary>
     /// Holt den underlying Sitzplan this ViewModel is based on
@@ -81,6 +135,22 @@
     /// Holt die schülereinträge for this schülerliste
     /// </summary>
     public ObservableCollection<SitzplaneintragViewModel> Sitzplaneinträge { get; private set; }
+
+    /// <summary>
+    /// Holt die im Sitzplan verwendeten Schülereinträge
+    /// </summary>
+    public ObservableCollection<SchülereintragViewModel> UsedSchülereinträge { get; private set; }
+
+    /// <summary>
+    /// Holt die im Sitzplan nicht verwendeten Schülereinträge
+    /// </summary>
+    public ObservableCollection<SchülereintragViewModel> AvailableSchülereinträge { get; private set; }
+
+    ///// <summary>
+    ///// Holt oder setzt mögliche Schülerlisten
+    ///// </summary>
+    //public ICollectionView SchülerlistenView { get; set; }
+
 
     /// <summary>
     /// Holt oder setzt die currently selected sitzplaneintrag
@@ -96,10 +166,27 @@
       {
         this.currentSitzplaneintrag = value;
         this.RaisePropertyChanged("CurrentSitzplaneintrag");
-        this.DeleteSitzplaneintragCommand.RaiseCanExecuteChanged();
       }
     }
 
+    /// <summary>
+    /// Holt oder setzt die Bezeichnung
+    /// </summary>
+    public string SitzplanBezeichnung
+    {
+      get
+      {
+        return this.Model.Bezeichnung;
+      }
+
+      set
+      {
+        if (value == this.Model.Bezeichnung) return;
+        this.UndoablePropertyChanging(this, "SitzplanBezeichnung", this.Model.Bezeichnung, value);
+        this.Model.Bezeichnung = value;
+        this.RaisePropertyChanged("SitzplanBezeichnung");
+      }
+    }
 
     /// <summary>
     /// Holt oder setzt den Schülerliste für den Schülerlisteplan
@@ -163,7 +250,7 @@
         if (value == null) return;
         if (this.raumplan != null)
         {
-          if (value.RaumplanDateiname == this.raumplan.RaumplanDateiname) return;
+          if (value.RaumplanBezeichnung == this.raumplan.RaumplanBezeichnung) return;
         }
 
         this.UndoablePropertyChanging(this, "SitzplanRaumplan", this.raumplan, value);
@@ -174,90 +261,283 @@
     }
 
     /// <summary>
+    /// Holt oder setzt das Datum der Gültigkeit
+    /// </summary>
+    public DateTime SitzplanGültigAb
+    {
+      get
+      {
+        return this.Model.GültigAb;
+      }
+
+      set
+      {
+        if (value == this.Model.GültigAb) return;
+        this.UndoablePropertyChanging(this, "SitzplanGültigAb", this.Model.GültigAb, value);
+        this.Model.GültigAb = value;
+        this.RaisePropertyChanged("SitzplanGültigAb");
+      }
+    }
+
+    /// <summary>
+    /// Holt das Datum der Gültigkeit im Format DD.MM.YY
+    /// </summary>
+    [DependsUpon("SitzplanGültigAb")]
+    public string SitzplanGültigAbString
+    {
+      get
+      {
+        return "gültig ab " + this.Model.GültigAb.ToShortDateString();
+      }
+    }
+
+    /// <summary>
+    /// Holt oder setzt einen Wert, der angibt, ob beim Sitzplan Jungen und Mädchen möglichst getrennt sitzen sollen.
+    /// </summary>
+    public bool? SitzplanMädchenJungeNebeneinander { get; set; }
+
+    /// <summary>
     /// Gibt eine lesbare Repräsentation des ViewModels
     /// </summary>
     /// <returns>Ein <see cref="string"/> mit einer Kurzform des ViewModels.</returns>
     public override string ToString()
     {
-      return "Sitzplan";
+      return "Sitzplan " + this.SitzplanBezeichnung;
     }
 
     /// <summary>
     /// Compares the current instance with another object of the same type and returns an integer that indicates whether the current instance precedes, follows, or occurs in the same position in the sort order as the other object.
     /// </summary>
-    /// <param name="obj">An object to compare with this instance.</param>
+    /// <param name="viewModel">An object to compare with this instance.</param>
     /// <returns>
     /// A value that indicates the relative order of the objects being compared. The return value has these meanings: Value Meaning Less than zero This instance precedes <paramref name="obj" /> in the sort order. Zero This instance occurs in the same position in the sort order as <paramref name="obj" />. Greater than zero This instance follows <paramref name="obj" /> in the sort order.
     /// </returns>
     /// <exception cref="System.ArgumentException">Object is not a SitzplanViewModel</exception>
-    public int CompareTo(object obj)
+    public int CompareTo(object viewModel)
     {
-      var otherSitzplanViewModel = obj as SitzplanViewModel;
-      if (otherSitzplanViewModel != null)
+      var sitzplanViewModel = viewModel as SitzplanViewModel;
+      if (sitzplanViewModel == null)
       {
-        return this.Model.Id == otherSitzplanViewModel.Model.Id ? 0 : 1;
+        return -1;
       }
 
-      throw new ArgumentException("Object is not a SitzplanViewModel");
-
+      return string.Compare(this.Model.Bezeichnung, sitzplanViewModel.SitzplanBezeichnung, StringComparison.Ordinal);
     }
 
     /// <summary>
-    /// Handles addition a new sitzplaneintrag to this schülerliste
+    /// Kontrolliert mögliche Dragmanöver
     /// </summary>
-    private void AddSitzplaneintrag()
+    /// <param name="dropInfo">The drop information.</param>
+    public void DragOver(IDropInfo dropInfo)
     {
-      //// Show a dialog which has multiselect option
-      //var dlg = new SelectSchülerDialog();
-      //if (dlg.ShowDialog().GetValueOrDefault(false))
-      //{
-      //  using (new UndoBatch(App.MainViewModel, string.Format("Neue Schüler in Schülerliste {0} eingetragen.", this), false))
-      //  {
-      //    foreach (var obj in dlg.SelectedSchüler)
-      //    {
-      //      // Care for empty rows
-      //      if (obj is PersonViewModel)
-      //      {
-      //        // Cast to valid object
-      //        var person = obj as PersonViewModel;
-
-      //        // Check if already there
-      //        if (
-      //          this.Sitzplaneinträge.Any(
-      //            o =>
-      //            o.SitzplaneintragPerson.PersonVorname == person.PersonVorname
-      //            && o.SitzplaneintragPerson.PersonNachname == person.PersonNachname
-      //            && o.SitzplaneintragPerson.PersonGeburtstag == person.PersonGeburtstag))
-      //        {
-      //          continue;
-      //        }
-
-      //        // perform add
-      //        var sitzplaneintrag = new Sitzplaneintrag();
-      //        sitzplaneintrag.Person = person.Model;
-      //        sitzplaneintrag.Schülerliste = this.Model;
-      //        var vm = new SitzplaneintragViewModel(sitzplaneintrag);
-      //        App.MainViewModel.Sitzplaneinträge.Add(vm);
-      //        this.Sitzplaneinträge.Add(vm);
-      //        this.CurrentSitzplaneintrag = vm;
-      //      }
-      //    }
-      //  }
-      //}
+      var sourceItem = dropInfo.Data;
+      var targetItem = dropInfo.TargetItem;
+      if ((sourceItem is SchülereintragViewModel && targetItem is SitzplaneintragViewModel)
+        || sourceItem is SitzplaneintragViewModel)
+      {
+        dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
+        dropInfo.Effects = DragDropEffects.Move;
+      }
+      else
+      {
+        dropInfo.Effects = DragDropEffects.None;
+      }
     }
 
     /// <summary>
-    /// Handles deletion of the current sitzplaneintrag
+    /// Drops the specified drop information.
     /// </summary>
-    private void DeleteCurrentSitzplaneintrag()
+    /// <param name="dropInfo">The drop information.</param>
+    public void Drop(IDropInfo dropInfo)
     {
-      using (new UndoBatch(App.MainViewModel, string.Format("Sitzplaneintrag {0} aus Sitzplan {1} gelöscht.", this.CurrentSitzplaneintrag, this), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("Drag and Drop im Sitzplan"), false))
       {
-        App.MainViewModel.Sitzplaneinträge.RemoveTest(this.CurrentSitzplaneintrag);
-        this.Sitzplaneinträge.RemoveTest(this.CurrentSitzplaneintrag);
-        this.CurrentSitzplaneintrag = null;
+        var sourceItem = dropInfo.Data;
+        var targetItem = dropInfo.TargetItem;
+        if (sourceItem is SchülereintragViewModel && targetItem is SitzplaneintragViewModel)
+        {
+          var source = sourceItem as SchülereintragViewModel;
+          var target = targetItem as SitzplaneintragViewModel;
+          target.SitzplaneintragSchülereintrag = source;
+          if (this.AvailableSchülereinträge.Contains(source))
+          {
+            this.AvailableSchülereinträge.RemoveTest(source);
+            this.UsedSchülereinträge.Add(source);
+          }
+        }
+        else if (sourceItem is SitzplaneintragViewModel && targetItem is SitzplaneintragViewModel)
+        {
+          var source = sourceItem as SitzplaneintragViewModel;
+          var target = targetItem as SitzplaneintragViewModel;
+
+          //if (target.SitzplaneintragSchülereintrag != null && this.UsedSchülereinträge.Contains(target.SitzplaneintragSchülereintrag))
+          //{
+          //  this.UsedSchülereinträge.RemoveTest(target.SitzplaneintragSchülereintrag);
+          //  this.AvailableSchülereinträge.Add(target.SitzplaneintragSchülereintrag);
+          //}
+          var temp = target.SitzplaneintragSchülereintrag;
+          target.SitzplaneintragSchülereintrag = source.SitzplaneintragSchülereintrag;
+          source.SitzplaneintragSchülereintrag = temp;
+        }
+        else if (sourceItem is SitzplaneintragViewModel)
+        {
+          var source = sourceItem as SitzplaneintragViewModel;
+
+          if (this.UsedSchülereinträge.Contains(source.SitzplaneintragSchülereintrag))
+          {
+            this.UsedSchülereinträge.RemoveTest(source.SitzplaneintragSchülereintrag);
+            this.AvailableSchülereinträge.Add(source.SitzplaneintragSchülereintrag);
+          }
+
+          source.SitzplaneintragSchülereintrag = null;
+        }
       }
     }
+
+    /// <summary>
+    /// Teilt die verbliebenen Schüler auf die Sitzplätze neu auf
+    /// </summary>
+    public void SitzplanNeuEinteilen()
+    {
+      if (this.AvailableSchülereinträge.Count == 0)
+      {
+        this.SitzplanLeeren();
+      }
+
+      if (this.SitzplanMädchenJungeNebeneinander.HasValue)
+      {
+        var mädchen = this.AvailableSchülereinträge.Where(o => o.SchülereintragPerson.PersonIstWeiblich).Shuffle().ToList();
+        var jungen = this.AvailableSchülereinträge.Where(o => !o.SchülereintragPerson.PersonIstWeiblich).Shuffle().ToList();
+        var größereGruppe = mädchen.Count >= jungen.Count ? mädchen : jungen;
+        var kleinereGruppe = mädchen.Count >= jungen.Count ? jungen : mädchen;
+        var gleichviel = (int)Math.Min(mädchen.Count, jungen.Count);
+        var restlicheSchülerZahl = mädchen.Count + jungen.Count;
+        var restlicheSitzplätze = this.Sitzplaneinträge.Where(o => o.SitzplaneintragSchülereintrag == null).ToList();
+        if (this.SitzplanMädchenJungeNebeneinander.Value)
+        {
+          for (int i = 0; i <= gleichviel * 2; i++)
+          {
+            if (restlicheSitzplätze.Count > i)
+            {
+              var schüler = i % 2 == 0 ? größereGruppe[i / 2] : kleinereGruppe[i / 2];
+              restlicheSitzplätze[i].SitzplaneintragSchülereintrag = schüler;
+              if (this.AvailableSchülereinträge.Contains(schüler))
+              {
+                this.AvailableSchülereinträge.Remove(schüler);
+                this.UsedSchülereinträge.Add(schüler);
+              }
+            }
+          }
+
+          for (int i = gleichviel * 2 + 1; i < restlicheSchülerZahl; i++)
+          {
+            if (restlicheSitzplätze.Count > i)
+            {
+              var schüler = größereGruppe[i - gleichviel];
+              restlicheSitzplätze[i].SitzplaneintragSchülereintrag = schüler;
+              if (this.AvailableSchülereinträge.Contains(schüler))
+              {
+                this.AvailableSchülereinträge.Remove(schüler);
+                this.UsedSchülereinträge.Add(schüler);
+              }
+            }
+          }
+        }
+        else
+        {
+          for (int i = 0; i <= gleichviel * 2; i++)
+          {
+            if (restlicheSitzplätze.Count > i)
+            {
+              var useGrößereGruppe = (i / 2) % 2 == 0;
+              var schülereintrag = useGrößereGruppe ? größereGruppe[i / 2 + i % 2] : kleinereGruppe[i / 2 + i % 2 - 1];
+              restlicheSitzplätze[i].SitzplaneintragSchülereintrag = schülereintrag;
+              if (this.AvailableSchülereinträge.Contains(schülereintrag))
+              {
+                this.AvailableSchülereinträge.Remove(schülereintrag);
+                this.UsedSchülereinträge.Add(schülereintrag);
+              }
+            }
+          }
+
+          for (int i = gleichviel * 2 + 1; i < restlicheSchülerZahl; i++)
+          {
+            if (restlicheSitzplätze.Count > i)
+            {
+              var schüler = größereGruppe[i - gleichviel];
+              restlicheSitzplätze[i].SitzplaneintragSchülereintrag = schüler;
+              if (this.AvailableSchülereinträge.Contains(schüler))
+              {
+                this.AvailableSchülereinträge.Remove(schüler);
+                this.UsedSchülereinträge.Add(schüler);
+              }
+            }
+          }
+
+        }
+      }
+      else
+      {
+        var restlicheSchüler = this.AvailableSchülereinträge.Shuffle().ToList();
+        var restlicheSitzplätze = this.Sitzplaneinträge.Where(o => o.SitzplaneintragSchülereintrag == null).Shuffle().ToList();
+        for (int i = 0; i < restlicheSchüler.Count(); i++)
+        {
+          if (restlicheSitzplätze.Count > i)
+          {
+            var schüler = restlicheSchüler[i];
+            restlicheSitzplätze[i].SitzplaneintragSchülereintrag = schüler;
+            this.AvailableSchülereinträge.Remove(schüler);
+            this.UsedSchülereinträge.Add(schüler);
+          }
+        }
+      }
+    }
+
+    /// <summary>
+    /// Leert den Sitzplan
+    /// </summary>
+    public void SitzplanLeeren()
+    {
+      foreach (var sitzplaneintragViewModel in this.Sitzplaneinträge)
+      {
+        if (sitzplaneintragViewModel.SitzplaneintragSchülereintrag != null)
+        {
+          if (this.UsedSchülereinträge.Contains(sitzplaneintragViewModel.SitzplaneintragSchülereintrag))
+          {
+            this.UsedSchülereinträge.RemoveTest(sitzplaneintragViewModel.SitzplaneintragSchülereintrag);
+            this.AvailableSchülereinträge.Add(sitzplaneintragViewModel.SitzplaneintragSchülereintrag);
+          }
+
+          sitzplaneintragViewModel.SitzplaneintragSchülereintrag = null;
+        }
+      }
+    }
+
+    /// <summary>
+    /// Druckt den momentanen Sitzplan aus
+    /// </summary>
+    public void SitzplanAusdrucken()
+    {
+    }
+
+    ///// <summary>
+    ///// Filtert die Schülerlisten nach Schuljahr und Fach
+    ///// </summary>
+    ///// <param name="item">Die Schülerliste, die geprüft werden soll</param>
+    ///// <returns>True, wenn Schülerliste angezeigt werden soll.</returns>
+    //private bool ShowOnlyActiveSchülerlisten(object item)
+    //{
+    //  var schülerlisteViewModel = item as SchülerlisteViewModel;
+    //  if (schülerlisteViewModel != null)
+    //  {
+    //    if (schülerlisteViewModel.SchülerlisteJahrtyp == Selection.Instance.Jahrtyp && schülerlisteViewModel.SchülerlisteFach == Selection.Instance.Fach)
+    //    {
+    //      return true;
+    //    }
+    //  }
+
+    //  return false;
+    //}
 
     /// <summary>
     /// Tritt auf, wenn die SitzplaneinträgeCollection verändert wurde.
@@ -269,7 +549,5 @@
     {
       this.UndoableCollectionChanged(this, "Sitzplaneinträge", this.Sitzplaneinträge, e, false, "Änderung der Sitzplaneinträge");
     }
-
-
   }
 }

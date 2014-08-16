@@ -4,6 +4,7 @@
   using System.Windows;
   using System.Windows.Controls;
 
+  using Liduv.Properties;
   using Liduv.Setting;
   using Liduv.View.Noten;
   using Liduv.View.Wochenpläne;
@@ -40,7 +41,7 @@
 
     private void DesktopOnClick(object sender, RoutedEventArgs e)
     {
-      if (this.desktopView == null)
+      if (this.desktopView == null || !this.desktopView.IsLoaded)
       {
         this.desktopView = new MainRibbonView();
         this.desktopView.Show();
@@ -70,6 +71,25 @@
       Configuration.Instance.IsMetroMode = true;
       Configuration.Instance.NavigateTarget = NavigateTarget.Gruppen;
       this.NavigationService.Navigate(new MetroSelectSchülerlistePage());
+    }
+
+    private void SitzpläneOnClick(object sender, RoutedEventArgs e)
+    {
+      Configuration.Instance.IsMetroMode = true;
+      Configuration.Instance.NavigateTarget = NavigateTarget.Sitzpläne;
+      this.NavigationService.Navigate(new MetroSelectSchülerlistePage());
+    }
+
+    /// <summary>
+    /// Speichern der Datenbank.
+    /// </summary>
+    /// <param name="sender">The sender.</param>
+    /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+    private void SpeichernOnClick(object sender, RoutedEventArgs e)
+    {
+      Selection.Instance.UpdateUserSettings();
+      Settings.Default.Save();
+      App.UnitOfWork.SaveChanges();
     }
   }
 }

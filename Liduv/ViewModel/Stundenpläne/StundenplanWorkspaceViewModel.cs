@@ -162,7 +162,7 @@
     /// </summary>
     private void AddStundenplan()
     {
-      this.AddStundenplan(Selection.Instance.Schuljahr, Selection.Instance.Halbjahr, DateTime.Now);
+      this.AddStundenplan(Selection.Instance.Jahrtyp, Selection.Instance.Halbjahr, DateTime.Now);
     }
 
     /// <summary>

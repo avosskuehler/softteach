@@ -190,7 +190,7 @@
     {
       if (e.PropertyName == "Schuljahr")
       {
-        this.JahrtypFilter = Selection.Instance.Schuljahr;
+        this.JahrtypFilter = Selection.Instance.Jahrtyp;
         this.CurriculaView.Refresh();
       }
     }

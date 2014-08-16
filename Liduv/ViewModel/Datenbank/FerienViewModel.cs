@@ -24,7 +24,7 @@
     public FerienViewModel()
     {
       var ferien = new Ferien();
-      ferien.Jahrtyp = Selection.Instance.Schuljahr.Model;
+      ferien.Jahrtyp = Selection.Instance.Jahrtyp.Model;
       ferien.Bezeichnung = "Neue Ferien";
       ferien.ErsterFerientag = DateTime.Now;
       ferien.LetzterFerientag = DateTime.Now;

@@ -3,6 +3,8 @@
   using System;
   using System.Collections.ObjectModel;
   using System.Collections.Specialized;
+  using System.ComponentModel;
+  using System.IO;
   using System.Linq;
   using System.Windows.Controls;
   using System.Windows.Forms;
@@ -11,8 +13,9 @@
   using System.Windows.Shapes;
 
   using Liduv.Model.EntityFramework;
+  using Liduv.Resources.Controls;
   using Liduv.UndoRedo;
-  using Liduv.ViewModel.Datenbank;
+  using Liduv.View.Sitzpläne;
   using Liduv.ViewModel.Helper;
 
   /// <summary>
@@ -20,6 +23,11 @@
   /// </summary>
   public class RaumplanViewModel : ViewModelBase, IComparable
   {
+    /// <summary>
+    /// Der Grundriss des Raumplans
+    /// </summary>
+    private BitmapSource grundriss;
+
     /// <summary>
     /// The raum currently assigned to this Raumplan
     /// </summary>
@@ -46,6 +54,7 @@
       this.Model = raumplan;
 
       this.OpenImageFileCommand = new DelegateCommand(this.OpenImageFile);
+      this.EditRaumplanCommand = new DelegateCommand(this.EditRaumplan);
 
       // Build data structures for phasen
       this.Sitzplätze = new ObservableCollection<SitzplatzViewModel>();
@@ -65,19 +74,9 @@
     public DelegateCommand OpenImageFileCommand { get; private set; }
 
     /// <summary>
-    /// Holt den Befehl zur Erstellung eines neuen Sitzplatzes
+    /// Holt den Befehl zum Ändern des Raumplans
     /// </summary>
-    public DelegateCommand AddSitzplatzCommand { get; private set; }
-
-    /// <summary>
-    /// Holt den Befehl zur Bearbeitung eines Sitzplatzes
-    /// </summary>
-    public DelegateCommand EditSitzplatzCommand { get; private set; }
-
-    /// <summary>
-    /// Holt den Befehl zur Löschung eines Sitzplatzes
-    /// </summary>
-    public DelegateCommand DeleteSitzplatzCommand { get; private set; }
+    public DelegateCommand EditRaumplanCommand { get; private set; }
 
     /// <summary>
     /// Holt den underlying Raumplan this ViewModel is based on
@@ -103,7 +102,6 @@
       {
         this.currentSitzplatz = value;
         this.RaisePropertyChanged("Sitzplatz");
-        this.DeleteSitzplatzCommand.RaiseCanExecuteChanged();
       }
     }
 
@@ -127,37 +125,52 @@
     }
 
     /// <summary>
-    /// Holt oder setzt den Dateinamen für die Raumplanskizze
+    /// Holt oder setzt den Grundriss als Datei
     /// </summary>
-    public string RaumplanDateiname
+    public byte[] RaumplanGrundriss
     {
       get
       {
-        return this.Model.Dateiname;
+        return this.Model.Grundriss;
       }
 
       set
       {
-        if (value == this.Model.Dateiname) return;
-        this.UndoablePropertyChanging(this, "RaumplanDateiname", this.Model.Dateiname, value);
-        this.Model.Dateiname = value;
-        this.RaisePropertyChanged("RaumplanDateiname");
+        if (value == this.Model.Grundriss) return;
+        this.UndoablePropertyChanging(this, "RaumplanGrundriss", this.Model.Grundriss, value);
+        this.Model.Grundriss = value;
+        this.RaisePropertyChanged("RaumplanGrundriss");
       }
     }
 
     /// <summary>
-    /// Holt ein Imagesource für den raumplan
+    /// Holt oder setzt die Foto of this Person as a BitmapSource
     /// </summary>
-    [DependsUpon("RaumplanDateiname")]
-    public ImageSource RaumplanImage
+    [DependsUpon("RaumplanGrundriss")]
+    public BitmapSource RaumplanImage
     {
       get
       {
-        var raumplanImage = new BitmapImage();
-        raumplanImage.BeginInit();
-        raumplanImage.UriSource = new Uri(this.RaumplanDateiname);
-        raumplanImage.EndInit();
-        return raumplanImage;
+        if (this.RaumplanGrundriss != null && this.grundriss == null)
+        {
+          var bmp = new System.Drawing.Bitmap(new MemoryStream(this.RaumplanGrundriss));
+          this.grundriss = ImageTools.CreateBitmapSourceFromBitmap(bmp);
+        }
+
+        return this.grundriss;
+      }
+
+      set
+      {
+        if (value != null)
+        {
+          var thumb = ImageTools.CreateBitmapFromBitmapImage(value);
+          TypeConverter bitmapConverter = TypeDescriptor.GetConverter(thumb.GetType());
+          this.RaumplanGrundriss = (byte[])bitmapConverter.ConvertTo(thumb, typeof(byte[]));
+        }
+
+        this.grundriss = value;
+        this.RaisePropertyChanged("PersonBild");
       }
     }
 
@@ -218,7 +231,7 @@
       var otherRaumplanViewModel = obj as RaumplanViewModel;
       if (otherRaumplanViewModel != null)
       {
-        return StringLogicalComparer.Compare(this.RaumplanDateiname, otherRaumplanViewModel.RaumplanDateiname);
+        return StringLogicalComparer.Compare(this.RaumplanBezeichnung, otherRaumplanViewModel.RaumplanBezeichnung);
       }
 
       throw new ArgumentException("Object is not a RaumplanViewModel");
@@ -230,7 +243,74 @@
     /// <returns>Ein <see cref="string"/> mit einer Kurzform des ViewModels.</returns>
     public override string ToString()
     {
-      return "Raumplan: " + this.RaumplanDateiname;
+      return "Raumplan: " + this.RaumplanBezeichnung;
+    }
+
+    /// <summary>
+    /// Handles addition a new phase to this raumplan
+    /// </summary>
+    /// <param name="left">The left.</param>
+    /// <param name="top">The top.</param>
+    /// <param name="width">The width.</param>
+    /// <param name="height">The height.</param>
+    public void AddSitzplatz(double left, double top, double width, double height)
+    {
+      var sitzplatz = new Sitzplatz();
+      sitzplatz.LinksObenX = left;
+      sitzplatz.LinksObenY = top;
+      sitzplatz.Breite = width;
+      sitzplatz.Höhe = height;
+      sitzplatz.Raumplan = this.Model;
+      var sitzplatzViewModel = new SitzplatzViewModel(sitzplatz);
+
+      using (new UndoBatch(App.MainViewModel, string.Format("Neuer Sitzplatz {0} erstellt.", sitzplatzViewModel), false))
+      {
+        App.MainViewModel.Sitzplätze.Add(sitzplatzViewModel);
+        this.Sitzplätze.Add(sitzplatzViewModel);
+        this.CurrentSitzplatz = sitzplatzViewModel;
+      }
+    }
+
+    /// <summary>
+    /// Handles deletion of the given phase
+    /// </summary>
+    /// <param name="sitzplatzViewModel"> The sitzplatz View Model. </param>
+    public void DeleteSitzplatz(SitzplatzViewModel sitzplatzViewModel)
+    {
+      using (new UndoBatch(App.MainViewModel, string.Format("Sitzplatz {0} gelöscht.", sitzplatzViewModel), false))
+      {
+        App.MainViewModel.Sitzplätze.RemoveTest(sitzplatzViewModel);
+        var result = this.Sitzplätze.RemoveTest(sitzplatzViewModel);
+      }
+    }
+
+    /// <summary>
+    /// Ruft den Raumpläne Dialog zur Beraumplanung auf
+    /// </summary>
+    private void EditRaumplan()
+    {
+      bool undo;
+      using (new UndoBatch(App.MainViewModel, string.Format("Raumplan {0} geändert.", this), false))
+      {
+        var dlg = new EditRaumplanDialog(this);
+        undo = !dlg.ShowDialog().GetValueOrDefault(false);
+      }
+
+      if (undo)
+      {
+        App.MainViewModel.ExecuteUndoCommand();
+      }
+    }
+
+    /// <summary>
+    /// Tritt auf, wenn die ModelCollection verändert wurde.
+    /// Gibt die Änderungen an den Undostack weiter.
+    /// </summary>
+    /// <param name="sender">Die auslösende Collection</param>
+    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    private void SitzplätzeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+      this.UndoableCollectionChanged(this, "Sitzplätze", this.Sitzplätze, e, false, "Änderung der Sitzplätze");
     }
 
     /// <summary>
@@ -250,63 +330,12 @@
 
       if (ofd.ShowDialog() == DialogResult.OK)
       {
-        this.RaumplanDateiname = ofd.FileName;
-      }
-    }
+        var image = new BitmapImage();
 
-    /// <summary>
-    /// Handles addition a new phase to this raumplan
-    /// </summary>
-    public void AddSitzplatz(Rectangle sitzplatzShape)
-    {
-      var sitzplatz = new Sitzplatz();
-      sitzplatz.LinksObenX = (int)Canvas.GetLeft(sitzplatzShape);
-      sitzplatz.LinksObenY = (int)Canvas.GetTop(sitzplatzShape);
-      sitzplatz.Breite = sitzplatzShape.Width;
-      sitzplatz.Höhe = sitzplatzShape.Height;
-      sitzplatz.Raumplan = this.Model;
-      var sitzplatzViewModel = new SitzplatzViewModel(sitzplatz);
-
-      using (new UndoBatch(App.MainViewModel, string.Format("Neuer Sitzplatz {0} erstellt.", sitzplatzViewModel), false))
-      {
-        App.MainViewModel.Sitzplätze.Add(sitzplatzViewModel);
-        this.Sitzplätze.Add(sitzplatzViewModel);
-        this.CurrentSitzplatz = sitzplatzViewModel;
-      }
-    }
-
-    /// <summary>
-    /// Handles deletion of the given phase
-    /// </summary>
-    /// <param name="sitzplatzViewModel"> The sitzplatz View Model. </param>
-    private void DeleteSitzplatz(SitzplatzViewModel sitzplatzViewModel)
-    {
-      using (new UndoBatch(App.MainViewModel, string.Format("Sitzplatz {0} gelöscht.", sitzplatzViewModel), false))
-      {
-        App.MainViewModel.Sitzplätze.RemoveTest(sitzplatzViewModel);
-        var result = this.Sitzplätze.RemoveTest(sitzplatzViewModel);
-      }
-    }
-
-    /// <summary>
-    /// Tritt auf, wenn die ModelCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void SitzplätzeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Sitzplätze", this.Sitzplätze, e, false, "Änderung der Sitzplätze");
-    }
-
-    /// <summary>
-    /// Löscht alle bestehenden Sitzplätze
-    /// </summary>
-    public void RemoveAllSitzplätze()
-    {
-      foreach (var sitzplatzViewModel in this.Sitzplätze)
-      {
-        this.DeleteSitzplatz(sitzplatzViewModel);
+        image.BeginInit();
+        image.UriSource = new Uri(ofd.FileName);
+        image.EndInit();
+        this.RaumplanImage = image;
       }
     }
   }

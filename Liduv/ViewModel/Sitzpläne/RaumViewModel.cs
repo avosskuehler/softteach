@@ -6,6 +6,7 @@
 
   using Liduv.Model.EntityFramework;
   using Liduv.UndoRedo;
+  using Liduv.View.Sitzpläne;
   using Liduv.ViewModel.Datenbank;
   using Liduv.ViewModel.Helper;
 
@@ -143,21 +144,21 @@
     /// </summary>
     private void AddRaumplan()
     {
-      //var raumplan = new Raumplan();
-      //raumplan.Raum = this.Model;
-      //var raumplanViewModel = new RaumplanViewModel(raumplan);
-      //var dlg = new AddRaumplanDialog { Raumplan = raumplanViewModel };
-      //if (!dlg.ShowDialog().GetValueOrDefault(false))
-      //{
-      //  return;
-      //}
+      var raumplan = new Raumplan();
+      raumplan.Raum = this.Model;
+      var raumplanViewModel = new RaumplanViewModel(raumplan);
+      var dlg = new EditRaumplanDialog(raumplanViewModel);
+      if (!dlg.ShowDialog().GetValueOrDefault(false))
+      {
+        return;
+      }
 
-      //using (new UndoBatch(App.MainViewModel, string.Format("Neuer Raumplan {0} erstellt.", raumplanViewModel), false))
-      //{
-      //  App.MainViewModel.Raumpläne.Add(raumplanViewModel);
-      //  this.Raumpläne.Add(raumplanViewModel);
-      //  this.CurrentRaumplan = raumplanViewModel;
-      //}
+      using (new UndoBatch(App.MainViewModel, string.Format("Neuer Raumplan {0} erstellt.", raumplanViewModel), false))
+      {
+        App.MainViewModel.Raumpläne.Add(raumplanViewModel);
+        this.Raumpläne.Add(raumplanViewModel);
+        this.CurrentRaumplan = raumplanViewModel;
+      }
     }
 
     /// <summary>
@@ -165,17 +166,17 @@
     /// </summary>
     private void EditRaumplan()
     {
-      //bool undo;
-      //using (new UndoBatch(App.MainViewModel, string.Format("Raumplan {0} geändert.", this.CurrentRaumplan), false))
-      //{
-      //  var dlg = new AddRaumplanDialog { Raumplan = this.CurrentRaumplan };
-      //  undo = !dlg.ShowDialog().GetValueOrDefault(false);
-      //}
+      bool undo;
+      using (new UndoBatch(App.MainViewModel, string.Format("Raumplan {0} geändert.", this.CurrentRaumplan), false))
+      {
+        var dlg = new EditRaumplanDialog(this.CurrentRaumplan);
+        undo = !dlg.ShowDialog().GetValueOrDefault(false);
+      }
 
-      //if (undo)
-      //{
-      //  App.MainViewModel.ExecuteUndoCommand();
-      //}
+      if (undo)
+      {
+        App.MainViewModel.ExecuteUndoCommand();
+      }
     }
 
 

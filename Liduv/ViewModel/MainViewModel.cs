@@ -67,9 +67,12 @@
       this.Sequenzen = new ObservableCollection<SequenzViewModel>();
       this.Bewertungsschemata = new ObservableCollection<BewertungsschemaViewModel>();
       this.Prozentbereiche = new ObservableCollection<ProzentbereichViewModel>();
+
       this.Räume = new ObservableCollection<RaumViewModel>();
       this.Raumpläne = new ObservableCollection<RaumplanViewModel>();
       this.Sitzplätze = new ObservableCollection<SitzplatzViewModel>();
+      this.Sitzpläne = new ObservableCollection<SitzplanViewModel>();
+      this.Sitzplaneinträge = new ObservableCollection<SitzplaneintragViewModel>();
 
       // The creation of the Arbeiten includes the creation of
       // the Aufgaben and Ergebnisse models
@@ -579,6 +582,11 @@
     /// </summary>
     public RaumWorkspaceViewModel RaumWorkspace { get; private set; }
 
+    /// <summary>
+    /// Holt das Modul zur Bearbeitung von Sitzplänen.
+    /// </summary>
+    public SitzplanWorkspaceViewModel SitzplanWorkspace { get; private set; }
+
     #endregion Workspaces
 
     /// <summary>
@@ -658,26 +666,17 @@
         {
           this.Räume.Add(new RaumViewModel(raum));
         }
+        this.Räume.BubbleSort();
 
-        foreach (var raumplan in context.Raumpläne)
-        {
-          this.Raumpläne.Add(new RaumplanViewModel(raumplan));
-        }
+        //foreach (var raumplan in context.Raumpläne)
+        //{
+        //  this.Raumpläne.Add(new RaumplanViewModel(raumplan));
+        //}
 
-        foreach (var sitzplatz in context.Sitzplätze)
-        {
-          this.Sitzplätze.Add(new SitzplatzViewModel(sitzplatz));
-        }
-
-        foreach (var sitzplan in context.Sitzpläne)
-        {
-          this.Sitzpläne.Add(new SitzplanViewModel(sitzplan));
-        }
-
-        foreach (var sitzplaneintrag in context.Sitzplaneinträge)
-        {
-          this.Sitzplaneinträge.Add(new SitzplaneintragViewModel(sitzplaneintrag));
-        }
+        //foreach (var sitzplatz in context.Sitzplätze)
+        //{
+        //  this.Sitzplätze.Add(new SitzplatzViewModel(sitzplatz));
+        //}
 
         foreach (var jahrtyp in context.Jahrtypen)
         {
@@ -965,6 +964,18 @@
         //  this.Notentendenzen.Add(new NotentendenzViewModel(notentendenz));
         //}
 
+        // Weiter hinten, da personen, räume und schülerlisten benötigt werden
+        foreach (var sitzplan in context.Sitzpläne)
+        {
+          this.Sitzpläne.Add(new SitzplanViewModel(sitzplan));
+        }
+
+        //foreach (var sitzplaneintrag in context.Sitzplaneinträge)
+        //{
+        //  this.Sitzplaneinträge.Add(new SitzplaneintragViewModel(sitzplaneintrag));
+        //}
+
+
         this.StundenentwurfWorkspace = new StundenentwurfWorkspaceViewModel();
         this.CurriculumWorkspace = new CurriculumWorkspaceViewModel();
         this.JahresplanWorkspace = new JahresplanWorkspaceViewModel();
@@ -993,6 +1004,7 @@
         this.ArbeitWorkspace = new ArbeitWorkspaceViewModel();
         this.BewertungsschemaWorkspace = new BewertungsschemaWorkspaceViewModel();
         this.RaumWorkspace = new RaumWorkspaceViewModel();
+        this.SitzplanWorkspace = new SitzplanWorkspaceViewModel();
 
         this.RedoCommand = new DelegateCommand(this.ExecuteRedoCommand, this.CanExecuteRedoCommand);
         this.UndoCommand = new DelegateCommand(this.ExecuteUndoCommand, this.CanExecuteUndoCommand);
@@ -1041,6 +1053,12 @@
         this.Hausaufgaben.CollectionChanged += this.HausaufgabenCollectionChanged;
         this.Bewertungsschemata.CollectionChanged += this.BewertungsschemataCollectionChanged;
         this.Prozentbereiche.CollectionChanged += this.ProzentbereicheCollectionChanged;
+
+        this.Räume.CollectionChanged += this.RäumeCollectionChanged;
+        this.Raumpläne.CollectionChanged += this.RaumpläneCollectionChanged;
+        this.Sitzplätze.CollectionChanged += this.SitzplätzeCollectionChanged;
+        this.Sitzpläne.CollectionChanged += this.SitzpläneCollectionChanged;
+        this.Sitzplaneinträge.CollectionChanged += this.SitzplaneinträgeCollectionChanged;
 
         this.Jahrgangsstufen.CollectionChanged += this.JahrgangsstufenCollectionChanged;
         this.Stundenentwürfe.CollectionChanged += this.StundenentwürfeCollectionChanged;
@@ -1519,6 +1537,61 @@
     private void ProzentbereicheCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
       this.UndoableCollectionChanged(this, "Prozentbereiche", this.Prozentbereiche, e, "Änderung der Prozentbereiche");
+    }
+
+    /// <summary>
+    /// Tritt auf, wenn die RäumeCollection verändert wurde.
+    /// Gibt die Änderungen an den Undostack weiter.
+    /// </summary>
+    /// <param name="sender">Die auslösende Collection</param>
+    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    private void RäumeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+      this.UndoableCollectionChanged(this, "Räume", this.Räume, e, "Änderung der Räume");
+    }
+
+    /// <summary>
+    /// Tritt auf, wenn die RaumpläneCollection verändert wurde.
+    /// Gibt die Änderungen an den Undostack weiter.
+    /// </summary>
+    /// <param name="sender">Die auslösende Collection</param>
+    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    private void RaumpläneCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+      this.UndoableCollectionChanged(this, "Raumpläne", this.Raumpläne, e, "Änderung der Raumpläne");
+    }
+
+    /// <summary>
+    /// Tritt auf, wenn die SitzplätzeCollection verändert wurde.
+    /// Gibt die Änderungen an den Undostack weiter.
+    /// </summary>
+    /// <param name="sender">Die auslösende Collection</param>
+    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    private void SitzplätzeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+      this.UndoableCollectionChanged(this, "Sitzplätze", this.Sitzplätze, e, "Änderung der Sitzplätze");
+    }
+
+    /// <summary>
+    /// Tritt auf, wenn die SitzpläneCollection verändert wurde.
+    /// Gibt die Änderungen an den Undostack weiter.
+    /// </summary>
+    /// <param name="sender">Die auslösende Collection</param>
+    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    private void SitzpläneCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+      this.UndoableCollectionChanged(this, "Sitzpläne", this.Sitzpläne, e, "Änderung der Sitzpläne");
+    }
+
+    /// <summary>
+    /// Tritt auf, wenn die SitzplaneinträgeCollection verändert wurde.
+    /// Gibt die Änderungen an den Undostack weiter.
+    /// </summary>
+    /// <param name="sender">Die auslösende Collection</param>
+    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    private void SitzplaneinträgeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+      this.UndoableCollectionChanged(this, "Sitzplaneinträge", this.Sitzplaneinträge, e, "Änderung der Sitzplaneinträge");
     }
 
     /// <summary>

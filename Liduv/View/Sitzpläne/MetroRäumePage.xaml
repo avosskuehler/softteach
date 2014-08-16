@@ -1,0 +1,115 @@
+﻿<Page x:Class="Liduv.View.Sitzpläne.MetroRäumePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:personen="clr-namespace:Liduv.ViewModel.Personen"
+      xmlns:setting="clr-namespace:Liduv.Setting"
+      xmlns:personenView="clr-namespace:Liduv.View.Personen"
+      xmlns:sitzpläne="clr-namespace:Liduv.ViewModel.Sitzpläne"
+      xmlns:datenbank="clr-namespace:Liduv.View.Datenbank"
+      xmlns:liduv="clr-namespace:Liduv"
+      mc:Ignorable="d" 
+      d:DesignHeight="768" 
+      d:DesignWidth="1366"
+      Title="Räume"
+      FontSize="20">
+  <Page.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Liduv;component/Resources/MetroResources.xaml"/>
+        <ResourceDictionary >
+          <DataTemplate DataType="{x:Type sitzpläne:RaumViewModel}" x:Key="RaumDataTemplate">
+            <datenbank:MetroRaumDetailView />
+          </DataTemplate>
+          <DataTemplate DataType="{x:Type sitzpläne:RaumplanViewModel}" x:Key="RaumpläneDataTemplate">
+            <datenbank:MetroRaumplanDetailView />
+          </DataTemplate>
+          <DataTemplate DataType="{x:Type sitzpläne:SitzplanViewModel}" x:Key="SitzpläneDataTemplate">
+            <datenbank:MetroSitzplanDetailView />
+          </DataTemplate>
+        </ResourceDictionary>
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Page.Resources>
+  <Grid Stylus.IsPressAndHoldEnabled="False">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+    <Border Grid.Row="0" Grid.ColumnSpan="3" Background="{StaticResource MetroHeaderBackground}">
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+        <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">Sitzplan auswählen</Label>
+        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                    Command="{Binding Source={x:Static liduv:App.MainViewModel}, Path=SitzplanWorkspace.AddSitzplanCommand}" 
+                    ToolTip="Neuen Sitzplan anlegen.">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto"/>
+              <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Image Grid.Column="1"  Source="/Liduv;component/Images/Sitzplan32.png"/>
+            <Image Grid.Column="1" Source="/Liduv;component/Images/AddOverlay32.png"/>
+            <Label Grid.Column="0" Foreground="White" HorizontalAlignment="Center">oder Sitzplan neu anlegen</Label>
+          </Grid>
+        </Button>
+        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                    Command="{Binding Source={x:Static liduv:App.MainViewModel}, Path=SitzplanWorkspace.DeleteSitzplanCommand}" 
+                    ToolTip="Sitzplan löschen.">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto"/>
+              <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Image Grid.Column="1"  Source="/Liduv;component/Images/Sitzplan32.png"/>
+            <Image Grid.Column="1" Source="/Liduv;component/Images/RemoveOverlay32.png"/>
+            <Label Grid.Column="0" Foreground="White" HorizontalAlignment="Center">oder Sitzplan löschen</Label>
+          </Grid>
+        </Button>
+
+      </StackPanel>
+    </Border>
+    <ListBox Grid.Row="1" Grid.Column="0"
+                 ItemsSource="{Binding Source={x:Static liduv:App.MainViewModel}, Path=Räume}"             
+                 BorderThickness="0"
+                 Name="RäumeListBox"
+                 ItemTemplate="{StaticResource RaumDataTemplate}"
+                 ItemContainerStyle="{StaticResource MetroListBoxItem}">
+      <ListBox.ItemsPanel>
+        <ItemsPanelTemplate>
+          <WrapPanel Width="{Binding ElementName=RäumeListBox, Path=ActualWidth}" Orientation="Horizontal"/>
+        </ItemsPanelTemplate>
+      </ListBox.ItemsPanel>
+    </ListBox>
+    <ListBox Grid.Row="1" Grid.Column="1"
+                 ItemsSource="{Binding Source={x:Static setting:Selection.Instance}, Path=Raum.Raumpläne}"             
+                 BorderThickness="0"
+                 Name="RaumpläneListBox"
+                 ItemTemplate="{StaticResource RaumpläneDataTemplate}"
+                 ItemContainerStyle="{StaticResource MetroSilentListBoxItem}">
+      <ListBox.ItemsPanel>
+        <ItemsPanelTemplate>
+          <WrapPanel Width="{Binding ElementName=RaumpläneListBox, Path=ActualWidth}" Orientation="Horizontal"/>
+        </ItemsPanelTemplate>
+      </ListBox.ItemsPanel>
+    </ListBox>
+
+    <ListBox  Grid.Row="1" Grid.Column="2"
+                 ItemsSource="{Binding Source={x:Static liduv:App.MainViewModel}, Path=SitzplanWorkspace.SitzpläneView}"             
+                 BorderThickness="0"
+                 Name="SitzpläneListBox"
+                 ItemTemplate="{StaticResource SitzpläneDataTemplate}"
+                 ItemContainerStyle="{StaticResource MetroSilentListBoxItem}">
+      <ListBox.ItemsPanel>
+        <ItemsPanelTemplate>
+          <WrapPanel Width="{Binding ElementName=SitzpläneListBox, Path=ActualWidth}" Orientation="Horizontal"/>
+        </ItemsPanelTemplate>
+      </ListBox.ItemsPanel>
+    </ListBox>
+  </Grid>
+</Page>

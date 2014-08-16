@@ -3,9 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:liduv="clr-namespace:Liduv"
-             xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
-             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" mc:Ignorable="d" 
+             mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="600">
   <Border>
     <Grid>
@@ -14,16 +12,27 @@
         <RowDefinition Height="Auto"/>
         <RowDefinition Height="*"/>
       </Grid.RowDefinitions>
-      <Label Style="{StaticResource Header1}" Grid.Row="0" Margin="0,5,0,0" Content="{Binding Path=RaumÜberschrift}"/>
+      <Label Style="{StaticResource Header1}" Grid.Row="0" Margin="0,5,0,0" Content="{Binding Path=RaumBezeichnung}"/>
       <StackPanel Grid.Row="1" Orientation="Horizontal">
-        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddRaumCommand}" 
-                    ToolTip="Neuen Raum erstellen">
+        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddRaumplanCommand}" 
+                    ToolTip="Neuen Raumplan erstellen">
           <StackPanel Orientation="Horizontal">
             <Grid>
               <Image Source="/Liduv;component/Images/Raumplan32.png"/>
               <Image Source="/Liduv;component/Images/AddOverlay32.png"/>
             </Grid>
             <!--<Label Padding="5,0,0,0" VerticalContentAlignment="Center">Neuen Stundenentwurf erstellen</Label>-->
+          </StackPanel>
+        </Button>
+        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                    Command="{Binding Path=EditRaumplanCommand}" 
+                    ToolTip="Aktuellen Raumplan bearbeiten.">
+          <StackPanel Orientation="Horizontal">
+            <Grid>
+              <Image Source="/Liduv;component/Images/Raumplan32.png"/>
+              <Image Source="/Liduv;component/Images/EditOverlay32.png"/>
+            </Grid>
+            <!--<Label Padding="5,0,0,0" VerticalContentAlignment="Center">Stundenplanänderung eingeben</Label>-->
           </StackPanel>
         </Button>
         <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"

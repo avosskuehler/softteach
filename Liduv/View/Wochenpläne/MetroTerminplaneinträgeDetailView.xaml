@@ -42,8 +42,8 @@
     <ListBox.ItemsPanel>
       <ItemsPanelTemplate>
         <Grid 
-              local:GridHelpers.RowCount="{Binding MaxStundenAnzahl}"
-              local:GridHelpers.ColumnCount="{Binding AnzahlEinträge}"/>
+              local:GridTools.RowCount="{Binding MaxStundenAnzahl}"
+              local:GridTools.ColumnCount="{Binding AnzahlEinträge}"/>
       </ItemsPanelTemplate>
     </ListBox.ItemsPanel>
     <ItemsControl.ItemContainerStyle>

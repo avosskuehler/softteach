@@ -63,7 +63,7 @@ namespace Liduv.View.Stundenpläne
     public AskForSchuljahr()
     {
       this.InitializeComponent();
-      this.JahrtypCombo.SelectedItem = Selection.Instance.Schuljahr;
+      this.JahrtypCombo.SelectedItem = Selection.Instance.Jahrtyp;
       this.HalbjahrtypCombo.SelectedItem = Selection.Instance.Halbjahr;
       this.GültigAbDate.SelectedDate = DateTime.Now;
     }

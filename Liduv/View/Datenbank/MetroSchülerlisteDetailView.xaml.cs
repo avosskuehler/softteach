@@ -5,6 +5,7 @@ namespace Liduv.View.Datenbank
 
   using Liduv.Setting;
   using Liduv.View.Personen;
+  using Liduv.View.Sitzpläne;
   using Liduv.ViewModel.Personen;
 
   /// <summary>
@@ -37,7 +38,7 @@ namespace Liduv.View.Datenbank
           Configuration.Instance.NavigationService.Navigate(new MetroSchülerlistePage());
           break;
         case NavigateTarget.Sitzpläne:
-          //Configuration.Instance.NavigationService.Navigate(new MetroSchülerlistePage());
+          Configuration.Instance.NavigationService.Navigate(new MetroRäumePage());
           break;
       }
     }

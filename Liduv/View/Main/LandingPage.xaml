@@ -18,14 +18,20 @@
     <Button Background="Green" Width="200" Height="200" Click="WochenplanOnClick" Margin="5" >
       <Label Content="Wochenplan" FontSize="20"/>
     </Button>
-    <Button Background="Red" Width="200" Height="200" Click="NotenOnClick" Margin="5">
+    <Button Background="Crimson" Width="200" Height="200" Click="NotenOnClick" Margin="5">
       <Label Content="Noten" FontSize="20"/>
     </Button>
     <Button Background="CornflowerBlue" Width="200" Height="200" Click="GruppenOnClick" Margin="5">
       <Label Content="Gruppen" FontSize="20"/>
     </Button>
+    <Button Background="LightSteelBlue" Width="200" Height="200" Click="SitzpläneOnClick" Margin="5">
+      <Label Content="Sitzpläne" FontSize="20"/>
+    </Button>
     <Button Width="200" Height="200" Click="DesktopOnClick" Margin="5">
       <Label Content="Desktopansicht" FontSize="20"/>
+    </Button>
+    <Button Background="Tomato" Width="200" Height="200" Click="SpeichernOnClick" Margin="5">
+      <Label Content="Speichern" FontSize="20"/>
     </Button>
   </WrapPanel>
 </Page>

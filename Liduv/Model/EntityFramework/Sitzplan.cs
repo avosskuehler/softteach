@@ -23,6 +23,7 @@ namespace Liduv.Model.EntityFramework
         public int RaumplanId { get; set; }
         public int SchülerlisteId { get; set; }
         public System.DateTime GültigAb { get; set; }
+        public string Bezeichnung { get; set; }
     
         public virtual Raumplan Raumplan { get; set; }
         public virtual Schülerliste Schülerliste { get; set; }

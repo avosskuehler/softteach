@@ -4,7 +4,7 @@
   using System.Windows;
   using System.Windows.Controls;
 
-  public class GridHelpers
+  public class GridTools
   {
     #region RowCount Property
 
@@ -14,7 +14,7 @@
     /// </summary>
     public static readonly DependencyProperty RowCountProperty =
       DependencyProperty.RegisterAttached(
-        "RowCount", typeof(int), typeof(GridHelpers),
+        "RowCount", typeof(int), typeof(GridTools),
         new PropertyMetadata(-1, RowCountChanged));
 
     // Get
@@ -56,7 +56,7 @@
     /// </summary>
     public static readonly DependencyProperty ColumnCountProperty =
       DependencyProperty.RegisterAttached(
-        "ColumnCount", typeof(int), typeof(GridHelpers),
+        "ColumnCount", typeof(int), typeof(GridTools),
         new PropertyMetadata(-1, ColumnCountChanged));
 
     // Get
@@ -98,7 +98,7 @@
     /// </summary>
     public static readonly DependencyProperty StarRowsProperty =
       DependencyProperty.RegisterAttached(
-        "StarRows", typeof(string), typeof(GridHelpers),
+        "StarRows", typeof(string), typeof(GridTools),
         new PropertyMetadata(string.Empty, StarRowsChanged));
 
     // Get
@@ -133,7 +133,7 @@
     /// </summary>
     public static readonly DependencyProperty StarColumnsProperty =
       DependencyProperty.RegisterAttached(
-        "StarColumns", typeof(string), typeof(GridHelpers),
+        "StarColumns", typeof(string), typeof(GridTools),
         new PropertyMetadata(string.Empty, StarColumnsChanged));
 
     // Get

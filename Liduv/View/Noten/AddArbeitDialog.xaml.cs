@@ -41,7 +41,7 @@ namespace Liduv.View.Noten
       this.InitializeComponent();
       this.DataContext = this;
       this.Klasse = Selection.Instance.Klasse;
-      this.Jahrtyp = Selection.Instance.Schuljahr;
+      this.Jahrtyp = Selection.Instance.Jahrtyp;
       this.Halbjahrtyp = Selection.Instance.Halbjahr;
       this.Fach = Selection.Instance.Fach;
       this.Bepunktungstyp = Bepunktungstyp.NoteMitTendenz;

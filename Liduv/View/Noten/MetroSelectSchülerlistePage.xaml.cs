@@ -17,7 +17,7 @@
     public MetroSelectSchülerlistePage()
     {
       this.InitializeComponent();
-      App.MainViewModel.SchülerlisteWorkspace.JahrtypFilter = Selection.Instance.Schuljahr;
+      App.MainViewModel.SchülerlisteWorkspace.JahrtypFilter = Selection.Instance.Jahrtyp;
       App.MainViewModel.SchülerlisteWorkspace.HalbjahrtypFilter = Selection.Instance.Halbjahr;
       App.MainViewModel.SchülerlisteWorkspace.FachFilter = Selection.Instance.Fach;
     }

@@ -30,7 +30,7 @@ namespace Liduv.View.Datenbank
     private void FachButtonOnClick(object sender, RoutedEventArgs e)
     {
       Selection.Instance.Fach = this.DataContext as FachViewModel;
-      App.MainViewModel.SchülerlisteWorkspace.JahrtypFilter = Selection.Instance.Schuljahr;
+      App.MainViewModel.SchülerlisteWorkspace.JahrtypFilter = Selection.Instance.Jahrtyp;
       App.MainViewModel.SchülerlisteWorkspace.HalbjahrtypFilter = Selection.Instance.Halbjahr;
       App.MainViewModel.SchülerlisteWorkspace.FachFilter = Selection.Instance.Fach;
     }

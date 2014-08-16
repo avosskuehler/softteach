@@ -87,7 +87,7 @@
       var vorhandeneArbeiten =
         App.MainViewModel.Arbeiten.Count(
           o =>
-          o.ArbeitJahrtyp.JahrtypBezeichnung == Selection.Instance.Schuljahr.JahrtypBezeichnung
+          o.ArbeitJahrtyp.JahrtypBezeichnung == Selection.Instance.Jahrtyp.JahrtypBezeichnung
           && o.ArbeitHalbjahrtyp.HalbjahrtypIndex == Selection.Instance.Halbjahr.HalbjahrtypIndex
           && o.ArbeitKlasse.KlasseBezeichnung == Selection.Instance.Klasse.KlasseBezeichnung
           && o.ArbeitFach.FachBezeichnung == Selection.Instance.Fach.FachBezeichnung);

@@ -253,10 +253,37 @@
     </Grid>
   </DataTemplate>
 
+  <DataTemplate x:Key="MetroRaumplanDataTemplate">
+    <StackPanel Margin="5">
+      <TextBlock Style="{StaticResource MetroLabelStyle}" Text="{Binding Path=RaumplanBezeichnung}"/>
+      <Image Source="{Binding Path=RaumplanImage}" Height="180"/>
+    </StackPanel>
+  </DataTemplate>
+
+  <DataTemplate x:Key="MetroSitzplanDataTemplate">
+    <StackPanel Margin="5">
+      <TextBlock Style="{StaticResource MetroLabelStyle}" Text="{Binding Path=SitzplanBezeichnung}"/>
+      <Image Source="{Binding Path=SitzplanRaumplan.RaumplanImage}" Height="180"/>
+      <TextBlock Style="{StaticResource MetroLabelStyle}" Text="{Binding Path=SitzplanGültigAbString}"/>
+    </StackPanel>
+  </DataTemplate>
+
   <Style TargetType="{x:Type RadioButton}" x:Key="MetroPersonToggleRadioButton" BasedOn="{StaticResource MetroToggleRadioButton}">
     <Setter Property="Height" Value="79"/>
     <Setter Property="Margin" Value="0"/>
     <Setter Property="ContentTemplate" Value="{StaticResource PersonDataTemplate}" />
+  </Style>
+
+  <Style TargetType="{x:Type RadioButton}" x:Key="MetroRaumplanToggleRadioButton" BasedOn="{StaticResource MetroToggleRadioButton}">
+    <Setter Property="Height" Value="Auto"/>
+    <Setter Property="Margin" Value="0"/>
+    <Setter Property="ContentTemplate" Value="{StaticResource MetroRaumplanDataTemplate}" />
+  </Style>
+  
+  <Style TargetType="{x:Type RadioButton}" x:Key="MetroSitzplanToggleRadioButton" BasedOn="{StaticResource MetroToggleRadioButton}">
+    <Setter Property="Height" Value="Auto"/>
+    <Setter Property="Margin" Value="0"/>
+    <Setter Property="ContentTemplate" Value="{StaticResource MetroSitzplanDataTemplate}" />
   </Style>
 
   <Style x:Key="MetroNotenBorderStyle" TargetType="{x:Type Border}">
@@ -557,6 +584,19 @@
     </Border>
   </DataTemplate>
 
+  <DataTemplate x:Key="SitzplaneintragDragAdorner">
+    <Border BorderThickness="1" Margin="1" Background="LightGray">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="0" Margin="5" Padding="0" Content="{Binding Path=SitzplaneintragSchülereintrag.SchülereintragPerson.PersonVorname}"/>
+        <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="1" Margin="5" Padding="0" Content="{Binding Path=SitzplaneintragSchülereintrag.SchülereintragPerson.PersonNachname}"/>
+      </Grid>
+    </Border>
+  </DataTemplate>
+
   <DataTemplate x:Key="MetroSchülereintragGruppenView">
     <Grid>
       <Grid.ColumnDefinitions>
@@ -565,6 +605,16 @@
       </Grid.ColumnDefinitions>
       <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="0" Margin="5" Padding="0" Content="{Binding Path=SchülereintragPerson.PersonVorname}"/>
       <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="1" Margin="5" Padding="0" Content="{Binding Path=SchülereintragPerson.PersonNachname}"/>
+    </Grid>
+  </DataTemplate>
+
+  <DataTemplate x:Key="MetroSchülereintragSitzplanView">
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="0" Margin="5" Padding="0" Content="{Binding Path=SchülereintragPerson.PersonVorname}"/>
     </Grid>
   </DataTemplate>
 

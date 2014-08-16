@@ -21,6 +21,7 @@ namespace Liduv.Setting
   using System.ComponentModel;
   using System.Linq;
 
+  using Liduv.ViewModel.Sitzpläne;
   using Liduv.ViewModel.Termine;
 
   using Properties;
@@ -34,10 +35,13 @@ namespace Liduv.Setting
   /// </summary>
   public class Selection : INotifyPropertyChanged
   {
+    private SitzplanViewModel sitzplan;
+    private RaumViewModel raum;
+    private RaumplanViewModel raumplan;
     private FachViewModel fach;
     private HalbjahrtypViewModel halbjahr;
     private SchülerlisteViewModel schülerliste;
-    private JahrtypViewModel schuljahr;
+    private JahrtypViewModel jahrtyp;
     private KlasseViewModel klasse;
     private ModulViewModel modul;
     private StundeViewModel stunde;
@@ -133,16 +137,16 @@ namespace Liduv.Setting
     /// <summary>
     /// Holt oder setzt das Schuljahr.
     /// </summary>
-    public JahrtypViewModel Schuljahr
+    public JahrtypViewModel Jahrtyp
     {
       get
       {
-        return this.schuljahr;
+        return this.jahrtyp;
       }
 
       set
       {
-        this.schuljahr = value;
+        this.jahrtyp = value;
         this.OnPropertyChanged("Schuljahr");
       }
     }
@@ -267,6 +271,57 @@ namespace Liduv.Setting
     }
 
     /// <summary>
+    /// Holt oder setzt den Raum.
+    /// </summary>
+    public RaumViewModel Raum
+    {
+      get
+      {
+        return this.raum;
+      }
+
+      set
+      {
+        this.raum = value;
+        this.OnPropertyChanged("Raum");
+      }
+    }
+
+    /// <summary>
+    /// Holt oder setzt den Raumplan.
+    /// </summary>
+    public RaumplanViewModel Raumplan
+    {
+      get
+      {
+        return this.raumplan;
+      }
+
+      set
+      {
+        this.raumplan = value;
+        this.OnPropertyChanged("Raumplan");
+      }
+    }
+
+    /// <summary>
+    /// Holt oder setzt den Sitzplan.
+    /// </summary>
+    public SitzplanViewModel Sitzplan
+    {
+      get
+      {
+        return this.sitzplan;
+      }
+
+      set
+      {
+        this.sitzplan = value;
+        this.OnPropertyChanged("Sitzplan");
+      }
+    }
+
+    /// <summary>
     /// Holt oder setzt das Datum der Hausaufgabe
     /// </summary>
     public DateTime HausaufgabeDatum
@@ -334,7 +389,7 @@ namespace Liduv.Setting
     {
       Settings.Default.Fach = this.Fach != null ? this.Fach.FachBezeichnung : string.Empty;
       Settings.Default.Klasse = this.Klasse != null ? this.Klasse.KlasseBezeichnung : string.Empty;
-      Settings.Default.Schuljahr = this.Schuljahr != null ? this.Schuljahr.JahrtypBezeichnung : string.Empty;
+      Settings.Default.Schuljahr = this.Jahrtyp != null ? this.Jahrtyp.JahrtypBezeichnung : string.Empty;
       Settings.Default.Halbjahr = this.Halbjahr != null ? this.Halbjahr.HalbjahrtypBezeichnung : string.Empty;
       Settings.Default.Modul = this.Modul != null ? this.Modul.ModulBezeichnung : string.Empty;
     }
@@ -368,7 +423,7 @@ namespace Liduv.Setting
       string newKlasse,
       string newModul)
     {
-      this.Schuljahr = App.MainViewModel.Jahrtypen.FirstOrDefault(o => o.JahrtypBezeichnung == newSchuljahr);
+      this.Jahrtyp = App.MainViewModel.Jahrtypen.FirstOrDefault(o => o.JahrtypBezeichnung == newSchuljahr);
       this.Halbjahr = App.MainViewModel.Halbjahrtypen.FirstOrDefault(o => o.HalbjahrtypBezeichnung == newHalbjahr);
       this.Fach = App.MainViewModel.Fächer.FirstOrDefault(o => o.FachBezeichnung == newFach);
       this.Klasse = App.MainViewModel.Klassen.FirstOrDefault(o => o.KlasseBezeichnung == newKlasse);

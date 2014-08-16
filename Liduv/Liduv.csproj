@@ -344,10 +344,12 @@
     <Compile Include="Model\UnitOfWork.cs" />
     <Compile Include="Properties\Settings.cs" />
     <Compile Include="Resources\Controls\DataGridColumnsBehavior.cs" />
-    <Compile Include="Resources\Controls\GridHelper.cs" />
+    <Compile Include="Resources\Controls\GridTools.cs" />
     <Compile Include="Resources\Controls\IListItemConverter.cs" />
+    <Compile Include="Resources\Controls\ImageTools.cs" />
     <Compile Include="Resources\Controls\MultiSelectorBehaviours.cs" />
     <Compile Include="Resources\Controls\TwoListSynchronizer.cs" />
+    <Compile Include="Resources\Converter\SitzplatzWidthConverter.cs" />
     <Compile Include="Setting\Configuration.cs" />
     <Compile Include="Setting\NavigateTarget.cs" />
     <Compile Include="Setting\Schule.cs" />
@@ -393,6 +395,7 @@
     <Compile Include="ViewModel\Curricula\CurriculumWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Curricula\ZeitstrahlCollectionContainer.cs" />
     <Compile Include="ViewModel\Datenbank\AddJahrtypDialogViewModel.cs" />
+    <Compile Include="ViewModel\Sitzpläne\SitzplanWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Sitzpläne\SitzplanViewModel.cs" />
     <Compile Include="ViewModel\Sitzpläne\SitzplaneintragViewModel.cs" />
     <Compile Include="ViewModel\Sitzpläne\SitzplatzViewModel.cs" />
@@ -538,6 +541,15 @@
     <Compile Include="View\Datenbank\HausaufgabenDBView.xaml.cs">
       <DependentUpon>HausaufgabenDBView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Datenbank\MetroRaumplanDetailView.xaml.cs">
+      <DependentUpon>MetroRaumplanDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Datenbank\MetroRaumDetailView.xaml.cs">
+      <DependentUpon>MetroRaumDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Datenbank\MetroSitzplanDetailView.xaml.cs">
+      <DependentUpon>MetroSitzplanDetailView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Datenbank\MetroSchülerlisteDetailView.xaml.cs">
       <DependentUpon>MetroSchülerlisteDetailView.xaml</DependentUpon>
     </Compile>
@@ -556,7 +568,19 @@
     <Compile Include="View\Datenbank\SchülereintragWorkspace.xaml.cs">
       <DependentUpon>SchülereintragWorkspace.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Datenbank\RaumWorkspace.xaml.cs">
+    <Compile Include="View\Sitzpläne\MetroRäumePage.xaml.cs">
+      <DependentUpon>MetroRäumePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Sitzpläne\MetroSitzplanPage.xaml.cs">
+      <DependentUpon>MetroSitzplanPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Sitzpläne\SitzplanDetailView.xaml.cs">
+      <DependentUpon>SitzplanDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Sitzpläne\SitzplanWorkspaceView.xaml.cs">
+      <DependentUpon>SitzplanWorkspaceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Sitzpläne\RaumWorkspace.xaml.cs">
       <DependentUpon>RaumWorkspace.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Datenbank\SchülerlisteWorkspace.xaml.cs">
@@ -1185,6 +1209,8 @@
     <Resource Include="Images\Raumplan32.png" />
     <Resource Include="Images\Sitzplatz16.png" />
     <Resource Include="Images\Sitzplatz32.png" />
+    <Resource Include="Images\Sitzplan16.png" />
+    <Resource Include="Images\Sitzplan32.png" />
     <Content Include="Model\EntityFramework\PopulateLiduvModelWithDefaults.sql" />
     <None Include="Model\EntityFramework\LiduvModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -1333,6 +1359,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\Datenbank\MetroRaumplanDetailView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Datenbank\MetroRaumDetailView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Datenbank\MetroSitzplanDetailView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Datenbank\MetroSchülerlisteDetailView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1357,7 +1395,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Datenbank\RaumWorkspace.xaml">
+    <Page Include="View\Sitzpläne\MetroRäumePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Sitzpläne\MetroSitzplanPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Sitzpläne\SitzplanDetailView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Sitzpläne\SitzplanWorkspaceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Sitzpläne\RaumWorkspace.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

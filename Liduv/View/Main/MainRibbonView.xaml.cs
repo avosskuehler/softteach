@@ -685,13 +685,25 @@ namespace Liduv.View.Main
     /// </summary>
     /// <param name="sender">Source of the event</param>
     /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void RäumeButtonClick(object sender, RoutedEventArgs e)
+    private void RäumeDBButtonClick(object sender, RoutedEventArgs e)
     {
       var raumView = new RäumeDBView { DataContext = App.MainViewModel.RaumWorkspace };
       raumView.ShowDialog();
     }
 
-    #endregion //Noten
+    /// <summary>
+    /// Event handler for the Tendenzen button in the ribbon section main, ribbon group Noten.
+    /// Shows a workspace for Tendenzen.
+    /// </summary>
+    /// <param name="sender">Source of the event</param>
+    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
+    private void RäumeButtonClick(object sender, RoutedEventArgs e)
+    {
+      var raumView = new RaumWorkspace { DataContext = App.MainViewModel.RaumWorkspace };
+      raumView.ShowDialog();
+    }
+
+    #endregion // Sitzpläne
 
     #endregion // DatabaseTab
 

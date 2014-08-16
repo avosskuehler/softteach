@@ -449,7 +449,7 @@
     {
       if (e.PropertyName == "Schuljahr")
       {
-        this.JahrtypFilter = Selection.Instance.Schuljahr;
+        this.JahrtypFilter = Selection.Instance.Jahrtyp;
       }
     }
 
@@ -464,9 +464,9 @@
       termin.ErsteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[0].Model;
       var letzte = Math.Min(App.MainViewModel.Unterrichtsstunden.Count - 1, 9);
       termin.LetzteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[letzte].Model;
-      if (Selection.Instance.Schuljahr != null)
+      if (Selection.Instance.Jahrtyp != null)
       {
-        termin.Jahrtyp = Selection.Instance.Schuljahr.Model;
+        termin.Jahrtyp = Selection.Instance.Jahrtyp.Model;
       }
 
       termin.Termintyp = App.MainViewModel.Termintypen[0].Model;
