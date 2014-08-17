@@ -25,6 +25,7 @@ namespace Liduv.Model.EntityFramework
         public double LinksObenY { get; set; }
         public double Breite { get; set; }
         public double Höhe { get; set; }
+        public double Drehwinkel { get; set; }
     
         public virtual Raumplan Raumplan { get; set; }
         public virtual ICollection<Sitzplaneintrag> Sitzplaneinträge { get; set; }

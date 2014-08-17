@@ -52,6 +52,8 @@
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
       </Grid.ColumnDefinitions>
       <Label  Grid.Column="0" Style="{StaticResource MetroLabelStyle}" VerticalAlignment="Center">Bezeichnung</Label>
       <TextBox  Grid.Column="1" Style="{StaticResource MetroLabelStyle}" VerticalAlignment="Center" Text="{Binding SitzplanBezeichnung}" MinWidth="200"/>
@@ -75,9 +77,10 @@
       </Button>
       <Button Grid.Column="8" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                     Command="{Binding Path=SitzplanAusdruckenCommand}" 
-                    ToolTip="Sitzplan neu einteilen.">
+                    ToolTip="Sitzplan ausdrucken.">
         <Image Source="/Liduv;component/Images/Printer48.png"/>
       </Button>
+      <controls:NumericUpDown Grid.Column="9" Value="{Binding SitzplanDrehung}" Interval="90" Maximum="359" Minimum="0" />
     </Grid>
     <ListBox Grid.Column="0" Grid.Row="2" ItemsSource="{Binding Source={StaticResource SortedAvailableSchülereinträgeViewSource}}" 
                  ItemTemplate="{StaticResource MetroSchülereintragSitzplanView}"
@@ -117,7 +120,10 @@
       </ListBox.ItemContainerStyle>
       <ListBox.ItemTemplate>
         <DataTemplate>
-          <Border Background="#550069a6" Width="{Binding SitzplaneintragSitzplatz.SitzplatzBreite}" Height="{Binding SitzplaneintragSitzplatz.SitzplatzHöhe}" Margin="0" Padding="0">
+          <Border Background="#550069a6" Width="{Binding SitzplaneintragSitzplatz.SitzplatzBreite}" Height="{Binding SitzplaneintragSitzplatz.SitzplatzHöhe}" Margin="0" Padding="0" RenderTransformOrigin="0.5,0.5">
+            <Border.RenderTransform>
+              <RotateTransform Angle="{Binding SitzplaneintragSitzplatz.SitzplatzDrehwinkel}"/>
+            </Border.RenderTransform>
             <TextBlock TextWrapping="Wrap" Padding="1,0,0,0" Margin="0" LineHeight="15" LineStackingStrategy="BlockLineHeight"
                        Text="{Binding SitzplaneintragSchülereintrag.SchülereintragPerson.PersonVornameKurz}"
                        HorizontalAlignment="Center"

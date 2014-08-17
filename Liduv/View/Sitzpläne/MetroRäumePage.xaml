@@ -100,11 +100,12 @@
     </ListBox>
 
     <ListBox  Grid.Row="1" Grid.Column="2"
-                 ItemsSource="{Binding Source={x:Static liduv:App.MainViewModel}, Path=SitzplanWorkspace.SitzpläneView}"             
-                 BorderThickness="0"
-                 Name="SitzpläneListBox"
-                 ItemTemplate="{StaticResource SitzpläneDataTemplate}"
-                 ItemContainerStyle="{StaticResource MetroSilentListBoxItem}">
+              ItemsSource="{Binding Source={x:Static liduv:App.MainViewModel}, Path=SitzplanWorkspace.SitzpläneView}"             
+              SelectedItem="{Binding Source={x:Static liduv:App.MainViewModel}, Path=SitzplanWorkspace.CurrentSitzplan}"
+              BorderThickness="0"
+              Name="SitzpläneListBox"
+              ItemTemplate="{StaticResource SitzpläneDataTemplate}"
+              ItemContainerStyle="{StaticResource MetroSilentListBoxItem}">
       <ListBox.ItemsPanel>
         <ItemsPanelTemplate>
           <WrapPanel Width="{Binding ElementName=SitzpläneListBox, Path=ActualWidth}" Orientation="Horizontal"/>

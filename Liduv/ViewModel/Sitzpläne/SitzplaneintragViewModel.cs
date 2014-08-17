@@ -221,6 +221,8 @@
         this.shape.CornerRadius = new CornerRadius(5);
         this.shape.Width = this.SitzplaneintragSitzplatz.SitzplatzBreite;
         this.shape.Height = this.SitzplaneintragSitzplatz.SitzplatzHöhe;
+        this.shape.RenderTransformOrigin = new Point(0.5, 0.5);
+        this.shape.RenderTransform = new RotateTransform(this.SitzplaneintragSitzplatz.SitzplatzDrehwinkel);
         this.shape.Tag = this;
         Canvas.SetTop(this.shape, this.SitzplaneintragSitzplatz.SitzplatzLinksObenY);
         Canvas.SetLeft(this.shape, this.SitzplaneintragSitzplatz.SitzplatzLinksObenX);
@@ -230,7 +232,6 @@
           shapeLabel.Content = this.SitzplaneintragSchülereintrag.SchülereintragPerson.PersonVorname;
         }
 
-        //shapeLabel.Style = Application.Current.FindResource("MetroLabelStyle") as Style;
         this.shape.Child = shapeLabel;
         this.shape.Tag = this;
       }

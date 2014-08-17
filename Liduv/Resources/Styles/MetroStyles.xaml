@@ -607,6 +607,17 @@
       <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="1" Margin="5" Padding="0" Content="{Binding Path=SchülereintragPerson.PersonNachname}"/>
     </Grid>
   </DataTemplate>
+  
+  <DataTemplate x:Key="MetroPrintSchülereintragGruppenView">
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <Label FontFamily="Segoe Black" FontSize="18" Grid.Column="0" Margin="5" Padding="0" Content="{Binding Path=SchülereintragPerson.PersonVorname}"/>
+      <Label FontFamily="Segoe Black" FontSize="18" Grid.Column="1" Margin="5" Padding="0" Content="{Binding Path=SchülereintragPerson.PersonNachname}"/>
+    </Grid>
+  </DataTemplate>
 
   <DataTemplate x:Key="MetroSchülereintragSitzplanView">
     <Grid>
@@ -628,6 +639,26 @@
                 <StackPanel Orientation="Horizontal" Margin="5,3">
                   <Label Style="{StaticResource MetroSubHeaderBold}" Content="Gruppe "/>
                   <Label Style="{StaticResource MetroSubHeaderBold}" Content="{Binding Path=Name}"/>
+                </StackPanel>
+              </HeaderedContentControl.Header>
+              <ItemsPresenter/>
+            </HeaderedContentControl>
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  
+  <Style x:Key="MetroPrintGruppenGroupHeaderStyle" TargetType="{x:Type GroupItem}">
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type GroupItem}">
+          <Border Margin="3" BorderThickness="1" CornerRadius="10" BorderBrush="Black">
+            <HeaderedContentControl>
+              <HeaderedContentControl.Header>
+                <StackPanel Orientation="Horizontal">
+                  <Label FontFamily="Segoe Black" FontSize="18" FontWeight="Bold" Content="Gruppe "/>
+                  <Label FontFamily="Segoe Black" FontSize="18" FontWeight="Bold" Content="{Binding Path=Name}"/>
                 </StackPanel>
               </HeaderedContentControl.Header>
               <ItemsPresenter/>

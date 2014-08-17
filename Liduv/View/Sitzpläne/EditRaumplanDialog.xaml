@@ -6,7 +6,16 @@
       Height="700" 
       Width="850"
         ResizeMode="NoResize" 
-        WindowStyle="SingleBorderWindow">
+        WindowStyle="SingleBorderWindow"
+        PreviewKeyDown="WindowPreviewKeyDown"
+        
+            >
+  <Window.Resources>
+    <ResourceDictionary>
+      <TextBlock x:Key="CursorRotate" Cursor="/Liduv;component/Resources/Cursors/Rotate.cur"/>
+      <TextBlock x:Key="CursorCopy" Cursor="/Liduv;component/Resources/Cursors/Copy.cur"/>
+    </ResourceDictionary>
+  </Window.Resources>
   <Grid Background="{x:Static SystemColors.ControlDarkBrush}">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
@@ -18,7 +27,7 @@
                                       Icon="/Liduv;component/Images/Raumplan32.png"/>
 
     <StackPanel Grid.Row="1" Orientation="Horizontal"  Background="{x:Static SystemColors.MenuBarBrush}">
-      <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=Raumplan.OpenImageFileCommand}" 
+      <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Raumplan.OpenImageFileCommand}" 
                     ToolTip="Neuen Grundriss laden">
         <StackPanel Orientation="Horizontal">
           <Grid>
@@ -34,10 +43,10 @@
     </StackPanel>
     <Canvas Name="RaumplanCanvas" Width="800" Height="500"
             Grid.Row="2" 
-            MouseLeftButtonDown="Canvas_OnMouseLeftButtonDown" 
-            MouseMove="Canvas_OnMouseMove" 
-            MouseLeftButtonUp="Canvas_OnMouseLeftButtonUp"
-            MouseRightButtonDown="Canvas_OnMouseRightButtonDown">
+            PreviewMouseLeftButtonDown="Canvas_PreviewMouseLeftButtonDown"
+            PreviewMouseMove="Canvas_PreviewMouseMove" 
+            PreviewMouseLeftButtonUp="Canvas_PreviewMouseLeftButtonUp"
+            PreviewMouseRightButtonDown="Canvas_PreviewMouseRightButtonDown">
       <Image Source="{Binding Raumplan.RaumplanImage}" Stretch="None" />
     </Canvas>
     <Grid Background="{StaticResource DefaultButtonsBackgroundBrush}" Grid.Row="3">

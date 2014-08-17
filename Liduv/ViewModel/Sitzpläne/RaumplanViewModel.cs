@@ -249,17 +249,30 @@
     /// <summary>
     /// Handles addition a new phase to this raumplan
     /// </summary>
-    /// <param name="left">The left.</param>
-    /// <param name="top">The top.</param>
-    /// <param name="width">The width.</param>
-    /// <param name="height">The height.</param>
-    public void AddSitzplatz(double left, double top, double width, double height)
+    /// <param name="left"> The left. </param>
+    /// <param name="top"> The top. </param>
+    /// <param name="shape"> The shape. </param>
+    public void AddSitzplatz(double left, double top, Rectangle shape)
+    {
+      this.AddSitzplatz(left, top, shape.Width, shape.Height, ((RotateTransform)shape.RenderTransform).Angle);
+    }
+
+    /// <summary>
+    /// Handles addition a new phase to this raumplan
+    /// </summary>
+    /// <param name="left"> The left. </param>
+    /// <param name="top"> The top. </param>
+    /// <param name="width"> The width. </param>
+    /// <param name="height"> The height. </param>
+    /// <param name="angle"> The angle. </param>
+    public void AddSitzplatz(double left, double top, double width, double height, double angle)
     {
       var sitzplatz = new Sitzplatz();
       sitzplatz.LinksObenX = left;
       sitzplatz.LinksObenY = top;
       sitzplatz.Breite = width;
       sitzplatz.Höhe = height;
+      sitzplatz.Drehwinkel = angle;
       sitzplatz.Raumplan = this.Model;
       var sitzplatzViewModel = new SitzplatzViewModel(sitzplatz);
 

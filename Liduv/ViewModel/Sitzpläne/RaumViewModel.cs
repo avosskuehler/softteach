@@ -36,7 +36,7 @@
       this.Model = raum;
 
       this.AddRaumplanCommand = new DelegateCommand(this.AddRaumplan);
-      this.EditRaumplanCommand = new DelegateCommand(this.EditRaumplan);
+      this.EditRaumplanCommand = new DelegateCommand(this.EditRaumplan, () => this.CurrentRaumplan != null);
       this.DeleteRaumplanCommand = new DelegateCommand(this.DeleteCurrentRaumplan, () => this.CurrentRaumplan != null);
 
       this.Raumpläne = new ObservableCollection<RaumplanViewModel>();

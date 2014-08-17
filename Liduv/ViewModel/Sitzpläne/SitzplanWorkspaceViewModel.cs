@@ -3,6 +3,7 @@
   using System;
   using System.ComponentModel;
   using System.Linq;
+  using System.Runtime.Remoting.Messaging;
   using System.Windows.Data;
 
   using Liduv.ExceptionHandling;
@@ -11,6 +12,10 @@
   using Liduv.UndoRedo;
   using Liduv.ViewModel.Datenbank;
   using Liduv.ViewModel.Helper;
+  using Liduv.ViewModel.Personen;
+
+  using MahApps.Metro.Controls;
+  using MahApps.Metro.Controls.Dialogs;
 
   /// <summary>
   /// ViewModel for managing Sitzplan
@@ -23,14 +28,14 @@
     private SitzplanViewModel currentSitzplan;
 
     /// <summary>
-    /// Der Jahrtyp für den Filter
+    /// Das Raum für den Filter
     /// </summary>
-    private JahrtypViewModel jahrtypFilter;
+    private RaumViewModel raumFilter;
 
     /// <summary>
-    /// Das Fach für den Filter
+    /// Die Schülerliste für den Filter
     /// </summary>
-    private FachViewModel fachFilter;
+    private SchülerlisteViewModel schülerlisteFilter;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="SitzplanWorkspaceViewModel"/> Klasse. 
@@ -39,11 +44,11 @@
     {
       this.AddSitzplanCommand = new DelegateCommand(this.AddSitzplan);
       this.DeleteSitzplanCommand = new DelegateCommand(this.DeleteCurrentSitzplan, () => this.CurrentSitzplan != null);
-      this.ResetJahrtypFilterCommand = new DelegateCommand(() => this.JahrtypFilter = null, () => this.JahrtypFilter != null);
-      this.ResetFachFilterCommand = new DelegateCommand(() => this.FachFilter = null, () => this.FachFilter != null);
+      this.ResetSchülerlisteFilterCommand = new DelegateCommand(() => this.SchülerlisteFilter = null, () => this.SchülerlisteFilter != null);
+      this.ResetRaumFilterCommand = new DelegateCommand(() => this.RaumFilter = null, () => this.RaumFilter != null);
 
       var numberOfSitzpläne = App.MainViewModel.Sitzpläne.Count;
-      this.CurrentSitzplan = numberOfSitzpläne > 0 ? App.MainViewModel.Sitzpläne[numberOfSitzpläne - 1] : null;
+      //this.CurrentSitzplan = numberOfSitzpläne > 0 ? App.MainViewModel.Sitzpläne[numberOfSitzpläne - 1] : null;
       this.SitzpläneView = CollectionViewSource.GetDefaultView(App.MainViewModel.Sitzpläne);
       this.SitzpläneView.Filter = this.CustomFilter;
       this.SitzpläneView.SortDescriptions.Add(new SortDescription("SitzplanSchülerliste", ListSortDirection.Ascending));
@@ -75,12 +80,12 @@
     /// <summary>
     /// Holt den Befehl zur adding a new Sitzplan
     /// </summary>
-    public DelegateCommand ResetJahrtypFilterCommand { get; private set; }
+    public DelegateCommand ResetSchülerlisteFilterCommand { get; private set; }
 
     /// <summary>
     /// Holt den Befehl zur adding a new Sitzplan
     /// </summary>
-    public DelegateCommand ResetFachFilterCommand { get; private set; }
+    public DelegateCommand ResetRaumFilterCommand { get; private set; }
 
     /// <summary>
     /// Holt oder setzt ein gefiltertes View der Schultermincollection
@@ -106,74 +111,74 @@
     }
 
     /// <summary>
-    /// Holt oder setzt den Jahrtypfilter
+    /// Holt oder setzt den Raumfilter
     /// </summary>
-    public JahrtypViewModel JahrtypFilter
+    public RaumViewModel RaumFilter
     {
       get
       {
-        return this.jahrtypFilter;
+        return this.raumFilter;
       }
 
       set
       {
-        this.jahrtypFilter = value;
-        if (value != null && Selection.Instance.Jahrtyp != value)
+        this.raumFilter = value;
+        if (value != null && Selection.Instance.Raum != value)
         {
-          Selection.Instance.Jahrtyp = value;
+          Selection.Instance.Raum = value;
         }
 
-        this.RaisePropertyChanged("JahrtypFilter");
+        this.RaisePropertyChanged("RaumFilter");
         this.SitzpläneView.Refresh();
-        this.ResetJahrtypFilterCommand.RaiseCanExecuteChanged();
+        this.ResetRaumFilterCommand.RaiseCanExecuteChanged();
       }
     }
 
     /// <summary>
-    /// Holt oder setzt den Fachfilter
+    /// Holt oder setzt den Schülerlistefilter
     /// </summary>
-    public FachViewModel FachFilter
+    public SchülerlisteViewModel SchülerlisteFilter
     {
       get
       {
-        return this.fachFilter;
+        return this.schülerlisteFilter;
       }
 
       set
       {
-        this.fachFilter = value;
-        if (value != null && Selection.Instance.Fach != value)
+        this.schülerlisteFilter = value;
+        if (value != null && Selection.Instance.Schülerliste != value)
         {
-          Selection.Instance.Fach = value;
+          Selection.Instance.Schülerliste = value;
         }
 
-        this.RaisePropertyChanged("FachFilter");
+        this.RaisePropertyChanged("SchülerlisteFilter");
         this.SitzpläneView.Refresh();
-        this.ResetFachFilterCommand.RaiseCanExecuteChanged();
+        this.ResetSchülerlisteFilterCommand.RaiseCanExecuteChanged();
       }
     }
 
     /// <summary>
-    /// Updates the Jahrtypfilter, if a schuljahr is set.
+    /// Aktualisiert den Sitzplanfilter wenn der Raum oder die Schülerliste geändert wird.
     /// </summary>
     /// <param name="sender">Source of the event</param>
     /// <param name="e">A <see cref="PropertyChangedEventArgs"/> with the event data.</param>
     private void SelectionPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-      if (e.PropertyName == "Schuljahr")
+      if (e.PropertyName == "Raum")
       {
-        this.JahrtypFilter = Selection.Instance.Jahrtyp;
+        this.RaumFilter = Selection.Instance.Raum;
         this.SitzpläneView.Refresh();
       }
-      else if (e.PropertyName == "Fach")
+      else if (e.PropertyName == "Schülerliste")
       {
-        this.FachFilter = Selection.Instance.Fach;
+        this.SchülerlisteFilter = Selection.Instance.Schülerliste;
         this.SitzpläneView.Refresh();
       }
     }
 
     /// <summary>
-    /// Filtert die Sitzplanliste nach Jahrtyp und Fach
+    /// Filtert die Sitzplanliste nach Raum und Raumplan
     /// </summary>
     /// <param name="item">Das SitzplanViewModel, das gefiltert werden soll</param>
     /// <returns>True, wenn das Objekt in der Liste bleiben soll.</returns>
@@ -185,28 +190,18 @@
         return false;
       }
 
-      if (sitzplan.SitzplanSchülerliste == null)
+      if (this.schülerlisteFilter != null && this.raumFilter != null)
       {
-        return true;
+        if (sitzplan.SitzplanSchülerliste == null)
+        {
+          return true;
+        }
+
+        return sitzplan.SitzplanSchülerliste.SchülerlisteÜberschrift == this.schülerlisteFilter.SchülerlisteÜberschrift
+          && sitzplan.SitzplanRaumplan.RaumplanRaum.RaumBezeichnung == this.raumFilter.RaumBezeichnung;
       }
 
-      if (this.jahrtypFilter != null && this.fachFilter != null)
-      {
-        return sitzplan.SitzplanSchülerliste.SchülerlisteJahrtyp.JahrtypBezeichnung == this.jahrtypFilter.JahrtypBezeichnung
-          && sitzplan.SitzplanSchülerliste.SchülerlisteFach.FachBezeichnung == this.fachFilter.FachBezeichnung;
-      }
-
-      if (this.jahrtypFilter != null)
-      {
-        return sitzplan.SitzplanSchülerliste.SchülerlisteJahrtyp.JahrtypBezeichnung == this.jahrtypFilter.JahrtypBezeichnung;
-      }
-
-      if (this.fachFilter != null)
-      {
-        return sitzplan.SitzplanSchülerliste.SchülerlisteFach.FachBezeichnung == this.fachFilter.FachBezeichnung;
-      }
-
-      return true;
+      return false;
     }
 
     /// <summary>
@@ -216,11 +211,24 @@
     {
       using (new UndoBatch(App.MainViewModel, string.Format("Sitzplan neu angelegt"), false))
       {
-        var sitzplan = new Sitzplan();
-        sitzplan.Bezeichnung = "Neuer Sitzplan";
-        sitzplan.GültigAb = DateTime.Now.Date;
-        sitzplan.Raumplan = Selection.Instance.Raumplan.Model;
-        sitzplan.Schülerliste = Selection.Instance.Schülerliste.Model;
+        var sitzplan = new Sitzplan { Bezeichnung = "Neuer Sitzplan", GültigAb = DateTime.Now.Date };
+
+        if (Selection.Instance.Raumplan != null)
+        {
+          sitzplan.Raumplan = Selection.Instance.Raumplan.Model;
+        }
+        else
+        {
+          Configuration.Instance.MetroWindow.ShowMessageAsync(
+            "Bitte beachten",
+            "Bitte klicken Sie erst den Raumplan an, für den der Sitzplan erstellt werden soll");
+          return;
+        }
+        
+        if (Selection.Instance.Schülerliste != null)
+        {
+          sitzplan.Schülerliste = Selection.Instance.Schülerliste.Model;
+        }
 
         var vm = new SitzplanViewModel(sitzplan);
         App.MainViewModel.Sitzpläne.Add(vm);

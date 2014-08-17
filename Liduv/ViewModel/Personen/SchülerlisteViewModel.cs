@@ -639,15 +639,18 @@
         Height = document.DocumentPaginator.PageSize.Height
       };
 
-      // create the print output usercontrol
-      var content = new GruppenPrintView
+      if (Configuration.Instance.IsMetroMode)
       {
-        DataContext = this,
-        Width = fixedPage.Width,
-        Height = fixedPage.Height
-      };
-
-      fixedPage.Children.Add(content);
+        // create the print output usercontrol
+        var content = new MetroGruppenPrintView { DataContext = this, Width = fixedPage.Width, Height = fixedPage.Height };
+        fixedPage.Children.Add(content);
+      }
+      else
+      {
+        // create the print output usercontrol
+        var content = new GruppenPrintView { DataContext = this, Width = fixedPage.Width, Height = fixedPage.Height };
+        fixedPage.Children.Add(content);
+      }
 
       // Update the layout of our FixedPage
       var size = document.DocumentPaginator.PageSize;

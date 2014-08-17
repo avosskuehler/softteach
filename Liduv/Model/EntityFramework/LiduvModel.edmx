@@ -398,6 +398,7 @@
           <Property Name="LinksObenY" Type="float" Nullable="false" />
           <Property Name="Breite" Type="float" Nullable="false" />
           <Property Name="Höhe" Type="float" Nullable="false" />
+          <Property Name="Drehwinkel" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="Sozialformen">
           <Key>
@@ -3913,6 +3914,7 @@
           <NavigationProperty Name="Sitzplaneinträge" Relationship="Liduv.Model.FK_Sitzplaneinträge_Sitzplätze" FromRole="Sitzplätze" ToRole="Sitzplaneinträge" />
           <Property Name="Breite" Type="Double" Nullable="false" />
           <Property Name="Höhe" Type="Double" Nullable="false" />
+          <Property Name="Drehwinkel" Type="Double" Nullable="false" />
         </EntityType>
         <Association Name="FK_Raumpläne_Räume">
           <End Type="Liduv.Model.Raum" Role="Räume" Multiplicity="1" >
@@ -4612,6 +4614,7 @@
           <EntitySetMapping Name="Sitzplätze">
             <EntityTypeMapping TypeName="Liduv.Model.Sitzplatz">
               <MappingFragment StoreEntitySet="Sitzplätze">
+                <ScalarProperty Name="Drehwinkel" ColumnName="Drehwinkel" />
                 <ScalarProperty Name="Höhe" ColumnName="Höhe" />
                 <ScalarProperty Name="Breite" ColumnName="Breite" />
                 <ScalarProperty Name="LinksObenY" ColumnName="LinksObenY" />

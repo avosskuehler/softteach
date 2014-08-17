@@ -199,12 +199,13 @@ namespace Liduv
       var navWin = new MetroNavigationWindow();
       navWin.Closing += navWin_Closing;
       navWin.Title = "Liduv";
+      navWin.ShowTitleBar = false;
       navWin.WindowState = WindowState.Maximized;
       navWin.Icon = GetImageSource("LiduvLogo64.png");
       navWin.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/Liduv;component/Resources/MetroResources.xaml", UriKind.Absolute) });
       //uncomment the next two lines if you want the clean style.
-      //navWin.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/MahApps.Metro;component/Styles/Clean/CleanWindow.xaml", UriKind.Absolute) });
-      //navWin.SetResourceReference(StyleProperty, "CleanWindowStyleKey");
+      navWin.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/MahApps.Metro;component/Styles/Clean/CleanWindow.xaml", UriKind.Absolute) });
+      navWin.SetResourceReference(FrameworkElement.StyleProperty, "CleanWindowStyleKey");
       Configuration.Instance.IsMetroMode = true;
       Configuration.Instance.MetroWindow = navWin;
       navWin.Show();

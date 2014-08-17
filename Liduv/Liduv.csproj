@@ -347,9 +347,12 @@
     <Compile Include="Resources\Controls\GridTools.cs" />
     <Compile Include="Resources\Controls\IListItemConverter.cs" />
     <Compile Include="Resources\Controls\ImageTools.cs" />
+    <Compile Include="Resources\Controls\MetroMessageDialog.xaml.cs">
+      <DependentUpon>MetroMessageDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Resources\Controls\MultiSelectorBehaviours.cs" />
     <Compile Include="Resources\Controls\TwoListSynchronizer.cs" />
-    <Compile Include="Resources\Converter\SitzplatzWidthConverter.cs" />
+    <Compile Include="Resources\Converter\SitzplatzAngleConverter.cs" />
     <Compile Include="Setting\Configuration.cs" />
     <Compile Include="Setting\NavigateTarget.cs" />
     <Compile Include="Setting\Schule.cs" />
@@ -568,6 +571,12 @@
     <Compile Include="View\Datenbank\SchülereintragWorkspace.xaml.cs">
       <DependentUpon>SchülereintragWorkspace.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Personen\MetroGruppenPrintView.xaml.cs">
+      <DependentUpon>MetroGruppenPrintView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Sitzpläne\MetroSitzplanPrintView.xaml.cs">
+      <DependentUpon>MetroSitzplanPrintView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Sitzpläne\MetroRäumePage.xaml.cs">
       <DependentUpon>MetroRäumePage.xaml</DependentUpon>
     </Compile>
@@ -715,9 +724,6 @@
     <Compile Include="View\Sitzpläne\EditRaumplanDialog.xaml.cs">
       <DependentUpon>EditRaumplanDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Sitzpläne\RaumplanDetailView.xaml.cs">
-      <DependentUpon>RaumplanDetailView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Sitzpläne\RäumeDBView.xaml.cs">
       <DependentUpon>RäumeDBView.xaml</DependentUpon>
     </Compile>
@@ -727,6 +733,7 @@
     <Compile Include="View\Sitzpläne\RaumDetailView.xaml.cs">
       <DependentUpon>RaumDetailView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Sitzpläne\SitzplatzAdorner.cs" />
     <Compile Include="View\Stundenentwürfe\MetroStundenentwurfDetailPage.xaml.cs">
       <DependentUpon>MetroStundenentwurfDetailPage.xaml</DependentUpon>
     </Compile>
@@ -982,6 +989,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Resources\Cursors\Copy.cur" />
+    <Resource Include="Resources\Cursors\Rotate.cur" />
     <Resource Include="Resources\Entypo.ttf" />
     <Resource Include="Resources\Entypo-license.txt" />
     <Resource Include="Resources\WindowsIcons-license.txt" />
@@ -1211,6 +1220,8 @@
     <Resource Include="Images\Sitzplatz32.png" />
     <Resource Include="Images\Sitzplan16.png" />
     <Resource Include="Images\Sitzplan32.png" />
+    <Resource Include="Images\Save48.png" />
+    <Resource Include="Images\Desktop48.png" />
     <Content Include="Model\EntityFramework\PopulateLiduvModelWithDefaults.sql" />
     <None Include="Model\EntityFramework\LiduvModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -1246,6 +1257,10 @@
     <Page Include="ExceptionHandling\ShowLogDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Controls\MetroMessageDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1392,6 +1407,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Datenbank\SchülereintragWorkspace.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Personen\MetroGruppenPrintView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Sitzpläne\MetroSitzplanPrintView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1588,10 +1611,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Sitzpläne\EditRaumplanDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Sitzpläne\RaumplanDetailView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

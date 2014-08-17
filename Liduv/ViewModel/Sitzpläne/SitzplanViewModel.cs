@@ -5,8 +5,11 @@
   using System.Collections.Specialized;
   using System.ComponentModel;
   using System.Linq;
+  using System.Printing;
   using System.Windows;
+  using System.Windows.Controls;
   using System.Windows.Data;
+  using System.Windows.Documents;
 
   using GongSolutions.Wpf.DragDrop;
 
@@ -14,6 +17,7 @@
   using Liduv.Setting;
   using Liduv.UndoRedo;
   using Liduv.View.Personen;
+  using Liduv.View.Sitzpläne;
   using Liduv.ViewModel.Helper;
   using Liduv.ViewModel.Noten;
   using Liduv.ViewModel.Personen;
@@ -87,13 +91,14 @@
 
       this.Sitzplaneinträge.CollectionChanged += this.SitzplaneinträgeCollectionChanged;
 
-      // Build data structures for Reihen
+      // Build data structures for Schülereinträge
       this.UsedSchülereinträge = new ObservableCollection<SchülereintragViewModel>();
       this.AvailableSchülereinträge = new ObservableCollection<SchülereintragViewModel>();
       foreach (var schülereintrag in sitzplan.Schülerliste.Schülereinträge.OrderBy(o => o.Person.Vorname))
       {
-        var vm = new SchülereintragViewModel(schülereintrag);
-        if (this.Sitzplaneinträge.Any(o => o.SitzplaneintragSchülereintrag != null && o.SitzplaneintragSchülereintrag.Model.Id == vm.Model.Id))
+        var schülerId = schülereintrag.Id;
+        var vm = App.MainViewModel.Schülereinträge.First(o => o.Model.Id == schülerId);
+        if (this.Sitzplaneinträge.Any(o => o.SitzplaneintragSchülereintrag != null && o.SitzplaneintragSchülereintrag == vm))
         {
           this.UsedSchülereinträge.Add(vm);
         }
@@ -102,13 +107,6 @@
           this.AvailableSchülereinträge.Add(vm);
         }
       }
-
-      //this.SchülerlistenView = CollectionViewSource.GetDefaultView(App.MainViewModel.Schülerlisten);
-      //this.SchülerlistenView.SortDescriptions.Add(new SortDescription("SchülerlisteJahrtyp", ListSortDirection.Ascending));
-      //this.SchülerlistenView.SortDescriptions.Add(new SortDescription("SchülerlisteHalbjahrtyp", ListSortDirection.Ascending));
-      //this.SchülerlistenView.SortDescriptions.Add(new SortDescription("SchülerlisteKlasse", ListSortDirection.Ascending));
-      //this.SchülerlistenView.SortDescriptions.Add(new SortDescription("SchülerlisteFach", ListSortDirection.Ascending));
-      //this.SchülerlistenView.Filter = this.ShowOnlyActiveSchülerlisten;
     }
 
     /// <summary>
@@ -145,12 +143,6 @@
     /// Holt die im Sitzplan nicht verwendeten Schülereinträge
     /// </summary>
     public ObservableCollection<SchülereintragViewModel> AvailableSchülereinträge { get; private set; }
-
-    ///// <summary>
-    ///// Holt oder setzt mögliche Schülerlisten
-    ///// </summary>
-    //public ICollectionView SchülerlistenView { get; set; }
-
 
     /// <summary>
     /// Holt oder setzt die currently selected sitzplaneintrag
@@ -290,6 +282,11 @@
         return "gültig ab " + this.Model.GültigAb.ToShortDateString();
       }
     }
+
+    /// <summary>
+    /// Holt oder setzt einen Wert, der angibt, wie starkt der Sitzplan beim Ausdrucken gedreht werden soll.
+    /// </summary>
+    public double SitzplanDrehung { get; set; }
 
     /// <summary>
     /// Holt oder setzt einen Wert, der angibt, ob beim Sitzplan Jungen und Mädchen möglichst getrennt sitzen sollen.
@@ -518,26 +515,21 @@
     /// </summary>
     public void SitzplanAusdrucken()
     {
+      // select printer and get printer settings
+      var pd = new PrintDialog();
+      if (pd.ShowDialog() != true)
+      {
+        return;
+      }
+
+      if (Configuration.Instance.IsMetroMode)
+      {
+        // create the print output usercontrol
+        var content = new MetroSitzplanPrintView { DataContext = this, Width = pd.PrintableAreaWidth, Height = pd.PrintableAreaHeight };
+        var title = "Sitzplaneinteilung für " + this.SitzplanBezeichnung;
+        pd.PrintVisual(content, title);
+      }
     }
-
-    ///// <summary>
-    ///// Filtert die Schülerlisten nach Schuljahr und Fach
-    ///// </summary>
-    ///// <param name="item">Die Schülerliste, die geprüft werden soll</param>
-    ///// <returns>True, wenn Schülerliste angezeigt werden soll.</returns>
-    //private bool ShowOnlyActiveSchülerlisten(object item)
-    //{
-    //  var schülerlisteViewModel = item as SchülerlisteViewModel;
-    //  if (schülerlisteViewModel != null)
-    //  {
-    //    if (schülerlisteViewModel.SchülerlisteJahrtyp == Selection.Instance.Jahrtyp && schülerlisteViewModel.SchülerlisteFach == Selection.Instance.Fach)
-    //    {
-    //      return true;
-    //    }
-    //  }
-
-    //  return false;
-    //}
 
     /// <summary>
     /// Tritt auf, wenn die SitzplaneinträgeCollection verändert wurde.

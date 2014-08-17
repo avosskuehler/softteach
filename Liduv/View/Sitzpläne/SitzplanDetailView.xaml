@@ -52,11 +52,7 @@
     </ListBox>
     <Canvas x:Name="SitzplanCanvas" Width="800" Height="500"
       Background="{x:Static SystemColors.ControlDarkBrush}"
-			Grid.Row="2" 
-			MouseLeftButtonDown="Canvas_OnMouseLeftButtonDown" 
-			MouseMove="Canvas_OnMouseMove" 
-			MouseLeftButtonUp="Canvas_OnMouseLeftButtonUp"
-			MouseRightButtonDown="Canvas_OnMouseRightButtonDown">
+			Grid.Row="2" >
       <Image Source="{Binding SitzplanRaumplan.RaumplanImage}" Stretch="None" />
     </Canvas>
   </Grid>

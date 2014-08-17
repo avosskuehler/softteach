@@ -120,6 +120,26 @@
     }
 
     /// <summary>
+    /// Holt oder setzt die Höhe des  Sitzplatzrechtecks.
+    /// </summary>
+    public double SitzplatzDrehwinkel
+    {
+      get
+      {
+        return this.Model.Drehwinkel;
+      }
+
+      set
+      {
+        if (value == this.Model.Drehwinkel) return;
+        this.UndoablePropertyChanging(this, "SitzplatzDrehwinkel", this.Model.Drehwinkel, value);
+        this.Model.Drehwinkel = value;
+        this.shape.RenderTransform = new RotateTransform(this.SitzplatzDrehwinkel);
+        this.RaisePropertyChanged("SitzplatzDrehwinkel");
+      }
+    }
+
+    /// <summary>
     /// Holt das Umfassungrechteck für den Sitzplatz.
     /// </summary>
     public Rect Bounds
@@ -184,6 +204,7 @@
       this.Model.LinksObenY = Canvas.GetTop(this.shape);
       this.Model.Breite = this.shape.Width;
       this.Model.Höhe = this.shape.Height;
+      this.Model.Drehwinkel = ((RotateTransform)this.shape.RenderTransform).Angle;
     }
 
     /// <summary>
@@ -198,6 +219,8 @@
         this.shape.Fill = fillColor;
         this.shape.Width = this.SitzplatzBreite;
         this.shape.Height = this.SitzplatzHöhe;
+        this.shape.RenderTransformOrigin = new Point(0.5, 0.5);
+        this.shape.RenderTransform = new RotateTransform(this.SitzplatzDrehwinkel);
         this.shape.Tag = this;
         Canvas.SetTop(this.shape, this.SitzplatzLinksObenY);
         Canvas.SetLeft(this.shape, this.SitzplatzLinksObenX);
