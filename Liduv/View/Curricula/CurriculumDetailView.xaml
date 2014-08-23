@@ -66,6 +66,7 @@
     <HeaderedContentControl Grid.Row="1" Header="Reihenfolge im Jahr" HeaderTemplate="{StaticResource GroupBoxHeader}">
       <ListBox ItemsSource="{Binding Source={StaticResource GroupedSchulwochenReihenSequenzenViewSource}}" 
                  ItemTemplateSelector="{StaticResource curriculumViewDataTemplateSelector}"
+                 ItemContainerStyle="{StaticResource NoBorderListBoxItemStyle}"
                  BorderThickness="0"
                  SelectedItem="{Binding CurrentItem, Mode=TwoWay}"
                  dd:DragDrop.IsDragSource="True" 
@@ -95,11 +96,6 @@
             </GroupStyle.Panel>
           </GroupStyle>
         </ListBox.GroupStyle>
-        <ListBox.ItemContainerStyle>
-          <Style TargetType="ListBoxItem">
-            <Setter Property="Padding" Value="0"/>
-          </Style>
-        </ListBox.ItemContainerStyle>
       </ListBox>
     </HeaderedContentControl>
     <UniformGrid Grid.Row="2" Columns="2">

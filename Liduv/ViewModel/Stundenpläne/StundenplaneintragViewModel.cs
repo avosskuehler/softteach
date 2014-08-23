@@ -296,7 +296,7 @@
     {
       get
       {
-        return (this.Parent.ViewMode & StundenplanViewMode.Edit) == StundenplanViewMode.Edit;
+        return this.Parent == null || (this.Parent.ViewMode & StundenplanViewMode.Edit) == StundenplanViewMode.Edit;
       }
     }
 

@@ -27,7 +27,7 @@
       StundenplanÄnderungUpdateType updateType,
       int oldWochentagIndex,
       int oldErsteStundeIndex,
-      Stundenplaneintrag modifiedEntry)
+      StundenplaneintragViewModel modifiedEntry)
     {
       this.UpdateType = updateType;
       this.OldWochentagIndex = oldWochentagIndex;
@@ -57,6 +57,6 @@
     /// Holt den Wochentagindex des ursprünglichen
     /// zu verändernen Stundenplaneintrags.
     /// </summary>
-    public Stundenplaneintrag ModifiedEntry { get; private set; }
+    public StundenplaneintragViewModel ModifiedEntry { get; private set; }
   }
 }

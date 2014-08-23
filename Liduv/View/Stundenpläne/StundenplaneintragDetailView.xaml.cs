@@ -77,6 +77,10 @@ namespace Liduv.View.Stundenpläne
     private void SurroundBorderMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
       var stundenplanEintragViewModel = this.DataContext as StundenplaneintragViewModel;
+      if (stundenplanEintragViewModel.Parent==null)
+      {
+        return;
+      }
 
       // Enable edit on edit view
       if ((stundenplanEintragViewModel.Parent.ViewMode & StundenplanViewMode.Edit) == StundenplanViewMode.Edit)
@@ -152,7 +156,7 @@ namespace Liduv.View.Stundenpläne
         StundenplanÄnderungUpdateType.ChangedTimeSlot,
         wochentag,
         ersteStundeIndex,
-        movedEintrag.Model);
+        movedEintrag);
       movedEintrag.Parent.ÄnderungsListe.Add(änderung);
     }
 

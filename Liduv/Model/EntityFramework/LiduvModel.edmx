@@ -1458,18 +1458,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Stundenplaneinträge_Stundenplaneinträge">
-          <End Role="Stundenplaneinträge" Type="Self.Stundenplaneinträge" Multiplicity="1" />
-          <End Role="Stundenplaneinträge1" Type="Self.Stundenplaneinträge" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Stundenplaneinträge">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Stundenplaneinträge1">
-              <PropertyRef Name="Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TagesplanLerngruppentermin">
           <End Role="Tagespläne" Type="Self.Tagespläne" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1901,10 +1889,6 @@
             <End Role="Räume" EntitySet="Räume" />
             <End Role="Stundenplaneinträge" EntitySet="Stundenplaneinträge" />
           </AssociationSet>
-          <AssociationSet Name="FK_Stundenplaneinträge_Stundenplaneinträge" Association="Self.FK_Stundenplaneinträge_Stundenplaneinträge">
-            <End Role="Stundenplaneinträge" EntitySet="Stundenplaneinträge" />
-            <End Role="Stundenplaneinträge1" EntitySet="Stundenplaneinträge" />
-          </AssociationSet>
           <AssociationSet Name="FK_TagesplanLerngruppentermin" Association="Self.FK_TagesplanLerngruppentermin">
             <End Role="Tagespläne" EntitySet="Tagespläne" />
             <End Role="Termine_Lerngruppentermin" EntitySet="Termine_Lerngruppentermin" />
@@ -2302,10 +2286,6 @@
             <End Role="Räume" EntitySet="Räume" />
             <End Role="Stundenplaneintrag" EntitySet="Stundenplaneinträge" />
           </AssociationSet>
-          <AssociationSet Name="FK_Stundenplaneinträge_Stundenplaneinträge" Association="Liduv.Model.FK_Stundenplaneinträge_Stundenplaneinträge">
-            <End Role="Stundenplaneintrag" EntitySet="Stundenplaneinträge" />
-            <End Role="Stundenplaneintrag1" EntitySet="Stundenplaneinträge" />
-          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Stundenentwurf">
           <Key>
@@ -2601,9 +2581,7 @@
           <Property Type="Int32" Name="KlasseId" Nullable="false" />
           <Property Name="RaumId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Raum" Relationship="Liduv.Model.FK_Stundenplaneinträge_Räume" FromRole="Stundenplaneintrag" ToRole="Räume" />
-          <NavigationProperty Name="Stundenplaneinträge1" Relationship="Liduv.Model.FK_Stundenplaneinträge_Stundenplaneinträge" FromRole="Stundenplaneintrag" ToRole="Stundenplaneintrag1" />
-          <NavigationProperty Name="Stundenplaneinträge2" Relationship="Liduv.Model.FK_Stundenplaneinträge_Stundenplaneinträge" FromRole="Stundenplaneintrag1" ToRole="Stundenplaneintrag" />
-        </EntityType>
+          </EntityType>
         <Association Name="KlasseStundenplaneintrag">
           <End Type="Liduv.Model.Klasse" Role="Klasse" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -4025,18 +4003,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Stundenplaneinträge_Stundenplaneinträge">
-          <End Type="Liduv.Model.Stundenplaneintrag" Role="Stundenplaneintrag" Multiplicity="1" />
-          <End Type="Liduv.Model.Stundenplaneintrag" Role="Stundenplaneintrag1" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Stundenplaneintrag">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Stundenplaneintrag1">
-              <PropertyRef Name="Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5015,7 +4981,7 @@
           <edmx:ConnectorPoint PointX="2.3958333333333335" PointY="4.8611292226521954" />
           <edmx:ConnectorPoint PointX="2.5" PointY="4.8611292226521954" />
         </edmx:AssociationConnector>
-        <edmx:EntityTypeShape EntityType="Liduv.Model.Schultag" Width="1.5" PointX="4.5" PointY="4" Height="2.1725878906249996" />
+        <edmx:EntityTypeShape EntityType="Liduv.Model.Schultag" Width="1.5" PointX="4.625" PointY="5" Height="2.1725878906249996" IsExpanded="false" />
         <edmx:AssociationConnector Association="Liduv.Model.SchulwocheSchultag">
           <edmx:ConnectorPoint PointX="4" PointY="4.9901432291666659" />
           <edmx:ConnectorPoint PointX="4.5" PointY="4.9901432291666659" />
@@ -5262,7 +5228,6 @@
         <edmx:AssociationConnector Association="Liduv.Model.FK_Sitzplaneinträge_Sitzpläne" />
         <edmx:AssociationConnector Association="Liduv.Model.FK_Sitzplaneinträge_Sitzplätze" />
         <edmx:AssociationConnector Association="Liduv.Model.FK_Stundenplaneinträge_Räume" />
-        <edmx:AssociationConnector Association="Liduv.Model.FK_Stundenplaneinträge_Stundenplaneinträge" />
         </edmx:Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

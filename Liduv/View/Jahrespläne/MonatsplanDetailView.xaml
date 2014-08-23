@@ -25,33 +25,7 @@
            ItemsSource="{Binding Source={StaticResource TagespläneSorted}}"
            SelectedItem="{Binding Path=CurrentTagesplan, Mode=TwoWay}"  
            ItemTemplateSelector="{StaticResource TagesplanColorDataTemplateSelector}"
-           HorizontalContentAlignment="Stretch" SelectionMode="Extended" />
-    <!--<DataGrid Grid.Row="2"
-                  ItemsSource="{Binding Path=Tagespläne}" 
-                  AutoGenerateColumns="False" 
-                  HeadersVisibility="None"
-                  ItemTemplateSelector="{StaticResource TagesplanColorDataTemplateSelector}">
-            <DataGrid.Columns>-->
-    <!--<DataGridTemplateColumn>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Name="Text" Text="{Binding TagesplanTagDesMonats}"/>
-                            <DataTemplate.Triggers>
-                                <DataTrigger Binding="{Binding Path=TagesplanWochentag}">
-                                    <DataTrigger.Value>
-                                        <System:String>Sa</System:String>
-                                    </DataTrigger.Value>
-                                    <Setter TargetName="Text" Property="Background" Value="Yellow"/>
-                                </DataTrigger>
-                            </DataTemplate.Triggers>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                -->
-    <!--<DataGridTextColumn Binding="{Binding Path=TagesplanTagDesMonats}"/>
-                <DataGridTextColumn Binding="{Binding Path=TagesplanWochentag}"/>
-                <DataGridTextColumn Binding="{Binding Path=TagesplanBeschreibung}" Width="*" />
-            </DataGrid.Columns>
-        </DataGrid>-->
+           HorizontalContentAlignment="Stretch" SelectionMode="Extended"
+             ItemContainerStyle="{StaticResource NoBorderListBoxItemStyle }"/>
   </Grid>
 </UserControl>

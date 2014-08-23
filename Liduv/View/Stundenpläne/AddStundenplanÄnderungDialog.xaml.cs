@@ -68,14 +68,26 @@ namespace Liduv.View.Stundenpläne
       foreach (var änderung in this.StundenplanViewModel.ÄnderungsListe)
       {
         var jahresplanToChange =
-          App.MainViewModel.Jahrespläne.Single(
+          App.MainViewModel.Jahrespläne.FirstOrDefault(
             o =>
-            o.JahresplanJahrtyp.JahrtypJahr == änderung.ModifiedEntry.Stundenplan.Jahrtyp.Jahr
-            && o.JahresplanFach.FachBezeichnung == änderung.ModifiedEntry.Fach.Bezeichnung
-            && o.JahresplanKlasse.KlasseBezeichnung == änderung.ModifiedEntry.Klasse.Bezeichnung);
+            o.JahresplanJahrtyp.JahrtypJahr == änderung.ModifiedEntry.Model.Stundenplan.Jahrtyp.Jahr
+            && o.JahresplanFach.FachBezeichnung == änderung.ModifiedEntry.StundenplaneintragFach.FachBezeichnung
+            && o.JahresplanKlasse.KlasseBezeichnung == änderung.ModifiedEntry.StundenplaneintragKlasse.KlasseBezeichnung);
+
+        if (jahresplanToChange == null)
+        {
+          // Create a new Jahresplan
+          App.MainViewModel.JahresplanWorkspace.AddJahresplan(
+            this.StundenplanViewModel.StundenplanJahrtyp,
+            änderung.ModifiedEntry.StundenplaneintragFach,
+            änderung.ModifiedEntry.StundenplaneintragKlasse,
+            this.StundenplanViewModel.StundenplanHalbjahrtyp.HalbjahrtypBezeichnung == "Sommer");
+
+          continue;
+        }
 
         HalbjahresplanViewModel halbjahresplanToChange = null;
-        switch (änderung.ModifiedEntry.Stundenplan.Halbjahrtyp.Bezeichnung)
+        switch (änderung.ModifiedEntry.Model.Stundenplan.Halbjahrtyp.Bezeichnung)
         {
           case "Sommer":
             halbjahresplanToChange = jahresplanToChange.CurrentJahresplanSommerhalbjahr;
@@ -95,7 +107,7 @@ namespace Liduv.View.Stundenpläne
             var tagesplanViewModel = sortedTagesPläne[j];
 
             // Skip if the modified stundenplan is not valid
-            if (tagesplanViewModel.TagesplanDatum < änderung.ModifiedEntry.Stundenplan.GültigAb)
+            if (tagesplanViewModel.TagesplanDatum < änderung.ModifiedEntry.Model.Stundenplan.GültigAb)
             {
               continue;
             }
@@ -123,7 +135,7 @@ namespace Liduv.View.Stundenpläne
               var monthIndex = i;
 
               var indexOld = änderung.OldWochentagIndex;
-              var indexNew = änderung.ModifiedEntry.WochentagIndex;
+              var indexNew = änderung.ModifiedEntry.StundenplaneintragWochentagIndex;
               var dayIndex = j - (indexOld - indexNew);
 
               if (indexOld > indexNew)
@@ -166,10 +178,10 @@ namespace Liduv.View.Stundenpläne
                   // Do nothing
                   break;
                 case StundenplanÄnderungUpdateType.ChangedTimeSlot:
-                    stundeToChange.TerminErsteUnterrichtsstunde =
-                      App.MainViewModel.Unterrichtsstunden[änderung.ModifiedEntry.ErsteUnterrichtsstundeIndex - 1];
-                    stundeToChange.TerminLetzteUnterrichtsstunde =
-                      App.MainViewModel.Unterrichtsstunden[änderung.ModifiedEntry.LetzteUnterrichtsstundeIndex - 1];
+                  stundeToChange.TerminErsteUnterrichtsstunde =
+                    App.MainViewModel.Unterrichtsstunden[änderung.ModifiedEntry.StundenplaneintragErsteUnterrichtsstundeIndex - 1];
+                  stundeToChange.TerminLetzteUnterrichtsstunde =
+                    App.MainViewModel.Unterrichtsstunden[änderung.ModifiedEntry.StundenplaneintragLetzteUnterrichtsstundeIndex - 1];
 
                   // Wenn auch der Unterrichtstag gewechselt wurde
                   // Stunde verschieben

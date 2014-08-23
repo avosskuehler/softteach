@@ -36,7 +36,7 @@
       this.PreviousDayCommand = new DelegateCommand(this.PreviousDay);
 
       // Build data structures
-      this.tagesplanDatum = new DateTime(2013, 10, 23);//DateTime.Today;
+      this.tagesplanDatum = DateTime.Today;
 
       // On saturday oder sunday show next week (to be prepared :-) )
       var day = (int)DateTime.Today.DayOfWeek;
@@ -45,7 +45,7 @@
         this.tagesplanDatum = this.tagesplanDatum.AddDays(day == 6 ? 2 : 1);
       }
 
-      this.WochenplanMontag = new DateTime(2013, 10, 21);
+      //this.WochenplanMontag = new DateTime(2013, 10, 21);
       this.PopulateTerminplan();
     }
 

@@ -1222,6 +1222,7 @@
     <Resource Include="Images\Sitzplan32.png" />
     <Resource Include="Images\Save48.png" />
     <Resource Include="Images\Desktop48.png" />
+    <Resource Include="Images\ImportOverlay32.png" />
     <Content Include="Model\EntityFramework\PopulateLiduvModelWithDefaults.sql" />
     <None Include="Model\EntityFramework\LiduvModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

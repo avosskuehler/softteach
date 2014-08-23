@@ -27,7 +27,5 @@ namespace Liduv.Model.EntityFramework
         public virtual Fach Fach { get; set; }
         public virtual Stundenplan Stundenplan { get; set; }
         public virtual Raum Raum { get; set; }
-        public virtual Stundenplaneintrag Stundenplaneinträge1 { get; set; }
-        public virtual Stundenplaneintrag Stundenplaneinträge2 { get; set; }
     }
 }

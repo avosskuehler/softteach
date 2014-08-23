@@ -21,6 +21,11 @@
         <scm:SortDescription PropertyName="FachBezeichnung" Direction="Ascending"/>
       </CollectionViewSource.SortDescriptions>
     </CollectionViewSource>
+    <CollectionViewSource Source="{Binding Source={x:Static liduv:App.MainViewModel}, Path=Räume}" x:Key="RäumeSorted">
+      <CollectionViewSource.SortDescriptions>
+        <scm:SortDescription PropertyName="RaumBezeichnung" Direction="Ascending"/>
+      </CollectionViewSource.SortDescriptions>
+    </CollectionViewSource>
   </Window.Resources>
   <Grid>
     <Grid.RowDefinitions>
@@ -56,8 +61,11 @@
                 DisplayMemberPath="KlasseBezeichnung"
                 Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" Width="230"/>
       <Label Grid.Row="3" Grid.Column="0" VerticalContentAlignment="Center">Raum</Label>
-      <TextBox Margin="3" Grid.Row="3" Grid.Column="1" Text="{Binding Path=StundenplaneintragRaum}"
-               Width="230"/>
+      <ComboBox Margin="3" Grid.Row="3" Grid.Column="1" TabIndex="2"
+                ItemsSource="{Binding Source={StaticResource RäumeSorted}}" 
+                SelectedItem="{Binding Path=StundenplaneintragRaum}"
+                DisplayMemberPath="RaumBezeichnung"
+                Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" Width="230"/>
 
       <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" Margin="0,5" Width="230">
         <Label VerticalContentAlignment="Center" >Von</Label>

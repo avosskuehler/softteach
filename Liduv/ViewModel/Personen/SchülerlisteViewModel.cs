@@ -79,6 +79,7 @@
       this.AddSchülereintragCommand = new DelegateCommand(this.AddSchülereintrag);
       this.DeleteSchülereintragCommand = new DelegateCommand(this.DeleteCurrentSchülereintrag, () => this.CurrentSchülereintrag != null);
       this.ExportSchülerlisteCommand = new DelegateCommand(this.ExportSchülerliste);
+      this.ImportSchülerCommand = new DelegateCommand(this.ImportSchüler);
       this.GruppenEinteilenCommand = new DelegateCommand(this.GruppenEinteilen);
       this.GruppenNeuEinteilenCommand = new DelegateCommand(this.GruppenNeuEinteilen);
       this.GruppenAusdruckenCommand = new DelegateCommand(this.GruppenAusdrucken);
@@ -132,6 +133,11 @@
     /// Holt den Befehl zur deleting the current Schüler
     /// </summary>
     public DelegateCommand DeleteSchülereintragCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl  Schüler aus einer CSV Datei zu importieren
+    /// </summary>
+    public DelegateCommand ImportSchülerCommand { get; private set; }
 
     /// <summary>
     /// Holt den Befehl die Schülerliste nach Excel zu exportieren
@@ -581,6 +587,36 @@
     private void ExportSchülerliste()
     {
       ExportData.ToXls(this);
+    }
+
+    /// <summary>
+    /// Importiert Schüler aus einer CSV Datei in die Schülerliste
+    /// </summary>
+    private void ImportSchüler()
+    {
+      var personen = ExportData.FromCSV();
+      foreach (var personViewModel in personen)
+      {
+        // Check if already there
+        if (
+          this.Schülereinträge.Any(
+            o =>
+            o.SchülereintragPerson.PersonVorname == personViewModel.PersonVorname
+            && o.SchülereintragPerson.PersonNachname == personViewModel.PersonNachname
+            && o.SchülereintragPerson.PersonGeburtstag == personViewModel.PersonGeburtstag))
+        {
+          continue;
+        }
+
+        // perform add
+        var schülereintrag = new Schülereintrag();
+        schülereintrag.Person = personViewModel.Model;
+        schülereintrag.Schülerliste = this.Model;
+        var vm = new SchülereintragViewModel(schülereintrag);
+        App.MainViewModel.Schülereinträge.Add(vm);
+        this.Schülereinträge.Add(vm);
+        this.CurrentSchülereintrag = vm;
+      }
     }
 
     /// <summary>

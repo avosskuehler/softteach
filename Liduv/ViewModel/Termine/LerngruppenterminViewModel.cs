@@ -227,7 +227,7 @@
     protected void UpdateSchülerlisteInSelection()
     {
       var schülerliste =
-        App.MainViewModel.Schülerlisten.First(
+        App.MainViewModel.Schülerlisten.FirstOrDefault(
           o =>
           o.SchülerlisteFach.FachBezeichnung == this.LerngruppenterminFach
           && o.SchülerlisteHalbjahrtyp.HalbjahrtypBezeichnung == this.LerngruppenterminHalbjahr

@@ -143,7 +143,7 @@
       var schultage = new Dictionary<DateTime, SchultagViewModel>();
       for (int i = 1; i < 53; i++)
       {
-        var schulwoche = new Schulwoche { Montagsdatum = schulmontag };
+        var schulwoche = new Schulwoche { Montagsdatum = schulmontag, Jahrtyp = jahrtypViewModel.Model };
         var vm = new SchulwocheViewModel(schulwoche);
 
         for (int j = 0; j < 5; j++)
@@ -151,7 +151,7 @@
           var schultag = new Schultag();
           schultag.Datum = schulmontag.AddDays(j);
           schultag.Termintyp = App.MainViewModel.Termintypen.First(o => o.TermintypBezeichnung == "Unterricht").Model;
-
+          schultag.Schulwoche = schulwoche;
           var viewModelTag = new SchultagViewModel(schultag);
           vm.Schultage.Add(viewModelTag);
           App.MainViewModel.Schultage.Add(viewModelTag);

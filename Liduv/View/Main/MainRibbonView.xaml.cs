@@ -33,8 +33,8 @@ namespace Liduv.View.Main
     /// </summary>
     public MainRibbonView()
     {
-      this.InitializeComponent();
       this.DataContext = App.MainViewModel;
+      this.InitializeComponent();
     }
 
     private void WindowLoaded(object sender, RoutedEventArgs e)
@@ -797,6 +797,10 @@ namespace Liduv.View.Main
     {
       Configuration.Instance.IsMetroMode = true;
       this.Hide();
+    }
+
+    private void RibbonGallery_OnSelectionChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+    {
     }
   }
 }

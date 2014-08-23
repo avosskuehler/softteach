@@ -45,6 +45,17 @@
           </StackPanel>
         </Button>
         <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                    Command="{Binding Path=ImportSchülerCommand}" 
+                    ToolTip="Schüler asu CSV Datei importieren.">
+          <StackPanel Orientation="Horizontal">
+            <Grid>
+              <Image Source="/Liduv;component/Images/Person32.png"/>
+              <Image Source="/Liduv;component/Images/ImportOverlay32.png"/>
+            </Grid>
+            <!--<Label Padding="5,0,0,0" VerticalContentAlignment="Center">Stundenplanänderung eingeben</Label>-->
+          </StackPanel>
+        </Button>
+        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                     Command="{Binding Path=ExportSchülerlisteCommand}" 
                     ToolTip="Schülerliste in Excel öffnen.">
           <StackPanel Orientation="Horizontal">

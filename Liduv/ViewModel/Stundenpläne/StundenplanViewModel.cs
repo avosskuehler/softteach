@@ -948,12 +948,12 @@
                           stundenplaneintragViewModel.StundenplaneintragWochentagIndex,
                         Stundenplan = this.Model
                       };
-
+      var vm = new StundenplaneintragViewModel(eintrag);
       var änderung = new StundenplanÄnderung(
         StundenplanÄnderungUpdateType.Removed,
         stundenplaneintragViewModel.StundenplaneintragWochentagIndex,
         stundenplaneintragViewModel.StundenplaneintragErsteUnterrichtsstundeIndex,
-        eintrag);
+        vm);
       this.ÄnderungsListe.Add(änderung);
 
       using (new UndoBatch(App.MainViewModel, string.Format("Stundenplaneintrag {0} gelöscht.", stundenplaneintragViewModel), false))
@@ -1114,10 +1114,11 @@
       stundenplaneintrag.ErsteUnterrichtsstundeIndex = ersteStundeIndex;
       stundenplaneintrag.LetzteUnterrichtsstundeIndex = letzteStundeIndex;
       stundenplaneintrag.WochentagIndex = wochentagIndex;
+      stundenplaneintrag.Stundenplan = this.Model;
 
       var vm = new StundenplaneintragViewModel(this, stundenplaneintrag);
       var undo = false;
-      using (new UndoBatch(App.MainViewModel, string.Format("Stundenplaneintrag {0} erstellt.", vm), false))
+      //using (new UndoBatch(App.MainViewModel, string.Format("Stundenplaneintrag {0} erstellt.", vm), false))
       {
         var dlg = new AddStundenplaneintragDialog(vm);
         if (!(undo = !dlg.ShowDialog().GetValueOrDefault(false)))
@@ -1127,15 +1128,15 @@
           this.CurrentStundenplaneintrag = vm;
           this.UpdateProperties(vm);
 
-          var änderung = new StundenplanÄnderung(StundenplanÄnderungUpdateType.Added, -1, -1, vm.Model);
+          var änderung = new StundenplanÄnderung(StundenplanÄnderungUpdateType.Added, -1, -1, vm);
           this.ÄnderungsListe.Add(änderung);
         }
       }
 
-      if (undo)
-      {
-        App.MainViewModel.ExecuteUndoCommand();
-      }
+      //if (undo)
+      //{
+      //  App.MainViewModel.ExecuteUndoCommand();
+      //}
     }
 
     /// <summary>

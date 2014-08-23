@@ -301,6 +301,7 @@
           if (lerngruppentermin is StundeViewModel)
           {
             var stunde = lerngruppentermin as StundeViewModel;
+            StundenentwurfViewModel entwurfViewModel = null;
 
             if (stunde.StundeStundenentwurf == null)
             {
@@ -316,24 +317,24 @@
               entwurf.Kopieren = false;
               entwurf.Stundenthema = aktuelleSequenz.SequenzThema;
               entwurf.Modul = aktuelleSequenz.SequenzReihe.ReiheModul.Model;
-              var vm = new StundenentwurfViewModel(entwurf);
-              App.MainViewModel.Stundenentwürfe.Add(vm);
-              stunde.StundeStundenentwurf = vm;
+              entwurfViewModel = new StundenentwurfViewModel(entwurf);
+              App.MainViewModel.Stundenentwürfe.Add(entwurfViewModel);
+              stunde.StundeStundenentwurf = entwurfViewModel;
             }
             else
             {
               // if entwurf is empty update also
               if (stunde.StundeStundenentwurf.Phasen.Count == 0)
               {
-                var entwurf = stunde.StundeStundenentwurf;
-                entwurf.StundenentwurfDatum = DateTime.Now;
-                entwurf.StundenentwurfStundenthema = aktuelleSequenz.SequenzThema;
-                entwurf.StundenentwurfModul = aktuelleSequenz.SequenzReihe.ReiheModul;
+                entwurfViewModel = stunde.StundeStundenentwurf;
+                entwurfViewModel.StundenentwurfDatum = DateTime.Now;
+                entwurfViewModel.StundenentwurfStundenthema = aktuelleSequenz.SequenzThema;
+                entwurfViewModel.StundenentwurfModul = aktuelleSequenz.SequenzReihe.ReiheModul;
               }
             }
 
             stundenZähler += stunde.TerminStundenanzahl;
-            if (stundenZähler >= aktuelleSequenz.SequenzStundenbedarf)
+            if (stundenZähler == aktuelleSequenz.SequenzStundenbedarf)
             {
               stundenZähler = 0;
               sequenzIndex++;
@@ -345,6 +346,28 @@
               else
               {
                 aktuelleSequenz = null;
+                break;
+              }
+            }
+            else if (stundenZähler > aktuelleSequenz.SequenzStundenbedarf)
+            {
+              sequenzIndex++;
+
+              SequenzViewModel nächsteSequenz;
+              if (this.UsedSequenzenDesCurriculums.Count > sequenzIndex)
+              {
+                nächsteSequenz = this.UsedSequenzenDesCurriculums[sequenzIndex];
+                if (nächsteSequenz.SequenzStundenbedarf + aktuelleSequenz.SequenzStundenbedarf == stundenZähler)
+                {
+                  entwurfViewModel.StundenentwurfStundenthema += "+ " + nächsteSequenz.SequenzThema;
+                  sequenzIndex++;
+                  aktuelleSequenz = this.UsedSequenzenDesCurriculums[sequenzIndex];
+                }
+                stundenZähler = 0;
+              }
+              else
+              {
+                nächsteSequenz = null;
                 break;
               }
             }

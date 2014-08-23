@@ -63,8 +63,7 @@
                Content="{Binding Path=TerminplaneintragKlasse}"/>
           <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource DisplayStyle}" HorizontalAlignment="Right">
             <StackPanel Orientation="Horizontal">
-              <StackPanel Orientation="Horizontal" Visibility="Hidden" HorizontalAlignment="Right" 
-                      x:Name="EditButtons">
+              <StackPanel Orientation="Horizontal" Visibility="Hidden" HorizontalAlignment="Right" x:Name="EditButtons">
                 <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=EditTerminplaneintragCommand}">
                   <Image Source="/Liduv;component/Images/Edit16.png"/>
                 </Button>
@@ -157,6 +156,7 @@
       </Grid>
     </Border>
   </DataTemplate>
+  
   <DataTemplate x:Key="StundeDragAdorner">
     <Border Background="Silver" BorderBrush="Gray" BorderThickness="1" CornerRadius="2" Margin="1">
       <Grid Width="{Binding Path=StundeBreite}" Background="{StaticResource StundeBackgroundBrush}" Margin="3" Height="40">
@@ -544,7 +544,6 @@
 
   </DataTemplate>
 
-
   <Style x:Key="NotenGroupHeaderStyle" TargetType="{x:Type GroupItem}">
     <Setter Property="Template">
       <Setter.Value>
@@ -743,7 +742,6 @@
     </Border>
   </DataTemplate>
 
-  <!-- Defines a Button style. -->
   <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" x:Key="NotenClickButton">
     <Setter Property="Margin" Value="1"/>
     <Setter Property="Padding" Value="1"/>
@@ -837,7 +835,6 @@
     </Border>
   </DataTemplate>
 
-
   <DataTemplate x:Key="RaumplanListBoxView">
     <Border Margin="3" BorderThickness="1" BorderBrush="{StaticResource MetroHeaderBackground}">
       <Border.InputBindings>
@@ -849,5 +846,21 @@
       </Grid>
     </Border>
   </DataTemplate>
+  
+  <Style x:Key="NoBorderListBoxItemStyle" TargetType="ListBoxItem">
+    <Setter Property="Padding" Value="0"/>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="ListBoxItem">
+          <Border x:Name="Border" Padding="0" SnapsToDevicePixels="true">
+            <Border.Background>
+              <SolidColorBrush Color="Transparent" />
+            </Border.Background>
+            <ContentPresenter />
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
 
 </ResourceDictionary>

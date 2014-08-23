@@ -28,7 +28,15 @@
     /// The Termin currently selected
     /// </summary>
     private SchulterminViewModel currentTermin;
+
+    /// <summary>
+    /// Die Jahrgangsstufe, dessen Termine nur dargestellt werden sollen.
+    /// </summary>
     private JahrtypViewModel jahrtypFilter;
+
+    /// <summary>
+    /// Der Termintyp, dessen Termine nur dargestellt werden sollen.
+    /// </summary>
     private TermintypViewModel termintypFilter;
 
     /// <summary>
@@ -37,6 +45,8 @@
     public SchulterminWorkspaceViewModel()
     {
       this.AddTerminCommand = new DelegateCommand(this.AddTermin);
+      this.ResetJahrtypFilterCommand = new DelegateCommand(() => this.JahrtypFilter = null, () => this.JahrtypFilter != null);
+      this.ResetTermintypFilterCommand = new DelegateCommand(() => this.TermintypFilter = null, () => this.TermintypFilter != null);
       this.AddMultipleDayTerminCommand = new DelegateCommand(this.AddMultipleDayTermin, () => this.CurrentTermin != null);
       this.DeleteTerminCommand = new DelegateCommand(this.DeleteCurrentTermin, () => this.CurrentTermin != null);
       ModifiedTermine = new List<ModifiedTermin>();
@@ -64,6 +74,16 @@
     /// Holt den Befehl zur adding a new Termin
     /// </summary>
     public DelegateCommand AddTerminCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl zur adding a new Jahresplan
+    /// </summary>
+    public DelegateCommand ResetJahrtypFilterCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl den termintyp filter zu entfernen
+    /// </summary>
+    public DelegateCommand ResetTermintypFilterCommand { get; private set; }
 
     /// <summary>
     /// Holt den Befehl zur adding a new multiple day Termin

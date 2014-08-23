@@ -6,6 +6,7 @@ namespace Liduv.ViewModel.Jahrespläne
   using System.Collections.Specialized;
   using System.Globalization;
   using System.Linq;
+  using System.Runtime.Remoting.Contexts;
   using System.Windows.Controls;
   using System.Windows.Media;
 
@@ -30,6 +31,15 @@ namespace Liduv.ViewModel.Jahrespläne
     /// The <see cref="ContextMenu"/> for each tagesplan grid.
     /// </summary>
     private ContextMenu tagesplanContextMenu;
+
+    private static Image entwurfIcon;
+    private static Image terminIcon;
+
+    static TagesplanViewModel()
+    {
+      entwurfIcon = App.GetImage("Stundenentwurf16.png");
+      terminIcon = App.GetImage("Lerngruppentermin16.png");
+    }
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="TagesplanViewModel"/> Klasse. 
@@ -71,7 +81,6 @@ namespace Liduv.ViewModel.Jahrespläne
 
       this.Lerngruppentermine.CollectionChanged += this.LerngruppentermineCollectionChanged;
 
-      this.CreateContextMenu();
       if (!this.KeineLerngruppentermine)
       {
         this.UpdateBeschreibung();
@@ -542,31 +551,6 @@ namespace Liduv.ViewModel.Jahrespläne
           this.UpdateBeschreibung();
         }
       }
-    }
-
-    /// <summary>
-    /// Creates the <see cref="ContextMenu"/> for each tagesplan grid,
-    /// to enable termin and entwurfs connections.
-    /// </summary>
-    private void CreateContextMenu()
-    {
-      // TODO: Readd faster version
-      //this.tagesplanContextMenu = new ContextMenu();
-      //var addStundenentwurfItem = new MenuItem
-      //{
-      //  Header = "Stunde anlegen",
-      //  Command = this.AddStundeCommand,
-      //  Icon = App.GetImage("Stundenentwurf16.png")
-      //};
-      //this.tagesplanContextMenu.Items.Add(addStundenentwurfItem);
-
-      //var addTerminItem = new MenuItem
-      //{
-      //  Header = "Lerngruppentermin anlegen",
-      //  Command = this.AddLerngruppenterminCommand,
-      //  Icon = App.GetImage("Lerngruppentermin16.png")
-      //};
-      //this.tagesplanContextMenu.Items.Add(addTerminItem);
     }
   }
 }

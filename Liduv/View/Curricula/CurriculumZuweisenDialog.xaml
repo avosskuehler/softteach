@@ -24,7 +24,7 @@
       <CollectionViewSource.GroupDescriptions>
         <PropertyGroupDescription PropertyName="ViewModelType"/>
         <PropertyGroupDescription PropertyName="TagesplanMonat"/>
-        <PropertyGroupDescription PropertyName="SequenzModul"/>
+        <!--<PropertyGroupDescription PropertyName="SequenzModul"/>-->
       </CollectionViewSource.GroupDescriptions>
     </CollectionViewSource>
     <curricula:CurriculumAdaptViewDataTemplateSelector x:Key="CurriculumAdaptViewDataTemplateSelector"/>
@@ -46,6 +46,7 @@
       <HeaderedContentControl Grid.Row="0" Header="Jahresplan" Margin="5">
         <ListBox ItemsSource="{Binding Source={StaticResource GroupedTagespläneundSequenzenViewSource}}" 
                 ItemTemplateSelector="{StaticResource CurriculumAdaptViewDataTemplateSelector}" 
+                 ItemContainerStyle="{StaticResource NoBorderListBoxItemStyle}"
                 dd:DragDrop.IsDragSource="True" 
                   dd:DragDrop.IsDropTarget="True"
                   dd:DragDrop.DropHandler="{Binding}"
@@ -66,7 +67,7 @@
                 </ItemsPanelTemplate>
               </GroupStyle.Panel>
             </GroupStyle>
-            <GroupStyle ContainerStyle="{StaticResource MonateGroupHeaderStyle}">
+            <GroupStyle ContainerStyle="{StaticResource GroupHeaderStyleBoth}">
               <GroupStyle.Panel>
                 <ItemsPanelTemplate>
                   <StackPanel Orientation="Horizontal"/>
@@ -74,11 +75,7 @@
               </GroupStyle.Panel>
             </GroupStyle>
           </ListBox.GroupStyle>
-          <ListBox.ItemContainerStyle>
-            <Style TargetType="ListBoxItem">
-              <Setter Property="Padding" Value="0"/>
-            </Style>
-          </ListBox.ItemContainerStyle>
+
         </ListBox>
       </HeaderedContentControl>
       <Line Grid.Row="1" Fill="{StaticResource DefaultButtonsBackgroundBrush}"/>

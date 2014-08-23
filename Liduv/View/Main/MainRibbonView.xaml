@@ -135,12 +135,12 @@
                             SmallImageSource="/Liduv;component/Images/Schuljahr16.png">
           <StackPanel Orientation="Vertical">
             <RibbonComboBox>
-              <RibbonGallery MaxColumnCount="1" SelectedItem="{Binding Source={x:Static setting:Selection.Instance}, Path=Halbjahr}">
+              <RibbonGallery MaxColumnCount="1" SelectedValue="{Binding Source={x:Static setting:Selection.Instance}, Path=Halbjahr}">
                 <RibbonGalleryCategory ItemsSource="{Binding Source={x:Static liduv:App.MainViewModel}, Path=Halbjahrtypen}" DisplayMemberPath="HalbjahrtypBezeichnung" />
               </RibbonGallery>
             </RibbonComboBox>
             <RibbonComboBox>
-              <RibbonGallery MaxColumnCount="1" SelectedItem="{Binding Source={x:Static setting:Selection.Instance}, Path=Jahrtyp}">
+              <RibbonGallery MaxColumnCount="1" SelectedValue="{Binding Source={x:Static setting:Selection.Instance}, Path=Jahrtyp}">
                 <RibbonGalleryCategory ItemsSource="{Binding Source={StaticResource JahrtypenSorted}}" DisplayMemberPath="JahrtypBezeichnung"/>
               </RibbonGallery>
             </RibbonComboBox>
@@ -151,12 +151,12 @@
                             SmallImageSource="/Liduv;component/Images/Fach16.png">
           <StackPanel Orientation="Vertical">
             <RibbonComboBox>
-              <RibbonGallery MaxColumnCount="1" SelectedItem="{Binding Source={x:Static setting:Selection.Instance}, Path=Fach}">
+              <RibbonGallery MaxColumnCount="1" SelectedValue="{Binding Source={x:Static setting:Selection.Instance}, Path=Fach}">
                 <RibbonGalleryCategory ItemsSource="{Binding Source={StaticResource FächerSorted}}" DisplayMemberPath="FachBezeichnung"/>
               </RibbonGallery>
             </RibbonComboBox>
             <RibbonComboBox>
-              <RibbonGallery MaxColumnCount="1" SelectedItem="{Binding Source={x:Static setting:Selection.Instance}, Path=Klasse}">
+              <RibbonGallery MaxColumnCount="1" SelectedValue="{Binding Source={x:Static setting:Selection.Instance}, Path=Klasse}">
                 <RibbonGalleryCategory ItemsSource="{Binding Source={StaticResource KlassenSorted}}" DisplayMemberPath="KlasseBezeichnung"/>
               </RibbonGallery>
             </RibbonComboBox>
