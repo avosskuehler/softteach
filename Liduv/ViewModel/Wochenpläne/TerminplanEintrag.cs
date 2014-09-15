@@ -553,9 +553,11 @@
       }
 
       var stunde = this.TerminViewModel as StundeViewModel;
+      stunde.StundeStundenentwurf.StundenentwurfDatum = stunde.LerngruppenterminDatum;
       Selection.Instance.Fach = App.MainViewModel.Fächer.First(o => o.FachBezeichnung == stunde.LerngruppenterminFach);
       Selection.Instance.Klasse = App.MainViewModel.Klassen.First(o => o.KlasseBezeichnung == stunde.LerngruppenterminKlasse);
       Selection.Instance.Stundenentwurf = stunde.StundeStundenentwurf;
+      
       var schülerliste =
         App.MainViewModel.Schülerlisten.First(
           o =>

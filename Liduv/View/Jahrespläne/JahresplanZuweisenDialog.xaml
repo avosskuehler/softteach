@@ -24,7 +24,7 @@
       <CollectionViewSource.GroupDescriptions>
         <PropertyGroupDescription PropertyName="ViewModelType"/>
         <PropertyGroupDescription PropertyName="TagesplanMonat"/>
-        <PropertyGroupDescription PropertyName="StundeModul"/>
+        <!--<PropertyGroupDescription PropertyName="StundeModul"/>-->
       </CollectionViewSource.GroupDescriptions>
     </CollectionViewSource>
     <jahrespläne:HalbjahresplanAdaptViewDataTemplateSelector x:Key="HalbjahresplanAdaptViewDataTemplateSelector"/>
@@ -46,7 +46,8 @@
       <HeaderedContentControl Grid.Row="0" Header="Jahresplan" Margin="5">
         <ListBox ItemsSource="{Binding Source={StaticResource GroupedTagespläneundStundenViewSource}}" 
                 ItemTemplateSelector="{StaticResource HalbjahresplanAdaptViewDataTemplateSelector}" 
-                dd:DragDrop.IsDragSource="True" 
+                  ItemContainerStyle="{StaticResource NoBorderListBoxItemStyle}"
+               dd:DragDrop.IsDragSource="True" 
                   dd:DragDrop.IsDropTarget="True"
                   dd:DragDrop.DropHandler="{Binding}"
                   dd:DragDrop.DragAdornerTemplate="{StaticResource StundeDragAdorner}"
@@ -66,7 +67,7 @@
                 </ItemsPanelTemplate>
               </GroupStyle.Panel>
             </GroupStyle>
-            <GroupStyle ContainerStyle="{StaticResource MonateGroupHeaderStyle}">
+            <GroupStyle ContainerStyle="{StaticResource GroupHeaderStyleBoth}">
               <GroupStyle.Panel>
                 <ItemsPanelTemplate>
                   <StackPanel Orientation="Horizontal"/>
@@ -74,17 +75,13 @@
               </GroupStyle.Panel>
             </GroupStyle>
           </ListBox.GroupStyle>
-          <ListBox.ItemContainerStyle>
-            <Style TargetType="ListBoxItem">
-              <Setter Property="Padding" Value="0"/>
-            </Style>
-          </ListBox.ItemContainerStyle>
         </ListBox>
       </HeaderedContentControl>
       <Line Grid.Row="1" Fill="{StaticResource DefaultButtonsBackgroundBrush}"/>
       <HeaderedContentControl Grid.Row="2" Header="Verfügbare Stunden" Margin="5">
         <ListBox ItemsSource="{Binding Source={StaticResource GroupedAvailableStundenViewSource}}" 
                   ItemTemplate="{StaticResource StundenGroupView}" 
+                 ItemContainerStyle="{StaticResource NoBorderListBoxItemStyle}"
                   dd:DragDrop.IsDragSource="True" 
                   dd:DragDrop.IsDropTarget="True"
                   dd:DragDrop.DropHandler="{Binding}"
@@ -110,7 +107,7 @@
       </HeaderedContentControl>
     </Grid>
     <Grid Background="{StaticResource DefaultButtonsBackgroundBrush}" Grid.Row="2">
-      <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
         <Button Command="{Binding Path=UpdateHalbjahresplanFromTemplateCommand}" 
                 ToolTip="Jahresplan übertragen">Jahresplan übertragen
         </Button>

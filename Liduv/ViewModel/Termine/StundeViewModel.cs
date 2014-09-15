@@ -593,7 +593,7 @@ namespace Liduv.ViewModel.Termine
       }
     }
 
-     /// <summary>
+    /// <summary>
     /// Hier wird der Dialog zur Hausaufgabenkontrolle aufgerufen
     /// </summary>
     private async void AddHausaufgaben()
