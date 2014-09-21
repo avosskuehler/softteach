@@ -805,6 +805,30 @@
       </UniformGrid>
     </Grid>
   </DataTemplate>
+  
+  <DataTemplate x:Key="KlassenlisteSonstigeNotenView">
+    <DataTemplate.Resources>
+      <SolidColorBrush x:Key="AnimatedBrush" Color="Transparent" />
+    </DataTemplate.Resources>
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+       <StackPanel Grid.Column="0" Orientation="Horizontal">
+        <Label Content="{Binding Path=SchülereintragPerson.PersonVorname}"/>
+        <Label Content="{Binding Path=SchülereintragPerson.PersonNachname}"/>
+      </StackPanel>
+      <UniformGrid Grid.Column="1" Margin="0" Rows="1" Columns="6">
+        <Button Command="{Binding Path=SonstigeNote1Command}" Style="{StaticResource NotenClickButton}" Content="1"/>
+        <Button Command="{Binding Path=SonstigeNote2Command}" Style="{StaticResource NotenClickButton}" Content="2"/>
+        <Button Command="{Binding Path=SonstigeNote3Command}" Style="{StaticResource NotenClickButton}" Content="3"/>
+        <Button Command="{Binding Path=SonstigeNote4Command}" Style="{StaticResource NotenClickButton}" Content="4"/>
+        <Button Command="{Binding Path=SonstigeNote5Command}" Style="{StaticResource NotenClickButton}" Content="5"/>
+        <Button Command="{Binding Path=SonstigeNote6Command}" Style="{StaticResource NotenClickButton}" Content="6"/>
+      </UniformGrid>
+    </Grid>
+  </DataTemplate>
 
   <DataTemplate x:Key="SchülerlisteSingleView">
     <StackPanel Orientation="Horizontal" Margin="0">

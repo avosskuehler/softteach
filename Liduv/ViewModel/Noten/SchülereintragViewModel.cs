@@ -151,6 +151,12 @@
       this.Quantität5Command = new DelegateCommand(this.AddMündlicheQuantitätsNote5);
       this.Qualität6Command = new DelegateCommand(this.AddMündlicheQualitätsNote6);
       this.Quantität6Command = new DelegateCommand(this.AddMündlicheQuantitätsNote6);
+      this.SonstigeNote1Command = new DelegateCommand(this.AddSonstigeNote1);
+      this.SonstigeNote2Command = new DelegateCommand(this.AddSonstigeNote2);
+      this.SonstigeNote3Command = new DelegateCommand(this.AddSonstigeNote3);
+      this.SonstigeNote4Command = new DelegateCommand(this.AddSonstigeNote4);
+      this.SonstigeNote5Command = new DelegateCommand(this.AddSonstigeNote5);
+      this.SonstigeNote6Command = new DelegateCommand(this.AddSonstigeNote6);
       Selection.Instance.PropertyChanged += this.SelectionPropertyChanged;
     }
 
@@ -248,6 +254,36 @@
     /// Holt den Befehl um eine eins für die mündliche Quantität zu geben
     /// </summary>
     public DelegateCommand Quantität6Command { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl um eine eins für die sonstige Note zu geben
+    /// </summary>
+    public DelegateCommand SonstigeNote1Command { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl um eine zwei für die sonstige Note zu geben
+    /// </summary>
+    public DelegateCommand SonstigeNote2Command { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl um eine drei für die sonstige Note zu geben
+    /// </summary>
+    public DelegateCommand SonstigeNote3Command { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl um eine vier für die sonstige Note zu geben
+    /// </summary>
+    public DelegateCommand SonstigeNote4Command { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl um eine fünf für die sonstige Note zu geben
+    /// </summary>
+    public DelegateCommand SonstigeNote5Command { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl um eine sechs für die sonstige Note zu geben
+    /// </summary>
+    public DelegateCommand SonstigeNote6Command { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Noten für diesen Schülereintrag
@@ -1504,6 +1540,81 @@
     private void AddMündlicheQuantitätsNote6()
     {
       this.AddMündlicheNote(Notentyp.MündlichQuantität, 6);
+    }
+
+    /// <summary>
+    /// Erstellt eine mündliche 1 für die sonstige Note
+    /// </summary>
+    private void AddSonstigeNote1()
+    {
+      this.AddSonstigeNote(1);
+    }
+
+    /// <summary>
+    /// Erstellt eine mündliche 2 für die sonstige Note
+    /// </summary>
+    private void AddSonstigeNote2()
+    {
+      this.AddSonstigeNote(2);
+    }
+
+    /// <summary>
+    /// Erstellt eine mündliche 3 für die sonstige Note
+    /// </summary>
+    private void AddSonstigeNote3()
+    {
+      this.AddSonstigeNote(3);
+    }
+
+    /// <summary>
+    /// Erstellt eine mündliche 4 für die sonstige Note
+    /// </summary>
+    private void AddSonstigeNote4()
+    {
+      this.AddSonstigeNote(4);
+    }
+
+    /// <summary>
+    /// Erstellt eine mündliche 5 für die sonstige Note
+    /// </summary>
+    private void AddSonstigeNote5()
+    {
+      this.AddSonstigeNote(5);
+    }
+
+    /// <summary>
+    /// Erstellt eine mündliche 6 für die sonstige Note
+    /// </summary>
+    private void AddSonstigeNote6()
+    {
+      this.AddSonstigeNote(6);
+    }
+
+    /// <summary>
+    /// Erstellt eine neue sonstige Note mit den gegebenen Parametern
+    /// </summary>
+    /// <param name="notenwert">Ein ganzzahliger Notenwert für die Note.</param>
+    private void AddSonstigeNote(int notenwert)
+    {
+      var note = new Note();
+      note.Datum = Selection.Instance.SonstigeNoteDatum;
+      note.Bezeichnung = Selection.Instance.SonstigeNoteBezeichnung;
+      note.IstSchriftlich = Selection.Instance.SonstigeNoteNotentyp != Notentyp.MündlichSonstige;
+      note.Notentyp = Selection.Instance.SonstigeNoteNotentyp.ToString();
+      note.Wichtung = 1;
+      note.Zensur = App.MainViewModel.Zensuren.First(o => o.ZensurNoteMitTendenz == notenwert.ToString(CultureInfo.InvariantCulture)).Model;
+      note.Schülereintrag = this.Model;
+      var vm = new NoteViewModel(note);
+      using (new UndoBatch(App.MainViewModel, string.Format("Note {0} hinzugefügt.", vm), false))
+      {
+        if (!this.Noten.Contains(vm))
+        {
+          App.MainViewModel.Noten.Add(vm);
+          this.Noten.Add(vm);
+        }
+
+        this.UpdateNoten();
+      }
     }
 
     /// <summary>

@@ -1,0 +1,78 @@
+﻿<Window x:Class="Liduv.View.Noten.SonstigeNotenDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:resources="clr-namespace:Liduv.Resources" 
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        xmlns:setting="clr-namespace:Liduv.Setting"
+        xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
+        xmlns:controls="clr-namespace:Liduv.Resources.Controls"
+        Title="Frage ..." 
+        Height="431" 
+        Width="624">
+  <Window.Resources>
+    <CollectionViewSource x:Key="SortierteKlassenlisteViewSource" Source="{Binding Path=Schülerliste.Schülereinträge}">
+      <CollectionViewSource.SortDescriptions>
+        <scm:SortDescription PropertyName="SchülereintragPerson.PersonVorname" Direction="Ascending" />
+      </CollectionViewSource.SortDescriptions>
+    </CollectionViewSource>
+  </Window.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Bitte geben Sie die sonstige Note."
+                                      Icon="/Liduv;component/Images/Notentendenz32.png"/>
+    <Grid Grid.Row="1" Background="{x:Static SystemColors.MenuBarBrush}">
+      <Grid Margin="10">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel  Grid.Row="0">
+          <StackPanel Orientation="Horizontal">
+            <Label>Sonstige Note:</Label>
+            <Label Content="{Binding Source={x:Static setting:Selection.Instance}, Path=SonstigeNoteBezeichnung}"/>
+            <Label>vom</Label>
+            <Label Content="{Binding Source={x:Static setting:Selection.Instance}, Path=SonstigeNoteDatumString}"/>
+            <Label>Typ</Label>
+            <Label Content="{Binding Source={x:Static setting:Selection.Instance}, Path=SonstigeNoteNotentyp}"/>
+          </StackPanel>
+        </StackPanel>
+        <ListBox Grid.Row="1"
+                 ItemsSource="{Binding Source={StaticResource SortierteKlassenlisteViewSource}}"             
+                 BorderThickness="0"
+                 Name="SonstigeNotenListBox"
+                 ItemTemplate="{StaticResource KlassenlisteSonstigeNotenView}"
+                 ItemContainerStyle="{StaticResource UnselectableListBoxItem}"
+                 >
+          <ListBox.ItemsPanel>
+            <ItemsPanelTemplate>
+              <WrapPanel Width="{Binding ElementName=SonstigeNotenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
+            </ItemsPanelTemplate>
+          </ListBox.ItemsPanel>
+          <!--<ListBox.ItemContainerStyle >
+            <Style TargetType="ListBoxItem">
+               <Setter Property="Padding" Value="0"/>
+            </Style>
+          </ListBox.ItemContainerStyle>-->
+        </ListBox>
+        <!--<DataGrid Grid.Row="1" ItemsSource="{Binding Path=CurrentSchülerliste.Schülereinträge}" AutoGenerateColumns="False" >
+          <DataGrid.Columns>
+            <DataGridTextColumn Header="Klasse" Binding="{Binding Path=Model.Schülerliste.Klasse.Bezeichnung}" SortMemberPath="Bezeichnung"/>
+            <DataGridTextColumn Header="Vorname" Binding="{Binding Path=SchülereintragPerson.PersonVorname}" SortMemberPath="PersonVorname"/>
+            <DataGridTextColumn Header="Nachname" Binding="{Binding Path=SchülereintragPerson.PersonNachname}" SortMemberPath="PersonNachname"/>
+            <DataGridCheckBoxColumn Header="HA nicht gemacht"/>
+          </DataGrid.Columns>
+        </DataGrid>-->
+      </Grid>
+    </Grid>
+    <Grid Background="{StaticResource DefaultButtonsBackgroundBrush}" Grid.Row="2">
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+        <Button Width="100" HorizontalAlignment="Right" IsDefault="True" Click="OkClick" TabIndex="2">OK</Button>
+        <Button Width="100" Margin="5,0,0,0" HorizontalAlignment="Right" IsCancel="True" Click="CancelClick" TabIndex="3">Abbruch</Button>
+      </StackPanel>
+    </Grid>
+  </Grid>
+</Window>

@@ -62,6 +62,15 @@
               <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Nicht gemachte Hausaufgaben eintragen.</Label>
             </StackPanel>
           </Button>
+          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddSonstigeNotenCommand}" ToolTip="Sonstige Noten eintragen.">
+            <StackPanel Orientation="Horizontal">
+              <Grid>
+                <Image Source="/Liduv;component/Images/Note32.png"/>
+                <Image Source="/Liduv;component/Images/AddOverlay32.png"/>
+              </Grid>
+              <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Sonstige Noten eintragen.</Label>
+            </StackPanel>
+          </Button>
           <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=PrintNotenlisteCommand}" ToolTip="Notenliste drucken.">
             <StackPanel Orientation="Horizontal">
               <Grid>

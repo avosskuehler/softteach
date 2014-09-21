@@ -52,6 +52,7 @@
       };
 
       this.AddHausaufgabenCommand = new DelegateCommand(this.AddHausaufgaben);
+      this.AddSonstigeNotenCommand = new DelegateCommand(this.AddSonstigeNoten);
       this.PrintNotenlisteCommand = new DelegateCommand(this.PrintNotenliste);
       this.PrintNotenlisteDetailCommand = new DelegateCommand(this.PrintNotenlisteDetail);
     }
@@ -60,6 +61,11 @@
     /// Holt den Befehl, um fehlende Hausaufgaben einzutragen.
     /// </summary>
     public DelegateCommand AddHausaufgabenCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl, um sonstige Noten anzulegen.
+    /// </summary>
+    public DelegateCommand AddSonstigeNotenCommand { get; private set; }
 
     /// <summary>
     /// Holt den Befehl, um die Notenliste der aktuellen Schülerliste auszudrucken
@@ -138,6 +144,48 @@
           }
 
           var dlg = new HausaufgabenDialog { Schülerliste = this.currentSchülerliste };
+          undo = !dlg.ShowDialog().GetValueOrDefault(false);
+        }
+      }
+
+      if (undo)
+      {
+        App.MainViewModel.ExecuteUndoCommand();
+      }
+    }
+
+    /// <summary>
+    /// Hier wird der Dialog zur Hausaufgabenkontrolle aufgerufen
+    /// </summary>
+    private async void AddSonstigeNoten()
+    {
+      Selection.Instance.Schülerliste = this.CurrentSchülerliste;
+
+      if (Configuration.Instance.IsMetroMode)
+      {
+        //var addDlg = new MetroAddHausaufgabeDialog(this.stunde.LerngruppenterminDatum);
+        //var metroWindow = Configuration.Instance.MetroWindow;
+        //await metroWindow.ShowMetroDialogAsync(addDlg);
+        //return;
+      }
+
+      var undo = false;
+      using (new UndoBatch(App.MainViewModel, string.Format("Sonstige Noten hinzugefügt."), false))
+      {
+        var addDlg = new AddSonstigeNoteDialog() { Datum = DateTime.Now };
+        if (addDlg.ShowDialog().GetValueOrDefault(false))
+        {
+          Selection.Instance.SonstigeNoteDatum = addDlg.Datum;
+          Selection.Instance.SonstigeNoteBezeichnung = addDlg.Bezeichnung;
+          Selection.Instance.SonstigeNoteNotentyp = addDlg.Notentyp;
+
+          // Reset currently selected note
+          foreach (var schülereintragViewModel in this.CurrentSchülerliste.Schülereinträge)
+          {
+            schülereintragViewModel.CurrentNote = null;
+          }
+
+          var dlg = new SonstigeNotenDialog() { Schülerliste = this.CurrentSchülerliste };
           undo = !dlg.ShowDialog().GetValueOrDefault(false);
         }
       }

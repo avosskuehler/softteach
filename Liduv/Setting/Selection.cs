@@ -51,6 +51,9 @@ namespace Liduv.Setting
     private BewertungsschemaViewModel bewertungsschema;
     private DateTime hausaufgabeDatum;
     private string hausaufgabeBezeichnung;
+    private DateTime sonstigeNoteDatum;
+    private string sonstigeNoteBezeichnung;
+    private Notentyp sonstigeNoteNotentyp;
 
     /// <summary>
     /// The instance.
@@ -363,6 +366,68 @@ namespace Liduv.Setting
       get
       {
         return this.hausaufgabeDatum.ToLongDateString();
+      }
+    }
+
+    /// <summary>
+    /// Holt oder setzt das Datum der sonstigen Note
+    /// </summary>
+    public DateTime SonstigeNoteDatum
+    {
+      get
+      {
+        return this.sonstigeNoteDatum;
+      }
+
+      set
+      {
+        this.sonstigeNoteDatum = value;
+        this.OnPropertyChanged("SonstigeNoteDatum");
+      }
+    }
+
+    /// <summary>
+    /// Holt oder setzt die Bezeichnung für die SonstigeNote
+    /// </summary>
+    public string SonstigeNoteBezeichnung
+    {
+      get
+      {
+        return this.sonstigeNoteBezeichnung;
+      }
+
+      set
+      {
+        this.sonstigeNoteBezeichnung = value;
+        this.OnPropertyChanged("SonstigeNoteBezeichnung");
+      }
+    }
+
+    /// <summary>
+    /// Holt oder setzt den Typ für die SonstigeNote
+    /// </summary>
+    public Notentyp SonstigeNoteNotentyp
+    {
+      get
+      {
+        return this.sonstigeNoteNotentyp;
+      }
+
+      set
+      {
+        this.sonstigeNoteNotentyp = value;
+        this.OnPropertyChanged("SonstigeNoteNotentyp");
+      }
+    }
+
+    /// <summary>
+    /// Holt das Datum der SonstigeNote in der form LongDateString
+    /// </summary>
+    public string SonstigeNoteDatumString
+    {
+      get
+      {
+        return this.sonstigeNoteDatum.ToLongDateString();
       }
     }
 

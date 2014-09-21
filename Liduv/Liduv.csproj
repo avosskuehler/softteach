@@ -571,6 +571,12 @@
     <Compile Include="View\Datenbank\SchülereintragWorkspace.xaml.cs">
       <DependentUpon>SchülereintragWorkspace.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Noten\AddSonstigeNoteDialog.xaml.cs">
+      <DependentUpon>AddSonstigeNoteDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Noten\SonstigeNotenDialog.xaml.cs">
+      <DependentUpon>SonstigeNotenDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Personen\MetroGruppenPrintView.xaml.cs">
       <DependentUpon>MetroGruppenPrintView.xaml</DependentUpon>
     </Compile>
@@ -1408,6 +1414,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Datenbank\SchülereintragWorkspace.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Noten\AddSonstigeNoteDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Noten\SonstigeNotenDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

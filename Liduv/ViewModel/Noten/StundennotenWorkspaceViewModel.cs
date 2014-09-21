@@ -22,12 +22,7 @@
   /// </summary>
   public class StundennotenWorkspaceViewModel : ViewModelBase
   {
-    /// <summary>
-    /// Zufallsgenerator für die Auswahl der Schüler aus der Schülerliste
-    /// </summary>
-    private readonly Random randomGenerator;
-
-    /// <summary>
+   /// <summary>
     /// Holt oder setzt die Schülerliste für die es Noten geben soll.
     /// </summary>
     private SchülerlisteViewModel schülerliste;
@@ -47,16 +42,6 @@
     /// </summary>
     private ICollectionView completeSchülerView;
 
-    ///// <summary>
-    ///// The Stunde currently selected
-    ///// </summary>
-    //private StundeViewModel currentStunde;
-
-    ///// <summary>
-    ///// Die Schülerliste für die es Noten geben soll.
-    ///// </summary>
-    //private SchülerlisteViewModel currentSchülerliste;
-
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="StundennotenWorkspaceViewModel"/> Klasse. 
     /// </summary>
@@ -64,21 +49,25 @@
     /// <param name="stundeViewModel">Die Stunde für die Noten gegeben werden sollen.</param>
     public StundennotenWorkspaceViewModel(SchülerlisteViewModel schülerlisteViewModel, StundeViewModel stundeViewModel)
     {
-      this.randomGenerator = new Random();
       this.schülerliste = schülerlisteViewModel;
       this.completeSchülerView = CollectionViewSource.GetDefaultView(this.schülerliste.Schülereinträge);
       this.Stunde = stundeViewModel;
 
       this.IsShowingAlleSchüler = false;
-      //this.CurrentStundennote = App.MainViewModel.Stundennoten.Count > 0 ? App.MainViewModel.Stundennoten[0] : null;
 
       this.AddHausaufgabenCommand = new DelegateCommand(this.AddHausaufgaben);
+      this.AddSonstigeNotenCommand = new DelegateCommand(this.AddSonstigeNoten);
     }
 
     /// <summary>
     /// Holt den Befehl, um vergessen Hausaufgaben anzulegen.
     /// </summary>
     public DelegateCommand AddHausaufgabenCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl, um sonstige Noten anzulegen.
+    /// </summary>
+    public DelegateCommand AddSonstigeNotenCommand { get; private set; }
 
     /// <summary>
     /// Holt ein View der Schüler, die benotet werden sollen.
@@ -168,6 +157,48 @@
           }
 
           var dlg = new HausaufgabenDialog { Schülerliste = this.schülerliste };
+          undo = !dlg.ShowDialog().GetValueOrDefault(false);
+        }
+      }
+
+      if (undo)
+      {
+        App.MainViewModel.ExecuteUndoCommand();
+      }
+    }
+
+    /// <summary>
+    /// Hier wird der Dialog zur Hausaufgabenkontrolle aufgerufen
+    /// </summary>
+    private async void AddSonstigeNoten()
+    {
+      Selection.Instance.Schülerliste = this.schülerliste;
+
+      if (Configuration.Instance.IsMetroMode)
+      {
+        //var addDlg = new MetroAddHausaufgabeDialog(this.stunde.LerngruppenterminDatum);
+        //var metroWindow = Configuration.Instance.MetroWindow;
+        //await metroWindow.ShowMetroDialogAsync(addDlg);
+        //return;
+      }
+
+      var undo = false;
+      using (new UndoBatch(App.MainViewModel, string.Format("Sonstige Noten hinzugefügt."), false))
+      {
+        var addDlg = new AddSonstigeNoteDialog() { Datum = this.stunde.LerngruppenterminDatum };
+        if (addDlg.ShowDialog().GetValueOrDefault(false))
+        {
+          Selection.Instance.SonstigeNoteDatum = addDlg.Datum;
+          Selection.Instance.SonstigeNoteBezeichnung = addDlg.Bezeichnung;
+          Selection.Instance.SonstigeNoteNotentyp = addDlg.Notentyp;
+
+          // Reset currently selected note
+          foreach (var schülereintragViewModel in this.schülerliste.Schülereinträge)
+          {
+            schülereintragViewModel.CurrentNote = null;
+          }
+
+          var dlg = new SonstigeNotenDialog() { Schülerliste = this.schülerliste };
           undo = !dlg.ShowDialog().GetValueOrDefault(false);
         }
       }
