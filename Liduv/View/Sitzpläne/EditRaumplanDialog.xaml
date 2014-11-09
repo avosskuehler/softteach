@@ -5,11 +5,9 @@
         Title="Frage ..." 
       Height="700" 
       Width="850"
-        ResizeMode="NoResize" 
+        ResizeMode="NoResize"
         WindowStyle="SingleBorderWindow"
-        PreviewKeyDown="WindowPreviewKeyDown"
-        
-            >
+        PreviewKeyDown="WindowPreviewKeyDown">
   <Window.Resources>
     <ResourceDictionary>
       <TextBlock x:Key="CursorRotate" Cursor="/Liduv;component/Resources/Cursors/Rotate.cur"/>
@@ -41,7 +39,7 @@
       <Label  Content="Bezeichnung des Raumplans" VerticalAlignment="Center"/>
       <TextBox  Margin="3"  Style="{StaticResource HeaderTextBox}" TabIndex="1"  VerticalAlignment="Center" MinWidth="200" Text="{Binding Raumplan.RaumplanBezeichnung}"/>
     </StackPanel>
-    <Canvas Name="RaumplanCanvas" Width="800" Height="500"
+    <Canvas Name="RaumplanCanvas" Width="800" Height="500" 
             Grid.Row="2" 
             PreviewMouseLeftButtonDown="Canvas_PreviewMouseLeftButtonDown"
             PreviewMouseMove="Canvas_PreviewMouseMove" 

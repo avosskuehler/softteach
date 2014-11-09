@@ -18,6 +18,9 @@
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Liduv;component/Resources/MetroResources.xaml"/>
+        <ResourceDictionary>
+          <RotateTransform x:Key="SitzplanDrehungRotateTransform" Angle="{Binding Path=SitzplanDrehung}"></RotateTransform>
+        </ResourceDictionary>
         <ResourceDictionary >
           <CollectionViewSource x:Key="SortedAvailableSchülereinträgeViewSource" Source="{Binding AvailableSchülereinträge}">
             <CollectionViewSource.SortDescriptions>
@@ -32,7 +35,7 @@
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
-      <RowDefinition Height="100"/>
+      <RowDefinition Height="Auto" MinHeight="30"/>
       <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
     <Border Grid.Row="0" Background="{StaticResource MetroHeaderBackground}">
@@ -80,7 +83,7 @@
                     ToolTip="Sitzplan ausdrucken.">
         <Image Source="/Liduv;component/Images/Printer48.png"/>
       </Button>
-      <controls:NumericUpDown Grid.Column="9" Value="{Binding SitzplanDrehung}" Interval="90" Maximum="359" Minimum="0" />
+      <controls:NumericUpDown Grid.Column="9" Value="{Binding SitzplanDrehung}" Interval="90" Maximum="360" Minimum="0" />
     </Grid>
     <ListBox Grid.Column="0" Grid.Row="2" ItemsSource="{Binding Source={StaticResource SortedAvailableSchülereinträgeViewSource}}" 
                  ItemTemplate="{StaticResource MetroSchülereintragSitzplanView}"
@@ -92,23 +95,27 @@
                  Name="SchülerListBox">
       <ListBox.ItemsPanel>
         <ItemsPanelTemplate>
-          <WrapPanel Width="{Binding ElementName=SchülerListBox, Path=ActualWidth}"/>
+          <StackPanel Orientation="Horizontal"/>
         </ItemsPanelTemplate>
       </ListBox.ItemsPanel>
     </ListBox>
+    <Image Grid.Column="0" Grid.Row="3" Source="{Binding SitzplanRaumplan.RaumplanImage}" Stretch="None"/>
     <ListBox Grid.Column="0" Grid.Row="3" ItemsSource="{Binding Sitzplaneinträge}" 
+             Background="Transparent"
                  BorderThickness="0"
                  dd:DragDrop.IsDragSource="True" 
                  dd:DragDrop.IsDropTarget="True"
                  dd:DragDrop.DragAdornerTemplate="{StaticResource SitzplaneintragDragAdorner}"
                  dd:DragDrop.DropHandler="{Binding}"
-                 Name="SitzplaneinträgeListBox">
-      <ListBox.Background>
+                 Name="SitzplaneinträgeListBox" 
+             ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+             ScrollViewer.VerticalScrollBarVisibility="Disabled">
+      <!--<ListBox.Background>
         <ImageBrush ImageSource="{Binding SitzplanRaumplan.RaumplanImage}" Stretch="None"></ImageBrush>
-      </ListBox.Background>
+      </ListBox.Background>-->
       <ListBox.ItemsPanel>
         <ItemsPanelTemplate>
-          <Canvas Width="800" Height="500" Margin="-10,-5,0,0">
+          <Canvas Width="800" Height="500" Margin="0" Background="Transparent">
           </Canvas>
         </ItemsPanelTemplate>
       </ListBox.ItemsPanel>
@@ -116,19 +123,31 @@
         <Style TargetType="ListBoxItem">
           <Setter Property="Canvas.Left" Value="{Binding SitzplaneintragSitzplatz.SitzplatzLinksObenX}"/>
           <Setter Property="Canvas.Top" Value="{Binding SitzplaneintragSitzplatz.SitzplatzLinksObenY}"/>
+          <Setter Property="Padding" Value="0"/>
         </Style>
       </ListBox.ItemContainerStyle>
       <ListBox.ItemTemplate>
         <DataTemplate>
           <Border Background="#550069a6" Width="{Binding SitzplaneintragSitzplatz.SitzplatzBreite}" Height="{Binding SitzplaneintragSitzplatz.SitzplatzHöhe}" Margin="0" Padding="0" RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
-              <RotateTransform Angle="{Binding SitzplaneintragSitzplatz.SitzplatzDrehwinkel}"/>
+              <RotateTransform>
+                <RotateTransform.Angle>
+                  <MultiBinding Converter="{StaticResource SitzplatzAngleConverter}">
+                    <Binding Path="SitzplaneintragSitzplatz.SitzplatzDrehwinkel"/>
+                    <Binding Source="{StaticResource SitzplanDrehungRotateTransform}" Mode="TwoWay" Path="Angle"/>
+                  </MultiBinding>
+                </RotateTransform.Angle>
+              </RotateTransform>
             </Border.RenderTransform>
-            <TextBlock TextWrapping="Wrap" Padding="1,0,0,0" Margin="0" LineHeight="15" LineStackingStrategy="BlockLineHeight"
+            <!--<Border.RenderTransform>
+              <RotateTransform Angle="{Binding SitzplaneintragSitzplatz.SitzplatzDrehwinkel}"/>
+            </Border.RenderTransform>-->
+            <TextBlock TextWrapping="Wrap" Padding="0" Margin="0" LineHeight="15" LineStackingStrategy="BlockLineHeight"
                        Text="{Binding SitzplaneintragSchülereintrag.SchülereintragPerson.PersonVornameKurz}"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
-                       FontSize="19"/>
+                       FontSize="16">
+            </TextBlock>
           </Border>
         </DataTemplate>
       </ListBox.ItemTemplate>

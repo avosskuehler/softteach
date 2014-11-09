@@ -1004,7 +1004,7 @@
           clone.Raum = stundenplanEintrag.StundenplaneintragRaum.Model;
           clone.WochentagIndex = stundenplanEintrag.StundenplaneintragWochentagIndex;
           clone.Stundenplan = stundenplan;
-          var stundenplanEintragViewModel = new StundenplaneintragViewModel(clone);
+          var stundenplanEintragViewModel = new StundenplaneintragViewModel(stundenplanViewModel, clone);
           App.MainViewModel.Stundenplaneinträge.Add(stundenplanEintragViewModel);
           stundenplanViewModel.Stundenplaneinträge.Add(stundenplanEintragViewModel);
         }

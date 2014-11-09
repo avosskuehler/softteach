@@ -42,6 +42,8 @@
     /// </summary>
     private SitzplaneintragViewModel currentSitzplaneintrag;
 
+    private double sitzplanDrehung;
+
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="SitzplanViewModel"/> Klasse. 
     /// </summary>
@@ -284,9 +286,23 @@
     }
 
     /// <summary>
-    /// Holt oder setzt einen Wert, der angibt, wie starkt der Sitzplan beim Ausdrucken gedreht werden soll.
+    /// Holt oder setzt einen Wert, der angibt, wie stark der Sitzplan beim Ausdrucken gedreht werden soll.
     /// </summary>
-    public double SitzplanDrehung { get; set; }
+    public double SitzplanDrehung
+    {
+      get
+      {
+        return this.sitzplanDrehung;
+      }
+
+      set
+      {
+        if (value == this.sitzplanDrehung) return;
+        this.UndoablePropertyChanging(this, "SitzplanDrehung", this.sitzplanDrehung, value);
+        this.sitzplanDrehung = value;
+        this.RaisePropertyChanged("SitzplanDrehung");
+      }
+    }
 
     /// <summary>
     /// Holt oder setzt einen Wert, der angibt, ob beim Sitzplan Jungen und Mädchen möglichst getrennt sitzen sollen.

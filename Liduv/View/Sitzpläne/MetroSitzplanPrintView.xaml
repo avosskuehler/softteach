@@ -43,12 +43,22 @@
       <ListBox.ItemTemplate>
         <DataTemplate>
           <Border Width="{Binding SitzplaneintragSitzplatz.SitzplatzBreite}" Height="{Binding SitzplaneintragSitzplatz.SitzplatzHöhe}" Margin="0" Padding="0">
-            <TextBlock TextWrapping="Wrap" Padding="1,0,0,0" Margin="0" LineHeight="15" LineStackingStrategy="BlockLineHeight"
+            <Border.LayoutTransform>
+              <RotateTransform CenterX="0.5" CenterY="0.5">
+                <RotateTransform.Angle>
+                  <MultiBinding Converter="{StaticResource SitzplatzAngleConverter}">
+                    <Binding Path="SitzplaneintragSitzplatz.SitzplatzDrehwinkel"/>
+                    <Binding Source="{StaticResource SitzplanDrehungRotateTransform}" Path="Angle"/>
+                  </MultiBinding>
+                </RotateTransform.Angle>
+              </RotateTransform>
+            </Border.LayoutTransform>
+            <TextBlock TextWrapping="Wrap" Padding="0" Margin="0" LineHeight="15" LineStackingStrategy="BlockLineHeight"
                        Text="{Binding SitzplaneintragSchülereintrag.SchülereintragPerson.PersonVornameKurz}"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
-                       FontSize="19">
-              <TextBlock.LayoutTransform>
+                       FontSize="16">
+              <!--<TextBlock.LayoutTransform>
                 <RotateTransform>
                   <RotateTransform.Angle>
                     <MultiBinding Converter="{StaticResource SitzplatzAngleConverter}">
@@ -57,7 +67,7 @@
                     </MultiBinding>
                   </RotateTransform.Angle>
                 </RotateTransform>
-              </TextBlock.LayoutTransform>
+              </TextBlock.LayoutTransform>-->
             </TextBlock>
           </Border>
         </DataTemplate>

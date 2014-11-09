@@ -190,12 +190,10 @@ namespace Liduv.View.Stundenpläne
                     if (stundeToChange is StundeViewModel)
                     {
                       var tagesplanToMoveTo = halbjahresplanToChange.Monatspläne[monthIndex].Tagespläne.OrderBy(o => o.TagesplanDatum).ElementAt(dayIndex);
-                      tagesplanToMoveTo.AddStunde(stundeToChange as StundeViewModel);
-                      tagesplanToMoveTo.UpdateBeschreibung();
+                      tagesplanToMoveTo.AddStundeToTagesplan(stundeToChange as StundeViewModel);
                     }
 
-                    tagesplanViewModel.DeleteLerngruppentermin(stundeToChange);
-                    tagesplanViewModel.UpdateBeschreibung();
+                    tagesplanViewModel.RemoveStundeFromTagesplan(stundeToChange);
                   }
 
                   tagesplanViewModel.UpdateBeschreibung();

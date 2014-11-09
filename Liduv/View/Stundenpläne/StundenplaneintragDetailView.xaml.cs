@@ -77,7 +77,7 @@ namespace Liduv.View.Stundenpläne
     private void SurroundBorderMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
       var stundenplanEintragViewModel = this.DataContext as StundenplaneintragViewModel;
-      if (stundenplanEintragViewModel.Parent==null)
+      if (stundenplanEintragViewModel.Parent == null)
       {
         return;
       }

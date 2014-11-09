@@ -8,20 +8,16 @@ namespace Liduv.ViewModel.Termine
   using System.Windows.Controls;
   using System.Windows.Documents;
   using System.Windows.Markup;
-  using System.Windows.Navigation;
 
   using Liduv.Model.EntityFramework;
   using Liduv.Setting;
   using Liduv.UndoRedo;
-  using Liduv.View.Jahrespläne;
   using Liduv.View.Noten;
   using Liduv.View.Stundenentwürfe;
   using Liduv.View.Termine;
-  using Liduv.ViewModel.Datenbank;
   using Liduv.ViewModel.Helper;
   using Liduv.ViewModel.Jahrespläne;
   using Liduv.ViewModel.Noten;
-  using Liduv.ViewModel.Personen;
   using Liduv.ViewModel.Stundenentwürfe;
 
   using MahApps.Metro.Controls.Dialogs;
@@ -606,6 +602,11 @@ namespace Liduv.ViewModel.Termine
         var metroWindow = Configuration.Instance.MetroWindow;
         await metroWindow.ShowMetroDialogAsync(addDlg);
       }
+    }
+
+    public void UpdateDate()
+    {
+      this.RaisePropertyChanged("StundeDatum");
     }
   }
 }

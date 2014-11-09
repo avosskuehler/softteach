@@ -390,6 +390,17 @@ namespace Liduv.ViewModel.Jahrespläne
     }
 
     /// <summary>
+    /// Removes the stunde from tagesplan.
+    /// </summary>
+    /// <param name="lerngruppenterminViewModel">The lerngruppentermin view model.</param>
+    public void RemoveStundeFromTagesplan(LerngruppenterminViewModel lerngruppenterminViewModel)
+    {
+      var result = this.Lerngruppentermine.RemoveTest(lerngruppenterminViewModel);
+      this.CurrentLerngruppentermin = null;
+      this.UpdateBeschreibung();
+    }
+
+    /// <summary>
     /// Aktualisiert die Beschreibung des Tagesplans.
     /// </summary>
     public void UpdateBeschreibung()
@@ -460,6 +471,19 @@ namespace Liduv.ViewModel.Jahrespläne
     }
 
     /// <summary>
+    /// Adds a stunde to tagesplan.
+    /// </summary>
+    /// <param name="stundeViewModel">The existing stunde view model.</param>
+    public void AddStundeToTagesplan(StundeViewModel stundeViewModel)
+    {
+      ((Stunde)stundeViewModel.Model).Tagesplan = this.Model;
+      this.Lerngruppentermine.Add(stundeViewModel);
+      this.CurrentLerngruppentermin = stundeViewModel;
+
+      this.UpdateBeschreibung();
+    }
+
+    /// <summary>
     /// Gibt eine lesbare Repräsentation des ViewModels
     /// </summary>
     /// <returns>Ein <see cref="string"/> mit einer Kurzform des ViewModels.</returns>
@@ -480,8 +504,8 @@ namespace Liduv.ViewModel.Jahrespläne
       {
         var lerngruppenTermin = this.Lerngruppentermine[0];
         var needCut = lerngruppenTermin.TerminBeschreibung.Length > 22;
-        beschreibung = needCut ? 
-          lerngruppenTermin.TerminBeschreibung.Substring(0, Math.Min(lerngruppenTermin.TerminBeschreibung.Length, 22)) + "..." 
+        beschreibung = needCut ?
+          lerngruppenTermin.TerminBeschreibung.Substring(0, Math.Min(lerngruppenTermin.TerminBeschreibung.Length, 22)) + "..."
           : lerngruppenTermin.TerminBeschreibung;
       }
       else if (this.Lerngruppentermine.Count > 1)
