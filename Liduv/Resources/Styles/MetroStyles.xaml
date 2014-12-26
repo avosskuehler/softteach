@@ -279,7 +279,7 @@
     <Setter Property="Margin" Value="0"/>
     <Setter Property="ContentTemplate" Value="{StaticResource MetroRaumplanDataTemplate}" />
   </Style>
-  
+
   <Style TargetType="{x:Type RadioButton}" x:Key="MetroSitzplanToggleRadioButton" BasedOn="{StaticResource MetroToggleRadioButton}">
     <Setter Property="Height" Value="Auto"/>
     <Setter Property="Margin" Value="0"/>
@@ -607,7 +607,7 @@
       <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="1" Margin="5" Padding="0" Content="{Binding Path=SchülereintragPerson.PersonNachname}"/>
     </Grid>
   </DataTemplate>
-  
+
   <DataTemplate x:Key="MetroPrintSchülereintragGruppenView">
     <Grid>
       <Grid.ColumnDefinitions>
@@ -629,6 +629,31 @@
     </Grid>
   </DataTemplate>
 
+  <DataTemplate x:Key="MetroSchülereintragGruppenOverview">
+    <Button Style="{StaticResource HausaufgabeButton}" Name="SchülerButton" Command="{Binding Path=MarkAsKrankCommand}">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="0" Margin="5" Padding="0" Content="{Binding Path=SchülereintragPerson.PersonKurzform}"/>
+      </Grid>
+    </Button>
+    <DataTemplate.Triggers>
+      <DataTrigger Binding="{Binding Path=IstKrank}">
+        <DataTrigger.Value>
+          <system:Boolean>True</system:Boolean>
+        </DataTrigger.Value>
+        <Setter TargetName="SchülerButton" Property="Background" Value="{StaticResource HausaufgabeNachgereichtBrush}"/>
+      </DataTrigger>
+      <DataTrigger Binding="{Binding Path=IstKrank}">
+        <DataTrigger.Value>
+          <system:Boolean>False</system:Boolean>
+        </DataTrigger.Value>
+        <Setter TargetName="SchülerButton" Property="Background" Value="{x:Null}"/>
+      </DataTrigger>
+    </DataTemplate.Triggers>
+  </DataTemplate>
+
   <Style x:Key="MetroGruppenGroupHeaderStyle" TargetType="{x:Type GroupItem}">
     <Setter Property="Template">
       <Setter.Value>
@@ -648,7 +673,7 @@
       </Setter.Value>
     </Setter>
   </Style>
-  
+
   <Style x:Key="MetroPrintGruppenGroupHeaderStyle" TargetType="{x:Type GroupItem}">
     <Setter Property="Template">
       <Setter.Value>

@@ -34,6 +34,13 @@
             <personenView:MetroPersonDetailView />
           </DataTemplate>
         </ResourceDictionary>
+        <ResourceDictionary >
+          <CollectionViewSource x:Key="SortedAvailableSchülereinträgeViewSource" Source="{Binding Schülereinträge}">
+            <CollectionViewSource.SortDescriptions>
+              <scm:SortDescription PropertyName="SchülereintragPerson.PersonVorname" Direction="Ascending" />
+            </CollectionViewSource.SortDescriptions>
+          </CollectionViewSource>
+        </ResourceDictionary>
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Page.Resources>
@@ -41,6 +48,7 @@
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto" MinHeight="30"/>
       <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
     <Border Grid.Row="0" Background="{StaticResource MetroHeaderBackground}">
@@ -51,6 +59,9 @@
     </Border>
     <Grid Grid.Row="1">
       <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="*"/>
         <ColumnDefinition Width="Auto"/>
@@ -63,18 +74,36 @@
                               Minimum="1"
                               Maximum="50"
                               Margin="10,0"/>
-      <Button Grid.Column="2" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+      <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="2" Content="Anzahl der Gruppen" VerticalAlignment="Center"/>
+      <controls:NumericUpDown Grid.Column="3" TabIndex="1" HorizontalAlignment="Left"
+                              Value="{Binding Path=Gruppenanzahl, Mode=TwoWay}"
+                              FontSize="24"
+                              Minimum="1"
+                              Maximum="50"
+                              Margin="10,0"/>
+       <Button Grid.Column="5" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                     Command="{Binding Path=GruppenNeuEinteilenCommand}" 
                     ToolTip="Gruppen neu einteilen.">
         <Image Source="/Liduv;component/Images/Würfel48.png"/>
       </Button>
-      <Button Grid.Column="3" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+      <Button Grid.Column="6" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                     Command="{Binding Path=GruppenAusdruckenCommand}" 
                     ToolTip="Gruppen ausdrucken.">
         <Image Source="/Liduv;component/Images/Printer48.png"/>
       </Button>
     </Grid>
-    <ListBox Grid.Column="0" Grid.Row="2" ItemsSource="{Binding MetroGruppenView}" 
+    <ListBox Grid.Row="2" ItemsSource="{Binding Source={StaticResource SortedAvailableSchülereinträgeViewSource}}" 
+                 ItemTemplate="{StaticResource MetroSchülereintragGruppenOverview}"
+                 BorderThickness="0"
+                 Name="SchülerListBox"
+                 ItemContainerStyle="{StaticResource UnselectableListBoxItem}">
+      <ListBox.ItemsPanel>
+        <ItemsPanelTemplate>
+          <WrapPanel Orientation="Horizontal" Width="{Binding ActualWidth, ElementName=SchülerListBox}"/>
+        </ItemsPanelTemplate>
+      </ListBox.ItemsPanel>
+    </ListBox>
+    <ListBox Grid.Row="3" ItemsSource="{Binding MetroGruppenView}" 
                  ItemTemplate="{StaticResource MetroSchülereintragGruppenView}"
                  BorderThickness="0"
                  dd:DragDrop.IsDragSource="True" 

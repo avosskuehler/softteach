@@ -65,6 +65,11 @@
     private bool istZufälligAusgewählt;
 
     /// <summary>
+    /// Gibt an, ob der Schüler krank isti
+    /// </summary>
+    private bool istKrank;
+
+    /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="SchülereintragViewModel"/> Klasse. 
     /// </summary>
     public SchülereintragViewModel()
@@ -134,6 +139,7 @@
 
       this.Ergebnisse.CollectionChanged += this.ErgebnisseCollectionChanged;
 
+      this.MarkAsKrankCommand = new DelegateCommand(this.MarkAsKrank);
       this.AddHausaufgabeCommand = new DelegateCommand(this.AddHausaufgabe);
       this.DeleteHausaufgabeCommand = new DelegateCommand(
         this.DeleteCurrentHausaufgabe,
@@ -180,6 +186,11 @@
     /// Holt den Befehl zur deleting the current Hausaufgabe
     /// </summary>
     public DelegateCommand DeleteHausaufgabeCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl der ausgeführt wird, wenn der Schüler als krank markiert wurde
+    /// </summary>
+    public DelegateCommand MarkAsKrankCommand { get; private set; }
 
     /// <summary>
     /// Holt den Befehl der ausgeführt wird, wenn die Note gegeben wurde
@@ -812,6 +823,23 @@
     }
 
     /// <summary>
+    /// Holt oder setzt einen Wert, der angibt, ob dieser Schüler krank ist.
+    /// </summary>
+    public bool IstKrank
+    {
+      get
+      {
+        return this.istKrank;
+      }
+
+      set
+      {
+        this.istKrank = value;
+        this.RaisePropertyChanged("IstKrank");
+      }
+    }
+
+    /// <summary>
     /// Holt die Hintergrundfarbe für die Notengebungsseite
     /// </summary>
     [DependsUpon("IstZufälligAusgewählt")]
@@ -1395,6 +1423,17 @@
         var result = this.Hausaufgaben.RemoveTest(hausaufgabeViewModel);
         this.CurrentHausaufgabe = null;
         this.UpdateNoten();
+      }
+    }
+
+    /// <summary>
+    /// Markiert diesen Schüler als krank
+    /// </summary>
+    private void MarkAsKrank()
+    {
+      using (new UndoBatch(App.MainViewModel, string.Format("Als krank markiert."), false))
+      {
+        this.IstKrank = !this.IstKrank;
       }
     }
 

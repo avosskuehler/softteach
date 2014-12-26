@@ -499,6 +499,31 @@
     }
 
     /// <summary>
+    /// Holt eine Kurzbeschreibung der Person
+    /// </summary>
+    [DependsUpon("PersonVorname")]
+    [DependsUpon("PersonNachname")]
+    public string PersonKurzform
+    {
+      get
+      {
+        var info = new StringBuilder();
+
+        if (string.IsNullOrEmpty(this.Model.Nachname))
+        {
+          return string.Empty;
+        }
+
+        info.Append(this.PersonVorname);
+        info.Append(" ");
+        info.Append(this.PersonNachname.Substring(0, 1));
+        info.Append(".");
+
+        return info.ToString();
+      }
+    }
+
+    /// <summary>
     /// Gets the age of eg. a person from its birthday.
     /// </summary>
     /// <param name="wochentag">

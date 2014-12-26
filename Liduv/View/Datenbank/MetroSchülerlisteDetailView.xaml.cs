@@ -32,6 +32,7 @@ namespace Liduv.View.Datenbank
       switch (Configuration.Instance.NavigateTarget)
       {
         case NavigateTarget.Gruppen:
+          Selection.Instance.Schülerliste.ResetKrankenstand();
           Configuration.Instance.NavigationService.Navigate(new MetroGruppenPage());
           break;
         case NavigateTarget.Noten:
