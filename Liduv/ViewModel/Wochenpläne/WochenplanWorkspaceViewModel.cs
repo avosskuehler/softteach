@@ -52,7 +52,7 @@
         // Displays the number of the current week relative to the beginning of the year.
         var kalenderwoche = deCalendar.GetWeekOfYear(this.WochenplanMontag, weekRule, firstDayOfWeek);
         var überschrift = kalenderwoche + ". Woche, " + this.WochenplanMontag.ToString(@"dd.MM") + " - "
-                          + this.WochenplanMontag.AddDays(5).ToString(@"dd.MM");
+                          + this.WochenplanMontag.AddDays(4).ToString(@"dd.MM");
 
         // check if it is the current week
         var aktuelleKalenderwoche = deCalendar.GetWeekOfYear(DateTime.Today, weekRule, firstDayOfWeek);

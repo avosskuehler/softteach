@@ -504,6 +504,7 @@
           </Key>
           <Property Name="StundenentwurfId" Type="int" />
           <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="IstBenotet" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Termintypen">
           <Key>
@@ -2564,6 +2565,7 @@
         <EntityType Name="Stunde" BaseType="Liduv.Model.Lerngruppentermin">
           <NavigationProperty Name="Stundenentwurf" Relationship="Liduv.Model.StundenentwurfStunde" FromRole="Stunden" ToRole="Stundenentwurf" />
           <Property Type="Int32" Name="StundenentwurfId" Nullable="true" />
+          <Property Name="IstBenotet" Type="Boolean" Nullable="false" DefaultValue="False" />
         </EntityType>
         <EntityType Name="Stundenplaneintrag">
           <Key>
@@ -4264,7 +4266,8 @@
       </EntityTypeMapping>
       <EntityTypeMapping TypeName="IsTypeOf(Liduv.Model.Stunde)">
         <MappingFragment StoreEntitySet="Termine_Stunde">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="IstBenotet" ColumnName="IstBenotet" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="StundenentwurfId" ColumnName="StundenentwurfId" />
         </MappingFragment>
       </EntityTypeMapping>

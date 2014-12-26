@@ -14,7 +14,13 @@ namespace Liduv.Model.EntityFramework
     
     public partial class Stunde : Lerngruppentermin
     {
+        public Stunde()
+        {
+            this.IstBenotet = false;
+        }
+    
         public Nullable<int> StundenentwurfId { get; set; }
+        public bool IstBenotet { get; set; }
     
         public virtual Stundenentwurf Stundenentwurf { get; set; }
     }

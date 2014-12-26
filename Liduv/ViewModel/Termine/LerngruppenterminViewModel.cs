@@ -101,6 +101,18 @@
     }
 
     /// <summary>
+    /// Holt a <see cref="DateTime"/> with the date this lerngruppentermin belongs to
+    /// </summary>
+    [DependsUpon("LerngruppenterminDatum")]
+    public string LerngruppenterminDatumKurz
+    {
+      get
+      {
+        return ((Lerngruppentermin)this.Model).Tagesplan.Datum.ToString("ddd dd.MM");
+      }
+    }
+
+    /// <summary>
     /// Holt a <see cref="Int32"/> with the week day index this lerngruppentermin belongs to
     /// </summary>
     public int LerngruppenterminWochentagIndex

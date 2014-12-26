@@ -28,12 +28,15 @@ namespace Liduv
   using System.Windows.Media.Imaging;
   using System.Windows.Threading;
 
+  using Hardcodet.Wpf.TaskbarNotification;
+
   using Liduv.ExceptionHandling;
   using Liduv.Model;
   using Liduv.Properties;
   using Liduv.Setting;
   using Liduv.View.Main;
   using Liduv.ViewModel;
+  using Liduv.ViewModel.Helper;
 
   using MahApps.Metro.Controls;
 
@@ -52,6 +55,17 @@ namespace Liduv
     /// Holt den Datenbankkontext
     /// </summary>
     public static UnitOfWork UnitOfWork { get; private set; }
+
+    /// <summary>
+    /// Gets the noten erinnerungs icon.
+    /// </summary>
+    /// <value>The noten erinnerungs icon.</value>
+    public static TaskbarIcon NotenErinnerungsIcon { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl, der aufgerufen werden soll, wenn das TrayIcon angeklickt wird.
+    /// </summary>
+    public DelegateCommand TrayIconClickedCommand { get; private set; }
 
     /// <summary>
     /// This static mehtod returns an <see cref="Image"/>
@@ -188,6 +202,14 @@ namespace Liduv
     protected override void OnStartup(StartupEventArgs e)
     {
       base.OnStartup(e);
+      this.TrayIconClickedCommand = new DelegateCommand(this.TrayIconClicked);
+
+      NotenErinnerungsIcon = (TaskbarIcon)FindResource("NotenNotifyIcon");
+      if (NotenErinnerungsIcon != null)
+      {
+        NotenErinnerungsIcon.LeftClickCommand = this.TrayIconClickedCommand;
+      }
+
       UnitOfWork = new UnitOfWork();
       MainViewModel = new MainViewModel();
       MainViewModel.Populate();
@@ -210,6 +232,14 @@ namespace Liduv
       Configuration.Instance.MetroWindow = navWin;
       navWin.Show();
       navWin.Navigate(new LandingPage());
+    }
+
+    /// <summary>
+    /// Hier wird der Dialog zur Noteneingabe aufgerufen
+    /// </summary>
+    private void TrayIconClicked()
+    {
+      MainViewModel.StartNoteneingabe();
     }
 
     /// <summary>
@@ -247,6 +277,7 @@ namespace Liduv
     protected override void OnExit(ExitEventArgs e)
     {
       UnitOfWork.Dispose();
+      NotenErinnerungsIcon.Dispose();
       base.OnExit(e);
     }
 

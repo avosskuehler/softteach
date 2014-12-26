@@ -2,6 +2,7 @@
 namespace Liduv.ViewModel.Termine
 {
   using System;
+  using System.Collections.ObjectModel;
   using System.Globalization;
   using System.Linq;
   using System.Windows;
@@ -136,6 +137,29 @@ namespace Liduv.ViewModel.Termine
         this.PreviewStundenentwurfCommand.RaiseCanExecuteChanged();
         this.PrintStundenentwurfCommand.RaiseCanExecuteChanged();
         this.PrintAllStundenentwurfCommand.RaiseCanExecuteChanged();
+      }
+    }
+
+    /// <summary>
+    /// Holt oder setzt einen Wert, der angibt, ob diese Stunde schon benotet wurde.
+    /// </summary>
+    public bool StundeIstBenotet
+    {
+      get
+      {
+        return ((Stunde)this.Model).IstBenotet;
+      }
+
+      set
+      {
+        if (value == ((Stunde)this.Model).IstBenotet)
+        {
+          return;
+        }
+
+        this.UndoablePropertyChanging(this, "StundeIstBenotet", ((Stunde)this.Model).IstBenotet, value);
+        ((Stunde)this.Model).IstBenotet = value;
+        this.RaisePropertyChanged("StundeIstBenotet");
       }
     }
 
@@ -574,18 +598,14 @@ namespace Liduv.ViewModel.Termine
     /// </summary>
     private void AddStundennoten()
     {
-      this.UpdateSchülerlisteInSelection();
-      var viewModel = new StundennotenWorkspaceViewModel(Selection.Instance.Schülerliste, this);
-
       bool undo = false;
       using (new UndoBatch(App.MainViewModel, string.Format("Noten hinzugefügt"), false))
       {
-        if (Configuration.Instance.IsMetroMode)
-        {
-          var notenPage = new MetroStundennotenPage();
-          notenPage.DataContext = viewModel;
-          Configuration.Instance.NavigationService.Navigate(notenPage);
-        }
+        var stunden = new ObservableCollection<StundeViewModel>();
+        stunden.Add(this);
+        var viewModel = new StundennotenReminderWorkspaceViewModel(stunden);
+        var dlg = new MetroStundennotenReminderWindow { DataContext = viewModel };
+        dlg.ShowDialog();
       }
     }
 
@@ -604,6 +624,9 @@ namespace Liduv.ViewModel.Termine
       }
     }
 
+    /// <summary>
+    /// Updates the date.
+    /// </summary>
     public void UpdateDate()
     {
       this.RaisePropertyChanged("StundeDatum");

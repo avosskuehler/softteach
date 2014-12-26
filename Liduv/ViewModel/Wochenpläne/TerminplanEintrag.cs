@@ -1,6 +1,7 @@
 ﻿namespace Liduv.ViewModel.Wochenpläne
 {
   using System;
+  using System.Collections.ObjectModel;
   using System.ComponentModel;
   using System.Linq;
   using System.Windows.Media;
@@ -12,6 +13,8 @@
   using Liduv.ViewModel.Helper;
   using Liduv.ViewModel.Noten;
   using Liduv.ViewModel.Termine;
+
+  using MahApps.Metro.Controls.Dialogs;
 
   /// <summary>
   /// Für jeden Termin der Woche (Unterrichtsstunde, AG, Treffen) wird ein Terminplaneintrag erstellt.
@@ -58,6 +61,8 @@
       this.RemoveTerminplaneintragCommand = new DelegateCommand(this.RemoveTerminplaneintrag, () => this.TerminViewModel != null);
       this.ProofTerminplaneintragCommand = new DelegateCommand(this.ProofTerminplaneintrag, () => this.TerminViewModel != null);
       this.AddNotenCommand = new DelegateCommand(this.AddNoten, () => this.TerminViewModel != null);
+      this.AddHausaufgabenCommand = new DelegateCommand(this.AddHausaufgaben, () => this.TerminViewModel != null);
+      this.AddSonstigeNotenCommand = new DelegateCommand(this.AddSonstigeNoten, () => this.TerminViewModel != null);
     }
 
     /// <summary>
@@ -84,6 +89,17 @@
     /// Holt den Befehl Noten einzutragen
     /// </summary>
     public DelegateCommand AddNotenCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl, um vergessen Hausaufgaben anzulegen.
+    /// </summary>
+    public DelegateCommand AddHausaufgabenCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl, um sonstige Noten anzulegen.
+    /// </summary>
+    public DelegateCommand AddSonstigeNotenCommand { get; private set; }
+
 
     /// <summary>
     /// Holt the parent <see cref="TerminplanWorkspaceViewModel"/> to which this Terminplaneintrag
@@ -556,15 +572,22 @@
       stunde.StundeStundenentwurf.StundenentwurfDatum = stunde.LerngruppenterminDatum;
       Selection.Instance.Fach = App.MainViewModel.Fächer.First(o => o.FachBezeichnung == stunde.LerngruppenterminFach);
       Selection.Instance.Klasse = App.MainViewModel.Klassen.First(o => o.KlasseBezeichnung == stunde.LerngruppenterminKlasse);
+      Selection.Instance.Stunde = stunde;
       Selection.Instance.Stundenentwurf = stunde.StundeStundenentwurf;
-      
+
       var schülerliste =
-        App.MainViewModel.Schülerlisten.First(
+        App.MainViewModel.Schülerlisten.FirstOrDefault(
           o =>
           o.SchülerlisteFach.FachBezeichnung == stunde.LerngruppenterminFach
           && o.SchülerlisteHalbjahrtyp.HalbjahrtypBezeichnung == stunde.LerngruppenterminHalbjahr
           && o.SchülerlisteJahrtyp.JahrtypBezeichnung == stunde.LerngruppenterminSchuljahr
           && o.SchülerlisteKlasse.KlasseBezeichnung == stunde.LerngruppenterminKlasse);
+
+      if (schülerliste == null)
+      {
+        return;
+      }
+
       var viewModel = new StundennotenWorkspaceViewModel(schülerliste, stunde);
 
       bool undo = false;
@@ -572,14 +595,140 @@
       {
         if (Configuration.Instance.IsMetroMode)
         {
-          var notenPage = new MetroStundennotenPage();
-          notenPage.DataContext = viewModel;
-          Configuration.Instance.NavigationService.Navigate(notenPage);
+          //  var notenPage = new MetroStundennotenPage();
+          //  notenPage.DataContext = viewModel;
+          //  Configuration.Instance.NavigationService.Navigate(notenPage);
+          //
+          var stunden = new ObservableCollection<StundeViewModel>();
+          stunden.Add(stunde);
+          var viewModelReminder = new StundennotenReminderWorkspaceViewModel(stunden);
+          var dlg = new MetroStundennotenReminderWindow { DataContext = viewModelReminder };
+          dlg.ShowDialog();
         }
         else
         {
           var dlg = new StundennotenDialog();
           dlg.DataContext = viewModel;
+          undo = !dlg.ShowDialog().GetValueOrDefault(false);
+        }
+
+        stunde.StundeIstBenotet = true;
+      }
+
+      if (undo)
+      {
+        App.MainViewModel.ExecuteUndoCommand();
+        stunde.StundeIstBenotet = false;
+      }
+    }
+
+    /// <summary>
+    /// Hier wird der Dialog zur Hausaufgabenkontrolle aufgerufen
+    /// </summary>
+    private async void AddHausaufgaben()
+    {
+      if (this.TerminViewModel == null)
+      {
+        return;
+      }
+
+      if (!(this.TerminViewModel is StundeViewModel))
+      {
+        return;
+      }
+
+      var stunde = this.TerminViewModel as StundeViewModel;
+      var schülerliste =
+        App.MainViewModel.Schülerlisten.First(
+          o =>
+          o.SchülerlisteFach.FachBezeichnung == stunde.LerngruppenterminFach
+          && o.SchülerlisteHalbjahrtyp.HalbjahrtypBezeichnung == stunde.LerngruppenterminHalbjahr
+          && o.SchülerlisteJahrtyp.JahrtypBezeichnung == stunde.LerngruppenterminSchuljahr
+          && o.SchülerlisteKlasse.KlasseBezeichnung == stunde.LerngruppenterminKlasse);
+
+      if (Configuration.Instance.IsMetroMode)
+      {
+        var addDlg = new MetroAddHausaufgabeDialog(stunde.LerngruppenterminDatum);
+        var metroWindow = Configuration.Instance.MetroWindow;
+        await metroWindow.ShowMetroDialogAsync(addDlg);
+        return;
+      }
+
+      var undo = false;
+      using (new UndoBatch(App.MainViewModel, string.Format("Hausaufgaben hinzugefügt."), false))
+      {
+        var addDlg = new AddHausaufgabeDialog { Datum = stunde.LerngruppenterminDatum };
+        if (addDlg.ShowDialog().GetValueOrDefault(false))
+        {
+          Selection.Instance.HausaufgabeDatum = addDlg.Datum;
+          Selection.Instance.HausaufgabeBezeichnung = addDlg.Bezeichnung;
+
+          // Reset currently selected hausaufgaben
+          foreach (var schülereintragViewModel in schülerliste.Schülereinträge)
+          {
+            schülereintragViewModel.CurrentHausaufgabe = null;
+          }
+
+          var dlg = new HausaufgabenDialog { Schülerliste = schülerliste };
+          undo = !dlg.ShowDialog().GetValueOrDefault(false);
+        }
+      }
+
+      if (undo)
+      {
+        App.MainViewModel.ExecuteUndoCommand();
+      }
+    }
+
+    /// <summary>
+    /// Hier wird der Dialog zur Hausaufgabenkontrolle aufgerufen
+    /// </summary>
+    private async void AddSonstigeNoten()
+    {
+      if (this.TerminViewModel == null)
+      {
+        return;
+      }
+
+      if (!(this.TerminViewModel is StundeViewModel))
+      {
+        return;
+      }
+
+      var stunde = this.TerminViewModel as StundeViewModel;
+      var schülerliste =
+        App.MainViewModel.Schülerlisten.First(
+          o =>
+          o.SchülerlisteFach.FachBezeichnung == stunde.LerngruppenterminFach
+          && o.SchülerlisteHalbjahrtyp.HalbjahrtypBezeichnung == stunde.LerngruppenterminHalbjahr
+          && o.SchülerlisteJahrtyp.JahrtypBezeichnung == stunde.LerngruppenterminSchuljahr
+          && o.SchülerlisteKlasse.KlasseBezeichnung == stunde.LerngruppenterminKlasse);
+
+      if (Configuration.Instance.IsMetroMode)
+      {
+        //var addDlg = new MetroAddHausaufgabeDialog(this.stunde.LerngruppenterminDatum);
+        //var metroWindow = Configuration.Instance.MetroWindow;
+        //await metroWindow.ShowMetroDialogAsync(addDlg);
+        //return;
+      }
+
+      var undo = false;
+      using (new UndoBatch(App.MainViewModel, string.Format("Sonstige Noten hinzugefügt."), false))
+      {
+        var addDlg = new AddSonstigeNoteDialog() { Datum = stunde.LerngruppenterminDatum };
+        if (addDlg.ShowDialog().GetValueOrDefault(false))
+        {
+          Selection.Instance.SonstigeNoteDatum = addDlg.Datum;
+          Selection.Instance.SonstigeNoteBezeichnung = addDlg.Bezeichnung;
+          Selection.Instance.SonstigeNoteNotentyp = addDlg.Notentyp;
+
+          // Reset currently selected note
+          foreach (var schülereintragViewModel in schülerliste.Schülereinträge)
+          {
+            schülereintragViewModel.CurrentNote = null;
+          }
+
+          var dlg = new SonstigeNotenDialog() { Schülerliste = schülerliste };
           undo = !dlg.ShowDialog().GetValueOrDefault(false);
         }
       }

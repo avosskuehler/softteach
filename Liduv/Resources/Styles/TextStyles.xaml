@@ -7,6 +7,14 @@
     <Setter Property="Foreground" Value="White"/>
   </Style>
 
+  <!--NotengebungStyles-->
+
+  <Style x:Key="NotengebungVornameLabelStyle">
+    <Setter Property="Control.FontFamily" Value="Segoe Black" />
+    <Setter Property="Control.FontSize" Value="20pt" />
+    <Setter Property="Control.FontWeight" Value="Bold" />
+  </Style>
+  
   <!--StundenentwurfStyles-->
   <Style x:Key="Header1">
     <Setter Property="Control.FontFamily" Value="Segoe Black" />

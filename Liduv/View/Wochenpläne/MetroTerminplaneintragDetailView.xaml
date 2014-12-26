@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="200"
+             d:DesignHeight="100" d:DesignWidth="300"
              FontSize="18">
   <Border Background="{Binding Path=TerminplaneintragBackground}">
     <Grid>
@@ -33,6 +33,17 @@
           </Button>
           <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddNotenCommand}">
             <Image Source="/Liduv;component/Images/Note48.png"/>
+          </Button>
+          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddHausaufgabenCommand}" ToolTip="Nicht gemachte Hausaufgaben eintragen.">
+            <Image Source="/Liduv;component/Images/Hausaufgabe32.png"/>
+          </Button>
+          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddSonstigeNotenCommand}" ToolTip="Sonstige Noten eintragen.">
+            <StackPanel Orientation="Horizontal">
+              <Grid>
+                <Image Source="/Liduv;component/Images/Note32.png"/>
+                <Image Source="/Liduv;component/Images/AddOverlay32.png"/>
+              </Grid>
+            </StackPanel>
           </Button>
           <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=ProofTerminplaneintragCommand}">
             <Image Source="{Binding Path=ProofImage48}"/>

@@ -401,6 +401,7 @@
     <Compile Include="ViewModel\Curricula\CurriculumWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Curricula\ZeitstrahlCollectionContainer.cs" />
     <Compile Include="ViewModel\Datenbank\AddJahrtypDialogViewModel.cs" />
+    <Compile Include="ViewModel\Noten\StundennotenReminderWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Sitzpläne\SitzplanWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Sitzpläne\SitzplanViewModel.cs" />
     <Compile Include="ViewModel\Sitzpläne\SitzplaneintragViewModel.cs" />
@@ -577,6 +578,15 @@
     <Compile Include="View\Noten\AddSonstigeNoteDialog.xaml.cs">
       <DependentUpon>AddSonstigeNoteDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Noten\MetroNoteEintragenFlyout.xaml.cs">
+      <DependentUpon>MetroNoteEintragenFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Noten\MetroKlassenlisteNoteneintragDetailView.xaml.cs">
+      <DependentUpon>MetroKlassenlisteNoteneintragDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Noten\MetroStundennotenReminderWindow.xaml.cs">
+      <DependentUpon>MetroStundennotenReminderWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Noten\SonstigeNotenDialog.xaml.cs">
       <DependentUpon>SonstigeNotenDialog.xaml</DependentUpon>
     </Compile>
@@ -708,9 +718,6 @@
     </Compile>
     <Compile Include="View\Noten\NotenlistePrintView.xaml.cs">
       <DependentUpon>NotenlistePrintView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Noten\MetroStundennotenPage.xaml.cs">
-      <DependentUpon>MetroStundennotenPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Noten\MetroSchülereintragNotenPage.xaml.cs">
       <DependentUpon>MetroSchülereintragNotenPage.xaml</DependentUpon>
@@ -878,6 +885,9 @@
     </Compile>
     <Compile Include="View\Termine\AskForTerminSpanDialog.xaml.cs">
       <DependentUpon>AskForTerminSpanDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Termine\MetroStundeShortView.xaml.cs">
+      <DependentUpon>MetroStundeShortView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Wochenpläne\AddSonderterminDialog.xaml.cs">
       <DependentUpon>AddSonderterminDialog.xaml</DependentUpon>
@@ -1232,6 +1242,10 @@
     <Resource Include="Images\Save48.png" />
     <Resource Include="Images\Desktop48.png" />
     <Resource Include="Images\ImportOverlay32.png" />
+    <Resource Include="Images\NotenTray.ico" />
+    <Resource Include="Images\Erledigt48.png" />
+    <Resource Include="Images\Error.ico" />
+    <Resource Include="Images\Inactive.ico" />
     <Content Include="Model\EntityFramework\PopulateLiduvModelWithDefaults.sql" />
     <None Include="Model\EntityFramework\LiduvModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -1269,6 +1283,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\Controls\MetroMessageDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Controls\TrayIcon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1421,6 +1439,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Noten\AddSonstigeNoteDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Noten\MetroNoteEintragenFlyout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Noten\MetroKlassenlisteNoteneintragDetailView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Noten\MetroStundennotenReminderWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1597,10 +1627,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Noten\NotenlistePrintView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Noten\MetroStundennotenPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1817,6 +1843,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Termine\AskForTerminSpanDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Termine\MetroStundeShortView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

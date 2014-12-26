@@ -8,13 +8,18 @@
   using System.Globalization;
   using System.IO;
   using System.Linq;
+  using System.Timers;
+  using System.Windows;
   using System.Windows.Data;
   using System.Windows.Input;
+  using System.Windows.Media;
+
   using Liduv.ExceptionHandling;
   using Liduv.Model.EntityFramework;
   using Liduv.Setting;
   using Liduv.UndoRedo;
   using Liduv.View.Main;
+  using Liduv.View.Noten;
   using Liduv.ViewModel.Curricula;
   using Liduv.ViewModel.Datenbank;
   using Liduv.ViewModel.Helper;
@@ -33,10 +38,31 @@
   public class MainViewModel : ViewModelBase, ISupportsUndo
   {
     /// <summary>
+    /// The noten timer
+    /// </summary>
+    private Timer notenTimer;
+
+    /// <summary>
+    /// The error icon
+    /// </summary>
+    private ImageSource errorIcon;
+
+    /// <summary>
+    /// The inactive icon
+    /// </summary>
+    private ImageSource inactiveIcon;
+
+    /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="MainViewModel"/> Klasse. 
     /// </summary>
     public MainViewModel()
     {
+      this.notenTimer = new Timer(30000);
+      this.notenTimer.Elapsed += this.NotenTimerElapsed;
+
+      this.errorIcon = App.GetImageSource("Error.ico");
+      this.inactiveIcon = App.GetImageSource("Inactive.ico");
+
       // Initialisiert Undo/Redo
       UndoService.Current[this].Clear();
 
@@ -602,7 +628,6 @@
       }
     }
 
-
     /// <summary>
     /// Führt einen UndoSchritt aus.
     /// </summary>
@@ -649,6 +674,18 @@
     }
 
     /// <summary>
+    /// Startet die noteneingabe.
+    /// </summary>
+    public void StartNoteneingabe()
+    {
+      var nochZuBenotendeStunden = this.HoleNochZuBenotendeStunden();
+
+      var viewModel = new StundennotenReminderWorkspaceViewModel(nochZuBenotendeStunden);
+      var dlg = new MetroStundennotenReminderWindow { DataContext = viewModel };
+      dlg.ShowDialog();
+    }
+
+    /// <summary>
     /// Populates this instance of the MainViewModel class.
     /// </summary>
     public void Populate()
@@ -658,6 +695,9 @@
       ChangeFactory.Current.IsTracking = false;
       var watch = new Stopwatch();
       watch.Start();
+
+      // Notenerinnerungstimer starten
+      this.notenTimer.Start();
 
       // TODO: Divide into multiple contexts for performance reasons
       try
@@ -1077,6 +1117,7 @@
         context.Configuration.AutoDetectChangesEnabled = true;
         ChangeFactory.Current.IsTracking = true;
         Console.WriteLine("Elapsed All {0}", watch.ElapsedMilliseconds);
+
       }
       catch (Exception ex)
       {
@@ -1150,6 +1191,65 @@
           Directory.CreateDirectory(modulPath);
         }
       }
+    }
+
+    /// <summary>
+    /// Wird aufgerufen, wenn der noten timer abgelaufen ist.
+    /// Checkt, ob Noten eingegeben werden müssen.
+    /// </summary>
+    /// <param name="source">The source.</param>
+    /// <param name="e">The <see cref="ElapsedEventArgs"/> instance containing the event data.</param>
+    private void NotenTimerElapsed(object source, ElapsedEventArgs e)
+    {
+      var nochZuBenotendeStunden = this.HoleNochZuBenotendeStunden();
+      var anzahlNichtbenoteterStunden = nochZuBenotendeStunden.Count;
+      if (anzahlNichtbenoteterStunden > 0)
+      {
+        Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+        {
+          App.NotenErinnerungsIcon.ToolTipText = anzahlNichtbenoteterStunden + " Stunden noch nicht benotet";
+          App.NotenErinnerungsIcon.IconSource = this.errorIcon;
+        }));
+      }
+      else
+      {
+        Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+          {
+            App.NotenErinnerungsIcon.ToolTipText = "Keine offenen Bewertungen.";
+            App.NotenErinnerungsIcon.IconSource = this.inactiveIcon;
+          }));
+      }
+    }
+
+    /// <summary>
+    /// Gibt eine Collection mit den noch zu benotenden Stunden aus.
+    /// </summary>
+    /// <returns>ObservableCollection&lt;StundeViewModel&gt;.</returns>
+    private ObservableCollection<StundeViewModel> HoleNochZuBenotendeStunden()
+    {
+      var von = DateTime.Now.AddDays(-14);
+      var bis = DateTime.Now;
+      var nichtBenoteteStundenderLetzten14Tage =
+        this.Stunden.Where(
+          o =>
+          o.LerngruppenterminDatum > von && o.LerngruppenterminDatum <= bis && !o.StundeIstBenotet
+          && (o.LerngruppenterminFach == "Mathematik" || o.LerngruppenterminFach == "Physik"));
+
+      var nochZuBenotendeStunden = new ObservableCollection<StundeViewModel>();
+
+      foreach (var stundeViewModel in nichtBenoteteStundenderLetzten14Tage)
+      {
+        if (stundeViewModel.LerngruppenterminDatum.Date == bis.Date)
+        {
+          if (stundeViewModel.TerminLetzteUnterrichtsstunde.UnterrichtsstundeEnde > bis.TimeOfDay)
+          {
+            continue;
+          }
+        }
+
+        nochZuBenotendeStunden.Add(stundeViewModel);
+      }
+      return nochZuBenotendeStunden;
     }
 
     #region CollectionChangedEventHandler

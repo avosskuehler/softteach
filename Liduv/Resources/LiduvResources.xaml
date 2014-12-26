@@ -12,5 +12,6 @@
     <ResourceDictionary Source="Styles\DataTemplates.xaml"/>
     <ResourceDictionary Source="Styles\DocumentViewerStyle.xaml"/>
     <ResourceDictionary Source="Controls\NumericUpDown.xaml"/>
+    <ResourceDictionary Source="Controls\TrayIcon.xaml"/>
   </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
