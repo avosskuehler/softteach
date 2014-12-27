@@ -81,7 +81,8 @@
                               Minimum="1"
                               Maximum="50"
                               Margin="10,0"/>
-       <Button Grid.Column="5" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+      <CheckBox  Grid.Column="4" IsThreeState="True" IsChecked="{Binding MädchenJungeGemischt}">w/m nebeneinander</CheckBox>
+      <Button Grid.Column="5" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                     Command="{Binding Path=GruppenNeuEinteilenCommand}" 
                     ToolTip="Gruppen neu einteilen.">
         <Image Source="/Liduv;component/Images/Würfel48.png"/>
@@ -92,14 +93,17 @@
         <Image Source="/Liduv;component/Images/Printer48.png"/>
       </Button>
     </Grid>
-    <ListBox Grid.Row="2" ItemsSource="{Binding Source={StaticResource SortedAvailableSchülereinträgeViewSource}}" 
-                 ItemTemplate="{StaticResource MetroSchülereintragGruppenOverview}"
-                 BorderThickness="0"
-                 Name="SchülerListBox"
-                 ItemContainerStyle="{StaticResource UnselectableListBoxItem}">
+    <ListBox Grid.Row="2" 
+             ItemsSource="{Binding Source={StaticResource SortedAvailableSchülereinträgeViewSource}}" 
+             ItemTemplate="{StaticResource MetroSchülereintragGruppenOverview}"
+             BorderThickness="0"
+             Name="SchülerListBox"
+             ItemContainerStyle="{StaticResource UnselectableListBoxItem}"
+             Background="LightSteelBlue"
+             Padding="5">
       <ListBox.ItemsPanel>
         <ItemsPanelTemplate>
-          <WrapPanel Orientation="Horizontal" Width="{Binding ActualWidth, ElementName=SchülerListBox}"/>
+          <StackPanel Orientation="Horizontal"/>
         </ItemsPanelTemplate>
       </ListBox.ItemsPanel>
     </ListBox>

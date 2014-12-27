@@ -516,6 +516,11 @@
     }
 
     /// <summary>
+    /// Holt oder setzt einen Wert, der angibt, ob in den Gruppen Jungen und Mädchen möglichst getrennt sein sollen.
+    /// </summary>
+    public bool? MädchenJungeGemischt { get; set; }
+
+    /// <summary>
     /// Compares the current object with another object of the same type.
     /// </summary>
     /// <param name="obj">An object to compare with this object.</param>
@@ -771,20 +776,86 @@
     /// </summary>
     private void GruppenNeuEinteilen()
     {
-      // Mische die Schüler
-      this.SchülereinträgeGemischt = this.Schülereinträge.Where(o => !o.IstKrank).Shuffle().ToList();
-
       // Reset Gruppennummern
       this.Schülereinträge.Each(o => o.SchülereintragPerson.Gruppennummer = 0);
-      var gruppen = this.SchülereinträgeGemischt.Split(this.gruppenanzahl);
-      var gruppenNummer = 0;
 
-      foreach (var gruppe in gruppen)
+      if (this.MädchenJungeGemischt.HasValue)
       {
-        gruppenNummer++;
-        foreach (var schülereintragViewModel in gruppe)
+        // Mische die Schüler nach Jungen und Mädchen getrennt
+        var mädchen = this.Schülereinträge.Where(o => !o.IstKrank && o.SchülereintragPerson.PersonIstWeiblich).Shuffle().ToList();
+        var jungen = this.Schülereinträge.Where(o => !o.IstKrank && !o.SchülereintragPerson.PersonIstWeiblich).Shuffle().ToList();
+        if (this.MädchenJungeGemischt.Value)
         {
-          schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
+          var gruppenMädchen = mädchen.Split(this.gruppenanzahl);
+          var gruppenJungen = jungen.Split(this.gruppenanzahl);
+
+          // Mädchen auf Gruppen verteilen
+          var gruppenNummer = 0;
+          foreach (var gruppe in gruppenMädchen)
+          {
+            gruppenNummer++;
+            foreach (var schülereintragViewModel in gruppe)
+            {
+              schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
+            }
+          }
+
+          // Jungen auf Gruppen verteilen
+          gruppenNummer = this.gruppenanzahl;
+          foreach (var gruppe in gruppenJungen)
+          {
+            foreach (var schülereintragViewModel in gruppe)
+            {
+              schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
+            }
+
+            gruppenNummer--;
+          }
+        }
+        else
+        {
+          var anzahlMädchen = mädchen.Count;
+          var anzahlJungen = jungen.Count;
+          var gesamtZahl = anzahlMädchen + anzahlJungen;
+
+          var gruppenMädchen = mädchen.Split((int)Math.Round(this.gruppenanzahl * anzahlMädchen / (float)gesamtZahl));
+          var gruppenJungen = jungen.Split((int)Math.Round(this.gruppenanzahl * anzahlJungen / (float)gesamtZahl));
+
+          var gruppenNummer = 0;
+          foreach (var gruppe in gruppenMädchen)
+          {
+            gruppenNummer++;
+            foreach (var schülereintragViewModel in gruppe)
+            {
+              schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
+            }
+          }
+
+          foreach (var gruppe in gruppenJungen)
+          {
+            gruppenNummer++;
+            foreach (var schülereintragViewModel in gruppe)
+            {
+              schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
+            }
+          }
+        }
+      }
+      else
+      {
+        // Mische die Schüler beliebig
+        this.SchülereinträgeGemischt = this.Schülereinträge.Where(o => !o.IstKrank).Shuffle().ToList();
+
+        var gruppen = this.SchülereinträgeGemischt.Split(this.gruppenanzahl);
+        var gruppenNummer = 0;
+
+        foreach (var gruppe in gruppen)
+        {
+          gruppenNummer++;
+          foreach (var schülereintragViewModel in gruppe)
+          {
+            schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
+          }
         }
       }
 
