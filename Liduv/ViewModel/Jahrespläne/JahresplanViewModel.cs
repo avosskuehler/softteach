@@ -431,7 +431,12 @@
         gefundenerTagesplan = tage.Where(tagesplan => tagesplan.TagesplanDatum.Date == date.Date);
       }
 
-      if (gefundenerTagesplan.Count() >0)
+      if (gefundenerTagesplan == null)
+      {
+        return null;
+      }
+
+      if (gefundenerTagesplan.Any())
       {
         return gefundenerTagesplan.Single();
       }

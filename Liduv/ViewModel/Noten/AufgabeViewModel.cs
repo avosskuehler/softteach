@@ -170,7 +170,7 @@
     /// <summary>
     /// Holt oder setzt die MaxPunkte
     /// </summary>
-    public int AufgabeMaxPunkte
+    public float AufgabeMaxPunkte
     {
       get
       {

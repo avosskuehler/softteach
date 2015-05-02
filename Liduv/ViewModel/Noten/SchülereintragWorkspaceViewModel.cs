@@ -178,6 +178,7 @@
           Selection.Instance.SonstigeNoteDatum = addDlg.Datum;
           Selection.Instance.SonstigeNoteBezeichnung = addDlg.Bezeichnung;
           Selection.Instance.SonstigeNoteNotentyp = addDlg.Notentyp;
+          Selection.Instance.SonstigeNoteWichtung = addDlg.Wichtung;
 
           // Reset currently selected note
           foreach (var schülereintragViewModel in this.CurrentSchülerliste.Schülereinträge)

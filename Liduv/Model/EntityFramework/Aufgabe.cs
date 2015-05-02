@@ -22,7 +22,7 @@ namespace Liduv.Model.EntityFramework
         public int Id { get; set; }
         public int ArbeitId { get; set; }
         public int LfdNr { get; set; }
-        public int MaxPunkte { get; set; }
+        public float MaxPunkte { get; set; }
         public string Bezeichnung { get; set; }
     
         public virtual ICollection<Ergebnis> Ergebnisse { get; set; }

@@ -34,8 +34,7 @@
 				Margin="5"
 				FontSize="24"
 				HorizontalAlignment="Left"
-				SelectedDate="{Binding HausaufgabeDatum, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-				controls:TextboxHelper.Watermark="Datum ..." />
+				SelectedDate="{Binding HausaufgabeDatum, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
       <TextBox Style="{StaticResource MetroLabelStyle}" Margin="5" Text="{Binding HausaufgabeBezeichnung}"/>
       <UniformGrid Columns="2">
         <RadioButton Name="NichtgemachtButton" Height="50" Style="{StaticResource MetroToggleRadioButton}" Content="Nicht gemacht" Checked="NichtgemachtButton_OnChecked" HorizontalAlignment="Center"/>

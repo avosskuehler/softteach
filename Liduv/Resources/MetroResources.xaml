@@ -4,11 +4,13 @@
 
   <ResourceDictionary.MergedDictionaries>
     <!--<ResourceDictionary Source="/Liduv;component/Resources/LiduvResources.xaml"/>-->
-    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
     <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />-->
+
+    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/Dialogs/BaseMetroDialog.xaml" />
+    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
-    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Crimson.xaml" />
-    <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />-->
+    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/crimson.xaml" />
+    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
     <ResourceDictionary Source="/Liduv;component/Resources/Icons.xaml" />
     <ResourceDictionary Source="/Liduv;component/Resources/Styles/MetroStyles.xaml"/>
   </ResourceDictionary.MergedDictionaries>

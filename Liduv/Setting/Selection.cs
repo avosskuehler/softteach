@@ -54,6 +54,7 @@ namespace Liduv.Setting
     private DateTime sonstigeNoteDatum;
     private string sonstigeNoteBezeichnung;
     private Notentyp sonstigeNoteNotentyp;
+    private int sonstigeNoteWichtung;
 
     /// <summary>
     /// The instance.
@@ -419,6 +420,24 @@ namespace Liduv.Setting
         this.OnPropertyChanged("SonstigeNoteNotentyp");
       }
     }
+
+    /// <summary>
+    /// Holt oder setzt die Wichtung für die SonstigeNote
+    /// </summary>
+    public int SonstigeNoteWichtung
+    {
+      get
+      {
+        return this.sonstigeNoteWichtung;
+      }
+
+      set
+      {
+        this.sonstigeNoteWichtung = value;
+        this.OnPropertyChanged("SonstigeNoteWichtung");
+      }
+    }
+
 
     /// <summary>
     /// Holt das Datum der SonstigeNote in der form LongDateString

@@ -52,6 +52,7 @@
       // der Check ist nur damit nur einmal geupdated wird
       if (e.PropertyName == "Gesamtnote")
       {
+        // TODO
         // Refresh the plot view
         this.QualitätPlot.InvalidatePlot();
         this.QuantitätPlot.InvalidatePlot();

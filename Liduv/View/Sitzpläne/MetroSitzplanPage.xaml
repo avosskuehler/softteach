@@ -65,8 +65,7 @@
 				Margin="0,5"
 				FontSize="24"
 				HorizontalAlignment="Left"
-				SelectedDate="{Binding SitzplanGültigAb, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-				controls:TextboxHelper.Watermark="Datum ..." />
+				SelectedDate="{Binding SitzplanGültigAb, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
       <CheckBox  Grid.Column="5" IsThreeState="True" IsChecked="{Binding SitzplanMädchenJungeNebeneinander}">w/m nebeneinander</CheckBox>
       <Button Grid.Column="6" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                     Command="{Binding Path=SitzplanNeuEinteilenCommand}" 

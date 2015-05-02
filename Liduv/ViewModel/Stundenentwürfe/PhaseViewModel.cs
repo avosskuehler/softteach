@@ -29,7 +29,7 @@
     public PhaseViewModel()
     {
       var phase = new Phase();
-      phase.AbfolgeIndex = Selection.Instance.Stundenentwurf.Phasen.Count;
+      phase.AbfolgeIndex = Selection.Instance.Stundenentwurf.Phasen.Count+1;
       phase.Zeit = 10;
       phase.Inhalt = string.Empty;
       phase.Medium = App.MainViewModel.Medien.First().Model;

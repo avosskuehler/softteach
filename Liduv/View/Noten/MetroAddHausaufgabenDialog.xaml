@@ -14,8 +14,8 @@
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Liduv;component/Resources/MetroResources.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatSlider.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/Dialogs/BaseMetroDialog.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatSlider.xaml" />
         <ResourceDictionary >
           <CollectionViewSource x:Key="SortierteKlassenlisteViewSource" Source="{Binding Path=Schülereinträge}">
             <CollectionViewSource.SortDescriptions>

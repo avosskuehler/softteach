@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
       xmlns:setting="clr-namespace:Liduv.Setting"
-      xmlns:oxy="http://oxyplot.codeplex.com"
+      xmlns:oxy="http://oxyplot.org/wpf"
       mc:Ignorable="d" 
       d:DesignHeight="768" 
       d:DesignWidth="1366"
@@ -179,13 +179,15 @@
               </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
           </ListBox>
-          <oxy:PlotView Grid.Column="1"  PlotAreaBorderThickness="0" x:Name="QualitätPlot"  Height="120" Width="400" Visibility="{Binding ElementName=ShowQualitätGraphRadioButton, Path=IsChecked, Converter={StaticResource BoolVisibleConverter}}">
-            <oxy:PlotView.Axes>
+          <oxy:Plot Grid.Column="1" x:Name="QualitätPlot" PlotAreaBorderThickness="0"  Height="120" Width="400" Visibility="{Binding ElementName=ShowQualitätGraphRadioButton, Path=IsChecked, Converter={StaticResource BoolVisibleConverter}}">
+            <oxy:Plot.Axes>
               <oxy:DateTimeAxis MinimumPadding="0.1" MaximumPadding="0.1" FirstDateTime="{Binding MündlicheQualitätFirstDateTime}" LastDateTime="{Binding MündlicheQualitätLastDateTime}" Position="Bottom" IntervalType="Months" StringFormat="MMMM"/>
               <oxy:LinearAxis TickStyle="None" MinimumPadding="0.1" MaximumPadding="0.1" Position="Left" StartPosition="1" EndPosition="0" Minimum=".5" Maximum="6.5" MajorStep="1" MinorStep="1"  MajorGridlineStyle="Solid"/>
-            </oxy:PlotView.Axes>
-            <oxy:LineSeries ItemsSource="{Binding Source={StaticResource MündlicheQualitätViewSource}}" DataFieldX="NoteDatum" DataFieldY="NoteZensurGanzeNote" MarkerType="Circle"/>
-          </oxy:PlotView>
+            </oxy:Plot.Axes>
+            <oxy:Plot.Series>
+              <oxy:LineSeries ItemsSource="{Binding Source={StaticResource MündlicheQualitätViewSource}}" DataFieldX="NoteDatum" DataFieldY="NoteZensurGanzeNote" MarkerType="Circle"/>
+            </oxy:Plot.Series>
+          </oxy:Plot>
         </Grid>
       </GroupBox>
       <GroupBox Grid.Row="1" Name="GroupBoxQuantität"  Margin="0,0,0,3" Padding="0">
@@ -230,13 +232,15 @@
               </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
           </ListBox>
-          <oxy:PlotView Grid.Column="1" PlotAreaBorderThickness="0" x:Name="QuantitätPlot" Height="120" Width="400" Visibility="{Binding ElementName=ShowQuantitätGraphRadioButton, Path=IsChecked, Converter={StaticResource BoolVisibleConverter}}">
-            <oxy:PlotView.Axes>
+          <oxy:Plot Grid.Column="1" PlotAreaBorderThickness="0" x:Name="QuantitätPlot" Height="120" Width="400" Visibility="{Binding ElementName=ShowQuantitätGraphRadioButton, Path=IsChecked, Converter={StaticResource BoolVisibleConverter}}">
+            <oxy:Plot.Axes>
               <oxy:DateTimeAxis MinimumPadding="0.1" MaximumPadding="0.1" FirstDateTime="{Binding MündlicheQuantitätFirstDateTime}" LastDateTime="{Binding MündlicheQuantitätLastDateTime}" Position="Bottom" IntervalType="Auto" StringFormat="MMMM"/>
               <oxy:LinearAxis TickStyle="None" MinimumPadding="0.1" MaximumPadding="0.1" Position="Left" StartPosition="1" EndPosition="0" Minimum=".5" Maximum="6.5" MajorStep="1" MinorStep="1"  MajorGridlineStyle="Solid"/>
-            </oxy:PlotView.Axes>
-            <oxy:LineSeries ItemsSource="{Binding Source={StaticResource MündlicheQuantitätViewSource}}" DataFieldX="NoteDatum" DataFieldY="NoteZensurGanzeNote" MarkerType="Circle"/>
-          </oxy:PlotView>
+            </oxy:Plot.Axes>
+            <oxy:Plot.Series>
+              <oxy:LineSeries ItemsSource="{Binding Source={StaticResource MündlicheQuantitätViewSource}}" DataFieldX="NoteDatum" DataFieldY="NoteZensurGanzeNote" MarkerType="Circle"/>
+            </oxy:Plot.Series>
+          </oxy:Plot>
         </Grid>
       </GroupBox>
       <GroupBox Grid.Row="2" Name="GroupBoxWeitereMündlich" Margin="0" Padding="0">

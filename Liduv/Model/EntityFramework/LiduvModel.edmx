@@ -28,7 +28,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ArbeitId" Type="int" Nullable="false" />
           <Property Name="LfdNr" Type="int" Nullable="false" />
-          <Property Name="MaxPunkte" Type="int" Nullable="false" />
+          <Property Name="MaxPunkte" Type="float" Nullable="false" />
           <Property Name="Bezeichnung" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="BetroffeneKlassen">
@@ -81,7 +81,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AufgabeId" Type="int" Nullable="false" />
           <Property Name="SchülereintragId" Type="int" Nullable="false" />
-          <Property Name="Punktzahl" Type="int" />
+          <Property Name="Punktzahl" Type="float" />
         </EntityType>
         <EntityType Name="Fächer">
           <Key>
@@ -3351,7 +3351,7 @@
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Int32" Name="ArbeitId" Nullable="false" />
           <Property Type="Int32" Name="LfdNr" Nullable="false" />
-          <Property Type="Int32" Name="MaxPunkte" Nullable="false" />
+          <Property Type="Single" Name="MaxPunkte" Nullable="false" />
           <NavigationProperty Name="Ergebnisse" Relationship="Liduv.Model.AufgabeErgebnis" FromRole="Aufgabe" ToRole="Ergebnis" />
           <NavigationProperty Name="Arbeit" Relationship="Liduv.Model.ArbeitAufgabe" FromRole="Aufgabe" ToRole="Arbeit" />
           <Property Type="String" Name="Bezeichnung" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -3363,7 +3363,7 @@
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Int32" Name="AufgabeId" Nullable="false" />
           <Property Type="Int32" Name="SchülereintragId" Nullable="false" />
-          <Property Type="Int32" Name="Punktzahl" Nullable="true" />
+          <Property Type="Single" Name="Punktzahl" Nullable="true" />
           <NavigationProperty Name="Aufgabe" Relationship="Liduv.Model.AufgabeErgebnis" FromRole="Ergebnis" ToRole="Aufgabe" />
           <NavigationProperty Name="Schülereintrag" Relationship="Liduv.Model.SchülereintragErgebnis" FromRole="Ergebnis" ToRole="Schülereintrag" />
         </EntityType>

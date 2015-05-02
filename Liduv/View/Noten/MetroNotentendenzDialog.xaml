@@ -32,8 +32,7 @@
 				Margin="0,5"
 				FontSize="24"
 				HorizontalAlignment="Left"
-				SelectedDate="{Binding NotentendenzDatum, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-				controls:TextboxHelper.Watermark="Datum ..." />
+				SelectedDate="{Binding NotentendenzDatum, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
         <TextBox Grid.Column="1" Height="{Binding ActualHeight, ElementName=NoteGültigAmDate}" Style="{StaticResource MetroLabelStyle}" Margin="5" VerticalAlignment="Center" Text="{Binding NotentendenzBezeichnung}"/>
       </Grid>
       <ListBox Margin="5"

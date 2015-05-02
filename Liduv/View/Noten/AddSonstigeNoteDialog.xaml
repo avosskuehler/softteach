@@ -25,6 +25,8 @@
           <RadioButton Margin="0,0,10,0" IsChecked="{Binding IsMündlich}" Content="Mündlich"/>
           <RadioButton Content="Schriftlich"/>
         </StackPanel>
+        <TextBlock TextWrapping="Wrap">Bitte geben Sie die Gewichtung der Note an.</TextBlock>
+        <Slider Value="{Binding Path=Wichtung}" SmallChange="1" TickPlacement="BottomRight" Minimum="1" />
       </StackPanel>
     </StackPanel>
     <Grid Background="{StaticResource DefaultButtonsBackgroundBrush}" Grid.Row="2">

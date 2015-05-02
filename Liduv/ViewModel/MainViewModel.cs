@@ -679,6 +679,10 @@
     public void StartNoteneingabe()
     {
       var nochZuBenotendeStunden = this.HoleNochZuBenotendeStunden();
+      if (!nochZuBenotendeStunden.Any())
+      {
+        return;
+      }
 
       var viewModel = new StundennotenReminderWorkspaceViewModel(nochZuBenotendeStunden);
       var dlg = new MetroStundennotenReminderWindow { DataContext = viewModel };
@@ -1209,6 +1213,7 @@
         {
           App.NotenErinnerungsIcon.ToolTipText = anzahlNichtbenoteterStunden + " Stunden noch nicht benotet";
           App.NotenErinnerungsIcon.IconSource = this.errorIcon;
+          App.NotenErinnerungsIcon.Visibility = Visibility.Visible;
         }));
       }
       else
@@ -1217,6 +1222,7 @@
           {
             App.NotenErinnerungsIcon.ToolTipText = "Keine offenen Bewertungen.";
             App.NotenErinnerungsIcon.IconSource = this.inactiveIcon;
+            App.NotenErinnerungsIcon.Visibility = Visibility.Collapsed;
           }));
       }
     }

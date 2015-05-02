@@ -35,7 +35,7 @@
     /// <summary>
     /// Holt oder setzt die Punktzahl
     /// </summary>
-    public int? ErgebnisPunktzahl
+    public float? ErgebnisPunktzahl
     {
       get
       {

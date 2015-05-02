@@ -4,7 +4,8 @@
   <!-- Globally declared notify icon -->
   <tb:TaskbarIcon x:Key="NotenNotifyIcon"
                   IconSource="/Liduv;component/Images/Inactive.ico"
-                  ToolTipText="Nichts"
+                  ToolTipText=""
+                  Visibility="Hidden"
                   PopupActivation="LeftClick">
     <tb:TaskbarIcon.TrayToolTip>
       <Border

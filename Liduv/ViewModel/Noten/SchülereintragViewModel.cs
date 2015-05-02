@@ -951,7 +951,7 @@
     /// <summary>
     /// Holt die berechnete Summe aller Punkte der aktuellen Arbeit
     /// </summary>
-    public int CurrentArbeitPunktsumme
+    public float CurrentArbeitPunktsumme
     {
       get
       {
@@ -1318,6 +1318,7 @@
       foreach (var noteViewModel in noteViewModels)
       {
         var wichtung = noteViewModel.NoteWichtung;
+        if (wichtung == 0) wichtung = 1;
         punkteSumme += wichtung * noteViewModel.NoteZensur.ZensurNotenpunkte;
         count += wichtung;
       }
@@ -1350,6 +1351,7 @@
       foreach (var noteViewModel in noteViewModels)
       {
         var wichtung = noteViewModel.NoteWichtung;
+        if (wichtung == 0) wichtung = 1;
         punkteSumme += wichtung * noteViewModel.NoteZensur.ZensurNotenpunkte;
         count += wichtung;
       }
@@ -1752,7 +1754,7 @@
       note.Bezeichnung = Selection.Instance.SonstigeNoteBezeichnung;
       note.IstSchriftlich = Selection.Instance.SonstigeNoteNotentyp != Notentyp.MündlichSonstige;
       note.Notentyp = Selection.Instance.SonstigeNoteNotentyp.ToString();
-      note.Wichtung = 1;
+      note.Wichtung = Selection.Instance.SonstigeNoteWichtung;
       note.Zensur = App.MainViewModel.Zensuren.First(o => o.ZensurNoteMitTendenz == notenwert.ToString(CultureInfo.InvariantCulture)).Model;
       note.Schülereintrag = this.Model;
       var vm = new NoteViewModel(note);

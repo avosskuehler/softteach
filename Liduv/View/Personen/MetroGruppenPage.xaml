@@ -63,6 +63,7 @@
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="*"/>
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="Auto"/>
@@ -82,12 +83,13 @@
                               Maximum="50"
                               Margin="10,0"/>
       <CheckBox  Grid.Column="4" IsThreeState="True" IsChecked="{Binding MädchenJungeGemischt}">w/m nebeneinander</CheckBox>
-      <Button Grid.Column="5" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+      <CheckBox  Grid.Column="5" IsThreeState="False" IsChecked="{Binding TeilungsgruppenBeachten}">Teilungsgruppen berücksichtigen</CheckBox>
+      <Button Grid.Column="6" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                     Command="{Binding Path=GruppenNeuEinteilenCommand}" 
                     ToolTip="Gruppen neu einteilen.">
         <Image Source="/Liduv;component/Images/Würfel48.png"/>
       </Button>
-      <Button Grid.Column="6" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+      <Button Grid.Column="7" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                     Command="{Binding Path=GruppenAusdruckenCommand}" 
                     ToolTip="Gruppen ausdrucken.">
         <Image Source="/Liduv;component/Images/Printer48.png"/>

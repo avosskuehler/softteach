@@ -17,7 +17,7 @@ namespace Liduv.Model.EntityFramework
         public int Id { get; set; }
         public int AufgabeId { get; set; }
         public int SchülereintragId { get; set; }
-        public Nullable<int> Punktzahl { get; set; }
+        public Nullable<float> Punktzahl { get; set; }
     
         public virtual Aufgabe Aufgabe { get; set; }
         public virtual Schülereintrag Schülereintrag { get; set; }

@@ -3,6 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
              DispatcherUnhandledException="ApplicationDispatcherUnhandledException">
   <Application.Resources>
-    <ResourceDictionary Source="/Liduv;component/Resources/LiduvResources.xaml"/>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Liduv;component/Resources/LiduvResources.xaml"/>
+        <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/Dialogs/BaseMetroDialog.xaml" />-->
+        <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />-->
+        <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />-->
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/crimson.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
   </Application.Resources>
 </Application>

@@ -54,6 +54,11 @@ namespace Liduv.View.Noten
     public string Bezeichnung { get; set; }
 
     /// <summary>
+    /// Holt oder setzt die Wichtung der sonstigen Note
+    /// </summary>
+    public int Wichtung { get; set; }
+
+    /// <summary>
     /// Holt oder setzt einen Wert der angibt, ob die Note Schriftlich oder Mündlich ist.
     /// </summary>
     public bool IsMündlich { get; set; }

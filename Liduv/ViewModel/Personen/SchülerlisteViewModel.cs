@@ -521,6 +521,11 @@
     public bool? MädchenJungeGemischt { get; set; }
 
     /// <summary>
+    /// Holt oder setzt einen Wert, der angibt, ob bei der Gruppeneinteilung die Teilungsgruppen beachtet werden sollen.
+    /// </summary>
+    public bool TeilungsgruppenBeachten { get; set; }
+
+    /// <summary>
     /// Compares the current object with another object of the same type.
     /// </summary>
     /// <param name="obj">An object to compare with this object.</param>
@@ -779,82 +784,172 @@
       // Reset Gruppennummern
       this.Schülereinträge.Each(o => o.SchülereintragPerson.Gruppennummer = 0);
 
-      if (this.MädchenJungeGemischt.HasValue)
+      if (this.TeilungsgruppenBeachten)
       {
-        // Mische die Schüler nach Jungen und Mädchen getrennt
-        var mädchen = this.Schülereinträge.Where(o => !o.IstKrank && o.SchülereintragPerson.PersonIstWeiblich).Shuffle().ToList();
-        var jungen = this.Schülereinträge.Where(o => !o.IstKrank && !o.SchülereintragPerson.PersonIstWeiblich).Shuffle().ToList();
-        if (this.MädchenJungeGemischt.Value)
+        var schülernachGruppen = this.Schülereinträge.OrderBy(o => o.SchülereintragPerson.PersonNachname).Chunk(this.Schülereinträge.Count / 2);
+
+        var gruppenNummer = 0;
+        foreach (var schülergruppe in schülernachGruppen)
         {
-          var gruppenMädchen = mädchen.Split(this.gruppenanzahl);
-          var gruppenJungen = jungen.Split(this.gruppenanzahl);
-
-          // Mädchen auf Gruppen verteilen
-          var gruppenNummer = 0;
-          foreach (var gruppe in gruppenMädchen)
+          if (this.MädchenJungeGemischt.HasValue)
           {
-            gruppenNummer++;
-            foreach (var schülereintragViewModel in gruppe)
+            // Mische die Schüler nach Jungen und Mädchen getrennt
+            var mädchen = schülergruppe.Where(o => !o.IstKrank && o.SchülereintragPerson.PersonIstWeiblich).Shuffle().ToList();
+            var jungen = schülergruppe.Where(o => !o.IstKrank && !o.SchülereintragPerson.PersonIstWeiblich).Shuffle().ToList();
+            if (this.MädchenJungeGemischt.Value)
             {
-              schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
+              var gruppenMädchen = mädchen.Split(this.gruppenanzahl / 2);
+              var gruppenJungen = jungen.Split(this.gruppenanzahl / 2);
+
+              // Mädchen auf Gruppen verteilen
+              foreach (var gruppe in gruppenMädchen)
+              {
+                gruppenNummer++;
+                foreach (var schülereintragViewModel in gruppe)
+                {
+                  schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
+                }
+              }
+
+              // Jungen auf Gruppen verteilen
+              //gruppenNummer = this.gruppenanzahl / 2;
+              foreach (var gruppe in gruppenJungen)
+              {
+                foreach (var schülereintragViewModel in gruppe)
+                {
+                  schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
+                }
+
+                gruppenNummer--;
+              }
+
+              gruppenNummer = this.gruppenanzahl / 2 ;
+            }
+            else
+            {
+              var anzahlMädchen = mädchen.Count;
+              var anzahlJungen = jungen.Count;
+              var gesamtZahl = anzahlMädchen + anzahlJungen;
+
+              var gruppenMädchen = mädchen.Split((int)Math.Round(this.gruppenanzahl * anzahlMädchen / (float)gesamtZahl));
+              var gruppenJungen = jungen.Split((int)Math.Round(this.gruppenanzahl * anzahlJungen / (float)gesamtZahl));
+
+              foreach (var gruppe in gruppenMädchen)
+              {
+                gruppenNummer++;
+                foreach (var schülereintragViewModel in gruppe)
+                {
+                  schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
+                }
+              }
+
+              foreach (var gruppe in gruppenJungen)
+              {
+                gruppenNummer++;
+                foreach (var schülereintragViewModel in gruppe)
+                {
+                  schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
+                }
+              }
             }
           }
-
-          // Jungen auf Gruppen verteilen
-          gruppenNummer = this.gruppenanzahl;
-          foreach (var gruppe in gruppenJungen)
+          else
           {
-            foreach (var schülereintragViewModel in gruppe)
+            // Mische die Schüler beliebig
+            this.SchülereinträgeGemischt = this.Schülereinträge.Where(o => !o.IstKrank).Shuffle().ToList();
+
+            var gruppen = this.SchülereinträgeGemischt.Split(this.gruppenanzahl);
+
+            foreach (var gruppe in gruppen)
             {
-              schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
-            }
-
-            gruppenNummer--;
-          }
-        }
-        else
-        {
-          var anzahlMädchen = mädchen.Count;
-          var anzahlJungen = jungen.Count;
-          var gesamtZahl = anzahlMädchen + anzahlJungen;
-
-          var gruppenMädchen = mädchen.Split((int)Math.Round(this.gruppenanzahl * anzahlMädchen / (float)gesamtZahl));
-          var gruppenJungen = jungen.Split((int)Math.Round(this.gruppenanzahl * anzahlJungen / (float)gesamtZahl));
-
-          var gruppenNummer = 0;
-          foreach (var gruppe in gruppenMädchen)
-          {
-            gruppenNummer++;
-            foreach (var schülereintragViewModel in gruppe)
-            {
-              schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
-            }
-          }
-
-          foreach (var gruppe in gruppenJungen)
-          {
-            gruppenNummer++;
-            foreach (var schülereintragViewModel in gruppe)
-            {
-              schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
+              gruppenNummer++;
+              foreach (var schülereintragViewModel in gruppe)
+              {
+                schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
+              }
             }
           }
         }
       }
       else
       {
-        // Mische die Schüler beliebig
-        this.SchülereinträgeGemischt = this.Schülereinträge.Where(o => !o.IstKrank).Shuffle().ToList();
-
-        var gruppen = this.SchülereinträgeGemischt.Split(this.gruppenanzahl);
-        var gruppenNummer = 0;
-
-        foreach (var gruppe in gruppen)
+        if (this.MädchenJungeGemischt.HasValue)
         {
-          gruppenNummer++;
-          foreach (var schülereintragViewModel in gruppe)
+          // Mische die Schüler nach Jungen und Mädchen getrennt
+          var mädchen = this.Schülereinträge.Where(o => !o.IstKrank && o.SchülereintragPerson.PersonIstWeiblich).Shuffle().ToList();
+          var jungen = this.Schülereinträge.Where(o => !o.IstKrank && !o.SchülereintragPerson.PersonIstWeiblich).Shuffle().ToList();
+          if (this.MädchenJungeGemischt.Value)
           {
-            schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
+            var gruppenMädchen = mädchen.Split(this.gruppenanzahl);
+            var gruppenJungen = jungen.Split(this.gruppenanzahl);
+
+            // Mädchen auf Gruppen verteilen
+            var gruppenNummer = 0;
+            foreach (var gruppe in gruppenMädchen)
+            {
+              gruppenNummer++;
+              foreach (var schülereintragViewModel in gruppe)
+              {
+                schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
+              }
+            }
+
+            // Jungen auf Gruppen verteilen
+            gruppenNummer = this.gruppenanzahl;
+            foreach (var gruppe in gruppenJungen)
+            {
+              foreach (var schülereintragViewModel in gruppe)
+              {
+                schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
+              }
+
+              gruppenNummer--;
+            }
+          }
+          else
+          {
+            var anzahlMädchen = mädchen.Count;
+            var anzahlJungen = jungen.Count;
+            var gesamtZahl = anzahlMädchen + anzahlJungen;
+
+            var gruppenMädchen = mädchen.Split((int)Math.Round(this.gruppenanzahl * anzahlMädchen / (float)gesamtZahl));
+            var gruppenJungen = jungen.Split((int)Math.Round(this.gruppenanzahl * anzahlJungen / (float)gesamtZahl));
+
+            var gruppenNummer = 0;
+            foreach (var gruppe in gruppenMädchen)
+            {
+              gruppenNummer++;
+              foreach (var schülereintragViewModel in gruppe)
+              {
+                schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
+              }
+            }
+
+            foreach (var gruppe in gruppenJungen)
+            {
+              gruppenNummer++;
+              foreach (var schülereintragViewModel in gruppe)
+              {
+                schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
+              }
+            }
+          }
+        }
+        else
+        {
+          // Mische die Schüler beliebig
+          this.SchülereinträgeGemischt = this.Schülereinträge.Where(o => !o.IstKrank).Shuffle().ToList();
+
+          var gruppen = this.SchülereinträgeGemischt.Split(this.gruppenanzahl);
+          var gruppenNummer = 0;
+
+          foreach (var gruppe in gruppen)
+          {
+            gruppenNummer++;
+            foreach (var schülereintragViewModel in gruppe)
+            {
+              schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
+            }
           }
         }
       }

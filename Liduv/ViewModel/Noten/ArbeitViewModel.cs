@@ -452,7 +452,7 @@
     /// <summary>
     /// Holt die Gesamtpunktzahl der Arbeit
     /// </summary>
-    public int ArbeitGesamtpunktzahl
+    public float ArbeitGesamtpunktzahl
     {
       get
       {

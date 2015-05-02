@@ -65,6 +65,24 @@
         action(item);
     }
 
+    //public static IEnumerable<IEnumerable<T>> Split2<T>(this IEnumerable<T> items, int numOfParts)
+    //{
+    //  int i = 0;
+    //  return items.GroupBy(x => i++ % numOfParts);
+    //}
+
+    /// <summary>
+    /// Break a list of items into chunks of a specific size
+    /// </summary>
+    public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> source, int chunksize)
+    {
+      while (source.Any())
+      {
+        yield return source.Take(chunksize);
+        source = source.Skip(chunksize);
+      }
+    }
+
     public static string StripLeft(this string value, int length)
     {
       return value.Substring(length, value.Length - length);
@@ -118,12 +136,12 @@
     public static object GetObjectAtPoint<TItemContainer>(this ItemsControl control, Point p)
                                      where TItemContainer : DependencyObject
     {
-        // ItemContainer - can be ListViewItem, or TreeViewItem and so on(depends on control)
-        var obj = GetContainerAtPoint<TItemContainer>(control, p);
-        if (obj == null)
-            return null;
+      // ItemContainer - can be ListViewItem, or TreeViewItem and so on(depends on control)
+      var obj = GetContainerAtPoint<TItemContainer>(control, p);
+      if (obj == null)
+        return null;
 
-        return control.ItemContainerGenerator.ItemFromContainer(obj);
+      return control.ItemContainerGenerator.ItemFromContainer(obj);
     }
 
     public static TItemContainer GetContainerAtPoint<TItemContainer>(this ItemsControl control, Point p)

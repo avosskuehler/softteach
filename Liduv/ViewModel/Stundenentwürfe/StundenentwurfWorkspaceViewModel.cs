@@ -50,6 +50,7 @@
       this.FilteredStundenentwürfe = CollectionViewSource.GetDefaultView(App.MainViewModel.Stundenentwürfe);
       this.FilteredStundenentwürfe.Filter = this.FilterStundenentwürfe;
 
+
       this.FilteredModule = CollectionViewSource.GetDefaultView(App.MainViewModel.Module);
       this.FilteredModule.Filter = this.FilterModules;
 
