@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="SoftTeach.View.Wochenpläne.MetroTerminplaneintragDetailView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="300"
+             FontSize="18">
+  <Border Background="{Binding Path=TerminplaneintragBackground}">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" MinHeight="20"/>
+        <RowDefinition Height="*" MinHeight="20"/>
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+        <Label Padding="5,0" VerticalAlignment="Center" Content="{Binding Path=TerminplaneintragKlasse}"/>
+        <Label Padding="5,0" VerticalAlignment="Center" Content="{Binding Path=TerminplaneintragOrt}"/>
+      </StackPanel>
+      <Border Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Style="{StaticResource DisplayStyle}" HorizontalAlignment="Right" VerticalAlignment="Top">
+        <StackPanel Orientation="Horizontal" Height="48">
+          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=ViewTerminplaneintragCommand}">
+            <Image Source="/SoftTeach;component/Images/View48.png"/>
+          </Button>
+          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=EditTerminplaneintragCommand}">
+            <Image Source="/SoftTeach;component/Images/Edit48.png"/>
+          </Button>
+          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=RemoveTerminplaneintragCommand}">
+            <Image Source="/SoftTeach;component/Images/Remove48.png"/>
+          </Button>
+          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddNotenCommand}">
+            <Image Source="/SoftTeach;component/Images/Note48.png"/>
+          </Button>
+          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddHausaufgabenCommand}" ToolTip="Nicht gemachte Hausaufgaben eintragen.">
+            <Image Source="/SoftTeach;component/Images/Hausaufgabe32.png"/>
+          </Button>
+          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddSonstigeNotenCommand}" ToolTip="Sonstige Noten eintragen.">
+            <StackPanel Orientation="Horizontal">
+              <Grid>
+                <Image Source="/SoftTeach;component/Images/Note32.png"/>
+                <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
+              </Grid>
+            </StackPanel>
+          </Button>
+          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=ProofTerminplaneintragCommand}">
+            <Image Source="{Binding Path=ProofImage48}"/>
+          </Button>
+        </StackPanel>
+      </Border>
+      <TextBlock Grid.Row="1" Grid.Column="0" Padding="5,0,5,0" VerticalAlignment="Center"  
+               Text="{Binding Path=TerminplaneintragThema}" TextWrapping="Wrap"/>
+    </Grid>
+  </Border>
+</UserControl>

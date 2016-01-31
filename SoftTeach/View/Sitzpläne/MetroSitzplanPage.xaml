@@ -1,0 +1,155 @@
+﻿<Page x:Class="SoftTeach.View.Sitzpläne.MetroSitzplanPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:setting="clr-namespace:SoftTeach.Setting"
+      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
+      xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+      mc:Ignorable="d" 
+      d:DesignHeight="768" 
+      d:DesignWidth="1366"
+      Title="Sitzplan"
+      FontSize="20"
+      DataContext="{Binding Source={x:Static setting:Selection.Instance}, Path=Sitzplan}"
+      Loaded="MetroSitzplanPage_OnLoaded">
+  <Page.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/SoftTeach;component/Resources/MetroResources.xaml"/>
+        <ResourceDictionary>
+          <RotateTransform x:Key="SitzplanDrehungRotateTransform" Angle="{Binding Path=SitzplanDrehung}"></RotateTransform>
+        </ResourceDictionary>
+        <ResourceDictionary >
+          <CollectionViewSource x:Key="SortedAvailableSchülereinträgeViewSource" Source="{Binding AvailableSchülereinträge}">
+            <CollectionViewSource.SortDescriptions>
+              <componentModel:SortDescription PropertyName="SchülereintragPerson.PersonVorname" Direction="Ascending" />
+            </CollectionViewSource.SortDescriptions>
+          </CollectionViewSource>
+        </ResourceDictionary>
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Page.Resources>
+  <Grid Stylus.IsPressAndHoldEnabled="False" Background="{x:Static SystemColors.ControlDarkBrush}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto" MinHeight="30"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <Border Grid.Row="0" Background="{StaticResource MetroHeaderBackground}">
+      <StackPanel Orientation="Horizontal">
+        <Image Source="/SoftTeach;component/Images/Sitzplan32.png"/>
+        <Label Foreground="White" HorizontalAlignment="Center">Wie soll der Sitzplan aussehen?</Label>
+      </StackPanel>
+    </Border>
+    <Grid Grid.Row="1" Background="{x:Static SystemColors.MenuBarBrush}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <Label  Grid.Column="0" Style="{StaticResource MetroLabelStyle}" VerticalAlignment="Center">Bezeichnung</Label>
+      <TextBox  Grid.Column="1" Style="{StaticResource MetroLabelStyle}" VerticalAlignment="Center" Text="{Binding SitzplanBezeichnung}" MinWidth="200"/>
+      <Label  Grid.Column="2" Style="{StaticResource MetroLabelStyle}" VerticalAlignment="Center">gültig ab</Label>
+      <DatePicker Grid.Column="3" Width="180"
+				Margin="0,5"
+				FontSize="24"
+				HorizontalAlignment="Left"
+				SelectedDate="{Binding SitzplanGültigAb, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+      <CheckBox  Grid.Column="5" IsThreeState="True" IsChecked="{Binding SitzplanMädchenJungeNebeneinander}">w/m nebeneinander</CheckBox>
+      <Button Grid.Column="6" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                    Command="{Binding Path=SitzplanNeuEinteilenCommand}" 
+                    ToolTip="Sitzplan neu einteilen.">
+        <Image Source="/SoftTeach;component/Images/Würfel48.png"/>
+      </Button>
+      <Button Grid.Column="7" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                    Command="{Binding Path=SitzplanLeerenCommand}" 
+                    ToolTip="Sitzplan leeren.">
+        <Image Source="/SoftTeach;component/Images/Remove48.png"/>
+      </Button>
+      <Button Grid.Column="8" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                    Command="{Binding Path=SitzplanAusdruckenCommand}" 
+                    ToolTip="Sitzplan ausdrucken.">
+        <Image Source="/SoftTeach;component/Images/Printer48.png"/>
+      </Button>
+      <controls:NumericUpDown Grid.Column="9" Value="{Binding SitzplanDrehung}" Interval="90" Maximum="360" Minimum="0" />
+    </Grid>
+    <ListBox Grid.Column="0" Grid.Row="2" ItemsSource="{Binding Source={StaticResource SortedAvailableSchülereinträgeViewSource}}" 
+                 ItemTemplate="{StaticResource MetroSchülereintragSitzplanView}"
+                 BorderThickness="0"
+                 dd:DragDrop.IsDragSource="True" 
+                 dd:DragDrop.IsDropTarget="True"
+                 dd:DragDrop.DragAdornerTemplate="{StaticResource SchülereintragDragAdorner}"
+                 dd:DragDrop.DropHandler="{Binding}"
+                 Name="SchülerListBox">
+      <ListBox.ItemsPanel>
+        <ItemsPanelTemplate>
+          <StackPanel Orientation="Horizontal"/>
+        </ItemsPanelTemplate>
+      </ListBox.ItemsPanel>
+    </ListBox>
+    <Image Grid.Column="0" Grid.Row="3" Source="{Binding SitzplanRaumplan.RaumplanImage}" Stretch="None"/>
+    <ListBox Grid.Column="0" Grid.Row="3" ItemsSource="{Binding Sitzplaneinträge}" 
+             Background="Transparent"
+                 BorderThickness="0"
+                 dd:DragDrop.IsDragSource="True" 
+                 dd:DragDrop.IsDropTarget="True"
+                 dd:DragDrop.DragAdornerTemplate="{StaticResource SitzplaneintragDragAdorner}"
+                 dd:DragDrop.DropHandler="{Binding}"
+                 Name="SitzplaneinträgeListBox" 
+             ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+             ScrollViewer.VerticalScrollBarVisibility="Disabled">
+      <!--<ListBox.Background>
+        <ImageBrush ImageSource="{Binding SitzplanRaumplan.RaumplanImage}" Stretch="None"></ImageBrush>
+      </ListBox.Background>-->
+      <ListBox.ItemsPanel>
+        <ItemsPanelTemplate>
+          <Canvas Width="800" Height="500" Margin="0" Background="Transparent">
+          </Canvas>
+        </ItemsPanelTemplate>
+      </ListBox.ItemsPanel>
+      <ListBox.ItemContainerStyle>
+        <Style TargetType="ListBoxItem">
+          <Setter Property="Canvas.Left" Value="{Binding SitzplaneintragSitzplatz.SitzplatzLinksObenX}"/>
+          <Setter Property="Canvas.Top" Value="{Binding SitzplaneintragSitzplatz.SitzplatzLinksObenY}"/>
+          <Setter Property="Padding" Value="0"/>
+        </Style>
+      </ListBox.ItemContainerStyle>
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <Border Background="#550069a6" Width="{Binding SitzplaneintragSitzplatz.SitzplatzBreite}" Height="{Binding SitzplaneintragSitzplatz.SitzplatzHöhe}" Margin="0" Padding="0" RenderTransformOrigin="0.5,0.5">
+            <Border.RenderTransform>
+              <RotateTransform>
+                <RotateTransform.Angle>
+                  <MultiBinding Converter="{StaticResource SitzplatzAngleConverter}">
+                    <Binding Path="SitzplaneintragSitzplatz.SitzplatzDrehwinkel"/>
+                    <Binding Source="{StaticResource SitzplanDrehungRotateTransform}" Mode="TwoWay" Path="Angle"/>
+                  </MultiBinding>
+                </RotateTransform.Angle>
+              </RotateTransform>
+            </Border.RenderTransform>
+            <!--<Border.RenderTransform>
+              <RotateTransform Angle="{Binding SitzplaneintragSitzplatz.SitzplatzDrehwinkel}"/>
+            </Border.RenderTransform>-->
+            <TextBlock TextWrapping="Wrap" Padding="0" Margin="0" LineHeight="15" LineStackingStrategy="BlockLineHeight"
+                       Text="{Binding SitzplaneintragSchülereintrag.SchülereintragPerson.PersonVornameKurz}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="16">
+            </TextBlock>
+          </Border>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+  </Grid>
+</Page>

@@ -1,0 +1,40 @@
+﻿<Window x:Class="SoftTeach.View.Datenbank.CurriculumDBView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:resources="clr-namespace:SoftTeach.Resources" xmlns:SoftTeach="clr-namespace:SoftTeach"
+        xmlns:controls="clr-namespace:SoftTeach.Resources.Controls" mc:Ignorable="d" 
+        Title="Datenbank - Curricula"
+        Icon="/SoftTeach;component/Images/Database.ico"
+             d:DesignHeight="400" d:DesignWidth="800" WindowStyle="SingleBorderWindow">
+  <Window.Resources>
+  </Window.Resources>
+  <Grid Background="{StaticResource MainBackgroundBrush}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="48"/>
+      <RowDefinition/>
+      <RowDefinition Height="32"/>
+    </Grid.RowDefinitions>
+    <controls:SmallDialogHeader  Icon="/SoftTeach;component/Images/Curriculum32.png" 
+                              Grid.Row="0" 
+                              Title="Das ist der Inhalt der Curricula-Tabelle. Diese Darstellung dient nur zur Kontrolle. 
+Curricula ändern Sie im Curricula Modul."/>
+    <GroupBox Grid.Row="1" Header="Tabelle der Curricula" Padding="3" Margin="5">
+      <DataGrid ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Curricula}" AutoGenerateColumns="False"
+                IsReadOnly="True">
+        <DataGrid.Columns>
+          <DataGridTextColumn Header="Jahr" Binding="{Binding Path= CurriculumJahrtyp.JahrtypBezeichnung}"/>
+          <DataGridTextColumn Header="Fach" Binding="{Binding Path=CurriculumFach.FachBezeichnung}"/>
+          <DataGridTextColumn Header="Klassenstufe" Binding="{Binding Path=CurriculumKlassenstufe.KlassenstufeBezeichnung}"/>
+          <DataGridTextColumn Header="Bezeichnung" Binding="{Binding Path=CurriculumBezeichnung}" Width="*"/>
+          <DataGridTextColumn Header="Verfügbare Stunden" Binding="{Binding Path=CurriculumVerfügbareStunden}"/>
+          <DataGridTextColumn Header="Verplante Stunden" Binding="{Binding Path=CurriculumVerplanteStunden}"/>
+        </DataGrid.Columns>
+      </DataGrid>
+    </GroupBox>
+    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+      <Button Name="OK" Width="80" Margin="3" IsDefault="True" Click="OKClick">OK</Button>
+    </StackPanel>
+  </Grid>
+</Window>

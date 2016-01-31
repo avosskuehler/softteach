@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?include $(sys.CURRENTDIR)Config.wxi?>
+  <Fragment>
+    <DirectoryRef Id="INSTALLLOCATION">
+      <Component Id="C_EntityFramework" Guid="{15FBDD0C-3A6C-4082-B066-0345AA8461BD}" Win64="$(var.Win64)">
+        <File Id="EntityFramework" Name="EntityFramework.dll" KeyPath="yes" Assembly=".net" AssemblyManifest="EntityFramework" AssemblyApplication="EntityFramework" DiskId="1"
+              Source="$(var.SoftTeach.TargetDir)" />
+      </Component>
+      <Component Id="C_EntityFramework.SqlServer" Guid="{1158BB5B-7D81-4A78-AD41-B7CE25F89A74}" Win64="$(var.Win64)">
+        <File Id="EntityFramework.SqlServer" Name="EntityFramework.SqlServer.dll" KeyPath="yes" Assembly=".net" AssemblyManifest="EntityFramework.SqlServer" AssemblyApplication="EntityFramework.SqlServer" DiskId="1"
+              Source="$(var.SoftTeach.TargetDir)" />
+      </Component>
+      <Component Id="C_GongSolutions.Wpf.DragDrop" Guid="{5010B129-C9E9-479C-BE79-033220B845E4}" Win64="$(var.Win64)">
+        <File Id="GongSolutions.Wpf.DragDrop" Name="GongSolutions.Wpf.DragDrop.dll" KeyPath="yes" Assembly=".net" AssemblyManifest="GongSolutions.Wpf.DragDrop" AssemblyApplication="GongSolutions.Wpf.DragDrop" DiskId="1"
+              Source="$(var.SolutionDir)Libs\" />
+      </Component>
+      <Component Id="C_Hardcodet.Wpf.TaskbarNotification" Guid="{884FDDE9-DB39-4B47-9A93-EFCC0F507FFE}" Win64="$(var.Win64)">
+        <File Id="Hardcodet.Wpf.TaskbarNotification" Name="Hardcodet.Wpf.TaskbarNotification.dll" KeyPath="yes" Assembly=".net" AssemblyManifest="Hardcodet.Wpf.TaskbarNotification" AssemblyApplication="Hardcodet.Wpf.TaskbarNotification" DiskId="1"
+              Source="$(var.SoftTeach.TargetDir)" />
+      </Component>
+      <Component Id="C_MahApps.Metro" Guid="{64E25255-7EB7-4DD1-9667-4B59C1F0D11C}" Win64="$(var.Win64)">
+        <File Id="MahApps.Metro" Name="MahApps.Metro.dll" KeyPath="yes" Assembly=".net" AssemblyManifest="MahApps.Metro" AssemblyApplication="MahApps.Metro" DiskId="1"
+              Source="$(var.SoftTeach.TargetDir)" />
+      </Component>
+      <Component Id="C_OxyPlot" Guid="{10DB94CA-4A80-4EDD-945E-E2F9D71A58F6}" Win64="$(var.Win64)">
+        <File Id="OxyPlot" Name="OxyPlot.dll" KeyPath="yes" Assembly=".net" AssemblyManifest="OxyPlot" AssemblyApplication="OxyPlot" DiskId="1"
+              Source="$(var.SoftTeach.TargetDir)" />
+      </Component>
+      <Component Id="C_OxyPlot.Wpf" Guid="{55E941AD-1A17-459B-9E4C-4F1E6817BD74}" Win64="$(var.Win64)">
+        <File Id="OxyPlot.Wpf" Name="OxyPlot.Wpf.dll" KeyPath="yes" Assembly=".net" AssemblyManifest="OxyPlot.Wpf" AssemblyApplication="OxyPlot.Wpf" DiskId="1"
+              Source="$(var.SoftTeach.TargetDir)" />
+      </Component>
+      <Component Id="C_OxyPlot.Xps" Guid="{EABC5AFF-D23A-4CA6-8C51-9C5FD98DEC11}" Win64="$(var.Win64)">
+        <File Id="OxyPlot.Xps" Name="OxyPlot.Xps.dll" KeyPath="yes" Assembly=".net" AssemblyManifest="OxyPlot.Xps" AssemblyApplication="OxyPlot.Xps" DiskId="1"
+              Source="$(var.SoftTeach.TargetDir)" />
+      </Component>
+      <Component Id="C_System.Windows.Interactivity" Guid="{A40EE0FB-ABFC-4D8E-8C4D-588440EC4D34}" Win64="$(var.Win64)">
+        <File Id="System.Windows.Interactivity" Name="System.Windows.Interactivity.dll" KeyPath="yes" Assembly=".net" AssemblyManifest="System.Windows.Interactivity" AssemblyApplication="System.Windows.Interactivity" DiskId="1"
+              Source="$(var.SoftTeach.TargetDir)" />
+      </Component>
+
+    </DirectoryRef>
+
+    <Feature Id='LibsFeature' Title='Libs' Description='Installs libraries for the application.' Level='1'>
+      <ComponentRef Id="C_EntityFramework"/>
+      <ComponentRef Id="C_EntityFramework.SqlServer"/>
+      <ComponentRef Id="C_GongSolutions.Wpf.DragDrop"/>
+      <ComponentRef Id="C_Hardcodet.Wpf.TaskbarNotification"/>
+      <ComponentRef Id="C_MahApps.Metro"/>
+      <ComponentRef Id="C_OxyPlot"/>
+      <ComponentRef Id="C_OxyPlot.Wpf"/>
+      <ComponentRef Id="C_OxyPlot.Xps"/>
+      <ComponentRef Id="C_System.Windows.Interactivity"/>
+    </Feature>
+  </Fragment>
+</Wix>

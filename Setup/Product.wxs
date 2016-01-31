@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?include $(sys.CURRENTDIR)Config.wxi?>
+  <Product Id="*"
+           Codepage="1252"
+           Language="1031"
+           Name="$(var.ProductName)"
+           Version="$(var.ProductVersion)"
+           Manufacturer="$(var.Manufactor)"
+           UpgradeCode="$(var.UpgradeGuid)">
+    <Package Comments="Installs SoftTeach - Software for teachers"
+             InstallerVersion="405"
+             InstallPrivileges="elevated"
+             InstallScope="perMachine"
+             Compressed="yes"
+             Description="$(var.SoftwareDescription)"
+             Languages="1031"
+             Manufacturer="$(var.Manufactor)"/>
+
+    <PropertyRef Id="NETFRAMEWORK45"/>
+    <Condition Message="This application requires .NET Framework 4.5.1. Please install the .NET Framework then run this installer again.">
+      <![CDATA[Installed OR NETFRAMEWORK45]]>
+    </Condition>
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+
+    <Icon Id="SoftTeach.ico" SourceFile="$(var.SolutionDir)SoftTeach\Images\Logo.ico" />
+
+    <Property Id="ARPPRODUCTICON" Value="icon.ico" />
+    <Property Id="ARPCONTACT" Value="Dr. Adrian Voßkühler" />
+    <Property Id="ARPURLINFOABOUT" Value="Software for teachers" />
+
+    <Media Id="1" Cabinet="softTeach.cab" EmbedCab="yes" />
+
+    <Feature Id="DefaultFeature" ConfigurableDirectory="TARGETDIR" Level="1">
+      <FeatureRef Id="SoftTeachMainApplicationFeature" />
+      <FeatureRef Id='LibsFeature'/>
+    </Feature>
+
+    <WixVariable Id="WixUIDialogBmp" Value="$(var.SolutionDir)Setup\InstallerBkg.png" />
+    <WixVariable Id="WixUIBannerBmp" Value="$(var.SolutionDir)Setup\InstallerBanner.png" />
+    <WixVariable Id="WixUILicenseRtf" Value="$(var.SolutionDir)Setup\License.rtf" />
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" />
+    <UIRef Id="WixUI_InstallDir" />
+  </Product>
+</Wix>

@@ -1,0 +1,57 @@
+﻿<Window x:Class="SoftTeach.View.Sitzpläne.RäumeDBView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:resources="clr-namespace:SoftTeach.Resources" xmlns:SoftTeach="clr-namespace:SoftTeach"
+        xmlns:controls="clr-namespace:SoftTeach.Resources.Controls" mc:Ignorable="d" 
+        Title="Datenbank - Räume"
+        Icon="/SoftTeach;component/Images/Database.ico"
+             d:DesignHeight="400" d:DesignWidth="800" WindowStyle="SingleBorderWindow">
+  <Window.Resources>
+  </Window.Resources>
+  <Grid Background="{StaticResource MainBackgroundBrush}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="48"/>
+      <RowDefinition Height="48"/>
+      <RowDefinition/>
+      <RowDefinition Height="32"/>
+    </Grid.RowDefinitions>
+    <controls:SmallDialogHeader  Icon="/SoftTeach;component/Images/Raum32.png" 
+                              Grid.Row="0" 
+                              Title="Ergänzen oder entfernen Sie hier Räume."/>
+    <Border Grid.Row="1" Name="DescriptionArea">
+      <StackPanel Orientation="Horizontal" Margin="5">
+        <Button Width="150" Height="32" Name="AddButton" Command="{Binding Path=AddRaumCommand}">
+          <StackPanel Orientation="Horizontal">
+            <Grid>
+              <Image Source="/SoftTeach;component/Images/Raum32.png"/>
+              <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
+            </Grid>
+            <Label Content="Raum hinzufügen"/>
+          </StackPanel>
+        </Button>
+        <Label></Label>
+        <Button Width="150" Height="32" Name="RemoveButton" Command="{Binding Path=DeleteRaumCommand}">
+          <StackPanel Orientation="Horizontal">
+            <Grid>
+              <Image Source="/SoftTeach;component/Images/Raum32.png"/>
+              <Image Source="/SoftTeach;component/Images/RemoveOverlay32.png"/>
+            </Grid>
+            <Label Content="Raum entfernen"/>
+          </StackPanel>
+        </Button>
+      </StackPanel>
+    </Border>
+    <GroupBox Grid.Row="2" Header="Tabelle der Räume" Padding="3" Margin="5">
+      <DataGrid SelectedItem="{Binding Path=CurrentRaum, Mode=TwoWay}" ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Räume}" AutoGenerateColumns="False">
+        <DataGrid.Columns>
+          <DataGridTextColumn Header="Bezeichnung" Binding="{Binding Path=RaumBezeichnung}" />
+        </DataGrid.Columns>
+      </DataGrid>
+    </GroupBox>
+    <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+      <Button Name="OK" Width="80" Margin="3" IsDefault="True" Click="OKClick">OK</Button>
+    </StackPanel>
+  </Grid>
+</Window>

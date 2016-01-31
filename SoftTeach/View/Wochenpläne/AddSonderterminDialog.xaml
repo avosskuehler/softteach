@@ -1,0 +1,56 @@
+﻿<Window x:Class="SoftTeach.View.Wochenpläne.AddSonderterminDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:resources="clr-namespace:SoftTeach.Resources" xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
+        Title="Sondertermin ..." 
+        Height="281" 
+        Width="296" 
+        ResizeMode="NoResize" 
+        WindowStyle="SingleBorderWindow"
+        Background="{x:Static SystemColors.MenuBarBrush}">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Neuen Termin anlegen"
+                                      Icon="/SoftTeach;component/Images/Lerngruppentermin32.png"/>
+    <Grid Grid.Row="1">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="*"/>
+      </Grid.RowDefinitions>
+      <GroupBox Grid.Row="0" Header="Bezeichnung des Termins">
+        <GroupBox.ToolTip>
+          <TextBlock TextWrapping="Wrap">Bitte geben Sie eine Bezeichnung für den Termin ein, z.B. Wandertag, Abitur, Projekttag etc.
+      Bitte beachten Sie, dass dieser Termin für mehrere Lerngruppen gilt. Wenn Sie einen Termin für eine einzelne Lerngruppen  
+        Termin anlegen wollen (z.B. Klausur), verwenden Sie bitte den Menüpunkt "Lerngruppentermin".</TextBlock>
+        </GroupBox.ToolTip>
+        <TextBox Name="TerminBezeichnung" Margin="0,5,0,0" Style="{StaticResource HeaderTextBox}" Text="{Binding Path=TerminBeschreibung}"/>
+      </GroupBox>
+      <GroupBox Grid.Row="1" Header="Art und Ort des Termins" >
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*" MinWidth="100"/>
+          </Grid.ColumnDefinitions>
+          <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"  Content="{Binding Path=TerminTermintyp.TermintypBezeichnung}"/>
+          <Label Grid.Row="1" Grid.Column="0">Ort</Label>
+          <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=TerminOrt}"/>
+        </Grid>
+      </GroupBox>
+    </Grid>
+    <Grid Background="{StaticResource DefaultButtonsBackgroundBrush}" Grid.Row="2">
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+        <Button Width="100" HorizontalAlignment="Right" IsDefault="True" Click="OkClick" TabIndex="2">OK</Button>
+        <Label></Label>
+        <Button Width="100" HorizontalAlignment="Right" IsDefault="True" Click="CancelClick">Abbrechen</Button>
+      </StackPanel>
+    </Grid>
+  </Grid>
+</Window>

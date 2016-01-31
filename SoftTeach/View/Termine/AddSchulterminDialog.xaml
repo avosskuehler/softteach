@@ -1,0 +1,33 @@
+﻿<Window x:Class="SoftTeach.View.Termine.AddSchulterminDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:termineViewModel="clr-namespace:SoftTeach.ViewModel.Termine"
+        xmlns:termineView="clr-namespace:SoftTeach.View.Termine" 
+        xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
+        Title="Schultermin ..." 
+        Height="600" 
+        Width="900"
+        Icon="/SoftTeach;component/Images/Schultermin32.png">
+  <Window.Resources>
+    <DataTemplate DataType="{x:Type termineViewModel:SchulterminWorkspaceViewModel}">
+      <termineView:SchulterminWorkspaceView />
+    </DataTemplate>
+  </Window.Resources>
+  <Grid Background="{StaticResource MainBackgroundBrush}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Hier können Sie Schultermine anlegen, aktualisieren oder entfernen."
+                                      Icon="/SoftTeach;component/Images/Schultermin32.png"/>
+    <ContentControl Grid.Row="1" Margin="5"  Content="{Binding Path=.SchulterminWorkspace}" />
+    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+      <!--<Button Click="UpdateClick">Bestehende Jahrespläne aktualisieren</Button>
+      <Label></Label>-->
+      <Button Width="100" IsDefault="True" Click="OkClick" TabIndex="2">Ok</Button>
+      <Label></Label>
+      <Button Width="100" IsCancel="True" Click="CancelClick" TabIndex="3">Abbruch</Button>
+    </StackPanel>
+  </Grid>
+</Window>

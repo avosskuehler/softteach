@@ -1,0 +1,136 @@
+﻿<Page x:Class="SoftTeach.View.Personen.MetroGruppenPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:personen="clr-namespace:SoftTeach.ViewModel.Personen"
+      xmlns:setting="clr-namespace:SoftTeach.Setting"
+      xmlns:personenView="clr-namespace:SoftTeach.View.Personen"
+      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:softTeach="clr-namespace:SoftTeach"
+      xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
+      xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+      mc:Ignorable="d" 
+      d:DesignHeight="768" 
+      d:DesignWidth="1366"
+      Title="Gruppen"
+      FontSize="20"
+      DataContext="{Binding Source={x:Static setting:Selection.Instance}, Path=Schülerliste}">
+  <Page.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/SoftTeach;component/Resources/MetroResources.xaml"/>
+        <ResourceDictionary >
+          <CollectionViewSource x:Key="GroupedSchülereinträgeViewSource" Source="{Binding Schülereinträge}">
+            <CollectionViewSource.SortDescriptions>
+              <scm:SortDescription PropertyName="SchülereintragPerson.PersonVorname" Direction="Ascending" />
+              <scm:SortDescription PropertyName="SchülereintragPerson.PersonNachname" Direction="Ascending" />
+            </CollectionViewSource.SortDescriptions>
+            <CollectionViewSource.GroupDescriptions>
+              <PropertyGroupDescription PropertyName="SchülereintragPerson.Gruppennummer"/>
+            </CollectionViewSource.GroupDescriptions>
+          </CollectionViewSource>
+          <DataTemplate DataType="{x:Type personen:PersonViewModel}" x:Key="PersonenDataTemplate">
+            <personenView:MetroPersonDetailView />
+          </DataTemplate>
+        </ResourceDictionary>
+        <ResourceDictionary >
+          <CollectionViewSource x:Key="SortedAvailableSchülereinträgeViewSource" Source="{Binding Schülereinträge}">
+            <CollectionViewSource.SortDescriptions>
+              <scm:SortDescription PropertyName="SchülereintragPerson.PersonVorname" Direction="Ascending" />
+            </CollectionViewSource.SortDescriptions>
+          </CollectionViewSource>
+        </ResourceDictionary>
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Page.Resources>
+  <Grid Stylus.IsPressAndHoldEnabled="False">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto" MinHeight="30"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <Border Grid.Row="0" Background="{StaticResource MetroHeaderBackground}">
+      <StackPanel Orientation="Horizontal">
+        <Image Source="/SoftTeach;component/Images/Schülerliste32.png"/>
+        <Label Foreground="White" HorizontalAlignment="Center">Wie sollen die Gruppen eingeteilt werden?</Label>
+      </StackPanel>
+    </Border>
+    <Grid Grid.Row="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="0" Content="Anzahl der Schüler pro Gruppe" VerticalAlignment="Center"/>
+      <controls:NumericUpDown Grid.Column="1" TabIndex="1" HorizontalAlignment="Left"
+                              Value="{Binding Path=Gruppenmitgliederanzahl, Mode=TwoWay}"
+                              FontSize="24"
+                              Minimum="1"
+                              Maximum="50"
+                              Margin="10,0"/>
+      <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="2" Content="Anzahl der Gruppen" VerticalAlignment="Center"/>
+      <controls:NumericUpDown Grid.Column="3" TabIndex="1" HorizontalAlignment="Left"
+                              Value="{Binding Path=Gruppenanzahl, Mode=TwoWay}"
+                              FontSize="24"
+                              Minimum="1"
+                              Maximum="50"
+                              Margin="10,0"/>
+      <CheckBox  Grid.Column="4" IsThreeState="True" IsChecked="{Binding MädchenJungeGemischt}">w/m nebeneinander</CheckBox>
+      <CheckBox  Grid.Column="5" IsThreeState="False" IsChecked="{Binding TeilungsgruppenBeachten}">Teilungsgruppen berücksichtigen</CheckBox>
+      <Button Grid.Column="6" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                    Command="{Binding Path=GruppenNeuEinteilenCommand}" 
+                    ToolTip="Gruppen neu einteilen.">
+        <Image Source="/SoftTeach;component/Images/Würfel48.png"/>
+      </Button>
+      <Button Grid.Column="7" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                    Command="{Binding Path=GruppenAusdruckenCommand}" 
+                    ToolTip="Gruppen ausdrucken.">
+        <Image Source="/SoftTeach;component/Images/Printer48.png"/>
+      </Button>
+    </Grid>
+    <ListBox Grid.Row="2" 
+             ItemsSource="{Binding Source={StaticResource SortedAvailableSchülereinträgeViewSource}}" 
+             ItemTemplate="{StaticResource MetroSchülereintragGruppenOverview}"
+             BorderThickness="0"
+             Name="SchülerListBox"
+             ItemContainerStyle="{StaticResource UnselectableListBoxItem}"
+             Background="LightSteelBlue"
+             Padding="5">
+      <ListBox.ItemsPanel>
+        <ItemsPanelTemplate>
+          <StackPanel Orientation="Horizontal"/>
+        </ItemsPanelTemplate>
+      </ListBox.ItemsPanel>
+    </ListBox>
+    <ListBox Grid.Row="3" ItemsSource="{Binding MetroGruppenView}" 
+                 ItemTemplate="{StaticResource MetroSchülereintragGruppenView}"
+                 BorderThickness="0"
+                 dd:DragDrop.IsDragSource="True" 
+                 dd:DragDrop.IsDropTarget="True"
+                 dd:DragDrop.DragAdornerTemplate="{StaticResource SchülereintragDragAdorner}"
+                 dd:DragDrop.DropHandler="{Binding}"
+                 Name="GruppenListBox">
+      <ListBox.ItemsPanel>
+        <ItemsPanelTemplate>
+          <StackPanel dd:DragDrop.IsDropTarget="True"/>
+        </ItemsPanelTemplate>
+      </ListBox.ItemsPanel>
+      <ListBox.GroupStyle>
+        <GroupStyle ContainerStyle="{StaticResource MetroGruppenGroupHeaderStyle}">
+          <GroupStyle.Panel>
+            <ItemsPanelTemplate>
+              <WrapPanel Orientation="Horizontal" Width="{Binding ActualWidth, ElementName=GruppenListBox}"/>
+            </ItemsPanelTemplate>
+          </GroupStyle.Panel>
+        </GroupStyle>
+      </ListBox.GroupStyle>
+    </ListBox>
+  </Grid>
+</Page>

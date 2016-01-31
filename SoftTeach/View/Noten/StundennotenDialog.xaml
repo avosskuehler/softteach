@@ -1,0 +1,77 @@
+﻿<Window x:Class="SoftTeach.View.Noten.StundennotenDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:resources="clr-namespace:SoftTeach.Resources" xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
+        Title="Noten eingeben ..." 
+        Height="660" 
+        Width="660">
+  <Window.Resources>
+  </Window.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Bitte geben Sie Noten für diese Stunde."
+                                      Icon="/SoftTeach;component/Images/Note32.png"/>
+    <Grid Grid.Row="1" Background="{x:Static SystemColors.MenuBarBrush}">
+      <Grid Margin="10">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel  Grid.Row="0">
+          <StackPanel Orientation="Horizontal">
+            <Label>Stunde:</Label>
+            <Label Content="{Binding Path=Stunde.StundeStundenentwurfTitel}"/>
+            <Label>vom</Label>
+            <Label Content="{Binding Path=Stunde.StundeDatum}"/>
+          </StackPanel>
+          <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddHausaufgabenCommand}" ToolTip="Nicht gemachte Hausaufgaben eintragen.">
+              <StackPanel Orientation="Horizontal">
+                <Grid>
+                  <Image Source="/SoftTeach;component/Images/Hausaufgabe32.png"/>
+                  <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
+                </Grid>
+                <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Nicht gemachte Hausaufgaben eintragen.</Label>
+              </StackPanel>
+            </Button>
+            <Label Width="50"/>
+            <UniformGrid Columns="2" VerticalAlignment="Center">
+              <RadioButton Content="Zufällige Auswahl" IsChecked="True"/>
+              <RadioButton Content="Alle Schüler zeigen" IsChecked="{Binding Path=IsShowingAlleSchüler}"/>
+            </UniformGrid>
+
+          </StackPanel>
+          <Label>Bitte Noten eintragen...</Label>
+        </StackPanel>
+        <ListBox Grid.Row="1"
+                 ItemsSource="{Binding Path=SchülerView}"             
+                 BorderThickness="0"
+                 Name="NotenListBox"
+                 ItemTemplate="{StaticResource KlassenlisteNotenView}"
+                 ItemContainerStyle="{StaticResource UnselectableListBoxItem}">
+          <ListBox.ItemsPanel>
+            <ItemsPanelTemplate>
+              <StackPanel/>
+              <!--<WrapPanel Width="{Binding ElementName=NotenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>-->
+            </ItemsPanelTemplate>
+          </ListBox.ItemsPanel>
+          <!--<ListBox.ItemContainerStyle >
+            <Style TargetType="ListBoxItem">
+               <Setter Property="Padding" Value="0"/>
+            </Style>
+          </ListBox.ItemContainerStyle>-->
+        </ListBox>
+      </Grid>
+    </Grid>
+    <Grid Background="{StaticResource DefaultButtonsBackgroundBrush}" Grid.Row="2">
+      <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+        <Button Width="100" HorizontalAlignment="Right" IsDefault="True" Click="OkClick" TabIndex="2">OK</Button>
+        <Button Width="100" Margin="5,0,0,0" HorizontalAlignment="Right" IsCancel="True" Click="CancelClick" TabIndex="3">Abbruch</Button>
+      </StackPanel>
+    </Grid>
+  </Grid>
+</Window>

@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="SoftTeach.View.Sitzpläne.RaumDetailView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="600">
+  <Border>
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="*"/>
+      </Grid.RowDefinitions>
+      <Label Style="{StaticResource Header1}" Grid.Row="0" Margin="0,5,0,0" Content="{Binding Path=RaumBezeichnung}"/>
+      <StackPanel Grid.Row="1" Orientation="Horizontal">
+        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddRaumplanCommand}" 
+                    ToolTip="Neuen Raumplan erstellen">
+          <StackPanel Orientation="Horizontal">
+            <Grid>
+              <Image Source="/SoftTeach;component/Images/Raumplan32.png"/>
+              <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
+            </Grid>
+            <!--<Label Padding="5,0,0,0" VerticalContentAlignment="Center">Neuen Stundenentwurf erstellen</Label>-->
+          </StackPanel>
+        </Button>
+        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                    Command="{Binding Path=EditRaumplanCommand}" 
+                    ToolTip="Aktuellen Raumplan bearbeiten.">
+          <StackPanel Orientation="Horizontal">
+            <Grid>
+              <Image Source="/SoftTeach;component/Images/Raumplan32.png"/>
+              <Image Source="/SoftTeach;component/Images/EditOverlay32.png"/>
+            </Grid>
+            <!--<Label Padding="5,0,0,0" VerticalContentAlignment="Center">Stundenplanänderung eingeben</Label>-->
+          </StackPanel>
+        </Button>
+        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                    Command="{Binding Path=DeleteRaumplanCommand}" 
+                    ToolTip="Aktuellen Raumplan löschen.">
+          <StackPanel Orientation="Horizontal">
+            <Grid>
+              <Image Source="/SoftTeach;component/Images/Raumplan32.png"/>
+              <Image Source="/SoftTeach;component/Images/RemoveOverlay32.png"/>
+            </Grid>
+            <!--<Label Padding="5,0,0,0" VerticalContentAlignment="Center">Stundenplanänderung eingeben</Label>-->
+          </StackPanel>
+        </Button>
+      </StackPanel>
+      <ListBox Grid.Row="2" ItemsSource="{Binding Path=Raumpläne}"
+               SelectedItem="{Binding Path=CurrentRaumplan}" 
+               ItemTemplate="{StaticResource RaumplanListBoxView}"
+               IsSynchronizedWithCurrentItem="True" 
+               Name="RaumpläneListBox"
+               ItemContainerStyle="{StaticResource UnselectableListBoxItem}">
+        <ListBox.ItemsPanel>
+          <ItemsPanelTemplate>
+            <WrapPanel Width="{Binding ElementName=RaumpläneListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}" Orientation="Horizontal"/>
+          </ItemsPanelTemplate>
+        </ListBox.ItemsPanel>
+      </ListBox>
+    </Grid>
+  </Border>
+</UserControl>

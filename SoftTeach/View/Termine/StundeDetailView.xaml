@@ -1,0 +1,160 @@
+﻿<UserControl x:Class="SoftTeach.View.Termine.StundeDetailView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:StundenentwürfeView="clr-namespace:SoftTeach.View.Stundenentwürfe"
+             xmlns:StundenentwürfeViewModel="clr-namespace:SoftTeach.ViewModel.Stundenentwürfe"
+             xmlns:SoftTeach="clr-namespace:SoftTeach" mc:Ignorable="d" 
+             d:DesignHeight="350" d:DesignWidth="500">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto"/>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+    <Grid Grid.Column="0">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <GroupBox Grid.Row="0" Margin="5" Header="Zeit und Ort">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+          </Grid.RowDefinitions>
+          <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Label VerticalAlignment="Center" Content="{Binding Path=StundeDatum}"/>
+            <ComboBox Height="23" SelectedValuePath="." MinWidth="35" Style="{StaticResource DatagridComboBoxElementStyle}" SelectedItem="{Binding Path=TerminErsteUnterrichtsstunde}" ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Unterrichtsstunden}" DisplayMemberPath="UnterrichtsstundeBezeichnung"/>
+            <Label VerticalAlignment="Center">bis</Label>
+            <ComboBox Height="23" SelectedValuePath="." MinWidth="35" Style="{StaticResource DatagridComboBoxElementStyle}" SelectedItem="{Binding Path=TerminLetzteUnterrichtsstunde}" ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Unterrichtsstunden}" DisplayMemberPath="UnterrichtsstundeBezeichnung"/>
+            <Label VerticalAlignment="Center">Stunde</Label>
+          </StackPanel>
+          <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Label VerticalAlignment="Center" Content="{Binding Path=LerngruppenterminHalbjahr}"/>
+            <Label VerticalAlignment="Center" Content="{Binding Path=LerngruppenterminSchuljahr}"/>
+          </StackPanel>
+          <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto"/>
+              <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label VerticalAlignment="Center" Grid.Column="0">Raum</Label>
+            <TextBox VerticalAlignment="Center" Grid.Column="1" Text="{Binding Path=TerminOrt}" />
+          </Grid>
+        </Grid>
+      </GroupBox>
+      <GroupBox Grid.Row="1" Margin="5" Header="Lerngruppe">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+          </Grid.RowDefinitions>
+          <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Label VerticalAlignment="Center" Content="{Binding Path=LerngruppenterminFach}"/>
+            <Label VerticalAlignment="Center" Content="{Binding Path=LerngruppenterminKlasse}"/>
+          </StackPanel>
+        </Grid>
+      </GroupBox>
+      <GroupBox Grid.Row="2" Margin="5" Header="Stunde">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+          </Grid.RowDefinitions>
+          <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Label VerticalAlignment="Center">lf.Nr.</Label>
+            <Label VerticalAlignment="Center" Content="{Binding Path=StundeLaufendeStundennummer}"/>
+          </StackPanel>
+          <Button Grid.Row="1" Command="{Binding Path=AddStundenentwurfCommand}" 
+                  ToolTip="Neuen Stundenentwurf erstellen"
+                  HorizontalAlignment="Left"
+                  Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+            <StackPanel Orientation="Horizontal" >
+              <Grid Margin="5,0,0,0">
+                <Image Source="/SoftTeach;component/Images/Stundenentwurf16.png"/>
+                <Image Source="/SoftTeach;component/Images/AddOverlay16.png"/>
+              </Grid>
+              <Label VerticalAlignment="Center" Padding="5,0,0,0">Stundenentwurf erstellen</Label>
+            </StackPanel>
+          </Button>
+          <Button Grid.Row="2" Command="{Binding Path=RemoveStundenentwurfCommand}" 
+                  ToolTip="Stundenentwurf entfernen"
+                  HorizontalAlignment="Left"
+                  Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
+            <StackPanel Orientation="Horizontal">
+              <Grid Margin="5,0,0,0">
+                <Image Source="/SoftTeach;component/Images/Stundenentwurf16.png"/>
+                <Image Source="/SoftTeach;component/Images/RemoveOverlay16.png"/>
+              </Grid>
+              <Label VerticalAlignment="Center" Padding="5,0,0,0">Stundenentwurf entfernen</Label>
+            </StackPanel>
+          </Button>
+          <Button  Grid.Row="3" Command="{Binding Path=SearchStundenentwurfCommand}" 
+                   ToolTip="Stundenentwurf suchen"
+                   HorizontalAlignment="Left"
+                   Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
+            <StackPanel Orientation="Horizontal">
+              <Grid Margin="5,0,0,0">
+                <Image Source="/SoftTeach;component/Images/Stundenentwurf16.png"/>
+                <Image Source="/SoftTeach;component/Images/SearchOverlay16.png"/>
+              </Grid>
+              <Label VerticalAlignment="Center" Padding="5,0,0,0">Stundenentwurf suchen</Label>
+            </StackPanel>
+          </Button>
+        </Grid>
+      </GroupBox>
+      <Line/>
+      <StackPanel Grid.Row="3" Orientation="Vertical">
+        <Button Command="{Binding Path=PreviewStundenentwurfCommand}" 
+                  ToolTip="Stundenentwurfausdruck ansehen"
+                  HorizontalAlignment="Left"
+                  Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+          <StackPanel Orientation="Horizontal" >
+            <Grid Margin="5,0,0,0">
+              <Image Source="/SoftTeach;component/Images/Preview16.png"/>
+            </Grid>
+            <Label VerticalAlignment="Center" Padding="5,0,0,0">Ausdruck ansehen</Label>
+          </StackPanel>
+        </Button>
+        <Button Command="{Binding Path=PrintStundenentwurfCommand}" 
+                  ToolTip="Stundenentwurf drucken"
+                  HorizontalAlignment="Left"
+                  Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+          <StackPanel Orientation="Horizontal" >
+            <Grid Margin="5,0,0,0">
+              <Image Source="/SoftTeach;component/Images/Drucker16.png"/>
+            </Grid>
+            <Label VerticalAlignment="Center" Padding="5,0,0,0">Stundenentwurf drucken</Label>
+          </StackPanel>
+        </Button>
+        <Button Command="{Binding Path=PrintAllStundenentwurfCommand}" 
+                  ToolTip="Stundenentwurf drucken"
+                  HorizontalAlignment="Left"
+                  Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+          <StackPanel Orientation="Horizontal" >
+            <Grid Margin="5,0,0,0">
+              <Image Source="/SoftTeach;component/Images/Drucker16.png"/>
+            </Grid>
+            <TextBlock VerticalAlignment="Center" Padding="5,0,0,0">Stundenentwurf mit allen 
+              <LineBreak/>
+              Unterlagen drucken
+            </TextBlock>
+          </StackPanel>
+        </Button>
+      </StackPanel>
+    </Grid>
+    <ContentControl Grid.Column="1" Content="{Binding Path=StundeStundenentwurf}">
+      <ContentControl.Resources>
+        <DataTemplate DataType="{x:Type StundenentwürfeViewModel:StundenentwurfViewModel}">
+          <StundenentwürfeView:StundenentwurfDetailView />
+        </DataTemplate>
+      </ContentControl.Resources>
+    </ContentControl>
+
+  </Grid>
+</UserControl>
