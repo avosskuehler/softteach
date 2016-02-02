@@ -1,8 +1,8 @@
 ﻿namespace SoftTeach.ViewModel.Stundenentwürfe
 {
   using System;
+  using System.Collections;
   using System.Collections.Generic;
-  using System.Collections.ObjectModel;
   using System.ComponentModel;
   using System.Linq;
   using System.Windows.Data;
@@ -12,7 +12,7 @@
   using SoftTeach.UndoRedo;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Helper;
-  using SoftTeach.ViewModel.Jahrespläne;
+  using SoftTeach.ViewModel.Personen;
 
   /// <summary>
   /// ViewModel for managing Stundenentwurf
@@ -40,6 +40,11 @@
     private StundenentwurfViewModel currentStundenentwurf;
 
     /// <summary>
+    /// The item currently selected
+    /// </summary>
+    private StundenentwurfEintrag currentStundenentwurfEintrag;
+
+    /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="StundenentwurfWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public StundenentwurfWorkspaceViewModel()
@@ -48,11 +53,8 @@
       this.DeleteStundenentwurfCommand = new DelegateCommand(this.DeleteCurrentStundenentwurf, () => this.CurrentStundenentwurf != null);
       this.RemoveFilterCommand = new DelegateCommand(this.RemoveFilter);
 
-      // Init display of subset of modules
-      this.FilteredStundenentwürfe = CollectionViewSource.GetDefaultView(App.MainViewModel.Stundenentwürfe);
-      this.FilteredStundenentwürfe.Filter = this.FilterStundenentwürfe;
-
       this.FilteredAndSortedStundenentwürfe = new List<StundenentwurfEintrag>();
+      this.SelectedStundenentwurfEinträge = new List<StundenentwurfEintrag>();
 
       this.PopulateStundenentwürfe();
 
@@ -118,11 +120,6 @@
     public List<StundenentwurfEintrag> FilteredAndSortedStundenentwürfe { get; set; }
 
     /// <summary>
-    /// Holt oder setzt die gefilterten Stundenentwürfe
-    /// </summary>
-    public ICollectionView FilteredStundenentwürfe { get; set; }
-
-    /// <summary>
     /// Holt oder setzt die gefilterten Module
     /// </summary>
     public ICollectionView FilteredModule { get; set; }
@@ -141,7 +138,6 @@
       {
         this.fachFilter = value;
         this.RaisePropertyChanged("FachFilter");
-        this.FilteredStundenentwürfe.Refresh();
         this.FilteredModule.Refresh();
         this.PopulateStundenentwürfe();
       }
@@ -161,7 +157,6 @@
       {
         this.jahrgangsstufeFilter = value;
         this.RaisePropertyChanged("JahrgangsstufeFilter");
-        this.FilteredStundenentwürfe.Refresh();
         this.FilteredModule.Refresh();
         this.PopulateStundenentwürfe();
       }
@@ -181,7 +176,6 @@
       {
         this.modulFilter = value;
         this.RaisePropertyChanged("ModulFilter");
-        this.FilteredStundenentwürfe.Refresh();
         this.PopulateStundenentwürfe();
       }
     }
@@ -219,6 +213,28 @@
         this.RaisePropertyChanged("CurrentStundenentwurf");
       }
     }
+
+    /// <summary>
+    /// Holt oder setzt den ausgewählten Stundenentwurfseintrag
+    /// </summary>
+    public StundenentwurfEintrag CurrentStundenentwurfEintrag
+    {
+      get
+      {
+        return this.currentStundenentwurfEintrag;
+      }
+
+      set
+      {
+        this.currentStundenentwurfEintrag = value;
+        this.RaisePropertyChanged("CurrentStundenentwurfEintrag");
+      }
+    }
+
+    /// <summary>
+    /// Holt die markierten Stundenentwürfe
+    /// </summary>
+    public IList SelectedStundenentwurfEinträge { get; set; }
 
     /// <summary>
     /// Dieser Property changed event handler für die Selection, aktualisiert den
@@ -297,102 +313,6 @@
       this.FachFilter = null;
       this.JahrgangsstufeFilter = null;
       this.ModulFilter = null;
-    }
-
-    /// <summary>
-    /// The filter predicate that filters the person table view only showing schüler
-    /// </summary>
-    /// <param name="de">The <see cref="PersonViewModel"/> that should be filtered</param>
-    /// <returns>True if the given object should remain in the list.</returns>
-    private bool FilterStundenentwürfe(object de)
-    {
-      var stundenentwurf = de as StundenentwurfViewModel;
-      if (stundenentwurf == null)
-      {
-        return false;
-      }
-
-      if (stundenentwurf.StundenentwurfPhasenKurzform == string.Empty)
-      {
-        return false;
-      }
-
-      if (this.FachFilter != null && this.JahrgangsstufeFilter != null && this.ModulFilter != null)
-      {
-        if (stundenentwurf.StundenentwurfFach == this.FachFilter
-          && stundenentwurf.StundenentwurfJahrgangsstufe == this.JahrgangsstufeFilter
-          && stundenentwurf.StundenentwurfModul == this.ModulFilter)
-        {
-          return true;
-        }
-
-        return false;
-      }
-
-      if (this.FachFilter != null && this.JahrgangsstufeFilter != null)
-      {
-        if (stundenentwurf.StundenentwurfFach == this.FachFilter
-          && stundenentwurf.StundenentwurfJahrgangsstufe == this.JahrgangsstufeFilter)
-        {
-          return true;
-        }
-
-        return false;
-      }
-
-      if (this.JahrgangsstufeFilter != null && this.ModulFilter != null)
-      {
-        if (stundenentwurf.StundenentwurfJahrgangsstufe == this.JahrgangsstufeFilter
-          && stundenentwurf.StundenentwurfModul == this.ModulFilter)
-        {
-          return true;
-        }
-
-        return false;
-      }
-
-      if (this.FachFilter != null && this.ModulFilter != null)
-      {
-        if (stundenentwurf.StundenentwurfFach == this.FachFilter
-          && stundenentwurf.StundenentwurfModul == this.ModulFilter)
-        {
-          return true;
-        }
-
-        return false;
-      }
-
-      if (this.FachFilter != null)
-      {
-        if (stundenentwurf.StundenentwurfFach == this.FachFilter)
-        {
-          return true;
-        }
-
-        return false;
-      }
-
-      if (this.JahrgangsstufeFilter != null)
-      {
-        if (stundenentwurf.StundenentwurfJahrgangsstufe == this.JahrgangsstufeFilter)
-        {
-          return true;
-        }
-
-        return false;
-      }
-
-      if (this.ModulFilter != null)
-      {
-        if (stundenentwurf.StundenentwurfModul == this.ModulFilter)
-        {
-          return true;
-        }
-
-        return false;
-      }
-
-      return true;
     }
 
     /// <summary>

@@ -7,7 +7,7 @@
              xmlns:notenView="clr-namespace:SoftTeach.View.Noten"
              xmlns:notenViewModel="clr-namespace:SoftTeach.ViewModel.Noten"
              mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="800">
+             d:DesignHeight="400" d:DesignWidth="873">
   <Grid>
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="250"/>
@@ -47,49 +47,47 @@
         <RowDefinition Height="Auto"/>
         <RowDefinition Height="*"/>
       </Grid.RowDefinitions>
-      <Grid Grid.Column="1">
+      <Grid>
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto"/>
           <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
-          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddHausaufgabenCommand}" ToolTip="Nicht gemachte Hausaufgaben eintragen.">
-            <StackPanel Orientation="Horizontal">
-              <Grid>
-                <Image Source="/SoftTeach;component/Images/Hausaufgabe32.png"/>
-                <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
-              </Grid>
-              <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Nicht gemachte Hausaufgaben eintragen.</Label>
-            </StackPanel>
-          </Button>
-          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddSonstigeNotenCommand}" ToolTip="Sonstige Noten eintragen.">
-            <StackPanel Orientation="Horizontal">
-              <Grid>
-                <Image Source="/SoftTeach;component/Images/Note32.png"/>
-                <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
-              </Grid>
-              <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Sonstige Noten eintragen.</Label>
-            </StackPanel>
-          </Button>
-          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=PrintNotenlisteCommand}" ToolTip="Notenliste drucken.">
-            <StackPanel Orientation="Horizontal">
-              <Grid>
-                <Image Source="/SoftTeach;component/Images/Note32.png"/>
-                <Image Source="/SoftTeach;component/Images/PrintOverlay32.png"/>
-              </Grid>
-              <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Notenliste drucken.</Label>
-            </StackPanel>
-          </Button>
-          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=PrintNotenlisteDetailCommand}" ToolTip="Notenliste mit Details drucken.">
-            <StackPanel Orientation="Horizontal">
-              <Grid>
-                <Image Source="/SoftTeach;component/Images/Note32.png"/>
-                <Image Source="/SoftTeach;component/Images/PrintOverlay32.png"/>
-              </Grid>
-              <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Notenliste + Details drucken.</Label>
-            </StackPanel>
-          </Button>
-        </StackPanel>
+        <ToolBarTray Grid.Row="0" Orientation="Horizontal" IsLocked="True">
+          <ToolBar Band="1" BandIndex="1">
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddZeugnisnotenCommand}" ToolTip="Zeugnisnoten machen.">
+              <StackPanel Orientation="Horizontal">
+                <Grid>
+                  <Image Source="/SoftTeach;component/Images/Note32.png"/>
+                </Grid>
+              </StackPanel>
+            </Button>
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=PrintNotenlisteCommand}" ToolTip="Notenliste drucken.">
+              <StackPanel Orientation="Horizontal">
+                <Grid>
+                  <Image Source="/SoftTeach;component/Images/Note32.png"/>
+                  <Image Source="/SoftTeach;component/Images/PrintOverlay32.png"/>
+                </Grid>
+              </StackPanel>
+            </Button>
+            <Separator/>
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddHausaufgabenCommand}" ToolTip="Nicht gemachte Hausaufgaben eintragen.">
+              <StackPanel Orientation="Horizontal">
+                <Grid>
+                  <Image Source="/SoftTeach;component/Images/Hausaufgabe32.png"/>
+                  <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
+                </Grid>
+              </StackPanel>
+            </Button>
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddSonstigeNotenCommand}" ToolTip="Sonstige Noten eintragen.">
+              <StackPanel Orientation="Horizontal">
+                <Grid>
+                  <Image Source="/SoftTeach;component/Images/Note32.png"/>
+                  <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
+                </Grid>
+              </StackPanel>
+            </Button>
+          </ToolBar>
+        </ToolBarTray>
         <ContentControl Grid.Row="1" Content="{Binding Path=CurrentSchülereintrag}">
           <ContentControl.Resources>
             <DataTemplate DataType="{x:Type notenViewModel:SchülereintragViewModel}">

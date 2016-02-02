@@ -69,6 +69,10 @@
     /// </summary>
     private bool istKrank;
 
+    private int gesamtAnpassung;
+
+    private int mündlicheAnpassung;
+
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="SchülereintragViewModel"/> Klasse. 
     /// </summary>
@@ -482,6 +486,23 @@
       }
     }
 
+    /// <summary>
+    /// Holt oder setzt einen Anpassungwert für die Gesamtnote
+    /// </summary>
+    public int GesamtAnpassung
+    {
+      get
+      {
+        return this.gesamtAnpassung;
+      }
+      set
+      {
+        this.gesamtAnpassung = value;
+        this.RaisePropertyChanged("GesamtAnpassung");
+        this.UpdateNoten();
+      }
+    }
+
     #region Mündlich
 
     /// <summary>
@@ -492,6 +513,24 @@
       get
       {
         return this.BerechneMündlicheGesamtnote();
+      }
+    }
+
+    /// <summary>
+    /// Holt oder setzt einen Anpassungswert für die mündliche Gesamtnote
+    /// </summary>
+    /// <value>The mündliche anpassung.</value>
+    public int MündlicheAnpassung
+    {
+      get
+      {
+        return this.mündlicheAnpassung;
+      }
+      set
+      {
+        this.mündlicheAnpassung = value;
+        this.RaisePropertyChanged("MündlicheAnpassung");
+        this.UpdateNoten();
       }
     }
 
@@ -727,6 +766,7 @@
         return this.BerechneSchriftlicheGesamtnote();
       }
     }
+
 
     /// <summary>
     /// Holt eine Liste aller Klausur und Klassenarbeitsnoten.
@@ -1198,6 +1238,16 @@
       gesamtNoteGerundet += this.BerechneTendenzBepunktung();
       gesamtNoteGerundet = Math.Max(gesamtNoteGerundet, 0);
       gesamtNoteGerundet = Math.Min(gesamtNoteGerundet, 15);
+      gesamtNoteGerundet = gesamtNoteGerundet + this.GesamtAnpassung;
+      if (gesamtNoteGerundet > 15)
+      {
+        gesamtNoteGerundet = 15;
+      }
+      else if (gesamtNoteGerundet < 0)
+      {
+        gesamtNoteGerundet = 0;
+      }
+
       var zensur = App.MainViewModel.Zensuren.First(o => o.ZensurNotenpunkte == gesamtNoteGerundet);
       return this.GetNotenString(zensur);
     }
@@ -1247,9 +1297,17 @@
         return "?";
       }
 
-      this.mündlicheGesamtnote = mündlichGesamt;
+      this.mündlicheGesamtnote = mündlichGesamt + this.MündlicheAnpassung;
+      if (this.mündlicheGesamtnote > 15)
+      {
+        this.mündlicheGesamtnote = 15;
+      }
+      else if (this.mündlicheGesamtnote < 0)
+      {
+        this.mündlicheGesamtnote = 0;
+      }
 
-      var zensur = App.MainViewModel.Zensuren.First(o => o.ZensurNotenpunkte == mündlichGesamt);
+      var zensur = App.MainViewModel.Zensuren.First(o => o.ZensurNotenpunkte == this.mündlicheGesamtnote);
       return this.GetNotenString(zensur);
     }
 

@@ -54,7 +54,7 @@
       this.AddHausaufgabenCommand = new DelegateCommand(this.AddHausaufgaben);
       this.AddSonstigeNotenCommand = new DelegateCommand(this.AddSonstigeNoten);
       this.PrintNotenlisteCommand = new DelegateCommand(this.PrintNotenliste);
-      this.PrintNotenlisteDetailCommand = new DelegateCommand(this.PrintNotenlisteDetail);
+      this.AddZeugnisnotenCommand = new DelegateCommand(this.AddZeugnisnoten);
     }
 
     /// <summary>
@@ -73,9 +73,9 @@
     public DelegateCommand PrintNotenlisteCommand { get; private set; }
 
     /// <summary>
-    /// Holt den Befehl, um die Notenliste der aktuellen Schülerliste auszudrucken
+    /// Holt den Befehl, um Zeugnisnoten zu machen
     /// </summary>
-    public DelegateCommand PrintNotenlisteDetailCommand { get; private set; }
+    public DelegateCommand AddZeugnisnotenCommand { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Schülereintrag currently selected in this workspace
@@ -239,6 +239,19 @@
       // print it out
       var title = "Noten" + this.CurrentSchülerliste.SchülerlisteKlasse.KlasseBezeichnung + this.CurrentSchülerliste.SchülerlisteFach.FachBezeichnung;
       pd.PrintVisual(fixedPage, title);
+    }
+
+    /// <summary>
+    /// Ruft einen Dialog auf, mit dem Zeugnisnoten erstellt werden können.
+    /// </summary>
+    private void AddZeugnisnoten()
+    {
+      using (new UndoBatch(App.MainViewModel, string.Format("Neue Zeugnisnoten erstellt"), false))
+      {
+        var workspace = new ZeugnisnotenWorkspaceViewModel(this.CurrentSchülerliste);
+        var dlg = new ZeugnisnotenDialog { DataContext = workspace };
+        dlg.ShowDialog();
+      }
     }
 
     /// <summary>

@@ -368,6 +368,7 @@
     <Compile Include="Resources\Controls\MultiSelectorBehaviours.cs" />
     <Compile Include="Resources\Controls\SDataGrid.cs" />
     <Compile Include="Resources\Controls\TwoListSynchronizer.cs" />
+    <Compile Include="Resources\Converter\EnumBooleanConverter.cs" />
     <Compile Include="Resources\Converter\SitzplatzAngleConverter.cs" />
     <Compile Include="Setting\Configuration.cs" />
     <Compile Include="Setting\NavigateTarget.cs" />
@@ -414,6 +415,8 @@
     <Compile Include="ViewModel\Curricula\CurriculumWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Curricula\ZeitstrahlCollectionContainer.cs" />
     <Compile Include="ViewModel\Datenbank\AddJahrtypDialogViewModel.cs" />
+    <Compile Include="ViewModel\Noten\ZeugnisnotenTyp.cs" />
+    <Compile Include="ViewModel\Noten\ZeugnisnotenWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Noten\StundennotenReminderWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Sitzpläne\SitzplanWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Sitzpläne\SitzplanViewModel.cs" />
@@ -606,6 +609,9 @@
     </Compile>
     <Compile Include="View\Noten\SonstigeNotenDialog.xaml.cs">
       <DependentUpon>SonstigeNotenDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Noten\ZeugnisnotenDialog.xaml.cs">
+      <DependentUpon>ZeugnisnotenDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Personen\MetroGruppenPrintView.xaml.cs">
       <DependentUpon>MetroGruppenPrintView.xaml</DependentUpon>
@@ -1483,6 +1489,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Noten\SonstigeNotenDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Noten\ZeugnisnotenDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

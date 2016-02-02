@@ -1,5 +1,5 @@
-﻿// <copyright file="DialogHeader.xaml.cs" company="Paul Natorp Gymnasium, Berlin">        
-// LEUDA - Lehrerunterrichtsdatenbank
+﻿// <copyright file="ZeugnisnotenDialog.xaml.cs" company="Paul Natorp Gymnasium, Berlin">        
+// SoftTeach - Lehrerunterrichtsdatenbank
 // Copyright (C) 2013 Dr. Adrian Voßkühler
 // -----------------------------------------------------------------------
 // This program is free software; you can redistribute it and/or modify 
@@ -15,61 +15,37 @@
 // <author>Adrian Voßkühler</author>
 // <email>adrian@vosskuehler.name</email>
 
-namespace SoftTeach.Resources.Controls
+namespace SoftTeach.View.Noten
 {
-  using System.Windows.Controls;
-  using System.Windows.Media;
+  using System.Windows;
 
   /// <summary>
-  /// Interaction logic for SmallDialogHeader.xaml
+  /// Ein Dialog um Noten für das Zeugnis oder einen Zwischenstand zu machen
   /// </summary>
-  public partial class SmallDialogHeader : UserControl
+  public partial class ZeugnisnotenDialog
   {
     #region Constructors and Destructors
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SmallDialogHeader"/> class.
+    /// Initialisiert eine neue Instanz der <see cref="ZeugnisnotenDialog"/> Klasse.
     /// </summary>
-    public SmallDialogHeader()
+    public ZeugnisnotenDialog()
     {
       this.InitializeComponent();
     }
 
     #endregion
 
-    #region Public Properties
-
-    /// <summary>
-    /// Sets Icon.
-    /// </summary>
-    public ImageSource Icon
+    private void OkClick(object sender, RoutedEventArgs e)
     {
-      get
-      {
-        return this.icon.Source;
-      }
-      set
-      {
-        this.icon.Source = value;
-      }
+      this.DialogResult = true;
+      this.Close();
     }
 
-    /// <summary>
-    /// Gets or sets Title.
-    /// </summary>
-    public string Title
+    private void CancelClick(object sender, RoutedEventArgs e)
     {
-      get
-      {
-        return this.title.Text;
-      }
-
-      set
-      {
-        this.title.Text = value;
-      }
+      this.DialogResult = false;
+      this.Close();
     }
-
-    #endregion
   }
 }

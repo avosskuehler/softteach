@@ -505,7 +505,13 @@ namespace SoftTeach.ViewModel.Termine
       {
         if (this.StundeStundenentwurf != null &&
           this.StundeStundenentwurf.StundenentwurfPhasenKurzform == string.Empty) App.MainViewModel.Stundenentwürfe.RemoveTest(this.StundeStundenentwurf);
+
+        // Das ausgewählte Modul verschwindet wenn man den Stundenentwurf neu setzt
+        // vermutlich durch das Combo
+        // Hack: zwischenspeichern und nachher wieder eintragen...
+        var modulBackup = dlg.SelectedStundenentwurfViewModel.StundenentwurfModul;
         this.StundeStundenentwurf = dlg.SelectedStundenentwurfViewModel;
+        this.StundeStundenentwurf.StundenentwurfModul = modulBackup;
         this.UpdateStundenentwurfStundenzahl();
       }
     }

@@ -9,4 +9,5 @@
   <converter:FloatProzentConverter x:Key="FloatProzentConverter" />
   <converter:WrapPanelWidthConverter x:Key="WrapPanelWidthConverter" />
   <converter:SitzplatzAngleConverter x:Key="SitzplatzAngleConverter" />
+  <converter:EnumBooleanConverter x:Key="EnumBooleanConverter" />
 </ResourceDictionary>

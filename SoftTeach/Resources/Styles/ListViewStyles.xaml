@@ -2,9 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
                     xmlns:system="clr-namespace:System;assembly=mscorlib"
                     xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
-                    xmlns:converter="clr-namespace:SoftTeach.Resources.Converter">
+                    xmlns:converter="clr-namespace:SoftTeach.Resources.Converter"
+                    xmlns:controls="clr-namespace:SoftTeach.Resources.Controls">
 
   <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="..\Controls\NumericUpDown.xaml"/>
     <ResourceDictionary Source="..\Controls\HausaufgabeButton.xaml"/>
     <ResourceDictionary Source="TextStyles.xaml"/>
   </ResourceDictionary.MergedDictionaries>
@@ -284,7 +286,7 @@
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type GroupItem}" >
           <Border BorderThickness="3" BorderBrush="Transparent">
-            <HeaderedContentControl Header="{Binding Path=Name}" HeaderTemplate="{StaticResource GroupBoxHeader}">
+            <HeaderedContentControl Header="{Binding Path=Name}" HeaderTemplate="{StaticResource JahrtypHeaderControlHeader}">
               <ItemsPresenter Margin="0"/>
             </HeaderedContentControl>
           </Border>
@@ -778,6 +780,114 @@
     </Style.Triggers>
   </Style>
 
+  <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" x:Key="ZeugnisnotenAnpassungsButton">
+    <Setter Property="FontSize" Value="24"/>
+    <!--<Setter Property="Width" Value="20"/>
+    <Setter Property="Height" Value="20"/>-->
+    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    <Setter Property="VerticalContentAlignment" Value="Center"/>
+  </Style>
+
+  <DataTemplate x:Key="ZeugnisNotenView">
+    <Grid Opacity="0.7" Background="White">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="50"/>
+        <ColumnDefinition Width="150"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <Image Grid.Column="0" Height="50" Source="{Binding Path=SchülereintragPerson.PersonBild}" Margin="0"/>
+      <Grid Grid.Column="1">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="60"/>
+          <ColumnDefinition Width="90"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition/>
+          <RowDefinition/>
+          <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+          <Label Style="{StaticResource ZeugnisnotenHeader}" Content="{Binding Path=SchülereintragPerson.PersonVorname}"/>
+          <Label Style="{StaticResource ZeugnisnotenHeader}" Content="{Binding Path=SchülereintragPerson.PersonNachname}"/>
+        </StackPanel>
+        <Label Grid.Row="1" Grid.Column="0">HA</Label>
+        <Image Grid.Row="1" Grid.Column="1" Source="{Binding Path=HausaufgabenTendenzImage}" Height="16"/>
+        <Label Grid.Row="2" Grid.Column="0">Tendenzen</Label>
+        <Image Grid.Row="2" Grid.Column="1" Source="{Binding Path=TendenzenTendenzImage}" Height="16"/>
+      </Grid>
+      <Grid Grid.Column="2">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="60"/>
+          <ColumnDefinition Width="20"/>
+          <ColumnDefinition Width="55"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition/>
+          <RowDefinition/>
+          <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource ZeugnisnotenHeader}">Mündlich</Label>
+        <Label Grid.Row="0" Grid.Column="1" Style="{StaticResource ZeugnisnotenHeader}" Content="{Binding Path=MündlicheGesamtNote}"/>
+        <controls:NumericUpDown Grid.Row="0" Grid.Column="2" Grid.RowSpan="4" VerticalAlignment="Top" Style="{StaticResource NumericUpDownRoundStyle}"
+                                Value="{Binding Path=MündlicheAnpassung, Mode=TwoWay}"
+                                Minimum="-10"
+                                Change="1"
+                                Maximum="10"/>
+        <!--<StackPanel>
+            <Button Command="{Binding Path=Qualität1Command}" Style="{StaticResource ZeugnisnotenAnpassungsButton}" Content="+"/>
+            <Button Command="{Binding Path=Qualität2Command}" Style="{StaticResource ZeugnisnotenAnpassungsButton}" Content="-"/>
+          </StackPanel>-->
+        <Label Grid.Row="1" Grid.Column="0" Padding="1">Qualität</Label>
+        <Label Grid.Row="1" Grid.Column="1" Padding="1" Content="{Binding Path=MündlicheQualitätNote}"/>
+        <Label Grid.Row="2" Grid.Column="0" Padding="1">Quantität</Label>
+        <Label Grid.Row="2" Grid.Column="1" Padding="1" Content="{Binding Path=MündlicheQuantitätNote}"/>
+        <Label Grid.Row="3" Grid.Column="0" Padding="1">Weitere</Label>
+        <Label Grid.Row="3" Grid.Column="1" Padding="1" Content="{Binding Path=MündlicheWeitereNotenGesamtnote}"/>
+      </Grid>
+      <Grid Grid.Column="3" >
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="70"/>
+          <ColumnDefinition Width="30"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition/>
+          <RowDefinition/>
+          <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource ZeugnisnotenHeader}" >Schriftlich</Label>
+        <Label Grid.Row="0" Grid.Column="1" Style="{StaticResource ZeugnisnotenHeader}" Content="{Binding Path=SchriftlicheGesamtNote}"/>
+        <Label Grid.Row="1" Grid.Column="0" Padding="1">Arbeiten</Label>
+        <Label Grid.Row="1" Grid.Column="1" Padding="1" Content="{Binding Path=SchriftlichKlausurenGesamtnote}"/>
+        <Label Grid.Row="2" Grid.Column="0" Padding="1">Weitere</Label>
+        <Label Grid.Row="2" Grid.Column="1" Padding="1" Content="{Binding Path=SchriftlichWeitereNotenGesamtnote}"/>
+      </Grid>
+      <Grid Grid.Column="4" >
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="50"/>
+          <ColumnDefinition Width="20"/>
+          <ColumnDefinition Width="55"/>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Column="0" Style="{StaticResource ZeugnisnotenHeader}">Gesamt</Label>
+        <Label Grid.Column="1" Style="{StaticResource ZeugnisnotenHeader}" Content="{Binding Path=Gesamtnote}"/>
+        <controls:NumericUpDown Grid.Column="2"  VerticalAlignment="Top" Style="{StaticResource NumericUpDownRoundStyle}"
+                                Value="{Binding Path=GesamtAnpassung, Mode=TwoWay}"
+                                Minimum="-10"
+                                 Change="1"
+                                Maximum="10"/>
+
+        <!--<StackPanel Orientation="Horizontal">
+          <Button Command="{Binding Path=Qualität1Command}" Style="{StaticResource ZeugnisnotenAnpassungsButton}" Content="+"/>
+          <Button Command="{Binding Path=Qualität2Command}" Style="{StaticResource ZeugnisnotenAnpassungsButton}" Content="-"/>
+        </StackPanel>-->
+      </Grid>
+    </Grid>
+  </DataTemplate>
+
   <DataTemplate x:Key="KlassenlisteNotenView">
     <DataTemplate.Resources>
       <SolidColorBrush x:Key="AnimatedBrush" Color="Transparent" />
@@ -889,10 +999,7 @@
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="ListBoxItem">
-          <Border x:Name="Border" Padding="0" SnapsToDevicePixels="true">
-            <Border.Background>
-              <SolidColorBrush Color="Transparent" />
-            </Border.Background>
+          <Border x:Name="Border" Padding="0" SnapsToDevicePixels="true" Background="Transparent">
             <ContentPresenter />
           </Border>
         </ControlTemplate>

@@ -45,13 +45,14 @@
       {
         this.desktopView = new MainRibbonView();
         this.desktopView.Show();
-        Configuration.Instance.IsMetroMode = false;
       }
       else
       {
         this.desktopView.Show();
         this.desktopView.Activate();
       }
+
+      Configuration.Instance.IsMetroMode = false;
     }
 
     private void LandingPage_OnLoaded(object sender, RoutedEventArgs e)

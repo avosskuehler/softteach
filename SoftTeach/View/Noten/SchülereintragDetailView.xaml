@@ -47,26 +47,28 @@
         <RowDefinition Height="*"/>
       </Grid.RowDefinitions>
       <Label Style="{StaticResource Header1}" Grid.Row="0" Margin="0,5,0,0" Content="{Binding Path=SchülereintragÜberschrift}"/>
-      <StackPanel Grid.Row="1" Orientation="Horizontal">
-        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddNotentendenzCommand}" ToolTip="Notentendenz anlegen" >
-          <StackPanel Orientation="Horizontal">
-            <Grid>
-              <Image Source="/SoftTeach;component/Images/Notentendenz32.png" />
-              <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
-            </Grid>
-            <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Notentendenz anlegen</Label>
-          </StackPanel>
-        </Button>
-        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddNoteCommand}" ToolTip="Note anlegen" >
-          <StackPanel Orientation="Horizontal">
-            <Grid>
-              <Image Source="/SoftTeach;component/Images/Note32.png" />
-              <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
-            </Grid>
-            <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Note anlegen</Label>
-          </StackPanel>
-        </Button>
-      </StackPanel>
+      <ToolBarTray Grid.Row="0" Orientation="Horizontal" IsLocked="True">
+        <ToolBar Band="1" BandIndex="1">
+          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddNotentendenzCommand}" ToolTip="Notentendenz anlegen" >
+            <StackPanel Orientation="Horizontal">
+              <Grid>
+                <Image Source="/SoftTeach;component/Images/Notentendenz32.png" />
+                <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
+              </Grid>
+              <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Notentendenz anlegen</Label>
+            </StackPanel>
+          </Button>
+          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddNoteCommand}" ToolTip="Note anlegen" >
+            <StackPanel Orientation="Horizontal">
+              <Grid>
+                <Image Source="/SoftTeach;component/Images/Note32.png" />
+                <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
+              </Grid>
+              <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Note anlegen</Label>
+            </StackPanel>
+          </Button>
+        </ToolBar>
+      </ToolBarTray>
       <TabControl Grid.Row="2">
         <TabItem Header="Übersicht">
           <Grid>

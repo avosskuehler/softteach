@@ -272,21 +272,21 @@
             <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="ModulRahmen" Storyboard.TargetProperty="(Rectangle.Fill)">
               <DiscreteObjectKeyFrame KeyTime="00:00:00">
                 <DiscreteObjectKeyFrame.Value>
-                  <SolidColorBrush>LightGreen</SolidColorBrush>
+                  <SolidColorBrush>LightSeaGreen</SolidColorBrush>
                 </DiscreteObjectKeyFrame.Value>
               </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>
             <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="NameRahmen" Storyboard.TargetProperty="(Rectangle.Fill)">
               <DiscreteObjectKeyFrame KeyTime="00:00:00">
                 <DiscreteObjectKeyFrame.Value>
-                  <SolidColorBrush>LightGreen</SolidColorBrush>
+                  <SolidColorBrush>LightSeaGreen</SolidColorBrush>
                 </DiscreteObjectKeyFrame.Value>
               </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>
             <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="PhasenRahmen" Storyboard.TargetProperty="(Rectangle.Fill)">
               <DiscreteObjectKeyFrame KeyTime="00:00:00">
                 <DiscreteObjectKeyFrame.Value>
-                  <SolidColorBrush>LightGreen</SolidColorBrush>
+                  <SolidColorBrush>LightSeaGreen</SolidColorBrush>
                 </DiscreteObjectKeyFrame.Value>
               </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>

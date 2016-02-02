@@ -849,6 +849,20 @@
     }
 
     /// <summary>
+    /// Fügt eine gegebene Phase diesem Stundenentwurf ans Ende hinzu.
+    /// </summary>
+    /// <param name="vm"> Das ViewModel der hinzuzufügenden Phase </param>
+    public void AddPhase(PhaseViewModel vm)
+    {
+      vm.Model.Stundenentwurf = this.Model;
+      vm.PropertyChanged += this.PhasePropertyChanged;
+      this.Phasen.Add(vm);
+      SequencingService.SetCollectionSequence(this.Phasen);
+      this.CurrentPhase = vm;
+      this.NotifyPhaseZeitChanged();
+    }
+
+    /// <summary>
     /// Schiebt die gewählte(n) Phase(n) in die nächste Stunde.
     /// </summary>
     private void MovePhase()

@@ -27,6 +27,11 @@
     MündlichSonstige,
 
     /// <summary>
+    /// Note für einen Zwischenstand oder ein Zeugnis als pädagogische Summe aus den anderen mündlichen Noten
+    /// </summary>
+    MündlichStand,
+
+    /// <summary>
     /// Note für schriftliche Leistungen wie Klausur oder Klassenarbeit
     /// </summary>
     SchriftlichKlassenarbeit,
@@ -39,6 +44,11 @@
     /// <summary>
     /// Gesamtnote für schriftliche Leistung
     /// </summary>
-    SchriftlichGesamt
+    SchriftlichGesamt,
+
+    /// <summary>
+    /// Gesamtnote für einen Zwischenstand oder ein Zeugnis als pädagogische Summe aus allen anderen Noten
+    /// </summary>
+    GesamtStand
   }
 }

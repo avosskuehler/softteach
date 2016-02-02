@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  
+
   <Style x:Key="MetroHeaderTextBlockStyle" TargetType="TextBlock">
     <Setter Property="FontFamily" Value="Segoe"/>
     <Setter Property="FontSize" Value="40"/>
@@ -14,7 +14,7 @@
     <Setter Property="Control.FontSize" Value="20pt" />
     <Setter Property="Control.FontWeight" Value="Bold" />
   </Style>
-  
+
   <!--StundenentwurfStyles-->
   <Style x:Key="Header1">
     <Setter Property="Control.FontFamily" Value="Segoe Black" />
@@ -54,6 +54,16 @@
                TextWrapping="Wrap"/>
   </DataTemplate>
 
+  <DataTemplate x:Key="JahrtypHeaderControlHeader">
+    <TextBlock Padding="5"
+               Text="{Binding}" 
+               HorizontalAlignment="Center"
+               FontSize="24" 
+               FontWeight="Normal"
+               FontFamily="Cambria"
+               TextWrapping="Wrap"/>
+  </DataTemplate>
+
   <DataTemplate x:Key="ExpanderHeader">
     <TextBlock Text="{Binding}" 
                FontSize="14" 
@@ -64,9 +74,9 @@
                >
       <TextBlock.RenderTransform>
         <TransformGroup>
-        <RotateTransform Angle="270"/>
-        <TranslateTransform X="10" Y="60"/>
-          </TransformGroup>
+          <RotateTransform Angle="270"/>
+          <TranslateTransform X="10" Y="60"/>
+        </TransformGroup>
       </TextBlock.RenderTransform>
     </TextBlock>
   </DataTemplate>
@@ -159,14 +169,21 @@
     <Setter Property="Label.Margin" Value="0"/>
     <Setter Property="Label.Padding" Value="1,1,0,0"/>
   </Style>
-  
+
   <Style x:Key="NotenschnittStyle">
     <Setter Property="Label.FontSize" Value="12"/>
     <Setter Property="Label.Margin" Value="0"/>
     <Setter Property="Label.Padding" Value="3"/>
     <Setter Property="Label.HorizontalAlignment" Value="Center"/>
-    <Setter Property="Label.VerticalAlignment" Value="Center"/>  
+    <Setter Property="Label.VerticalAlignment" Value="Center"/>
   </Style>
 
-  
+  <Style x:Key="ZeugnisnotenHeader">
+    <!--<Setter Property="Control.FontFamily" Value="Segoe Black" />
+    <Setter Property="Control.FontSize" Value="14pt" />-->
+    <Setter Property="Control.Padding" Value="1"/>
+    <Setter Property="Control.FontWeight" Value="Bold"/>
+  </Style>
+
+
 </ResourceDictionary>

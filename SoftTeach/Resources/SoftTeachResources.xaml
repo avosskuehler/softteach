@@ -4,14 +4,13 @@
 
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="Converter\Converter.xaml"/>
-    <!-- ListViewStyles includes TextStyles and HausaufgabeButton -->
+    <!-- ListViewStyles includes TextStyles and HausaufgabeButton and NumericUpDown -->
     <ResourceDictionary Source="Styles\ListViewStyles.xaml"/>
     <ResourceDictionary Source="Styles\DataGridStyles.xaml"/>
     <ResourceDictionary Source="Styles\ControlStyles.xaml"/>
     <ResourceDictionary Source="Styles\BackgroundStyles.xaml"/>
     <ResourceDictionary Source="Styles\DataTemplates.xaml"/>
     <ResourceDictionary Source="Styles\DocumentViewerStyle.xaml"/>
-    <ResourceDictionary Source="Controls\NumericUpDown.xaml"/>
     <ResourceDictionary Source="Controls\TrayIcon.xaml"/>
   </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
