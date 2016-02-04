@@ -94,7 +94,7 @@
           <DataGridTextColumn Binding="{Binding Path=SchülereintragPerson.PersonVorname}" Header="Vorname" />
           <DataGridTextColumn Binding="{Binding Path=SchülereintragPerson.PersonNachname}" Header="Nachname" SortDirection="Ascending" SortMemberPath="SchülereintragPerson.PersonNachname"/>
           <DataGridTextColumn Binding="{Binding Path=SchülereintragPerson.PersonJahrgang}" Header="Jahrgang" SortMemberPath="SchülereintragPerson.PersonJahrgang"/>
-          <DataGridTextColumn Binding="{Binding Path=SchülereintragPerson.PersonGeburtstag, StringFormat={}{0:dd. MMMM yyyy}, ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}" Header="Geburtstag"/>
+          <DataGridTextColumn Binding="{Binding Path=SchülereintragPerson.PersonGeburtstagString}" Header="Geburtstag"/>
         </DataGrid.Columns>
       </DataGrid>
     </Grid>

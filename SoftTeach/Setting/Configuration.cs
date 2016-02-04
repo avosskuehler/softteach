@@ -24,8 +24,6 @@ namespace SoftTeach.Setting
   using System.Windows;
   using System.Windows.Navigation;
 
-  using SoftTeach.Model;
-
   using MahApps.Metro.Controls;
 
   using SoftTeach.Model.EntityFramework;

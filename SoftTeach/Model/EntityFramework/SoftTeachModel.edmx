@@ -226,6 +226,7 @@
           <Property Name="ArbeitId" Type="int" />
           <Property Name="Bezeichnung" Type="nvarchar(max)" />
           <Property Name="Notentyp" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NotenTermintyp" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Notentendenzen">
           <Key>
@@ -337,7 +338,6 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="JahrtypId" Type="int" Nullable="false" />
-          <Property Name="HalbjahrtypId" Type="int" Nullable="false" />
           <Property Name="KlasseId" Type="int" Nullable="false" />
           <Property Name="FachId" Type="int" Nullable="false" />
           <Property Name="NotenWichtungId" Type="int" Nullable="false" />
@@ -755,20 +755,6 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Curricula">
-              <PropertyRef Name="HalbjahrtypId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_HalbjahrtypSchülerliste">
-          <End Role="Halbjahrtypen" Type="Self.Halbjahrtypen" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Schülerlisten" Type="Self.Schülerlisten" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Halbjahrtypen">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Schülerlisten">
               <PropertyRef Name="HalbjahrtypId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1674,10 +1660,6 @@
             <End Role="Halbjahrtypen" EntitySet="Halbjahrtypen" />
             <End Role="Curricula" EntitySet="Curricula" />
           </AssociationSet>
-          <AssociationSet Name="FK_HalbjahrtypSchülerliste" Association="Self.FK_HalbjahrtypSchülerliste">
-            <End Role="Halbjahrtypen" EntitySet="Halbjahrtypen" />
-            <End Role="Schülerlisten" EntitySet="Schülerlisten" />
-          </AssociationSet>
           <AssociationSet Name="FK_HalbjahrtypSchulhalbjahr" Association="Self.FK_HalbjahrtypSchulhalbjahr">
             <End Role="Halbjahrtypen" EntitySet="Halbjahrtypen" />
             <End Role="Halbjahrespläne" EntitySet="Halbjahrespläne" />
@@ -2161,20 +2143,7 @@
             <End Role="Halbjahrtyp" EntitySet="Halbjahrtypen" />
             <End Role="Arbeit" EntitySet="Arbeiten" />
           </AssociationSet>
-          <EntitySet Name="Schülerlisten" EntityType="SoftTeach.Model.Schülerliste" />
-          <AssociationSet Name="HalbjahrtypSchülerliste" Association="SoftTeach.Model.HalbjahrtypSchülerliste">
-            <End Role="Halbjahrtyp" EntitySet="Halbjahrtypen" />
-            <End Role="Schülerliste" EntitySet="Schülerlisten" />
-          </AssociationSet>
-          <AssociationSet Name="KlasseSchülerliste" Association="SoftTeach.Model.KlasseSchülerliste">
-            <End Role="Klasse" EntitySet="Klassen" />
-            <End Role="Schülerliste" EntitySet="Schülerlisten" />
-          </AssociationSet>
           <EntitySet Name="Schülereinträge" EntityType="SoftTeach.Model.Schülereintrag" />
-          <AssociationSet Name="SchülerlisteSchülereintrag" Association="SoftTeach.Model.SchülerlisteSchülereintrag">
-            <End Role="Schülerliste" EntitySet="Schülerlisten" />
-            <End Role="Schülereinträge" EntitySet="Schülereinträge" />
-          </AssociationSet>
           <AssociationSet Name="SchülereintragErgebnis" Association="SoftTeach.Model.SchülereintragErgebnis">
             <End Role="Schülereintrag" EntitySet="Schülereinträge" />
             <End Role="Ergebnis" EntitySet="Ergebnisse" />
@@ -2182,10 +2151,6 @@
           <AssociationSet Name="PersonSchülereintrag" Association="SoftTeach.Model.PersonSchülereintrag">
             <End Role="Person" EntitySet="Personen" />
             <End Role="Schülereintrag" EntitySet="Schülereinträge" />
-          </AssociationSet>
-          <AssociationSet Name="FachSchülerliste" Association="SoftTeach.Model.FachSchülerliste">
-            <End Role="Fach" EntitySet="Fächer" />
-            <End Role="Schülerliste" EntitySet="Schülerlisten" />
           </AssociationSet>
           <AssociationSet Name="FK_Noten_Schülereinträge" Association="SoftTeach.Model.FK_Noten_Schülereinträge">
             <End Role="Schülereintrag" EntitySet="Schülereinträge" />
@@ -2220,10 +2185,6 @@
             <End Role="Note" EntitySet="Noten" />
           </AssociationSet>
           <EntitySet Name="NotenWichtungen" EntityType="SoftTeach.Model.NotenWichtung" />
-          <AssociationSet Name="FK_NotenWichtungenSchülerliste" Association="SoftTeach.Model.FK_NotenWichtungenSchülerliste">
-            <End Role="NotenWichtung" EntitySet="NotenWichtungen" />
-            <End Role="Schülerliste" EntitySet="Schülerlisten" />
-          </AssociationSet>
           <EntitySet Name="Prozentbereiche" EntityType="SoftTeach.Model.Prozentbereich" />
           <AssociationSet Name="FK_ZensurProzentbereich" Association="SoftTeach.Model.FK_ZensurProzentbereich">
             <End Role="Zensur" EntitySet="Zensuren" />
@@ -2246,10 +2207,6 @@
             <End Role="Halbjahrtyp" EntitySet="Halbjahrtypen" />
             <End Role="Curriculum" EntitySet="Curricula" />
           </AssociationSet>
-          <AssociationSet Name="FK_JahrtypSchülerlisten" Association="SoftTeach.Model.FK_JahrtypSchülerlisten">
-            <End Role="Jahrtyp" EntitySet="Jahrtypen" />
-            <End Role="Schülerliste" EntitySet="Schülerlisten" />
-          </AssociationSet>
           <EntitySet Name="Räume" EntityType="SoftTeach.Model.Raum" />
           <EntitySet Name="Raumpläne" EntityType="SoftTeach.Model.Raumplan" />
           <EntitySet Name="Sitzpläne" EntityType="SoftTeach.Model.Sitzplan" />
@@ -2271,10 +2228,6 @@
             <End Role="Schülereintrag" EntitySet="Schülereinträge" />
             <End Role="Sitzplaneinträge" EntitySet="Sitzplaneinträge" />
           </AssociationSet>
-          <AssociationSet Name="FK_Sitzpläne_Schülerlisten" Association="SoftTeach.Model.FK_Sitzpläne_Schülerlisten">
-            <End Role="Schülerliste" EntitySet="Schülerlisten" />
-            <End Role="Sitzpläne" EntitySet="Sitzpläne" />
-          </AssociationSet>
           <AssociationSet Name="FK_Sitzplaneinträge_Sitzpläne" Association="SoftTeach.Model.FK_Sitzplaneinträge_Sitzpläne">
             <End Role="Sitzpläne" EntitySet="Sitzpläne" />
             <End Role="Sitzplaneinträge" EntitySet="Sitzplaneinträge" />
@@ -2286,6 +2239,31 @@
           <AssociationSet Name="FK_Stundenplaneinträge_Räume" Association="SoftTeach.Model.FK_Stundenplaneinträge_Räume">
             <End Role="Räume" EntitySet="Räume" />
             <End Role="Stundenplaneintrag" EntitySet="Stundenplaneinträge" />
+          </AssociationSet>
+          <EntitySet Name="Schülerlisten" EntityType="SoftTeach.Model.Schülerliste" />
+          <AssociationSet Name="FK_FachSchülerlisten" Association="SoftTeach.Model.FK_FachSchülerlisten">
+            <End Role="Fach" EntitySet="Fächer" />
+            <End Role="Schülerlisten" EntitySet="Schülerlisten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JahrtypSchülerlisten" Association="SoftTeach.Model.FK_JahrtypSchülerlisten">
+            <End Role="Jahrtyp" EntitySet="Jahrtypen" />
+            <End Role="Schülerlisten" EntitySet="Schülerlisten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_KlasseSchülerliste" Association="SoftTeach.Model.FK_KlasseSchülerliste">
+            <End Role="Klasse" EntitySet="Klassen" />
+            <End Role="Schülerlisten" EntitySet="Schülerlisten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotenWichtungenSchülerliste" Association="SoftTeach.Model.FK_NotenWichtungenSchülerliste">
+            <End Role="NotenWichtung" EntitySet="NotenWichtungen" />
+            <End Role="Schülerlisten" EntitySet="Schülerlisten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SchülerlisteSchülereintrag" Association="SoftTeach.Model.FK_SchülerlisteSchülereintrag">
+            <End Role="Schülerliste" EntitySet="Schülerlisten" />
+            <End Role="Schülereintrag" EntitySet="Schülereinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sitzpläne_Schülerlisten" Association="SoftTeach.Model.FK_Sitzpläne_Schülerlisten">
+            <End Role="Schülerliste" EntitySet="Schülerlisten" />
+            <End Role="Sitzplan" EntitySet="Sitzpläne" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Stundenentwurf">
@@ -2384,8 +2362,8 @@
           <Property Type="String" Name="Farbe" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Curriculum" Relationship="SoftTeach.Model.FachCurriculum" FromRole="Fach" ToRole="Curriculum" />
           <NavigationProperty Name="Fachstundenanzahl" Relationship="SoftTeach.Model.FachFachstundenanzahl" FromRole="Fach" ToRole="Fachstundenanzahl" />
-          <NavigationProperty Name="Schülerliste" Relationship="SoftTeach.Model.FachSchülerliste" FromRole="Fach" ToRole="Schülerliste" />
           <NavigationProperty Name="Arbeiten" Relationship="SoftTeach.Model.FK_Arbeiten_Fächer" FromRole="Fach" ToRole="Arbeit" />
+          <NavigationProperty Name="Schülerlisten" Relationship="SoftTeach.Model.FK_FachSchülerlisten" FromRole="Fach" ToRole="Schülerlisten" />
         </EntityType>
         <Association Name="ModulStundenentwurf">
           <End Type="SoftTeach.Model.Modul" Role="Modul" Multiplicity="1" >
@@ -2462,7 +2440,7 @@
           <NavigationProperty Name="BetroffeneKlasse" Relationship="SoftTeach.Model.KlasseBetroffeneKlasse" FromRole="Klasse" ToRole="BetroffeneKlasse" />
           <NavigationProperty Name="Klassenstufe" Relationship="SoftTeach.Model.KlassenstufeKlasse" FromRole="Klasse" ToRole="Klassenstufe" />
           <NavigationProperty Name="Arbeit" Relationship="SoftTeach.Model.KlasseArbeit" FromRole="Klasse" ToRole="Arbeit" />
-          <NavigationProperty Name="Schülerliste" Relationship="SoftTeach.Model.KlasseSchülerliste" FromRole="Klasse" ToRole="Schülerliste" />
+          <NavigationProperty Name="Schülerlisten" Relationship="SoftTeach.Model.FK_KlasseSchülerliste" FromRole="Klasse" ToRole="Schülerlisten" />
         </EntityType>
         <EntityType Name="Unterrichtsstunde">
           <Key>
@@ -2551,7 +2529,6 @@
           <Property Type="Int32" Name="HalbjahrIndex" Nullable="false" />
           <NavigationProperty Name="Stundenplan" Relationship="SoftTeach.Model.HalbjahrtypStundenplan" FromRole="Halbjahrtyp" ToRole="Stundenplan" />
           <NavigationProperty Name="Arbeit" Relationship="SoftTeach.Model.HalbjahrtypArbeit" FromRole="Halbjahrtyp" ToRole="Arbeit" />
-          <NavigationProperty Name="Schülerliste" Relationship="SoftTeach.Model.HalbjahrtypSchülerliste" FromRole="Halbjahrtyp" ToRole="Schülerliste" />
           <NavigationProperty Name="Curricula" Relationship="SoftTeach.Model.FK_HalbjahrtypCurriculum" FromRole="Halbjahrtyp" ToRole="Curriculum" />
         </EntityType>
         <EntityType Name="Monatstyp">
@@ -2739,7 +2716,7 @@
           <NavigationProperty Name="Curriculum" Relationship="SoftTeach.Model.JahrtypCurriculum" FromRole="Jahrtyp" ToRole="Curriculum" />
           <NavigationProperty Name="Schulwochen" Relationship="SoftTeach.Model.JahrtypSchulwoche" FromRole="Jahrtyp" ToRole="Schulwochen" />
           <NavigationProperty Name="Arbeit" Relationship="SoftTeach.Model.JahrtypArbeit" FromRole="Jahrtyp" ToRole="Arbeit" />
-          <NavigationProperty Name="Schülerlisten" Relationship="SoftTeach.Model.FK_JahrtypSchülerlisten" FromRole="Jahrtyp" ToRole="Schülerliste" />
+          <NavigationProperty Name="Schülerlisten" Relationship="SoftTeach.Model.FK_JahrtypSchülerlisten" FromRole="Jahrtyp" ToRole="Schülerlisten" />
         </EntityType>
         <Association Name="JahrtypJahresplan">
           <End Type="SoftTeach.Model.Jahrtyp" Role="Jahrtyp" Multiplicity="1" >
@@ -3317,6 +3294,7 @@
           <Property Type="Boolean" Name="IstSchriftlich" Nullable="false" />
           <Property Type="String" Name="Bezeichnung" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Notentyp" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NotenTermintyp" Type="String" MaxLength="50" FixedLength="false" Unicode="true" DefaultValue="Einzeln" />
         </EntityType>
         <EntityType Name="Zensur">
           <Key>
@@ -3459,52 +3437,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Schülerliste">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
-          <Property Type="Int32" Name="JahrtypId" Nullable="false" />
-          <Property Type="Int32" Name="HalbjahrtypId" Nullable="false" />
-          <Property Type="Int32" Name="KlasseId" Nullable="false" />
-          <NavigationProperty Name="Halbjahrtyp" Relationship="SoftTeach.Model.HalbjahrtypSchülerliste" FromRole="Schülerliste" ToRole="Halbjahrtyp" />
-          <NavigationProperty Name="Klasse" Relationship="SoftTeach.Model.KlasseSchülerliste" FromRole="Schülerliste" ToRole="Klasse" />
-          <NavigationProperty Name="Schülereinträge" Relationship="SoftTeach.Model.SchülerlisteSchülereintrag" FromRole="Schülerliste" ToRole="Schülereinträge" />
-          <NavigationProperty Name="Fach" Relationship="SoftTeach.Model.FachSchülerliste" FromRole="Schülerliste" ToRole="Fach" />
-          <Property Type="Int32" Name="FachId" Nullable="false" />
-          <Property Type="Int32" Name="NotenWichtungId" Nullable="false" />
-          <NavigationProperty Name="NotenWichtung" Relationship="SoftTeach.Model.FK_NotenWichtungenSchülerliste" FromRole="Schülerliste" ToRole="NotenWichtung" />
-          <NavigationProperty Name="Jahrtyp" Relationship="SoftTeach.Model.FK_JahrtypSchülerlisten" FromRole="Schülerliste" ToRole="Jahrtyp" />
-          <NavigationProperty Name="Sitzpläne" Relationship="SoftTeach.Model.FK_Sitzpläne_Schülerlisten" FromRole="Schülerliste" ToRole="Sitzpläne" />
-        </EntityType>
-        <Association Name="HalbjahrtypSchülerliste">
-          <End Type="SoftTeach.Model.Halbjahrtyp" Role="Halbjahrtyp" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="SoftTeach.Model.Schülerliste" Role="Schülerliste" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Halbjahrtyp">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Schülerliste">
-              <PropertyRef Name="HalbjahrtypId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="KlasseSchülerliste">
-          <End Type="SoftTeach.Model.Klasse" Role="Klasse" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="SoftTeach.Model.Schülerliste" Role="Schülerliste" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Klasse">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Schülerliste">
-              <PropertyRef Name="KlasseId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Schülereintrag">
           <Key>
             <PropertyRef Name="Id" />
@@ -3512,28 +3444,14 @@
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Int32" Name="SchülerlisteId" Nullable="false" />
           <Property Type="Int32" Name="PersonId" Nullable="false" />
-          <NavigationProperty Name="Schülerliste" Relationship="SoftTeach.Model.SchülerlisteSchülereintrag" FromRole="Schülereinträge" ToRole="Schülerliste" />
           <NavigationProperty Name="Ergebnisse" Relationship="SoftTeach.Model.SchülereintragErgebnis" FromRole="Schülereintrag" ToRole="Ergebnis" />
           <NavigationProperty Name="Person" Relationship="SoftTeach.Model.PersonSchülereintrag" FromRole="Schülereintrag" ToRole="Person" />
           <NavigationProperty Name="Noten" Relationship="SoftTeach.Model.FK_Noten_Schülereinträge" FromRole="Schülereintrag" ToRole="Noten" />
           <NavigationProperty Name="Hausaufgaben" Relationship="SoftTeach.Model.FK_Hausaufgaben_Schülereinträge" FromRole="Schülereintrag" ToRole="Hausaufgaben" />
           <NavigationProperty Name="Notentendenzen" Relationship="SoftTeach.Model.FK_Notentendenzen_Schülereinträge" FromRole="Schülereintrag" ToRole="Notentendenzen" />
           <NavigationProperty Name="Sitzplaneinträge" Relationship="SoftTeach.Model.FK_Sitzplaneinträge_Schülereinträge" FromRole="Schülereintrag" ToRole="Sitzplaneinträge" />
+          <NavigationProperty Name="Schülerliste" Relationship="SoftTeach.Model.FK_SchülerlisteSchülereintrag" FromRole="Schülereintrag" ToRole="Schülerliste" />
         </EntityType>
-        <Association Name="SchülerlisteSchülereintrag">
-          <End Type="SoftTeach.Model.Schülerliste" Role="Schülerliste" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="SoftTeach.Model.Schülereintrag" Role="Schülereinträge" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Schülerliste">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Schülereinträge">
-              <PropertyRef Name="SchülerlisteId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="SchülereintragErgebnis">
           <End Type="SoftTeach.Model.Schülereintrag" Role="Schülereintrag" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -3559,20 +3477,6 @@
             </Principal>
             <Dependent Role="Schülereintrag">
               <PropertyRef Name="PersonId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FachSchülerliste">
-          <End Type="SoftTeach.Model.Fach" Role="Fach" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="SoftTeach.Model.Schülerliste" Role="Schülerliste" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Fach">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Schülerliste">
-              <PropertyRef Name="FachId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3729,20 +3633,8 @@
           <Property Type="Single" Name="SchriftlichKlassenarbeit" Nullable="false" />
           <Property Type="Single" Name="SchriftlichSonstige" Nullable="false" />
           <Property Type="Single" Name="SchriftlichGesamt" Nullable="false" />
-          <NavigationProperty Name="Schülerlisten" Relationship="SoftTeach.Model.FK_NotenWichtungenSchülerliste" FromRole="NotenWichtung" ToRole="Schülerliste" />
+          <NavigationProperty Name="Schülerlisten" Relationship="SoftTeach.Model.FK_NotenWichtungenSchülerliste" FromRole="NotenWichtung" ToRole="Schülerlisten" />
         </EntityType>
-        <Association Name="FK_NotenWichtungenSchülerliste">
-          <End Type="SoftTeach.Model.NotenWichtung" Role="NotenWichtung" Multiplicity="1" />
-          <End Type="SoftTeach.Model.Schülerliste" Role="Schülerliste" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="NotenWichtung">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Schülerliste">
-              <PropertyRef Name="NotenWichtungId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Prozentbereich">
           <Key>
             <PropertyRef Name="Id" />
@@ -3832,20 +3724,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_JahrtypSchülerlisten">
-          <End Type="SoftTeach.Model.Jahrtyp" Role="Jahrtyp" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="SoftTeach.Model.Schülerliste" Role="Schülerliste" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Jahrtyp">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Schülerliste">
-              <PropertyRef Name="JahrtypId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Raum">
           <Key>
             <PropertyRef Name="Id" />
@@ -3876,9 +3754,9 @@
           <Property Name="SchülerlisteId" Type="Int32" Nullable="false" />
           <Property Name="GültigAb" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Raumplan" Relationship="SoftTeach.Model.FK_Sitzpläne_Raumpläne" FromRole="Sitzpläne" ToRole="Raumpläne" />
-          <NavigationProperty Name="Schülerliste" Relationship="SoftTeach.Model.FK_Sitzpläne_Schülerlisten" FromRole="Sitzpläne" ToRole="Schülerliste" />
           <NavigationProperty Name="Sitzplaneinträge" Relationship="SoftTeach.Model.FK_Sitzplaneinträge_Sitzpläne" FromRole="Sitzpläne" ToRole="Sitzplaneinträge" />
           <Property Name="Bezeichnung" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Schülerliste" Relationship="SoftTeach.Model.FK_Sitzpläne_Schülerlisten" FromRole="Sitzplan" ToRole="Schülerliste" />
         </EntityType>
         <EntityType Name="Sitzplaneintrag">
           <Key>
@@ -3961,20 +3839,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Sitzpläne_Schülerlisten">
-          <End Type="SoftTeach.Model.Schülerliste" Role="Schülerliste" Multiplicity="1" >
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="SoftTeach.Model.Sitzplan" Role="Sitzpläne" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Schülerliste">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Sitzpläne">
-              <PropertyRef Name="SchülerlisteId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Sitzplaneinträge_Sitzpläne">
           <End Type="SoftTeach.Model.Sitzplan" Role="Sitzpläne" Multiplicity="1" >
             <OnDelete Action="Cascade" />
@@ -4013,6 +3877,102 @@
             </Principal>
             <Dependent Role="Stundenplaneintrag">
               <PropertyRef Name="RaumId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Schülerliste">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" a:StoreGeneratedPattern="Identity" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="JahrtypId" Type="Int32" Nullable="false" />
+          <Property Name="KlasseId" Type="Int32" Nullable="false" />
+          <Property Name="FachId" Type="Int32" Nullable="false" />
+          <Property Name="NotenWichtungId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Fach" Relationship="SoftTeach.Model.FK_FachSchülerlisten" FromRole="Schülerlisten" ToRole="Fach" />
+          <NavigationProperty Name="Jahrtyp" Relationship="SoftTeach.Model.FK_JahrtypSchülerlisten" FromRole="Schülerlisten" ToRole="Jahrtyp" />
+          <NavigationProperty Name="Klasse" Relationship="SoftTeach.Model.FK_KlasseSchülerliste" FromRole="Schülerlisten" ToRole="Klasse" />
+          <NavigationProperty Name="NotenWichtung" Relationship="SoftTeach.Model.FK_NotenWichtungenSchülerliste" FromRole="Schülerlisten" ToRole="NotenWichtung" />
+          <NavigationProperty Name="Schülereinträge" Relationship="SoftTeach.Model.FK_SchülerlisteSchülereintrag" FromRole="Schülerliste" ToRole="Schülereintrag" />
+          <NavigationProperty Name="Sitzpläne" Relationship="SoftTeach.Model.FK_Sitzpläne_Schülerlisten" FromRole="Schülerliste" ToRole="Sitzplan" />
+        </EntityType>
+        <Association Name="FK_FachSchülerlisten">
+          <End Type="SoftTeach.Model.Fach" Role="Fach" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="SoftTeach.Model.Schülerliste" Role="Schülerlisten" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fach">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Schülerlisten">
+              <PropertyRef Name="FachId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_JahrtypSchülerlisten">
+          <End Type="SoftTeach.Model.Jahrtyp" Role="Jahrtyp" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="SoftTeach.Model.Schülerliste" Role="Schülerlisten" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Jahrtyp">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Schülerlisten">
+              <PropertyRef Name="JahrtypId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_KlasseSchülerliste">
+          <End Type="SoftTeach.Model.Klasse" Role="Klasse" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="SoftTeach.Model.Schülerliste" Role="Schülerlisten" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Klasse">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Schülerlisten">
+              <PropertyRef Name="KlasseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NotenWichtungenSchülerliste">
+          <End Type="SoftTeach.Model.NotenWichtung" Role="NotenWichtung" Multiplicity="1" />
+          <End Type="SoftTeach.Model.Schülerliste" Role="Schülerlisten" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NotenWichtung">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Schülerlisten">
+              <PropertyRef Name="NotenWichtungId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SchülerlisteSchülereintrag">
+          <End Type="SoftTeach.Model.Schülerliste" Role="Schülerliste" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="SoftTeach.Model.Schülereintrag" Role="Schülereintrag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schülerliste">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Schülereintrag">
+              <PropertyRef Name="SchülerlisteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sitzpläne_Schülerlisten">
+          <End Type="SoftTeach.Model.Schülerliste" Role="Schülerliste" Multiplicity="1" />
+          <End Type="SoftTeach.Model.Sitzplan" Role="Sitzplan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schülerliste">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sitzplan">
+              <PropertyRef Name="SchülerlisteId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4389,7 +4349,8 @@
     <EntitySetMapping Name="Noten">
       <EntityTypeMapping TypeName="IsTypeOf(SoftTeach.Model.Note)">
         <MappingFragment StoreEntitySet="Noten">
-          <ScalarProperty Name="Notentyp" ColumnName="Notentyp" />
+          <ScalarProperty Name="NotenTermintyp" ColumnName="NotenTermintyp" />
+                <ScalarProperty Name="Notentyp" ColumnName="Notentyp" />
                 <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
                 <ScalarProperty Name="IstSchriftlich" ColumnName="IstSchriftlich" />
                 <ScalarProperty Name="Wichtung" ColumnName="Wichtung" />
@@ -4446,18 +4407,6 @@
           <ScalarProperty Name="AufgabeId" ColumnName="AufgabeId" />
           <ScalarProperty Name="SchülereintragId" ColumnName="SchülereintragId" />
           <ScalarProperty Name="Punktzahl" ColumnName="Punktzahl" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Schülerlisten">
-      <EntityTypeMapping TypeName="IsTypeOf(SoftTeach.Model.Schülerliste)">
-        <MappingFragment StoreEntitySet="Schülerlisten">
-                <ScalarProperty Name="NotenWichtungId" ColumnName="NotenWichtungId" />
-                <ScalarProperty Name="FachId" ColumnName="FachId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="JahrtypId" ColumnName="JahrtypId" />
-          <ScalarProperty Name="HalbjahrtypId" ColumnName="HalbjahrtypId" />
-          <ScalarProperty Name="KlasseId" ColumnName="KlasseId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -4600,6 +4549,17 @@
                 <ScalarProperty Name="LinksObenY" ColumnName="LinksObenY" />
                 <ScalarProperty Name="LinksObenX" ColumnName="LinksObenX" />
                 <ScalarProperty Name="RaumplanId" ColumnName="RaumplanId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Schülerlisten">
+            <EntityTypeMapping TypeName="SoftTeach.Model.Schülerliste">
+              <MappingFragment StoreEntitySet="Schülerlisten">
+                <ScalarProperty Name="NotenWichtungId" ColumnName="NotenWichtungId" />
+                <ScalarProperty Name="FachId" ColumnName="FachId" />
+                <ScalarProperty Name="KlasseId" ColumnName="KlasseId" />
+                <ScalarProperty Name="JahrtypId" ColumnName="JahrtypId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -5096,42 +5056,7 @@
           <edmx:ConnectorPoint PointX="22.75" PointY="9.417705078125" />
           <edmx:ConnectorPoint PointX="22.75" PointY="9.355205078125" />
         </edmx:AssociationConnector>
-        <edmx:EntityTypeShape EntityType="SoftTeach.Model.Schülerliste" Width="1.5" PointX="16.875" PointY="8.625" Height="3.5186979166666656" />
-        <edmx:AssociationConnector Association="SoftTeach.Model.HalbjahrtypSchülerliste">
-          <edmx:ConnectorPoint PointX="4" PointY="10.818748" />
-          <edmx:ConnectorPoint PointX="7.875" PointY="10.818748" />
-          <edmx:ConnectorPoint PointX="7.875" PointY="12.754293619791667" />
-          <edmx:ConnectorPoint PointX="16.8125" PointY="12.754293619791667" />
-          <edmx:ConnectorPoint PointX="16.8125" PointY="12.4375" />
-          <edmx:ConnectorPoint PointX="17.437497999999998" PointY="12.4375" />
-          <edmx:ConnectorPoint PointX="17.437497999999998" PointY="12.143697916666666" />
-        </edmx:AssociationConnector>
-        <edmx:AssociationConnector Association="SoftTeach.Model.KlasseSchülerliste">
-          <edmx:ConnectorPoint PointX="7.75" PointY="5.87474609375" />
-          <edmx:ConnectorPoint PointX="7.9375" PointY="5.87474609375" />
-          <edmx:ConnectorPoint PointX="7.9375" PointY="7.3215950520833317" />
-          <edmx:ConnectorPoint PointX="9.4791666666666661" PointY="7.3215950520833308" />
-          <edmx:ConnectorPoint PointX="9.79166666666667" PointY="7.3215950520833317" />
-          <edmx:ConnectorPoint PointX="10.291666666666666" PointY="7.32159505208333" />
-          <edmx:ConnectorPoint PointX="10.770833333333334" PointY="7.3215950520833317" />
-          <edmx:ConnectorPoint PointX="11.104166666666666" PointY="7.3215950520833308" />
-          <edmx:ConnectorPoint PointX="11.270833333333334" PointY="7.3215950520833317" />
-          <edmx:ConnectorPoint PointX="11.541666666666666" PointY="7.3215950520833308" />
-          <edmx:ConnectorPoint PointX="11.708333333333334" PointY="7.3215950520833317" />
-          <edmx:ConnectorPoint PointX="11.791666666666666" PointY="7.3215950520833308" />
-          <edmx:ConnectorPoint PointX="11.958333333333334" PointY="7.3215950520833317" />
-          <edmx:ConnectorPoint PointX="13.604166666666666" PointY="7.3215950520833308" />
-          <edmx:ConnectorPoint PointX="13.927083333333334" PointY="7.3215950520833317" />
-          <edmx:ConnectorPoint PointX="13.9375" PointY="7.3215950520833317" />
-          <edmx:ConnectorPoint PointX="13.9375" PointY="7.4369921875000014" />
-          <edmx:ConnectorPoint PointX="17.76755806138631" PointY="7.4369921875000014" />
-          <edmx:ConnectorPoint PointX="17.76755806138631" PointY="8.625" />
-        </edmx:AssociationConnector>
         <edmx:EntityTypeShape EntityType="SoftTeach.Model.Schülereintrag" Width="1.5" PointX="19.875" PointY="8.875" Height="2.7494921874999996" />
-        <edmx:AssociationConnector Association="SoftTeach.Model.SchülerlisteSchülereintrag">
-          <edmx:ConnectorPoint PointX="18.375" PointY="10.24974609375" />
-          <edmx:ConnectorPoint PointX="19.875" PointY="10.24974609375" />
-        </edmx:AssociationConnector>
         <edmx:AssociationConnector Association="SoftTeach.Model.SchülereintragErgebnis">
           <edmx:ConnectorPoint PointX="21.375" PointY="11.334093700039599" />
           <edmx:ConnectorPoint PointX="24.541666666666668" PointY="11.334093700039599" />
@@ -5142,17 +5067,6 @@
         <edmx:AssociationConnector Association="SoftTeach.Model.PersonSchülereintrag">
           <edmx:ConnectorPoint PointX="20.625" PointY="12.25" />
           <edmx:ConnectorPoint PointX="20.625" PointY="11.6244921875" />
-        </edmx:AssociationConnector>
-        <edmx:AssociationConnector Association="SoftTeach.Model.FachSchülerliste">
-          <edmx:ConnectorPoint PointX="11.875" PointY="5.831252000000001" />
-          <edmx:ConnectorPoint PointX="12.979166666666666" PointY="5.831252000000001" />
-          <edmx:ConnectorPoint PointX="12.979166666666666" PointY="7.1249999999999982" />
-          <edmx:ConnectorPoint PointX="13.604166666666666" PointY="7.1249999999999973" />
-          <edmx:ConnectorPoint PointX="13.833333333333334" PointY="7.1249999999999982" />
-          <edmx:ConnectorPoint PointX="13.90625" PointY="7.1249999999999982" />
-          <edmx:ConnectorPoint PointX="13.90625" PointY="7.7026171874999978" />
-          <edmx:ConnectorPoint PointX="17.060531636831783" PointY="7.7026171874999978" />
-          <edmx:ConnectorPoint PointX="17.060531636831783" PointY="8.625" />
         </edmx:AssociationConnector>
         <edmx:AssociationConnector Association="SoftTeach.Model.FK_Noten_Schülereinträge">
           <edmx:ConnectorPoint PointX="21.375" PointY="10.24705078125" />
@@ -5191,11 +5105,7 @@
           <edmx:ConnectorPoint PointX="23.5" PointY="8.490102539062498" />
           <edmx:ConnectorPoint PointX="23.875" PointY="8.490102539062498" />
         </edmx:AssociationConnector>
-        <edmx:EntityTypeShape EntityType="SoftTeach.Model.NotenWichtung" Width="1.75" PointX="16.875" PointY="12.5" Height="2.9417936197916674" />
-        <edmx:AssociationConnector Association="SoftTeach.Model.FK_NotenWichtungenSchülerliste">
-          <edmx:ConnectorPoint PointX="18.0625" PointY="12.5" />
-          <edmx:ConnectorPoint PointX="18.0625" PointY="12.143697916666666" />
-        </edmx:AssociationConnector>
+        <edmx:EntityTypeShape EntityType="SoftTeach.Model.NotenWichtung" Width="1.75" PointX="16.875" PointY="13" Height="2.9417936197916674" />
         <edmx:EntityTypeShape EntityType="SoftTeach.Model.Prozentbereich" Width="1.5" PointX="30" PointY="7.375" Height="2.3648893229166656" />
         <edmx:AssociationConnector Association="SoftTeach.Model.FK_ZensurProzentbereich">
           <edmx:ConnectorPoint PointX="30.5" PointY="10" />
@@ -5228,7 +5138,6 @@
           <edmx:ConnectorPoint PointX="8.75" PointY="4.125" />
         </edmx:AssociationConnector>
         <edmx:AssociationConnector Association="SoftTeach.Model.FK_HalbjahrtypCurriculum" />
-        <edmx:AssociationConnector Association="SoftTeach.Model.FK_JahrtypSchülerlisten" />
         <edmx:EntityTypeShape EntityType="SoftTeach.Model.Raum" Width="1.5" PointX="7.75" PointY="17.625" />
         <edmx:EntityTypeShape EntityType="SoftTeach.Model.Raumplan" Width="1.5" PointX="9.875" PointY="17.625" />
         <edmx:EntityTypeShape EntityType="SoftTeach.Model.Sitzplan" Width="1.5" PointX="9.875" PointY="14.5" />
@@ -5238,10 +5147,16 @@
         <edmx:AssociationConnector Association="SoftTeach.Model.FK_Sitzpläne_Raumpläne" />
         <edmx:AssociationConnector Association="SoftTeach.Model.FK_Sitzplätze_Raumpläne" />
         <edmx:AssociationConnector Association="SoftTeach.Model.FK_Sitzplaneinträge_Schülereinträge" />
-        <edmx:AssociationConnector Association="SoftTeach.Model.FK_Sitzpläne_Schülerlisten" />
         <edmx:AssociationConnector Association="SoftTeach.Model.FK_Sitzplaneinträge_Sitzpläne" />
         <edmx:AssociationConnector Association="SoftTeach.Model.FK_Sitzplaneinträge_Sitzplätze" />
         <edmx:AssociationConnector Association="SoftTeach.Model.FK_Stundenplaneinträge_Räume" />
+        <edmx:EntityTypeShape EntityType="SoftTeach.Model.Schülerliste" Width="1.5" PointX="17.25" PointY="8.375" />
+        <edmx:AssociationConnector Association="SoftTeach.Model.FK_FachSchülerlisten" />
+        <edmx:AssociationConnector Association="SoftTeach.Model.FK_JahrtypSchülerlisten" />
+        <edmx:AssociationConnector Association="SoftTeach.Model.FK_KlasseSchülerliste" />
+        <edmx:AssociationConnector Association="SoftTeach.Model.FK_NotenWichtungenSchülerliste" />
+        <edmx:AssociationConnector Association="SoftTeach.Model.FK_SchülerlisteSchülereintrag" />
+        <edmx:AssociationConnector Association="SoftTeach.Model.FK_Sitzpläne_Schülerlisten" />
         </edmx:Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

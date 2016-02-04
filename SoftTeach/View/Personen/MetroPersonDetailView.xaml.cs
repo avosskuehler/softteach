@@ -29,6 +29,13 @@ namespace SoftTeach.View.Personen
     private void PersonButtonOnClick(object sender, RoutedEventArgs e)
     {
       Selection.Instance.Schülereintrag = this.DataContext as SchülereintragViewModel;
+
+      // Notenanpassungen auslesen
+      if (Selection.Instance.Schülereintrag != null)
+      {
+        Selection.Instance.Schülereintrag.AnpassungenAuslesen();
+      }
+
       Configuration.Instance.NavigationService.Navigate(new MetroSchülereintragNotenPage());
     }
   }

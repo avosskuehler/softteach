@@ -169,6 +169,30 @@
     }
 
     /// <summary>
+    /// Holt oder setzt den Noten Termintyp
+    /// </summary>
+    public NotenTermintyp NoteTermintyp
+    {
+      get
+      {
+        if (this.Model.NotenTermintyp == null)
+        {
+          this.Model.NotenTermintyp = NotenTermintyp.Einzeln.ToString();
+        }
+
+        return (NotenTermintyp)Enum.Parse(typeof(NotenTermintyp), this.Model.NotenTermintyp);
+      }
+
+      set
+      {
+        if (value.ToString() == this.Model.NotenTermintyp) return;
+        this.UndoablePropertyChanging(this, "NoteTermintyp", this.NoteTermintyp, value);
+        this.Model.NotenTermintyp = value.ToString();
+        this.RaisePropertyChanged("NoteTermintyp");
+      }
+    }
+
+    /// <summary>
     /// Holt oder setzt einen Wert, der angibt, ob diese Note schriftlich ist.
     /// </summary>
     public bool NoteIstSchriftlich
@@ -315,6 +339,18 @@
         this.arbeit = value;
         this.Model.Arbeit = value.Model;
         this.RaisePropertyChanged("NoteArbeit");
+      }
+    }
+
+    /// <summary>
+    /// Holt das Schuljahr dieser Note
+    /// </summary>
+    public JahrtypViewModel NoteJahrtyp
+    {
+      get
+      {
+        return
+          App.MainViewModel.Jahrtypen.SingleOrDefault(d => d.Model == this.Model.Schülereintrag.Schülerliste.Jahrtyp);
       }
     }
 

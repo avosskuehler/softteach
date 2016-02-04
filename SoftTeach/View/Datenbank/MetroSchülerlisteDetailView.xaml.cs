@@ -1,6 +1,7 @@
 ﻿
 namespace SoftTeach.View.Datenbank
 {
+  using System;
   using System.Windows;
 
   using SoftTeach.Setting;
@@ -29,6 +30,11 @@ namespace SoftTeach.View.Datenbank
     private void SchülerlisteButtonOnClick(object sender, RoutedEventArgs e)
     {
       Selection.Instance.Schülerliste = this.DataContext as SchülerlisteViewModel;
+      if (Selection.Instance.Schülerliste == null)
+      {
+        return;
+      }
+
       switch (Configuration.Instance.NavigateTarget)
       {
         case NavigateTarget.Gruppen:
@@ -36,6 +42,7 @@ namespace SoftTeach.View.Datenbank
           Configuration.Instance.NavigationService.Navigate(new MetroGruppenPage());
           break;
         case NavigateTarget.Noten:
+          Selection.Instance.Schülerliste.NotenDatum = DateTime.Today;
           Configuration.Instance.NavigationService.Navigate(new MetroSchülerlistePage());
           break;
         case NavigateTarget.Sitzpläne:

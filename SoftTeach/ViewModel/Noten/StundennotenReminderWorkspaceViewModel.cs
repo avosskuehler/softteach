@@ -80,7 +80,6 @@
           App.MainViewModel.Schülerlisten.FirstOrDefault(
             o =>
             o.SchülerlisteFach.FachBezeichnung == this.CurrentStunde.LerngruppenterminFach
-            && o.SchülerlisteHalbjahrtyp.HalbjahrtypBezeichnung == this.CurrentStunde.LerngruppenterminHalbjahr
             && o.SchülerlisteJahrtyp.JahrtypBezeichnung == this.CurrentStunde.LerngruppenterminSchuljahr
             && o.SchülerlisteKlasse.KlasseBezeichnung == this.CurrentStunde.LerngruppenterminKlasse);
 

@@ -12,6 +12,7 @@
 
   <SolidColorBrush x:Key="NotentendenzBrush" Color="#99999999"/>
   <SolidColorBrush x:Key="NotenBrush" Color="#99009900"/>
+  <SolidColorBrush x:Key="StandBrush" Color="MediumAquamarine"/>
   <SolidColorBrush x:Key="NotentypBrush" Color="Thistle"/>
   <SolidColorBrush x:Key="GlyphBrush" Color="#FF567DB1" />
   <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#A5FFFFFF"/>

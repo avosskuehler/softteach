@@ -5,6 +5,7 @@ namespace SoftTeach.View.Main
   using System;
   using System.Collections;
   using System.Collections.Generic;
+  using System.Linq;
   using System.Windows;
   using System.Windows.Controls;
   using System.Windows.Controls.Primitives;
@@ -22,6 +23,7 @@ namespace SoftTeach.View.Main
   using SoftTeach.View.Sitzpläne;
   using SoftTeach.View.Stundenpläne;
   using SoftTeach.View.Termine;
+  using SoftTeach.ViewModel.Helper;
   using SoftTeach.ViewModel.Termine;
 
   /// <summary>
@@ -821,9 +823,69 @@ namespace SoftTeach.View.Main
       this.Hide();
     }
 
-    private void RibbonGallery_OnSelectionChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+    private void SpezialButtonClick(object sender, RoutedEventArgs e)
     {
-    }
+      //foreach (var schülerlisteViewModel in App.MainViewModel.Schülerlisten)
+      //{
+      //  // Wenn Sommer
+      //  if (schülerlisteViewModel.SchülerlisteHalbjahrtyp.HalbjahrtypIndex == 2)
+      //  {
+      //    var winterListe =
+      //      App.MainViewModel.Schülerlisten.First(
+      //        o =>
+      //        o.SchülerlisteJahrtyp == schülerlisteViewModel.SchülerlisteJahrtyp
+      //        && o.SchülerlisteFach == schülerlisteViewModel.SchülerlisteFach
+      //        && o.SchülerlisteKlasse == schülerlisteViewModel.SchülerlisteKlasse
+      //        && o.SchülerlisteHalbjahrtyp.HalbjahrtypIndex == 1);
 
+      //    foreach (var schülereintragViewModel in schülerlisteViewModel.Schülereinträge)
+      //    {
+      //      var schülereintraginWinterliste =
+      //        winterListe.Schülereinträge.FirstOrDefault(
+      //          o => o.SchülereintragPerson == schülereintragViewModel.SchülereintragPerson);
+      //      if (schülereintraginWinterliste != null)
+      //      {
+      //        foreach (var noteViewModel in schülereintragViewModel.Noten)
+      //        {
+      //          schülereintraginWinterliste.AddNote(noteViewModel);
+      //        }
+
+      //        foreach (var hausaufgabeViewModel in schülereintragViewModel.Hausaufgaben)
+      //        {
+      //          schülereintraginWinterliste.AddHausaufgabe(hausaufgabeViewModel);
+      //        }
+
+      //        foreach (var notentendenzViewModel in schülereintragViewModel.Notentendenzen)
+      //        {
+      //          schülereintraginWinterliste.AddNotentendenz(notentendenzViewModel);
+      //        }
+              
+      //        foreach (var ergebnisViewModel in schülereintragViewModel.Ergebnisse)
+      //        {
+      //          schülereintraginWinterliste.AddErgebnis(ergebnisViewModel);
+      //        }
+
+      //        schülereintragViewModel.Noten.Clear();
+      //        schülereintragViewModel.Hausaufgaben.Clear();
+      //        schülereintragViewModel.Notentendenzen.Clear();
+      //        schülereintragViewModel.Ergebnisse.Clear();
+      //      }
+      //      else
+      //      {
+      //        winterListe.AddSchülereintrag(schülereintragViewModel);
+      //      }
+      //    }
+
+      //    schülerlisteViewModel.Schülereinträge.Clear();
+      //  }
+      //}
+
+      //var deleteListen =
+      //  App.MainViewModel.Schülerlisten.Where(o => o.SchülerlisteHalbjahrtyp.HalbjahrtypIndex == 2).ToList();
+      //foreach (var schülerlisteViewModel in deleteListen)
+      //{
+      //  App.MainViewModel.Schülerlisten.Remove(schülerlisteViewModel);
+      //}
+    }
   }
 }

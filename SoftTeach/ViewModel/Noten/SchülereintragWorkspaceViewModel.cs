@@ -108,6 +108,11 @@
       set
       {
         this.currentSchülerliste = value;
+        if (this.currentSchülerliste != null)
+        {
+          this.currentSchülerliste.NotenDatum = DateTime.Now;
+        }
+
         Selection.Instance.Schülerliste = value;
         this.RaisePropertyChanged("CurrentSchülerliste");
       }
@@ -248,8 +253,8 @@
     {
       using (new UndoBatch(App.MainViewModel, string.Format("Neue Zeugnisnoten erstellt"), false))
       {
-        var workspace = new ZeugnisnotenWorkspaceViewModel(this.CurrentSchülerliste);
-        var dlg = new ZeugnisnotenDialog { DataContext = workspace };
+        var workspace = new NotenlistenWorkspaceViewModel(this.CurrentSchülerliste);
+        var dlg = new NotenlistenDialog { DataContext = workspace };
         dlg.ShowDialog();
       }
     }

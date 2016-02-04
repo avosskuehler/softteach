@@ -62,7 +62,6 @@ namespace SoftTeach.Model.EntityFramework
         public DbSet<Arbeit> Arbeiten { get; set; }
         public DbSet<Aufgabe> Aufgaben { get; set; }
         public DbSet<Ergebnis> Ergebnisse { get; set; }
-        public DbSet<Schülerliste> Schülerlisten { get; set; }
         public DbSet<Schülereintrag> Schülereinträge { get; set; }
         public DbSet<Hausaufgabe> Hausaufgaben { get; set; }
         public DbSet<Notentendenz> Notentendenzen { get; set; }
@@ -76,5 +75,6 @@ namespace SoftTeach.Model.EntityFramework
         public DbSet<Sitzplan> Sitzpläne { get; set; }
         public DbSet<Sitzplaneintrag> Sitzplaneinträge { get; set; }
         public DbSet<Sitzplatz> Sitzplätze { get; set; }
+        public DbSet<Schülerliste> Schülerlisten { get; set; }
     }
 }

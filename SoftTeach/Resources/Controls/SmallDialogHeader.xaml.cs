@@ -17,6 +17,8 @@
 
 namespace SoftTeach.Resources.Controls
 {
+  using System.ComponentModel;
+  using System.Windows;
   using System.Windows.Controls;
   using System.Windows.Media;
 
@@ -25,6 +27,29 @@ namespace SoftTeach.Resources.Controls
   /// </summary>
   public partial class SmallDialogHeader : UserControl
   {
+    ///// <summary>
+    /////   The Title property.
+    ///// </summary>
+    //public static readonly DependencyProperty TitleProperty = DependencyProperty.Register("Title", typeof(string), typeof(SmallDialogHeader),
+    //  new FrameworkPropertyMetadata(TitlePropertyChanged));
+
+    //private static void TitlePropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+    //{
+    //  var smallDialogHeader = dependencyObject as SmallDialogHeader;
+    //  if (smallDialogHeader != null)
+    //  {
+    //    smallDialogHeader.OnPropertyChanged(e);
+    //  }
+    //}
+
+    //protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+    //{
+    //  if (e.Property == TitleProperty)
+    //  {
+    //    this.Header.Text = e.NewValue.ToString();
+    //  }
+    //}
+
     #region Constructors and Destructors
 
     /// <summary>
@@ -61,14 +86,30 @@ namespace SoftTeach.Resources.Controls
     {
       get
       {
-        return this.title.Text;
+        return this.Header.Text;
       }
 
       set
       {
-        this.title.Text = value;
+        this.Header.Text = value;
       }
     }
+
+    ///// <summary>
+    ///// Gets or sets Title.
+    ///// </summary>
+    //public string Title
+    //{
+    //  get
+    //  {
+    //    return (string)this.GetValue(TitleProperty);
+    //  }
+
+    //  set
+    //  {
+    //    this.SetValue(TitleProperty, value);
+    //  }
+    //}
 
     #endregion
   }

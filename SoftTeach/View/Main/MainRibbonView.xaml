@@ -588,6 +588,14 @@
         </RibbonGroup>
       </RibbonTab>
       <RibbonTab x:Name="ToolsTab" Header="Tools">
+        <RibbonGroup x:Name="ToolsGroup" Header="Spezial">
+          <RibbonGroup.GroupSizeDefinitions>
+            <RibbonGroupSizeDefinition IsCollapsed="False"/>
+          </RibbonGroup.GroupSizeDefinitions>
+          <RibbonButton x:Name="SpezialButton"
+                               Label="Spezial"
+                               Click="SpezialButtonClick"/>
+        </RibbonGroup>
 
       </RibbonTab>
 

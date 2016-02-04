@@ -596,7 +596,7 @@
   <Style x:Key="NotenBorderStyle" TargetType="{x:Type Border}">
     <Setter Property="Margin" Value="2"/>
     <Setter Property="Padding" Value="2"/>
-    <Setter Property="CornerRadius" Value="5"/>
+    <!--<Setter Property="CornerRadius" Value="5"/>-->
   </Style>
 
   <DataTemplate x:Key="MündlicheNotenGroupView">
@@ -627,6 +627,81 @@
         <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Padding="0"
                Content="{Binding Path=NoteBezeichnung}"
                FontSize="8"/>
+      </Grid>
+    </Border>
+  </DataTemplate>
+
+  <DataTemplate x:Key="NotenDetailView">
+    <Border Style="{StaticResource NotenBorderStyle}" Background="{StaticResource NotenBrush}">
+      <Border.InputBindings>
+        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding Path=EditNoteCommand}"/>
+      </Border.InputBindings>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="25"/>
+          <ColumnDefinition Width="80"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Style="{StaticResource NotenStyle}" Content="{Binding Path=ZensurString}"/>
+        <Label Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Padding="0" FontSize="8" Content="{Binding Path=NoteGewichtung}"/>
+        <TextBlock Grid.Row="1"  Grid.Column="1"  Text="{Binding Path=NoteDatum, StringFormat={}{0:ddd dd.MM.yy}}" FontSize="8" Padding="0"/>
+        <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Padding="3,0" Content="{Binding Path=NoteBezeichnung}" FontSize="8"/>
+      </Grid>
+    </Border>
+  </DataTemplate>
+
+  <DataTemplate x:Key="NotenSafeDetailView">
+    <Border Style="{StaticResource NotenBorderStyle}" Background="{StaticResource NotenBrush}">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="25"/>
+          <ColumnDefinition Width="80"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Style="{StaticResource NotenStyle}" Content="{Binding Path=ZensurString}"/>
+        <TextBlock Grid.Row="0"  Grid.Column="1"  Text="{Binding Path=NoteDatum, StringFormat={}{0:ddd dd.MM.yy}}" FontSize="8" Padding="0"/>
+        <Label Grid.Row="1" Grid.Column="1" Padding="0" Content="{Binding Path=NoteBezeichnung}" FontSize="8"/>
+      </Grid>
+    </Border>
+  </DataTemplate>
+  
+  <DataTemplate x:Key="NotenstandDetailView">
+    <Border Style="{StaticResource NotenBorderStyle}" Background="{StaticResource StandBrush}">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="25"/>
+          <ColumnDefinition Width="80"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Style="{StaticResource NotenStyle}" Content="{Binding Path=ZensurString}"/>
+        <TextBlock Grid.Row="0"  Grid.Column="1"  Text="{Binding Path=NoteDatum, StringFormat={}{0:ddd dd.MM.yy}}" FontSize="8" Padding="0"/>
+        <Label Grid.Row="1" Grid.Column="1" Padding="0" Content="{Binding Path=NoteBezeichnung}" FontSize="8"/>
+      </Grid>
+    </Border>
+  </DataTemplate>
+
+  <DataTemplate x:Key="NotenlisteneintragView">
+    <Border Style="{StaticResource NotenBorderStyle}" Background="{StaticResource NotenBrush}">
+      <!--<Border.InputBindings>
+        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding Path=EditNoteCommand}"/>
+      </Border.InputBindings>-->
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Content="{Binding Path=NotenTermintyp}"/>
+        <Label Grid.Row="1" Content="{Binding Path=TerminString}"/>
       </Grid>
     </Border>
   </DataTemplate>
@@ -800,8 +875,8 @@
       <Image Grid.Column="0" Height="50" Source="{Binding Path=SchülereintragPerson.PersonBild}" Margin="0"/>
       <Grid Grid.Column="1">
         <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="60"/>
-          <ColumnDefinition Width="90"/>
+          <ColumnDefinition Width="70"/>
+          <ColumnDefinition Width="80"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto"/>
@@ -820,7 +895,7 @@
       </Grid>
       <Grid Grid.Column="2">
         <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="60"/>
+          <ColumnDefinition Width="70"/>
           <ColumnDefinition Width="20"/>
           <ColumnDefinition Width="55"/>
         </Grid.ColumnDefinitions>
@@ -851,7 +926,8 @@
       <Grid Grid.Column="3" >
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="70"/>
-          <ColumnDefinition Width="30"/>
+          <ColumnDefinition Width="20"/>
+          <ColumnDefinition Width="55"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto"/>
@@ -861,6 +937,11 @@
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource ZeugnisnotenHeader}" >Schriftlich</Label>
         <Label Grid.Row="0" Grid.Column="1" Style="{StaticResource ZeugnisnotenHeader}" Content="{Binding Path=SchriftlicheGesamtNote}"/>
+        <controls:NumericUpDown Grid.Row="0" Grid.Column="2" Grid.RowSpan="4" VerticalAlignment="Top" Style="{StaticResource NumericUpDownRoundStyle}"
+                                Value="{Binding Path=SchriftlicheAnpassung, Mode=TwoWay}"
+                                Minimum="-10"
+                                Change="1"
+                                Maximum="10"/>
         <Label Grid.Row="1" Grid.Column="0" Padding="1">Arbeiten</Label>
         <Label Grid.Row="1" Grid.Column="1" Padding="1" Content="{Binding Path=SchriftlichKlausurenGesamtnote}"/>
         <Label Grid.Row="2" Grid.Column="0" Padding="1">Weitere</Label>

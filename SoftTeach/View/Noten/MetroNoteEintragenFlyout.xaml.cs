@@ -1,6 +1,7 @@
 ﻿
 namespace SoftTeach.View.Noten
 {
+  using System.Windows;
   using System.Windows.Input;
 
   using SoftTeach.ViewModel.Noten;
@@ -25,6 +26,11 @@ namespace SoftTeach.View.Noten
     /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
     private void MetroNoteEintragenFlyout_OnMouseLeave(object sender, MouseEventArgs e)
     {
+      this.ResetFlyout();
+    }
+
+    private void ResetFlyout()
+    {
       this.IsOpen = false;
       this.Qualität1Radio.IsChecked = false;
       this.Qualität2Radio.IsChecked = false;
@@ -44,6 +50,17 @@ namespace SoftTeach.View.Noten
       {
         s.IstZufälligAusgewählt = false;
       }
+    }
+
+    /// <summary>
+    /// Handles the OnClick event of the Radio control.
+    /// </summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+    /// <exception cref="System.NotImplementedException"></exception>
+    private void RadioOnClick(object sender, RoutedEventArgs e)
+    {
+      this.ResetFlyout();
     }
   }
 }

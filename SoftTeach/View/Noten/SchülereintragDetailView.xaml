@@ -9,37 +9,71 @@
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="600">
   <UserControl.Resources>
-    <converter:IgnoreNewItemPlaceHolderConverter x:Key="IgnoreNewItemPlaceHolderConverter"/>
-    <CollectionViewSource x:Key="GruppierteMündlicheNotenViewSource" Source="{Binding MündlicheNotenCollection}">
+    <CollectionViewSource x:Key="MündlicheStandNotenViewSource" Source="{Binding MündlicheStandNotenCollection}">
       <CollectionViewSource.SortDescriptions>
-        <scm:SortDescription PropertyName="NoteNotentyp" Direction="Ascending"/>
+        <scm:SortDescription PropertyName="NoteDatum" Direction="Ascending" />
+      </CollectionViewSource.SortDescriptions>
+    </CollectionViewSource>
+    <CollectionViewSource x:Key="SchriftlicheStandNotenViewSource" Source="{Binding SchriftlicheStandNotenCollection}">
+      <CollectionViewSource.SortDescriptions>
+        <scm:SortDescription PropertyName="NoteDatum" Direction="Ascending" />
+      </CollectionViewSource.SortDescriptions>
+    </CollectionViewSource>
+    <CollectionViewSource x:Key="GesamtstandNotenViewSource" Source="{Binding GesamtstandNotenCollection}">
+      <CollectionViewSource.SortDescriptions>
+        <scm:SortDescription PropertyName="NoteDatum" Direction="Ascending" />
+      </CollectionViewSource.SortDescriptions>
+    </CollectionViewSource>
+    <CollectionViewSource x:Key="MündlicheQualitätsNotenViewSource" Source="{Binding MündlicheQualitätNotenCollection}">
+      <CollectionViewSource.SortDescriptions>
         <scm:SortDescription PropertyName="NoteDatum" Direction="Ascending" />
       </CollectionViewSource.SortDescriptions>
       <CollectionViewSource.GroupDescriptions>
-        <PropertyGroupDescription PropertyName="NoteNotentyp"/>
+        <PropertyGroupDescription PropertyName="NoteMonat"/>
+      </CollectionViewSource.GroupDescriptions>
+    </CollectionViewSource>
+    <CollectionViewSource x:Key="MündlicheQuantitätsNotenViewSource" Source="{Binding MündlicheQuantitätNotenCollection}">
+      <CollectionViewSource.SortDescriptions>
+        <scm:SortDescription PropertyName="NoteDatum" Direction="Ascending" />
+      </CollectionViewSource.SortDescriptions>
+      <CollectionViewSource.GroupDescriptions>
+        <PropertyGroupDescription PropertyName="NoteMonat"/>
+      </CollectionViewSource.GroupDescriptions>
+    </CollectionViewSource>
+    <CollectionViewSource x:Key="MündlicheWeitereNotenViewSource" Source="{Binding MündlicheWeitereNotenCollection}">
+      <CollectionViewSource.SortDescriptions>
+        <scm:SortDescription PropertyName="NoteDatum" Direction="Ascending" />
+      </CollectionViewSource.SortDescriptions>
+      <CollectionViewSource.GroupDescriptions>
         <PropertyGroupDescription PropertyName="NoteMonat"/>
       </CollectionViewSource.GroupDescriptions>
     </CollectionViewSource>
 
-    <CollectionViewSource x:Key="GruppierteHausaufgabenViewSource" Source="{Binding Hausaufgaben}">
+    <CollectionViewSource x:Key="SchriftlichKlausurenNotenViewSource" Source="{Binding SchriftlichKlausurenNotenCollection}">
+      <CollectionViewSource.SortDescriptions>
+        <scm:SortDescription PropertyName="NoteDatum" Direction="Ascending" />
+      </CollectionViewSource.SortDescriptions>
+    </CollectionViewSource>
+
+    <CollectionViewSource x:Key="SchriftlichWeitereNotenViewSource" Source="{Binding SchriftlichWeitereNotenCollection}">
+      <CollectionViewSource.SortDescriptions>
+        <scm:SortDescription PropertyName="NoteDatum" Direction="Ascending" />
+      </CollectionViewSource.SortDescriptions>
+    </CollectionViewSource>
+
+    <CollectionViewSource x:Key="HausaufgabenViewSource" Source="{Binding Hausaufgaben}">
       <CollectionViewSource.SortDescriptions>
         <scm:SortDescription PropertyName="HausaufgabeDatum" Direction="Ascending" />
       </CollectionViewSource.SortDescriptions>
-      <CollectionViewSource.GroupDescriptions>
-        <PropertyGroupDescription PropertyName="HausaufgabeMonat"/>
-      </CollectionViewSource.GroupDescriptions>
     </CollectionViewSource>
 
-    <CollectionViewSource x:Key="GruppierteNotentendenzenViewSource" Source="{Binding Notentendenzen}">
+    <CollectionViewSource x:Key="NotentendenzenViewSource" Source="{Binding Notentendenzen}">
       <CollectionViewSource.SortDescriptions>
         <scm:SortDescription PropertyName="NotentendenzDatum" Direction="Ascending" />
       </CollectionViewSource.SortDescriptions>
-      <CollectionViewSource.GroupDescriptions>
-        <PropertyGroupDescription PropertyName="NotentendenzMonat"/>
-      </CollectionViewSource.GroupDescriptions>
     </CollectionViewSource>
   </UserControl.Resources>
-  <Border>
+  <ScrollViewer VerticalScrollBarVisibility="Auto">
     <Grid>
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto"/>
@@ -47,7 +81,7 @@
         <RowDefinition Height="*"/>
       </Grid.RowDefinitions>
       <Label Style="{StaticResource Header1}" Grid.Row="0" Margin="0,5,0,0" Content="{Binding Path=SchülereintragÜberschrift}"/>
-      <ToolBarTray Grid.Row="0" Orientation="Horizontal" IsLocked="True">
+      <ToolBarTray Grid.Row="1" Orientation="Horizontal" IsLocked="True">
         <ToolBar Band="1" BandIndex="1">
           <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddNotentendenzCommand}" ToolTip="Notentendenz anlegen" >
             <StackPanel Orientation="Horizontal">
@@ -69,250 +103,292 @@
           </Button>
         </ToolBar>
       </ToolBarTray>
-      <TabControl Grid.Row="2">
-        <TabItem Header="Übersicht">
-          <Grid>
-            <Grid.RowDefinitions>
-              <RowDefinition Height="*"/>
-              <RowDefinition Height="Auto"/>
-              <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition/>
-              <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Grid Grid.Row="0" Grid.Column="0">
-              <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition/>
-              </Grid.RowDefinitions>
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="30"/>
-                <ColumnDefinition Width="40"/>
-                <ColumnDefinition Width="50"/>
-              </Grid.ColumnDefinitions>
-              <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Header1}">Mündlich</Label>
-              <Label Grid.Row="0" Grid.Column="2" Style="{StaticResource Header1}" Content="{Binding Path=MündlicheGesamtNote}"/>
-              <Label Grid.Row="1" Grid.Column="0" >Qualität</Label>
-              <Label Grid.Row="1" Grid.Column="2" Style="{StaticResource NotenStyle}" Content="{Binding Path=MündlicheQualitätNote}"/>
-              <Label Grid.Row="1" Grid.Column="3" Content="{Binding Path=MündlicheQualitätWichtung, Converter={StaticResource WichtungProzentConverter}}" VerticalAlignment="Bottom"/>
-              <Label Grid.Row="2" Grid.Column="0" >Quantität</Label>
-              <Label Grid.Row="2" Grid.Column="2" Style="{StaticResource NotenStyle}" Content="{Binding Path=MündlicheQuantitätNote}"/>
-              <Label Grid.Row="2" Grid.Column="3" Content="{Binding Path=MündlicheQuantitätWichtung, Converter={StaticResource WichtungProzentConverter}}" VerticalAlignment="Bottom"/>
-              <GroupBox Grid.Row="3" Grid.Column="0" Header="Weitere mündliche Noten" Name="GroupBoxM" MinHeight="60">
-                <ListBox 
-                  Name="WeitereMündlicheNotenListBox"
-                  ItemsSource="{Binding Path=MündlicheWeitereNotenCollection}"
-                  ItemTemplate="{StaticResource WeitereMündlicheNotenListView}">
-                  <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                      <StackPanel/>
-                    </ItemsPanelTemplate>
-                  </ListBox.ItemsPanel>
-                  <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                      <Setter Property="HorizontalAlignment" Value="Right"/>
-                      <!--<Setter Property="Width" 
-                              Value="{Binding ElementName=GroupBoxM, Path=Width}"/>-->
-                    </Style>
-                  </ListBox.ItemContainerStyle>
-                </ListBox>
-              </GroupBox>
-              <Label Grid.Row="3" Grid.Column="2" Style="{StaticResource NotenStyle}" VerticalAlignment="Center" Content="{Binding Path=MündlicheWeitereNotenGesamtnote}"/>
-              <Label Grid.Row="3" Grid.Column="3" Content="{Binding Path=MündlicheWeitereNotenWichtung, Converter={StaticResource WichtungProzentConverter}}" VerticalAlignment="Center"/>
-            </Grid>
-            <Grid Grid.Row="0" Grid.Column="1">
-              <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition/>
-                <RowDefinition/>
-              </Grid.RowDefinitions>
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="30"/>
-                <ColumnDefinition Width="50"/>
-                <ColumnDefinition Width="50"/>
-              </Grid.ColumnDefinitions>
-              <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Header1}">Schriftlich</Label>
-              <Label Grid.Row="0" Grid.Column="2" Style="{StaticResource Header1}" Content="{Binding Path=SchriftlicheGesamtNote}"/>
-              <GroupBox Grid.Row="1" Grid.Column="0" Header="Klausuren/Klassenarbeiten">
-                <ListBox 
-                  Name="KlausurenListBox"
-                  ItemsSource="{Binding Path=SchriftlichKlausurenNotenCollection}"
-                  ItemTemplate="{StaticResource WeitereMündlicheNotenListView}">
-                  <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                      <StackPanel/>
-                    </ItemsPanelTemplate>
-                  </ListBox.ItemsPanel>
-                  <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                      <Setter Property="HorizontalAlignment" Value="Right"/>
-                    </Style>
-                  </ListBox.ItemContainerStyle>
-                </ListBox>
-              </GroupBox>
-              <Label Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" Style="{StaticResource NotenStyle}" Content="{Binding Path=SchriftlichKlausurenGesamtnote}"/>
-              <Label Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" Content="{Binding Path=SchriftlichKlausurenWichtung, Converter={StaticResource WichtungProzentConverter}}"/>
-              <GroupBox Grid.Row="2" Grid.Column="0" Header="Weitere schriftliche Noten"  MinHeight="60">
-                <ListBox 
-                  Name="WeitereSchriflicheNotenListBox"
-                  ItemsSource="{Binding Path=SchriftlichWeitereNotenCollection}"
-                  ItemTemplate="{StaticResource WeitereMündlicheNotenListView}">
-                  <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                      <StackPanel/>
-                    </ItemsPanelTemplate>
-                  </ListBox.ItemsPanel>
-                  <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                      <Setter Property="HorizontalAlignment" Value="Right"/>
-                    </Style>
-                  </ListBox.ItemContainerStyle>
-                </ListBox>
-              </GroupBox>
-              <Label Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Style="{StaticResource NotenStyle}" Content="{Binding Path=SchriftlichWeitereNotenGesamtnote}"/>
-              <Label Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" Content="{Binding Path=SchriftlichWeitereNotenWichtung, Converter={StaticResource WichtungProzentConverter}}"/>
-            </Grid>
-            <Rectangle Margin="5" Height="2" Fill="{StaticResource DefaultOfficeBackgroundBrush}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
-            <GroupBox Grid.Row="2" Grid.Column="0" Header="Tendenzen">
-              <Grid>
-                <Grid.RowDefinitions>
-                  <RowDefinition Height="Auto"/>
-                  <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="*"/>
-                  <ColumnDefinition Width="Auto"/>
-                  <ColumnDefinition Width="Auto"/>
-                  <ColumnDefinition Width="50"/>
-                </Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Grid.Column="0">Hausaufgaben</Label>
-                <Label Grid.Row="0" Grid.Column="1" Content="{Binding Path=NichtgemachteHausaufgaben}"/>
-                <Label Grid.Row="0" Grid.Column="2" Content="{Binding Path=NachgereichteHausaufgaben}"/>
-                <Image Grid.Row="0" Grid.Column="3" Height="32" Source="{Binding Path=HausaufgabenTendenzImage}"/>
-                <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">Tendenzen</Label>
-                <Image Grid.Row="1" Grid.Column="3" Height="32" Source="{Binding Path=TendenzenTendenzImage}"/>
-              </Grid>
-            </GroupBox>
-            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-              <Label VerticalAlignment="Center"
-                   Style="{StaticResource Header1}">Gesamtnote</Label>
-              <Label VerticalAlignment="Center"
-                   Style="{StaticResource Header1}" Content="{Binding Path=Gesamtnote}"/>
-            </StackPanel>
-          </Grid>
-        </TabItem>
-        <TabItem Header="Mündlich">
-          <Grid>
-            <Grid.RowDefinitions>
-              <RowDefinition/>
-              <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition/>
-              <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <GroupBox Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Header="Mündliche Noten">
-              <ListBox 
-                 ItemsSource="{Binding Source={StaticResource GruppierteMündlicheNotenViewSource}}"             
+      <Grid Grid.Row="2">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="*"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0" Background="#99FFFFFF" Margin="0,3,3,3">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+          </Grid.ColumnDefinitions>
+          <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource Header1}">Mündlich</Label>
+          <Label Grid.Row="0" Grid.Column="1" Style="{StaticResource Header1}" Content="{Binding Path=MündlicheGesamtNote}"/>
+          <ListBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent"
+                 ItemsSource="{Binding Source={StaticResource MündlicheStandNotenViewSource}}"             
                  BorderThickness="0"
                  SelectedItem="{Binding CurrentNote}"
-                 Name="MündlicheNotenListBox"
-                 ItemTemplate="{StaticResource MündlicheNotenGroupView}">
-                <ListBox.InputBindings>
-                  <KeyBinding Key="Delete" Command="{Binding Path=DeleteNoteCommand}"/>
-                </ListBox.InputBindings>
-                <ListBox.ItemsPanel>
+                 Name="MündlicheStandNotenListBox"
+                 ItemTemplate="{StaticResource NotenstandDetailView}">
+            <ListBox.ItemsPanel>
+              <ItemsPanelTemplate>
+                <WrapPanel Width="{Binding ElementName=MündlicheStandNotenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
+              </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+          </ListBox>
+
+          <StackPanel  Grid.Row="3" Grid.Column="0" Orientation="Horizontal">
+            <Label >Qualität</Label>
+            <Label Content="{Binding Path=MündlicheQualitätWichtung, Converter={StaticResource WichtungProzentConverter}}" />
+          </StackPanel>
+          <Label Grid.Row="3" Grid.Column="1" Style="{StaticResource NotenStyle}" Content="{Binding Path=MündlicheQualitätNote}"/>
+          <ListBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent"
+                 ItemsSource="{Binding Source={StaticResource MündlicheQualitätsNotenViewSource}}"             
+                 BorderThickness="0"
+                 SelectedItem="{Binding CurrentNote}"
+                 Name="MündlicheQualitätsNotenListBox"
+                 ItemTemplate="{StaticResource NotenDetailView}">
+            <ListBox.InputBindings>
+              <KeyBinding Key="Delete" Command="{Binding Path=DeleteNoteCommand}"/>
+            </ListBox.InputBindings>
+            <ListBox.ItemsPanel>
+              <ItemsPanelTemplate>
+                <WrapPanel/>
+              </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.GroupStyle>
+              <GroupStyle ContainerStyle="{StaticResource NotenMonthGroupHeaderStyle}">
+                <GroupStyle.Panel>
                   <ItemsPanelTemplate>
-                    <WrapPanel/>
+                    <WrapPanel Width="{Binding ElementName=MündlicheQualitätsNotenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
                   </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <ListBox.GroupStyle>
-                  <GroupStyle ContainerStyle="{StaticResource NotenGroupHeaderStyle}">
-                    <GroupStyle.Panel>
-                      <ItemsPanelTemplate>
-                        <StackPanel Orientation="Vertical"/>
-                      </ItemsPanelTemplate>
-                    </GroupStyle.Panel>
-                  </GroupStyle>
-                  <GroupStyle ContainerStyle="{StaticResource NotenMonthGroupHeaderStyle}">
-                    <GroupStyle.Panel>
-                      <ItemsPanelTemplate>
-                        <WrapPanel Width="{Binding ElementName=MündlicheNotenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
-                      </ItemsPanelTemplate>
-                    </GroupStyle.Panel>
-                  </GroupStyle>
-                </ListBox.GroupStyle>
-              </ListBox>
-            </GroupBox>
-            <GroupBox Grid.Row="0" Grid.Column="1" Header="Nicht gemachte Hausaufgaben">
-              <ListBox 
-                 ItemsSource="{Binding Source={StaticResource GruppierteHausaufgabenViewSource}}"             
+                </GroupStyle.Panel>
+              </GroupStyle>
+            </ListBox.GroupStyle>
+          </ListBox>
+
+          <StackPanel  Grid.Row="5" Grid.Column="0" Orientation="Horizontal">
+            <Label>Quantität</Label>
+            <Label Content="{Binding Path=MündlicheQuantitätWichtung, Converter={StaticResource WichtungProzentConverter}}" />
+          </StackPanel>
+          <Label Grid.Row="5" Grid.Column="1" Style="{StaticResource NotenStyle}" Content="{Binding Path=MündlicheQuantitätNote}"/>
+          <ListBox Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent"
+                 ItemsSource="{Binding Source={StaticResource MündlicheQuantitätsNotenViewSource}}"             
+                 BorderThickness="0"
+                 SelectedItem="{Binding CurrentNote}"
+                 Name="MündlicheQuantitätsNotenListBox"
+                 ItemTemplate="{StaticResource NotenDetailView}">
+            <ListBox.InputBindings>
+              <KeyBinding Key="Delete" Command="{Binding Path=DeleteNoteCommand}"/>
+            </ListBox.InputBindings>
+            <ListBox.ItemsPanel>
+              <ItemsPanelTemplate>
+                <WrapPanel/>
+              </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.GroupStyle>
+              <GroupStyle ContainerStyle="{StaticResource NotenMonthGroupHeaderStyle}">
+                <GroupStyle.Panel>
+                  <ItemsPanelTemplate>
+                    <WrapPanel Width="{Binding ElementName=MündlicheQuantitätsNotenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
+                  </ItemsPanelTemplate>
+                </GroupStyle.Panel>
+              </GroupStyle>
+            </ListBox.GroupStyle>
+          </ListBox>
+
+          <StackPanel  Grid.Row="7" Grid.Column="0" Orientation="Horizontal">
+            <Label>Weitere</Label>
+            <Label Content="{Binding Path=MündlicheWeitereNotenWichtung, Converter={StaticResource WichtungProzentConverter}}" />
+          </StackPanel>
+          <Label Grid.Row="7" Grid.Column="1" Style="{StaticResource NotenStyle}" Content="{Binding Path=MündlicheWeitereNotenGesamtnote}"/>
+          <ListBox Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent"
+                 ItemsSource="{Binding Source={StaticResource MündlicheWeitereNotenViewSource}}"             
+                 BorderThickness="0"
+                 SelectedItem="{Binding CurrentNote}"
+                 Name="MündlicheWeitereNotenListBox"
+                 ItemTemplate="{StaticResource NotenDetailView}">
+            <ListBox.InputBindings>
+              <KeyBinding Key="Delete" Command="{Binding Path=DeleteNoteCommand}"/>
+            </ListBox.InputBindings>
+            <ListBox.ItemsPanel>
+              <ItemsPanelTemplate>
+                <WrapPanel/>
+              </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.GroupStyle>
+              <GroupStyle ContainerStyle="{StaticResource NotenMonthGroupHeaderStyle}">
+                <GroupStyle.Panel>
+                  <ItemsPanelTemplate>
+                    <WrapPanel Width="{Binding ElementName=MündlicheWeitereNotenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
+                  </ItemsPanelTemplate>
+                </GroupStyle.Panel>
+              </GroupStyle>
+            </ListBox.GroupStyle>
+          </ListBox>
+        </Grid>
+
+        <Grid Grid.Row="0" Grid.Column="1"  Background="#99FFFFFF" Margin="0,3">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+          </Grid.ColumnDefinitions>
+          <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource Header1}">Schriftlich</Label>
+          <Label Grid.Row="0" Grid.Column="1" Style="{StaticResource Header1}" Content="{Binding Path=SchriftlicheGesamtNote}"/>
+          <ListBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent"
+                 ItemsSource="{Binding Source={StaticResource SchriftlicheStandNotenViewSource}}"             
+                 BorderThickness="0"
+                 SelectedItem="{Binding CurrentNote}"
+                 Name="SchriftlicheStandNotenListBox"
+                 ItemTemplate="{StaticResource NotenstandDetailView}">
+            <ListBox.ItemsPanel>
+              <ItemsPanelTemplate>
+                <WrapPanel Width="{Binding ElementName=SchriftlicheStandNotenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
+              </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+          </ListBox>
+          <StackPanel  Grid.Row="3" Grid.Column="0" Orientation="Horizontal">
+            <Label>Klausuren/Klassenarbeiten</Label>
+            <Label Content="{Binding Path=SchriftlichKlausurenWichtung, Converter={StaticResource WichtungProzentConverter}}" />
+          </StackPanel>
+          <Label Grid.Row="3" Grid.Column="1" Style="{StaticResource NotenStyle}" Content="{Binding Path=SchriftlichKlausurenGesamtnote}"/>
+          <ListBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent"
+                 ItemsSource="{Binding Source={StaticResource SchriftlichKlausurenNotenViewSource}}"             
+                 BorderThickness="0"
+                 SelectedItem="{Binding CurrentNote}"
+                 Name="SchriftlichKlausurenNotenListBox"
+                 ItemTemplate="{StaticResource NotenSafeDetailView}">
+            <!--<ListBox.InputBindings>
+              <KeyBinding Key="Delete" Command="{Binding Path=DeleteNoteCommand}"/>
+            </ListBox.InputBindings>-->
+            <ListBox.ItemsPanel>
+              <ItemsPanelTemplate>
+                <WrapPanel Width="{Binding ElementName=SchriftlichKlausurenNotenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
+              </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+          </ListBox>
+
+          <StackPanel  Grid.Row="5" Grid.Column="0" Orientation="Horizontal">
+            <Label>Weitere</Label>
+            <Label Content="{Binding Path=MündlicheQuantitätWichtung, Converter={StaticResource WichtungProzentConverter}}" />
+          </StackPanel>
+          <Label Grid.Row="5" Grid.Column="1" Style="{StaticResource NotenStyle}" Content="{Binding Path=MündlicheQuantitätNote}"/>
+          <ListBox Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent"
+                 ItemsSource="{Binding Source={StaticResource SchriftlichWeitereNotenViewSource}}"             
+                 BorderThickness="0"
+                 SelectedItem="{Binding CurrentNote}"
+                 Name="SchriftlichWeitereNotenListBox"
+                 ItemTemplate="{StaticResource NotenDetailView}">
+            <ListBox.InputBindings>
+              <KeyBinding Key="Delete" Command="{Binding Path=DeleteNoteCommand}"/>
+            </ListBox.InputBindings>
+            <ListBox.ItemsPanel>
+              <ItemsPanelTemplate>
+                <WrapPanel Width="{Binding ElementName=SchriftlichWeitereNotenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
+              </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+          </ListBox>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="0" Background="#99FFFFFF" Margin="0,0,3,0">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+          </Grid.ColumnDefinitions>
+          <Label Grid.Row="0" Grid.Column="0">Tendenzen</Label>
+          <Image Grid.Row="0" Grid.Column="1" Height="32" Source="{Binding Path=TendenzenTendenzImage}"/>
+          <ListBox  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"       Background="Transparent"        
+                 ItemsSource="{Binding Source={StaticResource NotentendenzenViewSource}}"             
+                 BorderThickness="0"
+                 SelectedItem="{Binding CurrentNotentendenz}"
+                 Name="NotentendenzenListBox2"
+                 ItemTemplate="{StaticResource NotentendenzenGroupView}">
+            <ListBox.InputBindings>
+              <KeyBinding Key="Delete" Command="{Binding Path=DeleteNotentendenzCommand}"/>
+            </ListBox.InputBindings>
+            <ListBox.ItemsPanel>
+              <ItemsPanelTemplate>
+                <WrapPanel Width="{Binding ElementName=NotentendenzenListBox2, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
+              </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+          </ListBox>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="1"  Background="#99FFFFFF" Margin="0">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+          </Grid.ColumnDefinitions>
+          <Label Grid.Row="0" Grid.Column="0">Nicht gemachte Hausaufgaben</Label>
+          <Image Grid.Row="0" Grid.Column="1" Height="32" Source="{Binding Path=HausaufgabenTendenzImage}"/>
+          <ListBox  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent"              
+                 ItemsSource="{Binding Source={StaticResource HausaufgabenViewSource}}"             
                  BorderThickness="0"
                  SelectedItem="{Binding CurrentHausaufgabe}"
                  Name="HausaufgabenListBox"
                  ItemTemplate="{StaticResource HausaufgabenGroupView}">
-                <ListBox.InputBindings>
-                  <KeyBinding Key="Delete" Command="{Binding Path=DeleteHausaufgabeCommand}"/>
-                </ListBox.InputBindings>
-                <ListBox.ItemsPanel>
-                  <ItemsPanelTemplate>
-                    <WrapPanel/>
-                  </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <ListBox.GroupStyle>
-                  <GroupStyle ContainerStyle="{StaticResource NotenMonthGroupHeaderStyle}">
-                    <GroupStyle.Panel>
-                      <ItemsPanelTemplate>
-                        <WrapPanel Width="{Binding ElementName=HausaufgabenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
-                      </ItemsPanelTemplate>
-                    </GroupStyle.Panel>
-                  </GroupStyle>
-                </ListBox.GroupStyle>
-                <ListBox.ItemContainerStyle>
-                  <Style TargetType="ListBoxItem">
-                    <!--<EventSetter Event="MouseDoubleClick" Handler="ListViewItemMouseDoubleClick"/>-->
-                  </Style>
-                </ListBox.ItemContainerStyle>
-              </ListBox>
-            </GroupBox>
-            <GroupBox Grid.Row="1" Grid.Column="1" Header="Sonstige Tendenzen">
-              <ListBox               
-                 ItemsSource="{Binding Source={StaticResource GruppierteNotentendenzenViewSource}}"             
+            <ListBox.InputBindings>
+              <KeyBinding Key="Delete" Command="{Binding Path=DeleteHausaufgabeCommand}"/>
+            </ListBox.InputBindings>
+            <ListBox.ItemsPanel>
+              <ItemsPanelTemplate>
+                <WrapPanel Width="{Binding ElementName=HausaufgabenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
+              </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+          </ListBox>
+        </Grid>
+
+        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Background="#99FFFFFF" Margin="0,3">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+          </Grid.ColumnDefinitions>
+          <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Label Style="{StaticResource Header1}" >Gesamtnote</Label>
+            <Label Style="{StaticResource Header1}" Content="{Binding Path=Gesamtnote}"/>
+          </StackPanel>
+          <ListBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent"
+                 ItemsSource="{Binding Source={StaticResource GesamtstandNotenViewSource}}"             
                  BorderThickness="0"
-                 SelectedItem="{Binding CurrentNotentendenz}"
-                 Name="NotentendenzenListBox"
-                 ItemTemplate="{StaticResource NotentendenzenGroupView}">
-                <ListBox.InputBindings>
-                  <KeyBinding Key="Delete" Command="{Binding Path=DeleteNotentendenzCommand}"/>
-                </ListBox.InputBindings>
-                <ListBox.ItemsPanel>
-                  <ItemsPanelTemplate>
-                    <WrapPanel/>
-                  </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <ListBox.GroupStyle>
-                  <GroupStyle ContainerStyle="{StaticResource NotenMonthGroupHeaderStyle}">
-                    <GroupStyle.Panel>
-                      <ItemsPanelTemplate>
-                        <WrapPanel Width="{Binding ElementName=NotentendenzenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
-                      </ItemsPanelTemplate>
-                    </GroupStyle.Panel>
-                  </GroupStyle>
-                </ListBox.GroupStyle>
-                <ListBox.ItemContainerStyle>
-                  <Style TargetType="ListBoxItem">
-                  </Style>
-                </ListBox.ItemContainerStyle>
-              </ListBox>
-            </GroupBox>
-          </Grid>
-        </TabItem>
-      </TabControl>
+                 SelectedItem="{Binding CurrentNote}"
+                 Name="GesamtStandNotenListBox"
+                 ItemTemplate="{StaticResource NotenstandDetailView}">
+            <ListBox.ItemsPanel>
+              <ItemsPanelTemplate>
+                <WrapPanel Width="{Binding ElementName=GesamtStandNotenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
+              </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+          </ListBox>
+        </Grid>
+      </Grid>
     </Grid>
-  </Border>
+  </ScrollViewer>
 </UserControl>

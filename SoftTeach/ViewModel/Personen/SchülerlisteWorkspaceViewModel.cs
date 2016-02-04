@@ -35,11 +35,6 @@
     private JahrtypViewModel jahrtypFilter;
 
     /// <summary>
-    /// Der Halbjahrtyp, deren Schülerlisten nur dargestellt werden sollen.
-    /// </summary>
-    private HalbjahrtypViewModel halbjahrtypFilter;
-
-    /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="SchülerlisteWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public SchülerlisteWorkspaceViewModel()
@@ -56,7 +51,6 @@
       this.SchülerlistenView.SortDescriptions.Add(new SortDescription("SchülerlisteJahrtyp", ListSortDirection.Ascending));
       this.SchülerlistenView.SortDescriptions.Add(new SortDescription("SchülerlisteFach", ListSortDirection.Ascending));
       this.SchülerlistenView.SortDescriptions.Add(new SortDescription("SchülerlisteKlasse", ListSortDirection.Ascending));
-      this.SchülerlistenView.SortDescriptions.Add(new SortDescription("SchülerlisteHalbjahrtyp.HalbjahrtypIndex", ListSortDirection.Ascending));
       this.SchülerlistenView.Refresh();
 
       // Re-act to any changes from outside this ViewModel
@@ -162,25 +156,6 @@
     }
 
     /// <summary>
-    /// Holt oder setzt den halbjahr filter für die Schülerlisten
-    /// </summary>
-    public HalbjahrtypViewModel HalbjahrtypFilter
-    {
-      get
-      {
-        return this.halbjahrtypFilter;
-      }
-
-      set
-      {
-        this.halbjahrtypFilter = value;
-        this.RaisePropertyChanged("HalbjahrtypFilter");
-        this.SchülerlistenView.Refresh();
-      }
-    }
-
-
-    /// <summary>
     /// Filtert die Terminliste nach Jahrtyp und Termintyp
     /// </summary>
     /// <param name="item">Das TerminViewModel, das gefiltert werden soll</param>
@@ -193,39 +168,15 @@
         return false;
       }
 
-      if (this.jahrtypFilter != null && this.fachFilter != null && this.halbjahrtypFilter != null)
-      {
-        return schülerlisteViewModel.SchülerlisteJahrtyp.JahrtypBezeichnung == this.jahrtypFilter.JahrtypBezeichnung
-          && schülerlisteViewModel.SchülerlisteHalbjahrtyp.HalbjahrtypBezeichnung == this.halbjahrtypFilter.HalbjahrtypBezeichnung
-          && schülerlisteViewModel.SchülerlisteFach.FachBezeichnung == this.fachFilter.FachBezeichnung;
-      }
-
       if (this.jahrtypFilter != null && this.fachFilter != null)
       {
         return schülerlisteViewModel.SchülerlisteJahrtyp.JahrtypBezeichnung == this.jahrtypFilter.JahrtypBezeichnung
           && schülerlisteViewModel.SchülerlisteFach.FachBezeichnung == this.fachFilter.FachBezeichnung;
       }
 
-      if (this.jahrtypFilter != null && this.halbjahrtypFilter != null)
-      {
-        return schülerlisteViewModel.SchülerlisteJahrtyp.JahrtypBezeichnung == this.jahrtypFilter.JahrtypBezeichnung
-          && schülerlisteViewModel.SchülerlisteHalbjahrtyp.HalbjahrtypBezeichnung == this.halbjahrtypFilter.HalbjahrtypBezeichnung;
-      }
-
-      if (this.fachFilter != null && this.halbjahrtypFilter != null)
-      {
-        return schülerlisteViewModel.SchülerlisteHalbjahrtyp.HalbjahrtypBezeichnung == this.halbjahrtypFilter.HalbjahrtypBezeichnung
-          && schülerlisteViewModel.SchülerlisteFach.FachBezeichnung == this.fachFilter.FachBezeichnung;
-      }
-
       if (this.jahrtypFilter != null)
       {
         return schülerlisteViewModel.SchülerlisteJahrtyp.JahrtypBezeichnung == this.jahrtypFilter.JahrtypBezeichnung;
-      }
-
-      if (this.halbjahrtypFilter != null)
-      {
-        return schülerlisteViewModel.SchülerlisteHalbjahrtyp.HalbjahrtypBezeichnung == this.halbjahrtypFilter.HalbjahrtypBezeichnung;
       }
 
       if (this.fachFilter != null)
@@ -251,8 +202,7 @@
       if (
         App.MainViewModel.Schülerlisten.Any(
           o =>
-          o.SchülerlisteHalbjahrtyp.HalbjahrtypIndex == dlg.Halbjahrtyp.HalbjahrtypIndex
-          && o.SchülerlisteJahrtyp.JahrtypJahr == dlg.Jahrtyp.JahrtypJahr
+          o.SchülerlisteJahrtyp.JahrtypJahr == dlg.Jahrtyp.JahrtypJahr
           && o.SchülerlisteKlasse.KlasseBezeichnung == dlg.Klasse.KlasseBezeichnung
           && o.SchülerlisteFach.FachBezeichnung == dlg.Fach.FachBezeichnung))
       {
@@ -265,7 +215,6 @@
       var schülerliste = new Schülerliste();
       schülerliste.Klasse = dlg.Klasse.Model;
       schülerliste.Jahrtyp = dlg.Jahrtyp.Model;
-      schülerliste.Halbjahrtyp = dlg.Halbjahrtyp.Model;
       schülerliste.Fach = dlg.Fach.Model;
       schülerliste.NotenWichtung = dlg.NotenWichtung.Model;
       var vm = new SchülerlisteViewModel(schülerliste);
@@ -277,23 +226,13 @@
     }
 
     /// <summary>
-    /// Handles deletion of the current Stundenentwurf
+    /// Kopiert die Schülerliste ins nächste Jahr
     /// </summary>
     private void MoveCurrentSchülerliste()
     {
       // Check for existing schülerliste
-      var newHalbjahrtypIndex = this.CurrentSchülerliste.SchülerlisteHalbjahrtyp.HalbjahrtypIndex == 1 ? 2 : 1;
-      var newHalbjahrtyp = App.MainViewModel.Halbjahrtypen.First(o => o.HalbjahrtypIndex == newHalbjahrtypIndex);
-      var isNewJahr = this.CurrentSchülerliste.SchülerlisteHalbjahrtyp.HalbjahrtypBezeichnung == "Sommer";
-      var newJahrtypJahr = isNewJahr ? this.CurrentSchülerliste.SchülerlisteJahrtyp.JahrtypJahr + 1 : this.CurrentSchülerliste.SchülerlisteJahrtyp.JahrtypJahr;
+      var newJahrtypJahr = this.CurrentSchülerliste.SchülerlisteJahrtyp.JahrtypJahr + 1;
       var newJahrtyp = App.MainViewModel.Jahrtypen.FirstOrDefault(o => o.JahrtypJahr == newJahrtypJahr);
-
-      // Wenn nur das zweite Halbjahr ergänzt werden soll
-      if (!isNewJahr)
-      {
-        this.CreateSchülerliste(newHalbjahrtyp, newJahrtyp);
-        return;
-      }
 
       // Schülerliste soll ins nächste Jahr übernommen werden
       if (newJahrtyp == null)
@@ -334,8 +273,7 @@
       if (
         App.MainViewModel.Schülerlisten.Any(
           o =>
-          o.SchülerlisteHalbjahrtyp.HalbjahrtypIndex == newHalbjahrtypIndex
-          && o.SchülerlisteJahrtyp.JahrtypJahr == newJahrtypJahr
+          o.SchülerlisteJahrtyp.JahrtypJahr == newJahrtypJahr
           && o.SchülerlisteKlasse.KlasseBezeichnung == newKlasse.KlasseBezeichnung
           && o.SchülerlisteFach.FachBezeichnung == this.CurrentSchülerliste.SchülerlisteFach.FachBezeichnung))
       {
@@ -348,40 +286,39 @@
       using (new UndoBatch(App.MainViewModel, string.Format("Schülerliste kopiert."), false))
       {
         var newSchülerliste = (SchülerlisteViewModel)this.CurrentSchülerliste.Clone();
-        newSchülerliste.SchülerlisteHalbjahrtyp = newHalbjahrtyp;
         newSchülerliste.SchülerlisteJahrtyp = newJahrtyp;
         newSchülerliste.SchülerlisteKlasse = newKlasse;
         this.CurrentSchülerliste = newSchülerliste;
       }
     }
 
-    private void CreateSchülerliste(HalbjahrtypViewModel newHalbjahrtyp, JahrtypViewModel newJahrtyp)
-    {
-      if (
-        App.MainViewModel.Schülerlisten.Any(
-          o =>
-          o.SchülerlisteHalbjahrtyp.HalbjahrtypIndex == newHalbjahrtyp.HalbjahrtypIndex
-          && o.SchülerlisteJahrtyp.JahrtypJahr == newJahrtyp.JahrtypJahr
-          && o.SchülerlisteKlasse.KlasseBezeichnung == this.CurrentSchülerliste.SchülerlisteKlasse.KlasseBezeichnung
-          && o.SchülerlisteFach.FachBezeichnung == this.CurrentSchülerliste.SchülerlisteFach.FachBezeichnung))
-      {
-        Log.ProcessMessage(
-          "Schülerliste bereits vorhanden",
-          "Diese Schülerliste ist bereits in der Datenbank vorhanden und kann nicht doppelt angelegt werden.");
-        return;
-      }
+    //private void CreateSchülerliste(HalbjahrtypViewModel newHalbjahrtyp, JahrtypViewModel newJahrtyp)
+    //{
+    //  if (
+    //    App.MainViewModel.Schülerlisten.Any(
+    //      o =>
+    //      o.SchülerlisteHalbjahrtyp.HalbjahrtypIndex == newHalbjahrtyp.HalbjahrtypIndex
+    //      && o.SchülerlisteJahrtyp.JahrtypJahr == newJahrtyp.JahrtypJahr
+    //      && o.SchülerlisteKlasse.KlasseBezeichnung == this.CurrentSchülerliste.SchülerlisteKlasse.KlasseBezeichnung
+    //      && o.SchülerlisteFach.FachBezeichnung == this.CurrentSchülerliste.SchülerlisteFach.FachBezeichnung))
+    //  {
+    //    Log.ProcessMessage(
+    //      "Schülerliste bereits vorhanden",
+    //      "Diese Schülerliste ist bereits in der Datenbank vorhanden und kann nicht doppelt angelegt werden.");
+    //    return;
+    //  }
 
-      using (new UndoBatch(App.MainViewModel, string.Format("Schülerliste kopiert."), false))
-      {
-        var newSchülerliste = (SchülerlisteViewModel)this.CurrentSchülerliste.Clone();
-        newSchülerliste.SchülerlisteHalbjahrtyp = newHalbjahrtyp;
-        newSchülerliste.SchülerlisteJahrtyp = newJahrtyp;
-        this.CurrentSchülerliste = newSchülerliste;
-      }
-    }
+    //  using (new UndoBatch(App.MainViewModel, string.Format("Schülerliste kopiert."), false))
+    //  {
+    //    var newSchülerliste = (SchülerlisteViewModel)this.CurrentSchülerliste.Clone();
+    //    newSchülerliste.SchülerlisteHalbjahrtyp = newHalbjahrtyp;
+    //    newSchülerliste.SchülerlisteJahrtyp = newJahrtyp;
+    //    this.CurrentSchülerliste = newSchülerliste;
+    //  }
+    //}
 
     /// <summary>
-    /// Handles deletion of the current Stundenentwurf
+    /// Löscht die aktuelle Schülerliste
     /// </summary>
     private void DeleteCurrentSchülerliste()
     {
@@ -392,7 +329,6 @@
           App.MainViewModel.Arbeiten.Where(
             o =>
             o.ArbeitJahrtyp == this.CurrentSchülerliste.SchülerlisteJahrtyp
-            && o.ArbeitHalbjahrtyp == this.CurrentSchülerliste.SchülerlisteHalbjahrtyp
             && o.ArbeitKlasse == this.CurrentSchülerliste.SchülerlisteKlasse
             && o.ArbeitFach == this.CurrentSchülerliste.SchülerlisteFach);
         var list = arbeiten.ToList();

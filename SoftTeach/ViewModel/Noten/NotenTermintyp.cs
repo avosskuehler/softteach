@@ -4,8 +4,13 @@
   /// Diese Enumeration beschreibt die verschiedenen Typen von Zeugnisnotenarten
   /// von Noten.
   /// </summary>
-  public enum ZeugnisnotenTyp
+  public enum NotenTermintyp
   {
+    /// <summary>
+    /// Einzelnote für eine Stunde oder eine Arbeit
+    /// </summary>
+    Einzeln,
+
     /// <summary>
     /// Note für einen Zwischenstand
     /// </summary>

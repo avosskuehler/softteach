@@ -242,7 +242,6 @@
         App.MainViewModel.Schülerlisten.FirstOrDefault(
           o =>
           o.SchülerlisteFach.FachBezeichnung == this.LerngruppenterminFach
-          && o.SchülerlisteHalbjahrtyp.HalbjahrtypBezeichnung == this.LerngruppenterminHalbjahr
           && o.SchülerlisteJahrtyp.JahrtypBezeichnung == this.LerngruppenterminSchuljahr
           && o.SchülerlisteKlasse.KlasseBezeichnung == this.LerngruppenterminKlasse);
       Selection.Instance.Schülerliste = schülerliste;

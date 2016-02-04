@@ -214,6 +214,19 @@
     }
 
     /// <summary>
+    /// Holt oder setzt die Geburtstag
+    /// </summary>
+    [DependsUpon("PersonGeburtstag")]
+    public string PersonGeburtstagString
+    {
+      get
+      {
+        return this.PersonGeburtstag == null ? string.Empty : this.PersonGeburtstag.Value.ToString("dd.MM.yyyy");
+      }
+
+    }
+
+    /// <summary>
     /// Holt den Jahrgang of this Person
     /// </summary>
     [DependsUpon("PersonGeburtstag")]

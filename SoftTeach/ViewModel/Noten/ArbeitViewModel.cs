@@ -442,7 +442,6 @@
         var schülerliste = App.MainViewModel.Schülerlisten.FirstOrDefault(
           o =>
           o.SchülerlisteJahrtyp.JahrtypJahr == this.ArbeitJahrtyp.JahrtypJahr
-          && o.SchülerlisteHalbjahrtyp.HalbjahrtypIndex == this.ArbeitHalbjahrtyp.HalbjahrtypIndex
           && o.SchülerlisteFach.FachBezeichnung == this.ArbeitFach.FachBezeichnung
           && o.SchülerlisteKlasse.KlasseBezeichnung == this.ArbeitKlasse.KlasseBezeichnung);
         return schülerliste == null ? new ObservableCollection<SchülereintragViewModel>() : schülerliste.Schülereinträge;

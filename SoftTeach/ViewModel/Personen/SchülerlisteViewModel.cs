@@ -65,6 +65,8 @@
 
     private int gruppenanzahl;
 
+    private DateTime notenDatum;
+
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="SchülerlisteViewModel"/> Klasse. 
     /// </summary>
@@ -79,7 +81,7 @@
       }
 
       this.Model = schülerliste;
-
+      this.NotenDatum = DateTime.Today;
       this.AddSchülereintragCommand = new DelegateCommand(this.AddSchülereintrag);
       this.DeleteSchülereintragCommand = new DelegateCommand(this.DeleteCurrentSchülereintrag, () => this.CurrentSchülereintrag != null);
       this.ExportSchülerlisteCommand = new DelegateCommand(this.ExportSchülerliste);
@@ -320,37 +322,6 @@
     }
 
     /// <summary>
-    /// Holt oder setzt die Halbjahrtyp currently assigned to this Schülerliste
-    /// </summary>
-    public HalbjahrtypViewModel SchülerlisteHalbjahrtyp
-    {
-      get
-      {
-        // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Halbjahrtyp == null)
-        {
-          return null;
-        }
-
-        if (this.halbjahrtyp == null || this.halbjahrtyp.Model != this.Model.Halbjahrtyp)
-        {
-          this.halbjahrtyp = App.MainViewModel.Halbjahrtypen.SingleOrDefault(d => d.Model == this.Model.Halbjahrtyp);
-        }
-
-        return this.halbjahrtyp;
-      }
-
-      set
-      {
-        if (value.HalbjahrtypBezeichnung == this.halbjahrtyp.HalbjahrtypBezeichnung) return;
-        this.UndoablePropertyChanging(this, "SchülerlisteHalbjahrtyp", this.halbjahrtyp, value);
-        this.halbjahrtyp = value;
-        this.Model.Halbjahrtyp = value.Model;
-        this.RaisePropertyChanged("SchülerlisteHalbjahrtyp");
-      }
-    }
-
-    /// <summary>
     /// Holt oder setzt die Klasse currently assigned to this Schülerliste
     /// </summary>
     public KlasseViewModel SchülerlisteKlasse
@@ -448,7 +419,6 @@
     /// </summary>
     [DependsUpon("SchülerlisteKlasse")]
     [DependsUpon("SchülerlisteFach")]
-    [DependsUpon("SchülerlisteHalbjahrtyp")]
     [DependsUpon("SchülerlisteJahrtyp")]
     public string SchülerlisteÜberschrift
     {
@@ -460,8 +430,7 @@
         }
 
         return "SchülerInnen der Klasse " + this.SchülerlisteKlasse.KlasseBezeichnung + " in " +
-          this.SchülerlisteFach.FachBezeichnung + " im " +
-          this.SchülerlisteHalbjahrtyp.HalbjahrtypBezeichnung + " " +
+          this.SchülerlisteFach.FachBezeichnung + " im Schuljahr " +
           this.SchülerlisteJahrtyp.JahrtypBezeichnung;
       }
     }
@@ -471,7 +440,6 @@
     /// </summary>
     [DependsUpon("SchülerlisteKlasse")]
     [DependsUpon("SchülerlisteFach")]
-    [DependsUpon("SchülerlisteHalbjahrtyp")]
     [DependsUpon("SchülerlisteJahrtyp")]
     public string SchülerlisteKurzbezeichnung
     {
@@ -484,7 +452,6 @@
 
         return "Klasse " + this.SchülerlisteKlasse.KlasseBezeichnung + ", " +
           this.SchülerlisteFach.FachBezeichnung + ", " +
-          this.SchülerlisteHalbjahrtyp.HalbjahrtypBezeichnung + " " +
           this.SchülerlisteJahrtyp.JahrtypBezeichnung;
       }
     }
@@ -494,15 +461,13 @@
     /// </summary>
     [DependsUpon("SchülerlisteKlasse")]
     [DependsUpon("SchülerlisteFach")]
-    [DependsUpon("SchülerlisteHalbjahrtyp")]
     [DependsUpon("SchülerlisteJahrtyp")]
     public string NotenlisteTitel
     {
       get
       {
         return "Noten für " + this.SchülerlisteKlasse.KlasseBezeichnung + ", " +
-          this.SchülerlisteFach.FachBezeichnung + ", " +
-          this.SchülerlisteHalbjahrtyp.HalbjahrtypBezeichnung + " " +
+          this.SchülerlisteFach.FachBezeichnung + ", Stand: " + this.NotenDatum.ToString("ddd dd.MM.yyyy") + " Schuljahr " +
           this.SchülerlisteJahrtyp.JahrtypBezeichnung;
       }
     }
@@ -524,6 +489,32 @@
     /// Holt oder setzt einen Wert, der angibt, ob bei der Gruppeneinteilung die Teilungsgruppen beachtet werden sollen.
     /// </summary>
     public bool TeilungsgruppenBeachten { get; set; }
+
+    /// <summary>
+    /// Gets or sets the noten datum.
+    /// </summary>
+    /// <value>The noten datum.</value>
+    public DateTime NotenDatum
+    {
+      get
+      {
+        return this.notenDatum;
+      }
+      set
+      {
+        this.notenDatum = value;
+        this.RaisePropertyChanged("NotenDatum");
+
+        if (this.Schülereinträge != null)
+        {
+          foreach (var schülereintragViewModel in this.Schülereinträge)
+          {
+            schülereintragViewModel.AnpassungenAuslesen();
+            schülereintragViewModel.UpdateNoten();
+          }
+        }
+      }
+    }
 
     /// <summary>
     /// Compares the current object with another object of the same type.
@@ -563,7 +554,6 @@
       var schülerlisteClone = new Schülerliste();
       schülerlisteClone.Klasse = this.SchülerlisteKlasse.Model;
       schülerlisteClone.Jahrtyp = this.SchülerlisteJahrtyp.Model;
-      schülerlisteClone.Halbjahrtyp = this.SchülerlisteHalbjahrtyp.Model;
       schülerlisteClone.Fach = this.SchülerlisteFach.Model;
       schülerlisteClone.NotenWichtung = this.SchülerlisteNotenWichtung.Model;
       foreach (var schülereintragViewModel in this.Schülereinträge.OrderBy(o => o.SchülereintragPerson.PersonNachname))
@@ -717,6 +707,17 @@
     }
 
     /// <summary>
+    /// Packt den existierenden Schülereintrag in die momentane Liste
+    /// </summary>
+    /// <param name="schülereintragViewModel">The schülereintrag view model.</param>
+    public void AddSchülereintrag(SchülereintragViewModel schülereintragViewModel)
+    {
+      schülereintragViewModel.Model.Schülerliste = this.Model;
+      this.Schülereinträge.Add(schülereintragViewModel);
+      this.CurrentSchülereintrag = schülereintragViewModel;
+    }
+
+    /// <summary>
     /// Handles deletion of the current schülereintrag
     /// </summary>
     private void DeleteCurrentSchülereintrag()
@@ -823,7 +824,7 @@
                 gruppenNummer--;
               }
 
-              gruppenNummer = this.gruppenanzahl / 2 ;
+              gruppenNummer = this.gruppenanzahl / 2;
             }
             else
             {

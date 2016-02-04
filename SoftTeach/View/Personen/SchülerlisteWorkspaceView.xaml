@@ -41,7 +41,7 @@
           </Button>
           <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                     Command="{Binding Path=MoveSchülerlisteCommand}" 
-                    ToolTip="Aktuelle Schülerliste ins nächste Halbjahr übernehmen.">
+                    ToolTip="Aktuelle Schülerliste ins nächste Jahr übernehmen.">
             <StackPanel Orientation="Horizontal">
               <Grid>
                 <Image Source="/SoftTeach;component/Images/Schülerliste32.png"/>
@@ -89,12 +89,6 @@
                     IsReadOnly="True"
                     ItemsSource="{Binding Path=SchülerlistenView}" AutoGenerateColumns="False" >
           <DataGrid.Columns>
-            <DataGridComboBoxColumn 
-                        Header="Halbjahr" 
-                        ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Halbjahrtypen}"
-                        SelectedItemBinding="{Binding Path=SchülerlisteHalbjahrtyp}" 
-                        DisplayMemberPath="HalbjahrtypBezeichnung" SortMemberPath="SchülerlisteHalbjahrtyp.HalbjahrtypIndex"
-                        EditingElementStyle="{StaticResource DatagridComboBoxElementStyle}"/>
             <DataGridComboBoxColumn 
                         Header="Schuljahr" 
                         ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Jahrtypen}"

@@ -8,14 +8,14 @@
   <UserControl.Resources>
     <ResourceDictionary Source="/SoftTeach;component/Resources/SoftTeachResources.xaml"/>
   </UserControl.Resources>
-  <Border Name="SurroundBorder" Grid.Row="1" CornerRadius="2" BorderBrush="White" BorderThickness="1" Background="{StaticResource BannerBackgroundBrush}">
+  <Border Name="SurroundBorder" CornerRadius="2" BorderBrush="White" BorderThickness="1" Background="{StaticResource BannerBackgroundBrush}">
     <Grid>
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="48"/>
         <ColumnDefinition Width="*"/>
       </Grid.ColumnDefinitions>
       <Image VerticalAlignment="Center" Grid.Column="0" Name="icon" Width="32" Height="32" Margin="8" Source="/SoftTeach;component/Images/Logo64.png" />
-      <TextBlock VerticalAlignment="Center" Grid.Column="1" Name="title" Foreground="White" FontSize="14" TextWrapping="Wrap" Margin="5">Title</TextBlock>
+      <TextBlock VerticalAlignment="Center" Grid.Column="1" Name="Header" Text="Test" Foreground="White" FontSize="14" TextWrapping="Wrap" Margin="5"/>
     </Grid>
   </Border>
 </UserControl>

@@ -108,8 +108,8 @@
       <HintPath>..\packages\SignedBuild-Hardcodet.NotifyIcon.Wpf.1.0.5\lib\net35\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MahApps.Metro, Version=1.2.0.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.2.0.0\lib\net45\MahApps.Metro.dll</HintPath>
+    <Reference Include="MahApps.Metro, Version=1.2.4.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -143,7 +143,7 @@
     <Reference Include="System.Windows.Controls.Ribbon" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.2.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
@@ -239,21 +239,6 @@
     <Compile Include="Model\EntityFramework\Lerngruppentermin.cs">
       <DependentUpon>SoftTeachModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\EntityFramework\SoftTeachModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SoftTeachModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\EntityFramework\SoftTeachModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SoftTeachModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\EntityFramework\SoftTeachModel.Designer.cs">
-      <DependentUpon>SoftTeachModel.edmx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
     <Compile Include="Model\EntityFramework\Medium.cs">
       <DependentUpon>SoftTeachModel.tt</DependentUpon>
     </Compile>
@@ -319,6 +304,21 @@
     </Compile>
     <Compile Include="Model\EntityFramework\Sitzplatz.cs">
       <DependentUpon>SoftTeachModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EntityFramework\SoftTeachModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SoftTeachModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EntityFramework\SoftTeachModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SoftTeachModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EntityFramework\SoftTeachModel.Designer.cs">
+      <DependentUpon>SoftTeachModel.edmx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Model\EntityFramework\Sozialform.cs">
       <DependentUpon>SoftTeachModel.tt</DependentUpon>
@@ -415,8 +415,9 @@
     <Compile Include="ViewModel\Curricula\CurriculumWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Curricula\ZeitstrahlCollectionContainer.cs" />
     <Compile Include="ViewModel\Datenbank\AddJahrtypDialogViewModel.cs" />
-    <Compile Include="ViewModel\Noten\ZeugnisnotenTyp.cs" />
-    <Compile Include="ViewModel\Noten\ZeugnisnotenWorkspaceViewModel.cs" />
+    <Compile Include="ViewModel\Noten\NotenlistenEintrag.cs" />
+    <Compile Include="ViewModel\Noten\NotenTermintyp.cs" />
+    <Compile Include="ViewModel\Noten\NotenlistenWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Noten\StundennotenReminderWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Sitzpläne\SitzplanWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Sitzpläne\SitzplanViewModel.cs" />
@@ -610,8 +611,8 @@
     <Compile Include="View\Noten\SonstigeNotenDialog.xaml.cs">
       <DependentUpon>SonstigeNotenDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Noten\ZeugnisnotenDialog.xaml.cs">
-      <DependentUpon>ZeugnisnotenDialog.xaml</DependentUpon>
+    <Compile Include="View\Noten\NotenlistenDialog.xaml.cs">
+      <DependentUpon>NotenlistenDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Personen\MetroGruppenPrintView.xaml.cs">
       <DependentUpon>MetroGruppenPrintView.xaml</DependentUpon>
@@ -1492,7 +1493,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Noten\ZeugnisnotenDialog.xaml">
+    <Page Include="View\Noten\NotenlistenDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

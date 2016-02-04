@@ -32,7 +32,6 @@ namespace SoftTeach.View.Datenbank
     {
       Selection.Instance.Fach = this.DataContext as FachViewModel;
       App.MainViewModel.SchülerlisteWorkspace.JahrtypFilter = Selection.Instance.Jahrtyp;
-      App.MainViewModel.SchülerlisteWorkspace.HalbjahrtypFilter = Selection.Instance.Halbjahr;
       App.MainViewModel.SchülerlisteWorkspace.FachFilter = Selection.Instance.Fach;
     }
 

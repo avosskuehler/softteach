@@ -580,7 +580,6 @@
         App.MainViewModel.Schülerlisten.FirstOrDefault(
           o =>
           o.SchülerlisteFach.FachBezeichnung == stunde.LerngruppenterminFach
-          && o.SchülerlisteHalbjahrtyp.HalbjahrtypBezeichnung == stunde.LerngruppenterminHalbjahr
           && o.SchülerlisteJahrtyp.JahrtypBezeichnung == stunde.LerngruppenterminSchuljahr
           && o.SchülerlisteKlasse.KlasseBezeichnung == stunde.LerngruppenterminKlasse);
 
@@ -643,7 +642,6 @@
         App.MainViewModel.Schülerlisten.First(
           o =>
           o.SchülerlisteFach.FachBezeichnung == stunde.LerngruppenterminFach
-          && o.SchülerlisteHalbjahrtyp.HalbjahrtypBezeichnung == stunde.LerngruppenterminHalbjahr
           && o.SchülerlisteJahrtyp.JahrtypBezeichnung == stunde.LerngruppenterminSchuljahr
           && o.SchülerlisteKlasse.KlasseBezeichnung == stunde.LerngruppenterminKlasse);
 
@@ -701,7 +699,6 @@
         App.MainViewModel.Schülerlisten.First(
           o =>
           o.SchülerlisteFach.FachBezeichnung == stunde.LerngruppenterminFach
-          && o.SchülerlisteHalbjahrtyp.HalbjahrtypBezeichnung == stunde.LerngruppenterminHalbjahr
           && o.SchülerlisteJahrtyp.JahrtypBezeichnung == stunde.LerngruppenterminSchuljahr
           && o.SchülerlisteKlasse.KlasseBezeichnung == stunde.LerngruppenterminKlasse);
 

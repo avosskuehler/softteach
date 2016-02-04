@@ -8,21 +8,24 @@
              xmlns:notenViewModel="clr-namespace:SoftTeach.ViewModel.Noten"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="873">
-  <Grid>
+  <Grid Background="{StaticResource DefaultOfficeBackgroundBrush}">
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="250"/>
       <ColumnDefinition/>
     </Grid.ColumnDefinitions>
     <Grid Grid.Column="0">
-      <Border Grid.Row="1" CornerRadius="10" Margin="5" Background="{StaticResource DefaultOfficeBackgroundBrush}" Padding="5,5,10,5" >
-        <Grid >
+      <Border Margin="10">
+        <Grid>
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
           </Grid.RowDefinitions>
-          <Label Grid.Row="0" Content="Noten" HorizontalContentAlignment="Center" FontSize="18"/>
-          <ComboBox Grid.Row="1" Margin="3" 
+          <StackPanel Orientation="Horizontal"  Grid.Row="0" HorizontalAlignment="Center">
+            <Label Content="Noten am" FontSize="18"/>
+            <DatePicker SelectedDate="{Binding Path=CurrentSchülerliste.NotenDatum}" FontSize="18" VerticalAlignment="Center" Width="140"/>
+          </StackPanel>
+          <ComboBox Grid.Row="1" Margin="0,3" 
                     ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Schülerlisten}"
                     SelectedItem="{Binding Path=CurrentSchülerliste}"
                     DisplayMemberPath="SchülerlisteKurzbezeichnung"
@@ -42,7 +45,7 @@
         </Grid>
       </Border>
     </Grid>
-    <Grid Grid.Column="1">
+    <Grid Grid.Column="1" Margin="0,10,10,10">
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto"/>
         <RowDefinition Height="*"/>
@@ -52,21 +55,14 @@
           <RowDefinition Height="Auto"/>
           <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <ToolBarTray Grid.Row="0" Orientation="Horizontal" IsLocked="True">
+        <ToolBarTray Grid.Row="0" Orientation="Horizontal" IsLocked="True" Margin="0,0,0,3">
           <ToolBar Band="1" BandIndex="1">
-            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddZeugnisnotenCommand}" ToolTip="Zeugnisnoten machen.">
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddZeugnisnotenCommand}" ToolTip="Notenlisten anlegen oder Zeugnislisten machen.">
               <StackPanel Orientation="Horizontal">
                 <Grid>
                   <Image Source="/SoftTeach;component/Images/Note32.png"/>
                 </Grid>
-              </StackPanel>
-            </Button>
-            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=PrintNotenlisteCommand}" ToolTip="Notenliste drucken.">
-              <StackPanel Orientation="Horizontal">
-                <Grid>
-                  <Image Source="/SoftTeach;component/Images/Note32.png"/>
-                  <Image Source="/SoftTeach;component/Images/PrintOverlay32.png"/>
-                </Grid>
+                <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Notenlisten anlegen und drucken</Label>
               </StackPanel>
             </Button>
             <Separator/>
@@ -76,6 +72,7 @@
                   <Image Source="/SoftTeach;component/Images/Hausaufgabe32.png"/>
                   <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
                 </Grid>
+                <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Nicht gemachte Hausaufgaben</Label>
               </StackPanel>
             </Button>
             <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddSonstigeNotenCommand}" ToolTip="Sonstige Noten eintragen.">
@@ -84,6 +81,7 @@
                   <Image Source="/SoftTeach;component/Images/Note32.png"/>
                   <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
                 </Grid>
+                <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Sonstige Noten</Label>
               </StackPanel>
             </Button>
           </ToolBar>

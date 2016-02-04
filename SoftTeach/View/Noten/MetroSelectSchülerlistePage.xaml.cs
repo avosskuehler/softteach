@@ -1,10 +1,5 @@
 ﻿namespace SoftTeach.View.Noten
 {
-  using System.Windows;
-
-  using SoftTeach.View.Main;
-  using SoftTeach.View.Wochenpläne;
-
   using SoftTeach.Setting;
 
   /// <summary>
@@ -19,7 +14,6 @@
     {
       this.InitializeComponent();
       App.MainViewModel.SchülerlisteWorkspace.JahrtypFilter = Selection.Instance.Jahrtyp;
-      App.MainViewModel.SchülerlisteWorkspace.HalbjahrtypFilter = Selection.Instance.Halbjahr;
       App.MainViewModel.SchülerlisteWorkspace.FachFilter = Selection.Instance.Fach;
     }
   }

@@ -19,7 +19,6 @@
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatSlider.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/Dialogs/BaseMetroDialog.xaml" />
         <ResourceDictionary >
-          <SolidColorBrush x:Key="AnimatedBrush" Color="Transparent" />
           <!-- Defines a RadioButton style. -->
           <Style TargetType="{x:Type RadioButton}" x:Key="MetroNotenClickButton">
             <Setter Property="SnapsToDevicePixels" Value="true" />
@@ -129,12 +128,12 @@
     </UniformGrid>
     <Label Style="{StaticResource MetroLabelStyle}" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="10">Quantität</Label>
     <UniformGrid Grid.Row="2" Grid.Column="1" Margin="0" Rows="1" Columns="6">
-      <RadioButton Name="Quantität1Radio" Command="{Binding Path=Quantität1Command}" Background="{StaticResource AnimatedBrush}" Style="{StaticResource MetroNotenClickButton}" Content="1"/>
-      <RadioButton Name="Quantität2Radio" Command="{Binding Path=Quantität2Command}" Style="{StaticResource MetroNotenClickButton}" Content="2"/>
-      <RadioButton Name="Quantität3Radio" Command="{Binding Path=Quantität3Command}" Style="{StaticResource MetroNotenClickButton}" Content="3"/>
-      <RadioButton Name="Quantität4Radio" Command="{Binding Path=Quantität4Command}" Style="{StaticResource MetroNotenClickButton}" Content="4"/>
-      <RadioButton Name="Quantität5Radio" Command="{Binding Path=Quantität5Command}" Style="{StaticResource MetroNotenClickButton}" Content="5"/>
-      <RadioButton Name="Quantität6Radio" Command="{Binding Path=Quantität6Command}" Style="{StaticResource MetroNotenClickButton}" Content="6"/>
+      <RadioButton Name="Quantität1Radio" Command="{Binding Path=Quantität1Command}" Click="RadioOnClick" Style="{StaticResource MetroNotenClickButton}" Content="1"/>
+      <RadioButton Name="Quantität2Radio" Command="{Binding Path=Quantität2Command}" Click="RadioOnClick" Style="{StaticResource MetroNotenClickButton}" Content="2"/>
+      <RadioButton Name="Quantität3Radio" Command="{Binding Path=Quantität3Command}" Click="RadioOnClick" Style="{StaticResource MetroNotenClickButton}" Content="3"/>
+      <RadioButton Name="Quantität4Radio" Command="{Binding Path=Quantität4Command}" Click="RadioOnClick" Style="{StaticResource MetroNotenClickButton}" Content="4"/>
+      <RadioButton Name="Quantität5Radio" Command="{Binding Path=Quantität5Command}" Click="RadioOnClick" Style="{StaticResource MetroNotenClickButton}" Content="5"/>
+      <RadioButton Name="Quantität6Radio" Command="{Binding Path=Quantität6Command}" Click="RadioOnClick" Style="{StaticResource MetroNotenClickButton}" Content="6"/>
     </UniformGrid>
     <!--<Button x:Name="OkButton" Grid.Row="1" Grid.Column="2" Grid.RowSpan="2" Background="LimeGreen" MinWidth="150" Margin="10" Command="{Binding NoteGegebenCommand}">
       <Button.Triggers>

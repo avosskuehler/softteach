@@ -40,7 +40,6 @@
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="200"/>
-      <ColumnDefinition Width="200"/>
       <ColumnDefinition/>
       <ColumnDefinition/>
     </Grid.ColumnDefinitions>
@@ -60,18 +59,6 @@
       </ListBox.ItemsPanel>
     </ListBox>
     <ListBox Grid.Row="1" Grid.Column="1"
-                 ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Halbjahrtypen}"             
-                 BorderThickness="0"
-                 Name="HalbjahrListBox"
-                 ItemTemplate="{StaticResource HalbjahrDataTemplate}"
-                 ItemContainerStyle="{StaticResource MetroSilentListBoxItem}">
-      <ListBox.ItemsPanel>
-        <ItemsPanelTemplate>
-          <WrapPanel Width="{Binding ElementName=HalbjahrListBox, Path=ActualWidth}" Orientation="Horizontal"/>
-        </ItemsPanelTemplate>
-      </ListBox.ItemsPanel>
-    </ListBox>
-    <ListBox Grid.Row="1" Grid.Column="2"
                  ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Fächer}"             
                  BorderThickness="0"
                  Name="FächerListBox"
@@ -83,7 +70,7 @@
         </ItemsPanelTemplate>
       </ListBox.ItemsPanel>
     </ListBox>
-    <ListBox Grid.Row="1" Grid.Column="3"
+    <ListBox Grid.Row="1" Grid.Column="2"
                  ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=SchülerlisteWorkspace.SchülerlistenView}"             
                  BorderThickness="0"
                  Name="SchülerlistenListBox"

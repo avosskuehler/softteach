@@ -32,6 +32,21 @@
               <componentModel:SortDescription PropertyName="NoteDatum" Direction="Ascending" />
             </CollectionViewSource.SortDescriptions>
           </CollectionViewSource>
+          <CollectionViewSource x:Key="MündlicheStandViewSource" Source="{Binding MündlicheStandNotenCollection}">
+            <CollectionViewSource.SortDescriptions>
+              <componentModel:SortDescription PropertyName="NoteDatum" Direction="Ascending" />
+            </CollectionViewSource.SortDescriptions>
+          </CollectionViewSource>
+          <CollectionViewSource x:Key="SchriftlicheStandViewSource" Source="{Binding SchriftlicheStandNotenCollection}">
+            <CollectionViewSource.SortDescriptions>
+              <componentModel:SortDescription PropertyName="NoteDatum" Direction="Ascending" />
+            </CollectionViewSource.SortDescriptions>
+          </CollectionViewSource>
+          <CollectionViewSource x:Key="GesamtstandViewSource" Source="{Binding GesamtstandNotenCollection}">
+            <CollectionViewSource.SortDescriptions>
+              <componentModel:SortDescription PropertyName="NoteDatum" Direction="Ascending" />
+            </CollectionViewSource.SortDescriptions>
+          </CollectionViewSource>
 
           <CollectionViewSource x:Key="GruppierteHausaufgabenViewSource" Source="{Binding Hausaufgaben}">
             <CollectionViewSource.SortDescriptions>
@@ -89,56 +104,104 @@
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Page.Resources>
-  <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto"/>
-      <RowDefinition Height="*"/>
-      <RowDefinition Height="Auto"/>
-      <RowDefinition Height="Auto"/>
-    </Grid.RowDefinitions>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="*"/>
-      <ColumnDefinition Width="Auto"/>
-      <ColumnDefinition Width="Auto" MinWidth="250"/>
-    </Grid.ColumnDefinitions>
-    <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Background="{StaticResource MetroHeaderBackground}">
-      <Grid>
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="*"/>
-          <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
-        <Label Grid.Column="0" Foreground="White" HorizontalAlignment="Left" Content="{Binding Path=SchülereintragÜberschrift}"/>
-        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddNoteCommand}" ToolTip="Note anlegen" >
-            <StackPanel Orientation="Horizontal">
-              <Grid>
-                <Image Source="/SoftTeach;component/Images/Note32.png" />
-                <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
-              </Grid>
-              <Label Padding="5,0,0,0" VerticalContentAlignment="Center" Foreground="White">Note anlegen</Label>
-            </StackPanel>
-          </Button>
-          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddNotentendenzCommand}" ToolTip="Notentendenz anlegen" >
-            <StackPanel Orientation="Horizontal">
-              <Grid>
-                <Image Source="/SoftTeach;component/Images/Notentendenz32.png" />
-                <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
-              </Grid>
-              <Label Padding="5,0,0,0" VerticalContentAlignment="Center" Foreground="White">Notentendenz anlegen</Label>
-            </StackPanel>
-          </Button>
-        </StackPanel>
-      </Grid>
-    </Border>
-    <Grid Grid.Row="1" Grid.Column="0">
+  <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <Grid>
       <Grid.RowDefinitions>
-        <RowDefinition Height="Auto" MinHeight="100"/>
-        <RowDefinition Height="Auto" MinHeight="100"/>
-        <RowDefinition Height="Auto" MinHeight="100"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
       </Grid.RowDefinitions>
-      <GroupBox Grid.Row="0" Name="GroupBoxQualität" Margin="0,3,0,3" Padding="0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="600"/>
+      </Grid.ColumnDefinitions>
+      <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="{StaticResource MetroHeaderBackground}">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
+          <Label Grid.Column="0" Foreground="White" HorizontalAlignment="Left" Content="{Binding Path=SchülereintragÜberschrift}"/>
+          <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddNoteCommand}" ToolTip="Note anlegen" >
+              <StackPanel Orientation="Horizontal">
+                <Grid>
+                  <Image Source="/SoftTeach;component/Images/Note32.png" />
+                  <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
+                </Grid>
+                <Label Padding="5,0,0,0" VerticalContentAlignment="Center" Foreground="White">Note anlegen</Label>
+              </StackPanel>
+            </Button>
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddNotentendenzCommand}" ToolTip="Notentendenz anlegen" >
+              <StackPanel Orientation="Horizontal">
+                <Grid>
+                  <Image Source="/SoftTeach;component/Images/Notentendenz32.png" />
+                  <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
+                </Grid>
+                <Label Padding="5,0,0,0" VerticalContentAlignment="Center" Foreground="White">Notentendenz anlegen</Label>
+              </StackPanel>
+            </Button>
+          </StackPanel>
+        </Grid>
+      </Border>
+      <Grid Grid.Row="1" Grid.Column="0">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0"  Orientation="Horizontal" Margin="5">
+          <Label Style="{StaticResource MetroSubHeader}">Mündlich</Label>
+          <Label Style="{StaticResource MetroSubHeader}" Content="{Binding Path=MündlicheGesamtNote}"/>
+          <Label Style="{StaticResource MetroSubHeader}" Content="{Binding Path=MündlicheNotenWichtung, Converter={StaticResource WichtungProzentConverter}}"/>
+        </StackPanel>
+        <ListBox Padding="0" Grid.Column="1" Background="Transparent"
+          ItemsSource="{Binding Source={StaticResource MündlicheStandViewSource}}"    
+          BorderThickness="0"
+          SelectedItem="{Binding CurrentNote}"
+          Stylus.IsPressAndHoldEnabled="False"
+          Name="MündlicheStandNotenListBox"
+          ItemTemplate="{StaticResource MetroStandNotenView}"
+          ItemContainerStyle="{StaticResource MetroSilentListBoxItem}">
+          <ListBox.ItemsPanel>
+            <ItemsPanelTemplate>
+              <WrapPanel Width="{Binding ElementName=MündlicheStandNotenListBox, Path=ActualWidth}"/>
+            </ItemsPanelTemplate>
+          </ListBox.ItemsPanel>
+        </ListBox>
+      </Grid>
+      <Grid Grid.Row="1" Grid.Column="1">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Column="0"  Margin="5">
+          <Label Style="{StaticResource MetroSubHeader}">Schriftlich</Label>
+          <Label Style="{StaticResource MetroSubHeader}" Content="{Binding Path=SchriftlicheGesamtNote}"/>
+          <Label Style="{StaticResource MetroSubHeader}" Content="{Binding Path=SchriftlicheNotenWichtung, Converter={StaticResource WichtungProzentConverter}}"/>
+        </StackPanel>
+        <ListBox Grid.Column="1" Margin="3" Padding="0" Background="Transparent"
+          ItemsSource="{Binding Source={StaticResource SchriftlicheStandViewSource}}"    
+          BorderThickness="0"
+          SelectedItem="{Binding CurrentNote}"
+          Stylus.IsPressAndHoldEnabled="False"
+          Name="SchriftlicheStandNotenListBox"
+          ItemTemplate="{StaticResource MetroStandNotenView}"
+          ItemContainerStyle="{StaticResource MetroSilentListBoxItem}">
+          <ListBox.ItemsPanel>
+            <ItemsPanelTemplate>
+              <WrapPanel Width="{Binding ElementName=SchriftlicheStandNotenListBox, Path=ActualWidth}"/>
+            </ItemsPanelTemplate>
+          </ListBox.ItemsPanel>
+        </ListBox>
+      </Grid>
+      <GroupBox Grid.Row="3" Grid.Column="0" Name="GroupBoxQualität" Margin="3" Padding="0">
         <GroupBox.Header>
-          <Grid Grid.Row="2" Grid.Column="1" >
+          <Grid>
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="*"/>
               <ColumnDefinition Width="Auto"/>
@@ -161,7 +224,7 @@
             <ColumnDefinition Width="Auto"/>
           </Grid.ColumnDefinitions>
           <!--Visibility="{Binding ElementName=ShowQualitätGraphRadioButton, Path=IsChecked, Converter={StaticResource BoolVisibleConverterInverse}}"-->
-          <ListBox Grid.Column="0" Margin="0" Padding="0"
+          <ListBox Grid.Column="0" Margin="0" Padding="0" Background="Transparent"
                  ItemsSource="{Binding Source={StaticResource MündlicheQualitätViewSource}}"             
                  BorderThickness="0"
                  Stylus.IsPressAndHoldEnabled="False"
@@ -179,7 +242,7 @@
               </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
           </ListBox>
-          <oxy:Plot Grid.Column="1" x:Name="QualitätPlot" PlotAreaBorderThickness="0"  Height="120" Width="400" Visibility="{Binding ElementName=ShowQualitätGraphRadioButton, Path=IsChecked, Converter={StaticResource BoolVisibleConverter}}">
+          <oxy:Plot Background="Transparent" Grid.Column="1" x:Name="QualitätPlot" PlotAreaBorderThickness="0"  Height="120" Width="400" Visibility="{Binding ElementName=ShowQualitätGraphRadioButton, Path=IsChecked, Converter={StaticResource BoolVisibleConverter}}">
             <oxy:Plot.Axes>
               <oxy:DateTimeAxis MinimumPadding="0.1" MaximumPadding="0.1" FirstDateTime="{Binding MündlicheQualitätFirstDateTime}" LastDateTime="{Binding MündlicheQualitätLastDateTime}" Position="Bottom" IntervalType="Months" StringFormat="MMMM"/>
               <oxy:LinearAxis TickStyle="None" MinimumPadding="0.1" MaximumPadding="0.1" Position="Left" StartPosition="1" EndPosition="0" Minimum=".5" Maximum="6.5" MajorStep="1" MinorStep="1"  MajorGridlineStyle="Solid"/>
@@ -190,9 +253,9 @@
           </oxy:Plot>
         </Grid>
       </GroupBox>
-      <GroupBox Grid.Row="1" Name="GroupBoxQuantität"  Margin="0,0,0,3" Padding="0">
+      <GroupBox Grid.Row="4" Grid.Column="0" Name="GroupBoxQuantität"  Margin="3" Padding="0">
         <GroupBox.Header>
-          <Grid Grid.Row="2" Grid.Column="1" >
+          <Grid>
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="*"/>
               <ColumnDefinition Width="Auto"/>
@@ -214,7 +277,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
           </Grid.ColumnDefinitions>
-          <ListBox Grid.Column="0"
+          <ListBox Grid.Column="0" Background="Transparent"
           ItemsSource="{Binding Source={StaticResource MündlicheQuantitätViewSource}}" 
           BorderThickness="0"
           Stylus.IsPressAndHoldEnabled="False"
@@ -232,7 +295,7 @@
               </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
           </ListBox>
-          <oxy:Plot Grid.Column="1" PlotAreaBorderThickness="0" x:Name="QuantitätPlot" Height="120" Width="400" Visibility="{Binding ElementName=ShowQuantitätGraphRadioButton, Path=IsChecked, Converter={StaticResource BoolVisibleConverter}}">
+          <oxy:Plot  Background="Transparent" Grid.Column="1" PlotAreaBorderThickness="0" x:Name="QuantitätPlot" Height="120" Width="400" Visibility="{Binding ElementName=ShowQuantitätGraphRadioButton, Path=IsChecked, Converter={StaticResource BoolVisibleConverter}}">
             <oxy:Plot.Axes>
               <oxy:DateTimeAxis MinimumPadding="0.1" MaximumPadding="0.1" FirstDateTime="{Binding MündlicheQuantitätFirstDateTime}" LastDateTime="{Binding MündlicheQuantitätLastDateTime}" Position="Bottom" IntervalType="Auto" StringFormat="MMMM"/>
               <oxy:LinearAxis TickStyle="None" MinimumPadding="0.1" MaximumPadding="0.1" Position="Left" StartPosition="1" EndPosition="0" Minimum=".5" Maximum="6.5" MajorStep="1" MinorStep="1"  MajorGridlineStyle="Solid"/>
@@ -243,9 +306,9 @@
           </oxy:Plot>
         </Grid>
       </GroupBox>
-      <GroupBox Grid.Row="2" Name="GroupBoxWeitereMündlich" Margin="0" Padding="0">
+      <GroupBox Grid.Row="5" Grid.Column="0" Name="GroupBoxWeitereMündlich" Margin="3" Padding="0">
         <GroupBox.Header>
-          <Grid Grid.Row="2" Grid.Column="1" >
+          <Grid>
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="*"/>
               <ColumnDefinition Width="Auto"/>
@@ -256,7 +319,7 @@
             <Label Grid.Column="2" Content="{Binding Path=MündlicheWeitereNotenWichtung, Converter={StaticResource WichtungProzentConverter}}"/>
           </Grid>
         </GroupBox.Header>
-        <ListBox 
+        <ListBox  Background="Transparent"
           ItemsSource="{Binding Source={StaticResource MündlicheWeitereViewSource}}"    
           BorderThickness="0"
           SelectedItem="{Binding CurrentNote}"
@@ -274,13 +337,7 @@
           </ListBox.ItemsPanel>
         </ListBox>
       </GroupBox>
-    </Grid>
-    <Grid Grid.Row="1" Grid.Column="1">
-      <Grid.RowDefinitions>
-        <RowDefinition Height="Auto" MinHeight="120"/>
-        <RowDefinition Height="Auto" MinHeight="120"/>
-      </Grid.RowDefinitions>
-      <GroupBox Grid.Row="0" Grid.Column="0"  Margin="3,3,3,3" Padding="0">
+      <GroupBox Name="GroupBoxKlausuren" Grid.Row="3" Grid.Column="1" Grid.RowSpan="2" Margin="3,3,3,3" Padding="0">
         <GroupBox.Header>
           <Grid Grid.Row="2" Grid.Column="1" >
             <Grid.ColumnDefinitions>
@@ -294,7 +351,7 @@
           </Grid>
         </GroupBox.Header>
 
-        <ListBox 
+        <ListBox  Background="Transparent"
           Name="KlausurenListBox"
           Stylus.IsPressAndHoldEnabled="False"
           ItemsSource="{Binding Path=SchriftlichKlausurenNotenCollection}"
@@ -307,7 +364,7 @@
           </ListBox.ItemsPanel>
         </ListBox>
       </GroupBox>
-      <GroupBox Grid.Row="1" Grid.Column="0"  Margin="3,0,3,0" Padding="0">
+      <GroupBox Name="GroupBoxWeitereSchriftlich" Grid.Row="5" Grid.Column="1"  Margin="3" Padding="0">
         <GroupBox.Header>
           <Grid Grid.Row="2" Grid.Column="1" >
             <Grid.ColumnDefinitions>
@@ -321,7 +378,7 @@
           </Grid>
         </GroupBox.Header>
 
-        <ListBox 
+        <ListBox  Background="Transparent"
           Name="WeitereSchriflicheNotenListBox"
           Stylus.IsPressAndHoldEnabled="False"
           ItemsSource="{Binding Path=SchriftlichWeitereNotenCollection}"
@@ -337,50 +394,7 @@
           </ListBox.ItemsPanel>
         </ListBox>
       </GroupBox>
-    </Grid>
-    <Grid Grid.Row="1" Grid.Column="2">
-      <Grid.RowDefinitions>
-        <RowDefinition Height="Auto" MinHeight="120"/>
-        <RowDefinition Height="Auto" MinHeight="120"/>
-      </Grid.RowDefinitions>
-      <GroupBox Grid.Row="0" Margin="0,3,0,3" Padding="0">
-        <GroupBox.Header>
-          <Grid>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="*"/>
-              <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <Label Grid.Column="0">Hausaufgaben</Label>
-            <Image Grid.Column="1" Height="32" Source="{Binding Path=HausaufgabenTendenzImage}"/>
-          </Grid>
-        </GroupBox.Header>
-        <Grid>
-          <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-          </Grid.RowDefinitions>
-          <Label Grid.Row="0" Content="{Binding Path=NichtgemachteHausaufgaben}"/>
-          <Label Grid.Row="1" Content="{Binding Path=NachgereichteHausaufgaben}"/>
-          <ListBox Grid.Row="2"
-                   ItemsSource="{Binding Source={StaticResource GruppierteHausaufgabenViewSource}}"
-                  BorderThickness="0"
-                   SelectedItem="{Binding CurrentHausaufgabe}"
-                   Name="HausaufgabenListBox"
-                   ItemTemplate="{StaticResource MetroHausaufgabenView}"
-                   ItemContainerStyle="{StaticResource MetroListBoxItemStyle}">
-            <ListBox.InputBindings>
-              <KeyBinding Key="Delete" Command="{Binding Path=DeleteHausaufgabeCommand}"/>
-            </ListBox.InputBindings>
-            <ListBox.ItemsPanel>
-              <ItemsPanelTemplate>
-                <WrapPanel Width="{Binding ElementName=HausaufgabenListBox, Path=ActualWidth}"/>
-              </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-          </ListBox>
-        </Grid>
-      </GroupBox>
-      <GroupBox Grid.Row="1" Margin="0" Padding="0">
+      <GroupBox Name="GroupBoxTendenzen" Grid.Row="6" Grid.Column="0" Margin="3" Padding="0">
         <GroupBox.Header>
           <Grid>
             <Grid.ColumnDefinitions>
@@ -391,11 +405,7 @@
             <Image Grid.Column="1" Height="32" Source="{Binding Path=TendenzenTendenzImage}"/>
           </Grid>
         </GroupBox.Header>
-        <Grid>
-          <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-          </Grid.RowDefinitions>
-          <ListBox Grid.Row="0"     
+        <ListBox    Background="Transparent"
                    ItemsSource="{Binding Source={StaticResource GruppierteNotentendenzenViewSource}}"
            Stylus.IsPressAndHoldEnabled="False"
                   BorderThickness="0"
@@ -403,46 +413,70 @@
                    Name="NotentendenzenListBox"
                    ItemTemplate="{StaticResource MetroNotentendenzenView}"
                    ItemContainerStyle="{StaticResource MetroListBoxItemStyle}">
-            <ListBox.InputBindings>
-              <KeyBinding Key="Delete" Command="{Binding Path=DeleteNotentendenzCommand}"/>
-            </ListBox.InputBindings>
-            <ListBox.ItemsPanel>
-              <ItemsPanelTemplate>
-                <WrapPanel Width="{Binding ElementName=NotentendenzenListBox, Path=ActualWidth}"/>
-              </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-          </ListBox>
-        </Grid>
+          <ListBox.InputBindings>
+            <KeyBinding Key="Delete" Command="{Binding Path=DeleteNotentendenzCommand}"/>
+          </ListBox.InputBindings>
+          <ListBox.ItemsPanel>
+            <ItemsPanelTemplate>
+              <WrapPanel Width="{Binding ElementName=NotentendenzenListBox, Path=ActualWidth}"/>
+            </ItemsPanelTemplate>
+          </ListBox.ItemsPanel>
+        </ListBox>
       </GroupBox>
+      <GroupBox Name="GroupBoxHausaufgaben" Grid.Row="6" Grid.Column="1"  Margin="3" Padding="0">
+        <GroupBox.Header>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*"/>
+              <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0">Hausaufgaben</Label>
+            <Image Grid.Column="1" Height="32" Source="{Binding Path=HausaufgabenTendenzImage}"/>
+          </Grid>
+        </GroupBox.Header>
+        <ListBox  Background="Transparent"
+                ItemsSource="{Binding Source={StaticResource GruppierteHausaufgabenViewSource}}"
+                  BorderThickness="0"
+                   SelectedItem="{Binding CurrentHausaufgabe}"
+                   Name="HausaufgabenListBox"
+                   ItemTemplate="{StaticResource MetroHausaufgabenView}"
+                   ItemContainerStyle="{StaticResource MetroListBoxItemStyle}">
+          <ListBox.InputBindings>
+            <KeyBinding Key="Delete" Command="{Binding Path=DeleteHausaufgabeCommand}"/>
+          </ListBox.InputBindings>
+          <ListBox.ItemsPanel>
+            <ItemsPanelTemplate>
+              <WrapPanel Width="{Binding ElementName=HausaufgabenListBox, Path=ActualWidth}"/>
+            </ItemsPanelTemplate>
+          </ListBox.ItemsPanel>
+        </ListBox>
+      </GroupBox>
+
+      <Grid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Margin="5">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" Orientation="Horizontal">
+          <Label Style="{StaticResource MetroSubHeader}">Gesamtnote</Label>
+          <Label Style="{StaticResource MetroSubHeader}" Content="{Binding Path=Gesamtnote}"/>
+        </StackPanel>
+        <ListBox Margin="3" Padding="0" Grid.Column="1" Background="Transparent"
+          ItemsSource="{Binding Source={StaticResource GesamtstandViewSource}}"    
+          BorderThickness="0"
+          SelectedItem="{Binding CurrentNote}"
+          Stylus.IsPressAndHoldEnabled="False"
+          Name="GesamtstandNotenListBox"
+          ItemTemplate="{StaticResource MetroStandNotenView}"
+          ItemContainerStyle="{StaticResource MetroSilentListBoxItem}">
+          <ListBox.ItemsPanel>
+            <ItemsPanelTemplate>
+              <WrapPanel Width="{Binding ElementName=GesamtstandNotenListBox, Path=ActualWidth}"/>
+            </ItemsPanelTemplate>
+          </ListBox.ItemsPanel>
+        </ListBox>
+      </Grid>
     </Grid>
-    <Rectangle Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Height="3" Fill="{StaticResource MetroHeaderBackground}" />
-    <Grid Grid.Row="3" Grid.Column="0" Margin="5">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto"/>
-        <ColumnDefinition Width="Auto"/>
-        <ColumnDefinition Width="Auto"/>
-      </Grid.ColumnDefinitions>
-      <Label Grid.Column="0" Style="{StaticResource MetroSubHeader}">Mündlich</Label>
-      <Label Grid.Column="1" Style="{StaticResource MetroSubHeader}" Content="{Binding Path=MündlicheGesamtNote}"/>
-      <Label Grid.Column="2" VerticalAlignment="Center" Content="{Binding Path=MündlicheNotenWichtung, Converter={StaticResource WichtungProzentConverter}}"/>
-    </Grid>
-    <Grid Grid.Row="3" Grid.Column="1"  Margin="5">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto"/>
-        <ColumnDefinition Width="Auto"/>
-        <ColumnDefinition Width="Auto"/>
-      </Grid.ColumnDefinitions>
-      <Label Grid.Column="0" Style="{StaticResource MetroSubHeader}">Schriftlich</Label>
-      <Label Grid.Column="1" Style="{StaticResource MetroSubHeader}" Content="{Binding Path=SchriftlicheGesamtNote}"/>
-      <Label Grid.Column="2" VerticalAlignment="Center" Content="{Binding Path=SchriftlicheNotenWichtung, Converter={StaticResource WichtungProzentConverter}}"/>
-    </Grid>
-    <Grid Grid.Row="3" Grid.Column="2" Margin="5" HorizontalAlignment="Right">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto"/>
-        <ColumnDefinition Width="Auto"/>
-      </Grid.ColumnDefinitions>
-      <Label Grid.Column="0" Style="{StaticResource MetroSubHeader}">Gesamtnote</Label>
-      <Label Grid.Column="1" Style="{StaticResource MetroSubHeader}" Content="{Binding Path=Gesamtnote}"/>
-    </Grid>
-  </Grid>
+  </ScrollViewer>
 </Page>

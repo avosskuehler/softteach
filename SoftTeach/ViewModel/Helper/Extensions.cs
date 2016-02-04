@@ -108,8 +108,7 @@
     }
 
     public static void Register(this INotifyPropertyChanged model, string propertyName, Action whenChanged)
-    {
-      model.PropertyChanged += (sender, args) =>
+    {model.PropertyChanged += (sender, args) =>
       {
         if (args.PropertyName == propertyName)
           whenChanged();

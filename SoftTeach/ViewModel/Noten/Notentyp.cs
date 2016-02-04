@@ -47,6 +47,11 @@
     SchriftlichGesamt,
 
     /// <summary>
+    /// Note für einen Zwischenstand oder ein Zeugnis als pädagogische Summe aus den anderen schriftlichen Noten
+    /// </summary>
+    SchriftlichStand,
+
+    /// <summary>
     /// Gesamtnote für einen Zwischenstand oder ein Zeugnis als pädagogische Summe aus allen anderen Noten
     /// </summary>
     GesamtStand
