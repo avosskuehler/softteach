@@ -1340,15 +1340,18 @@
 
       var mündlicheWichtung = this.Model.Schülerliste.NotenWichtung.MündlichGesamt;
       var schriftlichWichtung = this.Model.Schülerliste.NotenWichtung.SchriftlichGesamt;
-      var gesamtNote = (this.mündlicheGesamtnote * mündlicheWichtung)
+      var localNote = (this.mündlicheGesamtnote * mündlicheWichtung)
                        + (this.schriftlicheGesamtnote * schriftlichWichtung);
-      gesamtNote = (int)Math.Round(gesamtNote, 0);
-      gesamtNote += this.BerechneHausaufgabenBepunktung();
-      gesamtNote += this.BerechneTendenzBepunktung();
-      gesamtNote = Math.Max(gesamtNote, 0);
-      gesamtNote = Math.Min(gesamtNote, 15);
+      localNote = (int)Math.Round(localNote, 0);
+      localNote += this.BerechneHausaufgabenBepunktung();
+      localNote += this.BerechneTendenzBepunktung();
+      localNote = Math.Max(localNote, 0);
+      localNote = Math.Min(localNote, 15);
 
-      this.gesamtnote = (int)gesamtNote + this.GesamtAnpassung;
+      var rechnerischeNote = (int)localNote;
+      var rechnerischeZensur = App.MainViewModel.Zensuren.First(o => o.ZensurNotenpunkte == rechnerischeNote);
+
+      this.gesamtnote = (int)localNote + this.GesamtAnpassung;
 
       if (this.gesamtnote > 15)
       {
@@ -1360,6 +1363,12 @@
       }
 
       var zensur = App.MainViewModel.Zensuren.First(o => o.ZensurNotenpunkte == this.gesamtnote);
+
+      if (rechnerischeNote != this.gesamtnote)
+      {
+        return this.GetNotenString(zensur) + "(" + this.GetNotenString(rechnerischeZensur) + ")";
+      }
+
       return this.GetNotenString(zensur);
     }
 
@@ -1374,7 +1383,7 @@
         this.Noten.Where(
           o =>
           o.NoteTermintyp != NotenTermintyp.Einzeln
-          && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum
+          && o.NoteDatum.Date == Selection.Instance.Schülerliste.NotenDatum.Date
           && o.NoteNotentyp == Notentyp.MündlichStand).OrderBy(o => o.NoteDatum);
 
       if (terminNoten.Any())
@@ -1386,7 +1395,7 @@
       terminNoten =
         this.Noten.Where(
         o => o.NoteTermintyp != NotenTermintyp.Einzeln
-          && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum
+          && o.NoteDatum.Date == Selection.Instance.Schülerliste.NotenDatum.Date
           && o.NoteNotentyp == Notentyp.SchriftlichStand).OrderBy(o => o.NoteDatum);
       if (terminNoten.Any())
       {
@@ -1396,7 +1405,7 @@
       this.BerechneGesamtnote();
       terminNoten = this.Noten.Where(
         o => o.NoteTermintyp != NotenTermintyp.Einzeln
-          && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum
+          && o.NoteDatum.Date == Selection.Instance.Schülerliste.NotenDatum.Date
           && o.NoteNotentyp == Notentyp.GesamtStand).OrderBy(o => o.NoteDatum);
 
       if (terminNoten.Any())
@@ -1454,6 +1463,10 @@
         return "?";
       }
 
+      var rechnerischeNote = (int)mündlichGesamt;
+      var rechnerischeZensur = App.MainViewModel.Zensuren.First(o => o.ZensurNotenpunkte == rechnerischeNote);
+
+
       this.mündlicheGesamtnote = mündlichGesamt + this.MündlicheAnpassung;
       if (this.mündlicheGesamtnote > 15)
       {
@@ -1465,6 +1478,12 @@
       }
 
       var zensur = App.MainViewModel.Zensuren.First(o => o.ZensurNotenpunkte == this.mündlicheGesamtnote);
+
+      if (rechnerischeNote != this.mündlicheGesamtnote)
+      {
+        return this.GetNotenString(zensur) + "(" + this.GetNotenString(rechnerischeZensur) + ")";
+      }
+
       return this.GetNotenString(zensur);
     }
 
@@ -1506,6 +1525,9 @@
         return "?";
       }
 
+      var rechnerischeNote = (int)schriftlichGesamt;
+      var rechnerischeZensur = App.MainViewModel.Zensuren.First(o => o.ZensurNotenpunkte == rechnerischeNote);
+
       this.schriftlicheGesamtnote = schriftlichGesamt + this.SchriftlicheAnpassung;
       if (this.schriftlicheGesamtnote > 15)
       {
@@ -1517,6 +1539,11 @@
       }
 
       var zensur = App.MainViewModel.Zensuren.First(o => o.ZensurNotenpunkte == this.schriftlicheGesamtnote);
+
+      if (rechnerischeNote != this.schriftlicheGesamtnote)
+      {
+        return this.GetNotenString(zensur) + "(" + this.GetNotenString(rechnerischeZensur) + ")";
+      }
 
       return this.GetNotenString(zensur);
     }

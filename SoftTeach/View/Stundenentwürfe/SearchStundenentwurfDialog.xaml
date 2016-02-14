@@ -13,6 +13,7 @@
     <CollectionViewSource Source="{Binding Path=FilteredAndSortedStundenentwürfe}" x:Key="GroupedStundenentwürfe">
       <CollectionViewSource.GroupDescriptions>
         <PropertyGroupDescription PropertyName="Jahresplan.JahresplanJahrtyp.JahrtypJahr"/>
+        <PropertyGroupDescription PropertyName="Klasse"/>
       </CollectionViewSource.GroupDescriptions>
     </CollectionViewSource>
   </Window.Resources>
@@ -72,19 +73,22 @@
           <pushBinding:PushBindingManager.PushBindings>
             <pushBinding:PushBinding TargetProperty="SelectedItems" Path="SelectedStundenentwurfEinträge"/>
           </pushBinding:PushBindingManager.PushBindings>
-          <!--<ItemsControl.Template>
-            <ControlTemplate TargetType="ItemsControl">
-              <Border BorderBrush="Aqua" BorderThickness="1" CornerRadius="15">
-                <ItemsPresenter/>
-              </Border>
-            </ControlTemplate>
-          </ItemsControl.Template>-->
+          <ListBox.InputBindings>
+            <KeyBinding Key="Delete" Command="{Binding Path=DeleteStundenentwurfEintragCommand}"/>
+          </ListBox.InputBindings>
           <ListBox.ItemsPanel>
             <ItemsPanelTemplate>
               <StackPanel/>
             </ItemsPanelTemplate>
           </ListBox.ItemsPanel>
           <ListBox.GroupStyle>
+            <GroupStyle ContainerStyle="{StaticResource JahrtypenHeaderStyle}">
+              <GroupStyle.Panel>
+                <ItemsPanelTemplate>
+                  <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+              </GroupStyle.Panel>
+            </GroupStyle>
             <GroupStyle ContainerStyle="{StaticResource JahrtypenHeaderStyle}">
               <GroupStyle.Panel>
                 <ItemsPanelTemplate>
@@ -113,9 +117,6 @@
                   </Trigger.Setters>
                 </Trigger>
               </Style.Triggers>
-              <!--<Style.Resources>
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
-              </Style.Resources>-->
             </Style>
           </ListBox.ItemContainerStyle>
         </ListBox>

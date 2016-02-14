@@ -42,11 +42,10 @@ namespace SoftTeach.ViewModel.Jahrespläne
     }
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="TagesplanViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="TagesplanViewModel" /> Klasse.
     /// </summary>
-    /// <param name="tagesplan">
-    /// The underlying tagesplan this ViewModel is to be based on
-    /// </param>
+    /// <param name="tagesplan">The underlying tagesplan this ViewModel is to be based on</param>
+    /// <exception cref="ArgumentNullException">tagesplan</exception>
     public TagesplanViewModel(Tagesplan tagesplan)
     {
       if (tagesplan == null)

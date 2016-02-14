@@ -178,6 +178,17 @@
     public ObservableCollection<DateiverweisViewModel> Dateiverweise { get; private set; }
 
     /// <summary>
+    /// Holt die Stunden, denen dieser Stundenentwurf zugeordnet ist.
+    /// </summary>
+    public ICollection<Stunde> StundenentwurfStundenCollection
+    {
+      get
+      {
+        return this.Model.Stunden;
+      }
+    }
+
+    /// <summary>
     /// Holt oder setzt die currently selected phase
     /// </summary>
     public PhaseViewModel CurrentPhase

@@ -8,15 +8,15 @@
   <?define SupportPhone = "adrian@vosskuehler.name"?>
   <?define InstallDescription = "Software for teachers."?>
   <?define UpgradeGuid = "{8DA885DB-C95D-4CD4-BD76-82AA8F827A6C}"?>
-  <?define ProductVersion="1.0" ?>
+  <?define ProductVersion="1.1" ?>
 
   <?if $(var.Platform) = x64 ?>
-  <?define ProductName = "SoftTeach 1.0" ?>
+  <?define ProductName = "SoftTeach 1.1" ?>
   <?define Win64 = "yes" ?>
   <?define PlatformName = "x64"?>
   <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
   <?else ?>
-  <?define ProductName = "SoftTeach 1.0" ?>
+  <?define ProductName = "SoftTeach 1.1" ?>
   <?define Win64 = "no" ?>
   <?define PlatformName = "x86"?>
   <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>

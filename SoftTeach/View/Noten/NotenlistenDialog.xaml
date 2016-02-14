@@ -11,7 +11,7 @@
   <Window.Resources>
     <CollectionViewSource x:Key="SchülerViewSource" Source="{Binding Path=CurrentSchülerliste.Schülereinträge}">
       <CollectionViewSource.SortDescriptions>
-        <componentModel:SortDescription PropertyName="ViewModelType" Direction="Ascending" />
+        <componentModel:SortDescription PropertyName="SchülereintragSortByNachnameProperty" Direction="Ascending" />
       </CollectionViewSource.SortDescriptions>
     </CollectionViewSource>
     <CollectionViewSource x:Key="VorhandeneNotenlistenViewSource" Source="{Binding Path=NotenlistenEinträge}">
@@ -97,7 +97,7 @@
       <Grid Margin="10">
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto"/>
-          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
           <HeaderedContentControl Name="VorhandeneNotenlistenControl" Visibility="Collapsed">
@@ -141,7 +141,7 @@
           </ListBox.InputBindings>
           <ListBox.ItemsPanel>
             <ItemsPanelTemplate>
-              <WrapPanel Width="{Binding ElementName=NotenlisteListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
+              <WrapPanel Orientation="Vertical" Height="{Binding ElementName=NotenlisteListBox, Path=ActualHeight, Converter={StaticResource WrapPanelWidthConverter}}"/>
             </ItemsPanelTemplate>
           </ListBox.ItemsPanel>
         </ListBox>

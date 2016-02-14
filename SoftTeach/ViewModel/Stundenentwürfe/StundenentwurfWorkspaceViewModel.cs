@@ -7,6 +7,7 @@
   using System.Linq;
   using System.Windows.Data;
 
+  using SoftTeach.ExceptionHandling;
   using SoftTeach.Model.EntityFramework;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
@@ -51,6 +52,7 @@
     {
       this.AddStundenentwurfCommand = new DelegateCommand(this.AddStundenentwurf);
       this.DeleteStundenentwurfCommand = new DelegateCommand(this.DeleteCurrentStundenentwurf, () => this.CurrentStundenentwurf != null);
+      this.DeleteStundenentwurfEintragCommand = new DelegateCommand(this.DeleteCurrentStundenentwurfEintrag, () => this.CurrentStundenentwurfEintrag != null);
       this.RemoveFilterCommand = new DelegateCommand(this.RemoveFilter);
 
       this.FilteredAndSortedStundenentwürfe = new List<StundenentwurfEintrag>();
@@ -83,10 +85,26 @@
         o =>
         o.JahresplanFach == this.FachFilter
         && o.JahresplanJahrgangsstufe == this.JahrgangsstufeFilter);
+
+      var lastJahrtyp = App.MainViewModel.Jahrtypen[App.MainViewModel.Jahrtypen.Count - 1];
+      if (DateTime.Now.Month > 7 || DateTime.Now.Month == 1)
+      {
+        Selection.Instance.Halbjahr = App.MainViewModel.Halbjahrtypen[0];
+      }
+      else
+      {
+        Selection.Instance.Halbjahr = App.MainViewModel.Halbjahrtypen[1];
+      }
+
       foreach (var jahresplanViewModel in pläne)
       {
         foreach (var halbjahresplanViewModel in jahresplanViewModel.Halbjahrespläne)
         {
+          if (halbjahresplanViewModel.HalbjahresplanHalbjahrtyp == Selection.Instance.Halbjahr && jahresplanViewModel.JahresplanJahrtyp == lastJahrtyp)
+          {
+            continue;
+          }
+
           foreach (var monatsplanViewModel in halbjahresplanViewModel.Monatspläne)
           {
             foreach (var tagesplanViewModel in monatsplanViewModel.Tagespläne)
@@ -100,7 +118,7 @@
                   {
                     if (stunde.StundeModul == this.ModulFilter)
                     {
-                      this.FilteredAndSortedStundenentwürfe.Add(new StundenentwurfEintrag(jahresplanViewModel, stunde.StundeStundenentwurf, stunde.LerngruppenterminDatum));
+                      this.FilteredAndSortedStundenentwürfe.Add(new StundenentwurfEintrag(jahresplanViewModel, stunde.LerngruppenterminKlasse, stunde.StundeStundenentwurf, stunde.LerngruppenterminDatum));
                     }
                   }
                 }
@@ -108,6 +126,16 @@
             }
           }
         }
+      }
+
+      var unbenutzteEntwürfe = App.MainViewModel.Stundenentwürfe.Where(o => !o.StundenentwurfStundenCollection.Any()
+        && o.StundenentwurfFach == this.FachFilter
+        && o.StundenentwurfJahrgangsstufe == this.JahrgangsstufeFilter
+        && o.StundenentwurfModul == this.ModulFilter);
+
+      foreach (var stundenentwurfViewModel in unbenutzteEntwürfe)
+      {
+        this.FilteredAndSortedStundenentwürfe.Add(new StundenentwurfEintrag(App.MainViewModel.Jahrespläne[0], "Nicht zugeordnet", stundenentwurfViewModel, null));
       }
 
       this.FilteredAndSortedStundenentwürfe = this.FilteredAndSortedStundenentwürfe.OrderBy(o => o.Termin).ToList();
@@ -189,6 +217,11 @@
     /// Holt den Befehl zur deleting the current Stundenentwurf
     /// </summary>
     public DelegateCommand DeleteStundenentwurfCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl um den aktuellen Stundenwurfeintrag zu löschen
+    /// </summary>
+    public DelegateCommand DeleteStundenentwurfEintragCommand { get; private set; }
 
     /// <summary>
     /// Holt den Befehl zur resetting the current modul filter
@@ -304,6 +337,39 @@
         this.CurrentStundenentwurf = null;
       }
     }
+
+    /// <summary>
+    /// Löscht den aktuellen Stundenentwurfeintrag im 
+    /// </summary>
+    private void DeleteCurrentStundenentwurfEintrag()
+    {
+      if (this.CurrentStundenentwurfEintrag == null)
+      {
+        return;
+      }
+
+      if (this.CurrentStundenentwurfEintrag.Stundenentwurf.StundenentwurfStundenCollection.Any())
+      {
+        var stunde = this.CurrentStundenentwurf.StundenentwurfStundenCollection.First();
+        InformationDialog.Show(
+          "Noch verwendet.",
+          string.Format("Dieser Stundenentwurf wird noch in der Stunde {0} vom {1} in Klasse {2} verwendet und daher nicht gelöscht", stunde.Beschreibung, stunde.Tagesplan.Datum.ToString("dd.MM.yyyy"), stunde.Tagesplan.Monatsplan.Halbjahresplan.Jahresplan.Klasse.Bezeichnung),
+          false);
+
+        return;
+      }
+
+      using (new UndoBatch(App.MainViewModel, string.Format("Stundenentwurf {0} gelöscht.", this.CurrentStundenentwurfEintrag.Stundenentwurf), false))
+      {
+        this.FilteredAndSortedStundenentwürfe.Remove(
+          this.FilteredAndSortedStundenentwürfe.First(o => o.Stundenentwurf == this.CurrentStundenentwurfEintrag.Stundenentwurf));
+        App.MainViewModel.Stundenentwürfe.RemoveTest(this.CurrentStundenentwurfEintrag.Stundenentwurf);
+        this.CurrentStundenentwurfEintrag = null;
+        this.FilteredAndSortedStundenentwürfe = this.FilteredAndSortedStundenentwürfe.OrderBy(o => o.Termin).ToList();
+        this.RaisePropertyChanged("FilteredAndSortedStundenentwürfe");
+      }
+    }
+
 
     /// <summary>
     /// Removes all filter.

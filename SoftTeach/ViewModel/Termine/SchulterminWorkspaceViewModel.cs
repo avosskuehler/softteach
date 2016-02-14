@@ -293,14 +293,26 @@
             {
               case SchulterminUpdateType.Added:
                 tagesplan = jahresplanViewModel.GetTagesplanByDate(terminViewModel.SchulterminDatum);
+                if (tagesplan == null)
+                {
+                  continue;
+                }
                 AddTerminToTagesplan(tagesplan, terminViewModel);
                 break;
               case SchulterminUpdateType.Removed:
                 tagesplan = jahresplanViewModel.GetTagesplanByDate(terminViewModel.SchulterminDatum);
+                if (tagesplan == null)
+                {
+                  continue;
+                }
                 RemoveTerminFromTagesplan(terminViewModel, tagesplan);
                 break;
               case SchulterminUpdateType.Changed:
                 tagesplan = jahresplanViewModel.GetTagesplanByDate(terminViewModel.SchulterminDatum);
+                if (tagesplan == null)
+                {
+                  continue;
+                }
                 if (tagesplan.Lerngruppentermine.Count == 0)
                 {
                   AddTerminToTagesplan(tagesplan, terminViewModel);
@@ -312,6 +324,11 @@
                 break;
               case SchulterminUpdateType.ChangedBeschreibung:
                 tagesplan = jahresplanViewModel.GetTagesplanByDate(terminViewModel.SchulterminDatum);
+                if (tagesplan == null)
+                {
+                  continue;
+                }
+
                 if (
                   tagesplan.Lerngruppentermine.Any(
                     o => o.TerminBeschreibung == terminViewModel.TerminBeschreibung))
@@ -326,8 +343,16 @@
                 break;
               case SchulterminUpdateType.ChangedWithNewDay:
                 var oldtagesplan = jahresplanViewModel.GetTagesplanByDate((DateTime)termin.Parameter);
+                if (oldtagesplan == null)
+                {
+                  continue;
+                }
                 RemoveTerminFromTagesplan(terminViewModel, oldtagesplan);
                 tagesplan = jahresplanViewModel.GetTagesplanByDate(terminViewModel.SchulterminDatum);
+                if (tagesplan == null)
+                {
+                  continue;
+                }
                 AddTerminToTagesplan(tagesplan, terminViewModel);
                 break;
             }
