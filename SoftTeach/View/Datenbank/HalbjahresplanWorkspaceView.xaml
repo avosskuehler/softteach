@@ -25,7 +25,7 @@ Halbjahrespläne ändern Sie im Halbjahresplan Modul."/>
                 IsReadOnly="True">
         <DataGrid.Columns>
           <DataGridTextColumn Header="Bezeichnung" Binding="{Binding Path=HalbjahresplanHalbjahrtyp.HalbjahrtypBezeichnung}"/>
-          <DataGridTextColumn Header="Jahresplan" Binding="{Binding Path=Model.Jahresplan.Jahrtyp.Bezeichnung}" Width="*"/>
+          <DataGridTextColumn Header="Jahresplan" Binding="{Binding Path=Model.Jahresplan.Jahrtyp.JahrtypBezeichnung}" Width="*"/>
         </DataGrid.Columns>
       </DataGrid>
     </GroupBox>

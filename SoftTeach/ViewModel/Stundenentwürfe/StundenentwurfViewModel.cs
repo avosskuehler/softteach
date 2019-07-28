@@ -8,6 +8,7 @@
   using System.ComponentModel;
   using System.IO;
   using System.Linq;
+  using System.Text;
   using System.Windows;
   using System.Windows.Controls;
   using System.Windows.Data;
@@ -479,6 +480,49 @@
         }
 
         return kurzform;
+      }
+    }
+
+    /// <summary>
+    /// Holt a linebreaked string with a short form string for the phasen
+    /// of this stundenentwurf
+    /// </summary>
+    public string StundenentwurfPhasenLangform
+    {
+      get
+      {
+        var langform = new StringBuilder();
+
+        foreach (var phaseViewModel in this.Phasen)
+        {
+          //          var inhalt = phaseViewModel.PhaseInhalt;
+          langform.Append(phaseViewModel.PhaseZeit);
+          langform.Append("' ");
+          langform.Append(phaseViewModel.PhaseSozialform.SozialformBezeichnung);
+          langform.Append(": ");
+          langform.AppendLine(phaseViewModel.PhaseInhalt);
+        }
+
+        return langform.ToString();
+      }
+    }
+
+    /// <summary>
+    /// Holt a linebreaked string with a short form string for the phasen
+    /// of this stundenentwurf
+    /// </summary>
+    public string StundenentwurfDateiliste
+    {
+      get
+      {
+        var dateiliste = new StringBuilder();
+
+        foreach (var dateiverweis in this.Dateiverweise)
+        {
+          dateiliste.AppendLine(dateiverweis.DateiverweisDateinameOhnePfad);
+        }
+
+        return dateiliste.ToString();
       }
     }
 

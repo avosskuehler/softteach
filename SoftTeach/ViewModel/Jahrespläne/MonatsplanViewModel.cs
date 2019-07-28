@@ -42,7 +42,7 @@
       foreach (var tagesplan in monatsplan.Tagespläne)
       {
         var vm = new TagesplanViewModel(tagesplan);
-        App.MainViewModel.Tagespläne.Add(vm);
+        //App.MainViewModel.Tagespläne.Add(vm);
         this.Tagespläne.Add(vm);
       }
 

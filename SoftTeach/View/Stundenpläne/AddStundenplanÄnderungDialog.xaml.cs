@@ -97,6 +97,11 @@ namespace SoftTeach.View.Stundenpläne
             break;
         }
 
+        if (halbjahresplanToChange == null)
+        {
+          continue;
+        }
+
         for (var i = 0; i < halbjahresplanToChange.Monatspläne.Count; i++)
         {
           var monatsplanViewModel = halbjahresplanToChange.Monatspläne[i];

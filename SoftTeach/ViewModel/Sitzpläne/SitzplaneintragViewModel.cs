@@ -145,7 +145,7 @@
 
         if (this.sitzplatz == null || this.sitzplatz.Model != this.Model.Sitzplatz)
         {
-          this.sitzplatz = App.MainViewModel.Sitzplätze.SingleOrDefault(d => d.Model == this.Model.Sitzplatz);
+          this.sitzplatz = new SitzplatzViewModel(this.Model.Sitzplatz);
         }
 
         return this.sitzplatz;

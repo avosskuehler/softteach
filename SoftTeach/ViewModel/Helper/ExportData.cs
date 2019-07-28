@@ -64,14 +64,14 @@
     {
       var returnList = new List<PersonViewModel>();
       var ofd = new OpenFileDialog
-                  {
-                    CheckFileExists = true,
-                    CheckPathExists = true,
-                    AutoUpgradeEnabled = true,
-                    //InitialDirectory = Configuration.GetMyDocumentsPath(),
-                    Multiselect = false,
-                    Title = "Bitte Datei auswählen"
-                  };
+      {
+        CheckFileExists = true,
+        CheckPathExists = true,
+        AutoUpgradeEnabled = true,
+        //InitialDirectory = Configuration.GetMyDocumentsPath(),
+        Multiselect = false,
+        Title = "Bitte Datei auswählen"
+      };
 
       if (ofd.ShowDialog() == DialogResult.OK)
       {
@@ -88,10 +88,12 @@
           // the file is reached. 
           while ((line = streamReader.ReadLine()) != null)
           {
-            var items = line.Split(';');
-            var nachname = items[0];
-            var vorname = items[1];
-            var geschlecht = items[2] == "w";
+            var items = line.Split('\t');
+            var nr = items[0];
+            var nachname = items[1];
+            var vorname = items[2];
+            var geschlecht = items[3] == "w";
+            var geburtstag = DateTime.Parse(items[4]);
 
             var existiert =
               App.MainViewModel.Personen.FirstOrDefault(
@@ -99,6 +101,7 @@
 
             if (existiert != null)
             {
+              existiert.PersonGeburtstag = geburtstag;
               returnList.Add(existiert);
               foundCounter++;
             }
@@ -108,6 +111,7 @@
               person.Nachname = nachname;
               person.Vorname = vorname;
               person.Geschlecht = geschlecht;
+              person.Geburtstag = geburtstag;
               var vm = new PersonViewModel(person);
               App.MainViewModel.Personen.Add(vm);
               returnList.Add(vm);

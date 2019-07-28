@@ -97,7 +97,7 @@
     public Stundenplaneintrag Model { get; private set; }
 
     /// <summary>
-    /// Holt oder setzt denRaum für den Stundenplaneintrag
+    /// Holt oder setzt den Raum für den Stundenplaneintrag
     /// </summary>
     public RaumViewModel StundenplaneintragRaum
     {
@@ -120,9 +120,9 @@
       set
       {
         if (value == null) return;
-        if (this.raum != null)
+        if (value == this.raum)
         {
-          if (value.RaumBezeichnung == this.raum.RaumBezeichnung) return;
+          return;
         }
 
         this.UndoablePropertyChanging(this, "StundenplaneintragRaum", this.raum, value);

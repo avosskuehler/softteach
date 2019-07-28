@@ -71,7 +71,7 @@
         foreach (var sitzplaneintrag in sitzplan.Sitzplaneinträge)
         {
           var vm = new SitzplaneintragViewModel(sitzplaneintrag);
-          App.MainViewModel.Sitzplaneinträge.Add(vm);
+          //App.MainViewModel.Sitzplaneinträge.Add(vm);
           this.Sitzplaneinträge.Add(vm);
         }
       }
@@ -85,7 +85,7 @@
           sitzplaneintrag.Sitzplatz = sitzplatz;
 
           var vm = new SitzplaneintragViewModel(sitzplaneintrag);
-          App.MainViewModel.Sitzplaneinträge.Add(vm);
+          //App.MainViewModel.Sitzplaneinträge.Add(vm);
           this.Sitzplaneinträge.Add(vm);
           this.CurrentSitzplaneintrag = vm;
         }
@@ -219,7 +219,7 @@
     }
 
     /// <summary>
-    /// Holt oder setzt den Raumplan für den Raumplanplan
+    /// Holt oder setzt den Raumplan für den Sitzplan
     /// </summary>
     public RaumplanViewModel SitzplanRaumplan
     {
@@ -233,7 +233,7 @@
 
         if (this.raumplan == null || this.raumplan.Model != this.Model.Raumplan)
         {
-          this.raumplan = App.MainViewModel.Raumpläne.SingleOrDefault(d => d.Model == this.Model.Raumplan);
+          this.raumplan = new RaumplanViewModel(this.Model.Raumplan);
         }
 
         return this.raumplan;
@@ -308,6 +308,36 @@
     /// Holt oder setzt einen Wert, der angibt, ob beim Sitzplan Jungen und Mädchen möglichst getrennt sitzen sollen.
     /// </summary>
     public bool? SitzplanMädchenJungeNebeneinander { get; set; }
+
+    private bool nurTeilungsgruppen;
+
+    /// <summary>
+    /// Holt oder setzt einen Wert, der angibt, ob beim Sitzplan Teilungsgruppen berücksichtigt werden sollen.
+    /// </summary>
+    public bool NurTeilungsgruppen
+    {
+      get
+      {
+        return this.nurTeilungsgruppen;
+      }
+
+      set
+      {
+        if (value == this.nurTeilungsgruppen) return;
+        this.nurTeilungsgruppen = value;
+        this.RaisePropertyChanged("NurTeilungsgruppen");
+      }
+    }
+
+    /// <summary>
+    /// Holt oder setzt einen Wert, der angibt, ob beim Sitzplan nur die Teilungsgruppe A berücksichtigt wird.
+    /// </summary>
+    public bool NurTeilungsgruppeA { get; set; }
+
+    /// <summary>
+    /// Holt oder setzt einen Wert, der angibt, ob beim Sitzplan nur die Teilungsgruppe B berücksichtigt wird.
+    /// </summary>
+    public bool NurTeilungsgruppeB { get; set; }
 
     /// <summary>
     /// Gibt eine lesbare Repräsentation des ViewModels
@@ -407,6 +437,7 @@
       }
     }
 
+
     /// <summary>
     /// Teilt die verbliebenen Schüler auf die Sitzplätze neu auf
     /// </summary>
@@ -417,15 +448,30 @@
         this.SitzplanLeeren();
       }
 
+      if (this.NurTeilungsgruppen)
+      {
+        var schülernachGruppen = this.AvailableSchülereinträge.OrderBy(o => o.SchülereintragPerson.PersonNachname).Chunk(this.AvailableSchülereinträge.Count / 2);
+        if (this.NurTeilungsgruppeA)
+        {
+          this.AvailableSchülereinträge = schülernachGruppen.First().ToObservableCollection();
+        }
+        else if (this.NurTeilungsgruppeB)
+        {
+          this.AvailableSchülereinträge = schülernachGruppen.Last().ToObservableCollection();
+        }
+      }
+
       if (this.SitzplanMädchenJungeNebeneinander.HasValue)
       {
         var mädchen = this.AvailableSchülereinträge.Where(o => o.SchülereintragPerson.PersonIstWeiblich).Shuffle().ToList();
         var jungen = this.AvailableSchülereinträge.Where(o => !o.SchülereintragPerson.PersonIstWeiblich).Shuffle().ToList();
+
         var größereGruppe = mädchen.Count >= jungen.Count ? mädchen : jungen;
         var kleinereGruppe = mädchen.Count >= jungen.Count ? jungen : mädchen;
         var gleichviel = (int)Math.Min(mädchen.Count, jungen.Count);
         var restlicheSchülerZahl = mädchen.Count + jungen.Count;
         var restlicheSitzplätze = this.Sitzplaneinträge.Where(o => o.SitzplaneintragSchülereintrag == null).ToList();
+
         if (this.SitzplanMädchenJungeNebeneinander.Value)
         {
           for (int i = 0; i <= gleichviel * 2; i++)
@@ -515,15 +561,28 @@
       {
         if (sitzplaneintragViewModel.SitzplaneintragSchülereintrag != null)
         {
-          if (this.UsedSchülereinträge.Contains(sitzplaneintragViewModel.SitzplaneintragSchülereintrag))
-          {
-            this.UsedSchülereinträge.RemoveTest(sitzplaneintragViewModel.SitzplaneintragSchülereintrag);
-            this.AvailableSchülereinträge.Add(sitzplaneintragViewModel.SitzplaneintragSchülereintrag);
-          }
+          //if (this.UsedSchülereinträge.Contains(sitzplaneintragViewModel.SitzplaneintragSchülereintrag))
+          //{
+          //  this.UsedSchülereinträge.RemoveTest(sitzplaneintragViewModel.SitzplaneintragSchülereintrag);
+          //  //this.AvailableSchülereinträge.Add(sitzplaneintragViewModel.SitzplaneintragSchülereintrag);
+          //}
 
           sitzplaneintragViewModel.SitzplaneintragSchülereintrag = null;
         }
       }
+
+      this.UsedSchülereinträge.Clear();
+
+      foreach (var schülereintrag in this.Model.Schülerliste.Schülereinträge.OrderBy(o => o.Person.Vorname))
+      {
+        var schülerId = schülereintrag.Id;
+        var vm = App.MainViewModel.Schülereinträge.First(o => o.Model.Id == schülerId);
+        if (!this.Sitzplaneinträge.Any(o => o.SitzplaneintragSchülereintrag != null && o.SitzplaneintragSchülereintrag == vm))
+        {
+          this.AvailableSchülereinträge.Add(vm);
+        }
+      }
+
     }
 
     /// <summary>

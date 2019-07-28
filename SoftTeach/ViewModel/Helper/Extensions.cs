@@ -3,6 +3,7 @@
   using System;
   using System.Collections;
   using System.Collections.Generic;
+  using System.Collections.ObjectModel;
   using System.ComponentModel;
   using System.Linq;
   using System.Windows;
@@ -81,6 +82,16 @@
         yield return source.Take(chunksize);
         source = source.Skip(chunksize);
       }
+    }
+
+    public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> source)
+    {
+      if (source == null)
+      {
+        throw new ArgumentNullException("source");
+      }
+
+      return new ObservableCollection<T>(source);
     }
 
     public static string StripLeft(this string value, int length)

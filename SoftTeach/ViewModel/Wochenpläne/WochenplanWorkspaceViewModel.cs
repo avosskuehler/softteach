@@ -1,12 +1,11 @@
 ﻿namespace SoftTeach.ViewModel.Wochenpläne
 {
-  using System;
-  using System.Globalization;
-  using System.Linq;
-
   using SoftTeach.Model.EntityFramework;
   using SoftTeach.ViewModel.Helper;
   using SoftTeach.ViewModel.Termine;
+  using System;
+  using System.Globalization;
+  using System.Linq;
 
   /// <summary>
   /// ViewModel of an individual wochenplan
@@ -20,7 +19,6 @@
     {
       this.NextWeekCommand = new DelegateCommand(this.NextWeek);
       this.PreviousWeekCommand = new DelegateCommand(this.PreviousWeek);
-
       this.PopulateTerminplan();
     }
 
@@ -682,18 +680,25 @@
 
       foreach (var jahresplanViewModel in jahrespläne)
       {
+        //foreach (var halbjahrsplan in jahresplanViewModel.Halbjahrespläne)
+        //{
+
         // Get correct Halbjahresplan
-        var halbjahrespläne = sommerHalbjahr
+        var halbjahrsplan = sommerHalbjahr
                                 ? jahresplanViewModel.CurrentJahresplanSommerhalbjahr
                                 : jahresplanViewModel.CurrentJahresplanWinterhalbjahr;
 
-        // Get correct month
-        if (halbjahrespläne == null)
+        if (halbjahrsplan == null)
         {
           continue;
         }
 
-        var month = halbjahrespläne.Monatspläne.Single(o => o.MonatsplanMonatindex == this.WochenplanMontag.Month);
+        // Get correct month
+        var month = halbjahrsplan.Monatspläne.SingleOrDefault(o => o.MonatsplanMonatindex == this.WochenplanMontag.Month);
+        if (month == null)
+        {
+          continue;
+        }
 
         // Get correct days
         var daysInWeek =
@@ -716,13 +721,25 @@
         // and add missing days if it is so
         if (this.WochenplanMontag.Day + 6 > DateTime.DaysInMonth(this.WochenplanMontag.Year, this.WochenplanMontag.Month))
         {
-          if (halbjahrespläne.Monatspläne.All(o => o.MonatsplanMonatindex != this.WochenplanMontag.Month + 1))
+          if (halbjahrsplan.Monatspläne.All(o => o.MonatsplanMonatindex != this.WochenplanMontag.Month + 1))
+          {
+            halbjahrsplan = sommerHalbjahr
+                                  ? jahresplanViewModel.CurrentJahresplanWinterhalbjahr
+                                  : jahresplanViewModel.CurrentJahresplanSommerhalbjahr;
+          }
+
+          if (halbjahrsplan == null)
           {
             continue;
           }
 
           // Get correct month
-          var nextMonth = halbjahrespläne.Monatspläne.Single(o => o.MonatsplanMonatindex == this.WochenplanMontag.Month + 1);
+          var nextMonth = halbjahrsplan.Monatspläne.SingleOrDefault(o => o.MonatsplanMonatindex == this.WochenplanMontag.Month + 1);
+          if (nextMonth == null)
+          {
+            // TODO
+            continue;
+          }
 
           // Get correct days
           var missingDaysInWeek =
@@ -742,6 +759,7 @@
           }
         }
       }
+      //}
 
       // Check for Ferien
       foreach (var ferien in App.MainViewModel.Ferien.Where(

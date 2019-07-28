@@ -17,9 +17,8 @@
 
 namespace SoftTeach.View.Stundenpläne
 {
-  using System.Windows;
-
   using SoftTeach.ViewModel.Stundenpläne;
+  using System.Windows;
 
   /// <summary>
   /// Interaction logic for CreateStundenplaneintragDialog.xaml

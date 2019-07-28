@@ -106,7 +106,7 @@
 
     protected virtual void PopulateTerminplan()
     {
-      
+
     }
 
     /// <summary>
@@ -529,11 +529,11 @@
         if (!wochenplanEinträge.Any())
         {
           var emptyEintrag = new TerminplanEintrag(this, null)
-                        {
-                          ErsteUnterrichtsstundeIndex = stundeIndex,
-                          LetzteUnterrichtsstundeIndex = stundeIndex,
-                          WochentagIndex = wochentagIndex
-                        };
+          {
+            ErsteUnterrichtsstundeIndex = stundeIndex,
+            LetzteUnterrichtsstundeIndex = stundeIndex,
+            WochentagIndex = wochentagIndex
+          };
           var emptyList = new List<TerminplanEintrag> { emptyEintrag };
           var emptyCollection = new TerminplanEintragCollection(wochentagIndex, emptyList);
           return emptyCollection;
@@ -646,7 +646,16 @@
         jahresplanJahr = this.wochenplanMontag.Year - 1;
         if (this.wochenplanMontag.Month == 1)
         {
-          sommerHalbjahr = false;
+          var date = this.wochenplanMontag.AddDays(WochenplanSelection.Instance.WochentagIndex - 1);
+
+          if (date.Month > 1)
+          {
+            sommerHalbjahr = true;
+          }
+          else
+          {
+            sommerHalbjahr = false;
+          }
         }
         else
         {

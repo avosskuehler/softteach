@@ -37,6 +37,7 @@ namespace SoftTeach.View.Main
     public MainRibbonView()
     {
       this.DataContext = App.MainViewModel;
+      var wochenplan = App.MainViewModel.WochenplanWorkspace;
       this.InitializeComponent();
     }
 
@@ -527,9 +528,9 @@ namespace SoftTeach.View.Main
     private void UnterrichtsstundenButtonClick(object sender, RoutedEventArgs e)
     {
       var unterrichtsstundenView = new UnterrichtsstundenDBView
-        {
-          DataContext = App.MainViewModel.UnterrichtsstundeWorkspace
-        };
+      {
+        DataContext = App.MainViewModel.UnterrichtsstundeWorkspace
+      };
       unterrichtsstundenView.ShowDialog();
     }
 
@@ -859,7 +860,7 @@ namespace SoftTeach.View.Main
       //        {
       //          schülereintraginWinterliste.AddNotentendenz(notentendenzViewModel);
       //        }
-              
+
       //        foreach (var ergebnisViewModel in schülereintragViewModel.Ergebnisse)
       //        {
       //          schülereintraginWinterliste.AddErgebnis(ergebnisViewModel);

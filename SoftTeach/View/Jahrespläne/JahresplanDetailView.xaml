@@ -43,7 +43,7 @@
       <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=PullStundenCommand}" ToolTip="Stunden aus Stundenplan importieren">
         <StackPanel Orientation="Horizontal">
           <Grid>
-            <Image Source="/SoftTeach;component/Images/Stundenentwurf16.png"/>
+            <Image Source="/SoftTeach;component/Images/Stundenentwurf16.png" Height="16" VerticalAlignment="Top"/>
           </Grid>
         </StackPanel>
       </Button>
@@ -61,6 +61,15 @@
           <Grid>
             <Image Source="/SoftTeach;component/Images/Jahresplan16.png"/>
             <Image Source="/SoftTeach;component/Images/AddOverlay16.png"/>
+          </Grid>
+        </StackPanel>
+      </Button>
+      <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+      <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=StundenAlsOdsExportierenCommand}" ToolTip="Stundenplanung des Jahresplans als ODS exportieren.">
+        <StackPanel Orientation="Horizontal">
+          <Grid>
+            <Image Source="/SoftTeach;component/Images/Jahresplan16.png"/>
+            <Image Source="/SoftTeach;component/Images/Undo16.png"/>
           </Grid>
         </StackPanel>
       </Button>

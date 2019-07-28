@@ -100,7 +100,7 @@
             </Button>
           </StackPanel>
         </Border>
-        <Label Grid.Row="1" Grid.Column="1" Padding="1" VerticalAlignment="Center"  Content="{Binding Path=StundenplaneintragRaum}"/>
+        <Label Grid.Row="1" Grid.Column="1" Padding="1" VerticalAlignment="Center"  Content="{Binding Path=StundenplaneintragRaum.RaumBezeichnung}"/>
       </Grid>
     </Border>
   </Border>

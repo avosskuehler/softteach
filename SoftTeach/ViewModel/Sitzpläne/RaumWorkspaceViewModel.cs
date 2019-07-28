@@ -23,7 +23,6 @@
     {
       this.AddRaumCommand = new DelegateCommand(this.AddRaum);
       this.DeleteRaumCommand = new DelegateCommand(this.DeleteCurrentRaum, () => this.CurrentRaum != null);
-
       this.CurrentRaum = App.MainViewModel.Räume.Count > 0 ? App.MainViewModel.Räume[0] : null;
 
       // Re-act to any changes from outside this ViewModel

@@ -5,7 +5,7 @@
   using System.Collections.ObjectModel;
   using System.Collections.Specialized;
   using System.Linq;
-
+  using Microsoft.Win32;
   using SoftTeach.ExceptionHandling;
   using SoftTeach.Model.EntityFramework;
   using SoftTeach.UndoRedo;
@@ -13,6 +13,7 @@
   using SoftTeach.View.Jahrespläne;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Helper;
+  using SoftTeach.ViewModel.Helper.ODSSupport;
   using SoftTeach.ViewModel.Termine;
 
   /// <summary>
@@ -62,13 +63,14 @@
       this.AddSommerHalbjahresplanCommand = new DelegateCommand(this.AddSommerHalbjahresplan, () => this.CurrentJahresplanSommerhalbjahr == null);
       this.DeleteHalbjahresplanCommand = new DelegateCommand(this.DeleteCurrentHalbjahresplan, () => this.CurrentHalbjahresplan != null);
       this.GetStundenFromOtherHalbjahresplanCommand = new DelegateCommand(this.GetStundenFromOtherHalbjahresplan, () => this.CurrentHalbjahresplan != null);
+      this.StundenAlsOdsExportierenCommand = new DelegateCommand(this.StundenAlsOdsExportieren);
 
       // Build data structures for phasen
       this.Halbjahrespläne = new ObservableCollection<HalbjahresplanViewModel>();
       foreach (var halbjahresplan in jahresplan.Halbjahrespläne)
       {
         var vm = new HalbjahresplanViewModel(halbjahresplan);
-        App.MainViewModel.Halbjahrespläne.Add(vm);
+        //App.MainViewModel.Halbjahrespläne.Add(vm);
         this.Halbjahrespläne.Add(vm);
       }
 
@@ -109,6 +111,11 @@
     /// Holt den Befehl um die Stunden aus einem alten Halbjahresplan zu holen
     /// </summary>
     public DelegateCommand GetStundenFromOtherHalbjahresplanCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl um die Stunden als ODS zu exportieren
+    /// </summary>
+    public DelegateCommand StundenAlsOdsExportierenCommand { get; private set; }
 
     /// <summary>
     /// Holt den underlying Jahresplan this ViewModel is based on
@@ -315,7 +322,7 @@
         halbjahresplan.Jahresplan = this.Model;
         var vm = new HalbjahresplanViewModel(halbjahresplan);
         this.AddMonatspläne(vm);
-        App.MainViewModel.Halbjahrespläne.Add(vm);
+        //App.MainViewModel.Halbjahrespläne.Add(vm);
         this.Halbjahrespläne.Add(vm);
         this.CurrentHalbjahresplan = vm;
       }
@@ -346,7 +353,7 @@
         halbjahresplan.Jahresplan = this.Model;
         var vm = new HalbjahresplanViewModel(halbjahresplan);
         this.AddMonatspläne(vm);
-        App.MainViewModel.Halbjahrespläne.Add(vm);
+        //App.MainViewModel.Halbjahrespläne.Add(vm);
         this.Halbjahrespläne.Add(vm);
         this.CurrentHalbjahresplan = vm;
       }
@@ -475,7 +482,8 @@
     {
       using (new UndoBatch(App.MainViewModel, string.Format("Halbjahresplan {0} gelöscht", this.CurrentHalbjahresplan), false))
       {
-        App.MainViewModel.Halbjahrespläne.RemoveTest(this.CurrentHalbjahresplan);
+        //App.MainViewModel.Halbjahrespläne.RemoveTest(this.CurrentHalbjahresplan);
+        App.UnitOfWork.Context.Halbjahrespläne.Remove(this.CurrentHalbjahresplan.Model);
         this.Halbjahrespläne.RemoveTest(this.CurrentHalbjahresplan);
         if (this.Halbjahrespläne.Count > 0)
         {
@@ -504,7 +512,7 @@
 
         var vm = new MonatsplanViewModel(monatsplan);
         this.AddTagespläne(vm);
-        App.MainViewModel.Monatspläne.Add(vm);
+        //App.MainViewModel.Monatspläne.Add(vm);
         halbjahresplan.Monatspläne.Add(vm);
       }
     }
@@ -580,7 +588,7 @@
           vm.Lerngruppentermine.Add(viewModelLerngruppentermin);
         }
 
-        App.MainViewModel.Tagespläne.Add(vm);
+        //App.MainViewModel.Tagespläne.Add(vm);
         monatsplan.Tagespläne.Add(vm);
       }
     }
@@ -592,28 +600,27 @@
     {
       using (new UndoBatch(App.MainViewModel, string.Format("Stunden im Jahresplan {0} gelöscht.", this.JahresplanBezeichnung), false))
       {
-        var tagespläne = App.MainViewModel.Tagespläne.Where(
-          o =>
-             o.Model.Monatsplan.Halbjahresplan.Jahresplan.Jahrtyp == this.CurrentHalbjahresplan.HalbjahresplanJahrtyp.Model
-          && o.Model.Monatsplan.Halbjahresplan == this.CurrentHalbjahresplan.Model
-          && o.Model.Monatsplan.Halbjahresplan.Jahresplan.Klasse == this.CurrentHalbjahresplan.HalbjahresplanKlasse.Model
-          && o.Model.Monatsplan.Halbjahresplan.Jahresplan.Fach == this.CurrentHalbjahresplan.HalbjahresplanFach.Model
-          && o.Lerngruppentermine.Any(l => l is StundeViewModel));
-        foreach (var tagesplanViewModel in tagespläne)
+        foreach (var halbjahr in this.Halbjahrespläne.Where(o => o.HalbjahresplanHalbjahrtyp == this.CurrentHalbjahresplan.HalbjahresplanHalbjahrtyp))
         {
-          var stunden = tagesplanViewModel.Lerngruppentermine.Where(o => o is StundeViewModel).ToList();
-          foreach (var lerngruppenterminViewModel in stunden)
+          foreach (var monat in halbjahr.Monatspläne)
           {
-            var stunde = lerngruppenterminViewModel as StundeViewModel;
-            if (stunde.StundeStundenentwurf != null
-                && stunde.StundeStundenentwurf.StundenentwurfPhasenKurzform == string.Empty)
+            foreach (var tag in monat.Tagespläne)
             {
-              App.MainViewModel.Stundenentwürfe.RemoveTest(stunde.StundeStundenentwurf);
-            }
+              var stunden = tag.Lerngruppentermine.Where(o => o is StundeViewModel).ToList();
+              foreach (var lerngruppenterminViewModel in stunden)
+              {
+                var stunde = lerngruppenterminViewModel as StundeViewModel;
+                if (stunde.StundeStundenentwurf != null
+                    && stunde.StundeStundenentwurf.StundenentwurfPhasenKurzform == string.Empty)
+                {
+                  App.MainViewModel.Stundenentwürfe.RemoveTest(stunde.StundeStundenentwurf);
+                }
 
-            tagesplanViewModel.Lerngruppentermine.RemoveTest(lerngruppenterminViewModel);
-            App.MainViewModel.Stunden.RemoveTest(lerngruppenterminViewModel as StundeViewModel);
-            tagesplanViewModel.UpdateBeschreibung();
+                tag.Lerngruppentermine.RemoveTest(lerngruppenterminViewModel);
+                App.MainViewModel.Stunden.RemoveTest(lerngruppenterminViewModel as StundeViewModel);
+                tag.UpdateBeschreibung();
+              }
+            }
           }
         }
       }
@@ -640,6 +647,19 @@
           dlgZuweisen.ShowDialog();
         }
       }
+    }
+
+    private void StundenAlsOdsExportieren()
+    {
+      var fileDialog = new SaveFileDialog
+      {
+        Filter = "ODS files (*.ods)|*.ods|All files (*.*)|*.*",
+      };
+      if (fileDialog.ShowDialog() == true)
+      {
+        new OdsReaderWriter().WriteOdsFile(this, fileDialog.FileName);
+      }
+
     }
   }
 }

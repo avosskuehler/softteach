@@ -222,7 +222,6 @@ namespace SoftTeach
       //var window = new MainRibbonView { DataContext = MainViewModel };
       //window.Show();
 
-      Selection.Instance.PopulateFromSettings();
 
       var navWin = new MetroNavigationWindow();
       navWin.Closing += navWin_Closing;

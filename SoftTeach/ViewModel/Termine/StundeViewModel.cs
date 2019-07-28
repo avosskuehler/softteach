@@ -210,29 +210,29 @@ namespace SoftTeach.ViewModel.Termine
       {
         var stundeCounter = 1;
 
-        foreach (var monatsplan in ((Stunde)this.Model).Tagesplan.Monatsplan.Halbjahresplan.Monatspläne)
-        {
-          foreach (var tagesplan in monatsplan.Tagespläne.OrderBy(o => o.Datum))
-          {
-            var tagesplanViewModel = App.MainViewModel.Tagespläne.First(o => o.Model == tagesplan);
-            foreach (var lerngruppentermin in tagesplanViewModel.Lerngruppentermine)
-            {
-              if (lerngruppentermin is StundeViewModel)
-              {
-                var stunde = lerngruppentermin as StundeViewModel;
-                if (stunde == this)
-                {
-                  return stundeCounter;
-                }
+        //foreach (var monatsplan in ((Stunde)this.Model).Tagesplan.Monatsplan.Halbjahresplan.Monatspläne)
+        //{
+        //  foreach (var tagesplan in monatsplan.Tagespläne.OrderBy(o => o.Datum))
+        //  {
+        //    var tagesplanViewModel = App.MainViewModel.Tagespläne.First(o => o.Model == tagesplan);
+        //    foreach (var lerngruppentermin in tagesplanViewModel.Lerngruppentermine)
+        //    {
+        //      if (lerngruppentermin is StundeViewModel)
+        //      {
+        //        var stunde = lerngruppentermin as StundeViewModel;
+        //        if (stunde == this)
+        //        {
+        //          return stundeCounter;
+        //        }
 
-                var stundenzahl = stunde.TerminLetzteUnterrichtsstunde.UnterrichtsstundeIndex
-                  - stunde.TerminErsteUnterrichtsstunde.UnterrichtsstundeIndex + 1;
+        //        var stundenzahl = stunde.TerminLetzteUnterrichtsstunde.UnterrichtsstundeIndex
+        //          - stunde.TerminErsteUnterrichtsstunde.UnterrichtsstundeIndex + 1;
 
-                stundeCounter += stundenzahl;
-              }
-            }
-          }
-        }
+        //        stundeCounter += stundenzahl;
+        //      }
+        //    }
+        //  }
+        //}
 
         return stundeCounter;
       }

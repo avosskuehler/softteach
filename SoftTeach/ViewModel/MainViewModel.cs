@@ -51,6 +51,17 @@
     /// The inactive icon
     /// </summary>
     private ImageSource inactiveIcon;
+    private ArbeitWorkspaceViewModel arbeitWorkspace;
+    private RaumWorkspaceViewModel raumWorkspace;
+    private SchülerlisteWorkspaceViewModel schülerlisteWorkspace;
+    private JahresplanWorkspaceViewModel jahresplanWorkspace;
+    private SitzplanWorkspaceViewModel sitzplanWorkspace;
+    private WochenplanWorkspaceViewModel wochenplanWorkspace;
+    private ObservableCollection<JahresplanViewModel> jahrespläne;
+    private ObservableCollection<RaumViewModel> räume;
+    private ObservableCollection<SitzplanViewModel> sitzpläne;
+    private ObservableCollection<ArbeitViewModel> arbeiten;
+    private ObservableCollection<SchülerlisteViewModel> schülerlisten;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="MainViewModel"/> Klasse. 
@@ -94,21 +105,21 @@
       this.Bewertungsschemata = new ObservableCollection<BewertungsschemaViewModel>();
       this.Prozentbereiche = new ObservableCollection<ProzentbereichViewModel>();
 
-      this.Räume = new ObservableCollection<RaumViewModel>();
-      this.Raumpläne = new ObservableCollection<RaumplanViewModel>();
-      this.Sitzplätze = new ObservableCollection<SitzplatzViewModel>();
-      this.Sitzpläne = new ObservableCollection<SitzplanViewModel>();
-      this.Sitzplaneinträge = new ObservableCollection<SitzplaneintragViewModel>();
+      //this.Räume = new ObservableCollection<RaumViewModel>();
+      //this.Raumpläne = new ObservableCollection<RaumplanViewModel>();
+      //this.Sitzplätze = new ObservableCollection<SitzplatzViewModel>();
+      //this.Sitzpläne = new ObservableCollection<SitzplanViewModel>();
+      //this.Sitzplaneinträge = new ObservableCollection<SitzplaneintragViewModel>();
 
       // The creation of the Arbeiten includes the creation of
       // the Aufgaben and Ergebnisse models
-      this.Arbeiten = new ObservableCollection<ArbeitViewModel>();
+      //this.Arbeiten = new ObservableCollection<ArbeitViewModel>();
       this.Aufgaben = new ObservableCollection<AufgabeViewModel>();
       this.Ergebnisse = new ObservableCollection<ErgebnisViewModel>();
 
       // The creation of the Schülerlisten includes the creation of
       // the schülereintrag, noten, notentendenzen, hausaufgaben models
-      this.Schülerlisten = new ObservableCollection<SchülerlisteViewModel>();
+      //this.Schülerlisten = new ObservableCollection<SchülerlisteViewModel>();
       this.Schülereinträge = new ObservableCollection<SchülereintragViewModel>();
       this.Noten = new ObservableCollection<NoteViewModel>();
       this.Notentendenzen = new ObservableCollection<NotentendenzViewModel>();
@@ -123,10 +134,10 @@
 
       // The creation of the allJahrespläne includes the creation of the 
       // halbjahres/monats/tagesplan/stunde models
-      this.Jahrespläne = new ObservableCollection<JahresplanViewModel>();
-      this.Halbjahrespläne = new ObservableCollection<HalbjahresplanViewModel>();
-      this.Monatspläne = new ObservableCollection<MonatsplanViewModel>();
-      this.Tagespläne = new ObservableCollection<TagesplanViewModel>();
+      //this.Jahrespläne = new ObservableCollection<JahresplanViewModel>();
+      //this.Halbjahrespläne = new ObservableCollection<HalbjahresplanViewModel>();
+      //this.Monatspläne = new ObservableCollection<MonatsplanViewModel>();
+      //this.Tagespläne = new ObservableCollection<TagesplanViewModel>();
 
       // The creation of the allStundenentwürfe includes the creation of
       // the phase and dateiverweis models
@@ -227,7 +238,19 @@
     /// <summary>
     /// Holt alle Schülerlisten der Datenbank
     /// </summary>
-    public ObservableCollection<SchülerlisteViewModel> Schülerlisten { get; private set; }
+    public ObservableCollection<SchülerlisteViewModel> Schülerlisten
+    {
+      get
+      {
+        if (this.schülerlisten == null)
+        {
+          this.schülerlisten = new ObservableCollection<SchülerlisteViewModel>();
+          this.LoadSchülerlisten();
+        }
+
+        return this.schülerlisten;
+      }
+    }
 
     /// <summary>
     /// Holt alle Schülereinträge der Datenbank
@@ -307,22 +330,34 @@
     /// <summary>
     /// Holt alle Jahrespläne der Datenbank
     /// </summary>
-    public ObservableCollection<JahresplanViewModel> Jahrespläne { get; private set; }
+    public ObservableCollection<JahresplanViewModel> Jahrespläne
+    {
+      get
+      {
+        if (this.jahrespläne == null)
+        {
+          this.jahrespläne = new ObservableCollection<JahresplanViewModel>();
+          this.LoadJahrespläne();
+        }
 
-    /// <summary>
-    /// Holt alle Halbjahrespläne der Datenbank
-    /// </summary>
-    public ObservableCollection<HalbjahresplanViewModel> Halbjahrespläne { get; private set; }
+        return this.jahrespläne;
+      }
+    }
 
-    /// <summary>
-    /// Holt alle Monatspläne der Datenbank
-    /// </summary>
-    public ObservableCollection<MonatsplanViewModel> Monatspläne { get; private set; }
+    ///// <summary>
+    ///// Holt alle Halbjahrespläne der Datenbank
+    ///// </summary>
+    //public ObservableCollection<HalbjahresplanViewModel> Halbjahrespläne { get; private set; }
 
-    /// <summary>
-    /// Holt alle Tagespläne der Datenbank
-    /// </summary>
-    public ObservableCollection<TagesplanViewModel> Tagespläne { get; private set; }
+    ///// <summary>
+    ///// Holt alle Monatspläne der Datenbank
+    ///// </summary>
+    //public ObservableCollection<MonatsplanViewModel> Monatspläne { get; private set; }
+
+    ///// <summary>
+    ///// Holt alle Tagespläne der Datenbank
+    ///// </summary>
+    //public ObservableCollection<TagesplanViewModel> Tagespläne { get; private set; }
 
     /// <summary>
     /// Holt alle Stundenentwürfe der Datenbank
@@ -387,7 +422,19 @@
     /// <summary>
     /// Holt alle Arbeiten der Datenbank
     /// </summary>
-    public ObservableCollection<ArbeitViewModel> Arbeiten { get; private set; }
+    public ObservableCollection<ArbeitViewModel> Arbeiten
+    {
+      get
+      {
+        if (this.arbeiten == null)
+        {
+          this.arbeiten = new ObservableCollection<ArbeitViewModel>();
+          this.LoadArbeiten();
+        }
+
+        return this.arbeiten;
+      }
+    }
 
     /// <summary>
     /// Holt alle Aufgaben der Datenbank
@@ -417,27 +464,52 @@
     /// <summary>
     /// Holt alle Räume der Datenbank
     /// </summary>
-    public ObservableCollection<RaumViewModel> Räume { get; private set; }
+    public ObservableCollection<RaumViewModel> Räume
+    {
+      get
+      {
+        if (this.räume == null)
+        {
+          this.räume = new ObservableCollection<RaumViewModel>();
+          this.LoadRäume();
+        }
 
-    /// <summary>
-    /// Holt alle Raumpläne der Datenbank
-    /// </summary>
-    public ObservableCollection<RaumplanViewModel> Raumpläne { get; private set; }
+        return this.räume;
+      }
+    }
 
-    /// <summary>
-    /// Holt alle Sitzplätze der Datenbank
-    /// </summary>
-    public ObservableCollection<SitzplatzViewModel> Sitzplätze { get; private set; }
+    ///// <summary>
+    ///// Holt alle Raumpläne der Datenbank
+    ///// </summary>
+    //public ObservableCollection<RaumplanViewModel> Raumpläne { get; private set; }
+
+    ///// <summary>
+    ///// Holt alle Sitzplätze der Datenbank
+    ///// </summary>
+    //public ObservableCollection<SitzplatzViewModel> Sitzplätze { get; private set; }
 
     /// <summary>
     /// Holt alle Sitzpläne der Datenbank
     /// </summary>
-    public ObservableCollection<SitzplanViewModel> Sitzpläne { get; private set; }
+    public ObservableCollection<SitzplanViewModel> Sitzpläne
+    {
+      get
+      {
+        if (this.sitzpläne == null)
+        {
+          this.sitzpläne = new ObservableCollection<SitzplanViewModel>();
+          this.LoadSitzpläne();
+        }
 
-    /// <summary>
-    /// Holt alle Sitzplaneinträge der Datenbank
-    /// </summary>
-    public ObservableCollection<SitzplaneintragViewModel> Sitzplaneinträge { get; private set; }
+        return this.sitzpläne;
+      }
+    }
+
+
+    ///// <summary>
+    ///// Holt alle Sitzplaneinträge der Datenbank
+    ///// </summary>
+    //public ObservableCollection<SitzplaneintragViewModel> Sitzplaneinträge { get; private set; }
 
 
     #endregion ModelCollections
@@ -481,12 +553,35 @@
     /// <summary>
     /// Holt den workspace for managing Jahrespläne
     /// </summary>
-    public JahresplanWorkspaceViewModel JahresplanWorkspace { get; private set; }
+    public JahresplanWorkspaceViewModel JahresplanWorkspace
+    {
+      get
+      {
+        if (this.jahresplanWorkspace == null)
+        {
+          this.jahresplanWorkspace = new JahresplanWorkspaceViewModel();
+        }
+
+        return this.jahresplanWorkspace;
+      }
+    }
 
     /// <summary>
     /// Holt den workspace for managing Wochenpläne
     /// </summary>
-    public WochenplanWorkspaceViewModel WochenplanWorkspace { get; private set; }
+    public WochenplanWorkspaceViewModel WochenplanWorkspace
+    {
+      get
+      {
+        if (this.wochenplanWorkspace == null)
+        {
+          this.wochenplanWorkspace = new WochenplanWorkspaceViewModel();
+        }
+
+        return this.wochenplanWorkspace;
+      }
+    }
+
 
     /// <summary>
     /// Holt den workspace for managing Tagespläne
@@ -561,7 +656,18 @@
     /// <summary>
     /// Holt den workspace for managing Schülerlisten
     /// </summary>
-    public SchülerlisteWorkspaceViewModel SchülerlisteWorkspace { get; private set; }
+    public SchülerlisteWorkspaceViewModel SchülerlisteWorkspace
+    {
+      get
+      {
+        if (this.schülerlisteWorkspace == null)
+        {
+          this.schülerlisteWorkspace = new SchülerlisteWorkspaceViewModel();
+        }
+
+        return this.schülerlisteWorkspace;
+      }
+    }
 
     /// <summary>
     /// Holt den workspace for managing Schülereinträge
@@ -596,7 +702,18 @@
     /// <summary>
     /// Holt das Modul zur Bearbeitung von Arbeiten.
     /// </summary>
-    public ArbeitWorkspaceViewModel ArbeitWorkspace { get; private set; }
+    public ArbeitWorkspaceViewModel ArbeitWorkspace
+    {
+      get
+      {
+        if (this.arbeitWorkspace == null)
+        {
+          this.arbeitWorkspace = new ArbeitWorkspaceViewModel();
+        }
+
+        return this.arbeitWorkspace;
+      }
+    }
 
     /// <summary>
     /// Holt das Modul zur Bearbeitung von Bewertungsschemata.
@@ -606,12 +723,39 @@
     /// <summary>
     /// Holt das Modul zur Bearbeitung von Räumen.
     /// </summary>
-    public RaumWorkspaceViewModel RaumWorkspace { get; private set; }
+    public RaumWorkspaceViewModel RaumWorkspace
+    {
+      get
+      {
+        if (this.raumWorkspace == null)
+        {
+          this.raumWorkspace = new RaumWorkspaceViewModel();
+        }
+
+        return this.raumWorkspace;
+      }
+    }
+
 
     /// <summary>
     /// Holt das Modul zur Bearbeitung von Sitzplänen.
     /// </summary>
-    public SitzplanWorkspaceViewModel SitzplanWorkspace { get; private set; }
+    public SitzplanWorkspaceViewModel SitzplanWorkspace
+    {
+      get
+      {
+        // Schüler anlegen, wenn noch nicht geschehen, da für Sitzpläne benötigt
+        var schüler = this.SchülerlisteWorkspace;
+
+        if (this.sitzplanWorkspace == null)
+        {
+          this.sitzplanWorkspace = new SitzplanWorkspaceViewModel();
+        }
+
+        return this.sitzplanWorkspace;
+      }
+    }
+
 
     #endregion Workspaces
 
@@ -706,67 +850,62 @@
       // TODO: Divide into multiple contexts for performance reasons
       try
       {
-        foreach (var raum in context.Räume)
-        {
-          this.Räume.Add(new RaumViewModel(raum));
-        }
-        this.Räume.BubbleSort();
-
-        //foreach (var raumplan in context.Raumpläne)
-        //{
-        //  this.Raumpläne.Add(new RaumplanViewModel(raumplan));
-        //}
-
-        //foreach (var sitzplatz in context.Sitzplätze)
-        //{
-        //  this.Sitzplätze.Add(new SitzplatzViewModel(sitzplatz));
-        //}
+        //LoadRäume();
+        //Console.WriteLine("Elapsed Räume {0}", watch.ElapsedMilliseconds);
+        //watch.Restart();
 
         foreach (var jahrtyp in context.Jahrtypen)
         {
           this.Jahrtypen.Add(new JahrtypViewModel(jahrtyp));
         }
         Console.WriteLine("Elapsed Jahrtypen {0}", watch.ElapsedMilliseconds);
+        watch.Restart();
 
         foreach (var halbjahrtyp in context.Halbjahrtypen)
         {
           this.Halbjahrtypen.Add(new HalbjahrtypViewModel(halbjahrtyp));
         }
         Console.WriteLine("Elapsed Halbjahrtypen {0}", watch.ElapsedMilliseconds);
+        watch.Restart();
 
         foreach (var monatstyp in context.Monatstypen)
         {
           this.Monatstypen.Add(new MonatstypViewModel(monatstyp));
         }
         Console.WriteLine("Elapsed Monatstypen {0}", watch.ElapsedMilliseconds);
+        watch.Restart();
 
-        foreach (var termintyp in context.Termintypen)
+        foreach (var termintyp in context.Termintypen.OrderBy(o => o.Bezeichnung))
         {
           this.Termintypen.Add(new TermintypViewModel(termintyp));
         }
-        this.Termintypen.BubbleSort();
+        //this.Termintypen.BubbleSort();
         Console.WriteLine("Elapsed Termintypen {0}", watch.ElapsedMilliseconds);
+        watch.Restart();
 
-        foreach (var medium in context.Medien)
+        foreach (var medium in context.Medien.OrderBy(o => o.Bezeichnung))
         {
           this.Medien.Add(new MediumViewModel(medium));
         }
-        this.Medien.BubbleSort();
+        //this.Medien.BubbleSort();
         Console.WriteLine("Elapsed Medien {0}", watch.ElapsedMilliseconds);
+        watch.Restart();
 
-        foreach (var dateityp in context.Dateitypen)
+        foreach (var dateityp in context.Dateitypen.OrderBy(o => o.Bezeichnung))
         {
           this.Dateitypen.Add(new DateitypViewModel(dateityp));
         }
-        this.Dateitypen.BubbleSort();
+        //this.Dateitypen.BubbleSort();
         Console.WriteLine("Elapsed Dateitypen {0}", watch.ElapsedMilliseconds);
+        watch.Restart();
 
-        foreach (var sozialform in context.Sozialformen)
+        foreach (var sozialform in context.Sozialformen.OrderBy(o => o.Bezeichnung))
         {
           this.Sozialformen.Add(new SozialformViewModel(sozialform));
         }
-        this.Sozialformen.BubbleSort();
+        //this.Sozialformen.BubbleSort();
         Console.WriteLine("Elapsed Sozialformen {0}", watch.ElapsedMilliseconds);
+        watch.Restart();
 
         foreach (var unterrichtsstunde in context.Unterrichtsstunden)
         {
@@ -780,18 +919,20 @@
         //}
         //this.Klassen.BubbleSort();
 
-        foreach (var fach in context.Fächer)
+        foreach (var fach in context.Fächer.OrderBy(o => o.Bezeichnung))
         {
           this.Fächer.Add(new FachViewModel(fach));
         }
         //this.Fächer.BubbleSort();
         Console.WriteLine("Elapsed Fächer {0}", watch.ElapsedMilliseconds);
+        watch.Restart();
 
         foreach (var modul in context.Module)
         {
           this.Module.Add(new ModulViewModel(modul));
         }
         Console.WriteLine("Elapsed Module {0}", watch.ElapsedMilliseconds);
+        watch.Restart();
 
         //foreach (var reihe in context.Reihen)
         //{
@@ -808,12 +949,14 @@
           this.Ferien.Add(new FerienViewModel(ferien));
         }
         Console.WriteLine("Elapsed Ferien {0}", watch.ElapsedMilliseconds);
+        watch.Restart();
 
         foreach (var fachstundenanzahl in context.Fachstundenanzahlen)
         {
           this.Fachstundenanzahl.Add(new FachstundenanzahlViewModel(fachstundenanzahl));
         }
         Console.WriteLine("Elapsed Fachstundenanzahl {0}", watch.ElapsedMilliseconds);
+        watch.Restart();
 
         //foreach (var klassenstufe in context.Klassenstufen)
         //{
@@ -821,56 +964,54 @@
         //}
         //this.Klassenstufen.BubbleSort();
 
-        foreach (var tendenztyp in context.Tendenztypen)
+        foreach (var tendenztyp in context.Tendenztypen.OrderBy(o => o.Bezeichnung))
         {
           this.Tendenztypen.Add(new TendenztypViewModel(tendenztyp));
         }
-        this.Tendenztypen.BubbleSort();
+        //this.Tendenztypen.BubbleSort();
         Console.WriteLine("Elapsed Tendenztypen {0}", watch.ElapsedMilliseconds);
+        watch.Restart();
 
         foreach (var tendenz in context.Tendenzen)
         {
           this.Tendenzen.Add(new TendenzViewModel(tendenz));
         }
         Console.WriteLine("Elapsed Tendenzen {0}", watch.ElapsedMilliseconds);
+        watch.Restart();
 
         foreach (var zensur in context.Zensuren)
         {
           this.Zensuren.Add(new ZensurViewModel(zensur));
         }
         Console.WriteLine("Elapsed Zensuren {0}", watch.ElapsedMilliseconds);
+        watch.Restart();
 
         foreach (var notenWichtung in context.NotenWichtungen)
         {
           this.NotenWichtungen.Add(new NotenWichtungViewModel(notenWichtung));
         }
         Console.WriteLine("Elapsed NotenWichtungen {0}", watch.ElapsedMilliseconds);
+        watch.Restart();
 
-        foreach (var arbeit in context.Arbeiten)
+        // Now we fill the aggregated entities
+        foreach (var jahrgangsstufe in context.Jahrgangsstufen)
         {
-          this.Arbeiten.Add(new ArbeitViewModel(arbeit));
+          this.Jahrgangsstufen.Add(new JahrgangsstufeViewModel(jahrgangsstufe));
         }
-        Console.WriteLine("Elapsed Arbeiten {0}", watch.ElapsedMilliseconds);
+        Console.WriteLine("Elapsed Jahrgangsstufen {0}", watch.ElapsedMilliseconds);
+        watch.Restart();
 
-        foreach (Termin termin in context.Termine)
+        //LoadArbeiten();
+        //Console.WriteLine("Elapsed Arbeiten {0}", watch.ElapsedMilliseconds);
+        //watch.Restart();
+        Selection.Instance.PopulateFromSettings();
+
+        foreach (Schultermin termin in context.Termine.OfType<Schultermin>().Where(o => o.Jahrtyp.Jahr == Selection.Instance.Jahrtyp.JahrtypJahr))
         {
-          if (termin is Schultermin)
-          {
-            this.Schultermine.Add(new SchulterminViewModel(termin as Schultermin));
-          }
-          //else if (termin is Lerngruppentermin)
-          //{
-          //  if (termin is Stunde)
-          //  {
-          //    this.Stunden.Add(new StundeViewModel(termin as Stunde));
-          //  }
-          //  else
-          //  {
-          //    this.Lerngruppentermine.Add(new LerngruppenterminViewModel(termin as Lerngruppentermin));
-          //  }
-          //}
+          this.Schultermine.Add(new SchulterminViewModel(termin as Schultermin));
         }
         Console.WriteLine("Elapsed Schultermine {0}", watch.ElapsedMilliseconds);
+        watch.Restart();
 
         //foreach (BetroffeneKlasse betroffeneKlasse in context.BetroffeneKlassen)
         //{
@@ -878,17 +1019,16 @@
         //}
         //Console.WriteLine("Elapsed BetroffeneKlasse {0}", watch.ElapsedMilliseconds);
 
-        foreach (Person person in context.Personen)
+        foreach (Person person in context.Personen.Where(o => o.Schülereintrag.Any(a => a.Schülerliste.Jahrtyp.Jahr == Selection.Instance.Jahrtyp.JahrtypJahr)))
         {
           this.Personen.Add(new PersonViewModel(person));
         }
         Console.WriteLine("Elapsed Personen {0}", watch.ElapsedMilliseconds);
+        watch.Restart();
 
-        foreach (var schülerliste in context.Schülerlisten)
-        {
-          this.Schülerlisten.Add(new SchülerlisteViewModel(schülerliste));
-        }
-        Console.WriteLine("Elapsed Schülerlisten {0}", watch.ElapsedMilliseconds);
+        //LoadSchülerliste();
+        //Console.WriteLine("Elapsed Schülerlisten {0}", watch.ElapsedMilliseconds);
+        //watch.Restart();
 
         //foreach (var schülereintrag in context.Schülereinträge)
         //{
@@ -905,6 +1045,7 @@
           this.Bewertungsschemata.Add(new BewertungsschemaViewModel(bewertungsschema));
         }
         Console.WriteLine("Elapsed Bewertungsschemata {0}", watch.ElapsedMilliseconds);
+        watch.Restart();
 
         //foreach (var prozentbereich in context.Prozentbereiche)
         //{
@@ -912,18 +1053,13 @@
         //}
         //Console.WriteLine("Elapsed Prozentbereiche {0}", watch.ElapsedMilliseconds);
 
-        // Now we fill the aggregated entities
-        foreach (var jahrgangsstufe in context.Jahrgangsstufen)
-        {
-          this.Jahrgangsstufen.Add(new JahrgangsstufeViewModel(jahrgangsstufe));
-        }
-        Console.WriteLine("Elapsed Jahrgangsstufen {0}", watch.ElapsedMilliseconds);
 
         foreach (var stundenentwurf in context.Stundenentwürfe)
         {
           this.Stundenentwürfe.Add(new StundenentwurfViewModel(stundenentwurf));
         }
         Console.WriteLine("Elapsed Stundenentwürfe {0}", watch.ElapsedMilliseconds);
+        watch.Restart();
 
         //foreach (var phase in context.Phasen)
         //{
@@ -941,12 +1077,11 @@
           this.Curricula.Add(new CurriculumViewModel(curriculum));
         }
         Console.WriteLine("Elapsed Curricula {0}", watch.ElapsedMilliseconds);
+        watch.Restart();
 
-        foreach (var jahresplan in context.Jahrespläne)
-        {
-          this.Jahrespläne.Add(new JahresplanViewModel(jahresplan));
-        }
-        Console.WriteLine("Elapsed Jahrespläne {0}", watch.ElapsedMilliseconds);
+        //LoadJahrespläne();
+        //Console.WriteLine("Elapsed Jahrespläne {0}", watch.ElapsedMilliseconds);
+        //watch.Restart();
 
         //foreach (var halbjahresplan in context.Halbjahrespläne)
         //{
@@ -981,6 +1116,7 @@
           this.Stundenpläne.Add(new StundenplanViewModel(stundenplan));
         }
         Console.WriteLine("Elapsed Stundenpläne {0}", watch.ElapsedMilliseconds);
+        watch.Restart();
 
         //foreach (var stundenplaneintrag in context.Stundenplaneinträge)
         //{
@@ -1009,10 +1145,12 @@
         //}
 
         // Weiter hinten, da personen, räume und schülerlisten benötigt werden
-        foreach (var sitzplan in context.Sitzpläne)
-        {
-          this.Sitzpläne.Add(new SitzplanViewModel(sitzplan));
-        }
+        //foreach (var sitzplan in context.Sitzpläne)
+        //{
+        //  this.Sitzpläne.Add(new SitzplanViewModel(sitzplan));
+        //}
+        //Console.WriteLine("Elapsed Sitzpläne {0}", watch.ElapsedMilliseconds);
+        //watch.Restart();
 
         //foreach (var sitzplaneintrag in context.Sitzplaneinträge)
         //{
@@ -1022,10 +1160,10 @@
 
         this.StundenentwurfWorkspace = new StundenentwurfWorkspaceViewModel();
         this.CurriculumWorkspace = new CurriculumWorkspaceViewModel();
-        this.JahresplanWorkspace = new JahresplanWorkspaceViewModel();
+        //this.JahresplanWorkspace = new JahresplanWorkspaceViewModel();
         this.StundenplanWorkspace = new StundenplanWorkspaceViewModel();
         this.SchulterminWorkspace = new SchulterminWorkspaceViewModel();
-        this.WochenplanWorkspace = new WochenplanWorkspaceViewModel();
+        //this.WochenplanWorkspace = new WochenplanWorkspaceViewModel();
         this.TagesplanWorkspace = new TagesplanWorkspaceViewModel();
         this.MediumWorkspace = new MediumWorkspaceViewModel();
         this.DateitypWorkspace = new DateitypWorkspaceViewModel();
@@ -1038,17 +1176,17 @@
         this.UnterrichtsstundeWorkspace = new UnterrichtsstundeWorkspaceViewModel();
         this.FerienWorkspace = new FerienWorkspaceViewModel();
         this.FachstundenanzahlWorkspace = new FachstundenanzahlWorkspaceViewModel();
-        this.SchülerlisteWorkspace = new SchülerlisteWorkspaceViewModel();
+        //this.SchülerlisteWorkspace = new SchülerlisteWorkspaceViewModel();
         this.SchülereintragWorkspace = new SchülereintragWorkspaceViewModel();
         this.PersonenWorkspace = new PersonenWorkspaceViewModel();
         this.NotenWichtungWorkspace = new NotenWichtungWorkspaceViewModel();
         this.TendenztypWorkspace = new TendenztypWorkspaceViewModel();
         this.TendenzWorkspace = new TendenzWorkspaceViewModel();
         this.ZensurWorkspace = new ZensurWorkspaceViewModel();
-        this.ArbeitWorkspace = new ArbeitWorkspaceViewModel();
+        //this.ArbeitWorkspace = new ArbeitWorkspaceViewModel();
         this.BewertungsschemaWorkspace = new BewertungsschemaWorkspaceViewModel();
-        this.RaumWorkspace = new RaumWorkspaceViewModel();
-        this.SitzplanWorkspace = new SitzplanWorkspaceViewModel();
+        //this.RaumWorkspace = new RaumWorkspaceViewModel();
+        //this.SitzplanWorkspace = new SitzplanWorkspaceViewModel();
 
         this.RedoCommand = new DelegateCommand(this.ExecuteRedoCommand, this.CanExecuteRedoCommand);
         this.UndoCommand = new DelegateCommand(this.ExecuteUndoCommand, this.CanExecuteUndoCommand);
@@ -1099,10 +1237,10 @@
         this.Prozentbereiche.CollectionChanged += this.ProzentbereicheCollectionChanged;
 
         this.Räume.CollectionChanged += this.RäumeCollectionChanged;
-        this.Raumpläne.CollectionChanged += this.RaumpläneCollectionChanged;
-        this.Sitzplätze.CollectionChanged += this.SitzplätzeCollectionChanged;
+        //this.Raumpläne.CollectionChanged += this.RaumpläneCollectionChanged;
+        //this.Sitzplätze.CollectionChanged += this.SitzplätzeCollectionChanged;
         this.Sitzpläne.CollectionChanged += this.SitzpläneCollectionChanged;
-        this.Sitzplaneinträge.CollectionChanged += this.SitzplaneinträgeCollectionChanged;
+        //this.Sitzplaneinträge.CollectionChanged += this.SitzplaneinträgeCollectionChanged;
 
         this.Jahrgangsstufen.CollectionChanged += this.JahrgangsstufenCollectionChanged;
         this.Stundenentwürfe.CollectionChanged += this.StundenentwürfeCollectionChanged;
@@ -1110,9 +1248,9 @@
         this.Dateiverweise.CollectionChanged += this.DateiverweiseCollectionChanged;
         this.Curricula.CollectionChanged += this.CurriculaCollectionChanged;
         this.Jahrespläne.CollectionChanged += this.JahrespläneCollectionChanged;
-        this.Halbjahrespläne.CollectionChanged += this.HalbjahrespläneCollectionChanged;
-        this.Monatspläne.CollectionChanged += this.MonatspläneCollectionChanged;
-        this.Tagespläne.CollectionChanged += this.TagespläneCollectionChanged;
+        //this.Halbjahrespläne.CollectionChanged += this.HalbjahrespläneCollectionChanged;
+        //this.Monatspläne.CollectionChanged += this.MonatspläneCollectionChanged;
+        //this.Tagespläne.CollectionChanged += this.TagespläneCollectionChanged;
         this.Schulwochen.CollectionChanged += this.SchulwochenCollectionChanged;
         this.Schultage.CollectionChanged += this.SchultageCollectionChanged;
         this.Stundenpläne.CollectionChanged += this.StundenpläneCollectionChanged;
@@ -1127,6 +1265,61 @@
       {
         Log.HandleException(ex);
       }
+    }
+
+    public void LoadJahrespläne()
+    {
+      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+      foreach (var jahresplan in App.UnitOfWork.Context.Jahrespläne.Where(o => o.Jahrtyp.Jahr == Selection.Instance.Jahrtyp.JahrtypJahr))
+      {
+        this.Jahrespläne.Add(new JahresplanViewModel(jahresplan));
+      }
+      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
+    }
+
+    public void LoadSchülerlisten()
+    {
+      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+      foreach (var schülerliste in App.UnitOfWork.Context.Schülerlisten.Where(o => o.Jahrtyp.Jahr == Selection.Instance.Jahrtyp.JahrtypJahr))
+      {
+        this.Schülerlisten.Add(new SchülerlisteViewModel(schülerliste));
+      }
+      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
+    }
+
+    public void LoadArbeiten()
+    {
+      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+      foreach (var arbeit in App.UnitOfWork.Context.Arbeiten.Where(o => o.Jahrtyp.Jahr == Selection.Instance.Jahrtyp.JahrtypJahr))
+      {
+        this.Arbeiten.Add(new ArbeitViewModel(arbeit));
+      }
+      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
+    }
+
+    /// <summary>
+    /// Lädt alle Räume ins View Model
+    /// </summary>
+    public void LoadRäume()
+    {
+      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+      foreach (var raum in App.UnitOfWork.Context.Räume.OrderBy(o => o.Bezeichnung))
+      {
+        this.Räume.Add(new RaumViewModel(raum));
+      }
+      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
+    }
+
+    public void LoadSitzpläne()
+    {
+      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+
+      foreach (var sitzplan in App.UnitOfWork.Context.Sitzpläne.Where(o => o.Schülerliste.Jahrtyp.Jahr == Selection.Instance.Jahrtyp.JahrtypJahr))
+      {
+        this.Sitzpläne.Add(new SitzplanViewModel(sitzplan));
+      }
+
+      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
     }
 
     /// <summary>
@@ -1236,12 +1429,13 @@
       var von = DateTime.Now.AddDays(-14);
       var bis = DateTime.Now;
       var nichtBenoteteStundenderLetzten14Tage =
-        this.Stunden.Where(
+        this.Stunden.ToList().Where(
           o =>
           o.LerngruppenterminDatum > von && o.LerngruppenterminDatum <= bis && !o.StundeIstBenotet
           && (o.LerngruppenterminFach == "Mathematik" || o.LerngruppenterminFach == "Physik"));
 
       var nochZuBenotendeStunden = new ObservableCollection<StundeViewModel>();
+
 
       foreach (var stundeViewModel in nichtBenoteteStundenderLetzten14Tage)
       {
@@ -1656,27 +1850,27 @@
       this.UndoableCollectionChanged(this, "Räume", this.Räume, e, "Änderung der Räume");
     }
 
-    /// <summary>
-    /// Tritt auf, wenn die RaumpläneCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void RaumpläneCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Raumpläne", this.Raumpläne, e, "Änderung der Raumpläne");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die RaumpläneCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void RaumpläneCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Raumpläne", this.Raumpläne, e, "Änderung der Raumpläne");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die SitzplätzeCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void SitzplätzeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Sitzplätze", this.Sitzplätze, e, "Änderung der Sitzplätze");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die SitzplätzeCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void SitzplätzeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Sitzplätze", this.Sitzplätze, e, "Änderung der Sitzplätze");
+    //}
 
     /// <summary>
     /// Tritt auf, wenn die SitzpläneCollection verändert wurde.
@@ -1689,16 +1883,16 @@
       this.UndoableCollectionChanged(this, "Sitzpläne", this.Sitzpläne, e, "Änderung der Sitzpläne");
     }
 
-    /// <summary>
-    /// Tritt auf, wenn die SitzplaneinträgeCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void SitzplaneinträgeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Sitzplaneinträge", this.Sitzplaneinträge, e, "Änderung der Sitzplaneinträge");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die SitzplaneinträgeCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void SitzplaneinträgeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Sitzplaneinträge", this.Sitzplaneinträge, e, "Änderung der Sitzplaneinträge");
+    //}
 
     /// <summary>
     /// Tritt auf, wenn die JahrgangsstufenCollection verändert wurde.
@@ -1772,10 +1966,10 @@
     /// </summary>
     /// <param name="sender">Die auslösende Collection</param>
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void HalbjahrespläneCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Halbjahrespläne", this.Halbjahrespläne, e, "Änderung der Halbjahrespläne");
-    }
+    //private void HalbjahrespläneCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Halbjahrespläne", this.Halbjahrespläne, e, "Änderung der Halbjahrespläne");
+    //}
 
     /// <summary>
     /// Tritt auf, wenn die MonatspläneCollection verändert wurde.
@@ -1783,10 +1977,10 @@
     /// </summary>
     /// <param name="sender">Die auslösende Collection</param>
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void MonatspläneCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Monatspläne", this.Monatspläne, e, "Änderung der Monatspläne");
-    }
+    //private void MonatspläneCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Monatspläne", this.Monatspläne, e, "Änderung der Monatspläne");
+    //}
 
     /// <summary>
     /// Tritt auf, wenn die TagespläneCollection verändert wurde.
@@ -1794,10 +1988,10 @@
     /// </summary>
     /// <param name="sender">Die auslösende Collection</param>
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void TagespläneCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Tagespläne", this.Tagespläne, e, "Änderung der Tagespläne");
-    }
+    //private void TagespläneCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Tagespläne", this.Tagespläne, e, "Änderung der Tagespläne");
+    //}
 
     /// <summary>
     /// Tritt auf, wenn die SchulwochenCollection verändert wurde.

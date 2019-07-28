@@ -29,11 +29,11 @@ Stundenplaneinträge ändern Sie im Stundenplan Modul."/>
           <DataGridTextColumn Header="Schuljahr" Binding="{Binding Path=Model.Stundenplan.Jahrtyp.Bezeichnung}"/>
           <DataGridTextColumn Header="Fach" Binding="{Binding Path=StundenplaneintragFach.FachBezeichnung}"/>
           <DataGridTextColumn Header="Klasse" Binding="{Binding Path=StundenplaneintragKlasse.KlasseBezeichnung}"/>
-          <DataGridTextColumn Header="Gültig ab" Binding="{Binding Path=Model.Stundenplan.StundenplanGültigAb, StringFormat={}{0:dd. MMMM yyyy},ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}"/>
+          <DataGridTextColumn Header="Gültig ab" Binding="{Binding Path=Model.Stundenplan.GültigAb, StringFormat={}{0:dd. MMMM yyyy}}"/>
           <DataGridTextColumn Header="von" Binding="{Binding Path=StundenplaneintragErsteUnterrichtsstundeIndex}"/>
           <DataGridTextColumn Header="bis" Binding="{Binding Path=StundenplaneintragLetzteUnterrichtsstundeIndex}"/>
           <DataGridTextColumn Header="StundenplaneintragWochentagIndex" Binding="{Binding Path=StundenplaneintragWochentagIndex}"/>
-          <DataGridTextColumn Header="Raum" Binding="{Binding Path=StundenplaneintragRaum}"/>
+          <DataGridTextColumn Header="Raum" Binding="{Binding Path=StundenplaneintragRaum.Bezeichnung}"/>
           <DataGridTextColumn Header="Dummy" Binding="{Binding Path=IsDummy}"/>
         </DataGrid.Columns>
       </DataGrid>

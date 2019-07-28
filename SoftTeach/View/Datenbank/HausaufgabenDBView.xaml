@@ -24,9 +24,9 @@
       <DataGrid ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Hausaufgaben}" 
                 AutoGenerateColumns="False" IsReadOnly="True">
         <DataGrid.Columns>
-          <DataGridTextColumn Header="Schuljahr" Binding="{Binding Path=Model.Schülereinträge.Schülerliste.Jahrtypen.Bezeichnung}"/>
-          <DataGridTextColumn Header="Nachname" Binding="{Binding Path=Model.Schülereinträge.Person.Nachname}"/>
-          <DataGridTextColumn Header="Vorname" Binding="{Binding Path=Model.Schülereinträge.Person.Vorname}"/>
+          <DataGridTextColumn Header="Schuljahr" Binding="{Binding Path=Model.Schülereintrag.Schülerliste.Jahrtyp.Bezeichnung}"/>
+          <DataGridTextColumn Header="Nachname" Binding="{Binding Path=Model.Schülereintrag.Person.Nachname}"/>
+          <DataGridTextColumn Header="Vorname" Binding="{Binding Path=Model.Schülereintrag.Person.Vorname}"/>
           <DataGridTextColumn Header="Bezeichnung" Binding="{Binding Path=HausaufgabeBezeichnung}"/>
           <DataGridTextColumn Header="Datum" Binding="{Binding Path=HausaufgabeDatumString}"/>
           <DataGridCheckBoxColumn Header="IstNachgereicht" Binding="{Binding Path=HausaufgabeIstNachgereicht}"/>

@@ -43,11 +43,11 @@ namespace SoftTeach.View.Curricula
     {
       this.InitializeComponent();
       this.DataContext = this;
-      var filteredHalbjahrespläne = App.MainViewModel.Halbjahrespläne.Where(
-        o =>
+      var filteredHalbjahrespläne = App.MainViewModel.Jahrespläne.SelectMany(a => a.Halbjahrespläne.Where(
+                o =>
           o.HalbjahresplanFach == fachViewModel
           && o.HalbjahresplanKlasse.Model.Klassenstufe == klassenstufeViewModel.Model
-          && o.HalbjahresplanHalbjahrtyp == halbjahrtypViewModel);
+          && o.HalbjahresplanHalbjahrtyp == halbjahrtypViewModel));
       this.FilteredHalbjahrespläne = new ObservableCollection<HalbjahresplanViewModel>();
       foreach (var halbjahresplanViewModel in filteredHalbjahrespläne)
       {

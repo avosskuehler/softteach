@@ -71,6 +71,7 @@
     {
       Configuration.Instance.IsMetroMode = true;
       Configuration.Instance.NavigateTarget = NavigateTarget.Gruppen;
+      var schülerlisten = App.MainViewModel.SchülerlisteWorkspace;
       this.NavigationService.Navigate(new MetroSelectSchülerlistePage());
     }
 
@@ -78,6 +79,8 @@
     {
       Configuration.Instance.IsMetroMode = true;
       Configuration.Instance.NavigateTarget = NavigateTarget.Sitzpläne;
+      var schülerlisten = App.MainViewModel.SchülerlisteWorkspace;
+      var sitzpläne = App.MainViewModel.SitzplanWorkspace;
       this.NavigationService.Navigate(new MetroSelectSchülerlistePage());
     }
 
@@ -91,6 +94,13 @@
       Selection.Instance.UpdateUserSettings();
       Settings.Default.Save();
       App.UnitOfWork.SaveChanges();
+    }
+
+    private void ExitOnClick(object sender, RoutedEventArgs e)
+    {
+      App.MainViewModel.SaveCommand.Execute(null);
+
+      App.Current.Shutdown();
     }
   }
 }

@@ -621,9 +621,9 @@
       <TabItem Header="Noten">
         <ContentControl Margin="5" Content="{Binding Path=.SchülereintragWorkspace}" />
       </TabItem>
-      <TabItem Header="Sitzpläne">
+      <!--<TabItem Header="Sitzpläne">
         <ContentControl Margin="5" Content="{Binding Path=.SitzplanWorkspace}" />
-      </TabItem>
+      </TabItem>-->
     </TabControl>
   </Grid>
 </RibbonWindow>

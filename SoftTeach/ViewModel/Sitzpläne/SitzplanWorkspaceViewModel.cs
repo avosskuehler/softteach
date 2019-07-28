@@ -52,10 +52,12 @@
       var numberOfSitzpläne = App.MainViewModel.Sitzpläne.Count;
       //this.CurrentSitzplan = numberOfSitzpläne > 0 ? App.MainViewModel.Sitzpläne[numberOfSitzpläne - 1] : null;
       this.SitzpläneView = CollectionViewSource.GetDefaultView(App.MainViewModel.Sitzpläne);
-      this.SitzpläneView.Filter = this.CustomFilter;
-      this.SitzpläneView.SortDescriptions.Add(new SortDescription("SitzplanSchülerliste", ListSortDirection.Ascending));
-      this.SitzpläneView.SortDescriptions.Add(new SortDescription("SitzplanRaumplan", ListSortDirection.Ascending));
-      this.SitzpläneView.Refresh();
+      using (this.SitzpläneView.DeferRefresh())
+      {
+        this.SitzpläneView.Filter = this.CustomFilter;
+        this.SitzpläneView.SortDescriptions.Add(new SortDescription("SitzplanSchülerliste", ListSortDirection.Ascending));
+        this.SitzpläneView.SortDescriptions.Add(new SortDescription("SitzplanRaumplan", ListSortDirection.Ascending));
+      }
 
       // Re-act to any changes from outside this ViewModel
       App.MainViewModel.Sitzpläne.CollectionChanged += (sender, e) =>
@@ -226,7 +228,7 @@
             "Bitte klicken Sie erst den Raumplan an, für den der Sitzplan erstellt werden soll");
           return;
         }
-        
+
         if (Selection.Instance.Schülerliste != null)
         {
           sitzplan.Schülerliste = Selection.Instance.Schülerliste.Model;
@@ -245,6 +247,7 @@
     {
       using (new UndoBatch(App.MainViewModel, string.Format("Sitzplan {0} gelöscht.", this.CurrentSitzplan.SitzplanBezeichnung), false))
       {
+        App.UnitOfWork.Context.Sitzpläne.Remove(this.CurrentSitzplan.Model);
         App.MainViewModel.Sitzpläne.RemoveTest(this.CurrentSitzplan);
         this.CurrentSitzplan = null;
       }

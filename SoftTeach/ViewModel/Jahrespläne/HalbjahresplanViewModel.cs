@@ -48,7 +48,7 @@
       foreach (var monatsplan in halbjahresplan.Monatspläne)
       {
         var vm = new MonatsplanViewModel(monatsplan);
-        App.MainViewModel.Monatspläne.Add(vm);
+        //App.MainViewModel.Monatspläne.Add(vm);
         this.Monatspläne.Add(vm);
       }
 

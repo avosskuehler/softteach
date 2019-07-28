@@ -10,6 +10,8 @@
     /// </summary>
     public MetroRäumePage()
     {
+      // Lädt die Räume, falls noch nicht geschehen
+      var räume = App.MainViewModel.RaumWorkspace;
       this.InitializeComponent();
     }
   }
