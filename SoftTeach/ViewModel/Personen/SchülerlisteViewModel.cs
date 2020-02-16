@@ -95,7 +95,7 @@
       foreach (var schülereintrag in schülerliste.Schülereinträge)
       {
         var vm = new SchülereintragViewModel(schülereintrag);
-        App.MainViewModel.Schülereinträge.Add(vm);
+        //App.MainViewModel.Schülereinträge.Add(vm);
         this.Schülereinträge.Add(vm);
       }
 
@@ -564,6 +564,8 @@
         schülerlisteClone.Schülereinträge.Add(schülereintragClone);
       }
 
+      App.UnitOfWork.Context.Schülerlisten.Add(schülerlisteClone);
+
       var vm = new SchülerlisteViewModel(schülerlisteClone);
       App.MainViewModel.Schülerlisten.Add(vm);
       return vm;
@@ -696,8 +698,9 @@
               var schülereintrag = new Schülereintrag();
               schülereintrag.Person = person.Model;
               schülereintrag.Schülerliste = this.Model;
+              App.UnitOfWork.Context.Schülereinträge.Add(schülereintrag);
               var vm = new SchülereintragViewModel(schülereintrag);
-              App.MainViewModel.Schülereinträge.Add(vm);
+              //App.MainViewModel.Schülereinträge.Add(vm);
               this.Schülereinträge.Add(vm);
               this.CurrentSchülereintrag = vm;
             }
@@ -724,7 +727,7 @@
     {
       using (new UndoBatch(App.MainViewModel, string.Format("Schüler {0} aus Schülerliste {1} gelöscht.", this.CurrentSchülereintrag, this), false))
       {
-        App.MainViewModel.Schülereinträge.RemoveTest(this.CurrentSchülereintrag);
+        App.UnitOfWork.Context.Schülereinträge.Remove(this.CurrentSchülereintrag.Model);
         this.Schülereinträge.RemoveTest(this.CurrentSchülereintrag);
         this.CurrentSchülereintrag = null;
       }
@@ -761,8 +764,9 @@
         var schülereintrag = new Schülereintrag();
         schülereintrag.Person = personViewModel.Model;
         schülereintrag.Schülerliste = this.Model;
+        App.UnitOfWork.Context.Schülereinträge.Add(schülereintrag);
         var vm = new SchülereintragViewModel(schülereintrag);
-        App.MainViewModel.Schülereinträge.Add(vm);
+        //App.MainViewModel.Schülereinträge.Add(vm);
         this.Schülereinträge.Add(vm);
         this.CurrentSchülereintrag = vm;
       }

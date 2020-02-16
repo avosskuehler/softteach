@@ -83,9 +83,9 @@
         </Grid.ColumnDefinitions>
         <StackPanel Orientation="Horizontal" Grid.Column="0">
           <Label Foreground="White" Style="{StaticResource MetroLabelStyle}">Stundennoten für</Label>
-          <Label Foreground="White" Style="{StaticResource MetroLabelStyle}" Content="{Binding Path=CurrentStunde.StundeStundenentwurfTitel}"/>
+          <Label Foreground="White" Style="{StaticResource MetroLabelStyle}" Content="{Binding Path=CurrentStunde.Stundenentwurf.Stundenthema}"/>
           <Label Foreground="White" Style="{StaticResource MetroLabelStyle}">vom</Label>
-          <Label Foreground="White" Style="{StaticResource MetroLabelStyle}" Content="{Binding Path=CurrentStunde.StundeDatum}"/>
+          <Label Foreground="White" Style="{StaticResource MetroLabelStyle}" Content="{Binding Path=CurrentStunde.Stundenentwurf.Datum, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=DatumKurz}"/>
         </StackPanel>
         <Button Grid.Column="3" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=NoteneintragErledigtCommand}" ToolTip="Noteneintrag erledigt." Margin="5">
           <StackPanel Orientation="Horizontal">

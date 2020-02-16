@@ -108,6 +108,10 @@
     </Grid>
     <Grid Background="{StaticResource DefaultButtonsBackgroundBrush}" Grid.Row="2">
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+        <Button Command="{Binding Path=StundeEinfügenCommand}" 
+                ToolTip="Stunde einfügen">Stunde einfügen
+        </Button>
+        <Rectangle Width="30"/>
         <Button Command="{Binding Path=UpdateHalbjahresplanFromTemplateCommand}" 
                 ToolTip="Jahresplan übertragen">Jahresplan übertragen
         </Button>

@@ -935,19 +935,19 @@
       // auch noch die Änderungen in den Jahresplänen vorzunehmen
       // Das findet ja erst nach allen Änderungen statt.
       var eintrag = new Stundenplaneintrag
-                      {
-                        Klasse = stundenplaneintragViewModel.StundenplaneintragKlasse.Model,
-                        Fach = stundenplaneintragViewModel.StundenplaneintragFach.Model,
-                        ErsteUnterrichtsstundeIndex =
+      {
+        Klasse = stundenplaneintragViewModel.StundenplaneintragKlasse.Model,
+        Fach = stundenplaneintragViewModel.StundenplaneintragFach.Model,
+        ErsteUnterrichtsstundeIndex =
                           stundenplaneintragViewModel.StundenplaneintragErsteUnterrichtsstundeIndex,
-                        LetzteUnterrichtsstundeIndex =
+        LetzteUnterrichtsstundeIndex =
                           stundenplaneintragViewModel
                           .StundenplaneintragLetzteUnterrichtsstundeIndex,
-                        Raum = stundenplaneintragViewModel.StundenplaneintragRaum.Model,
-                        WochentagIndex =
+        Raum = stundenplaneintragViewModel.StundenplaneintragRaum.Model,
+        WochentagIndex =
                           stundenplaneintragViewModel.StundenplaneintragWochentagIndex,
-                        Stundenplan = this.Model
-                      };
+        Stundenplan = this.Model
+      };
       var vm = new StundenplaneintragViewModel(eintrag);
       var änderung = new StundenplanÄnderung(
         StundenplanÄnderungUpdateType.Removed,
@@ -1004,10 +1004,13 @@
           clone.Raum = stundenplanEintrag.StundenplaneintragRaum.Model;
           clone.WochentagIndex = stundenplanEintrag.StundenplaneintragWochentagIndex;
           clone.Stundenplan = stundenplan;
+          App.UnitOfWork.Context.Stundenplaneinträge.Add(clone);
           var stundenplanEintragViewModel = new StundenplaneintragViewModel(stundenplanViewModel, clone);
           App.MainViewModel.Stundenplaneinträge.Add(stundenplanEintragViewModel);
           stundenplanViewModel.Stundenplaneinträge.Add(stundenplanEintragViewModel);
         }
+
+        App.UnitOfWork.Context.Stundenpläne.Add(stundenplan);
 
         App.MainViewModel.Stundenpläne.Add(stundenplanViewModel);
       }
@@ -1048,11 +1051,11 @@
       if (stundenplaneintragViewModel == null)
       {
         var emptyStundenplanEintrag = new Stundenplaneintrag
-          {
-            ErsteUnterrichtsstundeIndex = stundeIndex,
-            LetzteUnterrichtsstundeIndex = stundeIndex,
-            WochentagIndex = wochentagIndex
-          };
+        {
+          ErsteUnterrichtsstundeIndex = stundeIndex,
+          LetzteUnterrichtsstundeIndex = stundeIndex,
+          WochentagIndex = wochentagIndex
+        };
         var emptyStundenplanEintragViewModel = new StundenplaneintragViewModel(this, emptyStundenplanEintrag);
 
         return emptyStundenplanEintragViewModel;

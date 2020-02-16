@@ -114,22 +114,22 @@
       // The creation of the Arbeiten includes the creation of
       // the Aufgaben and Ergebnisse models
       //this.Arbeiten = new ObservableCollection<ArbeitViewModel>();
-      this.Aufgaben = new ObservableCollection<AufgabeViewModel>();
-      this.Ergebnisse = new ObservableCollection<ErgebnisViewModel>();
+      //this.Aufgaben = new ObservableCollection<AufgabeViewModel>();
+      //this.Ergebnisse = new ObservableCollection<ErgebnisViewModel>();
 
       // The creation of the Schülerlisten includes the creation of
       // the schülereintrag, noten, notentendenzen, hausaufgaben models
       //this.Schülerlisten = new ObservableCollection<SchülerlisteViewModel>();
-      this.Schülereinträge = new ObservableCollection<SchülereintragViewModel>();
-      this.Noten = new ObservableCollection<NoteViewModel>();
-      this.Notentendenzen = new ObservableCollection<NotentendenzViewModel>();
-      this.Hausaufgaben = new ObservableCollection<HausaufgabeViewModel>();
+      //this.Schülereinträge = new ObservableCollection<SchülereintragViewModel>();
+      //this.Noten = new ObservableCollection<NoteViewModel>();
+      //this.Notentendenzen = new ObservableCollection<NotentendenzViewModel>();
+      //this.Hausaufgaben = new ObservableCollection<HausaufgabeViewModel>();
 
       // The creation of the Schultermine includes the creation of
       // the betroffene klassen models, schultermin, lerngruppentermine, stunden
       this.Schultermine = new ObservableCollection<SchulterminViewModel>();
-      this.Lerngruppentermine = new ObservableCollection<LerngruppenterminViewModel>();
-      this.Stunden = new ObservableCollection<StundeViewModel>();
+      //this.Lerngruppentermine = new ObservableCollection<LerngruppenterminViewModel>();
+      //this.Stunden = new ObservableCollection<StundeViewModel>();
       this.BetroffeneKlassen = new ObservableCollection<BetroffeneKlasseViewModel>();
 
       // The creation of the allJahrespläne includes the creation of the 
@@ -142,8 +142,8 @@
       // The creation of the allStundenentwürfe includes the creation of
       // the phase and dateiverweis models
       this.Stundenentwürfe = new ObservableCollection<StundenentwurfViewModel>();
-      this.Phasen = new ObservableCollection<PhaseViewModel>();
-      this.Dateiverweise = new ObservableCollection<DateiverweisViewModel>();
+      //this.Phasen = new ObservableCollection<PhaseViewModel>();
+      //this.Dateiverweise = new ObservableCollection<DateiverweisViewModel>();
 
       // The creation of the Curricula includes the creation of
       // the sequenz models
@@ -157,6 +157,18 @@
       this.SaveCommand = new DelegateCommand(this.SaveChanges);
       this.ShowOptionsCommand = new DelegateCommand(this.ShowOptions);
       this.CreateDirectoryTreeForDocuments();
+
+      Selection.Instance.PropertyChanged += this.SelectionPropertyChanged;
+    }
+
+    private void SelectionPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+      if (e.PropertyName == "Schuljahr")
+      {
+        LoadJahrespläne();
+        LoadSchülerlisten();
+        LoadSitzpläne();
+      }
     }
 
     /// <summary>
@@ -252,20 +264,20 @@
       }
     }
 
-    /// <summary>
-    /// Holt alle Schülereinträge der Datenbank
-    /// </summary>
-    public ObservableCollection<SchülereintragViewModel> Schülereinträge { get; private set; }
+    ///// <summary>
+    ///// Holt alle Schülereinträge der Datenbank
+    ///// </summary>
+    //public ObservableCollection<SchülereintragViewModel> Schülereinträge { get; private set; }
 
-    /// <summary>
-    /// Holt alle Noten der Datenbank
-    /// </summary>
-    public ObservableCollection<NoteViewModel> Noten { get; private set; }
+    ///// <summary>
+    ///// Holt alle Noten der Datenbank
+    ///// </summary>
+    //public ObservableCollection<NoteViewModel> Noten { get; private set; }
 
-    /// <summary>
-    /// Holt alle Notentendenzen der Datenbank
-    /// </summary>
-    public ObservableCollection<NotentendenzViewModel> Notentendenzen { get; private set; }
+    ///// <summary>
+    ///// Holt alle Notentendenzen der Datenbank
+    ///// </summary>
+    //public ObservableCollection<NotentendenzViewModel> Notentendenzen { get; private set; }
 
     /// <summary>
     /// Holt alle Fächer der Datenbank
@@ -312,15 +324,15 @@
     /// </summary>
     public ObservableCollection<SchulterminViewModel> Schultermine { get; private set; }
 
-    /// <summary>
-    /// Holt alle  der Datenbank
-    /// </summary>
-    public ObservableCollection<LerngruppenterminViewModel> Lerngruppentermine { get; private set; }
+    ///// <summary>
+    ///// Holt alle  der Datenbank
+    ///// </summary>
+    //public ObservableCollection<LerngruppenterminViewModel> Lerngruppentermine { get; private set; }
 
-    /// <summary>
-    /// Holt alle Stunden der Datenbank
-    /// </summary>
-    public ObservableCollection<StundeViewModel> Stunden { get; private set; }
+    ///// <summary>
+    ///// Holt alle Stunden der Datenbank
+    ///// </summary>
+    //public ObservableCollection<StundeViewModel> Stunden { get; private set; }
 
     /// <summary>
     /// Holt alle BetroffeneKlassen der Datenbank
@@ -337,7 +349,7 @@
         if (this.jahrespläne == null)
         {
           this.jahrespläne = new ObservableCollection<JahresplanViewModel>();
-          this.LoadJahrespläne();
+          //this.LoadJahrespläne();
         }
 
         return this.jahrespläne;
@@ -364,15 +376,15 @@
     /// </summary>
     public ObservableCollection<StundenentwurfViewModel> Stundenentwürfe { get; private set; }
 
-    /// <summary>
-    /// Holt alle Phasen der Datenbank
-    /// </summary>
-    public ObservableCollection<PhaseViewModel> Phasen { get; private set; }
+    ///// <summary>
+    ///// Holt alle Phasen der Datenbank
+    ///// </summary>
+    //public ObservableCollection<PhaseViewModel> Phasen { get; private set; }
 
-    /// <summary>
-    /// Holt alle Dateiverweise der Datenbank
-    /// </summary>
-    public ObservableCollection<DateiverweisViewModel> Dateiverweise { get; private set; }
+    ///// <summary>
+    ///// Holt alle Dateiverweise der Datenbank
+    ///// </summary>
+    //public ObservableCollection<DateiverweisViewModel> Dateiverweise { get; private set; }
 
     /// <summary>
     /// Holt alle Curricula der Datenbank
@@ -436,15 +448,15 @@
       }
     }
 
-    /// <summary>
-    /// Holt alle Aufgaben der Datenbank
-    /// </summary>
-    public ObservableCollection<AufgabeViewModel> Aufgaben { get; private set; }
+    ///// <summary>
+    ///// Holt alle Aufgaben der Datenbank
+    ///// </summary>
+    //public ObservableCollection<AufgabeViewModel> Aufgaben { get; private set; }
 
-    /// <summary>
-    /// Holt alle Ergebnisse der Datenbank
-    /// </summary>
-    public ObservableCollection<ErgebnisViewModel> Ergebnisse { get; private set; }
+    ///// <summary>
+    ///// Holt alle Ergebnisse der Datenbank
+    ///// </summary>
+    //public ObservableCollection<ErgebnisViewModel> Ergebnisse { get; private set; }
 
     /// <summary>
     /// Holt alle Bewertungsschemata der Datenbank
@@ -456,10 +468,10 @@
     /// </summary>
     public ObservableCollection<ProzentbereichViewModel> Prozentbereiche { get; private set; }
 
-    /// <summary>
-    /// Holt alle Hausaufgaben der Datenbank
-    /// </summary>
-    public ObservableCollection<HausaufgabeViewModel> Hausaufgaben { get; private set; }
+    ///// <summary>
+    ///// Holt alle Hausaufgaben der Datenbank
+    ///// </summary>
+    //public ObservableCollection<HausaufgabeViewModel> Hausaufgaben { get; private set; }
 
     /// <summary>
     /// Holt alle Räume der Datenbank
@@ -498,7 +510,7 @@
         if (this.sitzpläne == null)
         {
           this.sitzpläne = new ObservableCollection<SitzplanViewModel>();
-          this.LoadSitzpläne();
+          //this.LoadSitzpläne();
         }
 
         return this.sitzpläne;
@@ -840,7 +852,7 @@
     {
       var context = App.UnitOfWork.Context;
       context.Configuration.AutoDetectChangesEnabled = false;
-      ChangeFactory.Current.IsTracking = false;
+      //ChangeFactory.Current.IsTracking = false;
       var watch = new Stopwatch();
       watch.Start();
 
@@ -1019,7 +1031,8 @@
         //}
         //Console.WriteLine("Elapsed BetroffeneKlasse {0}", watch.ElapsedMilliseconds);
 
-        foreach (Person person in context.Personen.Where(o => o.Schülereintrag.Any(a => a.Schülerliste.Jahrtyp.Jahr == Selection.Instance.Jahrtyp.JahrtypJahr)))
+        //foreach (Person person in context.Personen.Where(o => o.Schülereintrag.Any(a => a.Schülerliste.Jahrtyp.Jahr == Selection.Instance.Jahrtyp.JahrtypJahr)))
+        foreach (Person person in context.Personen)
         {
           this.Personen.Add(new PersonViewModel(person));
         }
@@ -1200,64 +1213,64 @@
         // Register collection changed events,
         // so dass undo/redo stack aktualisiert wird
         // wenn sich die collections ändern
-        this.Jahrtypen.CollectionChanged += this.JahrtypenCollectionChanged;
-        this.Halbjahrtypen.CollectionChanged += this.HalbjahrtypenCollectionChanged;
-        this.Monatstypen.CollectionChanged += this.MonatstypenCollectionChanged;
-        this.Termintypen.CollectionChanged += this.TermintypenCollectionChanged;
-        this.Medien.CollectionChanged += this.MedienCollectionChanged;
-        this.Dateitypen.CollectionChanged += this.DateitypenCollectionChanged;
-        this.Sozialformen.CollectionChanged += this.SozialformenCollectionChanged;
-        this.Unterrichtsstunden.CollectionChanged += this.UnterrichtsstundenCollectionChanged;
-        this.Klassen.CollectionChanged += this.KlassenCollectionChanged;
-        this.Fächer.CollectionChanged += this.FächerCollectionChanged;
-        this.Module.CollectionChanged += this.ModuleCollectionChanged;
-        this.Reihen.CollectionChanged += this.ReihenCollectionChanged;
-        this.Sequenzen.CollectionChanged += this.SequenzenCollectionChanged;
-        this.Ferien.CollectionChanged += this.FerienCollectionChanged;
-        this.Fachstundenanzahl.CollectionChanged += this.FachstundenanzahlCollectionChanged;
-        this.Klassenstufen.CollectionChanged += this.KlassenstufenCollectionChanged;
-        this.Tendenztypen.CollectionChanged += this.TendenztypenCollectionChanged;
-        this.Tendenzen.CollectionChanged += this.TendenzenCollectionChanged;
-        this.Zensuren.CollectionChanged += this.ZensurenCollectionChanged;
-        this.NotenWichtungen.CollectionChanged += this.NotenWichtungenCollectionChanged;
-        this.Arbeiten.CollectionChanged += this.ArbeitenCollectionChanged;
-        this.Aufgaben.CollectionChanged += this.AufgabenCollectionChanged;
-        this.Ergebnisse.CollectionChanged += this.ErgebnisseCollectionChanged;
-        this.Schultermine.CollectionChanged += this.SchultermineCollectionChanged;
-        this.Stunden.CollectionChanged += this.StundenCollectionChanged;
-        this.Lerngruppentermine.CollectionChanged += this.LerngruppentermineCollectionChanged;
-        this.BetroffeneKlassen.CollectionChanged += this.BetroffeneKlassenCollectionChanged;
-        this.Personen.CollectionChanged += this.PersonenCollectionChanged;
-        this.Schülerlisten.CollectionChanged += this.SchülerlistenCollectionChanged;
-        this.Schülereinträge.CollectionChanged += this.SchülereinträgeCollectionChanged;
-        this.Noten.CollectionChanged += this.NotenCollectionChanged;
-        this.Notentendenzen.CollectionChanged += this.NotentendenzenCollectionChanged;
-        this.Hausaufgaben.CollectionChanged += this.HausaufgabenCollectionChanged;
-        this.Bewertungsschemata.CollectionChanged += this.BewertungsschemataCollectionChanged;
-        this.Prozentbereiche.CollectionChanged += this.ProzentbereicheCollectionChanged;
+        //this.Jahrtypen.CollectionChanged += this.JahrtypenCollectionChanged;
+        //this.Halbjahrtypen.CollectionChanged += this.HalbjahrtypenCollectionChanged;
+        //this.Monatstypen.CollectionChanged += this.MonatstypenCollectionChanged;
+        //this.Termintypen.CollectionChanged += this.TermintypenCollectionChanged;
+        //this.Medien.CollectionChanged += this.MedienCollectionChanged;
+        //this.Dateitypen.CollectionChanged += this.DateitypenCollectionChanged;
+        //this.Sozialformen.CollectionChanged += this.SozialformenCollectionChanged;
+        //this.Unterrichtsstunden.CollectionChanged += this.UnterrichtsstundenCollectionChanged;
+        //this.Klassen.CollectionChanged += this.KlassenCollectionChanged;
+        //this.Fächer.CollectionChanged += this.FächerCollectionChanged;
+        //this.Module.CollectionChanged += this.ModuleCollectionChanged;
+        //this.Reihen.CollectionChanged += this.ReihenCollectionChanged;
+        //this.Sequenzen.CollectionChanged += this.SequenzenCollectionChanged;
+        //this.Ferien.CollectionChanged += this.FerienCollectionChanged;
+        //this.Fachstundenanzahl.CollectionChanged += this.FachstundenanzahlCollectionChanged;
+        //this.Klassenstufen.CollectionChanged += this.KlassenstufenCollectionChanged;
+        //this.Tendenztypen.CollectionChanged += this.TendenztypenCollectionChanged;
+        //this.Tendenzen.CollectionChanged += this.TendenzenCollectionChanged;
+        //this.Zensuren.CollectionChanged += this.ZensurenCollectionChanged;
+        //this.NotenWichtungen.CollectionChanged += this.NotenWichtungenCollectionChanged;
+        //this.Arbeiten.CollectionChanged += this.ArbeitenCollectionChanged;
+        //this.Aufgaben.CollectionChanged += this.AufgabenCollectionChanged;
+        //this.Ergebnisse.CollectionChanged += this.ErgebnisseCollectionChanged;
+        //this.Schultermine.CollectionChanged += this.SchultermineCollectionChanged;
+        //this.Stunden.CollectionChanged += this.StundenCollectionChanged;
+        //this.Lerngruppentermine.CollectionChanged += this.LerngruppentermineCollectionChanged;
+        //this.BetroffeneKlassen.CollectionChanged += this.BetroffeneKlassenCollectionChanged;
+        //this.Personen.CollectionChanged += this.PersonenCollectionChanged;
+        //this.Schülerlisten.CollectionChanged += this.SchülerlistenCollectionChanged;
+        ////this.Schülereinträge.CollectionChanged += this.SchülereinträgeCollectionChanged;
+        ////this.Noten.CollectionChanged += this.NotenCollectionChanged;
+        ////this.Notentendenzen.CollectionChanged += this.NotentendenzenCollectionChanged;
+        ////this.Hausaufgaben.CollectionChanged += this.HausaufgabenCollectionChanged;
+        //this.Bewertungsschemata.CollectionChanged += this.BewertungsschemataCollectionChanged;
+        //this.Prozentbereiche.CollectionChanged += this.ProzentbereicheCollectionChanged;
 
-        this.Räume.CollectionChanged += this.RäumeCollectionChanged;
-        //this.Raumpläne.CollectionChanged += this.RaumpläneCollectionChanged;
-        //this.Sitzplätze.CollectionChanged += this.SitzplätzeCollectionChanged;
-        this.Sitzpläne.CollectionChanged += this.SitzpläneCollectionChanged;
-        //this.Sitzplaneinträge.CollectionChanged += this.SitzplaneinträgeCollectionChanged;
+        //this.Räume.CollectionChanged += this.RäumeCollectionChanged;
+        ////this.Raumpläne.CollectionChanged += this.RaumpläneCollectionChanged;
+        ////this.Sitzplätze.CollectionChanged += this.SitzplätzeCollectionChanged;
+        //this.Sitzpläne.CollectionChanged += this.SitzpläneCollectionChanged;
+        ////this.Sitzplaneinträge.CollectionChanged += this.SitzplaneinträgeCollectionChanged;
 
-        this.Jahrgangsstufen.CollectionChanged += this.JahrgangsstufenCollectionChanged;
-        this.Stundenentwürfe.CollectionChanged += this.StundenentwürfeCollectionChanged;
-        this.Phasen.CollectionChanged += this.PhasenCollectionChanged;
-        this.Dateiverweise.CollectionChanged += this.DateiverweiseCollectionChanged;
-        this.Curricula.CollectionChanged += this.CurriculaCollectionChanged;
-        this.Jahrespläne.CollectionChanged += this.JahrespläneCollectionChanged;
+        //this.Jahrgangsstufen.CollectionChanged += this.JahrgangsstufenCollectionChanged;
+        //this.Stundenentwürfe.CollectionChanged += this.StundenentwürfeCollectionChanged;
+        //this.Phasen.CollectionChanged += this.PhasenCollectionChanged;
+        //this.Dateiverweise.CollectionChanged += this.DateiverweiseCollectionChanged;
+        //this.Curricula.CollectionChanged += this.CurriculaCollectionChanged;
+        //this.Jahrespläne.CollectionChanged += this.JahrespläneCollectionChanged;
         //this.Halbjahrespläne.CollectionChanged += this.HalbjahrespläneCollectionChanged;
         //this.Monatspläne.CollectionChanged += this.MonatspläneCollectionChanged;
         //this.Tagespläne.CollectionChanged += this.TagespläneCollectionChanged;
-        this.Schulwochen.CollectionChanged += this.SchulwochenCollectionChanged;
-        this.Schultage.CollectionChanged += this.SchultageCollectionChanged;
-        this.Stundenpläne.CollectionChanged += this.StundenpläneCollectionChanged;
-        this.Stundenplaneinträge.CollectionChanged += this.StundenplaneinträgeCollectionChanged;
+        //this.Schulwochen.CollectionChanged += this.SchulwochenCollectionChanged;
+        //this.Schultage.CollectionChanged += this.SchultageCollectionChanged;
+        //this.Stundenpläne.CollectionChanged += this.StundenpläneCollectionChanged;
+        //this.Stundenplaneinträge.CollectionChanged += this.StundenplaneinträgeCollectionChanged;
 
         context.Configuration.AutoDetectChangesEnabled = true;
-        ChangeFactory.Current.IsTracking = true;
+        //ChangeFactory.Current.IsTracking = true;
         Console.WriteLine("Elapsed All {0}", watch.ElapsedMilliseconds);
 
       }
@@ -1270,9 +1283,13 @@
     public void LoadJahrespläne()
     {
       App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+      var collection = this.Jahrespläne;
       foreach (var jahresplan in App.UnitOfWork.Context.Jahrespläne.Where(o => o.Jahrtyp.Jahr == Selection.Instance.Jahrtyp.JahrtypJahr))
       {
-        this.Jahrespläne.Add(new JahresplanViewModel(jahresplan));
+        if (!collection.Any(o => o.Model.Id == jahresplan.Id))
+        {
+          collection.Add(new JahresplanViewModel(jahresplan));
+        }
       }
       App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
     }
@@ -1280,9 +1297,14 @@
     public void LoadSchülerlisten()
     {
       App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
-      foreach (var schülerliste in App.UnitOfWork.Context.Schülerlisten.Where(o => o.Jahrtyp.Jahr == Selection.Instance.Jahrtyp.JahrtypJahr))
+      var collection = this.Schülerlisten;
+      //foreach (var schülerliste in App.UnitOfWork.Context.Schülerlisten.Where(o => o.Jahrtyp.Jahr == Selection.Instance.Jahrtyp.JahrtypJahr))
+      foreach (var schülerliste in App.UnitOfWork.Context.Schülerlisten)
       {
-        this.Schülerlisten.Add(new SchülerlisteViewModel(schülerliste));
+        if (!collection.Any(o => o.Model.Id == schülerliste.Id))
+        {
+          collection.Add(new SchülerlisteViewModel(schülerliste));
+        }
       }
       App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
     }
@@ -1290,9 +1312,13 @@
     public void LoadArbeiten()
     {
       App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+      var collection = this.Arbeiten;
       foreach (var arbeit in App.UnitOfWork.Context.Arbeiten.Where(o => o.Jahrtyp.Jahr == Selection.Instance.Jahrtyp.JahrtypJahr))
       {
-        this.Arbeiten.Add(new ArbeitViewModel(arbeit));
+        if (!collection.Any(o => o.Model.Id == arbeit.Id))
+        {
+          collection.Add(new ArbeitViewModel(arbeit));
+        }
       }
       App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
     }
@@ -1303,9 +1329,13 @@
     public void LoadRäume()
     {
       App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+      var collection = this.Räume;
       foreach (var raum in App.UnitOfWork.Context.Räume.OrderBy(o => o.Bezeichnung))
       {
-        this.Räume.Add(new RaumViewModel(raum));
+        if (!collection.Any(o => o.Model.Id == raum.Id))
+        {
+          collection.Add(new RaumViewModel(raum));
+        }
       }
       App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
     }
@@ -1313,10 +1343,14 @@
     public void LoadSitzpläne()
     {
       App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+      var collection = this.Sitzpläne;
 
       foreach (var sitzplan in App.UnitOfWork.Context.Sitzpläne.Where(o => o.Schülerliste.Jahrtyp.Jahr == Selection.Instance.Jahrtyp.JahrtypJahr))
       {
-        this.Sitzpläne.Add(new SitzplanViewModel(sitzplan));
+        if (!collection.Any(o => o.Model.Id == sitzplan.Id))
+        {
+          collection.Add(new SitzplanViewModel(sitzplan));
+        }
       }
 
       App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
@@ -1424,24 +1458,24 @@
     /// Gibt eine Collection mit den noch zu benotenden Stunden aus.
     /// </summary>
     /// <returns>ObservableCollection&lt;StundeViewModel&gt;.</returns>
-    private ObservableCollection<StundeViewModel> HoleNochZuBenotendeStunden()
+    private ObservableCollection<Stunde> HoleNochZuBenotendeStunden()
     {
       var von = DateTime.Now.AddDays(-14);
       var bis = DateTime.Now;
       var nichtBenoteteStundenderLetzten14Tage =
-        this.Stunden.ToList().Where(
+        App.UnitOfWork.Context.Termine.OfType<Stunde>().Where(
           o =>
-          o.LerngruppenterminDatum > von && o.LerngruppenterminDatum <= bis && !o.StundeIstBenotet
-          && (o.LerngruppenterminFach == "Mathematik" || o.LerngruppenterminFach == "Physik"));
+          o.Tagesplan.Datum > von && o.Tagesplan.Datum <= bis && !o.IstBenotet
+          && (o.Tagesplan.Monatsplan.Halbjahresplan.Jahresplan.Fach.Bezeichnung == "Mathematik" || o.Tagesplan.Monatsplan.Halbjahresplan.Jahresplan.Fach.Bezeichnung == "Physik"));
 
-      var nochZuBenotendeStunden = new ObservableCollection<StundeViewModel>();
+      var nochZuBenotendeStunden = new ObservableCollection<Stunde>();
 
 
       foreach (var stundeViewModel in nichtBenoteteStundenderLetzten14Tage)
       {
-        if (stundeViewModel.LerngruppenterminDatum.Date == bis.Date)
+        if (stundeViewModel.Tagesplan.Datum.Date == bis.Date)
         {
-          if (stundeViewModel.TerminLetzteUnterrichtsstunde.UnterrichtsstundeBeginn > bis.TimeOfDay)
+          if (stundeViewModel.LetzteUnterrichtsstunde.Beginn > bis.TimeOfDay)
           {
             continue;
           }
@@ -1454,401 +1488,401 @@
 
     #region CollectionChangedEventHandler
 
-    /// <summary>
-    /// Tritt auf, wenn die JahrtypenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void JahrtypenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Jahrtypen", this.Jahrtypen, e, "Änderung der Jahrtypen");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die JahrtypenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void JahrtypenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Jahrtypen", this.Jahrtypen, e, "Änderung der Jahrtypen");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die HalbjahrtypenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void HalbjahrtypenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Halbjahrtypen", this.Halbjahrtypen, e, "Änderung der Halbjahrtypen");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die HalbjahrtypenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void HalbjahrtypenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Halbjahrtypen", this.Halbjahrtypen, e, "Änderung der Halbjahrtypen");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die MonatstypenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void MonatstypenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Monatstypen", this.Monatstypen, e, "Änderung der Monatstypen");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die MonatstypenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void MonatstypenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Monatstypen", this.Monatstypen, e, "Änderung der Monatstypen");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die TermintypenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void TermintypenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Termintypen", this.Termintypen, e, "Änderung der Termintypen");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die TermintypenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void TermintypenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Termintypen", this.Termintypen, e, "Änderung der Termintypen");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die MedienCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void MedienCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Medien", this.Medien, e, "Änderung der Medien");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die MedienCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void MedienCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Medien", this.Medien, e, "Änderung der Medien");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die DateitypenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void DateitypenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Dateitypen", this.Dateitypen, e, "Änderung der Dateitypen");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die DateitypenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void DateitypenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Dateitypen", this.Dateitypen, e, "Änderung der Dateitypen");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die SozialformenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void SozialformenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Sozialformen", this.Sozialformen, e, "Änderung der Sozialformen");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die SozialformenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void SozialformenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Sozialformen", this.Sozialformen, e, "Änderung der Sozialformen");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die UnterrichtsstundenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void UnterrichtsstundenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Unterrichtsstunden", this.Unterrichtsstunden, e, "Änderung der Unterrichtsstunden");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die UnterrichtsstundenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void UnterrichtsstundenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Unterrichtsstunden", this.Unterrichtsstunden, e, "Änderung der Unterrichtsstunden");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die KlassenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void KlassenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Klassen", this.Klassen, e, "Änderung der Klassen");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die KlassenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void KlassenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Klassen", this.Klassen, e, "Änderung der Klassen");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die FächerCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void FächerCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Fächer", this.Fächer, e, "Änderung der Fächer");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die FächerCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void FächerCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Fächer", this.Fächer, e, "Änderung der Fächer");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die ModuleCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void ModuleCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Module", this.Module, e, "Änderung der Module");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die ModuleCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void ModuleCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Module", this.Module, e, "Änderung der Module");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die ReihenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void ReihenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Reihen", this.Reihen, e, "Änderung der Reihen");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die ReihenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void ReihenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Reihen", this.Reihen, e, "Änderung der Reihen");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die SequenzenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void SequenzenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Sequenzen", this.Sequenzen, e, "Änderung der Sequenzen");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die SequenzenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void SequenzenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Sequenzen", this.Sequenzen, e, "Änderung der Sequenzen");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die FerienCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void FerienCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Ferien", this.Ferien, e, "Änderung der Ferien");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die FerienCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void FerienCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Ferien", this.Ferien, e, "Änderung der Ferien");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die FachstundenanzahlCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void FachstundenanzahlCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Fachstundenanzahl", this.Fachstundenanzahl, e, "Änderung der Fachstundenanzahl");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die FachstundenanzahlCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void FachstundenanzahlCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Fachstundenanzahl", this.Fachstundenanzahl, e, "Änderung der Fachstundenanzahl");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die KlassenstufenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void KlassenstufenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Klassenstufen", this.Klassenstufen, e, "Änderung der Klassenstufen");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die KlassenstufenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void KlassenstufenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Klassenstufen", this.Klassenstufen, e, "Änderung der Klassenstufen");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die TendenztypenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void TendenztypenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Tendenztypen", this.Tendenztypen, e, "Änderung der Tendenztypen");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die TendenztypenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void TendenztypenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Tendenztypen", this.Tendenztypen, e, "Änderung der Tendenztypen");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die TendenzenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void TendenzenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Tendenzen", this.Tendenzen, e, "Änderung der Tendenzen");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die TendenzenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void TendenzenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Tendenzen", this.Tendenzen, e, "Änderung der Tendenzen");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die ZensurenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void ZensurenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Zensuren", this.Zensuren, e, "Änderung der Zensuren");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die ZensurenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void ZensurenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Zensuren", this.Zensuren, e, "Änderung der Zensuren");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die NotenWichtungenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void NotenWichtungenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "NotenWichtungen", this.NotenWichtungen, e, "Änderung der NotenWichtungen");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die NotenWichtungenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void NotenWichtungenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "NotenWichtungen", this.NotenWichtungen, e, "Änderung der NotenWichtungen");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die ArbeitenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void ArbeitenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Arbeiten", this.Arbeiten, e, "Änderung der Arbeiten");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die ArbeitenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void ArbeitenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Arbeiten", this.Arbeiten, e, "Änderung der Arbeiten");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die AufgabenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void AufgabenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Aufgaben", this.Aufgaben, e, "Änderung der Aufgaben");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die AufgabenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void AufgabenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Aufgaben", this.Aufgaben, e, "Änderung der Aufgaben");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die ErgebnisseCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void ErgebnisseCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Ergebnisse", this.Ergebnisse, e, "Änderung der Ergebnisse");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die ErgebnisseCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void ErgebnisseCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Ergebnisse", this.Ergebnisse, e, "Änderung der Ergebnisse");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die SchultermineCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void SchultermineCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Schultermine", this.Schultermine, e, "Änderung der Schultermine");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die SchultermineCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void SchultermineCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Schultermine", this.Schultermine, e, "Änderung der Schultermine");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die StundenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void StundenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Stunden", this.Stunden, e, "Änderung der Stunden");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die StundenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void StundenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  //this.UndoableCollectionChanged(this, "Stunden", this.Stunden, e, "Änderung der Stunden");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die LerngruppentermineCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void LerngruppentermineCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Lerngruppentermine", this.Lerngruppentermine, e, "Änderung der Lerngruppentermine");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die LerngruppentermineCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void LerngruppentermineCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  //this.UndoableCollectionChanged(this, "Lerngruppentermine", this.Lerngruppentermine, e, "Änderung der Lerngruppentermine");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die BetroffeneKlassenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void BetroffeneKlassenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "BetroffeneKlassen", this.BetroffeneKlassen, e, "Änderung der BetroffeneKlassen");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die BetroffeneKlassenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void BetroffeneKlassenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "BetroffeneKlassen", this.BetroffeneKlassen, e, "Änderung der BetroffeneKlassen");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die PersonenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void PersonenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Personen", this.Personen, e, "Änderung der Personen");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die PersonenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void PersonenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Personen", this.Personen, e, "Änderung der Personen");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die SchülerlistenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void SchülerlistenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Schülerlisten", this.Schülerlisten, e, "Änderung der Schülerlisten");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die SchülerlistenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void SchülerlistenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Schülerlisten", this.Schülerlisten, e, "Änderung der Schülerlisten");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die SchülereinträgeCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void SchülereinträgeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Schülereinträge", this.Schülereinträge, e, "Änderung der Schülereinträge");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die SchülereinträgeCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void SchülereinträgeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Schülereinträge", this.Schülereinträge, e, "Änderung der Schülereinträge");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die NotenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void NotenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Noten", this.Noten, e, "Änderung der Noten");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die NotenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void NotenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Noten", this.Noten, e, "Änderung der Noten");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die NotentendenzenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void NotentendenzenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Notentendenzen", this.Notentendenzen, e, "Änderung der Notentendenzen");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die NotentendenzenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void NotentendenzenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Notentendenzen", this.Notentendenzen, e, "Änderung der Notentendenzen");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die HausaufgabenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void HausaufgabenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Hausaufgaben", this.Hausaufgaben, e, "Änderung der Hausaufgaben");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die HausaufgabenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void HausaufgabenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Hausaufgaben", this.Hausaufgaben, e, "Änderung der Hausaufgaben");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die BewertungsschemataCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void BewertungsschemataCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Bewertungsschemata", this.Bewertungsschemata, e, "Änderung der Bewertungsschemata");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die BewertungsschemataCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void BewertungsschemataCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Bewertungsschemata", this.Bewertungsschemata, e, "Änderung der Bewertungsschemata");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die ProzentbereicheCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void ProzentbereicheCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Prozentbereiche", this.Prozentbereiche, e, "Änderung der Prozentbereiche");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die ProzentbereicheCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void ProzentbereicheCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Prozentbereiche", this.Prozentbereiche, e, "Änderung der Prozentbereiche");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die RäumeCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void RäumeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Räume", this.Räume, e, "Änderung der Räume");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die RäumeCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void RäumeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Räume", this.Räume, e, "Änderung der Räume");
+    //}
 
     ///// <summary>
     ///// Tritt auf, wenn die RaumpläneCollection verändert wurde.
@@ -1872,16 +1906,16 @@
     //  this.UndoableCollectionChanged(this, "Sitzplätze", this.Sitzplätze, e, "Änderung der Sitzplätze");
     //}
 
-    /// <summary>
-    /// Tritt auf, wenn die SitzpläneCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void SitzpläneCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Sitzpläne", this.Sitzpläne, e, "Änderung der Sitzpläne");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die SitzpläneCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void SitzpläneCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Sitzpläne", this.Sitzpläne, e, "Änderung der Sitzpläne");
+    //}
 
     ///// <summary>
     ///// Tritt auf, wenn die SitzplaneinträgeCollection verändert wurde.
@@ -1894,71 +1928,71 @@
     //  this.UndoableCollectionChanged(this, "Sitzplaneinträge", this.Sitzplaneinträge, e, "Änderung der Sitzplaneinträge");
     //}
 
-    /// <summary>
-    /// Tritt auf, wenn die JahrgangsstufenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void JahrgangsstufenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Jahrgangsstufen", this.Jahrgangsstufen, e, "Änderung der Jahrgangsstufen");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die JahrgangsstufenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void JahrgangsstufenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Jahrgangsstufen", this.Jahrgangsstufen, e, "Änderung der Jahrgangsstufen");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die StundenentwürfeCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void StundenentwürfeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Stundenentwürfe", this.Stundenentwürfe, e, "Änderung der Stundenentwürfe");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die StundenentwürfeCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void StundenentwürfeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Stundenentwürfe", this.Stundenentwürfe, e, "Änderung der Stundenentwürfe");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die PhasenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void PhasenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Phasen", this.Phasen, e, "Änderung der Phasen");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die PhasenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void PhasenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Phasen", this.Phasen, e, "Änderung der Phasen");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die DateiverweiseCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void DateiverweiseCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Dateiverweise", this.Dateiverweise, e, "Änderung der Dateiverweise");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die DateiverweiseCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void DateiverweiseCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Dateiverweise", this.Dateiverweise, e, "Änderung der Dateiverweise");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die CurriculaCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void CurriculaCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Curricula", this.Curricula, e, "Änderung der Curricula");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die CurriculaCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void CurriculaCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Curricula", this.Curricula, e, "Änderung der Curricula");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die JahrespläneCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void JahrespläneCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Jahrespläne", this.Jahrespläne, e, "Änderung der Jahrespläne");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die JahrespläneCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void JahrespläneCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Jahrespläne", this.Jahrespläne, e, "Änderung der Jahrespläne");
+    //}
 
     /// <summary>
     /// Tritt auf, wenn die HalbjahrespläneCollection verändert wurde.
@@ -1993,49 +2027,49 @@
     //  this.UndoableCollectionChanged(this, "Tagespläne", this.Tagespläne, e, "Änderung der Tagespläne");
     //}
 
-    /// <summary>
-    /// Tritt auf, wenn die SchulwochenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void SchulwochenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Schulwochen", this.Schulwochen, e, "Änderung der Schulwochen");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die SchulwochenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void SchulwochenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Schulwochen", this.Schulwochen, e, "Änderung der Schulwochen");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die SchultageCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void SchultageCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Schultage", this.Schultage, e, "Änderung der Schultage");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die SchultageCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void SchultageCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Schultage", this.Schultage, e, "Änderung der Schultage");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die StundenpläneCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void StundenpläneCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Stundenpläne", this.Stundenpläne, e, "Änderung der Stundenpläne");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die StundenpläneCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void StundenpläneCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Stundenpläne", this.Stundenpläne, e, "Änderung der Stundenpläne");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die StundenplaneinträgeCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void StundenplaneinträgeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Stundenplaneinträge", this.Stundenplaneinträge, e, "Änderung der Stundenplaneinträge");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die StundenplaneinträgeCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void StundenplaneinträgeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Stundenplaneinträge", this.Stundenplaneinträge, e, "Änderung der Stundenplaneinträge");
+    //}
 
     #endregion
   }

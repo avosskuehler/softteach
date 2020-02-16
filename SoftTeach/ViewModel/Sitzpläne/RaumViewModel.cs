@@ -155,6 +155,7 @@
 
       using (new UndoBatch(App.MainViewModel, string.Format("Neuer Raumplan {0} erstellt.", raumplanViewModel), false))
       {
+        App.UnitOfWork.Context.Raumpläne.Add(raumplanViewModel.Model);
         //App.MainViewModel.Raumpläne.Add(raumplanViewModel);
         this.Raumpläne.Add(raumplanViewModel);
         this.CurrentRaumplan = raumplanViewModel;

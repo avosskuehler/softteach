@@ -6,3 +6,5 @@
 /packages
 /SoftTeach/obj
 /.vs/SoftTeach/v16
+/Debug/x64
+/Release/x64

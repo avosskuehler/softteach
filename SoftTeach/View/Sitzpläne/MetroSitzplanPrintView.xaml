@@ -54,10 +54,10 @@
               </RotateTransform>
             </Border.LayoutTransform>
             <TextBlock TextWrapping="Wrap" Padding="0" Margin="0" LineHeight="15" LineStackingStrategy="BlockLineHeight"
-                       Text="{Binding SitzplaneintragSchülereintrag.SchülereintragPerson.PersonVornameKurz}"
+                       Text="{Binding SitzplaneintragSchülereintrag.Person.Vorname}"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
-                       FontSize="16">
+                       FontSize="14">
               <!--<TextBlock.LayoutTransform>
                 <RotateTransform>
                   <RotateTransform.Angle>

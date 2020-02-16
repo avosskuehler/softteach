@@ -40,7 +40,8 @@
       notentendenz.Tendenztyp = App.MainViewModel.Tendenztypen.First().Model;
       notentendenz.Tendenz = App.MainViewModel.Tendenzen.First().Model;
       this.Model = notentendenz;
-      App.MainViewModel.Notentendenzen.Add(this);
+      App.UnitOfWork.Context.Notentendenzen.Add(notentendenz);
+      //App.MainViewModel.Notentendenzen.Add(this);
     }
 
     /// <summary>

@@ -16,9 +16,9 @@
       <RowDefinition/>
       <RowDefinition/>
     </Grid.RowDefinitions>
-    <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Content="{Binding Path=StundeStundenentwurfTitel}"/>
-    <Label Grid.Row="1" Grid.Column="0" Content="{Binding Path=LerngruppenterminFach}"/>
-    <Label Grid.Row="1" Grid.Column="1" Content="{Binding Path=LerngruppenterminKlasse}"/>
-    <Label Grid.Row="1" Grid.Column="2" Content="{Binding Path=LerngruppenterminDatumKurz}"/>
+    <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Content="{Binding Path=Stundenentwurf.Stundenthema}"/>
+    <Label Grid.Row="1" Grid.Column="0" Content="{Binding Path=Stundenentwurf.Fach.Bezeichnung}"/>
+    <Label Grid.Row="1" Grid.Column="1" Content="{Binding Path=Tagesplan.Monatsplan.Halbjahresplan.Jahresplan.Klasse.Bezeichnung}"/>
+    <Label Grid.Row="1" Grid.Column="2" Content="{Binding Path=Stundenentwurf.Datum, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=DatumKurz}"/>
   </Grid>
 </UserControl>

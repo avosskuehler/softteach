@@ -451,7 +451,8 @@
 
       if (!tagesplan.Lerngruppentermine.Contains(lerngruppenTerminViewModel))
       {
-        App.MainViewModel.Lerngruppentermine.Add(lerngruppenTerminViewModel);
+        App.UnitOfWork.Context.Termine.Add(lerngruppenTermin);
+        //App.MainViewModel.Lerngruppentermine.Add(lerngruppenTerminViewModel);
         tagesplan.Lerngruppentermine.Add(lerngruppenTerminViewModel);
       }
 

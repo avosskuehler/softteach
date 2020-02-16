@@ -63,8 +63,8 @@
       }
 
       // Listen for changes
-      this.UsedSequenzen.CollectionChanged += this.UsedSequenzenCollectionChanged;
-      this.AvailableSequenzen.CollectionChanged += this.AvailableSequenzenCollectionChanged;
+      //this.UsedSequenzen.CollectionChanged += this.UsedSequenzenCollectionChanged;
+      //this.AvailableSequenzen.CollectionChanged += this.AvailableSequenzenCollectionChanged;
 
       this.AddSequenzCommand = new DelegateCommand(this.AddSequenz);
       this.DeleteSequenzCommand = new DelegateCommand(this.DeleteCurrentSequenz, () => this.CurrentSequenz != null);
@@ -111,8 +111,8 @@
       }
 
       // Listen for changes
-      this.UsedSequenzen.CollectionChanged += this.UsedSequenzenCollectionChanged;
-      this.AvailableSequenzen.CollectionChanged += this.AvailableSequenzenCollectionChanged;
+      //this.UsedSequenzen.CollectionChanged += this.UsedSequenzenCollectionChanged;
+      //this.AvailableSequenzen.CollectionChanged += this.AvailableSequenzenCollectionChanged;
 
       this.AddSequenzCommand = new DelegateCommand(this.AddSequenz);
       this.DeleteSequenzCommand = new DelegateCommand(this.DeleteCurrentSequenz, () => this.CurrentSequenz != null);
@@ -411,26 +411,26 @@
       }
     }
 
-    /// <summary>
-    /// Tritt auf, wenn die UsedSequenzenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void UsedSequenzenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "UsedSequenzen", this.UsedSequenzen, e, false, "Änderung der UsedSequenzen");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die UsedSequenzenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void UsedSequenzenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "UsedSequenzen", this.UsedSequenzen, e, false, "Änderung der UsedSequenzen");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die AvailableSequenzenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void AvailableSequenzenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "AvailableSequenzen", this.AvailableSequenzen, e, false, "Änderung der AvailableSequenzen");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die AvailableSequenzenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void AvailableSequenzenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "AvailableSequenzen", this.AvailableSequenzen, e, false, "Änderung der AvailableSequenzen");
+    //}
   }
 }

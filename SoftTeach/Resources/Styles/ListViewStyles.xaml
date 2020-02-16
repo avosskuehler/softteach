@@ -184,7 +184,7 @@
     <Border CornerRadius="5">
       <Grid Width="{Binding Path=StundeDetailBreite}" Background="{StaticResource StundeBackgroundBrush}" Margin="3" Height="40">
         <Grid.InputBindings>
-          <!--<MouseBinding MouseAction="RightClick" Command="{Binding Path=EditSequenzCommand}"/>-->
+          <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding Path=EditStundeCommand}"/>
         </Grid.InputBindings>
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*"/>
@@ -519,7 +519,7 @@
   <DataTemplate x:Key="StundenTagesplanView">
     <Grid Width="{Binding Path=StundeBreite}" Background="{StaticResource StundeBackgroundBrush}" Margin="0" Height="30">
       <Grid.InputBindings>
-        <!--<MouseBinding MouseAction="LeftDoubleClick" Command="{Binding Path=EditSequenzCommand}"/>-->
+        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding Path=EditStundeCommand}"/>
       </Grid.InputBindings>
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="1"/>

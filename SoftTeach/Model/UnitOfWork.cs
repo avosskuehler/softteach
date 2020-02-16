@@ -58,5 +58,25 @@
         this.Context.Dispose();
       }
     }
+
+    internal void Remove(object model)
+    {
+      var entity = this.Context.Entry(model);
+      switch (entity.State)
+      {
+        case System.Data.Entity.EntityState.Detached:
+          break;
+        case System.Data.Entity.EntityState.Unchanged:
+          break;
+        case System.Data.Entity.EntityState.Added:
+          break;
+        case System.Data.Entity.EntityState.Deleted:
+          break;
+        case System.Data.Entity.EntityState.Modified:
+          break;
+        default:
+          break;
+      }
+    }
   }
 }

@@ -67,13 +67,13 @@ namespace SoftTeach.ViewModel.Jahrespläne
         if (lerngruppentermin is Stunde)
         {
           var vm = new StundeViewModel(this, lerngruppentermin as Stunde);
-          App.MainViewModel.Stunden.Add(vm);
+          //App.MainViewModel.Stunden.Add(vm);
           this.Lerngruppentermine.Add(vm);
         }
         else
         {
           var vm = new LerngruppenterminViewModel(this, lerngruppentermin);
-          App.MainViewModel.Lerngruppentermine.Add(vm);
+          //App.MainViewModel.Lerngruppentermine.Add(vm);
           this.Lerngruppentermine.Add(vm);
         }
       }
@@ -373,14 +373,20 @@ namespace SoftTeach.ViewModel.Jahrespläne
     {
       using (new UndoBatch(App.MainViewModel, string.Format("Lerngruppentermin {0} löschen", lerngruppenterminViewModel.TerminBeschreibung), false))
       {
-        if (lerngruppenterminViewModel is StundeViewModel)
-        {
-          var success = App.MainViewModel.Stunden.RemoveTest(lerngruppenterminViewModel as StundeViewModel);
-        }
-        else
-        {
-          var success = App.MainViewModel.Lerngruppentermine.RemoveTest(lerngruppenterminViewModel);
-        }
+        //App.UnitOfWork.Remove(lerngruppenterminViewModel.Model);
+        //if (App.UnitOfWork.Context.Termine.Contains(lerngruppenterminViewModel.Model))
+        //{
+        App.UnitOfWork.Context.Termine.Remove(lerngruppenterminViewModel.Model);
+        //}
+
+        //if (lerngruppenterminViewModel is StundeViewModel)
+        //{
+        //  var success = App.MainViewModel.Stunden.RemoveTest(lerngruppenterminViewModel as StundeViewModel);
+        //}
+        //else
+        //{
+        //  var success = App.MainViewModel.Lerngruppentermine.RemoveTest(lerngruppenterminViewModel);
+        //}
 
         var result = this.Lerngruppentermine.RemoveTest(lerngruppenterminViewModel);
         this.CurrentLerngruppentermin = null;
@@ -431,7 +437,8 @@ namespace SoftTeach.ViewModel.Jahrespläne
         using (new UndoBatch(App.MainViewModel, string.Format("Stunde {0} angelegt.", vm), false))
         {
           this.Lerngruppentermine.Add(vm);
-          App.MainViewModel.Stunden.Add(vm);
+          App.UnitOfWork.Context.Termine.Add(stunde);
+          //App.MainViewModel.Stunden.Add(vm);
           this.CurrentLerngruppentermin = vm;
         }
       }
@@ -461,7 +468,8 @@ namespace SoftTeach.ViewModel.Jahrespläne
         }
 
         var vm = new StundeViewModel(this, stunde);
-        App.MainViewModel.Stunden.Add(vm);
+        App.UnitOfWork.Context.Termine.Add(stunde);
+        //App.MainViewModel.Stunden.Add(vm);
         this.Lerngruppentermine.Add(vm);
         this.CurrentLerngruppentermin = vm;
 
@@ -554,9 +562,10 @@ namespace SoftTeach.ViewModel.Jahrespläne
           lerngruppentermin.ErsteUnterrichtsstunde = ersteStunde.Model;
           lerngruppentermin.LetzteUnterrichtsstunde = letzteStunde.Model;
           lerngruppentermin.Tagesplan = this.Model;
+          App.UnitOfWork.Context.Termine.Add(lerngruppentermin);
 
           var vm = new LerngruppenterminViewModel(this, lerngruppentermin);
-          App.MainViewModel.Lerngruppentermine.Add(vm);
+          //App.MainViewModel.Lerngruppentermine.Add(vm);
           this.Lerngruppentermine.Add(vm);
           this.CurrentLerngruppentermin = vm;
           this.UpdateBeschreibung();

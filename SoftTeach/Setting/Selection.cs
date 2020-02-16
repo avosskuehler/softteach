@@ -22,7 +22,7 @@ namespace SoftTeach.Setting
   using System.Linq;
 
   using Properties;
-
+  using SoftTeach.Model.EntityFramework;
   using SoftTeach.ViewModel.Sitzpläne;
   using SoftTeach.ViewModel.Termine;
 
@@ -45,7 +45,7 @@ namespace SoftTeach.Setting
     private JahrtypViewModel jahrtyp;
     private KlasseViewModel klasse;
     private ModulViewModel modul;
-    private StundeViewModel stunde;
+    private Stunde stunde;
     private StundenentwurfViewModel stundenentwurf;
     private SchülereintragViewModel schülereintrag;
     private ArbeitViewModel arbeit;
@@ -146,6 +146,11 @@ namespace SoftTeach.Setting
     {
       get
       {
+        if (this.jahrtyp == null)
+        {
+          this.jahrtyp = App.MainViewModel.Jahrtypen.FirstOrDefault(o => o.JahrtypBezeichnung == "2019/2020");
+        }
+
         return this.jahrtyp;
       }
 
@@ -176,7 +181,7 @@ namespace SoftTeach.Setting
     /// <summary>
     /// Holt oder setzt die Stunde
     /// </summary>
-    public StundeViewModel Stunde
+    public Stunde Stunde
     {
       get
       {

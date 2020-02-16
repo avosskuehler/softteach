@@ -573,7 +573,7 @@
       stunde.StundeStundenentwurf.StundenentwurfDatum = stunde.LerngruppenterminDatum;
       Selection.Instance.Fach = App.MainViewModel.Fächer.First(o => o.FachBezeichnung == stunde.LerngruppenterminFach);
       Selection.Instance.Klasse = App.MainViewModel.Klassen.First(o => o.KlasseBezeichnung == stunde.LerngruppenterminKlasse);
-      Selection.Instance.Stunde = stunde;
+      Selection.Instance.Stunde = stunde.Model as Stunde;
       Selection.Instance.Stundenentwurf = stunde.StundeStundenentwurf;
 
       var schülerliste =
@@ -599,8 +599,8 @@
           //  notenPage.DataContext = viewModel;
           //  Configuration.Instance.NavigationService.Navigate(notenPage);
           //
-          var stunden = new ObservableCollection<StundeViewModel>();
-          stunden.Add(stunde);
+          var stunden = new ObservableCollection<Stunde>();
+          stunden.Add(stunde.Model as Stunde);
           var viewModelReminder = new StundennotenReminderWorkspaceViewModel(stunden);
           var dlg = new MetroStundennotenReminderWindow { DataContext = viewModelReminder };
           dlg.ShowDialog();

@@ -215,13 +215,14 @@
       if (this.shape == null)
       {
         this.shape = new Rectangle();
-        var fillColor = new SolidColorBrush(Colors.DarkSeaGreen) { Opacity = 0.25 };
+        var fillColor = new SolidColorBrush(Colors.DarkSeaGreen) { Opacity = 0.5 };
         this.shape.Fill = fillColor;
         this.shape.Width = this.SitzplatzBreite;
         this.shape.Height = this.SitzplatzHöhe;
         this.shape.RenderTransformOrigin = new Point(0.5, 0.5);
         this.shape.RenderTransform = new RotateTransform(this.SitzplatzDrehwinkel);
         this.shape.Tag = this;
+        //this.shape.Child = new Label() { Content = "Platz" };
         Canvas.SetTop(this.shape, this.SitzplatzLinksObenY);
         Canvas.SetLeft(this.shape, this.SitzplatzLinksObenX);
       }

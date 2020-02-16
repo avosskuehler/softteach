@@ -610,8 +610,8 @@
           <ColumnDefinition Width="Auto"/>
           <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="0" Margin="5" Padding="0" Content="{Binding Path=SitzplaneintragSchülereintrag.SchülereintragPerson.PersonVorname}"/>
-        <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="1" Margin="5" Padding="0" Content="{Binding Path=SitzplaneintragSchülereintrag.SchülereintragPerson.PersonNachname}"/>
+        <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="0" Margin="5" Padding="0" Content="{Binding Path=SitzplaneintragSchülereintrag.Person.Vorname}"/>
+        <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="1" Margin="5" Padding="0" Content="{Binding Path=SitzplaneintragSchülereintrag.Person.Nachname}"/>
       </Grid>
     </Border>
   </DataTemplate>
@@ -644,7 +644,7 @@
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="Auto"/>
       </Grid.ColumnDefinitions>
-      <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="0" Margin="5" Padding="0" Content="{Binding Path=SchülereintragPerson.PersonVorname}"/>
+      <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="0" Margin="5" Padding="0" Content="{Binding Path=Person.Vorname}"/>
     </Grid>
   </DataTemplate>
 

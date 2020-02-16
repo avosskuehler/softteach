@@ -215,28 +215,41 @@
     {
       using (new UndoBatch(App.MainViewModel, string.Format("Sitzplan neu angelegt"), false))
       {
-        var sitzplan = new Sitzplan { Bezeichnung = "Neuer Sitzplan", GültigAb = DateTime.Now.Date };
-
-        if (Selection.Instance.Raumplan != null)
+        try
         {
-          sitzplan.Raumplan = Selection.Instance.Raumplan.Model;
-        }
-        else
-        {
-          Configuration.Instance.MetroWindow.ShowMessageAsync(
-            "Bitte beachten",
-            "Bitte klicken Sie erst den Raumplan an, für den der Sitzplan erstellt werden soll");
-          return;
-        }
+          App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+          var sitzplan = new Sitzplan { Bezeichnung = "Neuer Sitzplan", GültigAb = DateTime.Now.Date };
 
-        if (Selection.Instance.Schülerliste != null)
-        {
-          sitzplan.Schülerliste = Selection.Instance.Schülerliste.Model;
-        }
+          if (Selection.Instance.Raumplan != null)
+          {
+            sitzplan.Raumplan = Selection.Instance.Raumplan.Model;
+          }
+          else
+          {
+            Configuration.Instance.MetroWindow.ShowMessageAsync(
+              "Bitte beachten",
+              "Bitte klicken Sie erst den Raumplan an, für den der Sitzplan erstellt werden soll");
+            return;
+          }
 
-        var vm = new SitzplanViewModel(sitzplan);
-        App.MainViewModel.Sitzpläne.Add(vm);
-        this.CurrentSitzplan = vm;
+          if (Selection.Instance.Schülerliste != null)
+          {
+            sitzplan.Schülerliste = Selection.Instance.Schülerliste.Model;
+          }
+
+          App.UnitOfWork.Context.Sitzpläne.Add(sitzplan);
+          var vm = new SitzplanViewModel(sitzplan);
+          App.MainViewModel.Sitzpläne.Add(vm);
+          this.CurrentSitzplan = vm;
+        }
+        catch (Exception)
+        {
+          throw;
+        }
+        finally
+        {
+          App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
+        }
       }
     }
 
