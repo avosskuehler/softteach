@@ -487,7 +487,7 @@
       using (new UndoBatch(App.MainViewModel, string.Format("Halbjahresplan {0} gelöscht", this.CurrentHalbjahresplan), false))
       {
         //App.MainViewModel.Halbjahrespläne.RemoveTest(this.CurrentHalbjahresplan);
-        App.UnitOfWork.Context.Halbjahrespläne.Remove(this.CurrentHalbjahresplan.Model);
+        //App.UnitOfWork.Context.Halbjahrespläne.Remove(this.CurrentHalbjahresplan.Model);
         this.Halbjahrespläne.RemoveTest(this.CurrentHalbjahresplan);
         if (this.Halbjahrespläne.Count > 0)
         {
@@ -513,7 +513,7 @@
         var monatsplan = new Monatsplan();
         monatsplan.Monatstyp = App.MainViewModel.Monatstypen[monatsstartIndex + i].Model;
         monatsplan.Halbjahresplan = halbjahresplan.Model;
-        App.UnitOfWork.Context.Monatspläne.Add(monatsplan);
+        //App.UnitOfWork.Context.Monatspläne.Add(monatsplan);
 
         var vm = new MonatsplanViewModel(monatsplan);
         this.AddTagespläne(vm);
@@ -544,7 +544,7 @@
         var datum = new DateTime(year, month, i);
         tagesplan.Datum = datum;
         tagesplan.Monatsplan = monatsplan.Model;
-        App.UnitOfWork.Context.Tagespläne.Add(tagesplan);
+        //App.UnitOfWork.Context.Tagespläne.Add(tagesplan);
 
         // Check for Ferien
         foreach (var ferien in App.MainViewModel.Ferien.Where(
@@ -589,7 +589,7 @@
           lerngruppentermin.Termintyp = terminViewModel.TerminTermintyp.Model;
           lerngruppentermin.Ort = terminViewModel.TerminOrt;
           lerngruppentermin.Tagesplan = tagesplan;
-          App.UnitOfWork.Context.Termine.Add(lerngruppentermin);
+          //App.UnitOfWork.Context.Termine.Add(lerngruppentermin);
 
           var viewModelLerngruppentermin = new LerngruppenterminViewModel(lerngruppentermin);
           //App.MainViewModel.Lerngruppentermine.Add(viewModelLerngruppentermin);
@@ -625,7 +625,7 @@
                   App.MainViewModel.Stundenentwürfe.RemoveTest(stunde.StundeStundenentwurf);
                 }
 
-                App.UnitOfWork.Context.Termine.Remove(stunde.Model);
+                //App.UnitOfWork.Context.Termine.Remove(stunde.Model);
                 tag.Lerngruppentermine.RemoveTest(lerngruppenterminViewModel);
                 //App.MainViewModel.Stunden.RemoveTest(lerngruppenterminViewModel as StundeViewModel);
                 tag.UpdateBeschreibung();

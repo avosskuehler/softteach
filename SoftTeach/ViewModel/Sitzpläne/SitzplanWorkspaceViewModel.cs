@@ -237,7 +237,7 @@
             sitzplan.Schülerliste = Selection.Instance.Schülerliste.Model;
           }
 
-          App.UnitOfWork.Context.Sitzpläne.Add(sitzplan);
+          //App.UnitOfWork.Context.Sitzpläne.Add(sitzplan);
           var vm = new SitzplanViewModel(sitzplan);
           App.MainViewModel.Sitzpläne.Add(vm);
           this.CurrentSitzplan = vm;
@@ -260,7 +260,7 @@
     {
       using (new UndoBatch(App.MainViewModel, string.Format("Sitzplan {0} gelöscht.", this.CurrentSitzplan.SitzplanBezeichnung), false))
       {
-        App.UnitOfWork.Context.Sitzpläne.Remove(this.CurrentSitzplan.Model);
+        //App.UnitOfWork.Context.Sitzpläne.Remove(this.CurrentSitzplan.Model);
         App.MainViewModel.Sitzpläne.RemoveTest(this.CurrentSitzplan);
         this.CurrentSitzplan = null;
       }

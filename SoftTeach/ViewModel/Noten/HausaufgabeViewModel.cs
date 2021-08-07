@@ -29,7 +29,7 @@
       hausaufgabe.Bezeichnung = string.Empty;
       hausaufgabe.IstNachgereicht = false;
       this.Model = hausaufgabe;
-      App.UnitOfWork.Context.Hausaufgaben.Add(hausaufgabe);
+      //App.UnitOfWork.Context.Hausaufgaben.Add(hausaufgabe);
       //App.MainViewModel.Hausaufgaben.Add(this);
     }
 

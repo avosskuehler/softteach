@@ -175,9 +175,12 @@
     /// </summary>
     protected override void DeleteTermin()
     {
-      SchulterminWorkspaceViewModel.AddToModifiedList(this, SchulterminUpdateType.Removed, null);
-      App.UnitOfWork.Context.Termine.Remove(this.Model);
-      var result = App.MainViewModel.Schultermine.RemoveTest(this);
+      using (new UndoBatch(App.MainViewModel, string.Format("Lösche Termin"), false))
+      {
+        SchulterminWorkspaceViewModel.AddToModifiedList(this, SchulterminUpdateType.Removed, null);
+        //App.UnitOfWork.Context.Termine.Remove(this.Model);
+        var result = App.MainViewModel.Schultermine.RemoveTest(this);
+      }
     }
 
     /// <summary>
@@ -229,7 +232,7 @@
               betroffeneKlasse.Termin = this.Model as Schultermin;
 
               var vm = new BetroffeneKlasseViewModel(betroffeneKlasse);
-              App.UnitOfWork.Context.BetroffeneKlassen.Add(betroffeneKlasse);
+              //App.UnitOfWork.Context.BetroffeneKlassen.Add(betroffeneKlasse);
               App.MainViewModel.BetroffeneKlassen.Add(vm);
               this.BetroffeneKlassen.Add(vm);
               this.CurrentBetroffeneKlasse = vm;
@@ -244,7 +247,7 @@
     /// </summary>
     private void DeleteCurrentBetroffeneKlasse()
     {
-      App.UnitOfWork.Context.BetroffeneKlassen.Remove(this.CurrentBetroffeneKlasse.Model);
+      //App.UnitOfWork.Context.BetroffeneKlassen.Remove(this.CurrentBetroffeneKlasse.Model);
       App.MainViewModel.BetroffeneKlassen.RemoveTest(this.CurrentBetroffeneKlasse);
       this.BetroffeneKlassen.RemoveTest(this.CurrentBetroffeneKlasse);
       this.CurrentBetroffeneKlasse = null;

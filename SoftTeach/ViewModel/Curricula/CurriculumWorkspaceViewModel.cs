@@ -217,7 +217,7 @@
           curriculum.Klassenstufe = dlg.Klassenstufe.Model;
           curriculum.Jahrtyp = dlg.Jahrtyp.Model;
           curriculum.Halbjahrtyp = dlg.Halbjahrtyp.Model;
-          App.UnitOfWork.Context.Curricula.Add(curriculum);
+          //App.UnitOfWork.Context.Curricula.Add(curriculum);
           var vm = new CurriculumViewModel(curriculum);
           App.MainViewModel.Curricula.Add(vm);
           this.CurrentCurriculum = vm;
@@ -260,7 +260,7 @@
             reiheClone.Stundenbedarf = reihe.Stundenbedarf;
             reiheClone.Thema = reihe.Thema;
             reiheClone.Curriculum = curriculumClone;
-            App.UnitOfWork.Context.Reihen.Add(reiheClone);
+            //App.UnitOfWork.Context.Reihen.Add(reiheClone);
 
             foreach (var sequenz in reihe.Sequenzen)
             {
@@ -269,13 +269,14 @@
               sequenzClone.Stundenbedarf = sequenz.Stundenbedarf;
               sequenzClone.Thema = sequenz.Thema;
               sequenzClone.Reihe = reiheClone;
-              App.UnitOfWork.Context.Sequenzen.Add(sequenzClone);
-              //reiheClone.Sequenzen.Add(sequenzClone);
+              //App.UnitOfWork.Context.Sequenzen.Add(sequenzClone);
+              reiheClone.Sequenzen.Add(sequenzClone);
             }
 
-            //curriculumClone.Reihen.Add(reiheClone);
+            curriculumClone.Reihen.Add(reiheClone);
           }
-          App.UnitOfWork.Context.Curricula.Add(curriculumClone);
+
+          //App.UnitOfWork.Context.Curricula.Add(curriculumClone);
 
           var curriculumCloneViewModel = new CurriculumViewModel(curriculumClone, false);
           App.MainViewModel.Curricula.Add(curriculumCloneViewModel);
@@ -289,9 +290,12 @@
     /// </summary>
     private void DeleteCurrentCurriculum()
     {
-      App.UnitOfWork.Context.Curricula.Remove(CurrentCurriculum.Model);
-      App.MainViewModel.Curricula.RemoveTest(this.CurrentCurriculum);
-      this.CurrentCurriculum = null;
+      using (new UndoBatch(App.MainViewModel, string.Format("Curriculum gelöscht"), false))
+      {
+        //App.UnitOfWork.Context.Curricula.Remove(CurrentCurriculum.Model);
+        App.MainViewModel.Curricula.RemoveTest(this.CurrentCurriculum);
+        this.CurrentCurriculum = null;
+      }
     }
   }
 }

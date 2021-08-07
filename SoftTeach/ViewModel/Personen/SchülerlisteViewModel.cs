@@ -564,10 +564,11 @@
         schülerlisteClone.Schülereinträge.Add(schülereintragClone);
       }
 
-      App.UnitOfWork.Context.Schülerlisten.Add(schülerlisteClone);
+      //App.UnitOfWork.Context.Schülerlisten.Add(schülerlisteClone);
 
       var vm = new SchülerlisteViewModel(schülerlisteClone);
       App.MainViewModel.Schülerlisten.Add(vm);
+
       return vm;
     }
 
@@ -698,7 +699,7 @@
               var schülereintrag = new Schülereintrag();
               schülereintrag.Person = person.Model;
               schülereintrag.Schülerliste = this.Model;
-              App.UnitOfWork.Context.Schülereinträge.Add(schülereintrag);
+              //App.UnitOfWork.Context.Schülereinträge.Add(schülereintrag);
               var vm = new SchülereintragViewModel(schülereintrag);
               //App.MainViewModel.Schülereinträge.Add(vm);
               this.Schülereinträge.Add(vm);
@@ -727,7 +728,7 @@
     {
       using (new UndoBatch(App.MainViewModel, string.Format("Schüler {0} aus Schülerliste {1} gelöscht.", this.CurrentSchülereintrag, this), false))
       {
-        App.UnitOfWork.Context.Schülereinträge.Remove(this.CurrentSchülereintrag.Model);
+        //App.UnitOfWork.Context.Schülereinträge.Remove(this.CurrentSchülereintrag.Model);
         this.Schülereinträge.RemoveTest(this.CurrentSchülereintrag);
         this.CurrentSchülereintrag = null;
       }
@@ -746,29 +747,32 @@
     /// </summary>
     private void ImportSchüler()
     {
-      var personen = ExportData.FromCSV();
-      foreach (var personViewModel in personen)
+      using (new UndoBatch(App.MainViewModel, string.Format("Schüler importiert"), false))
       {
-        // Check if already there
-        if (
-          this.Schülereinträge.Any(
-            o =>
-            o.SchülereintragPerson.PersonVorname == personViewModel.PersonVorname
-            && o.SchülereintragPerson.PersonNachname == personViewModel.PersonNachname
-            && o.SchülereintragPerson.PersonGeburtstag == personViewModel.PersonGeburtstag))
+        var personen = ExportData.FromCSV();
+        foreach (var personViewModel in personen)
         {
-          continue;
-        }
+          // Check if already there
+          if (
+            this.Schülereinträge.Any(
+              o =>
+              o.SchülereintragPerson.PersonVorname == personViewModel.PersonVorname
+              && o.SchülereintragPerson.PersonNachname == personViewModel.PersonNachname
+              && o.SchülereintragPerson.PersonGeburtstag == personViewModel.PersonGeburtstag))
+          {
+            continue;
+          }
 
-        // perform add
-        var schülereintrag = new Schülereintrag();
-        schülereintrag.Person = personViewModel.Model;
-        schülereintrag.Schülerliste = this.Model;
-        App.UnitOfWork.Context.Schülereinträge.Add(schülereintrag);
-        var vm = new SchülereintragViewModel(schülereintrag);
-        //App.MainViewModel.Schülereinträge.Add(vm);
-        this.Schülereinträge.Add(vm);
-        this.CurrentSchülereintrag = vm;
+          // perform add
+          var schülereintrag = new Schülereintrag();
+          schülereintrag.Person = personViewModel.Model;
+          schülereintrag.Schülerliste = this.Model;
+          //App.UnitOfWork.Context.Schülereinträge.Add(schülereintrag);
+          var vm = new SchülereintragViewModel(schülereintrag);
+          //App.MainViewModel.Schülereinträge.Add(vm);
+          this.Schülereinträge.Add(vm);
+          this.CurrentSchülereintrag = vm;
+        }
       }
     }
 

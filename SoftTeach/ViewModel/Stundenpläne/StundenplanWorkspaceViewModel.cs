@@ -1,15 +1,14 @@
 ﻿namespace SoftTeach.ViewModel.Stundenpläne
 {
-  using System;
-  using System.Linq;
-  using System.Windows.Input;
-
   using SoftTeach.Model.EntityFramework;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Stundenpläne;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Helper;
+  using System;
+  using System.Linq;
+  using System.Windows.Input;
 
   /// <summary>
   /// ViewModel for managing Stundenplan
@@ -89,15 +88,19 @@
     /// <param name="gültigAb"> The gültig Ab. </param>
     public void AddStundenplan(JahrtypViewModel jahrtyp, HalbjahrtypViewModel halbjahrtyp, DateTime gültigAb)
     {
-      var stundenplan = new Stundenplan();
-      stundenplan.Jahrtyp = jahrtyp.Model;
-      stundenplan.Halbjahrtyp = halbjahrtyp.Model;
-      stundenplan.GültigAb = gültigAb;
-      stundenplan.Bezeichnung = string.Format("Stundenplan für {0} {1}", Configuration.Instance.Lehrer.Titel, Configuration.Instance.Lehrer.Nachname);
-      App.UnitOfWork.Context.Stundenpläne.Add(stundenplan);
-      var vm = new StundenplanViewModel(stundenplan);
-      App.MainViewModel.Stundenpläne.Add(vm);
-      this.CurrentStundenplan = vm;
+      using (new UndoBatch(App.MainViewModel, string.Format("Stundenplan ergänzt"), false))
+      {
+
+        var stundenplan = new Stundenplan();
+        stundenplan.Jahrtyp = jahrtyp.Model;
+        stundenplan.Halbjahrtyp = halbjahrtyp.Model;
+        stundenplan.GültigAb = gültigAb;
+        stundenplan.Bezeichnung = string.Format("Stundenplan für {0} {1}", Configuration.Instance.Lehrer.Titel, Configuration.Instance.Lehrer.Nachname);
+        //App.UnitOfWork.Context.Stundenpläne.Add(stundenplan);
+        var vm = new StundenplanViewModel(stundenplan);
+        App.MainViewModel.Stundenpläne.Add(vm);
+        this.CurrentStundenplan = vm;
+      }
     }
 
     /// <summary>
@@ -105,7 +108,7 @@
     /// </summary>
     public void DeleteCurrentStundenplan()
     {
-      var result = App.UnitOfWork.Context.Stundenpläne.Remove(this.CurrentStundenplan.Model);
+      //var result = App.UnitOfWork.Context.Stundenpläne.Remove(this.CurrentStundenplan.Model);
       App.MainViewModel.Stundenpläne.RemoveTest(this.CurrentStundenplan);
       this.CurrentStundenplan = null;
     }
@@ -136,7 +139,7 @@
         var dlg = new AddStundenplanÄnderungDialog(stundenplan);
         if (!(undo = !dlg.ShowDialog().GetValueOrDefault(false)))
         {
-          App.UnitOfWork.Context.Stundenpläne.Add(stundenplan.Model);
+          //App.UnitOfWork.Context.Stundenpläne.Add(stundenplan.Model);
           App.MainViewModel.Stundenpläne.Add(stundenplan);
           this.CurrentStundenplan = stundenplan;
         }

@@ -12,6 +12,7 @@
 
   using SoftTeach.ExceptionHandling;
   using SoftTeach.Model.EntityFramework;
+  using SoftTeach.UndoRedo;
   using SoftTeach.ViewModel.Helper;
   using SoftTeach.ViewModel.Jahrespläne;
   using SoftTeach.ViewModel.Stundenentwürfe;
@@ -289,95 +290,97 @@
       var stundenZähler = 0;
       var aktuelleSequenz = this.UsedSequenzenDesCurriculums[sequenzIndex];
 
-      foreach (TagesplanViewModel tagesplan in this.TagespläneDesHalbjahresplans)
+      using (new UndoBatch(App.MainViewModel, string.Format("Stundenentwürfe aus Curriculum angepasst."), false))
       {
-        if (aktuelleSequenz == null)
+        foreach (TagesplanViewModel tagesplan in this.TagespläneDesHalbjahresplans)
         {
-          break;
-        }
-
-        foreach (var lerngruppentermin in tagesplan.Lerngruppentermine)
-        {
-          if (lerngruppentermin is StundeViewModel)
+          if (aktuelleSequenz == null)
           {
-            var stunde = lerngruppentermin as StundeViewModel;
-            StundenentwurfViewModel entwurfViewModel = null;
+            break;
+          }
 
-            if (stunde.StundeStundenentwurf == null)
+          foreach (var lerngruppentermin in tagesplan.Lerngruppentermine)
+          {
+            if (lerngruppentermin is StundeViewModel)
             {
-              var entwurf = new Stundenentwurf();
-              entwurf.Datum = DateTime.Now;
-              entwurf.Fach = tagesplan.Model.Monatsplan.Halbjahresplan.Jahresplan.Fach;
-              entwurf.Jahrgangsstufe =
-                tagesplan.Model.Monatsplan.Halbjahresplan.Jahresplan.Klasse.Klassenstufe.Jahrgangsstufe;
-              entwurf.Stundenzahl = stunde.TerminStundenanzahl;
-              entwurf.Ansagen = string.Empty;
-              entwurf.Computer = false;
-              entwurf.Hausaufgaben = string.Empty;
-              entwurf.Kopieren = false;
-              entwurf.Stundenthema = aktuelleSequenz.SequenzThema;
-              entwurf.Modul = aktuelleSequenz.SequenzReihe.ReiheModul.Model;
-              App.UnitOfWork.Context.Stundenentwürfe.Add(entwurf);
-              entwurfViewModel = new StundenentwurfViewModel(entwurf);
-              App.MainViewModel.Stundenentwürfe.Add(entwurfViewModel);
-              stunde.StundeStundenentwurf = entwurfViewModel;
-            }
-            else
-            {
-              // if entwurf is empty update also
-              if (stunde.StundeStundenentwurf.Phasen.Count == 0)
+              var stunde = lerngruppentermin as StundeViewModel;
+              StundenentwurfViewModel entwurfViewModel = null;
+
+              if (stunde.StundeStundenentwurf == null)
               {
-                entwurfViewModel = stunde.StundeStundenentwurf;
-                entwurfViewModel.StundenentwurfDatum = DateTime.Now;
-                entwurfViewModel.StundenentwurfStundenthema = aktuelleSequenz.SequenzThema;
-                entwurfViewModel.StundenentwurfModul = aktuelleSequenz.SequenzReihe.ReiheModul;
-              }
-            }
-
-            stundenZähler += stunde.TerminStundenanzahl;
-            if (stundenZähler == aktuelleSequenz.SequenzStundenbedarf)
-            {
-              stundenZähler = 0;
-              sequenzIndex++;
-
-              if (this.UsedSequenzenDesCurriculums.Count > sequenzIndex)
-              {
-                aktuelleSequenz = this.UsedSequenzenDesCurriculums[sequenzIndex];
+                var entwurf = new Stundenentwurf();
+                entwurf.Datum = DateTime.Now;
+                entwurf.Fach = tagesplan.Model.Monatsplan.Halbjahresplan.Jahresplan.Fach;
+                entwurf.Jahrgangsstufe =
+                  tagesplan.Model.Monatsplan.Halbjahresplan.Jahresplan.Klasse.Klassenstufe.Jahrgangsstufe;
+                entwurf.Stundenzahl = stunde.TerminStundenanzahl;
+                entwurf.Ansagen = string.Empty;
+                entwurf.Computer = false;
+                entwurf.Hausaufgaben = string.Empty;
+                entwurf.Kopieren = false;
+                entwurf.Stundenthema = aktuelleSequenz.SequenzThema;
+                entwurf.Modul = aktuelleSequenz.SequenzReihe.ReiheModul.Model;
+                //App.UnitOfWork.Context.Stundenentwürfe.Add(entwurf);
+                entwurfViewModel = new StundenentwurfViewModel(entwurf);
+                App.MainViewModel.Stundenentwürfe.Add(entwurfViewModel);
+                stunde.StundeStundenentwurf = entwurfViewModel;
               }
               else
               {
-                aktuelleSequenz = null;
-                break;
-              }
-            }
-            else if (stundenZähler > aktuelleSequenz.SequenzStundenbedarf)
-            {
-              sequenzIndex++;
-
-              SequenzViewModel nächsteSequenz;
-              if (this.UsedSequenzenDesCurriculums.Count > sequenzIndex)
-              {
-                nächsteSequenz = this.UsedSequenzenDesCurriculums[sequenzIndex];
-                if (nächsteSequenz.SequenzStundenbedarf + aktuelleSequenz.SequenzStundenbedarf == stundenZähler)
+                // if entwurf is empty update also
+                if (stunde.StundeStundenentwurf.Phasen.Count == 0)
                 {
-                  entwurfViewModel.StundenentwurfStundenthema += "+ " + nächsteSequenz.SequenzThema;
-                  sequenzIndex++;
+                  entwurfViewModel = stunde.StundeStundenentwurf;
+                  entwurfViewModel.StundenentwurfDatum = DateTime.Now;
+                  entwurfViewModel.StundenentwurfStundenthema = aktuelleSequenz.SequenzThema;
+                  entwurfViewModel.StundenentwurfModul = aktuelleSequenz.SequenzReihe.ReiheModul;
+                }
+              }
+
+              stundenZähler += stunde.TerminStundenanzahl;
+              if (stundenZähler == aktuelleSequenz.SequenzStundenbedarf)
+              {
+                stundenZähler = 0;
+                sequenzIndex++;
+
+                if (this.UsedSequenzenDesCurriculums.Count > sequenzIndex)
+                {
                   aktuelleSequenz = this.UsedSequenzenDesCurriculums[sequenzIndex];
                 }
-                stundenZähler = 0;
+                else
+                {
+                  aktuelleSequenz = null;
+                  break;
+                }
               }
-              else
+              else if (stundenZähler > aktuelleSequenz.SequenzStundenbedarf)
               {
-                nächsteSequenz = null;
-                break;
+                sequenzIndex++;
+
+                SequenzViewModel nächsteSequenz;
+                if (this.UsedSequenzenDesCurriculums.Count > sequenzIndex)
+                {
+                  nächsteSequenz = this.UsedSequenzenDesCurriculums[sequenzIndex];
+                  if (nächsteSequenz.SequenzStundenbedarf + aktuelleSequenz.SequenzStundenbedarf == stundenZähler)
+                  {
+                    entwurfViewModel.StundenentwurfStundenthema += "+ " + nächsteSequenz.SequenzThema;
+                    sequenzIndex++;
+                    aktuelleSequenz = this.UsedSequenzenDesCurriculums[sequenzIndex];
+                  }
+                  stundenZähler = 0;
+                }
+                else
+                {
+                  nächsteSequenz = null;
+                  break;
+                }
               }
             }
           }
+
+          tagesplan.UpdateBeschreibung();
         }
-
-        tagesplan.UpdateBeschreibung();
       }
-
       InformationDialog.Show("Fertig", "Jahresplan wurde aktualisiert", false);
     }
   }

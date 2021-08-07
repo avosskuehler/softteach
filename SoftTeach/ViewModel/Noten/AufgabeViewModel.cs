@@ -33,7 +33,7 @@
       aufgabe.Bezeichnung = string.Empty;
       aufgabe.Arbeit = Selection.Instance.Arbeit.Model;
       this.Model = aufgabe;
-      App.UnitOfWork.Context.Aufgaben.Add(aufgabe);
+      //App.UnitOfWork.Context.Aufgaben.Add(aufgabe);
       //App.MainViewModel.Aufgaben.Add(this);
     }
 
@@ -244,7 +244,7 @@
     {
       using (new UndoBatch(App.MainViewModel, string.Format("Ergebnis {0} gelöscht.", ergebnisViewModel), false))
       {
-        App.UnitOfWork.Context.Ergebnisse.Remove(ergebnisViewModel.Model);
+        //App.UnitOfWork.Context.Ergebnisse.Remove(ergebnisViewModel.Model);
         //App.MainViewModel.Ergebnisse.RemoveTest(ergebnisViewModel);
         ergebnisViewModel.PropertyChanged -= this.ErgebnisPropertyChanged;
         var result = this.Ergebnisse.RemoveTest(ergebnisViewModel);
@@ -259,7 +259,7 @@
       using (new UndoBatch(App.MainViewModel, string.Format("Ergebnis erstellt."), false))
       {
         var ergebnis = new Ergebnis { Punktzahl = 0, Aufgabe = this.Model };
-        App.UnitOfWork.Context.Ergebnisse.Add(ergebnis);
+        //App.UnitOfWork.Context.Ergebnisse.Add(ergebnis);
         var vm = new ErgebnisViewModel(ergebnis);
         vm.PropertyChanged += this.ErgebnisPropertyChanged;
         //App.MainViewModel.Ergebnisse.Add(vm);

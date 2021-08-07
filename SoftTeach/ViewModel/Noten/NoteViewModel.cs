@@ -41,7 +41,7 @@
       note.Wichtung = 1;
       note.Zensur = App.MainViewModel.Zensuren.First().Model;
       this.Model = note;
-      App.UnitOfWork.Context.Noten.Add(note);
+      //App.UnitOfWork.Context.Noten.Add(note);
       //App.MainViewModel.Noten.Add(this);
     }
 

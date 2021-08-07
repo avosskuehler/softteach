@@ -958,7 +958,7 @@
 
       using (new UndoBatch(App.MainViewModel, string.Format("Stundenplaneintrag {0} gelöscht.", stundenplaneintragViewModel), false))
       {
-        App.UnitOfWork.Context.Stundenplaneinträge.Remove(stundenplaneintragViewModel.Model);
+        //App.UnitOfWork.Context.Stundenplaneinträge.Remove(stundenplaneintragViewModel.Model);
         bool success = App.MainViewModel.Stundenplaneinträge.RemoveTest(stundenplaneintragViewModel);
         this.Stundenplaneinträge.RemoveTest(stundenplaneintragViewModel);
         this.CurrentStundenplaneintrag = null;
@@ -1011,7 +1011,7 @@
           stundenplanViewModel.Stundenplaneinträge.Add(stundenplanEintragViewModel);
         }
 
-        App.UnitOfWork.Context.Stundenpläne.Add(stundenplan);
+        //App.UnitOfWork.Context.Stundenpläne.Add(stundenplan);
 
         App.MainViewModel.Stundenpläne.Add(stundenplanViewModel);
       }
@@ -1121,12 +1121,12 @@
       stundenplaneintrag.Stundenplan = this.Model;
       var vm = new StundenplaneintragViewModel(this, stundenplaneintrag);
       var undo = false;
-      //using (new UndoBatch(App.MainViewModel, string.Format("Stundenplaneintrag {0} erstellt.", vm), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("Stundenplaneintrag {0} erstellt.", vm), false))
       {
         var dlg = new AddStundenplaneintragDialog(vm);
         if (!(undo = !dlg.ShowDialog().GetValueOrDefault(false)))
         {
-          App.UnitOfWork.Context.Stundenplaneinträge.Add(stundenplaneintrag);
+          //App.UnitOfWork.Context.Stundenplaneinträge.Add(stundenplaneintrag);
           App.MainViewModel.Stundenplaneinträge.Add(vm);
           this.Stundenplaneinträge.Add(vm);
           this.CurrentStundenplaneintrag = vm;
@@ -1137,10 +1137,10 @@
         }
       }
 
-      //if (undo)
-      //{
-      //  App.MainViewModel.ExecuteUndoCommand();
-      //}
+      if (undo)
+      {
+        App.MainViewModel.ExecuteUndoCommand();
+      }
     }
 
     /// <summary>

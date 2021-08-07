@@ -36,7 +36,7 @@
       phase.Sozialform = App.MainViewModel.Sozialformen.First().Model;
       phase.Stundenentwurf = Selection.Instance.Stundenentwurf.Model;
       this.Model = phase;
-      App.UnitOfWork.Context.Phasen.Add(phase);
+      //App.UnitOfWork.Context.Phasen.Add(phase);
       //App.MainViewModel.Phasen.Add(this);
       Selection.Instance.Stundenentwurf.AttachPhaseChangedEvent(this);
       //Selection.Instance.Stundenentwurf.Phasen.Add(this);
@@ -255,7 +255,7 @@
       phaseClone.Sozialform = this.Model.Sozialform;
       phaseClone.Zeit = this.Model.Zeit;
       phaseClone.Stundenentwurf = this.Model.Stundenentwurf;
-      App.UnitOfWork.Context.Phasen.Add(phaseClone);
+      //App.UnitOfWork.Context.Phasen.Add(phaseClone);
 
       var vm = new PhaseViewModel(phaseClone);
       //App.MainViewModel.Phasen.Add(vm);

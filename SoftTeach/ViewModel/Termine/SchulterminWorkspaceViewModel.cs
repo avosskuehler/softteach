@@ -462,7 +462,7 @@
 
       if (!tagesplan.Lerngruppentermine.Contains(lerngruppenTerminViewModel))
       {
-        App.UnitOfWork.Context.Termine.Add(lerngruppenTermin);
+        //App.UnitOfWork.Context.Termine.Add(lerngruppenTermin);
         //App.MainViewModel.Lerngruppentermine.Add(lerngruppenTerminViewModel);
         tagesplan.Lerngruppentermine.Add(lerngruppenTerminViewModel);
       }
@@ -527,7 +527,7 @@
       }
 
       termin.Termintyp = App.MainViewModel.Termintypen[0].Model;
-      App.UnitOfWork.Context.Termine.Add(termin);
+      //App.UnitOfWork.Context.Termine.Add(termin);
       var vm = new SchulterminViewModel(termin);
 
       using (new UndoBatch(App.MainViewModel, string.Format("Termin {0} erstellt.", vm), false))
@@ -556,7 +556,7 @@
         termin.LetzteUnterrichtsstunde = this.CurrentTermin.TerminLetzteUnterrichtsstunde.Model;
         termin.Jahrtyp = this.CurrentTermin.SchulterminJahrtyp.Model;
         termin.Termintyp = this.CurrentTermin.TerminTermintyp.Model;
-        App.UnitOfWork.Context.Termine.Add(termin);
+        //App.UnitOfWork.Context.Termine.Add(termin);
 
         var vm = new SchulterminViewModel(termin);
         foreach (var betroffeneKlasseViewModel in this.CurrentTermin.BetroffeneKlassen)

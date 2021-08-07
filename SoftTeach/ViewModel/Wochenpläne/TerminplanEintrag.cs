@@ -482,7 +482,7 @@
       }
 
 
-      //using (new UndoBatch(App.MainViewModel, string.Format("Wochenplaneintrag {0} editiert.", this), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("Wochenplaneintrag {0} editiert.", this), false))
       {
         if (this.TerminViewModel is LerngruppenterminViewModel)
         {
@@ -523,7 +523,7 @@
         return;
       }
 
-      //using (new UndoBatch(App.MainViewModel, string.Format("Wochenplaneintrag {0} editiert.", this), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("Wochenplaneintrag {0} editiert.", this), false))
       {
         if (this.TerminViewModel is LerngruppenterminViewModel)
         {

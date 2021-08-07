@@ -876,7 +876,7 @@
     {
       var context = App.UnitOfWork.Context;
       context.Configuration.AutoDetectChangesEnabled = false;
-      //ChangeFactory.Current.IsTracking = false;
+      ChangeFactory.Current.IsTracking = false;
       var watch = new Stopwatch();
       watch.Start();
 
@@ -1297,7 +1297,7 @@
         //this.Stundenplaneinträge.CollectionChanged += this.StundenplaneinträgeCollectionChanged;
 
         context.Configuration.AutoDetectChangesEnabled = true;
-        //ChangeFactory.Current.IsTracking = true;
+        ChangeFactory.Current.IsTracking = true;
         Console.WriteLine("Elapsed All {0}", watch.ElapsedMilliseconds);
 
       }

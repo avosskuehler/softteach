@@ -158,7 +158,7 @@
     /// <param name="isDataContextRelevant">Gibt an, ob diese Änderung in der Datenbank mitgeschrieben werden soll.</param>
     protected void UndoablePropertyChanging(object viewModel, string propertyName, object oldValue, object newValue, bool isDataContextRelevant)
     {
-      //ChangeFactory.Current.OnChanging(viewModel, propertyName, oldValue, newValue, isDataContextRelevant);
+      ChangeFactory.Current.OnChanging(viewModel, propertyName, oldValue, newValue, isDataContextRelevant);
       this.RaisePropertyChanging(propertyName, oldValue, newValue);
     }
 
@@ -172,7 +172,7 @@
     /// <param name="newValue">The new value.</param>
     protected void UndoablePropertyChanging(object viewModel, string propertyName, object oldValue, object newValue)
     {
-      //ChangeFactory.Current.OnChanging(viewModel, propertyName, oldValue, newValue, true);
+      ChangeFactory.Current.OnChanging(viewModel, propertyName, oldValue, newValue, true);
       this.RaisePropertyChanging(propertyName, oldValue, newValue);
     }
 
@@ -188,7 +188,7 @@
     /// <param name="descriptionOfChange"> The description Of Change. </param>
     protected void UndoableCollectionChanged(object viewModel, string propertyName, object collection, NotifyCollectionChangedEventArgs e, bool isDataContextRelevant, string descriptionOfChange)
     {
-      //ChangeFactory.Current.OnCollectionChanged(viewModel, propertyName, collection, e, isDataContextRelevant, descriptionOfChange);
+      ChangeFactory.Current.OnCollectionChanged(viewModel, propertyName, collection, e, isDataContextRelevant, descriptionOfChange);
     }
 
     /// <summary>
@@ -204,7 +204,7 @@
     /// <param name="descriptionOfChange"> The description Of Change. </param>
     protected void UndoableCollectionChanged(object viewModel, string propertyName, object collection, NotifyCollectionChangedEventArgs e, string descriptionOfChange)
     {
-      //ChangeFactory.Current.OnCollectionChanged(viewModel, propertyName, collection, e, true, descriptionOfChange);
+      ChangeFactory.Current.OnCollectionChanged(viewModel, propertyName, collection, e, true, descriptionOfChange);
     }
 
     protected T Get<T>(string name)

@@ -7,6 +7,7 @@
   using Setting;
 
   using SoftTeach.Model.EntityFramework;
+  using SoftTeach.UndoRedo;
   using SoftTeach.View.Noten;
 
   /// <summary>
@@ -72,32 +73,35 @@
       {
         return;
       }
+      using (new UndoBatch(App.MainViewModel, string.Format("Arbeit angelegt"), false))
+      {
 
-      var arbeit = new Arbeit();
-      arbeit.Klasse = dlg.Klasse.Model;
-      arbeit.Jahrtyp = dlg.Jahrtyp.Model;
-      arbeit.Halbjahrtyp = dlg.Halbjahrtyp.Model;
-      arbeit.Fach = dlg.Fach.Model;
-      arbeit.Bepunktungstyp = dlg.Bepunktungstyp.ToString();
-      arbeit.Bewertungsschema = dlg.Bewertungsschema.Model;
-      arbeit.Bezeichnung = dlg.Bezeichnung;
-      arbeit.Datum = dlg.Datum;
-      arbeit.IstKlausur = dlg.IstKlausur;
+        var arbeit = new Arbeit();
+        arbeit.Klasse = dlg.Klasse.Model;
+        arbeit.Jahrtyp = dlg.Jahrtyp.Model;
+        arbeit.Halbjahrtyp = dlg.Halbjahrtyp.Model;
+        arbeit.Fach = dlg.Fach.Model;
+        arbeit.Bepunktungstyp = dlg.Bepunktungstyp.ToString();
+        arbeit.Bewertungsschema = dlg.Bewertungsschema.Model;
+        arbeit.Bezeichnung = dlg.Bezeichnung;
+        arbeit.Datum = dlg.Datum;
+        arbeit.IstKlausur = dlg.IstKlausur;
 
-      var vorhandeneArbeiten =
-        App.MainViewModel.Arbeiten.Count(
-          o =>
-          o.ArbeitJahrtyp.JahrtypBezeichnung == Selection.Instance.Jahrtyp.JahrtypBezeichnung
-          && o.ArbeitHalbjahrtyp.HalbjahrtypIndex == Selection.Instance.Halbjahr.HalbjahrtypIndex
-          && o.ArbeitKlasse.KlasseBezeichnung == Selection.Instance.Klasse.KlasseBezeichnung
-          && o.ArbeitFach.FachBezeichnung == Selection.Instance.Fach.FachBezeichnung);
-      arbeit.LfdNr = vorhandeneArbeiten + 1;
+        var vorhandeneArbeiten =
+          App.MainViewModel.Arbeiten.Count(
+            o =>
+            o.ArbeitJahrtyp.JahrtypBezeichnung == Selection.Instance.Jahrtyp.JahrtypBezeichnung
+            && o.ArbeitHalbjahrtyp.HalbjahrtypIndex == Selection.Instance.Halbjahr.HalbjahrtypIndex
+            && o.ArbeitKlasse.KlasseBezeichnung == Selection.Instance.Klasse.KlasseBezeichnung
+            && o.ArbeitFach.FachBezeichnung == Selection.Instance.Fach.FachBezeichnung);
+        arbeit.LfdNr = vorhandeneArbeiten + 1;
 
-      // App.UnitOfWork.GetRepository<Arbeit>().Add(arbeit);
-      App.UnitOfWork.Context.Arbeiten.Add(arbeit);
-      var vm = new ArbeitViewModel(arbeit);
-      App.MainViewModel.Arbeiten.Add(vm);
-      this.CurrentArbeit = vm;
+        // App.UnitOfWork.GetRepository<Arbeit>().Add(arbeit);
+        //App.UnitOfWork.Context.Arbeiten.Add(arbeit);
+        var vm = new ArbeitViewModel(arbeit);
+        App.MainViewModel.Arbeiten.Add(vm);
+        this.CurrentArbeit = vm;
+      }
     }
 
     /// <summary>
@@ -115,9 +119,13 @@
     private void DeleteArbeit(ArbeitViewModel arbeit)
     {
       // App.UnitOfWork.GetRepository<Arbeit>().RemoveTest(arbeit.Model);
-      App.UnitOfWork.Context.Arbeiten.Remove(arbeit.Model);
-      App.MainViewModel.Arbeiten.RemoveTest(arbeit);
-      this.CurrentArbeit = null;
+      using (new UndoBatch(App.MainViewModel, string.Format("Arbeit gelöscht"), false))
+      {
+
+        //App.UnitOfWork.Context.Arbeiten.Remove(arbeit.Model);
+        App.MainViewModel.Arbeiten.RemoveTest(arbeit);
+        this.CurrentArbeit = null;
+      }
     }
   }
 }

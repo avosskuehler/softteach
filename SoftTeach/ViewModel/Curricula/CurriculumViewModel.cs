@@ -660,16 +660,16 @@
                   reiheClone.Modul = reiheViewModel.ReiheModul.Model;
                   reiheClone.AbfolgeIndex = -1;
                   reiheClone.Curriculum = this.Model;
-                  App.UnitOfWork.Context.Reihen.Add(reiheClone);
+                  //App.UnitOfWork.Context.Reihen.Add(reiheClone);
 
-                    foreach (var sequenz in reiheViewModel.AvailableSequenzen)
+                  foreach (var sequenz in reiheViewModel.AvailableSequenzen)
                   {
                     var sequenzClone = new Sequenz();
                     sequenzClone.AbfolgeIndex = sequenz.AbfolgeIndex;
                     sequenzClone.Reihe = reiheClone;
                     sequenzClone.Stundenbedarf = sequenz.SequenzStundenbedarf;
                     sequenzClone.Thema = sequenz.SequenzThema;
-                    App.UnitOfWork.Context.Sequenzen.Add(sequenzClone);
+                    //App.UnitOfWork.Context.Sequenzen.Add(sequenzClone);
                     reiheClone.Sequenzen.Add(sequenzClone);
                   }
 
@@ -680,7 +680,7 @@
                     sequenzClone.Reihe = reiheClone;
                     sequenzClone.Stundenbedarf = sequenz.SequenzStundenbedarf;
                     sequenzClone.Thema = sequenz.SequenzThema;
-                    App.UnitOfWork.Context.Sequenzen.Add(sequenzClone);
+                    //App.UnitOfWork.Context.Sequenzen.Add(sequenzClone);
                     reiheClone.Sequenzen.Add(sequenzClone);
                   }
 
@@ -771,36 +771,39 @@
       // ins Curriculum einzufügen, werden sie aus den Modulen als Vorlage neu erstellt
       if (this.AvailableReihenDesCurriculums.Count == 0 && this.UsedReihenDesCurriculums.Count == 0)
       {
-        foreach (var modulViewModel in App.MainViewModel.Module.Where(o => o.ModulFach.FachBezeichnung == this.CurriculumFach.FachBezeichnung
-          && o.ModulJahrgangsstufe.JahrgangsstufeBezeichnung == this.CurriculumKlassenstufe.KlassenstufeJahrgangsstufe.JahrgangsstufeBezeichnung))
+        using (new UndoBatch(App.MainViewModel, string.Format("Neue Module anlegen"), false))
         {
-          var reihe = new Reihe();
-          reihe.Stundenbedarf = modulViewModel.ModulStundenbedarf;
-          reihe.Thema = modulViewModel.ModulBezeichnung;
-          reihe.Modul = modulViewModel.Model;
-          reihe.AbfolgeIndex = -1;
-          reihe.Curriculum = this.Model;
-          App.UnitOfWork.Context.Reihen.Add(reihe);
-
-          var bausteine = modulViewModel.ModulBausteine.Trim().Split(',');
-          foreach (var baustein in bausteine)
+          foreach (var modulViewModel in App.MainViewModel.Module.Where(o => o.ModulFach.FachBezeichnung == this.CurriculumFach.FachBezeichnung
+            && o.ModulJahrgangsstufe.JahrgangsstufeBezeichnung == this.CurriculumKlassenstufe.KlassenstufeJahrgangsstufe.JahrgangsstufeBezeichnung))
           {
-            if (baustein == string.Empty) continue;
-            var sequenz = new Sequenz();
-            sequenz.AbfolgeIndex = -1;
-            sequenz.Reihe = reihe;
+            var reihe = new Reihe();
+            reihe.Stundenbedarf = modulViewModel.ModulStundenbedarf;
+            reihe.Thema = modulViewModel.ModulBezeichnung;
+            reihe.Modul = modulViewModel.Model;
+            reihe.AbfolgeIndex = -1;
+            reihe.Curriculum = this.Model;
+            //App.UnitOfWork.Context.Reihen.Add(reihe);
 
-            // Stundenbedarf schätzen
-            sequenz.Stundenbedarf = Math.Max((int)(modulViewModel.ModulStundenbedarf / (float)bausteine.Count()), 1);
-            sequenz.Thema = baustein.Trim();
-            reihe.Sequenzen.Add(sequenz);
-            App.UnitOfWork.Context.Sequenzen.Add(sequenz);
+            var bausteine = modulViewModel.ModulBausteine.Trim().Split(',');
+            foreach (var baustein in bausteine)
+            {
+              if (baustein == string.Empty) continue;
+              var sequenz = new Sequenz();
+              sequenz.AbfolgeIndex = -1;
+              sequenz.Reihe = reihe;
+
+              // Stundenbedarf schätzen
+              sequenz.Stundenbedarf = Math.Max((int)(modulViewModel.ModulStundenbedarf / (float)bausteine.Count()), 1);
+              sequenz.Thema = baustein.Trim();
+              reihe.Sequenzen.Add(sequenz);
+              //App.UnitOfWork.Context.Sequenzen.Add(sequenz);
+            }
+
+            var vm = new ReiheViewModel(reihe);
+            App.MainViewModel.Reihen.Add(vm);
+            this.AvailableReihenDesCurriculums.Add(vm);
+            this.CurrentReihe = vm;
           }
-
-          var vm = new ReiheViewModel(reihe);
-          App.MainViewModel.Reihen.Add(vm);
-          this.AvailableReihenDesCurriculums.Add(vm);
-          this.CurrentReihe = vm;
         }
       }
     }
@@ -961,7 +964,7 @@
           curriculumClone.Jahrtyp = this.CurriculumJahrtyp.Model;
           curriculumClone.Halbjahrtyp = this.CurriculumHalbjahrtyp.Model;
           curriculumClone.Klassenstufe = this.CurriculumKlassenstufe.Model;
-          App.UnitOfWork.Context.Curricula.Add(curriculumClone);
+          //App.UnitOfWork.Context.Curricula.Add(curriculumClone);
 
           foreach (var reihe in this.Model.Reihen)
           {
@@ -971,7 +974,7 @@
             reiheClone.Stundenbedarf = reihe.Stundenbedarf;
             reiheClone.Thema = reihe.Thema;
             reiheClone.Curriculum = curriculumClone;
-            App.UnitOfWork.Context.Reihen.Add(reiheClone);
+            //App.UnitOfWork.Context.Reihen.Add(reiheClone);
 
             foreach (var sequenz in reihe.Sequenzen)
             {
@@ -980,11 +983,11 @@
               sequenzClone.Stundenbedarf = sequenz.Stundenbedarf;
               sequenzClone.Thema = sequenz.Thema;
               sequenzClone.Reihe = reiheClone;
-              App.UnitOfWork.Context.Sequenzen.Add(sequenzClone);
-              //reiheClone.Sequenzen.Add(sequenzClone);
+              //App.UnitOfWork.Context.Sequenzen.Add(sequenzClone);
+              reiheClone.Sequenzen.Add(sequenzClone);
             }
 
-            //curriculumClone.Reihen.Add(reiheClone);
+            curriculumClone.Reihen.Add(reiheClone);
           }
 
           var curriculumCloneViewModel = new CurriculumViewModel(curriculumClone, true);

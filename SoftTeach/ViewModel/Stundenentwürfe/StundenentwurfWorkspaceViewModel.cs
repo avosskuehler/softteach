@@ -292,7 +292,7 @@
       {
         var entwurf = new Stundenentwurf();
         var vm = new StundenentwurfViewModel(entwurf);
-        App.UnitOfWork.Context.Stundenentwürfe.Add(entwurf);
+        //App.UnitOfWork.Context.Stundenentwürfe.Add(entwurf);
         App.MainViewModel.Stundenentwürfe.Add(vm);
         this.CurrentStundenentwurf = vm;
       }
@@ -317,7 +317,7 @@
 
       using (new UndoBatch(App.MainViewModel, string.Format("Stundenentwurf {0} erstellt.", vm), false))
       {
-        App.UnitOfWork.Context.Stundenentwürfe.Add(entwurf);
+        //App.UnitOfWork.Context.Stundenentwürfe.Add(entwurf);
         App.MainViewModel.Stundenentwürfe.Add(vm);
         this.CurrentStundenentwurf = vm;
       }
@@ -335,7 +335,7 @@
 
       using (new UndoBatch(App.MainViewModel, string.Format("Stundenentwurf {0} gelöscht.", this.CurrentStundenentwurf), false))
       {
-        App.UnitOfWork.Context.Stundenentwürfe.Remove(this.CurrentStundenentwurf.Model);
+        //App.UnitOfWork.Context.Stundenentwürfe.Remove(this.CurrentStundenentwurf.Model);
         App.MainViewModel.Stundenentwürfe.RemoveTest(this.CurrentStundenentwurf);
         this.CurrentStundenentwurf = null;
       }

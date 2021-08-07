@@ -15,6 +15,7 @@
   using SoftTeach.ExceptionHandling;
   using SoftTeach.Model.EntityFramework;
   using SoftTeach.Resources.Controls;
+  using SoftTeach.UndoRedo;
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
@@ -35,8 +36,11 @@
       this.DeletePersonCommand = new DelegateCommand(this.DeletePerson);
       var person = new Person();
       this.Model = person;
-      App.UnitOfWork.Context.Personen.Add(person);
-      App.MainViewModel.Personen.Add(this);
+      //App.UnitOfWork.Context.Personen.Add(person);
+      using (new UndoBatch(App.MainViewModel, string.Format("Neue Person angelegt"), false))
+      {
+        App.MainViewModel.Personen.Add(this);
+      }
     }
 
     /// <summary>

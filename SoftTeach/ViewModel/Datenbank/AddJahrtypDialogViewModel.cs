@@ -85,61 +85,67 @@
     /// </summary>
     private void AddFerien(string bezeichnung, DateTime starttermin, int dauerInTagen)
     {
-      var ferien = new Ferien();
-      ferien.Jahrtyp = this.Jahrtyp.Model;
-      ferien.Bezeichnung = bezeichnung;
-      ferien.ErsterFerientag = starttermin;
-      ferien.LetzterFerientag = starttermin.AddDays(dauerInTagen);
-      App.UnitOfWork.Context.Ferien.Add(ferien);
-      var vm = new FerienViewModel(ferien);
-      this.Ferien.Add(vm);
-      this.CurrentFerien = vm;
+      using (new UndoBatch(App.MainViewModel, string.Format("Ferien angelegt kopiert"), false))
+      {
+        var ferien = new Ferien();
+        ferien.Jahrtyp = this.Jahrtyp.Model;
+        ferien.Bezeichnung = bezeichnung;
+        ferien.ErsterFerientag = starttermin;
+        ferien.LetzterFerientag = starttermin.AddDays(dauerInTagen);
+        //App.UnitOfWork.Context.Ferien.Add(ferien);
+        var vm = new FerienViewModel(ferien);
+        this.Ferien.Add(vm);
+        this.CurrentFerien = vm;
+      }
     }
 
     private void CreateNewJahrtyp()
     {
-      var nextYear = DateTime.Now;
-      if (App.MainViewModel.Jahrtypen.Count >= 0)
+      using (new UndoBatch(App.MainViewModel, string.Format("Neues Schuljahr angelegt."), false))
       {
-        var lastEntry = App.MainViewModel.Jahrtypen[App.MainViewModel.Jahrtypen.Count - 1];
-        var lastEntrysYear = lastEntry.JahrtypJahr;
-        nextYear = new DateTime(lastEntrysYear, 1, 1).AddYears(1);
+        var nextYear = DateTime.Now;
+        if (App.MainViewModel.Jahrtypen.Count >= 0)
+        {
+          var lastEntry = App.MainViewModel.Jahrtypen[App.MainViewModel.Jahrtypen.Count - 1];
+          var lastEntrysYear = lastEntry.JahrtypJahr;
+          nextYear = new DateTime(lastEntrysYear, 1, 1).AddYears(1);
+        }
+
+        var bezeichnung = nextYear.ToString("yyyy") + "/" + nextYear.AddYears(1).ToString("yyyy");
+        this.Schuljahrbezeichnung = bezeichnung;
+
+        // Check for existing jahresplan
+        if (App.MainViewModel.Jahrtypen.Any(vorhandenerJahrtyp => vorhandenerJahrtyp.JahrtypJahr == nextYear.Year))
+        {
+          Log.ProcessMessage(
+            "Schuljahr bereits vorhanden",
+            string.Format("Das Schuljahr {0} ist bereits in der Datenbank vorhanden und kann nicht doppelt angelegt werden.", bezeichnung));
+          return;
+        }
+
+        var jahrtyp = new Jahrtyp { Bezeichnung = bezeichnung, Jahr = nextYear.Year };
+        //App.UnitOfWork.Context.Jahrtypen.Add(jahrtyp);
+        var vm = new JahrtypViewModel(jahrtyp);
+        this.Jahrtyp = vm;
+        App.MainViewModel.Jahrtypen.Add(vm);
+
+        Selection.Instance.Jahrtyp = this.Jahrtyp;
+
+        var herbstTermin = new DateTime(this.Jahrtyp.JahrtypJahr, 10, 1);
+        this.AddFerien("Herbstferien", herbstTermin, 14);
+        var weihnachtTermin = new DateTime(this.Jahrtyp.JahrtypJahr, 12, 20);
+        this.AddFerien("Weihnachtsferien", weihnachtTermin, 10);
+        var winterTermin = new DateTime(this.Jahrtyp.JahrtypJahr + 1, 2, 1);
+        this.AddFerien("Winterferien", winterTermin, 7);
+        var osterTermin = new DateTime(this.Jahrtyp.JahrtypJahr + 1, 4, 15);
+        this.AddFerien("Osterferien", osterTermin, 14);
+        var himmelTermin = new DateTime(this.Jahrtyp.JahrtypJahr + 1, 5, 1);
+        this.AddFerien("Himmelfahrt", himmelTermin, 3);
+        var pfingstTermin = new DateTime(this.Jahrtyp.JahrtypJahr + 1, 5, 15);
+        this.AddFerien("Pfingsten", pfingstTermin, 3);
+        var sommerTermin = new DateTime(this.Jahrtyp.JahrtypJahr + 1, 7, 1);
+        this.AddFerien("Sommerferien", sommerTermin, 42);
       }
-
-      var bezeichnung = nextYear.ToString("yyyy") + "/" + nextYear.AddYears(1).ToString("yyyy");
-      this.Schuljahrbezeichnung = bezeichnung;
-
-      // Check for existing jahresplan
-      if (App.MainViewModel.Jahrtypen.Any(vorhandenerJahrtyp => vorhandenerJahrtyp.JahrtypJahr == nextYear.Year))
-      {
-        Log.ProcessMessage(
-          "Schuljahr bereits vorhanden",
-          string.Format("Das Schuljahr {0} ist bereits in der Datenbank vorhanden und kann nicht doppelt angelegt werden.", bezeichnung));
-        return;
-      }
-
-      var jahrtyp = new Jahrtyp { Bezeichnung = bezeichnung, Jahr = nextYear.Year };
-      App.UnitOfWork.Context.Jahrtypen.Add(jahrtyp);
-      var vm = new JahrtypViewModel(jahrtyp);
-      this.Jahrtyp = vm;
-      App.MainViewModel.Jahrtypen.Add(vm);
-
-      Selection.Instance.Jahrtyp = this.Jahrtyp;
-
-      var herbstTermin = new DateTime(this.Jahrtyp.JahrtypJahr, 10, 1);
-      this.AddFerien("Herbstferien", herbstTermin, 14);
-      var weihnachtTermin = new DateTime(this.Jahrtyp.JahrtypJahr, 12, 20);
-      this.AddFerien("Weihnachtsferien", weihnachtTermin, 10);
-      var winterTermin = new DateTime(this.Jahrtyp.JahrtypJahr + 1, 2, 1);
-      this.AddFerien("Winterferien", winterTermin, 7);
-      var osterTermin = new DateTime(this.Jahrtyp.JahrtypJahr + 1, 4, 15);
-      this.AddFerien("Osterferien", osterTermin, 14);
-      var himmelTermin = new DateTime(this.Jahrtyp.JahrtypJahr + 1, 5, 1);
-      this.AddFerien("Himmelfahrt", himmelTermin, 3);
-      var pfingstTermin = new DateTime(this.Jahrtyp.JahrtypJahr + 1, 5, 15);
-      this.AddFerien("Pfingsten", pfingstTermin, 3);
-      var sommerTermin = new DateTime(this.Jahrtyp.JahrtypJahr + 1, 7, 1);
-      this.AddFerien("Sommerferien", sommerTermin, 42);
     }
   }
 }

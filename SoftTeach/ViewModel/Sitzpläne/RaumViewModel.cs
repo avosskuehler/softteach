@@ -155,7 +155,7 @@
 
       using (new UndoBatch(App.MainViewModel, string.Format("Neuer Raumplan {0} erstellt.", raumplanViewModel), false))
       {
-        App.UnitOfWork.Context.Raumpläne.Add(raumplanViewModel.Model);
+        //App.UnitOfWork.Context.Raumpläne.Add(raumplanViewModel.Model);
         //App.MainViewModel.Raumpläne.Add(raumplanViewModel);
         this.Raumpläne.Add(raumplanViewModel);
         this.CurrentRaumplan = raumplanViewModel;
@@ -198,7 +198,7 @@
       using (new UndoBatch(App.MainViewModel, string.Format("Raumplan {0} gelöscht.", raumplanViewModel), false))
       {
         //App.MainViewModel.Raumpläne.RemoveTest(raumplanViewModel);
-        App.UnitOfWork.Context.Raumpläne.Remove(raumplanViewModel.Model);
+        //App.UnitOfWork.Context.Raumpläne.Remove(raumplanViewModel.Model);
         var result = this.Raumpläne.RemoveTest(raumplanViewModel);
       }
     }

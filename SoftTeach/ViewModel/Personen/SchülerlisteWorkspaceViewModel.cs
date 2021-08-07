@@ -335,12 +335,12 @@
         var list = arbeiten.ToList();
         foreach (var arbeitViewModel in list)
         {
-          App.UnitOfWork.Context.Arbeiten.Remove(arbeitViewModel.Model);
+          //App.UnitOfWork.Context.Arbeiten.Remove(arbeitViewModel.Model);
           bool success = App.MainViewModel.Arbeiten.RemoveTest(arbeitViewModel);
         }
 
         // Jetzt die Schülerliste löschen
-        App.UnitOfWork.Context.Schülerlisten.Remove(this.CurrentSchülerliste.Model);
+        //App.UnitOfWork.Context.Schülerlisten.Remove(this.CurrentSchülerliste.Model);
         App.MainViewModel.Schülerlisten.RemoveTest(this.CurrentSchülerliste);
         this.CurrentSchülerliste = null;
       }

@@ -77,18 +77,22 @@
       }
       else
       {
-        // Noch keine Sitzplaneinträge vorhanden, erstelle also alle neu aus den Sitzplätzen des Raumplans
-        foreach (var sitzplatz in sitzplan.Raumplan.Sitzplätze)
+        using (new UndoBatch(App.MainViewModel, string.Format("Neuer Sitzplan angelegt"), false))
         {
-          var sitzplaneintrag = new Sitzplaneintrag();
-          sitzplaneintrag.Sitzplan = this.Model;
-          sitzplaneintrag.Sitzplatz = sitzplatz;
-          App.UnitOfWork.Context.Sitzplaneinträge.Add(sitzplaneintrag);
 
-          var vm = new SitzplaneintragViewModel(sitzplaneintrag);
-          //App.MainViewModel.Sitzplaneinträge.Add(vm);
-          this.Sitzplaneinträge.Add(vm);
-          this.CurrentSitzplaneintrag = vm;
+          // Noch keine Sitzplaneinträge vorhanden, erstelle also alle neu aus den Sitzplätzen des Raumplans
+          foreach (var sitzplatz in sitzplan.Raumplan.Sitzplätze)
+          {
+            var sitzplaneintrag = new Sitzplaneintrag();
+            sitzplaneintrag.Sitzplan = this.Model;
+            sitzplaneintrag.Sitzplatz = sitzplatz;
+            //App.UnitOfWork.Context.Sitzplaneinträge.Add(sitzplaneintrag);
+
+            var vm = new SitzplaneintragViewModel(sitzplaneintrag);
+            //App.MainViewModel.Sitzplaneinträge.Add(vm);
+            this.Sitzplaneinträge.Add(vm);
+            this.CurrentSitzplaneintrag = vm;
+          }
         }
       }
 

@@ -336,7 +336,7 @@
         if (!(undo = !stundeDlg.ShowDialog().GetValueOrDefault(false)))
         {
           //App.MainViewModel.Stunden.Add(vm);
-          App.UnitOfWork.Context.Termine.Add(stunde);
+          //App.UnitOfWork.Context.Termine.Add(stunde);
           tagesplanToAdd.Lerngruppentermine.Add(vm);
           tagesplanToAdd.CurrentLerngruppentermin = vm;
 
@@ -406,7 +406,7 @@
         var vm = new LerngruppenterminViewModel(tagesplanToAdd, lerngruppentermin);
         using (new UndoBatch(App.MainViewModel, string.Format("Sondertermin {0} angelegt.", vm), false))
         {
-          App.UnitOfWork.Context.Termine.Add(lerngruppentermin);
+          //App.UnitOfWork.Context.Termine.Add(lerngruppentermin);
           //App.MainViewModel.Lerngruppentermine.Add(vm);
           tagesplanToAdd.Lerngruppentermine.Add(vm);
           tagesplanToAdd.CurrentLerngruppentermin = vm;

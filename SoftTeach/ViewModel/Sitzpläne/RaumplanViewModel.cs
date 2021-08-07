@@ -310,7 +310,7 @@
       using (new UndoBatch(App.MainViewModel, string.Format("Neuer Sitzplatz {0} erstellt.", sitzplatzViewModel), false))
       {
         //App.MainViewModel.Sitzplätze.Add(sitzplatzViewModel);
-        App.UnitOfWork.Context.Sitzplätze.Add(sitzplatzViewModel.Model);
+        //App.UnitOfWork.Context.Sitzplätze.Add(sitzplatzViewModel.Model);
         this.Sitzplätze.Add(sitzplatzViewModel);
         this.CurrentSitzplatz = sitzplatzViewModel;
       }
@@ -324,7 +324,7 @@
     {
       using (new UndoBatch(App.MainViewModel, string.Format("Sitzplatz {0} gelöscht.", sitzplatzViewModel), false))
       {
-        App.UnitOfWork.Context.Sitzplätze.Remove(sitzplatzViewModel.Model);
+        //App.UnitOfWork.Context.Sitzplätze.Remove(sitzplatzViewModel.Model);
         var result = this.Sitzplätze.RemoveTest(sitzplatzViewModel);
       }
     }

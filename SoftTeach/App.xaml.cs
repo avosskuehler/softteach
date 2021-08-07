@@ -18,6 +18,7 @@
 namespace SoftTeach
 {
   using System;
+  using System.Collections.Generic;
   using System.Diagnostics;
   using System.Globalization;
   using System.IO;
@@ -40,6 +41,7 @@ namespace SoftTeach
   using SoftTeach.Model;
   using SoftTeach.Properties;
   using SoftTeach.Setting;
+  using SoftTeach.UndoRedo;
   using SoftTeach.View.Main;
   using SoftTeach.ViewModel;
   using SoftTeach.ViewModel.Helper;
@@ -263,11 +265,11 @@ namespace SoftTeach
       Selection.Instance.UpdateUserSettings();
       Settings.Default.Save();
 
-      //// Check if there is nothing to change
-      //if (((Stack<ChangeSet>)App.MainViewModel.UndoStack).Count == 0)
-      //{
-      //  return;
-      //}
+      // Check if there is nothing to change
+      if (((Stack<ChangeSet>)App.MainViewModel.UndoStack).Count == 0)
+      {
+        return;
+      }
 
       var dlg = new AskForSavingChangesDialog();
       dlg.ShowDialog();

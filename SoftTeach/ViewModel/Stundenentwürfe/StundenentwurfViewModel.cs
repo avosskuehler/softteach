@@ -634,41 +634,43 @@
     public object Clone()
     {
       App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
-
       var entwurfClone = new Stundenentwurf();
-      entwurfClone.Ansagen = this.Model.Ansagen;
-      entwurfClone.Computer = this.Model.Computer;
-      foreach (var dateiverweis in this.Model.Dateiverweise.ToList())
+      using (new UndoBatch(App.MainViewModel, string.Format("Stundenentwurf geklont"), false))
       {
-        var dateiverweisClone = new Dateiverweis();
-        dateiverweisClone.Dateiname = dateiverweis.Dateiname;
-        dateiverweisClone.Dateityp = dateiverweis.Dateityp;
-        dateiverweisClone.Stundenentwurf = entwurfClone;
-        App.UnitOfWork.Context.Dateiverweise.Add(dateiverweisClone);
-        //entwurfClone.Dateiverweise.Add(dateiverweis);
-      }
+        entwurfClone.Ansagen = this.Model.Ansagen;
+        entwurfClone.Computer = this.Model.Computer;
+        foreach (var dateiverweis in this.Model.Dateiverweise.ToList())
+        {
+          var dateiverweisClone = new Dateiverweis();
+          dateiverweisClone.Dateiname = dateiverweis.Dateiname;
+          dateiverweisClone.Dateityp = dateiverweis.Dateityp;
+          dateiverweisClone.Stundenentwurf = entwurfClone;
+          //App.UnitOfWork.Context.Dateiverweise.Add(dateiverweisClone);
+          entwurfClone.Dateiverweise.Add(dateiverweis);
+        }
 
-      entwurfClone.Datum = this.Model.Datum;
-      entwurfClone.Fach = this.Model.Fach;
-      entwurfClone.Hausaufgaben = this.Model.Hausaufgaben;
-      entwurfClone.Jahrgangsstufe = this.Model.Jahrgangsstufe;
-      entwurfClone.Kopieren = this.Model.Kopieren;
-      entwurfClone.Modul = this.Model.Modul;
-      entwurfClone.Stundenthema = this.Model.Stundenthema;
-      entwurfClone.Stundenzahl = this.Model.Stundenzahl;
-      foreach (var phase in this.Model.Phasen.ToList())
-      {
-        var phaseClone = new Phase();
-        phaseClone.AbfolgeIndex = phase.AbfolgeIndex;
-        phaseClone.Inhalt = phase.Inhalt;
-        phaseClone.Medium = phase.Medium;
-        phaseClone.Sozialform = phase.Sozialform;
-        phaseClone.Zeit = phase.Zeit;
-        phaseClone.Stundenentwurf = entwurfClone;
-        App.UnitOfWork.Context.Phasen.Add(phaseClone);
-        //entwurfClone.Phasen.Add(phaseClone);
+        entwurfClone.Datum = this.Model.Datum;
+        entwurfClone.Fach = this.Model.Fach;
+        entwurfClone.Hausaufgaben = this.Model.Hausaufgaben;
+        entwurfClone.Jahrgangsstufe = this.Model.Jahrgangsstufe;
+        entwurfClone.Kopieren = this.Model.Kopieren;
+        entwurfClone.Modul = this.Model.Modul;
+        entwurfClone.Stundenthema = this.Model.Stundenthema;
+        entwurfClone.Stundenzahl = this.Model.Stundenzahl;
+        foreach (var phase in this.Model.Phasen.ToList())
+        {
+          var phaseClone = new Phase();
+          phaseClone.AbfolgeIndex = phase.AbfolgeIndex;
+          phaseClone.Inhalt = phase.Inhalt;
+          phaseClone.Medium = phase.Medium;
+          phaseClone.Sozialform = phase.Sozialform;
+          phaseClone.Zeit = phase.Zeit;
+          phaseClone.Stundenentwurf = entwurfClone;
+          //App.UnitOfWork.Context.Phasen.Add(phaseClone);
+          entwurfClone.Phasen.Add(phaseClone);
+        }
+        //App.UnitOfWork.Context.Stundenentwürfe.Add(entwurfClone);
       }
-      App.UnitOfWork.Context.Stundenentwürfe.Add(entwurfClone);
 
       var vm = new StundenentwurfViewModel(entwurfClone);
       App.MainViewModel.Stundenentwürfe.Add(vm);
@@ -863,7 +865,7 @@
           if (phaseViewModel != null)
           {
             phaseViewModel.PropertyChanged -= this.PhasePropertyChanged;
-            App.UnitOfWork.Context.Phasen.Remove(phaseViewModel.Model);
+            //App.UnitOfWork.Context.Phasen.Remove(phaseViewModel.Model);
             this.Phasen.Remove(phaseViewModel);
             //App.MainViewModel.Phasen.RemoveTest(phaseViewModel);
           }
@@ -879,20 +881,23 @@
     /// </summary>
     private void AddPhase()
     {
-      var phase = new Phase();
-      phase.AbfolgeIndex = this.Phasen.Count;
-      phase.Zeit = 10;
-      phase.Inhalt = string.Empty;
-      phase.Medium = App.MainViewModel.Medien.First().Model;
-      phase.Sozialform = App.MainViewModel.Sozialformen.First().Model;
-      phase.Stundenentwurf = this.Model;
-      App.UnitOfWork.Context.Phasen.Add(phase);
-      var vm = new PhaseViewModel(phase);
+      using (new UndoBatch(App.MainViewModel, string.Format("Neue Phase angelegt"), false))
+      {
+        var phase = new Phase();
+        phase.AbfolgeIndex = this.Phasen.Count;
+        phase.Zeit = 10;
+        phase.Inhalt = string.Empty;
+        phase.Medium = App.MainViewModel.Medien.First().Model;
+        phase.Sozialform = App.MainViewModel.Sozialformen.First().Model;
+        phase.Stundenentwurf = this.Model;
+        //App.UnitOfWork.Context.Phasen.Add(phase);
+        var vm = new PhaseViewModel(phase);
 
-      vm.PropertyChanged += this.PhasePropertyChanged;
-      this.Phasen.Add(vm);
-      this.CurrentPhase = vm;
-      this.NotifyPhaseZeitChanged();
+        vm.PropertyChanged += this.PhasePropertyChanged;
+        this.Phasen.Add(vm);
+        this.CurrentPhase = vm;
+        this.NotifyPhaseZeitChanged();
+      }
     }
 
     /// <summary>
@@ -942,38 +947,42 @@
         .OrderBy(o => o.Tagesplan.Datum)
         .FirstOrDefault(o => o.Tagesplan.Datum > stundeViewModel.Tagesplan.Datum);
 
-      if (nächsteStunde != null)
+      using (new UndoBatch(App.MainViewModel, string.Format("Phase verschoben"), false))
       {
-        if (nächsteStunde.Stundenentwurf == null)
-        {
-          // Stundenentwurf erstellen
-          var entwurf = new Stundenentwurf();
-          entwurf.Datum = DateTime.Now;
-          entwurf.Fach = stundeViewModel.Tagesplan.Monatsplan.Halbjahresplan.Jahresplan.Fach;
-          entwurf.Jahrgangsstufe = stundeViewModel.Tagesplan.Monatsplan.Halbjahresplan.Jahresplan.Klasse.Klassenstufe.Jahrgangsstufe;
-          entwurf.Stundenzahl = stundeViewModel.Stundenentwurf.Stundenzahl;
-          entwurf.Ansagen = string.Empty;
-          entwurf.Computer = false;
-          entwurf.Hausaufgaben = string.Empty;
-          entwurf.Kopieren = false;
-          entwurf.Stundenthema = stundeViewModel.Stundenentwurf.Stundenthema;
-          entwurf.Modul = stundeViewModel.Stundenentwurf.Modul;
 
-          var vm = new StundenentwurfViewModel(entwurf);
-          App.UnitOfWork.Context.Stundenentwürfe.Add(entwurf);
-          App.MainViewModel.Stundenentwürfe.Add(vm);
-          nächsteStunde.Stundenentwurf = entwurf;
-        }
-
-        var entwurfViewModel = App.MainViewModel.Stundenentwürfe.FirstOrDefault(o => o.Model == nächsteStunde.Stundenentwurf);
-        if (entwurfViewModel != null)
+        if (nächsteStunde != null)
         {
-          var moveItems = new List<PhaseViewModel>(this.SelectedPhasen.Cast<PhaseViewModel>());
-          foreach (var phaseViewModel in moveItems)
+          if (nächsteStunde.Stundenentwurf == null)
           {
-            var phaseClone = (PhaseViewModel)phaseViewModel.Clone();
-            entwurfViewModel.AddPhase(phaseClone, 0);
-            this.DeletePhase(phaseViewModel);
+            // Stundenentwurf erstellen
+            var entwurf = new Stundenentwurf();
+            entwurf.Datum = DateTime.Now;
+            entwurf.Fach = stundeViewModel.Tagesplan.Monatsplan.Halbjahresplan.Jahresplan.Fach;
+            entwurf.Jahrgangsstufe = stundeViewModel.Tagesplan.Monatsplan.Halbjahresplan.Jahresplan.Klasse.Klassenstufe.Jahrgangsstufe;
+            entwurf.Stundenzahl = stundeViewModel.Stundenentwurf.Stundenzahl;
+            entwurf.Ansagen = string.Empty;
+            entwurf.Computer = false;
+            entwurf.Hausaufgaben = string.Empty;
+            entwurf.Kopieren = false;
+            entwurf.Stundenthema = stundeViewModel.Stundenentwurf.Stundenthema;
+            entwurf.Modul = stundeViewModel.Stundenentwurf.Modul;
+
+            var vm = new StundenentwurfViewModel(entwurf);
+            //App.UnitOfWork.Context.Stundenentwürfe.Add(entwurf);
+            App.MainViewModel.Stundenentwürfe.Add(vm);
+            nächsteStunde.Stundenentwurf = entwurf;
+          }
+
+          var entwurfViewModel = App.MainViewModel.Stundenentwürfe.FirstOrDefault(o => o.Model == nächsteStunde.Stundenentwurf);
+          if (entwurfViewModel != null)
+          {
+            var moveItems = new List<PhaseViewModel>(this.SelectedPhasen.Cast<PhaseViewModel>());
+            foreach (var phaseViewModel in moveItems)
+            {
+              var phaseClone = (PhaseViewModel)phaseViewModel.Clone();
+              entwurfViewModel.AddPhase(phaseClone, 0);
+              this.DeletePhase(phaseViewModel);
+            }
           }
         }
       }
@@ -1010,7 +1019,7 @@
       using (new UndoBatch(App.MainViewModel, string.Format("Phase {0} gelöscht.", phaseViewModel), false))
       {
         phaseViewModel.PropertyChanged -= this.PhasePropertyChanged;
-        App.UnitOfWork.Context.Phasen.Remove(phaseViewModel.Model);
+        //App.UnitOfWork.Context.Phasen.Remove(phaseViewModel.Model);
         //App.MainViewModel.Phasen.RemoveTest(phaseViewModel);
         var result = this.Phasen.RemoveTest(phaseViewModel);
       }
@@ -1038,7 +1047,7 @@
       dateiverweis.Dateityp = dlg.Dateityp.Model;
       dateiverweis.Stundenentwurf = this.Model;
 
-      App.UnitOfWork.Context.Dateiverweise.Add(dateiverweis);
+      //App.UnitOfWork.Context.Dateiverweise.Add(dateiverweis);
       var vm = new DateiverweisViewModel(dateiverweis);
       using (new UndoBatch(App.MainViewModel, string.Format("Dateiverweis {0} erstellt.", vm), false))
       {
@@ -1084,7 +1093,7 @@
 
       using (new UndoBatch(App.MainViewModel, string.Format("Dateiverweis {0} gelöscht.", this.CurrentDateiverweis), false))
       {
-        App.UnitOfWork.Context.Dateiverweise.Remove(this.CurrentDateiverweis.Model);
+        //App.UnitOfWork.Context.Dateiverweise.Remove(this.CurrentDateiverweis.Model);
         //var success = App.MainViewModel.Dateiverweise.RemoveTest(this.CurrentDateiverweis);
         this.Dateiverweise.RemoveTest(this.CurrentDateiverweis);
         this.CurrentDateiverweis = null;
@@ -1141,39 +1150,41 @@
         return;
       }
 
-      phasenCollection.Reverse();
-      foreach (var phaseContainer in phasenCollection)
+      using (new UndoBatch(App.MainViewModel, string.Format("Phasen eingefügt"), false))
       {
-        var phase = new Phase();
-        phase.AbfolgeIndex = insertIndex;
-        phase.Zeit = phaseContainer.Zeit;
-        phase.Inhalt = phaseContainer.Inhalt;
-        var mediumViewModel = App.MainViewModel.Medien.FirstOrDefault(o => o.MediumBezeichnung == phaseContainer.Medium);
-        if (mediumViewModel != null)
+        phasenCollection.Reverse();
+        foreach (var phaseContainer in phasenCollection)
         {
-          var medium = mediumViewModel.Model;
-          phase.Medium = medium ?? App.MainViewModel.Medien.First().Model;
+          var phase = new Phase();
+          phase.AbfolgeIndex = insertIndex;
+          phase.Zeit = phaseContainer.Zeit;
+          phase.Inhalt = phaseContainer.Inhalt;
+          var mediumViewModel = App.MainViewModel.Medien.FirstOrDefault(o => o.MediumBezeichnung == phaseContainer.Medium);
+          if (mediumViewModel != null)
+          {
+            var medium = mediumViewModel.Model;
+            phase.Medium = medium ?? App.MainViewModel.Medien.First().Model;
+          }
+
+          var sozialformViewModel = App.MainViewModel.Sozialformen.FirstOrDefault(o => o.SozialformBezeichnung == phaseContainer.Sozialform);
+          if (sozialformViewModel != null)
+          {
+            var sozialform = sozialformViewModel.Model;
+            phase.Sozialform = sozialform ?? App.MainViewModel.Sozialformen.First().Model;
+          }
+
+          phase.Stundenentwurf = this.Model;
+          //App.UnitOfWork.Context.Phasen.Add(phase);
+          var vm = new PhaseViewModel(phase);
+
+          //App.MainViewModel.Phasen.Add(vm);
+          vm.PropertyChanged += this.PhasePropertyChanged;
+          this.Phasen.Add(vm);
+          SequencingService.SetCollectionSequence(this.Phasen);
+          this.CurrentPhase = vm;
+          this.NotifyPhaseZeitChanged();
         }
-
-        var sozialformViewModel = App.MainViewModel.Sozialformen.FirstOrDefault(o => o.SozialformBezeichnung == phaseContainer.Sozialform);
-        if (sozialformViewModel != null)
-        {
-          var sozialform = sozialformViewModel.Model;
-          phase.Sozialform = sozialform ?? App.MainViewModel.Sozialformen.First().Model;
-        }
-
-        phase.Stundenentwurf = this.Model;
-        App.UnitOfWork.Context.Phasen.Add(phase);
-        var vm = new PhaseViewModel(phase);
-
-        //App.MainViewModel.Phasen.Add(vm);
-        vm.PropertyChanged += this.PhasePropertyChanged;
-        this.Phasen.Add(vm);
-        SequencingService.SetCollectionSequence(this.Phasen);
-        this.CurrentPhase = vm;
-        this.NotifyPhaseZeitChanged();
       }
-
       //this.PhasenView.Refresh();
     }
 

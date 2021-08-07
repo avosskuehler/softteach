@@ -80,7 +80,7 @@
             o => o.NoteTermintyp == this.notenTermintyp && o.NoteDatum == this.notendatum).ToList();
         foreach (var noteViewModel in notenToDelete)
         {
-          App.UnitOfWork.Context.Noten.Remove(noteViewModel.Model);
+          //App.UnitOfWork.Context.Noten.Remove(noteViewModel.Model);
           schülereintragViewModel.Noten.Remove(noteViewModel);
           //var success = App.MainViewModel.Noten.RemoveTest(noteViewModel);
           var result = schülereintragViewModel.Noten.RemoveTest(noteViewModel);

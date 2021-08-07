@@ -87,7 +87,7 @@
     {
       var schülereintrag = new Schülereintrag();
       schülereintrag.Schülerliste = Selection.Instance.Schülerliste.Model;
-      App.UnitOfWork.Context.Schülereinträge.Add(schülereintrag);
+      //App.UnitOfWork.Context.Schülereinträge.Add(schülereintrag);
       this.Model = schülereintrag;
       //App.MainViewModel.Schülereinträge.Add(this);
     }
@@ -1168,22 +1168,26 @@
         var noteViewModels = existingNotes as IList<NoteViewModel> ?? existingNotes.ToList();
         if (!noteViewModels.Any())
         {
-          var note = new Note();
-          note.Arbeit = Selection.Instance.Arbeit.Model;
-          note.Bezeichnung = Selection.Instance.Arbeit.ArbeitBezeichnung;
-          note.Datum = Selection.Instance.Arbeit.ArbeitDatum;
-          note.IstSchriftlich = true;
-          note.Notentyp = Selection.Instance.Arbeit.ArbeitIstKlausur
-                            ? Notentyp.SchriftlichKlassenarbeit.ToString()
-                            : Notentyp.SchriftlichSonstige.ToString();
-          note.Wichtung = 1;
-          note.Zensur = zensur.Model;
-          note.Schülereintrag = this.Model;
-          App.UnitOfWork.Context.Noten.Add(note);
-          var vm = new NoteViewModel(note);
-          //App.MainViewModel.Noten.Add(vm);
-          this.Noten.Add(vm);
-          this.currentNote = vm;
+          using (new UndoBatch(App.MainViewModel, string.Format("Note angelegt"), false))
+          {
+
+            var note = new Note();
+            note.Arbeit = Selection.Instance.Arbeit.Model;
+            note.Bezeichnung = Selection.Instance.Arbeit.ArbeitBezeichnung;
+            note.Datum = Selection.Instance.Arbeit.ArbeitDatum;
+            note.IstSchriftlich = true;
+            note.Notentyp = Selection.Instance.Arbeit.ArbeitIstKlausur
+                              ? Notentyp.SchriftlichKlassenarbeit.ToString()
+                              : Notentyp.SchriftlichSonstige.ToString();
+            note.Wichtung = 1;
+            note.Zensur = zensur.Model;
+            note.Schülereintrag = this.Model;
+            //App.UnitOfWork.Context.Noten.Add(note);
+            var vm = new NoteViewModel(note);
+            //App.MainViewModel.Noten.Add(vm);
+            this.Noten.Add(vm);
+            this.currentNote = vm;
+          }
         }
         else
         {
@@ -1684,7 +1688,7 @@
 
       using (new UndoBatch(App.MainViewModel, string.Format("Hausaufgabe {0} gelöscht.", hausaufgabeViewModel), false))
       {
-        App.UnitOfWork.Context.Hausaufgaben.Remove(hausaufgabeViewModel.Model);
+        //App.UnitOfWork.Context.Hausaufgaben.Remove(hausaufgabeViewModel.Model);
         //var success = App.MainViewModel.Hausaufgaben.RemoveTest(hausaufgabeViewModel);
         var result = this.Hausaufgaben.RemoveTest(hausaufgabeViewModel);
         this.CurrentHausaufgabe = null;
@@ -1773,7 +1777,7 @@
       using (new UndoBatch(App.MainViewModel, string.Format("Hausaufgabe {0} erstellt.", vm), false))
       {
         //App.MainViewModel.Hausaufgaben.Add(vm);
-        App.UnitOfWork.Context.Hausaufgaben.Add(hausaufgabe);
+        //App.UnitOfWork.Context.Hausaufgaben.Add(hausaufgabe);
         this.Hausaufgaben.Add(vm);
         this.CurrentHausaufgabe = vm;
 
@@ -1824,7 +1828,7 @@
 
       using (new UndoBatch(App.MainViewModel, string.Format("Note {0} gelöscht.", noteViewModel), false))
       {
-        App.UnitOfWork.Context.Noten.Remove(noteViewModel.Model);
+        //App.UnitOfWork.Context.Noten.Remove(noteViewModel.Model);
         //var success = App.MainViewModel.Noten.RemoveTest(noteViewModel);
         var result = this.Noten.RemoveTest(noteViewModel);
         this.UpdateNoten();
@@ -1844,46 +1848,50 @@
     /// </summary>
     private async void AddNote()
     {
-      var note = new Note();
-      note.Bezeichnung = string.Empty;
-      note.Datum = DateTime.Now;
-      note.IstSchriftlich = false;
-      note.Notentyp = Notentyp.MündlichQualität.ToString();
-      note.NotenTermintyp = NotenTermintyp.Einzeln.ToString();
-      note.Wichtung = 1;
-      note.Zensur = App.MainViewModel.Zensuren.FirstOrDefault().Model;
-      note.Schülereintrag = this.Model;
-      App.UnitOfWork.Context.Noten.Add(note);
-      var vm = new NoteViewModel(note);
-      var workspace = new NotenWorkspaceViewModel(vm);
-      bool undo;
-      using (new UndoBatch(App.MainViewModel, string.Format("Note {0} hinzugefügt.", vm), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("Note ergänzt"), false))
       {
-        if (Configuration.Instance.IsMetroMode)
+
+        var note = new Note();
+        note.Bezeichnung = string.Empty;
+        note.Datum = DateTime.Now;
+        note.IstSchriftlich = false;
+        note.Notentyp = Notentyp.MündlichQualität.ToString();
+        note.NotenTermintyp = NotenTermintyp.Einzeln.ToString();
+        note.Wichtung = 1;
+        note.Zensur = App.MainViewModel.Zensuren.FirstOrDefault().Model;
+        note.Schülereintrag = this.Model;
+        //App.UnitOfWork.Context.Noten.Add(note);
+        var vm = new NoteViewModel(note);
+        var workspace = new NotenWorkspaceViewModel(vm);
+        bool undo;
+        using (new UndoBatch(App.MainViewModel, string.Format("Note {0} hinzugefügt.", vm), false))
         {
-          var metroWindow = Configuration.Instance.MetroWindow;
-          metroWindow.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Accented;
-          var dialog = new MetroNoteDialog(workspace);
-          await metroWindow.ShowMetroDialogAsync(dialog);
-          undo = false;
+          if (Configuration.Instance.IsMetroMode)
+          {
+            var metroWindow = Configuration.Instance.MetroWindow;
+            metroWindow.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Accented;
+            var dialog = new MetroNoteDialog(workspace);
+            await metroWindow.ShowMetroDialogAsync(dialog);
+            undo = false;
+          }
+          else
+          {
+            var dlg = new AddNoteDialog(workspace);
+            undo = !dlg.ShowDialog().GetValueOrDefault(false);
+          }
+        }
+
+        if (undo)
+        {
+          App.MainViewModel.ExecuteUndoCommand();
         }
         else
         {
-          var dlg = new AddNoteDialog(workspace);
-          undo = !dlg.ShowDialog().GetValueOrDefault(false);
+          //App.MainViewModel.Noten.Add(vm);
+          this.Noten.Add(vm);
+          this.CurrentNote = vm;
+          this.UpdateNoten();
         }
-      }
-
-      if (undo)
-      {
-        App.MainViewModel.ExecuteUndoCommand();
-      }
-      else
-      {
-        //App.MainViewModel.Noten.Add(vm);
-        this.Noten.Add(vm);
-        this.CurrentNote = vm;
-        this.UpdateNoten();
       }
     }
 
@@ -2051,7 +2059,7 @@
       {
         if (!this.Noten.Contains(vm))
         {
-          App.UnitOfWork.Context.Noten.Add(note);
+          //App.UnitOfWork.Context.Noten.Add(note);
           //App.MainViewModel.Noten.Add(vm);
           this.Noten.Add(vm);
         }
@@ -2094,7 +2102,7 @@
       {
         if (!this.Noten.Contains(vm))
         {
-          App.UnitOfWork.Context.Noten.Add(note);
+          //App.UnitOfWork.Context.Noten.Add(note);
           //App.MainViewModel.Noten.Add(vm);
           this.Noten.Add(vm);
         }
@@ -2110,46 +2118,50 @@
     /// <param name="notenwert">Ein ganzzahliger Notenwert in Notenpunkte für die Note.</param>
     public void AddNote(Notentyp notentyp, NotenTermintyp termintyp, int notenwert, DateTime datum)
     {
-      var note = new Note();
-      note.Datum = datum;
-      note.Bezeichnung = termintyp.ToString();
-
-      var alteNote =
-        this.Noten.FirstOrDefault(o => o.NoteDatum == datum && o.NoteNotentyp == notentyp && o.NoteTermintyp == termintyp);
-      if (alteNote != null)
+      using (new UndoBatch(App.MainViewModel, string.Format("Note ergänzt"), false))
       {
-        App.UnitOfWork.Context.Noten.Remove(alteNote.Model);
-        var result = this.Noten.RemoveTest(alteNote);
-        //App.MainViewModel.Noten.RemoveTest(alteNote);
-      }
 
-      switch (notentyp)
-      {
-        case Notentyp.MündlichStand:
-          note.IstSchriftlich = false;
-          break;
-        case Notentyp.SchriftlichStand:
-          note.IstSchriftlich = true;
-          break;
-        case Notentyp.GesamtStand:
-          note.IstSchriftlich = false;
-          break;
-      }
-      note.Notentyp = notentyp.ToString();
-      note.NotenTermintyp = termintyp.ToString();
-      note.Wichtung = 1;
-      note.Zensur = App.MainViewModel.Zensuren.First(o => o.ZensurNotenpunkte == notenwert).Model;
-      note.Schülereintrag = this.Model;
-      var vm = new NoteViewModel(note);
+        var note = new Note();
+        note.Datum = datum;
+        note.Bezeichnung = termintyp.ToString();
 
-      if (!this.Noten.Contains(vm))
-      {
-        App.UnitOfWork.Context.Noten.Add(note);
-        //App.MainViewModel.Noten.Add(vm);
-        this.Noten.Add(vm);
-      }
+        var alteNote =
+          this.Noten.FirstOrDefault(o => o.NoteDatum == datum && o.NoteNotentyp == notentyp && o.NoteTermintyp == termintyp);
+        if (alteNote != null)
+        {
+          //App.UnitOfWork.Context.Noten.Remove(alteNote.Model);
+          var result = this.Noten.RemoveTest(alteNote);
+          //App.MainViewModel.Noten.RemoveTest(alteNote);
+        }
 
-      this.UpdateNoten();
+        switch (notentyp)
+        {
+          case Notentyp.MündlichStand:
+            note.IstSchriftlich = false;
+            break;
+          case Notentyp.SchriftlichStand:
+            note.IstSchriftlich = true;
+            break;
+          case Notentyp.GesamtStand:
+            note.IstSchriftlich = false;
+            break;
+        }
+        note.Notentyp = notentyp.ToString();
+        note.NotenTermintyp = termintyp.ToString();
+        note.Wichtung = 1;
+        note.Zensur = App.MainViewModel.Zensuren.First(o => o.ZensurNotenpunkte == notenwert).Model;
+        note.Schülereintrag = this.Model;
+        var vm = new NoteViewModel(note);
+
+        if (!this.Noten.Contains(vm))
+        {
+          //App.UnitOfWork.Context.Noten.Add(note);
+          //App.MainViewModel.Noten.Add(vm);
+          this.Noten.Add(vm);
+        }
+
+        this.UpdateNoten();
+      }
     }
 
     /// <summary>
@@ -2195,7 +2207,7 @@
 
       using (new UndoBatch(App.MainViewModel, string.Format("Notentendenz {0} gelöscht.", notentendenzViewModel), false))
       {
-        App.UnitOfWork.Context.Notentendenzen.Remove(notentendenzViewModel.Model);
+        //App.UnitOfWork.Context.Notentendenzen.Remove(notentendenzViewModel.Model);
         //var success = App.MainViewModel.Notentendenzen.RemoveTest(notentendenzViewModel);
         var result = this.Notentendenzen.RemoveTest(notentendenzViewModel);
         this.UpdateNoten();
@@ -2245,7 +2257,7 @@
 
       if (!undo)
       {
-        App.UnitOfWork.Context.Notentendenzen.Add(notentendenz);
+        //App.UnitOfWork.Context.Notentendenzen.Add(notentendenz);
         //App.MainViewModel.Notentendenzen.Add(vm);
         this.Notentendenzen.Add(vm);
         this.CurrentNotentendenz = vm;

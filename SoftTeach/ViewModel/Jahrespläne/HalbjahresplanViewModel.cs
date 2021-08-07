@@ -409,7 +409,7 @@
                          .Model;
                     stunde.Ort = stundenplaneintragViewModel.StundenplaneintragRaum.RaumBezeichnung;
 
-                    App.UnitOfWork.Context.Termine.Add(stunde);
+                    //App.UnitOfWork.Context.Termine.Add(stunde);
 
                     var vm = new StundeViewModel(tagesplanViewModel, stunde);
                     //App.MainViewModel.Stunden.Add(vm);
