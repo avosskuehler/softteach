@@ -13,6 +13,8 @@
 
   public static class Extensions
   {
+    public static Random random = new Random();
+
     public static bool RemoveTest<T>(this ICollection<T> source, T viewModel)
     {
       var success = source.Remove(viewModel);
@@ -39,7 +41,6 @@
 
     private static IEnumerable<T> ShuffleInternal<T>(T[] array, int count)
     {
-      var random = new Random();
       for (var n = 0; n < count; n++)
       {
         var k = random.Next(n, array.Length);

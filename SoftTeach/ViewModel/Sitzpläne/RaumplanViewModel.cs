@@ -7,11 +7,11 @@
   using System.IO;
   using System.Linq;
   using System.Windows.Controls;
-  using System.Windows.Forms;
   using System.Windows.Media;
   using System.Windows.Media.Imaging;
   using System.Windows.Shapes;
-
+  using Microsoft.Win32;
+  using SoftTeach.ExceptionHandling;
   using SoftTeach.Model.EntityFramework;
   using SoftTeach.Resources.Controls;
   using SoftTeach.UndoRedo;
@@ -144,35 +144,66 @@
     }
 
     /// <summary>
-    /// Holt oder setzt die Foto of this Person as a BitmapSource
+    /// Holt das Bild der Unterschrift als ImageSource
     /// </summary>
     [DependsUpon("RaumplanGrundriss")]
-    public BitmapSource RaumplanImage
+    public ImageSource RaumplanImage
     {
       get
       {
-        if (this.RaumplanGrundriss != null && this.grundriss == null)
+        if (this.RaumplanGrundriss == null || this.RaumplanGrundriss.Length == 0)
         {
-          var bmp = new System.Drawing.Bitmap(new MemoryStream(this.RaumplanGrundriss));
-          this.grundriss = ImageTools.CreateBitmapSourceFromBitmap(bmp);
+          return null;
         }
 
-        return this.grundriss;
-      }
+        // Store binary data read from the database in a byte array
+        MemoryStream stream = new MemoryStream();
+        stream.Write(this.RaumplanGrundriss, 0, this.RaumplanGrundriss.Length);
+        stream.Position = 0;
 
-      set
-      {
-        if (value != null)
-        {
-          var thumb = ImageTools.CreateBitmapFromBitmapImage(value);
-          TypeConverter bitmapConverter = TypeDescriptor.GetConverter(thumb.GetType());
-          this.RaumplanGrundriss = (byte[])bitmapConverter.ConvertTo(thumb, typeof(byte[]));
-        }
+        System.Drawing.Image img = System.Drawing.Image.FromStream(stream);
+        var bi = new BitmapImage();
+        bi.BeginInit();
 
-        this.grundriss = value;
-        this.RaisePropertyChanged("PersonBild");
+        MemoryStream ms = new MemoryStream();
+        img.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+        ms.Seek(0, SeekOrigin.Begin);
+        bi.StreamSource = ms;
+        bi.EndInit();
+        return bi;
       }
     }
+
+    ///// <summary>
+    ///// Holt oder setzt die Foto of this Person as a BitmapSource
+    ///// </summary>
+    //[DependsUpon("RaumplanGrundriss")]
+    //public BitmapSource RaumplanImage
+    //{
+    //  get
+    //  {
+    //    if (this.RaumplanGrundriss != null && this.grundriss == null)
+    //    {
+    //      var bmp = new System.Drawing.Bitmap(new MemoryStream(this.RaumplanGrundriss));
+    //      this.grundriss = ImageTools.CreateBitmapSourceFromBitmap(bmp);
+    //    }
+
+    //    return this.grundriss;
+    //  }
+
+    //  set
+    //  {
+    //    if (value != null)
+    //    {
+    //      var thumb = ImageTools.CreateBitmapFromBitmapImage(value);
+    //      TypeConverter bitmapConverter = TypeDescriptor.GetConverter(thumb.GetType());
+    //      this.RaumplanGrundriss = (byte[])bitmapConverter.ConvertTo(thumb, typeof(byte[]));
+    //    }
+
+    //    this.grundriss = value;
+    //    this.RaisePropertyChanged("PersonBild");
+    //  }
+    //}
 
     /// <summary>
     /// Holt oder setzt den Raum für den Raumplan
@@ -279,6 +310,7 @@
       using (new UndoBatch(App.MainViewModel, string.Format("Neuer Sitzplatz {0} erstellt.", sitzplatzViewModel), false))
       {
         //App.MainViewModel.Sitzplätze.Add(sitzplatzViewModel);
+        App.UnitOfWork.Context.Sitzplätze.Add(sitzplatzViewModel.Model);
         this.Sitzplätze.Add(sitzplatzViewModel);
         this.CurrentSitzplatz = sitzplatzViewModel;
       }
@@ -327,28 +359,62 @@
     }
 
     /// <summary>
+    /// Speichert die Datei in das Bildfeld der Datenbankentity
+    /// </summary>
+    public string Bilddatei
+    {
+      set
+      {
+        if (!File.Exists(value))
+        {
+          return;
+        }
+
+        //Initialize a file stream to read the image file
+        using (var fs = new FileStream(value, FileMode.Open, FileAccess.Read))
+        {
+          //Initialize a byte array with size of stream
+          byte[] imgByteArr = new byte[fs.Length];
+
+          //Read data from the file stream and put into the byte array
+          fs.Read(imgByteArr, 0, Convert.ToInt32(fs.Length));
+
+          this.RaumplanGrundriss = imgByteArr;
+        }
+      }
+    }
+
+    /// <summary>
     /// Öffnet eine Raumplanbilddatei
     /// </summary>
     private void OpenImageFile()
     {
-      var ofd = new OpenFileDialog
+      var dlg = new OpenFileDialog
       {
         CheckFileExists = true,
         CheckPathExists = true,
-        AutoUpgradeEnabled = true,
-        InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
-        Multiselect = false,
-        Title = "Bitte Raumplangrundriss auswählen"
+        Title = "Bitte Raumplangrundriss auswählen",
+        Filter = "PNG-Dateien (*.png)|*.png",
+        Multiselect = false
       };
-
-      if (ofd.ShowDialog() == DialogResult.OK)
+      if (dlg.ShowDialog().GetValueOrDefault(false))
       {
-        var image = new BitmapImage();
+        if (File.Exists(dlg.FileName))
+        {
+          using (var stream = new FileStream(dlg.FileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+          {
+            var bitmapFrame = BitmapFrame.Create(stream, BitmapCreateOptions.DelayCreation, BitmapCacheOption.None);
+            var width = bitmapFrame.PixelWidth;
+            var height = bitmapFrame.PixelHeight;
+            if (width != 800 || height != 500)
+            {
+              InformationDialog.Show("Bildgröße nicht korrekt", "Bitte nur Scans mit 800x500 Pixeln verwenden", false);
+              return;
+            }
+          }
 
-        image.BeginInit();
-        image.UriSource = new Uri(ofd.FileName);
-        image.EndInit();
-        this.RaumplanImage = image;
+          this.Bilddatei = dlg.FileName;
+        }
       }
     }
   }

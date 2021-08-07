@@ -82,7 +82,7 @@ namespace SoftTeach.View.Sitzpläne
     /// <summary>
     /// Die Liste der Sitzplanrechtecke
     /// </summary>
-    private List<Rectangle> sitzplatzShapes;
+    private List<Border> sitzplatzShapes;
 
     #region Constructors and Destructors
 

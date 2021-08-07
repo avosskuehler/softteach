@@ -291,12 +291,14 @@
     {
       get
       {
-        return App.MainViewModel.Stunden.Where(
-          o =>
-             o.LerngruppenterminSchuljahr == this.HalbjahresplanJahrtyp.JahrtypBezeichnung
-          && o.LerngruppenterminHalbjahr == this.HalbjahresplanHalbjahrtyp.HalbjahrtypBezeichnung
-          && o.LerngruppenterminKlasse == this.HalbjahresplanKlasse.KlasseBezeichnung
-          && o.LerngruppenterminFach == this.HalbjahresplanFach.FachBezeichnung);
+        var stunden = this.Monatspläne.SelectMany(o => o.Tagespläne.SelectMany(a => a.Lerngruppentermine.OfType<StundeViewModel>()));
+        return stunden;
+        //return App.MainViewModel.Stunden.Where(
+        //  o =>
+        //     o.LerngruppenterminSchuljahr == this.HalbjahresplanJahrtyp.JahrtypBezeichnung
+        //  && o.LerngruppenterminHalbjahr == this.HalbjahresplanHalbjahrtyp.HalbjahrtypBezeichnung
+        //  && o.LerngruppenterminKlasse == this.HalbjahresplanKlasse.KlasseBezeichnung
+        //  && o.LerngruppenterminFach == this.HalbjahresplanFach.FachBezeichnung);
       }
     }
 
@@ -337,6 +339,7 @@
 
       using (new UndoBatch(App.MainViewModel, string.Format("Stunden im Halbjahresplan {0} angelegt.", this.HalbjahresplanBezeichnung), false))
       {
+        App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;  
         for (int i = 0; i < stundenpläne.Count; i++)
         {
           var stundenplanViewModel = stundenpläne[i];
@@ -405,9 +408,11 @@
                       App.MainViewModel.Termintypen.First(termintyp => termintyp.TermintypBezeichnung == "Unterricht")
                          .Model;
                     stunde.Ort = stundenplaneintragViewModel.StundenplaneintragRaum.RaumBezeichnung;
-                    
+
+                    App.UnitOfWork.Context.Termine.Add(stunde);
+
                     var vm = new StundeViewModel(tagesplanViewModel, stunde);
-                    App.MainViewModel.Stunden.Add(vm);
+                    //App.MainViewModel.Stunden.Add(vm);
                     tagesplanViewModel.Lerngruppentermine.Add(vm);
                     tagesplanViewModel.UpdateBeschreibung();
                   }
@@ -416,6 +421,7 @@
             }
           }
         }
+        App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
       }
     }
 

@@ -87,8 +87,9 @@
     {
       var schülereintrag = new Schülereintrag();
       schülereintrag.Schülerliste = Selection.Instance.Schülerliste.Model;
+      App.UnitOfWork.Context.Schülereinträge.Add(schülereintrag);
       this.Model = schülereintrag;
-      App.MainViewModel.Schülereinträge.Add(this);
+      //App.MainViewModel.Schülereinträge.Add(this);
     }
 
     /// <summary>
@@ -111,7 +112,7 @@
       foreach (var hausaufgabe in schülereintrag.Hausaufgaben)
       {
         var vm = new HausaufgabeViewModel(hausaufgabe);
-        App.MainViewModel.Hausaufgaben.Add(vm);
+        //App.MainViewModel.Hausaufgaben.Add(vm);
         this.Hausaufgaben.Add(vm);
       }
 
@@ -122,7 +123,7 @@
       foreach (var note in schülereintrag.Noten)
       {
         var vm = new NoteViewModel(note);
-        App.MainViewModel.Noten.Add(vm);
+        //App.MainViewModel.Noten.Add(vm);
         this.Noten.Add(vm);
       }
 
@@ -133,7 +134,7 @@
       foreach (var notentendenz in schülereintrag.Notentendenzen)
       {
         var vm = new NotentendenzViewModel(notentendenz);
-        App.MainViewModel.Notentendenzen.Add(vm);
+        //App.MainViewModel.Notentendenzen.Add(vm);
         this.Notentendenzen.Add(vm);
       }
 
@@ -434,7 +435,7 @@
     {
       get
       {
-        return this.SchülereintragPerson.PersonNachname;
+        return this.Model.Person.Nachname;
       }
     }
 
@@ -449,7 +450,7 @@
     {
       get
       {
-        return this.SchülereintragPerson.PersonVorname;
+        return this.Model.Person.Vorname;
       }
     }
 
@@ -464,7 +465,7 @@
     {
       get
       {
-        return this.SchülereintragPerson.Gruppennummer;
+        return this.SchülereintragPerson == null ? 0 : this.SchülereintragPerson.Gruppennummer;
       }
     }
 
@@ -477,8 +478,8 @@
     {
       get
       {
-        return this.Model.Schülerliste.Fach.Bezeichnung + ": Noten für " + this.SchülereintragPerson.PersonVorname + " "
-               + this.SchülereintragPerson.PersonNachname;
+        return this.Model.Schülerliste.Fach.Bezeichnung + ": Noten für " + this.Model.Person.Vorname + " "
+               + this.Model.Person.Nachname;
       }
     }
 
@@ -1178,8 +1179,9 @@
           note.Wichtung = 1;
           note.Zensur = zensur.Model;
           note.Schülereintrag = this.Model;
+          App.UnitOfWork.Context.Noten.Add(note);
           var vm = new NoteViewModel(note);
-          App.MainViewModel.Noten.Add(vm);
+          //App.MainViewModel.Noten.Add(vm);
           this.Noten.Add(vm);
           this.currentNote = vm;
         }
@@ -1374,6 +1376,11 @@
 
     public void AnpassungenAuslesen()
     {
+      if (Selection.Instance.Schülerliste == null)
+      {
+        return;
+      }
+
       this.gesamtAnpassung = 0;
       this.mündlicheAnpassung = 0;
       this.schriftlicheAnpassung = 0;
@@ -1426,6 +1433,11 @@
     /// im Format des Klassenstufen <see cref="Bepunktungstyp"/>s</returns>
     private string BerechneMündlicheGesamtnote()
     {
+      if (Selection.Instance.Schülerliste == null)
+      {
+        return string.Empty;
+      }
+
       var qualitätsNoten =
         this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichQualität && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
       var qualitätsNotenDurchschnitt = this.BerechneDurchschnittsNotenwert(qualitätsNoten);
@@ -1672,7 +1684,8 @@
 
       using (new UndoBatch(App.MainViewModel, string.Format("Hausaufgabe {0} gelöscht.", hausaufgabeViewModel), false))
       {
-        var success = App.MainViewModel.Hausaufgaben.RemoveTest(hausaufgabeViewModel);
+        App.UnitOfWork.Context.Hausaufgaben.Remove(hausaufgabeViewModel.Model);
+        //var success = App.MainViewModel.Hausaufgaben.RemoveTest(hausaufgabeViewModel);
         var result = this.Hausaufgaben.RemoveTest(hausaufgabeViewModel);
         this.CurrentHausaufgabe = null;
         this.UpdateNoten();
@@ -1759,7 +1772,8 @@
       var vm = new HausaufgabeViewModel(hausaufgabe);
       using (new UndoBatch(App.MainViewModel, string.Format("Hausaufgabe {0} erstellt.", vm), false))
       {
-        App.MainViewModel.Hausaufgaben.Add(vm);
+        //App.MainViewModel.Hausaufgaben.Add(vm);
+        App.UnitOfWork.Context.Hausaufgaben.Add(hausaufgabe);
         this.Hausaufgaben.Add(vm);
         this.CurrentHausaufgabe = vm;
 
@@ -1810,7 +1824,8 @@
 
       using (new UndoBatch(App.MainViewModel, string.Format("Note {0} gelöscht.", noteViewModel), false))
       {
-        var success = App.MainViewModel.Noten.RemoveTest(noteViewModel);
+        App.UnitOfWork.Context.Noten.Remove(noteViewModel.Model);
+        //var success = App.MainViewModel.Noten.RemoveTest(noteViewModel);
         var result = this.Noten.RemoveTest(noteViewModel);
         this.UpdateNoten();
       }
@@ -1838,6 +1853,7 @@
       note.Wichtung = 1;
       note.Zensur = App.MainViewModel.Zensuren.FirstOrDefault().Model;
       note.Schülereintrag = this.Model;
+      App.UnitOfWork.Context.Noten.Add(note);
       var vm = new NoteViewModel(note);
       var workspace = new NotenWorkspaceViewModel(vm);
       bool undo;
@@ -1864,7 +1880,7 @@
       }
       else
       {
-        App.MainViewModel.Noten.Add(vm);
+        //App.MainViewModel.Noten.Add(vm);
         this.Noten.Add(vm);
         this.CurrentNote = vm;
         this.UpdateNoten();
@@ -2035,7 +2051,8 @@
       {
         if (!this.Noten.Contains(vm))
         {
-          App.MainViewModel.Noten.Add(vm);
+          App.UnitOfWork.Context.Noten.Add(note);
+          //App.MainViewModel.Noten.Add(vm);
           this.Noten.Add(vm);
         }
 
@@ -2053,13 +2070,13 @@
       var note = new Note();
       note.Datum = DateTime.Now;
       var stunde = Selection.Instance.Stunde;
-      if (stunde != null && stunde.StundeStundenentwurf != null)
+      if (stunde != null && stunde.Stundenentwurf != null)
       {
-        note.Bezeichnung = stunde.StundeStundenentwurf.StundenentwurfStundenthema;
-        note.Datum = stunde.LerngruppenterminDatum;
+        note.Bezeichnung = stunde.Stundenentwurf.Stundenthema;
+        note.Datum = stunde.Tagesplan.Datum;
 
         var alteNote =
-          this.Noten.FirstOrDefault(o => o.NoteDatum == stunde.LerngruppenterminDatum & o.NoteNotentyp == notentyp);
+          this.Noten.FirstOrDefault(o => o.NoteDatum == stunde.Tagesplan.Datum & o.NoteNotentyp == notentyp);
         if (alteNote != null)
         {
           var result = this.Noten.Remove(alteNote);
@@ -2077,7 +2094,8 @@
       {
         if (!this.Noten.Contains(vm))
         {
-          App.MainViewModel.Noten.Add(vm);
+          App.UnitOfWork.Context.Noten.Add(note);
+          //App.MainViewModel.Noten.Add(vm);
           this.Noten.Add(vm);
         }
 
@@ -2100,8 +2118,9 @@
         this.Noten.FirstOrDefault(o => o.NoteDatum == datum && o.NoteNotentyp == notentyp && o.NoteTermintyp == termintyp);
       if (alteNote != null)
       {
+        App.UnitOfWork.Context.Noten.Remove(alteNote.Model);
         var result = this.Noten.RemoveTest(alteNote);
-        App.MainViewModel.Noten.RemoveTest(alteNote);
+        //App.MainViewModel.Noten.RemoveTest(alteNote);
       }
 
       switch (notentyp)
@@ -2125,7 +2144,8 @@
 
       if (!this.Noten.Contains(vm))
       {
-        App.MainViewModel.Noten.Add(vm);
+        App.UnitOfWork.Context.Noten.Add(note);
+        //App.MainViewModel.Noten.Add(vm);
         this.Noten.Add(vm);
       }
 
@@ -2175,7 +2195,8 @@
 
       using (new UndoBatch(App.MainViewModel, string.Format("Notentendenz {0} gelöscht.", notentendenzViewModel), false))
       {
-        var success = App.MainViewModel.Notentendenzen.RemoveTest(notentendenzViewModel);
+        App.UnitOfWork.Context.Notentendenzen.Remove(notentendenzViewModel.Model);
+        //var success = App.MainViewModel.Notentendenzen.RemoveTest(notentendenzViewModel);
         var result = this.Notentendenzen.RemoveTest(notentendenzViewModel);
         this.UpdateNoten();
       }
@@ -2224,7 +2245,8 @@
 
       if (!undo)
       {
-        App.MainViewModel.Notentendenzen.Add(vm);
+        App.UnitOfWork.Context.Notentendenzen.Add(notentendenz);
+        //App.MainViewModel.Notentendenzen.Add(vm);
         this.Notentendenzen.Add(vm);
         this.CurrentNotentendenz = vm;
         this.UpdateNoten();

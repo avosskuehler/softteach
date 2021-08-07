@@ -90,6 +90,7 @@
       ferien.Bezeichnung = bezeichnung;
       ferien.ErsterFerientag = starttermin;
       ferien.LetzterFerientag = starttermin.AddDays(dauerInTagen);
+      App.UnitOfWork.Context.Ferien.Add(ferien);
       var vm = new FerienViewModel(ferien);
       this.Ferien.Add(vm);
       this.CurrentFerien = vm;
@@ -118,6 +119,7 @@
       }
 
       var jahrtyp = new Jahrtyp { Bezeichnung = bezeichnung, Jahr = nextYear.Year };
+      App.UnitOfWork.Context.Jahrtypen.Add(jahrtyp);
       var vm = new JahrtypViewModel(jahrtyp);
       this.Jahrtyp = vm;
       App.MainViewModel.Jahrtypen.Add(vm);

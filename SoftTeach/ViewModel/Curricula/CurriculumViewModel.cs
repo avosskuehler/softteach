@@ -660,14 +660,16 @@
                   reiheClone.Modul = reiheViewModel.ReiheModul.Model;
                   reiheClone.AbfolgeIndex = -1;
                   reiheClone.Curriculum = this.Model;
+                  App.UnitOfWork.Context.Reihen.Add(reiheClone);
 
-                  foreach (var sequenz in reiheViewModel.AvailableSequenzen)
+                    foreach (var sequenz in reiheViewModel.AvailableSequenzen)
                   {
                     var sequenzClone = new Sequenz();
                     sequenzClone.AbfolgeIndex = sequenz.AbfolgeIndex;
                     sequenzClone.Reihe = reiheClone;
                     sequenzClone.Stundenbedarf = sequenz.SequenzStundenbedarf;
                     sequenzClone.Thema = sequenz.SequenzThema;
+                    App.UnitOfWork.Context.Sequenzen.Add(sequenzClone);
                     reiheClone.Sequenzen.Add(sequenzClone);
                   }
 
@@ -678,6 +680,7 @@
                     sequenzClone.Reihe = reiheClone;
                     sequenzClone.Stundenbedarf = sequenz.SequenzStundenbedarf;
                     sequenzClone.Thema = sequenz.SequenzThema;
+                    App.UnitOfWork.Context.Sequenzen.Add(sequenzClone);
                     reiheClone.Sequenzen.Add(sequenzClone);
                   }
 
@@ -777,6 +780,7 @@
           reihe.Modul = modulViewModel.Model;
           reihe.AbfolgeIndex = -1;
           reihe.Curriculum = this.Model;
+          App.UnitOfWork.Context.Reihen.Add(reihe);
 
           var bausteine = modulViewModel.ModulBausteine.Trim().Split(',');
           foreach (var baustein in bausteine)
@@ -790,6 +794,7 @@
             sequenz.Stundenbedarf = Math.Max((int)(modulViewModel.ModulStundenbedarf / (float)bausteine.Count()), 1);
             sequenz.Thema = baustein.Trim();
             reihe.Sequenzen.Add(sequenz);
+            App.UnitOfWork.Context.Sequenzen.Add(sequenz);
           }
 
           var vm = new ReiheViewModel(reihe);
@@ -942,6 +947,7 @@
         this.CurriculumHalbjahrtyp);
       if (dlg.ShowDialog().GetValueOrDefault(false))
       {
+        App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
         using (new UndoBatch(App.MainViewModel, string.Format("Curriculum an Jahresplan angepasst"), false))
         {
           Selection.Instance.Fach = this.CurriculumFach;
@@ -955,6 +961,7 @@
           curriculumClone.Jahrtyp = this.CurriculumJahrtyp.Model;
           curriculumClone.Halbjahrtyp = this.CurriculumHalbjahrtyp.Model;
           curriculumClone.Klassenstufe = this.CurriculumKlassenstufe.Model;
+          App.UnitOfWork.Context.Curricula.Add(curriculumClone);
 
           foreach (var reihe in this.Model.Reihen)
           {
@@ -964,6 +971,7 @@
             reiheClone.Stundenbedarf = reihe.Stundenbedarf;
             reiheClone.Thema = reihe.Thema;
             reiheClone.Curriculum = curriculumClone;
+            App.UnitOfWork.Context.Reihen.Add(reiheClone);
 
             foreach (var sequenz in reihe.Sequenzen)
             {
@@ -972,10 +980,11 @@
               sequenzClone.Stundenbedarf = sequenz.Stundenbedarf;
               sequenzClone.Thema = sequenz.Thema;
               sequenzClone.Reihe = reiheClone;
-              reiheClone.Sequenzen.Add(sequenzClone);
+              App.UnitOfWork.Context.Sequenzen.Add(sequenzClone);
+              //reiheClone.Sequenzen.Add(sequenzClone);
             }
 
-            curriculumClone.Reihen.Add(reiheClone);
+            //curriculumClone.Reihen.Add(reiheClone);
           }
 
           var curriculumCloneViewModel = new CurriculumViewModel(curriculumClone, true);
@@ -999,6 +1008,7 @@
             undoAll = true;
           }
         }
+        App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
       }
 
       if (undoAll)

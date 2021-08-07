@@ -34,7 +34,7 @@
     /// <summary>
     /// Der Schülereintrag der zu diesem Sitzplaneintrag gehört
     /// </summary>
-    private SchülereintragViewModel schülereintrag;
+    private Schülereintrag schülereintrag;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="SitzplaneintragViewModel"/> Klasse. 
@@ -98,34 +98,37 @@
     /// <summary>
     /// Holt oder setzt den Schülereintrag für den Schülereintragplan
     /// </summary>
-    public SchülereintragViewModel SitzplaneintragSchülereintrag
+    public Schülereintrag SitzplaneintragSchülereintrag
     {
       get
       {
-        // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Schülereintrag == null)
-        {
-          return null;
-        }
+        //// We need to reflect any changes made in the model so we check the current value before returning
+        //if (this.Model.Schülereintrag == null)
+        //{
+        //  return null;
+        //}
 
-        if (this.schülereintrag == null || this.schülereintrag.Model != this.Model.Schülereintrag)
-        {
-          this.schülereintrag = App.MainViewModel.Schülereinträge.SingleOrDefault(d => d.Model == this.Model.Schülereintrag);
-        }
+        //if (this.schülereintrag == null || this.schülereintrag.Model != this.Model.Schülereintrag)
+        //{
+        //  this.schülereintrag = new SchülereintragViewModel(this.Model.Schülereintrag);
+        //}
 
-        return this.schülereintrag;
+        //return this.schülereintrag;
+        return this.Model.Schülereintrag;
       }
 
       set
       {
-        if (this.schülereintrag != null && value != null)
-        {
-          if (value.SchülereintragÜberschrift == this.schülereintrag.SchülereintragÜberschrift) return;
-        }
+        //if (this.schülereintrag != null && value != null)
+        //{
+        //  if (value.SchülereintragÜberschrift == this.schülereintrag.SchülereintragÜberschrift) return;
+        //}
+
+        if (this.schülereintrag == value) return;
 
         this.UndoablePropertyChanging(this, "SitzplaneintragSchülereintrag", this.schülereintrag, value);
         this.schülereintrag = value;
-        this.Model.Schülereintrag = value != null ? value.Model : null;
+        this.Model.Schülereintrag = value != null ? value : null;
         this.RaisePropertyChanged("SitzplaneintragSchülereintrag");
       }
     }
@@ -229,7 +232,11 @@
         var shapeLabel = new Label();
         if (this.SitzplaneintragSchülereintrag != null)
         {
-          shapeLabel.Content = this.SitzplaneintragSchülereintrag.SchülereintragPerson.PersonVorname;
+          shapeLabel.Content = this.SitzplaneintragSchülereintrag.Person.Vorname;
+        }
+        else
+        {
+          shapeLabel.Content = "Platz";
         }
 
         this.shape.Child = shapeLabel;

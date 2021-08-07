@@ -54,7 +54,13 @@ namespace SoftTeach.ViewModel.Termine
       this.PrintStundenentwurfCommand = new DelegateCommand(this.PrintStundenentwurf, () => this.StundeStundenentwurf != null);
       this.PrintAllStundenentwurfCommand = new DelegateCommand(this.PrintAllStundenentwurf, () => this.StundeStundenentwurf != null);
       this.AddHausaufgabenCommand = new DelegateCommand(this.AddHausaufgaben);
+      this.EditStundeCommand = new DelegateCommand(this.EditStunde);
     }
+
+    /// <summary>
+    /// Holt den Befehl, um vergessen Hausaufgaben anzulegen.
+    /// </summary>
+    public DelegateCommand EditStundeCommand { get; private set; }
 
     /// <summary>
     /// Holt den Befehl, um vergessen Hausaufgaben anzulegen.
@@ -209,30 +215,33 @@ namespace SoftTeach.ViewModel.Termine
       get
       {
         var stundeCounter = 1;
+        if (((Stunde)this.Model).Tagesplan == null)
+        {
+          return stundeCounter;
+        }
 
-        //foreach (var monatsplan in ((Stunde)this.Model).Tagesplan.Monatsplan.Halbjahresplan.Monatspläne)
-        //{
-        //  foreach (var tagesplan in monatsplan.Tagespläne.OrderBy(o => o.Datum))
-        //  {
-        //    var tagesplanViewModel = App.MainViewModel.Tagespläne.First(o => o.Model == tagesplan);
-        //    foreach (var lerngruppentermin in tagesplanViewModel.Lerngruppentermine)
-        //    {
-        //      if (lerngruppentermin is StundeViewModel)
-        //      {
-        //        var stunde = lerngruppentermin as StundeViewModel;
-        //        if (stunde == this)
-        //        {
-        //          return stundeCounter;
-        //        }
+        foreach (var monatsplan in ((Stunde)this.Model).Tagesplan.Monatsplan.Halbjahresplan.Monatspläne)
+        {
+          foreach (var tagesplan in monatsplan.Tagespläne.OrderBy(o => o.Datum))
+          {
+            foreach (var lerngruppentermin in tagesplan.Lerngruppentermine)
+            {
+              if (lerngruppentermin is Stunde)
+              {
+                var stunde = lerngruppentermin as Stunde;
+                if (stunde.Id == this.Model.Id)
+                {
+                  return stundeCounter;
+                }
 
-        //        var stundenzahl = stunde.TerminLetzteUnterrichtsstunde.UnterrichtsstundeIndex
-        //          - stunde.TerminErsteUnterrichtsstunde.UnterrichtsstundeIndex + 1;
+                var stundenzahl = stunde.LetzteUnterrichtsstunde.Stundenindex
+                  - stunde.ErsteUnterrichtsstunde.Stundenindex + 1;
 
-        //        stundeCounter += stundenzahl;
-        //      }
-        //    }
-        //  }
-        //}
+                stundeCounter += stundenzahl;
+              }
+            }
+          }
+        }
 
         return stundeCounter;
       }
@@ -437,7 +446,7 @@ namespace SoftTeach.ViewModel.Termine
         else
         {
           var dlg = new AddStundeDialog(this);
-          Selection.Instance.Stunde = this;
+          Selection.Instance.Stunde = this.Model as Stunde;
           Selection.Instance.Stundenentwurf = this.StundeStundenentwurf;
           if (!(undo = !dlg.ShowDialog().GetValueOrDefault(false)))
           {
@@ -555,10 +564,10 @@ namespace SoftTeach.ViewModel.Termine
 
       // create Preview
       var preview = new StundenentwurfFixedDocument
-        {
-          Owner = Application.Current.MainWindow,
-          Document = document
-        };
+      {
+        Owner = Application.Current.MainWindow,
+        Document = document
+      };
 
       preview.ShowDialog();
     }
@@ -626,8 +635,8 @@ namespace SoftTeach.ViewModel.Termine
       bool undo = false;
       using (new UndoBatch(App.MainViewModel, string.Format("Noten hinzugefügt"), false))
       {
-        var stunden = new ObservableCollection<StundeViewModel>();
-        stunden.Add(this);
+        var stunden = new ObservableCollection<Stunde>();
+        stunden.Add(this.Model as Stunde);
         var viewModel = new StundennotenReminderWorkspaceViewModel(stunden);
         var dlg = new MetroStundennotenReminderWindow { DataContext = viewModel };
         dlg.ShowDialog();
@@ -646,6 +655,26 @@ namespace SoftTeach.ViewModel.Termine
         var addDlg = new MetroAddHausaufgabeDialog(this.LerngruppenterminDatum);
         var metroWindow = Configuration.Instance.MetroWindow;
         await metroWindow.ShowMetroDialogAsync(addDlg);
+      }
+    }
+
+    private void EditStunde()
+    {
+      var dlg = new AskForStundeneigenschaftenDialog();
+      dlg.Stundenzahl = this.TerminStundenanzahl;
+      dlg.Stundenthema = this.StundeStundenentwurfTitel;
+      if (dlg.ShowDialog().GetValueOrDefault(false))
+      {
+        if (this.stundenentwurf != null)
+        {
+          this.stundenentwurf.StundenentwurfStundenthema = dlg.Stundenthema;
+        }
+        else
+        {
+          this.TerminBeschreibung = dlg.Stundenthema;
+        }
+
+        this.TerminLetzteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden.FirstOrDefault(o => o.UnterrichtsstundeIndex == (this.TerminErsteUnterrichtsstunde.UnterrichtsstundeIndex + dlg.Stundenzahl-1));
       }
     }
 

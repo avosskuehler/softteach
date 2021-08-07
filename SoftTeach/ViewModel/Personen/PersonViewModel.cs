@@ -35,6 +35,7 @@
       this.DeletePersonCommand = new DelegateCommand(this.DeletePerson);
       var person = new Person();
       this.Model = person;
+      App.UnitOfWork.Context.Personen.Add(person);
       App.MainViewModel.Personen.Add(this);
     }
 

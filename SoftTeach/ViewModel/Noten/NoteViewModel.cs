@@ -41,7 +41,8 @@
       note.Wichtung = 1;
       note.Zensur = App.MainViewModel.Zensuren.First().Model;
       this.Model = note;
-      App.MainViewModel.Noten.Add(this);
+      App.UnitOfWork.Context.Noten.Add(note);
+      //App.MainViewModel.Noten.Add(this);
     }
 
     /// <summary>
@@ -59,13 +60,13 @@
 
       this.Model = note;
 
-      App.MainViewModel.Arbeiten.CollectionChanged += (sender, e) =>
-      {
-        if (e.OldItems != null && e.OldItems.Contains(this.NoteZensur))
-        {
-          this.NoteArbeit = null;
-        }
-      };
+      //App.MainViewModel.Arbeiten.CollectionChanged += (sender, e) =>
+      //{
+      //  if (e.OldItems != null && e.OldItems.Contains(this.NoteZensur))
+      //  {
+      //    this.NoteArbeit = null;
+      //  }
+      //};
 
       this.EditNoteCommand = new DelegateCommand(this.EditNote);
       this.DeleteNoteCommand = new DelegateCommand(this.DeleteNote);

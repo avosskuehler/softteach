@@ -40,6 +40,7 @@
       <TextBox  Margin="3"  Style="{StaticResource HeaderTextBox}" TabIndex="1"  VerticalAlignment="Center" MinWidth="200" Text="{Binding Raumplan.RaumplanBezeichnung}"/>
     </StackPanel>
     <Canvas Name="RaumplanCanvas" Width="800" Height="500" 
+            SnapsToDevicePixels="True"
             Grid.Row="2" 
             PreviewMouseLeftButtonDown="Canvas_PreviewMouseLeftButtonDown"
             PreviewMouseMove="Canvas_PreviewMouseMove" 

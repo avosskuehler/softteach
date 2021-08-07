@@ -102,6 +102,7 @@
         if (value == ((Schultermin)this.Model).Datum) return;
         this.UndoablePropertyChanging(this, "SchulterminDatum", ((Schultermin)this.Model).Datum, value);
         ((Schultermin)this.Model).Datum = value;
+        SchulterminWorkspaceViewModel.ZuletztVerwendetesDatum = value;
         this.RaisePropertyChanged("SchulterminDatum");
       }
     }
@@ -175,6 +176,7 @@
     protected override void DeleteTermin()
     {
       SchulterminWorkspaceViewModel.AddToModifiedList(this, SchulterminUpdateType.Removed, null);
+      App.UnitOfWork.Context.Termine.Remove(this.Model);
       var result = App.MainViewModel.Schultermine.RemoveTest(this);
     }
 
@@ -227,6 +229,7 @@
               betroffeneKlasse.Termin = this.Model as Schultermin;
 
               var vm = new BetroffeneKlasseViewModel(betroffeneKlasse);
+              App.UnitOfWork.Context.BetroffeneKlassen.Add(betroffeneKlasse);
               App.MainViewModel.BetroffeneKlassen.Add(vm);
               this.BetroffeneKlassen.Add(vm);
               this.CurrentBetroffeneKlasse = vm;
@@ -241,6 +244,7 @@
     /// </summary>
     private void DeleteCurrentBetroffeneKlasse()
     {
+      App.UnitOfWork.Context.BetroffeneKlassen.Remove(this.CurrentBetroffeneKlasse.Model);
       App.MainViewModel.BetroffeneKlassen.RemoveTest(this.CurrentBetroffeneKlasse);
       this.BetroffeneKlassen.RemoveTest(this.CurrentBetroffeneKlasse);
       this.CurrentBetroffeneKlasse = null;

@@ -28,7 +28,7 @@
     /// </summary>
     public JahrtypWorkspaceViewModel()
     {
-      this.AddJahrtypCommand = new DelegateCommand(this.AddJahrtyp);
+      this.AddJahrtypCommand = new DelegateCommand(AddJahrtyp);
       this.DeleteJahrtypCommand = new DelegateCommand(this.DeleteCurrentJahrtyp, () => this.CurrentJahrtyp != null);
       this.AddWeeksCommand = new DelegateCommand(this.AddWeeks, () => this.CurrentJahrtyp != null);
 
@@ -81,7 +81,7 @@
     /// <summary>
     /// Handles addition a new Jahrtyp to the workspace and model
     /// </summary>
-    private void AddJahrtyp()
+    public static void AddJahrtyp()
     {
       var backup = Selection.Instance.Jahrtyp;
       using (new UndoBatch(App.MainViewModel, string.Format("Neues Schuljahr hinzugefügt"), false))
@@ -95,7 +95,7 @@
             App.MainViewModel.Ferien.Add(ferienViewModel);
           }
 
-          this.AddSchulwochen(dlgVm.Jahrtyp);
+          AddSchulwochen(dlgVm.Jahrtyp);
         }
         else
         {
@@ -119,11 +119,11 @@
     {
       if (this.CurrentJahrtyp != null)
       {
-        this.AddSchulwochen(this.CurrentJahrtyp);
+        AddSchulwochen(this.CurrentJahrtyp);
       }
     }
 
-    private void AddSchulwochen(JahrtypViewModel jahrtypViewModel)
+    private static void AddSchulwochen(JahrtypViewModel jahrtypViewModel)
     {
       if (jahrtypViewModel.Schulwochen.Count > 0)
       {

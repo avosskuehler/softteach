@@ -18,6 +18,7 @@
   using SoftTeach.Model.EntityFramework;
   using SoftTeach.ViewModel.Helper;
   using SoftTeach.ViewModel.Termine;
+  using SoftTeach.ViewModel.Datenbank;
 
   /// <summary>
   /// ViewModel of an individual tagesplan
@@ -247,6 +248,20 @@
       bool sommerHalbjahr;
       int jahresplanJahr;
       this.GetJahrAndHalbjahr(out sommerHalbjahr, out jahresplanJahr);
+
+      var jahrtyp = App.MainViewModel.Jahrtypen.FirstOrDefault(o => o.JahrtypJahr == jahresplanJahr);
+      if (jahrtyp == null)
+      {
+        //var result = InformationDialog.Show("Schuljahr fehlt", string.Format("Das Schuljahr {0} ist noch nicht angelegt, soll das jetzt gemacht werden?", jahresplanJahr), true);
+        //if (result.HasValue && result.Value)
+        //{
+        //  JahrtypWorkspaceViewModel.AddJahrtyp();
+        //}
+        //else
+        //{
+          return;
+        //}
+      }
 
       // Get Einträge from Terminliste
       // Die Schultermine müssen zuerst eingelesen werden, da

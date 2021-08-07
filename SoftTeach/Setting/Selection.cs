@@ -22,7 +22,7 @@ namespace SoftTeach.Setting
   using System.Linq;
 
   using Properties;
-
+  using SoftTeach.Model.EntityFramework;
   using SoftTeach.ViewModel.Sitzpläne;
   using SoftTeach.ViewModel.Termine;
 
@@ -45,7 +45,7 @@ namespace SoftTeach.Setting
     private JahrtypViewModel jahrtyp;
     private KlasseViewModel klasse;
     private ModulViewModel modul;
-    private StundeViewModel stunde;
+    private Stunde stunde;
     private StundenentwurfViewModel stundenentwurf;
     private SchülereintragViewModel schülereintrag;
     private ArbeitViewModel arbeit;
@@ -146,6 +146,11 @@ namespace SoftTeach.Setting
     {
       get
       {
+        if (this.jahrtyp == null)
+        {
+          this.jahrtyp = App.MainViewModel.Jahrtypen.FirstOrDefault(o => o.JahrtypBezeichnung == "2019/2020");
+        }
+
         return this.jahrtyp;
       }
 
@@ -176,7 +181,7 @@ namespace SoftTeach.Setting
     /// <summary>
     /// Holt oder setzt die Stunde
     /// </summary>
-    public StundeViewModel Stunde
+    public Stunde Stunde
     {
       get
       {
@@ -464,7 +469,7 @@ namespace SoftTeach.Setting
     /// </summary>
     public void PopulateFromSettings()
     {
-      this.SetSelection(Settings.Default.Schuljahr, Settings.Default.Halbjahr, Settings.Default.Fach, Settings.Default.Klasse, Settings.Default.Modul);
+      this.SetSelectionSilent(Settings.Default.Schuljahr, Settings.Default.Halbjahr, Settings.Default.Fach, Settings.Default.Klasse, Settings.Default.Modul);
       if (this.Jahrtyp == null)
       {
         if (App.MainViewModel.Jahrtypen.Count == 0)
@@ -540,6 +545,28 @@ namespace SoftTeach.Setting
       this.Fach = App.MainViewModel.Fächer.FirstOrDefault(o => o.FachBezeichnung == newFach);
       this.Klasse = App.MainViewModel.Klassen.FirstOrDefault(o => o.KlasseBezeichnung == newKlasse);
       this.Modul = App.MainViewModel.Module.FirstOrDefault(o => o.ModulBezeichnung == newModul);
+    }
+
+    /// <summary>
+    /// The set selection.
+    /// </summary>
+    /// <param name="newSchuljahr"> The schuljahr. </param>
+    /// <param name="newHalbjahr"> The halbjahr. </param>
+    /// <param name="newFach">The fach. </param>
+    /// <param name="newKlasse"> The klasse. </param>
+    /// <param name="newModul"> The modul. </param>    
+    private void SetSelectionSilent(
+      string newSchuljahr,
+      string newHalbjahr,
+      string newFach,
+      string newKlasse,
+      string newModul)
+    {
+      this.jahrtyp = App.MainViewModel.Jahrtypen.FirstOrDefault(o => o.JahrtypBezeichnung == newSchuljahr);
+      this.halbjahr = App.MainViewModel.Halbjahrtypen.FirstOrDefault(o => o.HalbjahrtypBezeichnung == newHalbjahr);
+      this.fach = App.MainViewModel.Fächer.FirstOrDefault(o => o.FachBezeichnung == newFach);
+      this.klasse = App.MainViewModel.Klassen.FirstOrDefault(o => o.KlasseBezeichnung == newKlasse);
+      this.modul = App.MainViewModel.Module.FirstOrDefault(o => o.ModulBezeichnung == newModul);
     }
 
   }

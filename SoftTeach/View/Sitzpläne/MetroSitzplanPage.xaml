@@ -24,7 +24,7 @@
                 <ResourceDictionary >
                     <CollectionViewSource x:Key="SortedAvailableSchülereinträgeViewSource" Source="{Binding AvailableSchülereinträge}">
                         <CollectionViewSource.SortDescriptions>
-                            <componentModel:SortDescription PropertyName="SchülereintragPerson.PersonVorname" Direction="Ascending" />
+                            <componentModel:SortDescription PropertyName="Person.Vorname" Direction="Ascending" />
                         </CollectionViewSource.SortDescriptions>
                     </CollectionViewSource>
                 </ResourceDictionary>
@@ -136,10 +136,10 @@
                         <Border.RenderTransform>
                             <RotateTransform>
                                 <RotateTransform.Angle>
-                                    <MultiBinding Converter="{StaticResource SitzplatzAngleConverter}">
-                                        <Binding Path="SitzplaneintragSitzplatz.SitzplatzDrehwinkel"/>
+                                    <!--<MultiBinding Converter="{StaticResource SitzplatzAngleConverter}">
+                                        <Binding Path="SitzplaneintragSitzplatz.SitzplatzDrehwinkel"/>-->
                                         <Binding Source="{StaticResource SitzplanDrehungRotateTransform}" Mode="TwoWay" Path="Angle"/>
-                                    </MultiBinding>
+                                    <!--</MultiBinding>-->
                                 </RotateTransform.Angle>
                             </RotateTransform>
                         </Border.RenderTransform>
@@ -147,10 +147,10 @@
               <RotateTransform Angle="{Binding SitzplaneintragSitzplatz.SitzplatzDrehwinkel}"/>
             </Border.RenderTransform>-->
                         <TextBlock TextWrapping="Wrap" Padding="0" Margin="0" LineHeight="15" LineStackingStrategy="BlockLineHeight"
-                       Text="{Binding SitzplaneintragSchülereintrag.SchülereintragPerson.PersonVornameKurz}"
+                       Text="{Binding SitzplaneintragSchülereintrag.Person.Vorname}"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
-                       FontSize="16">
+                       FontSize="14">
                         </TextBlock>
                     </Border>
                 </DataTemplate>

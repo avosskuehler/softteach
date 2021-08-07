@@ -43,13 +43,13 @@
       }
 
       // Re-act to any changes from outside this ViewModel
-      App.MainViewModel.Schülereinträge.CollectionChanged += (sender, e) =>
-      {
-        if (e.OldItems != null && e.OldItems.Contains(this.CurrentSchülereintrag))
-        {
-          this.CurrentSchülereintrag = null;
-        }
-      };
+      //App.MainViewModel.Schülereinträge.CollectionChanged += (sender, e) =>
+      //{
+      //  if (e.OldItems != null && e.OldItems.Contains(this.CurrentSchülereintrag))
+      //  {
+      //    this.CurrentSchülereintrag = null;
+      //  }
+      //};
 
       this.AddHausaufgabenCommand = new DelegateCommand(this.AddHausaufgaben);
       this.AddSonstigeNotenCommand = new DelegateCommand(this.AddSonstigeNoten);

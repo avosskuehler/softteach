@@ -94,6 +94,7 @@
       arbeit.LfdNr = vorhandeneArbeiten + 1;
 
       // App.UnitOfWork.GetRepository<Arbeit>().Add(arbeit);
+      App.UnitOfWork.Context.Arbeiten.Add(arbeit);
       var vm = new ArbeitViewModel(arbeit);
       App.MainViewModel.Arbeiten.Add(vm);
       this.CurrentArbeit = vm;
@@ -114,6 +115,7 @@
     private void DeleteArbeit(ArbeitViewModel arbeit)
     {
       // App.UnitOfWork.GetRepository<Arbeit>().RemoveTest(arbeit.Model);
+      App.UnitOfWork.Context.Arbeiten.Remove(arbeit.Model);
       App.MainViewModel.Arbeiten.RemoveTest(arbeit);
       this.CurrentArbeit = null;
     }

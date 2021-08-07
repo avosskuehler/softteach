@@ -30,7 +30,7 @@
       this.DeleteStundenplanCommand = new DelegateCommand(this.DeleteCurrentStundenplan, () => this.CurrentStundenplan != null);
       this.EditStundenplanCommand = new DelegateCommand(this.AddStundenplanÄnderung, () => this.CurrentStundenplan != null);
 
-      this.CurrentStundenplan = App.MainViewModel.Stundenpläne.Count > 0 ? App.MainViewModel.Stundenpläne[0] : null;
+      this.CurrentStundenplan = App.MainViewModel.Stundenpläne.FirstOrDefault(o => o.StundenplanJahrtyp.JahrtypJahr == Selection.Instance.Jahrtyp.JahrtypJahr);
 
       // Re-act to any changes from outside this ViewModel
       App.MainViewModel.Stundenpläne.CollectionChanged += (sender, e) =>
@@ -94,6 +94,7 @@
       stundenplan.Halbjahrtyp = halbjahrtyp.Model;
       stundenplan.GültigAb = gültigAb;
       stundenplan.Bezeichnung = string.Format("Stundenplan für {0} {1}", Configuration.Instance.Lehrer.Titel, Configuration.Instance.Lehrer.Nachname);
+      App.UnitOfWork.Context.Stundenpläne.Add(stundenplan);
       var vm = new StundenplanViewModel(stundenplan);
       App.MainViewModel.Stundenpläne.Add(vm);
       this.CurrentStundenplan = vm;
@@ -104,6 +105,7 @@
     /// </summary>
     public void DeleteCurrentStundenplan()
     {
+      var result = App.UnitOfWork.Context.Stundenpläne.Remove(this.CurrentStundenplan.Model);
       App.MainViewModel.Stundenpläne.RemoveTest(this.CurrentStundenplan);
       this.CurrentStundenplan = null;
     }
@@ -134,6 +136,7 @@
         var dlg = new AddStundenplanÄnderungDialog(stundenplan);
         if (!(undo = !dlg.ShowDialog().GetValueOrDefault(false)))
         {
+          App.UnitOfWork.Context.Stundenpläne.Add(stundenplan.Model);
           App.MainViewModel.Stundenpläne.Add(stundenplan);
           this.CurrentStundenplan = stundenplan;
         }

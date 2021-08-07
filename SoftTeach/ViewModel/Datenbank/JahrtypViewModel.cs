@@ -17,6 +17,8 @@
     /// </summary>
     private SchulwocheViewModel currentSchulwoche;
 
+    private ObservableCollection<SchulwocheViewModel> schulwochen;
+
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="JahrtypViewModel"/> Klasse. 
     /// </summary>
@@ -31,17 +33,6 @@
       }
 
       this.Model = jahrtyp;
-
-      // Build data structures for schulwochen
-      this.Schulwochen = new ObservableCollection<SchulwocheViewModel>();
-      foreach (var schulwoche in jahrtyp.Schulwochen)
-      {
-        var vm = new SchulwocheViewModel(schulwoche);
-        App.MainViewModel.Schulwochen.Add(vm);
-        this.Schulwochen.Add(vm);
-      }
-
-      this.Schulwochen.CollectionChanged += this.SchulwochenCollectionChanged;
     }
 
     /// <summary>
@@ -52,7 +43,27 @@
     /// <summary>
     /// Holt die Schulwochen für den Jahrtyp.
     /// </summary>
-    public ObservableCollection<SchulwocheViewModel> Schulwochen { get; private set; }
+    public ObservableCollection<SchulwocheViewModel> Schulwochen
+    {
+      get
+      {
+        if (this.schulwochen == null)
+        {
+          // Build data structures for schulwochen
+          this.schulwochen = new ObservableCollection<SchulwocheViewModel>();
+          foreach (var schulwoche in this.Model.Schulwochen)
+          {
+            var vm = new SchulwocheViewModel(schulwoche);
+            App.MainViewModel.Schulwochen.Add(vm);
+            this.Schulwochen.Add(vm);
+          }
+
+          this.Schulwochen.CollectionChanged += this.SchulwochenCollectionChanged;
+        }
+
+        return this.schulwochen;
+      }
+    }
 
     /// <summary>
     /// Holt oder setzt die currently selected Schulwoche

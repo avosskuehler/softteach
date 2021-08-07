@@ -321,7 +321,9 @@
         halbjahresplan.Halbjahrtyp = App.MainViewModel.Halbjahrtypen[0].Model;
         halbjahresplan.Jahresplan = this.Model;
         var vm = new HalbjahresplanViewModel(halbjahresplan);
+        App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
         this.AddMonatspläne(vm);
+        App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
         //App.MainViewModel.Halbjahrespläne.Add(vm);
         this.Halbjahrespläne.Add(vm);
         this.CurrentHalbjahresplan = vm;
@@ -352,7 +354,9 @@
         halbjahresplan.Halbjahrtyp = App.MainViewModel.Halbjahrtypen[1].Model;
         halbjahresplan.Jahresplan = this.Model;
         var vm = new HalbjahresplanViewModel(halbjahresplan);
+        App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
         this.AddMonatspläne(vm);
+        App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
         //App.MainViewModel.Halbjahrespläne.Add(vm);
         this.Halbjahrespläne.Add(vm);
         this.CurrentHalbjahresplan = vm;
@@ -509,6 +513,7 @@
         var monatsplan = new Monatsplan();
         monatsplan.Monatstyp = App.MainViewModel.Monatstypen[monatsstartIndex + i].Model;
         monatsplan.Halbjahresplan = halbjahresplan.Model;
+        App.UnitOfWork.Context.Monatspläne.Add(monatsplan);
 
         var vm = new MonatsplanViewModel(monatsplan);
         this.AddTagespläne(vm);
@@ -539,6 +544,7 @@
         var datum = new DateTime(year, month, i);
         tagesplan.Datum = datum;
         tagesplan.Monatsplan = monatsplan.Model;
+        App.UnitOfWork.Context.Tagespläne.Add(tagesplan);
 
         // Check for Ferien
         foreach (var ferien in App.MainViewModel.Ferien.Where(
@@ -583,8 +589,10 @@
           lerngruppentermin.Termintyp = terminViewModel.TerminTermintyp.Model;
           lerngruppentermin.Ort = terminViewModel.TerminOrt;
           lerngruppentermin.Tagesplan = tagesplan;
+          App.UnitOfWork.Context.Termine.Add(lerngruppentermin);
+
           var viewModelLerngruppentermin = new LerngruppenterminViewModel(lerngruppentermin);
-          App.MainViewModel.Lerngruppentermine.Add(viewModelLerngruppentermin);
+          //App.MainViewModel.Lerngruppentermine.Add(viewModelLerngruppentermin);
           vm.Lerngruppentermine.Add(viewModelLerngruppentermin);
         }
 
@@ -600,6 +608,7 @@
     {
       using (new UndoBatch(App.MainViewModel, string.Format("Stunden im Jahresplan {0} gelöscht.", this.JahresplanBezeichnung), false))
       {
+        App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
         foreach (var halbjahr in this.Halbjahrespläne.Where(o => o.HalbjahresplanHalbjahrtyp == this.CurrentHalbjahresplan.HalbjahresplanHalbjahrtyp))
         {
           foreach (var monat in halbjahr.Monatspläne)
@@ -616,13 +625,15 @@
                   App.MainViewModel.Stundenentwürfe.RemoveTest(stunde.StundeStundenentwurf);
                 }
 
+                App.UnitOfWork.Context.Termine.Remove(stunde.Model);
                 tag.Lerngruppentermine.RemoveTest(lerngruppenterminViewModel);
-                App.MainViewModel.Stunden.RemoveTest(lerngruppenterminViewModel as StundeViewModel);
+                //App.MainViewModel.Stunden.RemoveTest(lerngruppenterminViewModel as StundeViewModel);
                 tag.UpdateBeschreibung();
               }
             }
           }
         }
+        App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
       }
     }
 

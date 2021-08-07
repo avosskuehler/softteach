@@ -28,6 +28,7 @@
       ferien.Bezeichnung = "Neue Ferien";
       ferien.ErsterFerientag = DateTime.Now;
       ferien.LetzterFerientag = DateTime.Now;
+      App.UnitOfWork.Context.Ferien.Add(ferien);
       this.Model = ferien;
     }
 

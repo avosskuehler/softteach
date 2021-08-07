@@ -118,7 +118,7 @@
       foreach (var aufgabe in arbeit.Aufgaben.OrderBy(o => o.LfdNr))
       {
         var vm = new AufgabeViewModel(aufgabe);
-        App.MainViewModel.Aufgaben.Add(vm);
+        //App.MainViewModel.Aufgaben.Add(vm);
         vm.PropertyChanged += this.AufgabePropertyChanged;
         this.Aufgaben.Add(vm);
       }
@@ -768,7 +768,9 @@
 
       using (new UndoBatch(App.MainViewModel, string.Format("Neue Aufgabe {0} erstellt.", aufgabeViewModel), false))
       {
-        App.MainViewModel.Aufgaben.Add(aufgabeViewModel);
+        App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+        App.UnitOfWork.Context.Aufgaben.Add(aufgabe);
+        //App.MainViewModel.Aufgaben.Add(aufgabeViewModel);
         aufgabeViewModel.PropertyChanged += this.AufgabePropertyChanged;
         this.Aufgaben.Add(aufgabeViewModel);
         this.CurrentAufgabe = aufgabeViewModel;
@@ -779,13 +781,16 @@
           ergebnis.Schülereintrag = schülereintragViewModel.Model;
           ergebnis.Aufgabe = aufgabe;
 
+          App.UnitOfWork.Context.Ergebnisse.Add(ergebnis);
           var ergebnisViewModel = new ErgebnisViewModel(ergebnis);
-          App.MainViewModel.Ergebnisse.Add(ergebnisViewModel);
+          //App.MainViewModel.Ergebnisse.Add(ergebnisViewModel);
           aufgabeViewModel.Ergebnisse.Add(ergebnisViewModel);
           schülereintragViewModel.Ergebnisse.Add(ergebnisViewModel);
           aufgabeViewModel.CurrentErgebnis = ergebnisViewModel;
           schülereintragViewModel.UpdateErgebnisse();
         }
+
+        App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
 
         //this.UpdateAufgabenColumnsCollection();
       }
@@ -836,7 +841,8 @@
     {
       using (new UndoBatch(App.MainViewModel, string.Format("Aufgabe {0} gelöscht.", aufgabeViewModel), false))
       {
-        App.MainViewModel.Aufgaben.RemoveTest(aufgabeViewModel);
+        App.UnitOfWork.Context.Aufgaben.Remove(aufgabeViewModel.Model);
+        //App.MainViewModel.Aufgaben.RemoveTest(aufgabeViewModel);
         aufgabeViewModel.PropertyChanged -= this.AufgabePropertyChanged;
         var result = this.Aufgaben.RemoveTest(aufgabeViewModel);
       }
