@@ -58,10 +58,10 @@
       this.PopulateBoth();
 
       // Listen for changes
-      //this.TagespläneDesHalbjahresplans.CollectionChanged += this.TagespläneDesHalbjahresplansCollectionChanged;
-      //this.UsedSequenzenDesCurriculums.CollectionChanged += this.UsedSequenzenDesCurriculumsCollectionChanged;
-      //this.AvailableSequenzenDesCurriculums.CollectionChanged += this.AvailableSequenzenDesCurriculumsCollectionChanged;
-      //this.TagespläneAndSequenzenCollection.CollectionChanged += this.TagespläneAndSequenzenCollectionCollectionChanged;
+      this.TagespläneDesHalbjahresplans.CollectionChanged += this.TagespläneDesHalbjahresplansCollectionChanged;
+      this.UsedSequenzenDesCurriculums.CollectionChanged += this.UsedSequenzenDesCurriculumsCollectionChanged;
+      this.AvailableSequenzenDesCurriculums.CollectionChanged += this.AvailableSequenzenDesCurriculumsCollectionChanged;
+      this.TagespläneAndSequenzenCollection.CollectionChanged += this.TagespläneAndSequenzenCollectionCollectionChanged;
 
       this.UpdateHalbjahresplanWithCurriculumCommand = new DelegateCommand(this.UpdateHalbjahresplanWithCurriculum);
     }
@@ -91,49 +91,49 @@
     /// </summary>
     public ObservableCollection<ViewModelBase> TagespläneAndSequenzenCollection { get; private set; }
 
-    ///// <summary>
-    ///// Tritt auf, wenn die TagespläneDesJahresplansCollection verändert wurde.
-    ///// Gibt die Änderungen an den Undostack weiter.
-    ///// </summary>
-    ///// <param name="sender">Die auslösende Collection</param>
-    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    //private void TagespläneDesHalbjahresplansCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    //{
-    //  this.UndoableCollectionChanged(this, "TagespläneDesHalbjahresplans", this.TagespläneDesHalbjahresplans, e, false, "Änderung der TagespläneDesHalbjahresplans");
-    //}
+    /// <summary>
+    /// Tritt auf, wenn die TagespläneDesJahresplansCollection verändert wurde.
+    /// Gibt die Änderungen an den Undostack weiter.
+    /// </summary>
+    /// <param name="sender">Die auslösende Collection</param>
+    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    private void TagespläneDesHalbjahresplansCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+      this.UndoableCollectionChanged(this, "TagespläneDesHalbjahresplans", this.TagespläneDesHalbjahresplans, e, false, "Änderung der TagespläneDesHalbjahresplans");
+    }
 
-    ///// <summary>
-    ///// Tritt auf, wenn die UsedSequenzenDesCurriculumsCollection verändert wurde.
-    ///// Gibt die Änderungen an den Undostack weiter.
-    ///// </summary>
-    ///// <param name="sender">Die auslösende Collection</param>
-    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    //private void UsedSequenzenDesCurriculumsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    //{
-    //  this.UndoableCollectionChanged(this, "UsedSequenzenDesCurriculums", this.UsedSequenzenDesCurriculums, e, false, "Änderung der UsedSequenzenDesCurriculums");
-    //}
+    /// <summary>
+    /// Tritt auf, wenn die UsedSequenzenDesCurriculumsCollection verändert wurde.
+    /// Gibt die Änderungen an den Undostack weiter.
+    /// </summary>
+    /// <param name="sender">Die auslösende Collection</param>
+    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    private void UsedSequenzenDesCurriculumsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+      this.UndoableCollectionChanged(this, "UsedSequenzenDesCurriculums", this.UsedSequenzenDesCurriculums, e, false, "Änderung der UsedSequenzenDesCurriculums");
+    }
 
-    ///// <summary>
-    ///// Tritt auf, wenn die AvailableSequenzenDesCurriculumsCollection verändert wurde.
-    ///// Gibt die Änderungen an den Undostack weiter.
-    ///// </summary>
-    ///// <param name="sender">Die auslösende Collection</param>
-    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    //private void AvailableSequenzenDesCurriculumsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    //{
-    //  this.UndoableCollectionChanged(this, "AvailableSequenzenDesCurriculums", this.AvailableSequenzenDesCurriculums, e, false, "Änderung der AvailableSequenzenDesCurriculums");
-    //}
+    /// <summary>
+    /// Tritt auf, wenn die AvailableSequenzenDesCurriculumsCollection verändert wurde.
+    /// Gibt die Änderungen an den Undostack weiter.
+    /// </summary>
+    /// <param name="sender">Die auslösende Collection</param>
+    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    private void AvailableSequenzenDesCurriculumsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+      this.UndoableCollectionChanged(this, "AvailableSequenzenDesCurriculums", this.AvailableSequenzenDesCurriculums, e, false, "Änderung der AvailableSequenzenDesCurriculums");
+    }
 
-    ///// <summary>
-    ///// Tritt auf, wenn die TagespläneAndSequenzenCollectionCollection verändert wurde.
-    ///// Gibt die Änderungen an den Undostack weiter.
-    ///// </summary>
-    ///// <param name="sender">Die auslösende Collection</param>
-    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    //private void TagespläneAndSequenzenCollectionCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    //{
-    //  this.UndoableCollectionChanged(this, "TagespläneAndSequenzenCollection", this.TagespläneAndSequenzenCollection, e, false, "Änderung der TagespläneAndSequenzenCollection");
-    //}
+    /// <summary>
+    /// Tritt auf, wenn die TagespläneAndSequenzenCollectionCollection verändert wurde.
+    /// Gibt die Änderungen an den Undostack weiter.
+    /// </summary>
+    /// <param name="sender">Die auslösende Collection</param>
+    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    private void TagespläneAndSequenzenCollectionCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+      this.UndoableCollectionChanged(this, "TagespläneAndSequenzenCollection", this.TagespläneAndSequenzenCollection, e, false, "Änderung der TagespläneAndSequenzenCollection");
+    }
 
     /// <summary>
     /// Füllt die Collections

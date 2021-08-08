@@ -13,25 +13,7 @@
       Title="Auswahl"
       FontSize="20">
   <Page.Resources>
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/SoftTeach;component/Resources/MetroResources.xaml"/>
-        <ResourceDictionary >
-          <DataTemplate DataType="{x:Type datenbank:JahrtypViewModel}" x:Key="SchuljahrDataTemplate">
-            <datenbankView:MetroSchuljahrDetailView />
-          </DataTemplate>
-          <DataTemplate DataType="{x:Type datenbank:HalbjahrtypViewModel}" x:Key="HalbjahrDataTemplate">
-            <datenbankView:MetroHalbjahrDetailView />
-          </DataTemplate>
-          <DataTemplate DataType="{x:Type datenbank:FachViewModel}" x:Key="FächerDataTemplate">
-            <datenbankView:MetroFachDetailView />
-          </DataTemplate>
-          <DataTemplate DataType="{x:Type personen:SchülerlisteViewModel}" x:Key="SchülerlisteDataTemplate">
-            <datenbankView:MetroSchülerlisteDetailView />
-          </DataTemplate>
-        </ResourceDictionary>
-      </ResourceDictionary.MergedDictionaries>
-    </ResourceDictionary>
+    <ResourceDictionary Source="/SoftTeach;component/Resources/MetroResources.xaml"/>
   </Page.Resources>
   <Grid  Stylus.IsPressAndHoldEnabled="False">
     <Grid.RowDefinitions>
@@ -39,19 +21,37 @@
       <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="200"/>
+      <ColumnDefinition Width="Auto"/>
       <ColumnDefinition/>
       <ColumnDefinition/>
     </Grid.ColumnDefinitions>
-    <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Background="{StaticResource MetroHeaderBackground}">
+    <Border Grid.Row="0" Grid.Column="0" Background="{StaticResource MetroHeaderBackground}">
+      <Label Foreground="White" HorizontalAlignment="Center">Schuljahr auswählen</Label>
+    </Border>
+    <Border Grid.Row="0" Grid.Column="1" Background="{StaticResource MetroHeaderBackground}">
+      <Label Foreground="White" HorizontalAlignment="Center">Fach auswählen</Label>
+    </Border>
+    <Border Grid.Row="0" Grid.Column="2" Background="{StaticResource MetroHeaderBackground}">
       <Label Foreground="White" HorizontalAlignment="Center">Lerngruppe auswählen</Label>
     </Border>
-    <ListBox Grid.Row="1" Grid.Column="0"
-                 ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Jahrtypen}"             
-                 BorderThickness="0"
-                 Name="SchuljahrListBox"
-                 ItemTemplate="{StaticResource SchuljahrDataTemplate}"
-                 ItemContainerStyle="{StaticResource MetroSilentListBoxItem}">
+    <ListBox Grid.Row="1" Grid.Column="0" Width="250"
+             ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Jahrtypen}"     
+             SelectedItem="{Binding Path=JahrtypFilter}"
+             ItemContainerStyle="{StaticResource MahApps.Styles.ListBoxItem}"
+             BorderThickness="0"
+             Name="SchuljahrListBox">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <StackPanel Margin="5">
+            <Border Margin="0,5,5,5" Padding="10" >
+              <Border.Background>
+                <SolidColorBrush Color="{StaticResource ToggleButtonBackColor}"/>
+              </Border.Background>
+              <TextBlock Style="{StaticResource MetroLabelStyle}" Text="{Binding Path=JahrtypBezeichnung}"/>
+            </Border>
+          </StackPanel>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
       <ListBox.ItemsPanel>
         <ItemsPanelTemplate>
           <WrapPanel Width="{Binding ElementName=SchuljahrListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}" Orientation="Horizontal"/>
@@ -59,26 +59,51 @@
       </ListBox.ItemsPanel>
     </ListBox>
     <ListBox Grid.Row="1" Grid.Column="1"
-                 ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Fächer}"             
-                 BorderThickness="0"
-                 Name="FächerListBox"
-                 ItemTemplate="{StaticResource FächerDataTemplate}"
-                 ItemContainerStyle="{StaticResource MetroSilentListBoxItem}">
+             ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Fächer}"    
+             ItemContainerStyle="{StaticResource MahApps.Styles.ListBoxItem}"
+             BorderThickness="0"
+             Name="FächerListBox"
+             SelectedItem="{Binding Path=FachFilter}">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <StackPanel Margin="5">
+            <Border Margin="0,5,5,5" Padding="10" >
+              <Border.Background>
+                <SolidColorBrush Color="{StaticResource ToggleButtonBackColor}"/>
+              </Border.Background>
+              <TextBlock Style="{StaticResource MetroLabelStyle}" Text="{Binding Path=FachBezeichnung}"/>
+            </Border>
+          </StackPanel>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+
       <ListBox.ItemsPanel>
         <ItemsPanelTemplate>
-          <WrapPanel Width="{Binding ElementName=FächerListBox, Path=ActualWidth}" Orientation="Horizontal"/>
+          <WrapPanel Width="{Binding ElementName=FächerListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}" Orientation="Horizontal"/>
         </ItemsPanelTemplate>
       </ListBox.ItemsPanel>
     </ListBox>
     <ListBox Grid.Row="1" Grid.Column="2"
-                 ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=SchülerlisteWorkspace.SchülerlistenView}"             
-                 BorderThickness="0"
-                 Name="SchülerlistenListBox"
-                 ItemTemplate="{StaticResource SchülerlisteDataTemplate}"
-                 ItemContainerStyle="{StaticResource MetroSilentListBoxItem}">
+             ItemsSource="{Binding Path=SchülerlistenView}" 
+             ItemContainerStyle="{StaticResource MahApps.Styles.ListBoxItem}"
+             SelectedItem="{Binding Path=CurrentSchülerliste}"
+             BorderThickness="0"
+             Name="SchülerlistenListBox">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <StackPanel Margin="5">
+            <Border Margin="0,5,5,5" Padding="10" >
+              <Border.Background>
+                <SolidColorBrush Color="{StaticResource ToggleButtonBackColor}"/>
+              </Border.Background>
+              <TextBlock Style="{StaticResource MetroLabelStyle}" Text="{Binding Path=SchülerlisteKlasse.KlasseBezeichnung}"/>
+            </Border>
+          </StackPanel>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
       <ListBox.ItemsPanel>
         <ItemsPanelTemplate>
-          <WrapPanel Width="{Binding ElementName=SchülerlistenListBox, Path=ActualWidth}" Orientation="Horizontal"/>
+          <WrapPanel Width="{Binding ElementName=SchülerlistenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}" Orientation="Horizontal"/>
         </ItemsPanelTemplate>
       </ListBox.ItemsPanel>
     </ListBox>

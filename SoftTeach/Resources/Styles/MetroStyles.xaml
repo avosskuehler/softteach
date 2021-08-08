@@ -114,8 +114,8 @@
                     <SolidColorBrush Color="{StaticResource ToggleButtonBackColor}"/>
                   </Border.Background>
                   <ContentPresenter Margin="{TemplateBinding Padding}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                           RecognizesAccessKey="True"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                 </Border>
@@ -253,37 +253,10 @@
     </Grid>
   </DataTemplate>
 
-  <DataTemplate x:Key="MetroRaumplanDataTemplate">
-    <StackPanel Margin="5">
-      <TextBlock Style="{StaticResource MetroLabelStyle}" Text="{Binding Path=RaumplanBezeichnung}"/>
-      <Image Source="{Binding Path=RaumplanImage}" Height="180"/>
-    </StackPanel>
-  </DataTemplate>
-
-  <DataTemplate x:Key="MetroSitzplanDataTemplate">
-    <StackPanel Margin="5">
-      <TextBlock Style="{StaticResource MetroLabelStyle}" Text="{Binding Path=SitzplanBezeichnung}"/>
-      <Image Source="{Binding Path=SitzplanRaumplan.RaumplanImage}" Height="180"/>
-      <TextBlock Style="{StaticResource MetroLabelStyle}" Text="{Binding Path=SitzplanGültigAbString}"/>
-    </StackPanel>
-  </DataTemplate>
-
   <Style TargetType="{x:Type RadioButton}" x:Key="MetroPersonToggleRadioButton" BasedOn="{StaticResource MetroToggleRadioButton}">
     <Setter Property="Height" Value="79"/>
     <Setter Property="Margin" Value="0"/>
     <Setter Property="ContentTemplate" Value="{StaticResource PersonDataTemplate}" />
-  </Style>
-
-  <Style TargetType="{x:Type RadioButton}" x:Key="MetroRaumplanToggleRadioButton" BasedOn="{StaticResource MetroToggleRadioButton}">
-    <Setter Property="Height" Value="Auto"/>
-    <Setter Property="Margin" Value="0"/>
-    <Setter Property="ContentTemplate" Value="{StaticResource MetroRaumplanDataTemplate}" />
-  </Style>
-
-  <Style TargetType="{x:Type RadioButton}" x:Key="MetroSitzplanToggleRadioButton" BasedOn="{StaticResource MetroToggleRadioButton}">
-    <Setter Property="Height" Value="Auto"/>
-    <Setter Property="Margin" Value="0"/>
-    <Setter Property="ContentTemplate" Value="{StaticResource MetroSitzplanDataTemplate}" />
   </Style>
 
   <Style x:Key="MetroNotenBorderStyle" TargetType="{x:Type Border}">
@@ -372,8 +345,8 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Padding="{TemplateBinding Padding}"
                             SnapsToDevicePixels="true">
-            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
             <VisualStateManager.VisualStateGroups>
               <VisualStateGroup x:Name="CommonStates">
@@ -597,6 +570,19 @@
           <ColumnDefinition Width="Auto"/>
           <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
+        <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="0" Margin="5" Padding="0" Content="{Binding Path=Person.Vorname}"/>
+        <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="1" Margin="5" Padding="0" Content="{Binding Path=Person.Nachname}"/>
+      </Grid>
+    </Border>
+  </DataTemplate>
+  
+  <DataTemplate x:Key="SchülereintragViewModelDragAdorner">
+    <Border BorderThickness="1" Margin="1" Background="LightGray">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
         <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="0" Margin="5" Padding="0" Content="{Binding Path=SchülereintragPerson.PersonVorname}"/>
         <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="1" Margin="5" Padding="0" Content="{Binding Path=SchülereintragPerson.PersonNachname}"/>
       </Grid>
@@ -616,16 +602,6 @@
     </Border>
   </DataTemplate>
 
-  <DataTemplate x:Key="MetroSchülereintragGruppenView">
-    <Grid>
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto"/>
-        <ColumnDefinition Width="Auto"/>
-      </Grid.ColumnDefinitions>
-      <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="0" Margin="5" Padding="0" Content="{Binding Path=SchülereintragPerson.PersonVorname}"/>
-      <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="1" Margin="5" Padding="0" Content="{Binding Path=SchülereintragPerson.PersonNachname}"/>
-    </Grid>
-  </DataTemplate>
 
   <DataTemplate x:Key="MetroPrintSchülereintragGruppenView">
     <Grid>
@@ -638,15 +614,6 @@
     </Grid>
   </DataTemplate>
 
-  <DataTemplate x:Key="MetroSchülereintragSitzplanView">
-    <Grid>
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto"/>
-        <ColumnDefinition Width="Auto"/>
-      </Grid.ColumnDefinitions>
-      <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="0" Margin="5" Padding="0" Content="{Binding Path=Person.Vorname}"/>
-    </Grid>
-  </DataTemplate>
 
   <DataTemplate x:Key="MetroSchülereintragGruppenOverview">
     <Button Style="{StaticResource HausaufgabeButton}" Name="SchülerButton" Command="{Binding Path=MarkAsKrankCommand}">
@@ -677,7 +644,7 @@
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type GroupItem}">
-          <Border BorderThickness="1" Margin="3" CornerRadius="10" BorderBrush="{StaticResource MetroHeaderBackground}">
+          <Border BorderThickness="1" Margin="3" BorderBrush="{StaticResource MetroHeaderBackground}">
             <HeaderedContentControl>
               <HeaderedContentControl.Header>
                 <StackPanel Orientation="Horizontal" Margin="5,3">
@@ -697,7 +664,7 @@
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type GroupItem}">
-          <Border Margin="3" BorderThickness="1" CornerRadius="10" BorderBrush="Black">
+          <Border Margin="3" BorderThickness="1" BorderBrush="Black">
             <HeaderedContentControl>
               <HeaderedContentControl.Header>
                 <StackPanel Orientation="Horizontal">

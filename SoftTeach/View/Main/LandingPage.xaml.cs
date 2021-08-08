@@ -71,7 +71,7 @@
     {
       Configuration.Instance.IsMetroMode = true;
       Configuration.Instance.NavigateTarget = NavigateTarget.Gruppen;
-      var schülerlisten = App.MainViewModel.SchülerlisteWorkspace;
+      //var schülerlisten = App.MainViewModel.SchülerlisteWorkspace;
       this.NavigationService.Navigate(new MetroSelectSchülerlistePage());
     }
 

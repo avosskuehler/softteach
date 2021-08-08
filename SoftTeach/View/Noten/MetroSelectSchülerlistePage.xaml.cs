@@ -12,9 +12,10 @@
     /// </summary>
     public MetroSelectSchülerlistePage()
     {
-      this.InitializeComponent();
+      this.DataContext = App.MainViewModel.SchülerlisteWorkspace;
       App.MainViewModel.SchülerlisteWorkspace.JahrtypFilter = Selection.Instance.Jahrtyp;
       App.MainViewModel.SchülerlisteWorkspace.FachFilter = Selection.Instance.Fach;
+      this.InitializeComponent();
     }
   }
 }

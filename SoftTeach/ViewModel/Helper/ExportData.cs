@@ -88,12 +88,12 @@
           // the file is reached. 
           while ((line = streamReader.ReadLine()) != null)
           {
-            var items = line.Split('\t');
+            var items = line.Split(';');
             var nr = items[0];
             var nachname = items[1];
             var vorname = items[2];
             var geschlecht = items[3] == "w";
-            var geburtstag = DateTime.Parse(items[4]);
+            var hatGeburtstag = DateTime.TryParse(items[4], out DateTime geburtstag);
 
             var existiert =
               App.MainViewModel.Personen.FirstOrDefault(
@@ -101,7 +101,14 @@
 
             if (existiert != null)
             {
-              existiert.PersonGeburtstag = geburtstag;
+              if (hatGeburtstag)
+              {
+                existiert.PersonGeburtstag = geburtstag;
+              }
+              else
+              {
+                existiert.PersonGeburtstag = null;
+              }
               returnList.Add(existiert);
               foundCounter++;
             }
@@ -111,7 +118,10 @@
               person.Nachname = nachname;
               person.Vorname = vorname;
               person.Geschlecht = geschlecht;
-              person.Geburtstag = geburtstag;
+              if (hatGeburtstag)
+              {
+                person.Geburtstag = geburtstag;
+              }
               var vm = new PersonViewModel(person);
               App.MainViewModel.Personen.Add(vm);
               returnList.Add(vm);

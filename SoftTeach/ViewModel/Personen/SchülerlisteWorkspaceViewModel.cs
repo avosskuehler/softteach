@@ -13,6 +13,7 @@
   using SoftTeach.View.Personen;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Helper;
+  using SoftTeach.View.Sitzpläne;
 
   /// <summary>
   /// ViewModel for managing Schülerliste
@@ -45,7 +46,7 @@
       this.ResetJahrtypFilterCommand = new DelegateCommand(() => this.JahrtypFilter = null, () => this.JahrtypFilter != null);
       this.ResetFachFilterCommand = new DelegateCommand(() => this.FachFilter = null, () => this.FachFilter != null);
 
-      this.CurrentSchülerliste = App.MainViewModel.Schülerlisten.Count > 0 ? App.MainViewModel.Schülerlisten[0] : null;
+      this.currentSchülerliste = App.MainViewModel.Schülerlisten.Count > 0 ? App.MainViewModel.Schülerlisten[0] : null;
 
       this.SchülerlistenView = CollectionViewSource.GetDefaultView(App.MainViewModel.Schülerlisten);
       this.SchülerlistenView.Filter = this.CustomFilter;
@@ -114,6 +115,21 @@
         if (this.currentSchülerliste != null)
         {
           this.currentSchülerliste.UpdateSort();
+
+          switch (Configuration.Instance.NavigateTarget)
+          {
+            case NavigateTarget.Noten:
+              Configuration.Instance.NavigationService.Navigate(new MetroSchülerlistePage());
+              break;
+            case NavigateTarget.Gruppen:
+              Configuration.Instance.NavigationService.Navigate(new MetroGruppenPage());
+              break;
+            case NavigateTarget.Sitzpläne:
+              Configuration.Instance.NavigationService.Navigate(new MetroRäumePage());
+              break;
+            default:
+              break;
+          }
         }
       }
     }
@@ -150,6 +166,7 @@
       set
       {
         this.jahrtypFilter = value;
+        Selection.Instance.Jahrtyp = value;
         this.RaisePropertyChanged("JahrtypFilter");
         this.SchülerlistenView.Refresh();
         this.ResetJahrtypFilterCommand.RaiseCanExecuteChanged();

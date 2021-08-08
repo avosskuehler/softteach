@@ -148,7 +148,7 @@ namespace SoftTeach.Setting
       {
         if (this.jahrtyp == null)
         {
-          this.jahrtyp = App.MainViewModel.Jahrtypen.FirstOrDefault(o => o.JahrtypBezeichnung == "2019/2020");
+          this.jahrtyp = App.MainViewModel.Jahrtypen.FirstOrDefault(o => o.JahrtypBezeichnung == "2021/2022");
         }
 
         return this.jahrtyp;
@@ -477,6 +477,10 @@ namespace SoftTeach.Setting
 
         }
         this.Jahrtyp = App.MainViewModel.Jahrtypen.Last();
+      }
+      else
+      {
+        this.OnPropertyChanged("Schuljahr");
       }
       if (this.Halbjahr == null)
       {

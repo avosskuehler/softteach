@@ -6,6 +6,7 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:setting="clr-namespace:SoftTeach.Setting"
+  xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/shared"
   xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
   mc:Ignorable="d"
   d:DesignWidth="991.045" d:DesignHeight="479.114"
@@ -15,7 +16,6 @@
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/SoftTeach;component/Resources/MetroResources.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/Dialogs/BaseMetroDialog.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatSlider.xaml" />
         <ResourceDictionary >
           <CollectionViewSource x:Key="SortierteKlassenlisteViewSource" Source="{Binding Path=Schülereinträge}">
             <CollectionViewSource.SortDescriptions>
@@ -69,7 +69,7 @@
           </DataGrid.Columns>
         </DataGrid>-->
       </Grid>
-      <Button Width="100" FontSize="20" Margin="10" Content="Fertig" Style="{DynamicResource AccentedSquareButtonStyle}" Click="FertigButtonOnClick"/>
+      <Button Width="100" FontSize="20" Margin="10" Content="Fertig" Style="{DynamicResource MahApps.Styles.Button.AccentedSquare}" Click="FertigButtonOnClick"/>
     </StackPanel>
   </Grid>
 </dialogs:BaseMetroDialog>

@@ -5,6 +5,7 @@
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="Converter\Converter.xaml"/>
     <!-- ListViewStyles includes TextStyles and HausaufgabeButton and NumericUpDown -->
+    <ResourceDictionary Source="Styles\Fonts.xaml"/>
     <ResourceDictionary Source="Styles\ListViewStyles.xaml"/>
     <ResourceDictionary Source="Styles\DataGridStyles.xaml"/>
     <ResourceDictionary Source="Styles\ControlStyles.xaml"/>

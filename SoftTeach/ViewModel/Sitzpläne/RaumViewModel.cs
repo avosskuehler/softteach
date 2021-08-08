@@ -147,18 +147,27 @@
       var raumplan = new Raumplan();
       raumplan.Raum = this.Model;
       var raumplanViewModel = new RaumplanViewModel(raumplan);
-      var dlg = new EditRaumplanDialog(raumplanViewModel);
-      if (!dlg.ShowDialog().GetValueOrDefault(false))
-      {
-        return;
-      }
-
+      bool undo = false;
       using (new UndoBatch(App.MainViewModel, string.Format("Neuer Raumplan {0} erstellt.", raumplanViewModel), false))
       {
-        //App.UnitOfWork.Context.Raumpläne.Add(raumplanViewModel.Model);
-        //App.MainViewModel.Raumpläne.Add(raumplanViewModel);
-        this.Raumpläne.Add(raumplanViewModel);
-        this.CurrentRaumplan = raumplanViewModel;
+        var dlg = new EditRaumplanDialog(raumplanViewModel);
+        if (!dlg.ShowDialog().GetValueOrDefault(false))
+        {
+          undo = true;
+        }
+
+        if (!undo)
+        {
+          //App.UnitOfWork.Context.Raumpläne.Add(raumplanViewModel.Model);
+          //App.MainViewModel.Raumpläne.Add(raumplanViewModel);
+          this.Raumpläne.Add(raumplanViewModel);
+          this.CurrentRaumplan = raumplanViewModel;
+        }
+      }
+
+      if (undo)
+      {
+        App.MainViewModel.ExecuteUndoCommand();
       }
     }
 
@@ -211,7 +220,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void RaumpläneCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Raumpläne", this.Raumpläne, e, false, "Änderung der Raumpläne");
+      this.UndoableCollectionChanged(this, "Raumpläne", this.Raumpläne, e, true, "Änderung der Raumpläne");
     }
   }
 }

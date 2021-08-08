@@ -74,11 +74,13 @@
           //App.MainViewModel.Sitzplaneinträge.Add(vm);
           this.Sitzplaneinträge.Add(vm);
         }
+        this.Sitzplaneinträge.CollectionChanged += this.SitzplaneinträgeCollectionChanged;
       }
       else
       {
         using (new UndoBatch(App.MainViewModel, string.Format("Neuer Sitzplan angelegt"), false))
         {
+          this.Sitzplaneinträge.CollectionChanged += this.SitzplaneinträgeCollectionChanged;
 
           // Noch keine Sitzplaneinträge vorhanden, erstelle also alle neu aus den Sitzplätzen des Raumplans
           foreach (var sitzplatz in sitzplan.Raumplan.Sitzplätze)
@@ -96,7 +98,6 @@
         }
       }
 
-      this.Sitzplaneinträge.CollectionChanged += this.SitzplaneinträgeCollectionChanged;
 
       // Build data structures for Schülereinträge
       this.UsedSchülereinträge = new ObservableCollection<Schülereintrag>();
@@ -381,7 +382,7 @@
       var sourceItem = dropInfo.Data;
       var targetItem = dropInfo.TargetItem;
       if ((sourceItem is SchülereintragViewModel && targetItem is SitzplaneintragViewModel)
-        || sourceItem is SitzplaneintragViewModel)
+        || sourceItem is SitzplaneintragViewModel || (sourceItem is Schülereintrag && targetItem is SitzplaneintragViewModel))
       {
         dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
         dropInfo.Effects = DragDropEffects.Move;
@@ -619,7 +620,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void SitzplaneinträgeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Sitzplaneinträge", this.Sitzplaneinträge, e, false, "Änderung der Sitzplaneinträge");
+      this.UndoableCollectionChanged(this, "Sitzplaneinträge", this.Sitzplaneinträge, e, true, "Änderung der Sitzplaneinträge");
     }
   }
 }

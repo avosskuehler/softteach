@@ -18,6 +18,7 @@
   using SoftTeach.UndoRedo;
   using SoftTeach.ViewModel.Helper;
   using SoftTeach.ViewModel.Personen;
+  using SoftTeach.View.Sitzpläne;
 
   /// <summary>
   /// ViewModel for managing Sitzplan
@@ -35,9 +36,9 @@
     private RaumViewModel raumFilter;
 
     /// <summary>
-    /// Die Schülerliste für den Filter
+    /// Der Raumplan für den Filter
     /// </summary>
-    private SchülerlisteViewModel schülerlisteFilter;
+    private RaumplanViewModel raumplanFilter;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="SitzplanWorkspaceViewModel"/> Klasse. 
@@ -46,12 +47,11 @@
     {
       this.AddSitzplanCommand = new DelegateCommand(this.AddSitzplan);
       this.DeleteSitzplanCommand = new DelegateCommand(this.DeleteCurrentSitzplan, () => this.CurrentSitzplan != null);
-      this.ResetSchülerlisteFilterCommand = new DelegateCommand(() => this.SchülerlisteFilter = null, () => this.SchülerlisteFilter != null);
-      this.ResetRaumFilterCommand = new DelegateCommand(() => this.RaumFilter = null, () => this.RaumFilter != null);
+      this.SitzplanBearbeitenCommand = new DelegateCommand(this.SitzplanBearbeiten, () => this.CurrentSitzplan != null);
 
       var numberOfSitzpläne = App.MainViewModel.Sitzpläne.Count;
       //this.CurrentSitzplan = numberOfSitzpläne > 0 ? App.MainViewModel.Sitzpläne[numberOfSitzpläne - 1] : null;
-      this.SitzpläneView = CollectionViewSource.GetDefaultView(App.MainViewModel.Sitzpläne);
+      this.SitzpläneViewSource = new CollectionViewSource() { Source = App.MainViewModel.Sitzpläne };
       using (this.SitzpläneView.DeferRefresh())
       {
         this.SitzpläneView.Filter = this.CustomFilter;
@@ -59,14 +59,14 @@
         this.SitzpläneView.SortDescriptions.Add(new SortDescription("SitzplanRaumplan", ListSortDirection.Ascending));
       }
 
-      // Re-act to any changes from outside this ViewModel
-      App.MainViewModel.Sitzpläne.CollectionChanged += (sender, e) =>
-      {
-        if (e.OldItems != null && e.OldItems.Contains(this.CurrentSitzplan))
-        {
-          this.CurrentSitzplan = null;
-        }
-      };
+      //// Re-act to any changes from outside this ViewModel
+      //App.MainViewModel.Sitzpläne.CollectionChanged += (sender, e) =>
+      //{
+      //  if (e.OldItems != null && e.OldItems.Contains(this.CurrentSitzplan))
+      //  {
+      //    this.CurrentSitzplan = null;
+      //  }
+      //};
 
       Selection.Instance.PropertyChanged += this.SelectionPropertyChanged;
     }
@@ -82,19 +82,19 @@
     public DelegateCommand DeleteSitzplanCommand { get; private set; }
 
     /// <summary>
-    /// Holt den Befehl zur adding a new Sitzplan
+    /// Holt den Befehl den Sitzplan zu bearbeiten
     /// </summary>
-    public DelegateCommand ResetSchülerlisteFilterCommand { get; private set; }
+    public DelegateCommand SitzplanBearbeitenCommand { get; private set; }
 
     /// <summary>
-    /// Holt den Befehl zur adding a new Sitzplan
+    /// Holt oder setzt die ViewSource der Sitzpläne
     /// </summary>
-    public DelegateCommand ResetRaumFilterCommand { get; private set; }
+    public CollectionViewSource SitzpläneViewSource { get; set; }
 
     /// <summary>
-    /// Holt oder setzt ein gefiltertes View der Schultermincollection
+    /// Holt oder setzt ein gefiltertes View der Sitzpläne
     /// </summary>
-    public ICollectionView SitzpläneView { get; set; }
+    public ICollectionView SitzpläneView => this.SitzpläneViewSource.View;
 
     /// <summary>
     /// Holt oder setzt die sitzplan currently selected in this workspace
@@ -109,6 +109,7 @@
       set
       {
         this.currentSitzplan = value;
+        //this.SitzpläneView.Refresh();
         this.RaisePropertyChanged("CurrentSitzplan");
         this.DeleteSitzplanCommand.RaiseCanExecuteChanged();
       }
@@ -127,38 +128,36 @@
       set
       {
         this.raumFilter = value;
-        if (value != null && Selection.Instance.Raum != value)
-        {
-          Selection.Instance.Raum = value;
-        }
+        //if (value != null && Selection.Instance.Raum != value)
+        //{
+        //  Selection.Instance.Raum = value;
+        //}
 
         this.RaisePropertyChanged("RaumFilter");
         this.SitzpläneView.Refresh();
-        this.ResetRaumFilterCommand.RaiseCanExecuteChanged();
       }
     }
 
     /// <summary>
-    /// Holt oder setzt den Schülerlistefilter
+    /// Holt oder setzt den Raumfilter
     /// </summary>
-    public SchülerlisteViewModel SchülerlisteFilter
+    public RaumplanViewModel RaumplanFilter
     {
       get
       {
-        return this.schülerlisteFilter;
+        return this.raumplanFilter;
       }
 
       set
       {
-        this.schülerlisteFilter = value;
-        if (value != null && Selection.Instance.Schülerliste != value)
-        {
-          Selection.Instance.Schülerliste = value;
-        }
+        this.raumplanFilter = value;
+        //if (value != null && Selection.Instance.Raum != value)
+        //{
+        //  Selection.Instance.Raum = value;
+        //}
 
-        this.RaisePropertyChanged("SchülerlisteFilter");
+        this.RaisePropertyChanged("RaumplanFilter");
         this.SitzpläneView.Refresh();
-        this.ResetSchülerlisteFilterCommand.RaiseCanExecuteChanged();
       }
     }
 
@@ -174,9 +173,9 @@
         this.RaumFilter = Selection.Instance.Raum;
         this.SitzpläneView.Refresh();
       }
-      else if (e.PropertyName == "Schülerliste")
+      else
+      if (e.PropertyName == "Schülerliste")
       {
-        this.SchülerlisteFilter = Selection.Instance.Schülerliste;
         this.SitzpläneView.Refresh();
       }
     }
@@ -194,18 +193,32 @@
         return false;
       }
 
-      if (this.schülerlisteFilter != null && this.raumFilter != null)
+      if (Selection.Instance.Schülerliste != null && this.raumFilter != null)
       {
         if (sitzplan.SitzplanSchülerliste == null)
         {
           return true;
         }
 
-        return sitzplan.SitzplanSchülerliste.SchülerlisteÜberschrift == this.schülerlisteFilter.SchülerlisteÜberschrift
+        return sitzplan.SitzplanSchülerliste.SchülerlisteÜberschrift == Selection.Instance.Schülerliste.SchülerlisteÜberschrift
           && sitzplan.SitzplanRaumplan.RaumplanRaum.RaumBezeichnung == this.raumFilter.RaumBezeichnung;
       }
 
       return false;
+    }
+
+    /// <summary>
+    /// Bearbeitet den ausgewählten Sitzplan
+    /// </summary>
+    private void SitzplanBearbeiten()
+    {
+      if (this.CurrentSitzplan == null)
+      {
+        return;
+      }
+
+      Selection.Instance.Sitzplan = this.CurrentSitzplan;
+      Configuration.Instance.NavigationService.Navigate(new MetroSitzplanPage());
     }
 
     /// <summary>
@@ -220,9 +233,9 @@
           App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
           var sitzplan = new Sitzplan { Bezeichnung = "Neuer Sitzplan", GültigAb = DateTime.Now.Date };
 
-          if (Selection.Instance.Raumplan != null)
+          if (this.raumplanFilter != null)
           {
-            sitzplan.Raumplan = Selection.Instance.Raumplan.Model;
+            sitzplan.Raumplan = this.raumplanFilter.Model;
           }
           else
           {

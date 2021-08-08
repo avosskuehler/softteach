@@ -17,6 +17,8 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <PublishUrl>C:\Service\SoftTeach\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Unc</InstallFrom>
@@ -109,6 +111,9 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ControlzEx, Version=5.0.0.0, Culture=neutral, PublicKeyToken=69f1c32f803d307e, processorArchitecture=MSIL">
+      <HintPath>..\packages\ControlzEx.5.0.1\lib\net462\ControlzEx.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -116,6 +121,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Fluent, Version=8.0.0.0, Culture=neutral, PublicKeyToken=3e436e32a8c5546f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Fluent.Ribbon.8.0.3\lib\net462\Fluent.dll</HintPath>
     </Reference>
     <Reference Include="GongSolutions.Wpf.DragDrop">
       <HintPath>..\Libs\GongSolutions.Wpf.DragDrop.dll</HintPath>
@@ -127,11 +135,13 @@
     <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <HintPath>..\packages\Ionic.Zip.1.9.1.8\lib\Ionic.Zip.dll</HintPath>
     </Reference>
-    <Reference Include="MahApps.Metro, Version=1.2.4.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\MahApps.Metro.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="MahApps.Metro, Version=2.0.0.0, Culture=neutral, PublicKeyToken=51482d6f650b2b3f, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.2.4.7\lib\net47\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.31\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+    </Reference>
     <Reference Include="OxyPlot, Version=2015.1.804.0, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\OxyPlot.Core.2015.1.804-alpha\lib\net45\OxyPlot.dll</HintPath>
@@ -151,12 +161,14 @@
     <Reference Include="ReachFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Printing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
-    <Reference Include="System.Windows.Controls.Ribbon" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -172,6 +184,7 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -388,6 +401,16 @@
     <Compile Include="Resources\Converter\EnumBooleanConverter.cs" />
     <Compile Include="Resources\Converter\DateTimeToStringConverter.cs" />
     <Compile Include="Resources\Converter\SitzplatzAngleConverter.cs" />
+    <Compile Include="Resources\FontAwesome\AwesomeFontType.cs" />
+    <Compile Include="Resources\FontAwesome\Icon.cs" />
+    <Compile Include="Resources\FontAwesome\IconBlock.cs" />
+    <Compile Include="Resources\FontAwesome\IconChar1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IconChar.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\FontAwesome\IconHelper.cs" />
+    <Compile Include="Resources\FontAwesome\IconSource.cs" />
     <Compile Include="Setting\Configuration.cs" />
     <Compile Include="Setting\NavigateTarget.cs" />
     <Compile Include="Setting\Schule.cs" />
@@ -587,27 +610,6 @@
     </Compile>
     <Compile Include="View\Datenbank\HausaufgabenDBView.xaml.cs">
       <DependentUpon>HausaufgabenDBView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Datenbank\MetroRaumplanDetailView.xaml.cs">
-      <DependentUpon>MetroRaumplanDetailView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Datenbank\MetroRaumDetailView.xaml.cs">
-      <DependentUpon>MetroRaumDetailView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Datenbank\MetroSitzplanDetailView.xaml.cs">
-      <DependentUpon>MetroSitzplanDetailView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Datenbank\MetroSchülerlisteDetailView.xaml.cs">
-      <DependentUpon>MetroSchülerlisteDetailView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Datenbank\MetroFachDetailView.xaml.cs">
-      <DependentUpon>MetroFachDetailView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Datenbank\MetroHalbjahrDetailView.xaml.cs">
-      <DependentUpon>MetroHalbjahrDetailView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Datenbank\MetroSchuljahrDetailView.xaml.cs">
-      <DependentUpon>MetroSchuljahrDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Datenbank\NotenWichtungenDBView.xaml.cs">
       <DependentUpon>NotenWichtungenDBView.xaml</DependentUpon>
@@ -1054,7 +1056,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Content Include="Resources\FontAwesome\fontawesome-all.css" />
+    <Content Include="Resources\FontAwesome\IconChar.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IconChar1.cs</LastGenOutput>
+    </Content>
     <EmbeddedResource Include="ViewModel\Helper\ODSSupport\template.ods" />
+    <Resource Include="Fonts\FontAwesome5Brands-Regular-400.otf" />
+    <Resource Include="Fonts\FontAwesome5Pro-Light-300.otf" />
+    <Resource Include="Fonts\FontAwesome5Pro-Regular-400.otf" />
+    <Resource Include="Fonts\FontAwesome5Pro-Solid-900.otf" />
     <None Include="SoftTeach_TemporaryKey.pfx" />
     <Resource Include="Resources\Entypo.ttf" />
     <Resource Include="Resources\Entypo-license.txt" />
@@ -1373,6 +1384,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Resources\Styles\Fonts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\Styles\ListViewStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1458,34 +1473,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Datenbank\HausaufgabenDBView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Datenbank\MetroRaumplanDetailView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Datenbank\MetroRaumDetailView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Datenbank\MetroSitzplanDetailView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Datenbank\MetroSchülerlisteDetailView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Datenbank\MetroFachDetailView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Datenbank\MetroHalbjahrDetailView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Datenbank\MetroSchuljahrDetailView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

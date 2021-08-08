@@ -1,5 +1,4 @@
-﻿using SoftTeach.ExceptionHandling;
-
+﻿
 namespace SoftTeach.View.Main
 {
   using System;
@@ -7,11 +6,9 @@ namespace SoftTeach.View.Main
   using System.Collections.Generic;
   using System.Linq;
   using System.Windows;
-  using System.Windows.Controls;
-  using System.Windows.Controls.Primitives;
-  using System.Windows.Controls.Ribbon;
   using System.Windows.Documents;
   using System.Windows.Media;
+  using SoftTeach.ExceptionHandling;
 
   using SoftTeach.ExceptionHandling;
   using SoftTeach.Properties;
@@ -23,13 +20,14 @@ namespace SoftTeach.View.Main
   using SoftTeach.View.Sitzpläne;
   using SoftTeach.View.Stundenpläne;
   using SoftTeach.View.Termine;
+  using SoftTeach.ViewModel.Curricula;
   using SoftTeach.ViewModel.Helper;
   using SoftTeach.ViewModel.Termine;
 
   /// <summary>
   /// Interaction logic for MainRibbonView.xaml
   /// </summary>
-  public partial class MainRibbonView : RibbonWindow
+  public partial class MainRibbonView
   {
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="MainRibbonView"/> Klasse. 
@@ -41,66 +39,16 @@ namespace SoftTeach.View.Main
       this.InitializeComponent();
     }
 
-    private void WindowLoaded(object sender, RoutedEventArgs e)
-    {
-      this.ReplaceRibbonApplicationMenuButtonContent(this.AppMenu);
-    }
-
-    /// <summary>
-    /// Replaces the image and down arrow of a Ribbon Application Menu Button with the button's Label text.
-    /// </summary>
-    /// <param name="menu">The menu whose application button should show the label text.</param>
-    /// <remarks>
-    /// The method assumes the specific visual tree implementation of the October 2010 version of <see cref="RibbonApplicationMenu "/>.
-    /// Fortunately, since the application menu is high profile, breakage due to an version changes should be obvious.
-    /// Hopefully, the native support for text will be added before the implementation breaks.
-    /// </remarks>
-    void ReplaceRibbonApplicationMenuButtonContent(RibbonApplicationMenu menu)
-    {
-      Grid outerGrid = (Grid)VisualTreeHelper.GetChild(menu, 0);
-      RibbonToggleButton toggleButton = (RibbonToggleButton)outerGrid.Children[0];
-      ReplaceRibbonToggleButtonContent(toggleButton, menu.Label);
-
-      Popup popup = (Popup)outerGrid.Children[2];
-      EventHandler popupOpenedHandler = null;
-      popupOpenedHandler = new EventHandler(delegate
-      {
-        Decorator decorator = (Decorator)popup.Child;
-        Grid popupGrid = (Grid)decorator.Child;
-        Canvas canvas = (Canvas)popupGrid.Children[1];
-        RibbonToggleButton popupToggleButton = (RibbonToggleButton)canvas.Children[0];
-        ReplaceRibbonToggleButtonContent(popupToggleButton, menu.Label);
-        popup.Opened -= popupOpenedHandler;
-      });
-      popup.Opened += popupOpenedHandler;
-    }
-
-    void ReplaceRibbonToggleButtonContent(RibbonToggleButton toggleButton, string text)
-    {
-      // Subdues the aero highlighting to that the text has better contrast.
-      Grid grid = (Grid)VisualTreeHelper.GetChild(toggleButton, 0);
-      Border middleBorder = (Border)grid.Children[1];
-      middleBorder.Opacity = .5;
-
-      // Replaces the images with the label text.
-      StackPanel stackPanel = (StackPanel)grid.Children[2];
-      UIElementCollection children = stackPanel.Children;
-      children.RemoveRange(0, children.Count);
-      TextBlock textBlock = new TextBlock(new Run(text));
-      textBlock.Foreground = Brushes.White;
-      children.Add(textBlock);
-    }
-
     private void MainRibbonViewClosing(object sender, System.ComponentModel.CancelEventArgs e)
     {
       Selection.Instance.UpdateUserSettings();
       Settings.Default.Save();
 
-      //// Check if there is nothing to change
-      //if (((Stack<ChangeSet>)App.MainViewModel.UndoStack).Count == 0)
-      //{
-      //  return;
-      //}
+      // Check if there is nothing to change
+      if (((Stack<ChangeSet>)App.MainViewModel.UndoStack).Count == 0)
+      {
+        return;
+      }
 
       var dlg = new AskForSavingChangesDialog();
       dlg.ShowDialog();
@@ -887,6 +835,17 @@ namespace SoftTeach.View.Main
       //{
       //  App.MainViewModel.Schülerlisten.Remove(schülerlisteViewModel);
       //}
+    }
+
+    private void TabItemCurricula_Selected(object sender, RoutedEventArgs e)
+    {
+      if (!App.MainViewModel.Curricula.Any())
+      {
+        foreach (var curriculum in App.UnitOfWork.Context.Curricula)
+        {
+          App.MainViewModel.Curricula.Add(new CurriculumViewModel(curriculum));
+        }
+      }
     }
   }
 }

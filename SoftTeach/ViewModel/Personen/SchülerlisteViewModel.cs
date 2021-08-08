@@ -127,6 +127,7 @@
       };
 
       this.Gruppenmitgliederanzahl = 4;
+      this.Gruppenanzahl = 8;
 
       App.MainViewModel.NotenWichtungen.CollectionChanged += (sender, e) =>
       {
@@ -1022,10 +1023,8 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void SchülereinträgeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Schülereinträge", this.Schülereinträge, e, false, "Änderung der Schülereinträge");
+      this.UndoableCollectionChanged(this, "Schülereinträge", this.Schülereinträge, e, true, "Änderung der Schülereinträge");
       this.RaisePropertyChanged("Schülerzahl");
     }
-
-
   }
 }

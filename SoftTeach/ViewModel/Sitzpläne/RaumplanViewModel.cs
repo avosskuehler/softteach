@@ -355,7 +355,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void SitzplätzeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Sitzplätze", this.Sitzplätze, e, false, "Änderung der Sitzplätze");
+      this.UndoableCollectionChanged(this, "Sitzplätze", this.Sitzplätze, e, true, "Änderung der Sitzplätze");
     }
 
     /// <summary>

@@ -1034,12 +1034,6 @@
     </Grid>
   </DataTemplate>
 
-  <DataTemplate x:Key="SchülerlisteSingleView">
-    <StackPanel Orientation="Horizontal" Margin="0">
-      <Label Margin="0" Padding="1" Content="{Binding Path=SchülereintragPerson.PersonVorname}"/>
-      <Label Margin="0" Padding="1" Content="{Binding Path=SchülereintragPerson.PersonNachname}"/>
-    </StackPanel>
-  </DataTemplate>
 
   <DataTemplate x:Key="SchülerlisteGruppenView">
     <Border Background="LightBlue" CornerRadius="10" Padding="2,2,2,2">
@@ -1051,8 +1045,15 @@
         <TextBlock Grid.Row="0" Text="{Binding Path=Key}" FontSize="14" Margin="6,2,6,2"/>
         <ListBox Grid.Row="1" ItemsSource="{Binding}"
                  BorderThickness="0"
-                 ItemTemplate="{StaticResource SchülerlisteSingleView}"
                  ItemContainerStyle="{StaticResource UnselectableListBoxItem}">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <StackPanel Orientation="Horizontal" Margin="0">
+                <Label Margin="0" Padding="1" Content="{Binding Path=SchülereintragPerson.PersonVorname}"/>
+                <Label Margin="0" Padding="1" Content="{Binding Path=SchülereintragPerson.PersonNachname}"/>
+              </StackPanel>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
           <ListBox.ItemsPanel>
             <ItemsPanelTemplate>
               <StackPanel/>

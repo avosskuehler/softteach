@@ -42,7 +42,7 @@
     {
       InformationDialog.Show(
         "Gespeichert.",
-        string.Format("{0} Datenbankkontextänderung(en) die in die Datenbank übertragen wurden.", this.Context.SaveChanges()),
+        string.Format("{0} Änderung(en), die in die Datenbank übertragen wurden.", this.Context.SaveChanges()),
         false);
       UndoService.Current[App.MainViewModel].Clear();
     }
