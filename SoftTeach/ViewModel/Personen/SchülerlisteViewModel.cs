@@ -12,7 +12,6 @@
   using System.Windows.Documents;
 
   using GongSolutions.Wpf.DragDrop;
-  using GongSolutions.Wpf.DragDrop.Utilities;
 
   using SoftTeach.Model.EntityFramework;
   using SoftTeach.Setting;

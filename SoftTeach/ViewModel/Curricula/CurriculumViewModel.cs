@@ -1028,7 +1028,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void ReihenSequenzenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "ReihenSequenzen", this.ReihenSequenzen, e, false, "Änderung der ReihenSequenzen");
+      this.UndoableCollectionChanged(this, "ReihenSequenzen", this.ReihenSequenzen, e, true, "Änderung der ReihenSequenzen");
       this.RaisePropertyChanged("CurriculumVerplanteStunden");
     }
 
@@ -1040,7 +1040,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void UsedSequenzenDesCurriculumsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "UsedSequenzenDesCurriculums", this.UsedSequenzenDesCurriculums, e, false, "Änderung der UsedSequenzenDesCurriculums");
+      this.UndoableCollectionChanged(this, "UsedSequenzenDesCurriculums", this.UsedSequenzenDesCurriculums, e, true, "Änderung der UsedSequenzenDesCurriculums");
       this.RaisePropertyChanged("CurriculumVerplanteStunden");
     }
 
@@ -1052,7 +1052,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void UsedReihenDesCurriculumsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "UsedReihenDesCurriculums", this.UsedReihenDesCurriculums, e, false, "Änderung der UsedReihenDesCurriculums");
+      this.UndoableCollectionChanged(this, "UsedReihenDesCurriculums", this.UsedReihenDesCurriculums, e, true, "Änderung der UsedReihenDesCurriculums");
       this.RaisePropertyChanged("CurriculumVerplanteStunden");
     }
 
@@ -1064,7 +1064,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void AvailableReihenDesCurriculumsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "AvailableReihenDesCurriculums", this.AvailableReihenDesCurriculums, e, false, "Änderung der AvailableReihenDesCurriculums");
+      this.UndoableCollectionChanged(this, "AvailableReihenDesCurriculums", this.AvailableReihenDesCurriculums, e, true, "Änderung der AvailableReihenDesCurriculums");
     }
   }
 }

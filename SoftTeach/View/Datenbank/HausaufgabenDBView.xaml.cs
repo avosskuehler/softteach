@@ -1,9 +1,6 @@
-﻿using System;
-
-namespace SoftTeach.View.Datenbank
+﻿namespace SoftTeach.View.Datenbank
 {
   using System.Windows;
-  using System.Windows.Data;
 
   /// <summary>
   /// Interaction logic for HausaufgabenDBView.xaml

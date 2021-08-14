@@ -3,10 +3,6 @@
   using System;
   using System.Collections.Generic;
   using System.Linq;
-  using System.Windows.Input;
-
-  using SoftTeach.ExceptionHandling;
-  using SoftTeach.Model;
   using SoftTeach.Model.EntityFramework;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;

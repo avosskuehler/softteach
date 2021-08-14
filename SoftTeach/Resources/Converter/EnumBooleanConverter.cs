@@ -2,8 +2,6 @@
 namespace SoftTeach.Resources.Converter
 {
   using System;
-
-  using System.Windows;
   using System.Windows.Data;
 
   /// <summary>

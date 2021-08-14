@@ -17,14 +17,9 @@
 
 namespace SoftTeach.View.Personen
 {
-  using System.Linq;
   using System.Windows;
 
-  using Setting;
-
   using SoftTeach.ViewModel.Personen;
-
-  using ViewModel.Datenbank;
 
   /// <summary>
   /// Interaction logic for GruppenErstellenDialog.xaml

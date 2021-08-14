@@ -3,8 +3,6 @@
   using System;
   using System.Collections.Generic;
   using System.Collections.ObjectModel;
-  using System.Collections.Specialized;
-  using System.Globalization;
   using System.Linq;
   using System.Windows.Controls;
 
@@ -315,6 +313,10 @@
     private void AddVertretungsstunde()
     {
       var tagesplanToAdd = this.GetTagesplanToAddInVertretungsjahresplan();
+      if (tagesplanToAdd == null)
+      {
+        return;
+      }
 
       var stunde = new Stunde();
       stunde.ErsteUnterrichtsstunde =
@@ -388,6 +390,10 @@
       if (!(undo = !dlg.ShowDialog().GetValueOrDefault(false)))
       {
         var tagesplanToAdd = this.GetTagesplanToAddInVertretungsjahresplan();
+        if (tagesplanToAdd == null)
+        {
+          return;
+        }
 
         var lerngruppentermin = new Lerngruppentermin();
         lerngruppentermin.Beschreibung = dlg.TerminBeschreibung;
@@ -444,8 +450,14 @@
       this.GetJahrAndHalbjahr(out sommerHalbjahr, out jahresplanJahr);
 
       var vertretungsjahresplan =
-        App.MainViewModel.Jahrespläne.Single(
+        App.MainViewModel.Jahrespläne.SingleOrDefault(
           o => o.JahresplanFach.FachBezeichnung == "Vertretungsstunden" && o.JahresplanJahrtyp.JahrtypJahr == jahresplanJahr);
+
+      if (vertretungsjahresplan == null)
+      {
+        InformationDialog.Show("Jahresplan fehlt", "Ein Jahresplan für das Fach Vertretungsstunden fehlt, daher können keine Vertretungsstunden, Sondertermine, etc. angelegt werden. Bitte zuerst den Jahresplan anlegen.", false);
+        return null;
+      }
 
       // Get correct Halbjahresplan
       var halbjahresplanViewModel = sommerHalbjahr

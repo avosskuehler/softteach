@@ -2,8 +2,6 @@
 namespace SoftTeach.View.Personen
 {
   using System.Windows;
-
-  using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.Setting;
   using SoftTeach.View.Noten;
   using SoftTeach.ViewModel.Noten;

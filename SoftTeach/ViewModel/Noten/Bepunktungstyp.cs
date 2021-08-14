@@ -6,11 +6,6 @@
 
 namespace SoftTeach.ViewModel.Noten
 {
-  using System;
-  using System.Collections.Generic;
-  using System.Linq;
-  using System.Text;
-
   /// <summary>
   /// Diese Enumeration beschreibt die drei Möglichkeiten
   /// ein und dieselbe Note zu zeigen.

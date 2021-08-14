@@ -742,7 +742,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void AufgabenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Aufgaben", this.Aufgaben, e, false, "Änderung der Aufgaben");
+      this.UndoableCollectionChanged(this, "Aufgaben", this.Aufgaben, e, true, "Änderung der Aufgaben");
       this.RaisePropertyChanged("ArbeitGesamtpunktzahl");
 
       // Resequence list

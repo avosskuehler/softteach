@@ -2,8 +2,6 @@
 {
   using Helper;
 
-  using SoftTeach.UndoRedo;
-
   using SoftTeach.Model.EntityFramework;
 
   /// <summary>

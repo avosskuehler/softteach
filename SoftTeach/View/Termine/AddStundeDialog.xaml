@@ -25,7 +25,7 @@
     <controls:SmallDialogHeader Grid.Row="0" Title="Neue Stunde anlegen ..."
                                       Icon="/SoftTeach;component/Images/Stundenentwurf32.png"/>
 
-    <Grid Background="{StaticResource DefaultOfficeBackgroundBrush}" Grid.Row="1" >
+    <Grid Grid.Row="1" >
       <ContentControl Content="{Binding}">
         <ContentControl.Resources>
           <DataTemplate DataType="{x:Type Termine:StundeViewModel}">
@@ -34,7 +34,7 @@
         </ContentControl.Resources>
       </ContentControl>
     </Grid>
-    <Grid Background="{StaticResource DefaultButtonsBackgroundBrush}" Grid.Row="2">
+    <Grid Grid.Row="2">
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
         <Button Width="100" IsDefault="True" Click="OkClick" TabIndex="2">OK</Button>
         <Label></Label>

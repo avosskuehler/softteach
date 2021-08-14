@@ -19,9 +19,6 @@ namespace SoftTeach.View.Termine
 {
   using System.Windows;
 
-  using SoftTeach.ViewModel;
-  using SoftTeach.ViewModel.Termine;
-
   /// <summary>
   /// Interaction logic for CreateLerngruppenterminDialog.xaml
   /// </summary>

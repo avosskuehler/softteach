@@ -8,7 +8,6 @@
   using SoftTeach.ViewModel.Helper;
   using System;
   using System.Linq;
-  using System.Windows.Input;
 
   /// <summary>
   /// ViewModel for managing Stundenplan

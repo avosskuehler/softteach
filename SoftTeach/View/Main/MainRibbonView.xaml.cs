@@ -1,16 +1,11 @@
 ﻿
 namespace SoftTeach.View.Main
 {
-  using System;
-  using System.Collections;
   using System.Collections.Generic;
   using System.Linq;
   using System.Windows;
-  using System.Windows.Documents;
-  using System.Windows.Media;
   using SoftTeach.ExceptionHandling;
 
-  using SoftTeach.ExceptionHandling;
   using SoftTeach.Properties;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
@@ -21,7 +16,6 @@ namespace SoftTeach.View.Main
   using SoftTeach.View.Stundenpläne;
   using SoftTeach.View.Termine;
   using SoftTeach.ViewModel.Curricula;
-  using SoftTeach.ViewModel.Helper;
   using SoftTeach.ViewModel.Termine;
 
   /// <summary>

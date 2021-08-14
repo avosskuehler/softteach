@@ -1,8 +1,6 @@
 ﻿namespace SoftTeach.ViewModel.Stundenentwürfe
 {
   using System;
-
-  using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Jahrespläne;
 
   /// <summary>

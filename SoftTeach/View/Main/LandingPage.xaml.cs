@@ -1,6 +1,5 @@
 ﻿namespace SoftTeach.View.Main
 {
-  using System.Security.RightsManagement;
   using System.Windows;
   using System.Windows.Controls;
 

@@ -6,7 +6,6 @@
   using System.Linq;
   using System.Windows;
   using System.Windows.Controls;
-  using System.Windows.Input;
 
   using GongSolutions.Wpf.DragDrop;
 
@@ -99,7 +98,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void TagespläneDesHalbjahresplansCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "TagespläneDesHalbjahresplans", this.TagespläneDesHalbjahresplans, e, false, "Änderung der TagespläneDesHalbjahresplans");
+      this.UndoableCollectionChanged(this, "TagespläneDesHalbjahresplans", this.TagespläneDesHalbjahresplans, e, true, "Änderung der TagespläneDesHalbjahresplans");
     }
 
     /// <summary>
@@ -110,7 +109,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void UsedSequenzenDesCurriculumsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "UsedSequenzenDesCurriculums", this.UsedSequenzenDesCurriculums, e, false, "Änderung der UsedSequenzenDesCurriculums");
+      this.UndoableCollectionChanged(this, "UsedSequenzenDesCurriculums", this.UsedSequenzenDesCurriculums, e, true, "Änderung der UsedSequenzenDesCurriculums");
     }
 
     /// <summary>
@@ -121,7 +120,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void AvailableSequenzenDesCurriculumsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "AvailableSequenzenDesCurriculums", this.AvailableSequenzenDesCurriculums, e, false, "Änderung der AvailableSequenzenDesCurriculums");
+      this.UndoableCollectionChanged(this, "AvailableSequenzenDesCurriculums", this.AvailableSequenzenDesCurriculums, e, true, "Änderung der AvailableSequenzenDesCurriculums");
     }
 
     /// <summary>
@@ -132,7 +131,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void TagespläneAndSequenzenCollectionCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "TagespläneAndSequenzenCollection", this.TagespläneAndSequenzenCollection, e, false, "Änderung der TagespläneAndSequenzenCollection");
+      this.UndoableCollectionChanged(this, "TagespläneAndSequenzenCollection", this.TagespläneAndSequenzenCollection, e, true, "Änderung der TagespläneAndSequenzenCollection");
     }
 
     /// <summary>

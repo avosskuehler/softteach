@@ -6,11 +6,8 @@ namespace SoftTeach.ViewModel.Jahrespläne
   using System.Collections.Specialized;
   using System.Globalization;
   using System.Linq;
-  using System.Runtime.Remoting.Contexts;
   using System.Windows.Controls;
   using System.Windows.Media;
-
-  using SoftTeach.View.Jahrespläne;
   using SoftTeach.Model.EntityFramework;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Termine;
@@ -531,7 +528,7 @@ namespace SoftTeach.ViewModel.Jahrespläne
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void LerngruppentermineCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Lerngruppentermine", this.Lerngruppentermine, e, false, "Änderung der Lerngruppentermine");
+      this.UndoableCollectionChanged(this, "Lerngruppentermine", this.Lerngruppentermine, e, true, "Änderung der Lerngruppentermine");
       this.UpdateBeschreibung();
     }
 

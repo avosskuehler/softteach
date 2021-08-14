@@ -10,7 +10,6 @@
   using GongSolutions.Wpf.DragDrop;
 
   using SoftTeach.Model.EntityFramework;
-  using SoftTeach.ViewModel.Curricula;
   using SoftTeach.ExceptionHandling;
   using SoftTeach.ViewModel.Helper;
   using SoftTeach.ViewModel.Stundenentwürfe;
@@ -174,7 +173,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void TagespläneDesJahresplansCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "TagespläneDesHalbjahresplans", this.TagespläneDesHalbjahresplans, e, false, "Änderung der TagespläneDesHalbjahresplans");
+      this.UndoableCollectionChanged(this, "TagespläneDesHalbjahresplans", this.TagespläneDesHalbjahresplans, e, true, "Änderung der TagespläneDesHalbjahresplans");
     }
 
     /// <summary>
@@ -185,7 +184,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void UsedStundenDesJahresplansCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "UsedStundenDesHalbjahresplans", this.UsedStundenDesHalbjahresplans, e, false, "Änderung der UsedStundenDesHalbjahresplans");
+      this.UndoableCollectionChanged(this, "UsedStundenDesHalbjahresplans", this.UsedStundenDesHalbjahresplans, e, true, "Änderung der UsedStundenDesHalbjahresplans");
     }
 
     /// <summary>
@@ -196,7 +195,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void AvailableStundenDesJahresplansCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "AvailableStundenDesHalbjahresplans", this.AvailableStundenDesHalbjahresplans, e, false, "Änderung der AvailableStundenDesHalbjahresplans");
+      this.UndoableCollectionChanged(this, "AvailableStundenDesHalbjahresplans", this.AvailableStundenDesHalbjahresplans, e, true, "Änderung der AvailableStundenDesHalbjahresplans");
     }
 
     /// <summary>
@@ -207,7 +206,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void TagespläneAndStundenCollectionCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "TagespläneAndStundenCollection", this.TagespläneAndStundenCollection, e, false, "Änderung der TagespläneAndStundenCollection");
+      this.UndoableCollectionChanged(this, "TagespläneAndStundenCollection", this.TagespläneAndStundenCollection, e, true, "Änderung der TagespläneAndStundenCollection");
     }
 
     /// <summary>

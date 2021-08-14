@@ -3,8 +3,6 @@
   using System;
   using System.Linq;
   using System.Windows.Media;
-
-  using SoftTeach.View.Jahrespläne;
   using SoftTeach.Model.EntityFramework;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;

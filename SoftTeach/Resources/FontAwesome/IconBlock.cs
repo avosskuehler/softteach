@@ -1,4 +1,3 @@
-using SoftTeach.Resources.FontAwesome;
 using System;
 using System.ComponentModel;
 using System.Globalization;

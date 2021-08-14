@@ -147,7 +147,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void TagespläneCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Tagespläne", this.Tagespläne, e, false, "Änderung der Tagespläne");
+      this.UndoableCollectionChanged(this, "Tagespläne", this.Tagespläne, e, true, "Änderung der Tagespläne");
     }
   }
 }

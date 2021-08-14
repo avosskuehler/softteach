@@ -24,7 +24,6 @@ namespace SoftTeach.Setting
   using Properties;
   using SoftTeach.Model.EntityFramework;
   using SoftTeach.ViewModel.Sitzpläne;
-  using SoftTeach.ViewModel.Termine;
 
   using ViewModel.Datenbank;
   using ViewModel.Noten;

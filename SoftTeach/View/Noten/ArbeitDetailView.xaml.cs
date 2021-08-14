@@ -1,7 +1,5 @@
 ﻿namespace SoftTeach.View.Noten
 {
-  using System.Windows;
-
   /// <summary>
   /// Interaction logic for ArbeitDetailView.xaml
   /// </summary>

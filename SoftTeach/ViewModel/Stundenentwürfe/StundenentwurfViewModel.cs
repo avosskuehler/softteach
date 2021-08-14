@@ -107,6 +107,8 @@
         this.Dateiverweise.Add(vm);
       }
 
+      this.Dateiverweise.CollectionChanged += this.DateiverweiseCollectionChanged;
+
       this.ModulView = new ListCollectionView(App.MainViewModel.Module);
       this.ModulView.Filter = this.ModulFilter;
       this.ModulView.SortDescriptions.Add(new SortDescription("ModulBezeichnung", ListSortDirection.Ascending));
@@ -855,7 +857,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void PhasenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Phasen", this.Phasen, e, false, "Änderung der Phasen");
+      this.UndoableCollectionChanged(this, "Phasen", this.Phasen, e, true, "Änderung der Phasen");
 
       if (e.Action == NotifyCollectionChangedAction.Remove)
       {
@@ -874,6 +876,17 @@
 
       this.RaisePropertyChanged("StundenentwurfPhasenKurzform");
       this.NotifyPhaseZeitChanged();
+    }
+
+    /// <summary>
+    /// Tritt auf, wenn die PhasenCollection verändert wurde.
+    /// Gibt die Änderungen an den Undostack weiter.
+    /// </summary>
+    /// <param name="sender">Die auslösende Collection</param>
+    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    private void DateiverweiseCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+      this.UndoableCollectionChanged(this, "Dateiverweise", this.Dateiverweise, e, true, "Änderung der Dateiverweise");
     }
 
     /// <summary>

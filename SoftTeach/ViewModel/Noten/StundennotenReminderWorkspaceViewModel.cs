@@ -7,19 +7,13 @@
 
   using Helper;
 
-  using SoftTeach.UndoRedo;
-  using SoftTeach.View.Noten;
-
-  using MahApps.Metro.Controls.Dialogs;
-
   using SoftTeach.Setting;
-  using SoftTeach.ViewModel.Termine;
-    using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.EntityFramework;
 
-    /// <summary>
-    /// ViewModel for managing Stundennote
-    /// </summary>
-    public class StundennotenReminderWorkspaceViewModel : ViewModelBase
+  /// <summary>
+  /// ViewModel for managing Stundennote
+  /// </summary>
+  public class StundennotenReminderWorkspaceViewModel : ViewModelBase
   {
     /// <summary>
     /// Der aktuell ausgewählten Schülereintrag

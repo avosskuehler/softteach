@@ -6,7 +6,6 @@
   using System.Collections.Specialized;
   using System.Linq;
   using System.Windows.Controls;
-  using System.Windows.Input;
 
   using SoftTeach.Model.EntityFramework;
   using SoftTeach.UndoRedo;
@@ -1027,7 +1026,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void StundenplaneinträgeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Stundenplaneinträge", this.Stundenplaneinträge, e, false, "Änderung der Stundenplaneinträge");
+      this.UndoableCollectionChanged(this, "Stundenplaneinträge", this.Stundenplaneinträge, e, true, "Änderung der Stundenplaneinträge");
     }
 
     private StundenplaneintragViewModel GetStundenplanEintragViewModel(int wochentagIndex, int stundeIndex)

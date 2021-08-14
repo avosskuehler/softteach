@@ -3,7 +3,6 @@
   using System;
   using System.Collections.ObjectModel;
   using System.Collections.Specialized;
-  using System.Windows.Input;
 
   using SoftTeach.Model.EntityFramework;
   using SoftTeach.UndoRedo;
@@ -161,7 +160,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void KlassenstufenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Klassenstufen", this.Klassenstufen, e, false, "Änderung der Klassenstufen");
+      this.UndoableCollectionChanged(this, "Klassenstufen", this.Klassenstufen, e, true, "Änderung der Klassenstufen");
     }
 
     /// <summary>

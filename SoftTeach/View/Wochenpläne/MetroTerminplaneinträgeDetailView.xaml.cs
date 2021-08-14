@@ -2,7 +2,6 @@
 namespace SoftTeach.View.Wochenpläne
 {
   using System;
-  using System.Linq;
   using System.Windows.Input;
   using System.Windows.Media;
 

@@ -4,7 +4,6 @@
   using System.Collections.ObjectModel;
   using System.Collections.Specialized;
   using System.Linq;
-  using System.Windows.Input;
 
   using SoftTeach.Model.EntityFramework;
   using SoftTeach.UndoRedo;
@@ -178,7 +177,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void KlassenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Klassen", this.Klassen, e, false, "Änderung der Klassen");
+      this.UndoableCollectionChanged(this, "Klassen", this.Klassen, e, true, "Änderung der Klassen");
     }
 
     /// <summary>

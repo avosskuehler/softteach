@@ -2,22 +2,13 @@
 {
   using System;
   using System.ComponentModel;
-  using System.Linq;
-  using System.Runtime.Remoting.Messaging;
   using System.Windows.Data;
-
-  using SoftTeach.ExceptionHandling;
-
-  using SoftTeach.ViewModel.Datenbank;
-
-  using MahApps.Metro.Controls;
   using MahApps.Metro.Controls.Dialogs;
 
   using SoftTeach.Model.EntityFramework;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
   using SoftTeach.ViewModel.Helper;
-  using SoftTeach.ViewModel.Personen;
   using SoftTeach.View.Sitzpläne;
 
   /// <summary>
@@ -196,6 +187,11 @@
       if (Selection.Instance.Schülerliste != null && this.raumFilter != null)
       {
         if (sitzplan.SitzplanSchülerliste == null)
+        {
+          return true;
+        }
+
+        if (sitzplan.SitzplanRaumplan.RaumplanRaum == null)
         {
           return true;
         }

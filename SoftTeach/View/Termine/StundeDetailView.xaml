@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+  xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
              xmlns:StundenentwürfeView="clr-namespace:SoftTeach.View.Stundenentwürfe"
              xmlns:StundenentwürfeViewModel="clr-namespace:SoftTeach.ViewModel.Stundenentwürfe"
              xmlns:SoftTeach="clr-namespace:SoftTeach" mc:Ignorable="d" 
@@ -19,7 +20,10 @@
         <RowDefinition Height="Auto"/>
         <RowDefinition Height="Auto"/>
       </Grid.RowDefinitions>
-      <GroupBox Grid.Row="0" Margin="5" Header="Zeit und Ort">
+      <HeaderedContentControl Grid.Row="0" Margin="5">
+        <HeaderedContentControl.Header>
+          <Label FontWeight="Bold">Zeit und Ort</Label>
+        </HeaderedContentControl.Header>
         <Grid>
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -46,8 +50,11 @@
             <TextBox VerticalAlignment="Center" Grid.Column="1" Text="{Binding Path=TerminOrt}" />
           </Grid>
         </Grid>
-      </GroupBox>
-      <GroupBox Grid.Row="1" Margin="5" Header="Lerngruppe">
+      </HeaderedContentControl>
+      <HeaderedContentControl Grid.Row="1" Margin="5">
+        <HeaderedContentControl.Header>
+          <Label FontWeight="Bold">Lerngruppe</Label>
+        </HeaderedContentControl.Header>
         <Grid>
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -57,8 +64,11 @@
             <Label VerticalAlignment="Center" Content="{Binding Path=LerngruppenterminKlasse}"/>
           </StackPanel>
         </Grid>
-      </GroupBox>
-      <GroupBox Grid.Row="2" Margin="5" Header="Stunde">
+      </HeaderedContentControl>
+      <HeaderedContentControl Grid.Row="2" Margin="5">
+        <HeaderedContentControl.Header>
+          <Label FontWeight="Bold">Stunde</Label>
+        </HeaderedContentControl.Header>
         <Grid>
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -76,8 +86,8 @@
                   Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
             <StackPanel Orientation="Horizontal" >
               <Grid Margin="5,0,0,0">
-                <Image Source="/SoftTeach;component/Images/Stundenentwurf16.png"/>
-                <Image Source="/SoftTeach;component/Images/AddOverlay16.png"/>
+                <fa:IconBlock Style="{StaticResource Stundenentwurf16}"/>
+                <fa:IconBlock Style="{StaticResource AddOverlay16}"/>
               </Grid>
               <Label VerticalAlignment="Center" Padding="5,0,0,0">Stundenentwurf erstellen</Label>
             </StackPanel>
@@ -88,8 +98,8 @@
                   Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
             <StackPanel Orientation="Horizontal">
               <Grid Margin="5,0,0,0">
-                <Image Source="/SoftTeach;component/Images/Stundenentwurf16.png"/>
-                <Image Source="/SoftTeach;component/Images/RemoveOverlay16.png"/>
+                <fa:IconBlock Style="{StaticResource Stundenentwurf16}"/>
+                <fa:IconBlock Style="{StaticResource RemoveOverlay16}"/>
               </Grid>
               <Label VerticalAlignment="Center" Padding="5,0,0,0">Stundenentwurf entfernen</Label>
             </StackPanel>
@@ -100,53 +110,60 @@
                    Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
             <StackPanel Orientation="Horizontal">
               <Grid Margin="5,0,0,0">
-                <Image Source="/SoftTeach;component/Images/Stundenentwurf16.png"/>
-                <Image Source="/SoftTeach;component/Images/SearchOverlay16.png"/>
+                <fa:IconBlock Style="{StaticResource Stundenentwurf16}"/>
+                <fa:IconBlock Style="{StaticResource SearchOverlay16}"/>
               </Grid>
               <Label VerticalAlignment="Center" Padding="5,0,0,0">Stundenentwurf suchen</Label>
             </StackPanel>
           </Button>
         </Grid>
-      </GroupBox>
+      </HeaderedContentControl>
       <Line/>
-      <StackPanel Grid.Row="3" Orientation="Vertical">
-        <Button Command="{Binding Path=PreviewStundenentwurfCommand}" 
+      <HeaderedContentControl Grid.Row="3" Margin="5">
+        <HeaderedContentControl.Header>
+          <Label FontWeight="Bold">Ausdruck</Label>
+        </HeaderedContentControl.Header>
+        <StackPanel Grid.Row="3" Orientation="Vertical">
+          <Button Command="{Binding Path=PreviewStundenentwurfCommand}" 
                   ToolTip="Stundenentwurfausdruck ansehen"
                   HorizontalAlignment="Left"
                   Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-          <StackPanel Orientation="Horizontal" >
-            <Grid Margin="5,0,0,0">
-              <Image Source="/SoftTeach;component/Images/Preview16.png"/>
-            </Grid>
-            <Label VerticalAlignment="Center" Padding="5,0,0,0">Ausdruck ansehen</Label>
-          </StackPanel>
-        </Button>
-        <Button Command="{Binding Path=PrintStundenentwurfCommand}" 
+            <StackPanel Orientation="Horizontal" >
+              <Grid Margin="5,0,0,0">
+                <fa:IconBlock Style="{StaticResource Stundenentwurf16}"/>
+                <fa:IconBlock Style="{StaticResource VorschauOverlay16}"/>
+              </Grid>
+              <Label VerticalAlignment="Center" Padding="5,0,0,0">Ausdruck ansehen</Label>
+            </StackPanel>
+          </Button>
+          <Button Command="{Binding Path=PrintStundenentwurfCommand}" 
                   ToolTip="Stundenentwurf drucken"
                   HorizontalAlignment="Left"
                   Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-          <StackPanel Orientation="Horizontal" >
-            <Grid Margin="5,0,0,0">
-              <Image Source="/SoftTeach;component/Images/Drucker16.png"/>
-            </Grid>
-            <Label VerticalAlignment="Center" Padding="5,0,0,0">Stundenentwurf drucken</Label>
-          </StackPanel>
-        </Button>
-        <Button Command="{Binding Path=PrintAllStundenentwurfCommand}" 
+            <StackPanel Orientation="Horizontal" >
+              <Grid Margin="5,0,0,0">
+                <fa:IconBlock Style="{StaticResource Stundenentwurf16}"/>
+                <fa:IconBlock Style="{StaticResource PrintOverlay16}"/>
+              </Grid>
+              <Label VerticalAlignment="Center" Padding="5,0,0,0">Stundenentwurf drucken</Label>
+            </StackPanel>
+          </Button>
+          <Button Command="{Binding Path=PrintAllStundenentwurfCommand}" 
                   ToolTip="Stundenentwurf drucken"
                   HorizontalAlignment="Left"
                   Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-          <StackPanel Orientation="Horizontal" >
-            <Grid Margin="5,0,0,0">
-              <Image Source="/SoftTeach;component/Images/Drucker16.png"/>
-            </Grid>
-            <TextBlock VerticalAlignment="Center" Padding="5,0,0,0">Stundenentwurf mit allen 
+            <StackPanel Orientation="Horizontal" >
+              <Grid Margin="5,0,0,0">
+                <Image Source="/SoftTeach;component/Images/Drucker16.png"/>
+              </Grid>
+              <TextBlock VerticalAlignment="Center" Padding="5,0,0,0">Stundenentwurf mit allen 
               <LineBreak/>
               Unterlagen drucken
-            </TextBlock>
-          </StackPanel>
-        </Button>
-      </StackPanel>
+              </TextBlock>
+            </StackPanel>
+          </Button>
+        </StackPanel>
+      </HeaderedContentControl>
     </Grid>
     <ContentControl Grid.Column="1" Content="{Binding Path=StundeStundenentwurf}">
       <ContentControl.Resources>

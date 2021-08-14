@@ -1,7 +1,5 @@
 ﻿namespace SoftTeach.View.Stundenentwürfe
 {
-  using System.Windows.Controls;
-
   /// <summary>
   /// Interaction logic for MetroStundenentwurfDetailView.xaml
   /// </summary>

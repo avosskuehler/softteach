@@ -4,8 +4,6 @@
   using System.Windows;
   using System.Windows.Controls;
 
-  using SoftTeach.ViewModel;
-
   using System.Windows.Media;
 
   using SoftTeach.ViewModel.Datenbank;

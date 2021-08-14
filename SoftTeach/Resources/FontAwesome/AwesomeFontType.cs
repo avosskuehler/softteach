@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SoftTeach.Resources.FontAwesome
+﻿namespace SoftTeach.Resources.FontAwesome
 {
   public enum AwesomeFontType : int
   {

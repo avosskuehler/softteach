@@ -4,8 +4,6 @@
   using System.Collections.ObjectModel;
   using System.Linq;
 
-  using SoftTeach.Model;
-
   using SoftTeach.UndoRedo;
   using SoftTeach.ExceptionHandling;
   using SoftTeach.Model.EntityFramework;

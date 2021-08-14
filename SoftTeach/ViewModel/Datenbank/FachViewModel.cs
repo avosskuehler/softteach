@@ -2,8 +2,6 @@
 {
   using System;
   using System.Windows.Media;
-
-  using SoftTeach.Model;
   using SoftTeach.Model.EntityFramework;
   using SoftTeach.ViewModel.Helper;
 

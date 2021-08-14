@@ -2,7 +2,6 @@
 {
   using System;
   using System.Linq;
-  using System.Windows.Input;
 
   using SoftTeach.Model.EntityFramework;
   using SoftTeach.Setting;

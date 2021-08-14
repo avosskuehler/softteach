@@ -3,17 +3,14 @@
   using System;
   using System.Collections.ObjectModel;
   using System.Collections.Specialized;
-  using System.ComponentModel;
   using System.IO;
   using System.Linq;
-  using System.Windows.Controls;
   using System.Windows.Media;
   using System.Windows.Media.Imaging;
   using System.Windows.Shapes;
   using Microsoft.Win32;
   using SoftTeach.ExceptionHandling;
   using SoftTeach.Model.EntityFramework;
-  using SoftTeach.Resources.Controls;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Sitzpläne;
   using SoftTeach.ViewModel.Helper;

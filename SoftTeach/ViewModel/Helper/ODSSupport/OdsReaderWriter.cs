@@ -3,8 +3,6 @@
   using Ionic.Zip;
   using SoftTeach.ViewModel.Jahrespläne;
   using System;
-  using System.Collections.Generic;
-  using System.Collections.ObjectModel;
   using System.Data;
   using System.Globalization;
   using System.IO;

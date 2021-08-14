@@ -20,7 +20,6 @@ namespace SoftTeach.View.Stundenentwürfe
   using System.Linq;
   using System.Windows;
   using System.Windows.Forms;
-  using SoftTeach.Setting;
   using SoftTeach.ViewModel.Datenbank;
 
   /// <summary>

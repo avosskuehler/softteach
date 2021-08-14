@@ -5,11 +5,9 @@
   using System.Windows;
   using System.Windows.Controls;
   using System.Windows.Media;
-  using System.Windows.Shapes;
 
   using SoftTeach.Model.EntityFramework;
   using SoftTeach.ViewModel.Helper;
-  using SoftTeach.ViewModel.Noten;
 
   /// <summary>
   /// ViewModel of an individual sitzplaneintrag

@@ -1,6 +1,5 @@
 ﻿namespace SoftTeach.UndoRedo.ChangeTypes
 {
-  using System;
   using System.Diagnostics;
 
   /// <summary>

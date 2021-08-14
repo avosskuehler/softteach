@@ -6,10 +6,6 @@
   using System.Globalization;
   using System.Linq;
   using System.Windows.Media;
-
-  using SoftTeach.Model;
-
-  using SoftTeach.Setting;
   using SoftTeach.Model.EntityFramework;
   using SoftTeach.ViewModel.Helper;
 

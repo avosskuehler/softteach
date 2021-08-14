@@ -18,8 +18,6 @@
 namespace SoftTeach.View.Wochenpläne
 {
   using System.Windows;
-
-  using SoftTeach.View.Jahrespläne;
   using SoftTeach.View.Termine;
   using SoftTeach.ViewModel.Datenbank;
 

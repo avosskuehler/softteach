@@ -535,4 +535,28 @@
     <Setter Property="Icon" Value="Print"/>
   </Style>
 
+  <Style x:Key="Stundenentwurf16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="FileInvoice"/>
+  </Style>
+
+  <Style x:Key="Stundenentwurf32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="FileInvoice"/>
+  </Style>
+
+  <Style x:Key="Stundenentwurf48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="FileInvoice"/>
+  </Style>
+  
+  <Style x:Key="Dateityp16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="File"/>
+  </Style>
+
+  <Style x:Key="Dateityp32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="File"/>
+  </Style>
+
+  <Style x:Key="Dateityp48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="File"/>
+  </Style>
+
 </ResourceDictionary>

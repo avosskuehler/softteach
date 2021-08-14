@@ -1,4 +1,3 @@
-using SoftTeach.Resources.FontAwesome;
 using System;
 using System.Windows.Markup;
 using System.Windows.Media;

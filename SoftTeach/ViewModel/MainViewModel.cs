@@ -5,13 +5,11 @@
   using System.Collections.ObjectModel;
   using System.Collections.Specialized;
   using System.Diagnostics;
-  using System.Globalization;
   using System.IO;
   using System.Linq;
   using System.Timers;
   using System.Windows;
   using System.Windows.Data;
-  using System.Windows.Input;
   using System.Windows.Media;
 
   using SoftTeach.ExceptionHandling;
@@ -1964,28 +1962,6 @@
     {
       this.UndoableCollectionChanged(this, "Stundenentwürfe", this.Stundenentwürfe, e, "Änderung der Stundenentwürfe");
     }
-
-    ///// <summary>
-    ///// Tritt auf, wenn die PhasenCollection verändert wurde.
-    ///// Gibt die Änderungen an den Undostack weiter.
-    ///// </summary>
-    ///// <param name="sender">Die auslösende Collection</param>
-    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    //private void PhasenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    //{
-    //  this.UndoableCollectionChanged(this, "Phasen", this.Phasen, e, "Änderung der Phasen");
-    //}
-
-    ///// <summary>
-    ///// Tritt auf, wenn die DateiverweiseCollection verändert wurde.
-    ///// Gibt die Änderungen an den Undostack weiter.
-    ///// </summary>
-    ///// <param name="sender">Die auslösende Collection</param>
-    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    //private void DateiverweiseCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    //{
-    //  this.UndoableCollectionChanged(this, "Dateiverweise", this.Dateiverweise, e, "Änderung der Dateiverweise");
-    //}
 
     /// <summary>
     /// Tritt auf, wenn die CurriculaCollection verändert wurde.

@@ -8,6 +8,7 @@
   <converter:InverseBooleanToVisibilityConverter x:Key="BoolVisibleConverterInverse" />
   <converter:WichtungProzentConverter x:Key="WichtungProzentConverter" />
   <converter:FloatProzentConverter x:Key="FloatProzentConverter" />
+  <converter:NachnameConverter x:Key="NachnameConverter" />
   <converter:WrapPanelWidthConverter x:Key="WrapPanelWidthConverter" />
   <converter:SitzplatzAngleConverter x:Key="SitzplatzAngleConverter" />
   <converter:EnumBooleanConverter x:Key="EnumBooleanConverter" />

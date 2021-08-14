@@ -88,13 +88,13 @@
                     ToolTip="Sitzplan ausdrucken.">
         <fa:IconBlock Style="{StaticResource Drucken48}" VerticalAlignment="Center"/>
       </Button>
-      <controls:NumericUpDown Grid.Column="9" Value="{Binding SitzplanDrehung}" Interval="90" Maximum="360" Minimum="0" />
+      <controls:NumericUpDown Grid.Column="9" FontSize="12" Value="{Binding SitzplanDrehung}" Interval="90" Maximum="360" Minimum="0" />
     </Grid>
 
     <ListBox 
       Grid.Column="0" Grid.Row="2" 
       ItemsSource="{Binding Source={StaticResource SortedAvailableSchülereinträgeViewSource}}" 
-      ItemContainerStyle="{StaticResource MahApps.Styles.ListBoxItem}"
+      ItemContainerStyle="{StaticResource UnselectableListBoxItem}"
       BorderThickness="0"
       dd:DragDrop.IsDragSource="True" 
       dd:DragDrop.IsDropTarget="True"
@@ -149,25 +149,31 @@
       </ListBox.ItemContainerStyle>
       <ListBox.ItemTemplate>
         <DataTemplate>
-          <Border Background="#550069a6" Width="{Binding SitzplaneintragSitzplatz.SitzplatzBreite}" Height="{Binding SitzplaneintragSitzplatz.SitzplatzHöhe}" Margin="0" Padding="0" RenderTransformOrigin="0.5,0.5">
+          <Border Background="#550069a6" Width="{Binding SitzplaneintragSitzplatz.SitzplatzBreite}" Height="{Binding SitzplaneintragSitzplatz.SitzplatzHöhe}" Margin="0" Padding="2" RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
-              <RotateTransform>
-                <RotateTransform.Angle>
-                  <!--<MultiBinding Converter="{StaticResource SitzplatzAngleConverter}">
-                                        <Binding Path="SitzplaneintragSitzplatz.SitzplatzDrehwinkel"/>-->
-                  <Binding Source="{StaticResource SitzplanDrehungRotateTransform}" Mode="TwoWay" Path="Angle"/>
-                  <!--</MultiBinding>-->
-                </RotateTransform.Angle>
-              </RotateTransform>
-            </Border.RenderTransform>
-            <!--<Border.RenderTransform>
               <RotateTransform Angle="{Binding SitzplaneintragSitzplatz.SitzplatzDrehwinkel}"/>
-            </Border.RenderTransform>-->
-            <TextBlock TextWrapping="Wrap" Padding="0" Margin="0" LineHeight="15" LineStackingStrategy="BlockLineHeight"
+            </Border.RenderTransform>
+            <TextBlock TextWrapping="Wrap" Margin="0" LineHeight="12" LineStackingStrategy="BlockLineHeight" RenderTransformOrigin="0.5,0.5"
                        Text="{Binding SitzplaneintragSchülereintrag.Person.Vorname}"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
-                       FontSize="14">
+                       FontSize="12">
+              <TextBlock.RenderTransform>
+                <RotateTransform>
+                  <RotateTransform.Angle>
+                    <Binding Source="{StaticResource SitzplanDrehungRotateTransform}" Path="Angle"/>
+                  </RotateTransform.Angle>
+                </RotateTransform>
+                <!--<RotateTransform>
+                  <RotateTransform.Angle>
+                    <MultiBinding Converter="{StaticResource SitzplatzAngleConverter}">
+                      <Binding Path="SitzplaneintragSitzplatz.SitzplatzDrehwinkel"/>
+                      <Binding Source="{StaticResource SitzplanDrehungRotateTransform}" Path="Angle"/>
+                    </MultiBinding>
+                  </RotateTransform.Angle>
+                </RotateTransform>-->
+              </TextBlock.RenderTransform>
+
             </TextBlock>
           </Border>
         </DataTemplate>

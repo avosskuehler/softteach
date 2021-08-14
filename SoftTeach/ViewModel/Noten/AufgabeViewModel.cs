@@ -225,7 +225,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void ErgebnisseCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Ergebnisse", this.Ergebnisse, e, false, "Änderung der Ergebnisse");
+      this.UndoableCollectionChanged(this, "Ergebnisse", this.Ergebnisse, e, true, "Änderung der Ergebnisse");
     }
 
     /// <summary>

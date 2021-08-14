@@ -6,7 +6,6 @@
   using System.Collections.Specialized;
   using System.Globalization;
   using System.Linq;
-  using System.Windows.Markup;
   using System.Windows.Media;
 
   using MahApps.Metro.Controls.Dialogs;
@@ -1315,7 +1314,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void ErgebnisseCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Ergebnisse", this.Ergebnisse, e, false, "Änderung der Ergebnisse");
+      this.UndoableCollectionChanged(this, "Ergebnisse", this.Ergebnisse, e, true, "Änderung der Ergebnisse");
     }
 
     /// <summary>
@@ -1661,7 +1660,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void HausaufgabenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Hausaufgaben", this.Hausaufgaben, e, false, "Änderung der Hausaufgaben");
+      this.UndoableCollectionChanged(this, "Hausaufgaben", this.Hausaufgaben, e, true, "Änderung der Hausaufgaben");
       this.UpdateNoten();
     }
 
@@ -1803,7 +1802,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void NotenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Noten", this.Noten, e, false, "Änderung der Noten");
+      this.UndoableCollectionChanged(this, "Noten", this.Noten, e, true, "Änderung der Noten");
       this.UpdateNoten();
     }
 
@@ -2182,7 +2181,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void NotentendenzenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Notentendenzen", this.Notentendenzen, e, false, "Änderung der Notentendenzen");
+      this.UndoableCollectionChanged(this, "Notentendenzen", this.Notentendenzen, e, true, "Änderung der Notentendenzen");
       this.UpdateNoten();
     }
 
@@ -2268,7 +2267,7 @@
     /// <summary>
     /// Fügt eine bestehende Notentendenz zum Schülereintrag hinzu.
     /// </summary>
-    /// <param name="noteViewModel">The note view model.</param>
+    /// <param name="notentendenzViewModel">The note view model.</param>
     public void AddNotentendenz(NotentendenzViewModel notentendenzViewModel)
     {
       notentendenzViewModel.Model.Schülereintrag = this.Model;

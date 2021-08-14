@@ -5,11 +5,8 @@
   using System.Collections.Specialized;
   using System.ComponentModel;
   using System.Linq;
-  using System.Windows;
   using System.Windows.Data;
   using System.Windows.Input;
-
-  using SoftTeach.Model;
   using SoftTeach.ExceptionHandling;
   using SoftTeach.Model.EntityFramework;
   using SoftTeach.Setting;

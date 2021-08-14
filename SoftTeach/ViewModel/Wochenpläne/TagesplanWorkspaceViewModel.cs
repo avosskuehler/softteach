@@ -1,24 +1,10 @@
 ﻿namespace SoftTeach.ViewModel.Wochenpläne
 {
   using System;
-  using System.Collections.Generic;
-  using System.Collections.ObjectModel;
-  using System.Collections.Specialized;
-  using System.Globalization;
   using System.Linq;
-  using System.Windows.Controls;
-
-  using SoftTeach.ExceptionHandling;
-
-  using SoftTeach.UndoRedo;
-  using SoftTeach.View.Termine;
-  using SoftTeach.View.Wochenpläne;
-
-  using SoftTeach.ViewModel.Jahrespläne;
   using SoftTeach.Model.EntityFramework;
   using SoftTeach.ViewModel.Helper;
   using SoftTeach.ViewModel.Termine;
-  using SoftTeach.ViewModel.Datenbank;
 
   /// <summary>
   /// ViewModel of an individual tagesplan

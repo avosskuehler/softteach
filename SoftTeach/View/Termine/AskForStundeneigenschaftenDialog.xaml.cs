@@ -17,7 +17,6 @@
 
 namespace SoftTeach.View.Termine
 {
-  using System;
   using System.Windows;
 
   /// <summary>

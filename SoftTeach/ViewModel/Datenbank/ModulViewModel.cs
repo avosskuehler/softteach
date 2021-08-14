@@ -2,8 +2,6 @@
 {
   using System;
 
-  using SoftTeach.Model;
-
   using System.Linq;
 
   using SoftTeach.Model.EntityFramework;

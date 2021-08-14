@@ -5,7 +5,6 @@
   using System.Collections.ObjectModel;
   using System.Collections.Specialized;
   using System.Linq;
-  using System.Windows.Input;
 
   using SoftTeach.Model.EntityFramework;
   using SoftTeach.UndoRedo;

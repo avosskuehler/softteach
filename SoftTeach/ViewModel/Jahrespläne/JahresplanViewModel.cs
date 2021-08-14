@@ -476,7 +476,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void HalbjahrespläneCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Halbjahrespläne", this.Halbjahrespläne, e, false, "Änderung der Halbjahrespläne");
+      this.UndoableCollectionChanged(this, "Halbjahrespläne", this.Halbjahrespläne, e, true, "Änderung der Halbjahrespläne");
     }
 
     /// <summary>

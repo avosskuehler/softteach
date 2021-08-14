@@ -3,8 +3,6 @@
   using System;
   using System.Globalization;
   using System.Linq;
-  using System.Windows;
-  using System.Windows.Input;
 
   using MahApps.Metro.Controls.Dialogs;
 

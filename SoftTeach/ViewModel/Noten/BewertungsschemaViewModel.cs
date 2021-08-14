@@ -3,9 +3,6 @@
   using System;
   using System.Collections.ObjectModel;
   using System.Collections.Specialized;
-  using System.Windows.Input;
-
-  using SoftTeach.Model;
   using SoftTeach.Model.EntityFramework;
   using SoftTeach.UndoRedo;
   using SoftTeach.ViewModel.Helper;
@@ -148,7 +145,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void ProzentbereicheCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Prozentbereiche", this.Prozentbereiche, e, false, "Änderung der Prozentbereiche");
+      this.UndoableCollectionChanged(this, "Prozentbereiche", this.Prozentbereiche, e, true, "Änderung der Prozentbereiche");
     }
 
     /// <summary>

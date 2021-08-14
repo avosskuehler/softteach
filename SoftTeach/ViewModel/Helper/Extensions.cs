@@ -8,7 +8,6 @@
   using System.Linq;
   using System.Windows;
   using System.Windows.Controls;
-  using System.Windows.Forms.VisualStyles;
   using System.Windows.Media;
 
   public static class Extensions

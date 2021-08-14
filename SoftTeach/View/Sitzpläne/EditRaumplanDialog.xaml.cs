@@ -20,17 +20,12 @@ namespace SoftTeach.View.Sitzpläne
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
-  using System.Drawing;
-  using System.Linq;
   using System.Windows;
   using System.Windows.Controls;
-  using System.Windows.Documents;
   using System.Windows.Input;
   using System.Windows.Media;
 
   using SoftTeach.ViewModel.Sitzpläne;
-
-  using Brush = System.Windows.Media.Brush;
   using Point = System.Windows.Point;
   using Rectangle = System.Windows.Shapes.Rectangle;
 

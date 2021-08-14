@@ -9,10 +9,6 @@
 
 namespace SoftTeach.View.Personen
 {
-  using System.Windows;
-  using System.Windows.Controls;
-  using ViewModel.Personen;
-
   /// <summary>
   /// Interaction logic for PersonenWorkspaceView.xaml
   /// </summary>

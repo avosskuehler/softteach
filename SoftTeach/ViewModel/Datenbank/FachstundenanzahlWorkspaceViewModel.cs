@@ -1,8 +1,5 @@
 ﻿namespace SoftTeach.ViewModel.Datenbank
 {
-  using System.Windows.Input;
-
-  using SoftTeach.Model;
   using SoftTeach.Model.EntityFramework;
   using SoftTeach.Setting;
   using SoftTeach.ViewModel.Helper;

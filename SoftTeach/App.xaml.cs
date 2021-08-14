@@ -22,11 +22,9 @@ namespace SoftTeach
   using System.Diagnostics;
   using System.Globalization;
   using System.IO;
-  using System.Linq;
   using System.Printing;
   using System.Windows;
   using System.Windows.Controls;
-  using System.Windows.Forms;
   using System.Windows.Input;
   using System.Windows.Markup;
   using System.Windows.Media;

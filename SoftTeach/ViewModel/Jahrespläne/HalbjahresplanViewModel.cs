@@ -433,7 +433,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void MonatspläneCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Monatspläne", this.Monatspläne, e, false, "Änderung der Monatspläne");
+      this.UndoableCollectionChanged(this, "Monatspläne", this.Monatspläne, e, true, "Änderung der Monatspläne");
     }
 
   }

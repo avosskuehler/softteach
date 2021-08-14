@@ -32,7 +32,7 @@
     <InstallUrl>\\vk\softteach\</InstallUrl>
     <ProductName>SoftTeach</ProductName>
     <PublisherName>VK</PublisherName>
-    <ApplicationRevision>18</ApplicationRevision>
+    <ApplicationRevision>23</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -398,6 +398,7 @@
     <Compile Include="Resources\Controls\SDataGrid.cs" />
     <Compile Include="Resources\Controls\TwoListSynchronizer.cs" />
     <Compile Include="Resources\Converter\DateTimeConvertFormat.cs" />
+    <Compile Include="Resources\Converter\NachnameConverter.cs" />
     <Compile Include="Resources\Converter\EnumBooleanConverter.cs" />
     <Compile Include="Resources\Converter\DateTimeToStringConverter.cs" />
     <Compile Include="Resources\Converter\SitzplatzAngleConverter.cs" />

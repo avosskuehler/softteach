@@ -4,7 +4,6 @@
   using System.Collections.ObjectModel;
   using System.Collections.Specialized;
   using System.Linq;
-  using System.Windows.Input;
 
   using SoftTeach.Model.EntityFramework;
   using SoftTeach.Setting;
@@ -419,7 +418,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void UsedSequenzenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "UsedSequenzen", this.UsedSequenzen, e, false, "Änderung der UsedSequenzen");
+      this.UndoableCollectionChanged(this, "UsedSequenzen", this.UsedSequenzen, e, true, "Änderung der UsedSequenzen");
     }
 
     /// <summary>
@@ -430,7 +429,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void AvailableSequenzenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "AvailableSequenzen", this.AvailableSequenzen, e, false, "Änderung der AvailableSequenzen");
+      this.UndoableCollectionChanged(this, "AvailableSequenzen", this.AvailableSequenzen, e, true, "Änderung der AvailableSequenzen");
     }
   }
 }

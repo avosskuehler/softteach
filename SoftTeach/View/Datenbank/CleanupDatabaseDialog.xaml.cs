@@ -17,15 +17,10 @@
 
 namespace SoftTeach.View.Datenbank
 {
-  using System;
   using System.Linq;
   using System.Windows;
 
-  using SoftTeach.ExceptionHandling;
-  using SoftTeach.Setting;
-
   using SoftTeach.ViewModel.Helper;
-  using SoftTeach.ViewModel.Noten;
 
   using SoftTeach.ViewModel.Datenbank;
 

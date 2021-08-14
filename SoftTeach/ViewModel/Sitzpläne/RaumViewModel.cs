@@ -3,8 +3,6 @@
   using System;
   using System.Collections.ObjectModel;
   using System.Collections.Specialized;
-
-  using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.Model.EntityFramework;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Sitzpläne;

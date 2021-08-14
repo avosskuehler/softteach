@@ -1,11 +1,7 @@
 ﻿namespace SoftTeach.ViewModel.Noten
 {
-  using System;
-  using System.Collections.Specialized;
   using System.ComponentModel;
-  using System.Linq;
   using System.Windows.Data;
-  using System.Windows.Input;
 
   using Helper;
 
