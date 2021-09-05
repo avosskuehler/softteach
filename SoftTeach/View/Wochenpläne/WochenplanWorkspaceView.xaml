@@ -68,11 +68,9 @@
       </Canvas>
     </Button>
     <StackPanel Grid.Row="0" Grid.Column="1">
-      <!--<Label>Toolbar, if applicable</Label>-->
+      <Label Content="{Binding WochenplanÜberschrift}" FontSize="18" FontWeight="Normal" FontFamily="Cambria"/>
     </StackPanel>
-    <GroupBox Grid.Row="1" Grid.Column="1" Padding="5" Header="{Binding WochenplanÜberschrift}" Margin="5" 
-            HeaderTemplate="{StaticResource GroupBoxHeader}">
-      <Grid x:Name="PlanGrid" Background="{StaticResource OverlayBackgroundBrush}">
+      <Grid x:Name="PlanGrid" Grid.Row="1" Grid.Column="1" Margin="5" >
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto" MinHeight="35"/>
           <RowDefinition Height="Auto"/>
@@ -234,6 +232,5 @@
         <ContentControl Grid.Row="10" Grid.Column="5" Grid.RowSpan="{Binding Path=Wochenplan59Span}" Content="{Binding Path=Wochenplan59}" ContextMenu="{Binding Path=TerminplanContextMenu}"/>
         <ContentControl Grid.Row="11" Grid.Column="5" Grid.RowSpan="{Binding Path=Wochenplan510Span}" Content="{Binding Path=Wochenplan510}" ContextMenu="{Binding Path=TerminplanContextMenu}"/>
       </Grid>
-    </GroupBox>
   </Grid>
 </UserControl>

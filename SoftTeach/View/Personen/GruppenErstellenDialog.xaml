@@ -1,5 +1,6 @@
 ﻿<Window x:Class="SoftTeach.View.Personen.GruppenErstellenDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
         Title="Frage ..." 

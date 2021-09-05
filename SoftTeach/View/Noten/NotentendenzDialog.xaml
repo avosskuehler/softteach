@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:resources="clr-namespace:SoftTeach.Resources" 
         xmlns:softTeach="clr-namespace:SoftTeach" xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
+        xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
         Title="Frage ..." 
         Height="334" 
         Width="357" 

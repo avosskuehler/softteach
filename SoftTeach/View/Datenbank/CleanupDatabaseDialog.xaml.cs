@@ -116,5 +116,17 @@ namespace SoftTeach.View.Datenbank
 
       App.UnitOfWork.SaveChanges();
     }
+
+    private void DeleteLeereStundenentwürfeClick(object sender, RoutedEventArgs e)
+    {
+      var leereStundenentwürfe = App.UnitOfWork.Context.Stundenentwürfe.Where(o => !o.Phasen.Any() && !o.Stunden.Any()).ToList();
+
+      foreach (var stundenentwurf in leereStundenentwürfe)
+      {
+        App.UnitOfWork.Context.Stundenentwürfe.Remove(stundenentwurf);
+      }
+
+      App.UnitOfWork.SaveChanges();
+    }
   }
 }

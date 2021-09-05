@@ -21,7 +21,7 @@
   xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
   Title="SoftTeach - Unterrichtsvorbereitung" 
   x:Name="Window"
-  Width="735" Height="324" Closing="MainRibbonViewClosing" 
+  Width="893.969" Height="324" Closing="MainRibbonViewClosing" 
   Icon="/SoftTeach;component/Images/Logo.ico" WindowState="Maximized">
   <fluent:RibbonWindow.CommandBindings>
     <CommandBinding Command="ApplicationCommands.Close" Executed="CloseCommandHandler"/>
@@ -300,31 +300,7 @@
           </fluent:Button>
         </fluent:RibbonGroupBox>
       </fluent:RibbonTabItem>
-      <!--<RibbonTab x:Name="DatenbankTab" Header="Datenbank">
-        <RibbonGroup x:Name="DatenbankAktionenGroup" 
-                                    Header="Aktionen"
-                            LargeImageSource="/SoftTeach;component/Images/DatabaseSubmit32.png"
-                            SmallImageSource="/SoftTeach;component/Images/DatabaseSubmit16.png">
-          <RibbonGroup.GroupSizeDefinitions>
-            <RibbonGroupSizeDefinition IsCollapsed="True"/>
-          </RibbonGroup.GroupSizeDefinitions>
-          <RibbonButton x:Name="SubmitChangesButton"
-                               Label="Änderungen speichern"
-                               Click="SubmitChangesButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/DatabaseSubmit32.png"
-                               SmallImageSource="/SoftTeach;component/Images/DatabaseSubmit16.png"/>
-          <RibbonButton x:Name="RejectChangesButton"
-                               Label="Änderungen verwerfen" 
-                               Click="RejectChangesButtonClick" 
-                               LargeImageSource="/SoftTeach;component/Images/DatabaseReject32.png"
-                               SmallImageSource="/SoftTeach;component/Images/DatabaseReject16.png"/>
-          <RibbonButton x:Name="CleanupDatabaseButton"
-                               Label="Datenbank aufräumen" 
-                               Click="CleanupDatabaseButtonClick" 
-                               LargeImageSource="/SoftTeach;component/Images/DatabaseReject32.png"
-                               SmallImageSource="/SoftTeach;component/Images/DatabaseReject16.png"/>
-        </RibbonGroup>
-        <RibbonGroup x:Name="DatenbankCurriculaGroup" Header="Curricula"
+      <!--        <RibbonGroup x:Name="DatenbankCurriculaGroup" Header="Curricula"
                             LargeImageSource="/SoftTeach;component/Images/Curriculum32.png"
                             SmallImageSource="/SoftTeach;component/Images/Curriculum16.png">
           <RibbonGroup.GroupSizeDefinitions>
@@ -408,29 +384,6 @@
                                SmallImageSource="/SoftTeach;component/Images/Schultag16.png"/>
           </RibbonControlGroup>
         </RibbonGroup>
-        <RibbonGroup x:Name="DatenbankStundenentwürfeGroup" Header="Stundenentwürfe"
-                            LargeImageSource="/SoftTeach;component/Images/Stundenentwurf32.png"
-                            SmallImageSource="/SoftTeach;component/Images/Stundenentwurf16.png">
-          <RibbonGroup.GroupSizeDefinitions>
-            <RibbonGroupSizeDefinition IsCollapsed="True"/>
-          </RibbonGroup.GroupSizeDefinitions>
-          <RibbonControlGroup>
-            <RibbonButton x:Name="StundenentwuerfeButton"
-                               Label="Stundenentwürfe" 
-                               Click="StundenentwuerfeButtonClick" 
-                               LargeImageSource="/SoftTeach;component/Images/Stundenentwurf32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Stundenentwurf16.png"/>
-            <RibbonButton x:Name="PhasenButton"
-                               Label="Phasen"
-                               Click="PhasenButtonClick" 
-                               LargeImageSource="/SoftTeach;component/Images/Phase32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Phase16.png"/>
-            <RibbonButton x:Name="DateiverweisButton"
-                               Label="Dateiverweis" 
-                               Click="DateiverweisButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Dateiverweis32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Dateiverweis16.png"/>
-          </RibbonControlGroup>
           <RibbonSeparator></RibbonSeparator>
           <RibbonControlGroup>
             <RibbonButton x:Name="MedienButton"
@@ -644,6 +597,71 @@
         </RibbonGroup>
       </RibbonTab>-->
       <fluent:RibbonTabItem x:Name="ToolsTab" Header="Tools">
+        <fluent:RibbonGroupBox Header="Datenbank">
+          <fluent:RibbonGroupBox.Icon>
+            <fa:IconBlock Style="{StaticResource Datenbank32}"/>
+          </fluent:RibbonGroupBox.Icon>
+          <fluent:Button
+            Header="Änderungen speichern"
+            Click="SubmitChangesButtonClick">
+            <fluent:Button.LargeIcon>
+              <Grid>
+                <fa:IconBlock Style="{StaticResource Datenbank32}"/>
+                <fa:IconBlock Style="{StaticResource SaveOverlay32}"/>
+              </Grid>
+            </fluent:Button.LargeIcon>
+          </fluent:Button>
+
+          <fluent:Button 
+            Header="Änderungen verwerfen" 
+            Click="RejectChangesButtonClick" >
+            <fluent:Button.LargeIcon>
+              <Grid>
+                <fa:IconBlock Style="{StaticResource Datenbank32}"/>
+                <fa:IconBlock Style="{StaticResource RemoveOverlay32}"/>
+              </Grid>
+            </fluent:Button.LargeIcon>
+          </fluent:Button>
+          <fluent:Button  
+            Header="Datenbank aufräumen" 
+            Click="CleanupDatabaseButtonClick" >
+            <fluent:Button.LargeIcon>
+              <Grid>
+                <fa:IconBlock Style="{StaticResource Datenbank32}"/>
+                <fa:IconBlock Style="{StaticResource UpdateOverlay32}"/>
+              </Grid>
+            </fluent:Button.LargeIcon>
+          </fluent:Button>
+        </fluent:RibbonGroupBox>
+        <fluent:RibbonGroupBox Header="Stundenentwürfe">
+          <fluent:RibbonGroupBox.Icon>
+            <fa:IconBlock Style="{StaticResource Stundenentwurf32}"/>
+          </fluent:RibbonGroupBox.Icon>
+          <fluent:Button 
+            Header="Stundenentwürfe" 
+            Click="StundenentwuerfeButtonClick" >
+            <fluent:Button.LargeIcon>
+              <fa:IconBlock Style="{StaticResource Stundenentwurf32}"/>
+            </fluent:Button.LargeIcon>
+          </fluent:Button>
+          <fluent:Button 
+            Header="Phasen"
+            Click="PhasenButtonClick" >
+            <fluent:Button.LargeIcon>
+              <fa:IconBlock Style="{StaticResource Phase32}"/>
+            </fluent:Button.LargeIcon>
+          </fluent:Button>
+          <fluent:Button  
+            Header="Dateiverweis" 
+            Click="DateiverweisButtonClick">
+            <fluent:Button.LargeIcon>
+              <Grid>
+                <fa:IconBlock Style="{StaticResource Datei32}"/>
+                <fa:IconBlock Style="{StaticResource VerweisOverlay32}"/>
+              </Grid>
+            </fluent:Button.LargeIcon>
+          </fluent:Button>
+        </fluent:RibbonGroupBox>
         <fluent:RibbonGroupBox Header="Spezial">
           <fluent:RibbonGroupBox.Icon>
             <fa:IconBlock Style="{StaticResource Spezial32}"/>

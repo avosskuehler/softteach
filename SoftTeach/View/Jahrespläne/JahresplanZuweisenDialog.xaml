@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
+         xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
+       xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
         xmlns:jahrespläne="clr-namespace:SoftTeach.ViewModel.Jahrespläne" mc:Ignorable="d" 
@@ -35,8 +36,13 @@
       <RowDefinition/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader Grid.Row="0" Title="Passen Sie hier den alten Jahresplan so an, dass er in den neuen Jahresplan passt."
-                                      Icon="/SoftTeach;component/Images/Jahresplan32.png"/>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Passen Sie hier den alten Jahresplan so an, dass er in den neuen Jahresplan passt.">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Jahresplan48}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
     <Grid Grid.Row="1">
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto" MinHeight="100"/>

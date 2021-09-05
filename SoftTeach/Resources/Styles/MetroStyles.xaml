@@ -61,9 +61,8 @@
   <!--TagesplanStyles-->
   <Style x:Key="TagesplanRowHeaderBorder">
     <Setter Property="Border.Padding" Value="5,5,0,0"/>
-    <!--<Setter Property="Border.Background" Value="LightGray"/>
-    <Setter Property="Border.BorderBrush" Value="Gray"/>
-    <Setter Property="Border.BorderThickness" Value="1, 0, 0, 2"/>-->
+    <Setter Property="Border.Background" Value="LightGray"/>
+    <Setter Property="Border.Margin" Value="1"/>
   </Style>
 
   <Style x:Key="WochenplanRowHeaderBorder">

@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:resources="clr-namespace:SoftTeach.Resources" xmlns:TermineViewModel="clr-namespace:SoftTeach.ViewModel.Termine"
         xmlns:TermineView="clr-namespace:SoftTeach.View.Termine" xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
+        xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
         Title="Schultermin ..." 
         Height="500" 
         Width="700"

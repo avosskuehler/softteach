@@ -17,6 +17,7 @@
 
 namespace SoftTeach.Resources.Controls
 {
+  using System.Windows;
   using System.Windows.Controls;
   using System.Windows.Media;
 
@@ -25,6 +26,18 @@ namespace SoftTeach.Resources.Controls
   /// </summary>
   public partial class DialogHeader : UserControl
   {
+    /// <summary>
+    ///   The Icon property.
+    /// </summary>
+    public static readonly DependencyProperty IconContentProperty =
+      DependencyProperty.Register("IconContent", typeof(UIElement), typeof(DialogHeader), new PropertyMetadata());
+
+    /// <summary>
+    ///   The Title property.
+    /// </summary>
+    public static readonly DependencyProperty TitleProperty =
+      DependencyProperty.Register("Title", typeof(string), typeof(DialogHeader), new PropertyMetadata("Dialog Titel"));
+
     #region Constructors and Destructors
 
     /// <summary>
@@ -40,31 +53,51 @@ namespace SoftTeach.Resources.Controls
     #region Public Properties
 
     /// <summary>
-    /// Sets Icon.
+    /// Holt oder setzt das UIElement für das Icon
     /// </summary>
-    public ImageSource Icon
+    public UIElement IconContent
     {
-      set
-      {
-        this.icon.Source = value;
-      }
+      get => (UIElement)this.GetValue(IconContentProperty);
+
+      set => this.SetValue(IconContentProperty, value);
     }
 
     /// <summary>
-    /// Gets or sets Title.
+    /// Holt oder setzt den Titel.
     /// </summary>
     public string Title
     {
-      get
-      {
-        return this.title.Text;
-      }
+      get => (string)this.GetValue(TitleProperty);
 
-      set
-      {
-        this.title.Text = value;
-      }
+      set => this.SetValue(TitleProperty, value);
     }
+
+    ///// <summary>
+    ///// Sets Icon.
+    ///// </summary>
+    //public ImageSource Icon
+    //{
+    //  set
+    //  {
+    //    this.icon.Source = value;
+    //  }
+    //}
+
+    ///// <summary>
+    ///// Gets or sets Title.
+    ///// </summary>
+    //public string Title
+    //{
+    //  get
+    //  {
+    //    return this.title.Text;
+    //  }
+
+    //  set
+    //  {
+    //    this.title.Text = value;
+    //  }
+    //}
 
     #endregion
   }

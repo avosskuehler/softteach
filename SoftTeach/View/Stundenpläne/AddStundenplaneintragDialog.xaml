@@ -1,7 +1,8 @@
 ﻿<Window x:Class="SoftTeach.View.Stundenpläne.AddStundenplaneintragDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:softTeach="clr-namespace:SoftTeach"
+        xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
+       xmlns:softTeach="clr-namespace:SoftTeach"
         xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" 
         Title="Stundenplaneintrag ..." 
@@ -33,8 +34,13 @@
       <RowDefinition/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader Grid.Row="0" Title="Neuen Stundenplaneintrag für diese Lerngruppe anlegen..."
-                                      Icon="/SoftTeach;component/Images/Stundenplan32.png"/>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Neuen Stundenplaneintrag für diese Lerngruppe anlegen...">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Stundenplan48}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
     <Grid Grid.Row="1" Margin="10">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto"/>

@@ -17,6 +17,7 @@
 
 namespace SoftTeach.Resources.Controls
 {
+  using System.Windows;
   using System.Windows.Controls;
   using System.Windows.Media;
 
@@ -25,30 +26,17 @@ namespace SoftTeach.Resources.Controls
   /// </summary>
   public partial class SmallDialogHeader : UserControl
   {
-    ///// <summary>
-    /////   The Title property.
-    ///// </summary>
-    //public static readonly DependencyProperty TitleProperty = DependencyProperty.Register("Title", typeof(string), typeof(SmallDialogHeader),
-    //  new FrameworkPropertyMetadata(TitlePropertyChanged));
+    /// <summary>
+    ///   The Icon property.
+    /// </summary>
+    public static readonly DependencyProperty IconContentProperty =
+      DependencyProperty.Register("IconContent", typeof(UIElement), typeof(SmallDialogHeader), new PropertyMetadata());
 
-    //private static void TitlePropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
-    //{
-    //  var smallDialogHeader = dependencyObject as SmallDialogHeader;
-    //  if (smallDialogHeader != null)
-    //  {
-    //    smallDialogHeader.OnPropertyChanged(e);
-    //  }
-    //}
-
-    //protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
-    //{
-    //  if (e.Property == TitleProperty)
-    //  {
-    //    this.Header.Text = e.NewValue.ToString();
-    //  }
-    //}
-
-    #region Constructors and Destructors
+    /// <summary>
+    ///   The Title property.
+    /// </summary>
+    public static readonly DependencyProperty TitleProperty =
+      DependencyProperty.Register("Title", typeof(string), typeof(SmallDialogHeader), new PropertyMetadata("Dialog Titel"));
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SmallDialogHeader"/> class.
@@ -58,9 +46,25 @@ namespace SoftTeach.Resources.Controls
       this.InitializeComponent();
     }
 
-    #endregion
+    /// <summary>
+    /// Holt oder setzt das UIElement für das Icon
+    /// </summary>
+    public UIElement IconContent
+    {
+      get => (UIElement)this.GetValue(IconContentProperty);
 
-    #region Public Properties
+      set => this.SetValue(IconContentProperty, value);
+    }
+
+    /// <summary>
+    /// Holt oder setzt den Titel.
+    /// </summary>
+    public string Title
+    {
+      get => (string)this.GetValue(TitleProperty);
+
+      set => this.SetValue(TitleProperty, value);
+    }
 
     /// <summary>
     /// Sets Icon.
@@ -76,39 +80,5 @@ namespace SoftTeach.Resources.Controls
         this.icon.Source = value;
       }
     }
-
-    /// <summary>
-    /// Gets or sets Title.
-    /// </summary>
-    public string Title
-    {
-      get
-      {
-        return this.Header.Text;
-      }
-
-      set
-      {
-        this.Header.Text = value;
-      }
-    }
-
-    ///// <summary>
-    ///// Gets or sets Title.
-    ///// </summary>
-    //public string Title
-    //{
-    //  get
-    //  {
-    //    return (string)this.GetValue(TitleProperty);
-    //  }
-
-    //  set
-    //  {
-    //    this.SetValue(TitleProperty, value);
-    //  }
-    //}
-
-    #endregion
   }
 }

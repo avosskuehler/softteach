@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:resources="clr-namespace:SoftTeach.Resources" 
         xmlns:Jahrespläne="clr-namespace:SoftTeach.View.Jahrespläne"
+        xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
         xmlns:StundenentwürfeView="clr-namespace:SoftTeach.View.Stundenentwürfe"
         xmlns:StundenentwürfeViewModel="clr-namespace:SoftTeach.ViewModel.Stundenentwürfe"
         xmlns:Termine="clr-namespace:SoftTeach.ViewModel.Termine" xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
@@ -22,9 +23,13 @@
       <RowDefinition Height="*"/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader Grid.Row="0" Title="Neue Stunde anlegen ..."
-                                      Icon="/SoftTeach;component/Images/Stundenentwurf32.png"/>
-
+    <controls:SmallDialogHeader Grid.Row="0" Title="Neue Stunde anlegen ...">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Stundenentwurf48}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
     <Grid Grid.Row="1" >
       <ContentControl Content="{Binding}">
         <ContentControl.Resources>

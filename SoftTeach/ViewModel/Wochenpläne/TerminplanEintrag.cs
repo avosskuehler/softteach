@@ -16,6 +16,7 @@
   using SoftTeach.ViewModel.Helper;
   using SoftTeach.ViewModel.Noten;
   using SoftTeach.ViewModel.Termine;
+  using System.Windows;
 
   /// <summary>
   /// Für jeden Termin der Woche (Unterrichtsstunde, AG, Treffen) wird ein Terminplaneintrag erstellt.
@@ -406,11 +407,11 @@
     /// Holt die imagesource for the proof icon
     /// </summary>
     [DependsUpon("WochenplaneintragIstGeprüft")]
-    public ImageSource ProofImage
+    public Style ProofImage
     {
       get
       {
-        return App.GetImageSource(this.TerminplaneintragIstGeprüft ? "ProofValid16.png" : "ProofOpen16.png");
+        return App.Current.FindResource(this.TerminplaneintragIstGeprüft ? "Ok16" : "Ok16Check") as Style;
       }
     }
 
@@ -418,13 +419,37 @@
     /// Holt die imagesource for the proof icon
     /// </summary>
     [DependsUpon("WochenplaneintragIstGeprüft")]
-    public ImageSource ProofImage48
+    public Style ProofImage48
     {
       get
       {
-        return App.GetImageSource(this.TerminplaneintragIstGeprüft ? "ProofValid48.png" : "ProofOpen48.png");
+        return App.Current.FindResource(this.TerminplaneintragIstGeprüft ? "Ok48" : "Ok48Check") as Style;
       }
     }
+
+    ///// <summary>
+    ///// Holt die imagesource for the proof icon
+    ///// </summary>
+    //[DependsUpon("WochenplaneintragIstGeprüft")]
+    //public ImageSource ProofImage
+    //{
+    //  get
+    //  {
+    //    return App.GetImageSource(this.TerminplaneintragIstGeprüft ? "ProofValid16.png" : "ProofOpen16.png");
+    //  }
+    //}
+
+    ///// <summary>
+    ///// Holt die imagesource for the proof icon
+    ///// </summary>
+    //[DependsUpon("WochenplaneintragIstGeprüft")]
+    //public ImageSource ProofImage48
+    //{
+    //  get
+    //  {
+    //    return App.GetImageSource(this.TerminplaneintragIstGeprüft ? "ProofValid48.png" : "ProofOpen48.png");
+    //  }
+    //}
 
     /// <summary>
     /// Gibt eine lesbare Repräsentation des ViewModels

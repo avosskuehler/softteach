@@ -2,7 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+         xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:resources="clr-namespace:SoftTeach.Resources" xmlns:SoftTeach="clr-namespace:SoftTeach"
         xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" mc:Ignorable="d" 
@@ -25,9 +26,13 @@
       <RowDefinition/>
       <RowDefinition Height="32"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader  Icon="/SoftTeach;component/Images/Modul32.png" 
-                              Grid.Row="0" 
-                              Title="Ergänzen oder entfernen Sie hier Module."/>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Ergänzen oder entfernen Sie hier Module.">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Modul48}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
     <Border Grid.Row="1" Name="DescriptionArea">
       <StackPanel Orientation="Horizontal" Margin="5">
         <Button Width="150" Height="32" Name="AddButton" Command="{Binding Path=AddModulCommand}">

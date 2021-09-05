@@ -3,16 +3,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             x:Name="parent"
              mc:Ignorable="d" 
              d:DesignHeight="123" d:DesignWidth="367">
-  <Border Name="SurroundBorder" Grid.Row="1" CornerRadius="2" BorderBrush="White" BorderThickness="1" Background="{StaticResource BannerBackgroundBrush}">
-    <Grid>
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="80"/>
-        <ColumnDefinition Width="*"/>
-      </Grid.ColumnDefinitions>
-      <Image VerticalAlignment="Top" Grid.Column="0" Name="icon" Width="64" Height="64" Margin="8" Source="/SoftTeach;component/Images/Logo64.png" />
-      <TextBlock VerticalAlignment="Top" Grid.Column="1" Name="title" Foreground="White" FontSize="14" TextWrapping="Wrap" Margin="5">Title again</TextBlock>
-    </Grid>
-  </Border>
+  <Grid DataContext="{Binding ElementName=parent}">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto"/>
+      <ColumnDefinition Width="Auto"/>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="4*"/>
+      <RowDefinition Height="1*"/>
+    </Grid.RowDefinitions>
+    <Border Background="{DynamicResource HighlightGradientBrush}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" />
+    <Border Background="{DynamicResource Basisfarbe}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" />
+    <TextBlock VerticalAlignment="Center" Grid.Column="2" Name="title" Foreground="{DynamicResource Logoschriftfarbe}" FontSize="14" TextWrapping="Wrap" Margin="10,5,90,5" Text="{Binding Path=Title}"/>
+    <!--<Image VerticalAlignment="Center" Grid.Column="1" Grid.Row="0" Source="{Binding Path=Icon}" Margin="0"/>-->
+    <ContentControl VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" Content="{Binding Path=IconContent}" Margin="8"/>
+  </Grid>
 </UserControl>

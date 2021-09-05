@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:datenbankView="clr-namespace:SoftTeach.View.Datenbank"
+         xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
+       xmlns:datenbankView="clr-namespace:SoftTeach.View.Datenbank"
         xmlns:datenbankViewModel="clr-namespace:SoftTeach.ViewModel.Datenbank" xmlns:softTeach="clr-namespace:SoftTeach"
         xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
@@ -30,9 +31,13 @@
       <RowDefinition Height="*"/>
       <RowDefinition Height="32"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader  Icon="/SoftTeach;component/Images/Jahrgangsstufe32.png" 
-                              Grid.Row="0" 
-                              Title="Ergänzen oder entfernen Sie hier Jahrgangsstufen und Lerngruppen."/>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Ergänzen oder entfernen Sie hier Jahrgangsstufen und Lerngruppen.">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Jahrgangsstufe48}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
     <Grid Grid.Row="1" Margin="3">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="220"/>

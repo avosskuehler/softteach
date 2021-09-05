@@ -13,6 +13,7 @@
   using SoftTeach.UndoRedo;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Helper;
+  using SoftTeach.ViewModel.Jahrespläne;
   using SoftTeach.ViewModel.Personen;
 
   /// <summary>
@@ -80,7 +81,27 @@
 
     private void PopulateStundenentwürfe()
     {
+      UiServices.SetBusyState();
       this.FilteredAndSortedStundenentwürfe.Clear();
+
+      if (this.FachFilter == null)
+      {
+        return;
+      }
+
+      if (this.JahrgangsstufeFilter == null)
+      {
+        return;
+      }
+
+      foreach (var jahresplan in App.UnitOfWork.Context.Jahrespläne.Where(o => o.FachId == this.FachFilter.Model.Id && o.Klasse.Klassenstufe.JahrgangsstufeId == this.JahrgangsstufeFilter.Model.Id))
+      {
+        if (!App.MainViewModel.Jahrespläne.Any(o => o.Model.Id == jahresplan.Id))
+        {
+          App.MainViewModel.Jahrespläne.Add(new JahresplanViewModel(jahresplan));
+        }
+      }
+
       var pläne = App.MainViewModel.Jahrespläne.Where(
         o =>
         o.JahresplanFach == this.FachFilter
@@ -96,14 +117,22 @@
         Selection.Instance.Halbjahr = App.MainViewModel.Halbjahrtypen[1];
       }
 
+      foreach (var stundenentwurf in App.UnitOfWork.Context.Stundenentwürfe.Where(o => o.FachId == this.FachFilter.Model.Id && o.JahrgangsstufeId == this.JahrgangsstufeFilter.Model.Id))
+      {
+        if (!App.MainViewModel.Stundenentwürfe.Any(o => o.Model.Id == stundenentwurf.Id))
+        {
+          App.MainViewModel.Stundenentwürfe.Add(new StundenentwurfViewModel(stundenentwurf));
+        }
+      }
+
       foreach (var jahresplanViewModel in pläne)
       {
         foreach (var halbjahresplanViewModel in jahresplanViewModel.Halbjahrespläne)
         {
-          if (halbjahresplanViewModel.HalbjahresplanHalbjahrtyp == Selection.Instance.Halbjahr && jahresplanViewModel.JahresplanJahrtyp == lastJahrtyp)
-          {
-            continue;
-          }
+          //if (halbjahresplanViewModel.HalbjahresplanHalbjahrtyp == Selection.Instance.Halbjahr && jahresplanViewModel.JahresplanJahrtyp == lastJahrtyp)
+          //{
+          //  continue;
+          //}
 
           foreach (var monatsplanViewModel in halbjahresplanViewModel.Monatspläne)
           {
@@ -116,7 +145,7 @@
                   var stunde = lerngruppenterminViewModel as Termine.StundeViewModel;
                   if (stunde.StundeStundenentwurf != null)
                   {
-                    if (stunde.StundeModul == this.ModulFilter)
+                    if (this.ModulFilter == null || stunde.StundeModul == this.ModulFilter)
                     {
                       this.FilteredAndSortedStundenentwürfe.Add(new StundenentwurfEintrag(jahresplanViewModel, stunde.LerngruppenterminKlasse, stunde.StundeStundenentwurf, stunde.LerngruppenterminDatum));
                     }
@@ -128,10 +157,18 @@
         }
       }
 
+
       var unbenutzteEntwürfe = App.MainViewModel.Stundenentwürfe.Where(o => !o.StundenentwurfStundenCollection.Any()
         && o.StundenentwurfFach == this.FachFilter
         && o.StundenentwurfJahrgangsstufe == this.JahrgangsstufeFilter
         && o.StundenentwurfModul == this.ModulFilter);
+
+      if (this.modulFilter == null)
+      {
+        unbenutzteEntwürfe = App.MainViewModel.Stundenentwürfe.Where(o => !o.StundenentwurfStundenCollection.Any()
+          && o.StundenentwurfFach == this.FachFilter
+          && o.StundenentwurfJahrgangsstufe == this.JahrgangsstufeFilter);
+      }
 
       foreach (var stundenentwurfViewModel in unbenutzteEntwürfe)
       {

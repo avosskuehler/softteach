@@ -458,6 +458,7 @@
     <Compile Include="ViewModel\Curricula\ZeitstrahlCollectionContainer.cs" />
     <Compile Include="ViewModel\Datenbank\AddJahrtypDialogViewModel.cs" />
     <Compile Include="ViewModel\Helper\ODSSupport\OdsReaderWriter.cs" />
+    <Compile Include="ViewModel\Helper\UiServices.cs" />
     <Compile Include="ViewModel\Noten\NotenlistenEintrag.cs" />
     <Compile Include="ViewModel\Noten\NotenTermintyp.cs" />
     <Compile Include="ViewModel\Noten\NotenlistenWorkspaceViewModel.cs" />

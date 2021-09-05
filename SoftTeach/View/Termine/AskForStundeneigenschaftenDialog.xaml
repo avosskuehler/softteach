@@ -1,6 +1,7 @@
 ﻿<Window x:Class="SoftTeach.View.Termine.AskForStundeneigenschaftenDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
         xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
         Title="Frage ..." 
         Height="260" 

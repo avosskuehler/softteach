@@ -1,8 +1,9 @@
 ﻿<Window x:Class="SoftTeach.View.Main.OptionsDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-        xmlns:resources="clr-namespace:SoftTeach.Resources"
-        xmlns:Setting="clr-namespace:SoftTeach.Setting" xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
+        xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
+        xmlns:Setting="clr-namespace:SoftTeach.Setting" 
+        xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
         Title="Einstellungen ..." MinHeight="200" Height="328" Width="433" WindowStyle="SingleBorderWindow"
         Icon="/SoftTeach;component/Images/Settings.ico">
   <Grid>
@@ -10,14 +11,20 @@
       <RowDefinition Height="80"/>
       <RowDefinition/>
     </Grid.RowDefinitions>
-        <controls:DialogHeader  Icon="/SoftTeach;component/Images/Settings.ico" Grid.Row="0" Title="Verändern Sie hier die Einstellungen für Ihre Datenbank."/>
-    <Border Grid.Row="1" Name="DescriptionArea" Background="{StaticResource MainBackgroundBrush}">
+    <controls:DialogHeader Grid.Row="0" Title="Verändern Sie hier die Einstellungen für Ihre Datenbank.">
+      <controls:DialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Einstellungen48}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:DialogHeader.IconContent>
+    </controls:DialogHeader>
+    <Border Grid.Row="1" Name="DescriptionArea">
       <Grid>
         <Grid.RowDefinitions>
           <RowDefinition Height="*"/>
           <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
-        <TabControl Grid.Row="0">
+        <TabControl Grid.Row="0" Margin="5">
           <TabItem Header="Lehrer">
             <Grid Margin="5">
               <Grid.ColumnDefinitions>
