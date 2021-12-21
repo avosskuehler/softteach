@@ -1080,7 +1080,7 @@
     {
       var pathToCopyTo = GetDateiverweispfad(this.Model);
       var filenameWithoutPath = Path.GetFileName(filenameWithPath);
-      var destination = pathToCopyTo + Path.DirectorySeparatorChar + filenameWithoutPath;
+      var destination = Path.Combine(pathToCopyTo, filenameWithoutPath);
       if (!File.Exists(destination))
       {
         if (!Directory.Exists(pathToCopyTo))
@@ -1088,7 +1088,7 @@
           Directory.CreateDirectory(pathToCopyTo);
         }
 
-        File.Copy(filenameWithPath, destination);
+        File.Copy(filenameWithPath, destination, true);
       }
 
       return destination;

@@ -4,9 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
-        xmlns:resources="clr-namespace:SoftTeach.Resources" 
         xmlns:datenbankView="clr-namespace:SoftTeach.View.Datenbank"
-        xmlns:DatenbankViewModel="clr-namespace:SoftTeach.ViewModel.Datenbank"
         xmlns:softTeach="clr-namespace:SoftTeach"
         xmlns:noten="clr-namespace:SoftTeach.ViewModel.Noten" xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
         mc:Ignorable="d" 
@@ -19,9 +17,11 @@
       <RowDefinition Height="*"/>
       <RowDefinition Height="32"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader  Icon="/SoftTeach;component/Images/Bewertungsschema32.png" 
-                              Grid.Row="0" 
-                              Title="Ergänzen oder entfernen Sie hier Bewertungsschemata und Lerngruppen."/>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Ergänzen oder entfernen Sie hier Bewertungsschemata und Lerngruppen.">
+      <controls:SmallDialogHeader.IconContent>
+        <fa:IconBlock Style="{StaticResource Bewertungsschema48}" Foreground="{DynamicResource Iconfarbe}"/>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
     <Grid Grid.Row="1" Margin="3">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto"/>
@@ -38,8 +38,8 @@
             <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Name="AddBewertungsschemaButton" Command="{Binding Path=AddBewertungsschemaCommand}" HorizontalContentAlignment="Left" ToolTip="Neues Bewertungsschema anlegen">
               <StackPanel Orientation="Horizontal" Height="16">
                 <Grid>
-                  <Image Source="/SoftTeach;component/Images/Bewertungsschema16.png"/>
-                  <Image Source="/SoftTeach;component/Images/AddOverlay16.png"/>
+                  <fa:IconBlock Style="{StaticResource Bewertungsschema16}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource AddOverlay16}" Foreground="{DynamicResource Iconfarbe}"/>
                 </Grid>
               </StackPanel>
             </Button>
@@ -48,8 +48,8 @@
                     HorizontalContentAlignment="Left" ToolTip="Bewertungsschema löschen">
               <StackPanel Orientation="Horizontal">
                 <Grid>
-                  <Image Source="/SoftTeach;component/Images/Bewertungsschema16.png"/>
-                  <Image Source="/SoftTeach;component/Images/RemoveOverlay16.png"/>
+                  <fa:IconBlock Style="{StaticResource Bewertungsschema16}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource RemoveOverlay16}" Foreground="{DynamicResource Iconfarbe}"/>
                 </Grid>
               </StackPanel>
             </Button>

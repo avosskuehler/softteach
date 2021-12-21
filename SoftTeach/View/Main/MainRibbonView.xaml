@@ -300,6 +300,49 @@
           </fluent:Button>
         </fluent:RibbonGroupBox>
       </fluent:RibbonTabItem>
+      <fluent:RibbonTabItem x:Name="DatenbankTab" Header="Datenbank">
+        <fluent:RibbonGroupBox Header="Notengebung">
+          <fluent:RibbonGroupBox.Icon>
+            <fa:IconBlock Style="{StaticResource Note32}"/>
+          </fluent:RibbonGroupBox.Icon>
+          <fluent:Button Header="NotenWichtungen" Click="NotenWichtungenButtonClick" ToolTip="Notenwichtung neu definieren">
+            <fluent:Button.LargeIcon>
+              <Grid>
+                <fa:IconBlock Style="{StaticResource Notenwichtung32}"/>
+              </Grid>
+            </fluent:Button.LargeIcon>
+          </fluent:Button>
+          <fluent:Button Header="Tendenztypen" Click="TendenztypenButtonClick" ToolTip="Tendenztypen neu definieren">
+            <fluent:Button.LargeIcon>
+              <Grid>
+                <fa:IconBlock Style="{StaticResource Tendenztyp32}"/>
+              </Grid>
+            </fluent:Button.LargeIcon>
+          </fluent:Button>
+          <fluent:Button Header="Tendenzen" Click="TendenzenButtonClick" ToolTip="Tendenzen neu definieren">
+            <fluent:Button.LargeIcon>
+              <Grid>
+                <fa:IconBlock Style="{StaticResource Tendenz32}"/>
+              </Grid>
+            </fluent:Button.LargeIcon>
+          </fluent:Button>
+          <fluent:Button Header="Zensuren" Click="ZensurenButtonClick" ToolTip="Zensuren neu definieren">
+            <fluent:Button.LargeIcon>
+              <Grid>
+                <Image Source="/SoftTeach;component/Images/Zensur32.png"/>
+              </Grid>
+            </fluent:Button.LargeIcon>
+          </fluent:Button>
+          <fluent:Button Header="Bewertungsschemata" Click="BewertungsschemataButtonClick" ToolTip="Bewertungsschemata neu definieren">
+            <fluent:Button.LargeIcon>
+              <Grid>
+                <fa:IconBlock Style="{StaticResource Bewertungsschema32}"/>
+              </Grid>
+            </fluent:Button.LargeIcon>
+          </fluent:Button>
+        </fluent:RibbonGroupBox>
+      </fluent:RibbonTabItem>
+
       <!--        <RibbonGroup x:Name="DatenbankCurriculaGroup" Header="Curricula"
                             LargeImageSource="/SoftTeach;component/Images/Curriculum32.png"
                             SmallImageSource="/SoftTeach;component/Images/Curriculum16.png">
@@ -559,33 +602,6 @@
                                SmallImageSource="/SoftTeach;component/Images/Ergebnis16.png"/>
           </RibbonControlGroup>
           <RibbonSeparator/>
-          <RibbonControlGroup>
-            <RibbonButton x:Name="NotenWichtungenButton"
-                               Label="NotenWichtungen" 
-                               Click="NotenWichtungenButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/NotenWichtung32.png"
-                               SmallImageSource="/SoftTeach;component/Images/NotenWichtung16.png"/>
-            <RibbonButton x:Name="TendenztypenButton"
-                               Label="Tendenztypen" 
-                               Click="TendenztypenButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Tendenztyp32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Tendenztyp16.png"/>
-            <RibbonButton x:Name="TendenzenButton"
-                               Label="Tendenzen" 
-                               Click="TendenzenButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Tendenz32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Tendenz16.png"/>
-            <RibbonButton x:Name="ZensurenButton"
-                               Label="Zensuren" 
-                               Click="ZensurenButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Zensur32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Zensur16.png"/>
-            <RibbonButton x:Name="BewertungsschemataButton"
-                               Label="Bewertungsschemata" 
-                               Click="BewertungsschemataButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Bewertungsschema32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Bewertungsschema16.png"/>
-          </RibbonControlGroup>
           <RibbonSeparator/>
           <RibbonControlGroup>
             <RibbonButton x:Name="RäumeButton"

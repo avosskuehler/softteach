@@ -62,11 +62,14 @@
     <GradientStop Offset="1" Color="#FF6591CD" />
   </LinearGradientBrush>
   
-  <LinearGradientBrush x:Key="DefaultButtonsBackgroundBrush" StartPoint="0,0" EndPoint="1,1">
+  <SolidColorBrush x:Key="DefaultButtonsBackgroundBrush" Color="Transparent">
+  </SolidColorBrush>
+
+  <!--<LinearGradientBrush x:Key="DefaultButtonsBackgroundBrush" StartPoint="0,0" EndPoint="1,1">
     <GradientStop Offset="0" Color="#FFCCCCCC" />
     <GradientStop Offset="0.3" Color="#FFFFFFFF" />
     <GradientStop Offset="1" Color="#FFBBBBBB" />
-  </LinearGradientBrush>
+  </LinearGradientBrush>-->
   
   <LinearGradientBrush x:Key="OverlayBackgroundBrush" StartPoint="0,0" EndPoint="1,1">
     <GradientStop Offset="0" Color="#44CCCCCC" />

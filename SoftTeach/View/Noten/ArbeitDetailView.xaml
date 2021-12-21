@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-             xmlns:resources="clr-namespace:SoftTeach.Resources" 
+              xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
              xmlns:softTeach="clr-namespace:SoftTeach" xmlns:noten="clr-namespace:SoftTeach.ViewModel.Noten"
              xmlns:sys="clr-namespace:System;assembly=mscorlib" 
              mc:Ignorable="d" 
@@ -33,7 +33,7 @@
     </ObjectDataProvider>
 
   </UserControl.Resources>
-  <GroupBox Padding="5" Header="Arbeit" Margin="5"
+  <HeaderedContentControl Padding="5" Header="Arbeit" Margin="5"
                 HeaderTemplate="{StaticResource GroupBoxHeader}">
     <Grid x:Name="LayoutRoot">
       <Grid.RowDefinitions>
@@ -155,7 +155,7 @@
         <Label Grid.Row="3" Grid.Column="5" Content="{Binding Path=ArbeitNotendurchschnittString}"/>
       </Grid>
 
-      <GroupBox Grid.Row="1" Header="Aufgaben" Margin="5">
+      <HeaderedContentControl Grid.Row="1" Header="Aufgaben" Margin="5">
         <Grid>
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -171,8 +171,8 @@
                       Command="{Binding Path=AddAufgabeCommand}">
                 <StackPanel Orientation="Horizontal" ToolTip="Aufgabe hinzufügen">
                   <Grid >
-                    <Image Source="/SoftTeach;component/Images/Aufgabe16.png"/>
-                    <Image Source="/SoftTeach;component/Images/AddOverlay16.png"/>
+                    <fa:IconBlock Style="{StaticResource Aufgabe16}" Foreground="{DynamicResource Iconfarbe}"/>
+                    <fa:IconBlock Style="{StaticResource AddOverlay16}" Foreground="{DynamicResource Iconfarbe}"/>
                   </Grid>
                   <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Aufgabe hinzufügen</Label>
                 </StackPanel>
@@ -181,8 +181,8 @@
                       Command="{Binding Path=EditAufgabeCommand}">
                 <StackPanel Orientation="Horizontal" ToolTip="Aufgabe bearbeiten">
                   <Grid >
-                    <Image Source="/SoftTeach;component/Images/Aufgabe16.png"/>
-                    <Image Source="/SoftTeach;component/Images/EditOverlay16.png"/>
+                    <fa:IconBlock Style="{StaticResource Aufgabe16}" Foreground="{DynamicResource Iconfarbe}"/>
+                    <fa:IconBlock Style="{StaticResource EditOverlay16}" Foreground="{DynamicResource Iconfarbe}"/>
                   </Grid>
                   <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Aufgabe bearbeiten</Label>
                 </StackPanel>
@@ -191,8 +191,8 @@
                       Command="{Binding Path=DeleteAufgabeCommand}">
                 <StackPanel Orientation="Horizontal" ToolTip="Aufgabe entfernen">
                   <Grid >
-                    <Image Source="/SoftTeach;component/Images/Aufgabe16.png"/>
-                    <Image Source="/SoftTeach;component/Images/RemoveOverlay16.png"/>
+                    <fa:IconBlock Style="{StaticResource Aufgabe16}" Foreground="{DynamicResource Iconfarbe}"/>
+                    <fa:IconBlock Style="{StaticResource RemoveOverlay16}" Foreground="{DynamicResource Iconfarbe}"/>
                   </Grid>
                   <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Aufgabe entfernen</Label>
                 </StackPanel>
@@ -201,8 +201,8 @@
                       Command="{Binding Path=PrintNotenlisteCommand}">
                 <StackPanel Orientation="Horizontal" ToolTip="Notenliste drucken">
                   <Grid >
-                    <Image Source="/SoftTeach;component/Images/Note16.png"/>
-                    <Image Source="/SoftTeach;component/Images/PrintOverlay16.png"/>
+                    <fa:IconBlock Style="{StaticResource Note16}" Foreground="{DynamicResource Iconfarbe}"/>
+                    <fa:IconBlock Style="{StaticResource PrintOverlay16}" Foreground="{DynamicResource Iconfarbe}"/>
                   </Grid>
                   <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Notenliste drucken</Label>
                 </StackPanel>
@@ -303,7 +303,7 @@
             <!--ColumnHeaderStyle="{StaticResource AufgabenColumnHeaderStyle}">-->
           </DataGrid>
         </Grid>
-      </GroupBox>
+      </HeaderedContentControl>
     </Grid>
-  </GroupBox>
+  </HeaderedContentControl>
 </UserControl>

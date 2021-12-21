@@ -79,7 +79,8 @@
         var entwurf = entwuerfe[0] as StundenentwurfEintrag;
         if (entwurf != null)
         {
-          this.StundenentwurfWorkspaceViewModel.CurrentStundenentwurf = (StundenentwurfViewModel)entwurf.Stundenentwurf.Clone();
+          var entwurfsKopie = (StundenentwurfViewModel)entwurf.Stundenentwurf.Clone();
+          this.StundenentwurfWorkspaceViewModel.CurrentStundenentwurf = entwurfsKopie;
         }
       }
       else

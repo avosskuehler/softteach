@@ -4,7 +4,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-        xmlns:resources="clr-namespace:SoftTeach.Resources" 
         xmlns:softTeach="clr-namespace:SoftTeach" xmlns:controls="clr-namespace:SoftTeach.Resources.Controls" mc:Ignorable="d" 
         Title="Datenbank - NotenWichtungen"
         Icon="/SoftTeach;component/Images/Database.ico"
@@ -18,16 +17,19 @@
       <RowDefinition/>
       <RowDefinition Height="32"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader  Icon="/SoftTeach;component/Images/NotenWichtung32.png" 
-                              Grid.Row="0" 
-                              Title="Ergänzen oder entfernen Sie hier Gewichtungen für Noten."/>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Ergänzen oder entfernen Sie hier Gewichtungen für Noten.">
+      <controls:SmallDialogHeader.IconContent>
+        <fa:IconBlock Style="{StaticResource Notenwichtung48}" Foreground="{DynamicResource Iconfarbe}"/>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
+
     <Border Grid.Row="1" Name="DescriptionArea">
       <StackPanel Orientation="Horizontal" Margin="5">
         <Button Width="180" Height="32" Name="AddButton" Command="{Binding Path=AddNotenWichtungCommand}">
           <StackPanel Orientation="Horizontal">
             <Grid>
-              <Image Source="/SoftTeach;component/Images/NotenWichtung32.png"/>
-              <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
+              <fa:IconBlock Style="{StaticResource Notenwichtung32}" Foreground="{DynamicResource Iconfarbe}"/>
+              <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
             </Grid>
             <Label Content="NotenWichtung hinzufügen"/>
           </StackPanel>
@@ -36,8 +38,8 @@
         <Button Width="180" Height="32" Name="RemoveButton" Command="{Binding Path=DeleteNotenWichtungCommand}">
           <StackPanel Orientation="Horizontal">
             <Grid>
-              <Image Source="/SoftTeach;component/Images/NotenWichtung32.png"/>
-              <Image Source="/SoftTeach;component/Images/RemoveOverlay32.png"/>
+              <fa:IconBlock Style="{StaticResource Notenwichtung32}" Foreground="{DynamicResource Iconfarbe}"/>
+              <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
             </Grid>
             <Label Content="NotenWichtung entfernen"/>
           </StackPanel>

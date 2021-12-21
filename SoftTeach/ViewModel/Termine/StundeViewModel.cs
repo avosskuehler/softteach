@@ -119,6 +119,10 @@ namespace SoftTeach.ViewModel.Termine
         if (this.stundenentwurf == null || this.stundenentwurf.Model != ((Stunde)this.Model).Stundenentwurf)
         {
           this.stundenentwurf = App.MainViewModel.Stundenentwürfe.SingleOrDefault(d => d.Model == ((Stunde)this.Model).Stundenentwurf);
+          if (this.stundenentwurf.StundenentwurfDatum != this.LerngruppenterminDatum)
+          {
+            this.stundenentwurf.StundenentwurfDatum = this.LerngruppenterminDatum;
+          }
         }
 
         return this.stundenentwurf;
@@ -521,6 +525,7 @@ namespace SoftTeach.ViewModel.Termine
         var modulBackup = dlg.SelectedStundenentwurfViewModel.StundenentwurfModul;
         this.StundeStundenentwurf = dlg.SelectedStundenentwurfViewModel;
         this.StundeStundenentwurf.StundenentwurfModul = modulBackup;
+        this.StundeStundenentwurf.StundenentwurfDatum = this.LerngruppenterminDatum;
         this.UpdateStundenentwurfStundenzahl();
       }
     }
@@ -674,7 +679,7 @@ namespace SoftTeach.ViewModel.Termine
           this.TerminBeschreibung = dlg.Stundenthema;
         }
 
-        this.TerminLetzteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden.FirstOrDefault(o => o.UnterrichtsstundeIndex == (this.TerminErsteUnterrichtsstunde.UnterrichtsstundeIndex + dlg.Stundenzahl-1));
+        this.TerminLetzteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden.FirstOrDefault(o => o.UnterrichtsstundeIndex == (this.TerminErsteUnterrichtsstunde.UnterrichtsstundeIndex + dlg.Stundenzahl - 1));
       }
     }
 

@@ -8,6 +8,7 @@ namespace SoftTeach.ViewModel.Jahrespläne
   using System.Linq;
   using System.Windows.Controls;
   using System.Windows.Media;
+  using SoftTeach.ExceptionHandling;
   using SoftTeach.Model.EntityFramework;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Termine;
@@ -368,28 +369,36 @@ namespace SoftTeach.ViewModel.Jahrespläne
     /// from the tagesplan.</param>
     public void DeleteLerngruppentermin(LerngruppenterminViewModel lerngruppenterminViewModel)
     {
-      using (new UndoBatch(App.MainViewModel, string.Format("Lerngruppentermin {0} löschen", lerngruppenterminViewModel.TerminBeschreibung), false))
+      try
       {
-        //App.UnitOfWork.Remove(lerngruppenterminViewModel.Model);
-        //if (App.UnitOfWork.Context.Termine.Contains(lerngruppenterminViewModel.Model))
-        //{
-        App.UnitOfWork.Context.Termine.Remove(lerngruppenterminViewModel.Model);
-        //}
+        using (new UndoBatch(App.MainViewModel, string.Format("Lerngruppentermin {0} löschen", lerngruppenterminViewModel.TerminBeschreibung), false))
+        {
+          //App.UnitOfWork.Remove(lerngruppenterminViewModel.Model);
+          //if (App.UnitOfWork.Context.Termine.Contains(lerngruppenterminViewModel.Model))
+          //{
+          App.UnitOfWork.Context.Termine.Remove(lerngruppenterminViewModel.Model);
+          //}
 
-        //if (lerngruppenterminViewModel is StundeViewModel)
-        //{
-        //  var success = App.MainViewModel.Stunden.RemoveTest(lerngruppenterminViewModel as StundeViewModel);
-        //}
-        //else
-        //{
-        //  var success = App.MainViewModel.Lerngruppentermine.RemoveTest(lerngruppenterminViewModel);
-        //}
+          //if (lerngruppenterminViewModel is StundeViewModel)
+          //{
+          //  var success = App.MainViewModel.Stunden.RemoveTest(lerngruppenterminViewModel as StundeViewModel);
+          //}
+          //else
+          //{
+          //  var success = App.MainViewModel.Lerngruppentermine.RemoveTest(lerngruppenterminViewModel);
+          //}
 
-        var result = this.Lerngruppentermine.RemoveTest(lerngruppenterminViewModel);
-        this.CurrentLerngruppentermin = null;
-        this.UpdateBeschreibung();
+          var result = this.Lerngruppentermine.RemoveTest(lerngruppenterminViewModel);
+          this.CurrentLerngruppentermin = null;
+          this.UpdateBeschreibung();
+        }
+      }
+      catch (Exception ex)
+      {
+        Log.HandleException(ex);
       }
     }
+
 
     /// <summary>
     /// Removes the stunde from tagesplan.

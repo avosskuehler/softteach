@@ -787,6 +787,69 @@
     <Setter Property="Icon" Value="House"/>
   </Style>
 
+  <Style x:Key="Bewertungsschema16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Key"/>
+  </Style>
 
+  <Style x:Key="Bewertungsschema32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Key"/>
+  </Style>
+
+  <Style x:Key="Bewertungsschema48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Key"/>
+  </Style>
+
+  <Style x:Key="Prozentbereich16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Percent"/>
+  </Style>
+
+  <Style x:Key="Prozentbereich32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Percent"/>
+  </Style>
+
+  <Style x:Key="Prozentbereich48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Percent"/>
+  </Style>
+
+  <Style x:Key="Notenwichtung16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="RulerHorizontal"/>
+  </Style>
+
+  <Style x:Key="Notenwichtung32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="RulerHorizontal"/>
+  </Style>
+
+  <Style x:Key="Notenwichtung48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="RulerHorizontal"/>
+  </Style>
+
+  <RotateTransform x:Key="DiagonalTransform" Angle="45"/>
+
+  <Style x:Key="Tendenztyp16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="ArrowUp"/>
+    <!--<Setter Property="LayoutTransform" Value="{StaticResource DiagonalTransform}"></Setter>-->
+  </Style>
+
+  <Style x:Key="Tendenztyp32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="ArrowUp"/>
+    <!--<Setter Property="LayoutTransform" Value="{StaticResource DiagonalTransform}"></Setter>-->
+  </Style>
+
+  <Style x:Key="Tendenztyp48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="ArrowUp"/>
+    <!--<Setter Property="LayoutTransform" Value="{StaticResource DiagonalTransform}"></Setter>-->
+  </Style>
+  
+  <Style x:Key="Aufgabe16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Tasks"/>
+  </Style>
+
+  <Style x:Key="Aufgabe32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Tasks"/>
+  </Style>
+
+  <Style x:Key="Aufgabe48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Tasks"/>
+  </Style>
 
 </ResourceDictionary>
