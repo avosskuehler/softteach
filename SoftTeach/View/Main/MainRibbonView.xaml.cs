@@ -569,7 +569,6 @@ namespace SoftTeach.View.Main
 
     private void ArbeitenButtonClick(object sender, RoutedEventArgs e)
     {
-
     }
 
     private void AufgabenButtonClick(object sender, RoutedEventArgs e)
@@ -833,13 +832,7 @@ namespace SoftTeach.View.Main
 
     private void TabItemCurricula_Selected(object sender, RoutedEventArgs e)
     {
-      if (!App.MainViewModel.Curricula.Any())
-      {
-        foreach (var curriculum in App.UnitOfWork.Context.Curricula)
-        {
-          App.MainViewModel.Curricula.Add(new CurriculumViewModel(curriculum));
-        }
-      }
+      App.MainViewModel.LoadCurricula();
     }
   }
 }

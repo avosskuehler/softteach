@@ -23,6 +23,7 @@ namespace SoftTeach.View.Datenbank
   using SoftTeach.ViewModel.Helper;
 
   using SoftTeach.ViewModel.Datenbank;
+  using SoftTeach.Model.EntityFramework;
 
   /// <summary>
   /// Ein Dialog um nicht gemachte Arbeiten einzutragen.
@@ -119,12 +120,84 @@ namespace SoftTeach.View.Datenbank
 
     private void DeleteLeereStundenentwürfeClick(object sender, RoutedEventArgs e)
     {
-      var leereStundenentwürfe = App.UnitOfWork.Context.Stundenentwürfe.Where(o => !o.Phasen.Any() && !o.Stunden.Any()).ToList();
+      //// Stundenentwürfe ohne Phasen und ohne Stundenzuordnung löschen
+      //var leereStundenentwürfe = App.UnitOfWork.Context.Stundenentwürfe.Where(o => !o.Phasen.Any() && !o.Stunden.Any()).ToList();
 
-      foreach (var stundenentwurf in leereStundenentwürfe)
+      //foreach (var stundenentwurf in leereStundenentwürfe)
+      //{
+      //  App.UnitOfWork.Context.Stundenentwürfe.Remove(stundenentwurf);
+      //}
+
+      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+
+      // Stunden bereinigen
+      var stundenOhneStundenentwurf = App.UnitOfWork.Context.Termine.OfType<Stunde>().Where(o => o.StundenentwurfId.HasValue && !App.UnitOfWork.Context.Stundenentwürfe.Any(a => a.Id == o.StundenentwurfId.Value)).ToList();
+
+      foreach (var stunde in stundenOhneStundenentwurf)
       {
-        App.UnitOfWork.Context.Stundenentwürfe.Remove(stundenentwurf);
+        stunde.Stundenentwurf = null;
       }
+
+      App.UnitOfWork.SaveChanges();
+
+      // Stundenentwürfe ohne Phasen und ggf. mit Stundenzuordnung löschen
+      var leereStundenentwürfe2 = App.UnitOfWork.Context.Stundenentwürfe.Where(o => !o.Phasen.Any()).ToList();
+      foreach (var stundenentwurf in leereStundenentwürfe2)
+      {
+        foreach (var stunde in stundenentwurf.Stunden)
+        {
+          stunde.Stundenentwurf = null;
+        }
+      }
+
+      App.UnitOfWork.Context.Stundenentwürfe.RemoveRange(leereStundenentwürfe2);
+
+      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
+
+      App.UnitOfWork.SaveChanges();
+    }
+
+    private void DeleteLeereJahrespläneClick(object sender, RoutedEventArgs e)
+    {
+      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+
+      // Jahrespläne ohne Stundenlöschen
+      var leereJahrespläne = App.UnitOfWork.Context.Jahrespläne.Where(o => !o.Halbjahrespläne.Any()).ToList();
+
+      foreach (var jahresplan in leereJahrespläne)
+      {
+        App.UnitOfWork.Context.Jahrespläne.Remove(jahresplan);
+      }
+
+      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
+
+      App.UnitOfWork.SaveChanges();
+    }
+
+    private void DeleteLeereStundenClick(object sender, RoutedEventArgs e)
+    {
+      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+
+      // Stunden ohne Stundenentwürfe löschen
+      var leereStunden = App.UnitOfWork.Context.Termine.OfType<Stunde>().Where(o => o.Stundenentwurf == null).ToList();
+
+      App.UnitOfWork.Context.Termine.RemoveRange(leereStunden);
+
+      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
+
+      App.UnitOfWork.SaveChanges();
+    }
+
+    private void DeleteLeereCurriculaClick(object sender, RoutedEventArgs e)
+    {
+      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+
+      // Curricula ohne Reihen löschen
+      var leereCurricula = App.UnitOfWork.Context.Curricula.Where(o => !o.Reihen.Any(a => a.AbfolgeIndex != -1)).ToList();
+
+      App.UnitOfWork.Context.Curricula.RemoveRange(leereCurricula);
+
+      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
 
       App.UnitOfWork.SaveChanges();
     }

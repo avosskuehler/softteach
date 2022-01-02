@@ -50,7 +50,7 @@
       foreach (var sequenz in reihe.Sequenzen.OrderBy(o => o.AbfolgeIndex))
       {
         var vm = new SequenzViewModel(this, sequenz);
-        App.MainViewModel.Sequenzen.Add(vm);
+        //App.MainViewModel.Sequenzen.Add(vm);
         if (sequenz.AbfolgeIndex == -1)
         {
           this.AvailableSequenzen.Add(vm);
@@ -71,54 +71,53 @@
       this.ShortenReiheCommand = new DelegateCommand(this.ShortenReihe);
     }
 
-    /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="ReiheViewModel"/> Klasse.
-    /// </summary>
-    /// <param name="reihe">
-    /// The underlying reihe this ViewModel is to be based on
-    /// </param>
-    public ReiheViewModel(Reihe reihe, bool notInContext)
-    {
-      if (reihe == null)
-      {
-        throw new ArgumentNullException("reihe");
-      }
+    ///// <summary>
+    ///// Initialisiert eine neue Instanz der <see cref="ReiheViewModel"/> Klasse.
+    ///// </summary>
+    ///// <param name="reihe">
+    ///// The underlying reihe this ViewModel is to be based on
+    ///// </param>
+    //public ReiheViewModel(Reihe reihe, bool notInContext)
+    //{
+    //  if (reihe == null)
+    //  {
+    //    throw new ArgumentNullException("reihe");
+    //  }
 
-      this.Model = reihe;
+    //  this.Model = reihe;
 
-      // Build data structures for sequenzen
-      this.UsedSequenzen = new ObservableCollection<SequenzViewModel>();
-      this.AvailableSequenzen = new ObservableCollection<SequenzViewModel>();
+    //  // Build data structures for sequenzen
+    //  this.UsedSequenzen = new ObservableCollection<SequenzViewModel>();
+    //  this.AvailableSequenzen = new ObservableCollection<SequenzViewModel>();
 
-      // Sort Sequenzen by AbfolgeIndex
-      foreach (var sequenz in reihe.Sequenzen.OrderBy(o => o.AbfolgeIndex))
-      {
-        var vm = new SequenzViewModel(this, sequenz);
-        if (!notInContext)
-        {
-          App.MainViewModel.Sequenzen.Add(vm);
-        }
+    //  // Sort Sequenzen by AbfolgeIndex
+    //  foreach (var sequenz in reihe.Sequenzen.OrderBy(o => o.AbfolgeIndex))
+    //  {
+    //    var vm = new SequenzViewModel(this, sequenz);
+    //    if (!notInContext)
+    //    {
+    //      App.MainViewModel.Sequenzen.Add(vm);
+    //    }
 
-        if (sequenz.AbfolgeIndex == -1)
-        {
-          this.AvailableSequenzen.Add(vm);
-        }
-        else
-        {
-          this.UsedSequenzen.Add(vm);
-        }
-      }
+    //    if (sequenz.AbfolgeIndex == -1)
+    //    {
+    //      this.AvailableSequenzen.Add(vm);
+    //    }
+    //    else
+    //    {
+    //      this.UsedSequenzen.Add(vm);
+    //    }
+    //  }
 
-      // Listen for changes
-      //this.UsedSequenzen.CollectionChanged += this.UsedSequenzenCollectionChanged;
-      //this.AvailableSequenzen.CollectionChanged += this.AvailableSequenzenCollectionChanged;
+    //  // Listen for changes
+    //  //this.UsedSequenzen.CollectionChanged += this.UsedSequenzenCollectionChanged;
+    //  //this.AvailableSequenzen.CollectionChanged += this.AvailableSequenzenCollectionChanged;
 
-      this.AddSequenzCommand = new DelegateCommand(this.AddSequenz);
-      this.DeleteSequenzCommand = new DelegateCommand(this.DeleteCurrentSequenz, () => this.CurrentSequenz != null);
-      this.LengthenReiheCommand = new DelegateCommand(this.LengthenReihe);
-      this.ShortenReiheCommand = new DelegateCommand(this.ShortenReihe);
-    }
-
+    //  this.AddSequenzCommand = new DelegateCommand(this.AddSequenz);
+    //  this.DeleteSequenzCommand = new DelegateCommand(this.DeleteCurrentSequenz, () => this.CurrentSequenz != null);
+    //  this.LengthenReiheCommand = new DelegateCommand(this.LengthenReihe);
+    //  this.ShortenReiheCommand = new DelegateCommand(this.ShortenReihe);
+    //}
 
     /// <summary>
     /// Holt den underlying Reihe this ViewModel is based on
@@ -362,7 +361,7 @@
         dlg.ShowDialog();
 
         this.AvailableSequenzen.Add(vm);
-        App.MainViewModel.Sequenzen.Add(vm);
+        //App.MainViewModel.Sequenzen.Add(vm);
         this.CurrentSequenz = vm;
       }
     }
@@ -374,7 +373,7 @@
     {
       using (new UndoBatch(App.MainViewModel, string.Format("Sequenz {0} entfernt", this.CurrentSequenz), false))
       {
-        App.MainViewModel.Sequenzen.RemoveTest(this.CurrentSequenz);
+        //App.MainViewModel.Sequenzen.RemoveTest(this.CurrentSequenz);
         if (this.AvailableSequenzen.Contains(this.CurrentSequenz))
         {
           this.AvailableSequenzen.RemoveTest(this.CurrentSequenz);

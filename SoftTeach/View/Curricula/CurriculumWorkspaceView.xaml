@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:pb="clr-namespace:SoftTeach.ViewModel.Helper.PushBinding"
              xmlns:curriculumView="clr-namespace:SoftTeach.View.Curricula"
              xmlns:curricula="clr-namespace:SoftTeach.ViewModel.Curricula"
              xmlns:softTeach="clr-namespace:SoftTeach"
@@ -83,8 +84,15 @@
             </Button>
           </Grid>
         </GroupBox>
-        <DataGrid Grid.Row="2" Margin="5" SelectedItem="{Binding Path=CurrentCurriculum, Mode=TwoWay}" 
-                  ItemsSource="{Binding Path=CurriculaView}" AutoGenerateColumns="False">
+        <DataGrid 
+          Grid.Row="2" Margin="5" 
+          SelectedItem="{Binding Path=CurrentCurriculum, Mode=TwoWay}" 
+          ItemsSource="{Binding Path=CurriculaView}" 
+          AutoGenerateColumns="False"
+          SelectionMode="Extended">
+          <pb:PushBindingManager.PushBindings>
+            <pb:PushBinding TargetProperty="SelectedItems" Path="SelectedCurricula"/>
+          </pb:PushBindingManager.PushBindings>
           <DataGrid.Columns>
             <DataGridTextColumn Header="Fach" Binding="{Binding Path=CurriculumFach.FachKurzbezeichnung}" Width="Auto"
                                   SortMemberPath="CurriculumFach.FachBezeichnung" IsReadOnly="True"/>

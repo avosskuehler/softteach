@@ -10,6 +10,7 @@
     public ArbeitWorkspace()
     {
       this.InitializeComponent();
+      App.MainViewModel.LoadArbeiten();
     }
 
     private void OKClick(object sender, RoutedEventArgs e)

@@ -58,6 +58,7 @@
     private TagesplanWorkspaceViewModel tagesplanWorkspace;
     private StundenentwurfWorkspaceViewModel stundenentwurfWorkspace;
     private ObservableCollection<JahresplanViewModel> jahrespläne;
+    private ObservableCollection<CurriculumViewModel> curricula;
     private ObservableCollection<RaumViewModel> räume;
     private ObservableCollection<SitzplanViewModel> sitzpläne;
     private ObservableCollection<ArbeitViewModel> arbeiten;
@@ -93,7 +94,7 @@
       this.Klassen = new ObservableCollection<KlasseViewModel>();
       this.Fächer = new ObservableCollection<FachViewModel>();
       this.Module = new ObservableCollection<ModulViewModel>();
-      this.Reihen = new ObservableCollection<ReiheViewModel>();
+      //this.Reihen = new ObservableCollection<ReiheViewModel>();
       this.Ferien = new ObservableCollection<FerienViewModel>();
       this.Fachstundenanzahl = new ObservableCollection<FachstundenanzahlViewModel>();
       this.Personen = new ObservableCollection<PersonViewModel>();
@@ -101,7 +102,7 @@
       this.Tendenzen = new ObservableCollection<TendenzViewModel>();
       this.Zensuren = new ObservableCollection<ZensurViewModel>();
       this.NotenWichtungen = new ObservableCollection<NotenWichtungViewModel>();
-      this.Sequenzen = new ObservableCollection<SequenzViewModel>();
+      //this.Sequenzen = new ObservableCollection<SequenzViewModel>();
       this.Bewertungsschemata = new ObservableCollection<BewertungsschemaViewModel>();
       this.Prozentbereiche = new ObservableCollection<ProzentbereichViewModel>();
 
@@ -147,7 +148,7 @@
 
       // The creation of the Curricula includes the creation of
       // the sequenz models
-      this.Curricula = new ObservableCollection<CurriculumViewModel>();
+      this.curricula = new ObservableCollection<CurriculumViewModel>();
 
       // The creation of the alleStundenpläne includes the creation of
       // the Stundenplaneinträge models
@@ -167,7 +168,6 @@
       {
         LoadJahrespläne();
         LoadSchülerlisten();
-        LoadSitzpläne();
       }
     }
 
@@ -254,8 +254,6 @@
     {
       get
       {
-        this.LoadSchülerlisten();
-
         return this.schülerlisten;
       }
     }
@@ -285,10 +283,10 @@
     /// </summary>
     public ObservableCollection<ModulViewModel> Module { get; private set; }
 
-    /// <summary>
-    /// Holt alle Reihen der Datenbank
-    /// </summary>
-    public ObservableCollection<ReiheViewModel> Reihen { get; private set; }
+    ///// <summary>
+    ///// Holt alle Reihen der Datenbank
+    ///// </summary>
+    //public ObservableCollection<ReiheViewModel> Reihen { get; private set; }
 
     /// <summary>
     /// Holt alle  der Datenbank
@@ -342,7 +340,6 @@
     {
       get
       {
-        this.LoadJahrespläne();
         return this.jahrespläne;
       }
     }
@@ -380,12 +377,18 @@
     /// <summary>
     /// Holt alle Curricula der Datenbank
     /// </summary>
-    public ObservableCollection<CurriculumViewModel> Curricula { get; private set; }
+    public ObservableCollection<CurriculumViewModel> Curricula
+    {
+      get
+      {
+        return this.curricula;
+      }
+    }
 
-    /// <summary>
-    /// Holt alle Sequenzen der Datenbank
-    /// </summary>
-    public ObservableCollection<SequenzViewModel> Sequenzen { get; private set; }
+    ///// <summary>
+    ///// Holt alle Sequenzen der Datenbank
+    ///// </summary>
+    //public ObservableCollection<SequenzViewModel> Sequenzen { get; private set; }
 
     /// <summary>
     /// Holt alle Stundenpläne der Datenbank
@@ -429,7 +432,6 @@
     {
       get
       {
-        this.LoadArbeiten();
         return this.arbeiten;
       }
     }
@@ -466,7 +468,6 @@
     {
       get
       {
-        this.LoadRäume();
         return this.räume;
       }
     }
@@ -488,7 +489,6 @@
     {
       get
       {
-        this.LoadSitzpläne();
         return this.sitzpläne;
       }
     }
@@ -855,7 +855,7 @@
       watch.Start();
 
       // Notenerinnerungstimer starten
-      this.notenTimer.Start();
+      //this.notenTimer.Start();
 
       // TODO: Divide into multiple contexts for performance reasons
       try
@@ -1225,8 +1225,8 @@
         this.Klassen.CollectionChanged += this.KlassenCollectionChanged;
         this.Fächer.CollectionChanged += this.FächerCollectionChanged;
         this.Module.CollectionChanged += this.ModuleCollectionChanged;
-        this.Reihen.CollectionChanged += this.ReihenCollectionChanged;
-        this.Sequenzen.CollectionChanged += this.SequenzenCollectionChanged;
+        //this.Reihen.CollectionChanged += this.ReihenCollectionChanged;
+        //this.Sequenzen.CollectionChanged += this.SequenzenCollectionChanged;
         this.Ferien.CollectionChanged += this.FerienCollectionChanged;
         this.Fachstundenanzahl.CollectionChanged += this.FachstundenanzahlCollectionChanged;
         this.Klassenstufen.CollectionChanged += this.KlassenstufenCollectionChanged;
@@ -1348,6 +1348,25 @@
         }
       }
       this.räume.CollectionChanged += this.RäumeCollectionChanged;
+      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
+    }
+
+    /// <summary>
+    /// Lädt alle Curricula ins View Model
+    /// </summary>
+    public void LoadCurricula()
+    {
+      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+      var collection = this.curricula;
+      this.curricula.CollectionChanged -= this.CurriculaCollectionChanged;
+      foreach (var curriculum in App.UnitOfWork.Context.Curricula)
+      {
+        if (!collection.Any(o => o.Model.Id == curriculum.Id))
+        {
+          collection.Add(new CurriculumViewModel(curriculum));
+        }
+      }
+      this.curricula.CollectionChanged += this.CurriculaCollectionChanged;
       App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
     }
 
@@ -1622,27 +1641,27 @@
       this.UndoableCollectionChanged(this, "Module", this.Module, e, "Änderung der Module");
     }
 
-    /// <summary>
-    /// Tritt auf, wenn die ReihenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void ReihenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Reihen", this.Reihen, e, "Änderung der Reihen");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die ReihenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void ReihenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Reihen", this.Reihen, e, "Änderung der Reihen");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die SequenzenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void SequenzenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Sequenzen", this.Sequenzen, e, "Änderung der Sequenzen");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die SequenzenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void SequenzenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Sequenzen", this.Sequenzen, e, "Änderung der Sequenzen");
+    //}
 
     /// <summary>
     /// Tritt auf, wenn die FerienCollection verändert wurde.
@@ -1729,7 +1748,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void ArbeitenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Arbeiten", this.Arbeiten, e, "Änderung der Arbeiten");
+      this.UndoableCollectionChanged(this, "Arbeiten", this.arbeiten, e, "Änderung der Arbeiten");
     }
 
     ///// <summary>
@@ -1894,7 +1913,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void RäumeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Räume", this.Räume, e, "Änderung der Räume");
+      this.UndoableCollectionChanged(this, "Räume", this.räume, e, "Änderung der Räume");
     }
 
     ///// <summary>
@@ -1927,7 +1946,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void SitzpläneCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Sitzpläne", this.Sitzpläne, e, "Änderung der Sitzpläne");
+      this.UndoableCollectionChanged(this, "Sitzpläne", this.sitzpläne, e, "Änderung der Sitzpläne");
     }
 
     ///// <summary>
@@ -1971,7 +1990,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void CurriculaCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Curricula", this.Curricula, e, "Änderung der Curricula");
+      this.UndoableCollectionChanged(this, "Curricula", this.curricula, e, "Änderung der Curricula");
     }
 
     /// <summary>
@@ -1982,7 +2001,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void JahrespläneCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Jahrespläne", this.Jahrespläne, e, "Änderung der Jahrespläne");
+      this.UndoableCollectionChanged(this, "Jahrespläne", this.jahrespläne, e, "Änderung der Jahrespläne");
     }
 
     ///// <summary>

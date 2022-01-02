@@ -868,7 +868,7 @@
           {
             phaseViewModel.PropertyChanged -= this.PhasePropertyChanged;
             //App.UnitOfWork.Context.Phasen.Remove(phaseViewModel.Model);
-            this.Phasen.Remove(phaseViewModel);
+            this.Phasen.RemoveTest(phaseViewModel);
             //App.MainViewModel.Phasen.RemoveTest(phaseViewModel);
           }
         }

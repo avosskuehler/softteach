@@ -7,7 +7,7 @@
   /// <summary>
   /// ViewModel of an individual Halbjahrtyp
   /// </summary>
-  public class HalbjahrtypViewModel : ViewModelBase
+  public class HalbjahrtypViewModel : ViewModelBase, IComparable
   {
     /// <summary>
     /// Initializes a new instance of the HalbjahrtypViewModel class.
@@ -64,6 +64,24 @@
         this.Model.HalbjahrIndex = value;
         this.RaisePropertyChanged("HalbjahrtypIndex");
       }
+    }
+
+    /// <summary>
+    /// Compares the current object with another object of the same type.
+    /// </summary>
+    /// <param name="viewModel">The object to be compared with this instance</param>
+    /// <returns>Less than zero if This object is less than the other parameter. 
+    /// Zero if This object is equal to other. Greater than zero if This object is greater than other.
+    /// </returns>
+    public int CompareTo(object viewModel)
+    {
+      var compareHalbjahrtyp = viewModel as HalbjahrtypViewModel;
+      if (compareHalbjahrtyp == null)
+      {
+        return -1;
+      }
+
+      return this.Model.HalbjahrIndex.CompareTo(compareHalbjahrtyp.HalbjahrtypIndex);
     }
 
     /// <summary>

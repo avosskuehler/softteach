@@ -78,6 +78,7 @@
     {
       Configuration.Instance.IsMetroMode = true;
       Configuration.Instance.NavigateTarget = NavigateTarget.Sitzpläne;
+      App.MainViewModel.LoadSitzpläne();
       //var schülerlisten = App.MainViewModel.SchülerlisteWorkspace;
       //var sitzpläne = App.MainViewModel.SitzplanWorkspace;
       this.NavigationService.Navigate(new MetroSelectSchülerlistePage());

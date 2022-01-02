@@ -119,7 +119,18 @@ namespace SoftTeach.ViewModel.Termine
         if (this.stundenentwurf == null || this.stundenentwurf.Model != ((Stunde)this.Model).Stundenentwurf)
         {
           this.stundenentwurf = App.MainViewModel.Stundenentwürfe.SingleOrDefault(d => d.Model == ((Stunde)this.Model).Stundenentwurf);
-          if (this.stundenentwurf.StundenentwurfDatum != this.LerngruppenterminDatum)
+          if (this.stundenentwurf == null)
+          {
+            var contextStundenentwurf = App.UnitOfWork.Context.Stundenentwürfe.SingleOrDefault(d => d.Id == ((Stunde)this.Model).Stundenentwurf.Id);
+            if (contextStundenentwurf != null)
+            {
+              var newStundenentwurfViewModel = new StundenentwurfViewModel(contextStundenentwurf);
+              App.MainViewModel.Stundenentwürfe.Add(newStundenentwurfViewModel);
+              this.stundenentwurf = newStundenentwurfViewModel;
+            }
+          }
+
+          if (this.stundenentwurf != null && this.stundenentwurf.StundenentwurfDatum != this.LerngruppenterminDatum)
           {
             this.stundenentwurf.StundenentwurfDatum = this.LerngruppenterminDatum;
           }

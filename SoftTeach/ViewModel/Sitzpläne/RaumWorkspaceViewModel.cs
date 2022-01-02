@@ -25,6 +25,8 @@
       this.DeleteRaumCommand = new DelegateCommand(this.DeleteCurrentRaum, () => this.CurrentRaum != null);
       this.CurrentRaum = App.MainViewModel.Räume.Count > 0 ? App.MainViewModel.Räume[0] : null;
 
+      App.MainViewModel.LoadRäume();
+
       // Re-act to any changes from outside this ViewModel
       App.MainViewModel.Räume.CollectionChanged += (sender, e) =>
       {

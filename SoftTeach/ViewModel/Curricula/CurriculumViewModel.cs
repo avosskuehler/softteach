@@ -85,7 +85,7 @@
       foreach (var reihe in curriculum.Reihen.OrderBy(o => o.AbfolgeIndex))
       {
         var vm = new ReiheViewModel(reihe);
-        App.MainViewModel.Reihen.Add(vm);
+        //App.MainViewModel.Reihen.Add(vm);
         if (vm.AbfolgeIndex == -1)
         {
           this.AvailableReihenDesCurriculums.Add(vm);
@@ -111,68 +111,68 @@
       this.ReihenSequenzen.CollectionChanged += this.ReihenSequenzenCollectionChanged;
     }
 
-    /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="CurriculumViewModel"/> Klasse. 
-    /// </summary>
-    /// <param name="curriculum">
-    /// The underlying curriculum this ViewModel is to be based on
-    /// </param>
-    /// <param name="notInContext">True, wenn dieses Curriculum nicht in der Datenbank gespeichert werden soll.</param>
-    public CurriculumViewModel(Curriculum curriculum, bool notInContext)
-    {
-      if (curriculum == null)
-      {
-        throw new ArgumentNullException("curriculum");
-      }
+    ///// <summary>
+    ///// Initialisiert eine neue Instanz der <see cref="CurriculumViewModel"/> Klasse. 
+    ///// </summary>
+    ///// <param name="curriculum">
+    ///// The underlying curriculum this ViewModel is to be based on
+    ///// </param>
+    ///// <param name="notInContext">True, wenn dieses Curriculum nicht in der Datenbank gespeichert werden soll.</param>
+    //public CurriculumViewModel(Curriculum curriculum, bool notInContext)
+    //{
+    //  if (curriculum == null)
+    //  {
+    //    throw new ArgumentNullException("curriculum");
+    //  }
 
-      this.Model = curriculum;
+    //  this.Model = curriculum;
 
-      this.AdaptForJahresplanCommand = new DelegateCommand(this.AdaptForJahresplan);
-      this.AddReiheCommand = new DelegateCommand(this.AddReihe);
-      this.DeleteReiheCommand = new DelegateCommand(this.DeleteCurrentReihe, () => this.CurrentReihe != null);
-      this.AddSequenzCommand = new DelegateCommand(this.AddSequenz);
-      this.DeleteSequenzCommand = new DelegateCommand(this.DeleteCurrentSequenz, () => this.CurrentReihe != null && this.CurrentReihe.CurrentSequenz != null);
+    //  this.AdaptForJahresplanCommand = new DelegateCommand(this.AdaptForJahresplan);
+    //  this.AddReiheCommand = new DelegateCommand(this.AddReihe);
+    //  this.DeleteReiheCommand = new DelegateCommand(this.DeleteCurrentReihe, () => this.CurrentReihe != null);
+    //  this.AddSequenzCommand = new DelegateCommand(this.AddSequenz);
+    //  this.DeleteSequenzCommand = new DelegateCommand(this.DeleteCurrentSequenz, () => this.CurrentReihe != null && this.CurrentReihe.CurrentSequenz != null);
 
-      // Build data structures for Reihen
-      this.UsedReihenDesCurriculums = new ObservableCollection<ReiheViewModel>();
-      this.AvailableReihenDesCurriculums = new ObservableCollection<ReiheViewModel>();
-      foreach (var reihe in curriculum.Reihen.OrderBy(o => o.AbfolgeIndex))
-      {
-        ReiheViewModel vm;
-        if (!notInContext)
-        {
-          vm = new ReiheViewModel(reihe);
-          App.MainViewModel.Reihen.Add(vm);
-        }
-        else
-        {
-          vm = new ReiheViewModel(reihe, true);
-        }
+    //  // Build data structures for Reihen
+    //  this.UsedReihenDesCurriculums = new ObservableCollection<ReiheViewModel>();
+    //  this.AvailableReihenDesCurriculums = new ObservableCollection<ReiheViewModel>();
+    //  foreach (var reihe in curriculum.Reihen.OrderBy(o => o.AbfolgeIndex))
+    //  {
+    //    ReiheViewModel vm;
+    //    if (!notInContext)
+    //    {
+    //      vm = new ReiheViewModel(reihe);
+    //      //App.MainViewModel.Reihen.Add(vm);
+    //    }
+    //    else
+    //    {
+    //      vm = new ReiheViewModel(reihe, true);
+    //    }
 
-        if (vm.AbfolgeIndex == -1)
-        {
-          this.AvailableReihenDesCurriculums.Add(vm);
-        }
-        else
-        {
-          this.UsedReihenDesCurriculums.Add(vm);
-        }
-      }
+    //    if (vm.AbfolgeIndex == -1)
+    //    {
+    //      this.AvailableReihenDesCurriculums.Add(vm);
+    //    }
+    //    else
+    //    {
+    //      this.UsedReihenDesCurriculums.Add(vm);
+    //    }
+    //  }
 
-      this.CreateModuleClonesIfReihenListIsEmpty();
+    //  this.CreateModuleClonesIfReihenListIsEmpty();
 
-      this.UsedSequenzenDesCurriculums = new ObservableCollection<SequenzViewModel>();
-      this.PopulateSequenzen();
+    //  this.UsedSequenzenDesCurriculums = new ObservableCollection<SequenzViewModel>();
+    //  this.PopulateSequenzen();
 
-      this.ReihenSequenzen = new ObservableCollection<SequencedViewModel>();
-      this.PopulateBoth();
+    //  this.ReihenSequenzen = new ObservableCollection<SequencedViewModel>();
+    //  this.PopulateBoth();
 
-      // Listen for changes
-      this.UsedReihenDesCurriculums.CollectionChanged += this.UsedReihenDesCurriculumsCollectionChanged;
-      this.AvailableReihenDesCurriculums.CollectionChanged += this.AvailableReihenDesCurriculumsCollectionChanged;
-      this.UsedSequenzenDesCurriculums.CollectionChanged += this.UsedSequenzenDesCurriculumsCollectionChanged;
-      this.ReihenSequenzen.CollectionChanged += this.ReihenSequenzenCollectionChanged;
-    }
+    //  // Listen for changes
+    //  this.UsedReihenDesCurriculums.CollectionChanged += this.UsedReihenDesCurriculumsCollectionChanged;
+    //  this.AvailableReihenDesCurriculums.CollectionChanged += this.AvailableReihenDesCurriculumsCollectionChanged;
+    //  this.UsedSequenzenDesCurriculums.CollectionChanged += this.UsedSequenzenDesCurriculumsCollectionChanged;
+    //  this.ReihenSequenzen.CollectionChanged += this.ReihenSequenzenCollectionChanged;
+    //}
 
     /// <summary>
     /// Holt den Befehl zur adapting this curriculum on a jahresplan
@@ -685,7 +685,7 @@
                   }
 
                   var vm = new ReiheViewModel(reiheClone);
-                  App.MainViewModel.Reihen.Add(vm);
+                  //App.MainViewModel.Reihen.Add(vm);
                   this.UsedReihenDesCurriculums.Add(vm);
                 }
                 else
@@ -800,7 +800,7 @@
             }
 
             var vm = new ReiheViewModel(reihe);
-            App.MainViewModel.Reihen.Add(vm);
+            //App.MainViewModel.Reihen.Add(vm);
             this.AvailableReihenDesCurriculums.Add(vm);
             this.CurrentReihe = vm;
           }
@@ -844,7 +844,7 @@
     {
       var reihe = new Reihe { Stundenbedarf = 3, Thema = "Neues Thema", Curriculum = this.Model };
       var vm = new ReiheViewModel(reihe);
-      App.MainViewModel.Reihen.Add(vm);
+      //App.MainViewModel.Reihen.Add(vm);
       this.AvailableReihenDesCurriculums.Add(vm);
       this.CurrentReihe = vm;
     }
@@ -854,7 +854,7 @@
     /// </summary>
     private void DeleteCurrentReihe()
     {
-      App.MainViewModel.Reihen.RemoveTest(this.CurrentReihe);
+      //App.MainViewModel.Reihen.RemoveTest(this.CurrentReihe);
       if (this.AvailableReihenDesCurriculums.Contains(this.CurrentReihe))
       {
         this.AvailableReihenDesCurriculums.RemoveTest(this.currentReihe);
@@ -990,7 +990,8 @@
             curriculumClone.Reihen.Add(reiheClone);
           }
 
-          var curriculumCloneViewModel = new CurriculumViewModel(curriculumClone, true);
+          //var curriculumCloneViewModel = new CurriculumViewModel(curriculumClone, true);
+          var curriculumCloneViewModel = new CurriculumViewModel(curriculumClone);
           var curriculumZuweisenWorkspace = new CurriculumZuweisenWorkspaceViewModel(
             curriculumCloneViewModel, dlg.Halbjahresplan);
           var dlgZuweisen = new CurriculumZuweisenDialog { DataContext = curriculumZuweisenWorkspace };

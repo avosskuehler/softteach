@@ -7,7 +7,7 @@
        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
         Title="Frage ..." 
-        Height="350" 
+        Height="500" 
         Width="600" 
         ResizeMode="NoResize" 
         WindowStyle="SingleBorderWindow">
@@ -46,6 +46,10 @@
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
           </Grid.RowDefinitions>
@@ -113,6 +117,39 @@
                   <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
                 </Grid>
                 <TextBlock TextWrapping="Wrap" Padding="5,0,0,0">Stundenentwürfe entfernen, die keine Phasen enthalten.</TextBlock>
+              </StackPanel>
+            </Button>
+          </StackPanel>
+          <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="2">
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="DeleteLeereStundenClick" ToolTip="Leere Stunden entfernen">
+              <StackPanel Orientation="Horizontal">
+                <Grid Height="32">
+                  <fa:IconBlock Style="{StaticResource Stundenentwurf32}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+                </Grid>
+                <TextBlock TextWrapping="Wrap" Padding="5,0,0,0">Stunden entfernen, die keine Stundenentwürfe enthalten.</TextBlock>
+              </StackPanel>
+            </Button>
+          </StackPanel>
+          <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="2">
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="DeleteLeereJahrespläneClick" ToolTip="Leere Jahrespläne entfernen">
+              <StackPanel Orientation="Horizontal">
+                <Grid Height="32">
+                  <fa:IconBlock Style="{StaticResource Jahresplan32}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+                </Grid>
+                <TextBlock TextWrapping="Wrap" Padding="5,0,0,0">Jahrespläne entfernen, die keine Stunden enthalten.</TextBlock>
+              </StackPanel>
+            </Button>
+          </StackPanel>
+          <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="2">
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="DeleteLeereCurriculaClick" ToolTip="Leere Curricula entfernen">
+              <StackPanel Orientation="Horizontal">
+                <Grid Height="32">
+                  <fa:IconBlock Style="{StaticResource Curriculum32}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+                </Grid>
+                <TextBlock TextWrapping="Wrap" Padding="5,0,0,0">Curricula entfernen, die keine Reihen enthalten.</TextBlock>
               </StackPanel>
             </Button>
           </StackPanel>
