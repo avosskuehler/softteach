@@ -11,7 +11,7 @@
         Height="600" 
         Width="900">
   <Window.Resources>
-    <CollectionViewSource Source="{Binding Path=FilteredAndSortedStundenentwürfe}" x:Key="GroupedStundenentwürfe">
+    <CollectionViewSource Source="{Binding Path=FilteredAndSortedStundenentwurfEinträge}" x:Key="GroupedStundenentwürfe">
       <CollectionViewSource.GroupDescriptions>
         <PropertyGroupDescription PropertyName="Jahresplan.JahresplanJahrtyp.JahrtypJahr"/>
         <PropertyGroupDescription PropertyName="Klasse"/>

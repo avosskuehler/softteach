@@ -341,6 +341,62 @@
             </fluent:Button.LargeIcon>
           </fluent:Button>
         </fluent:RibbonGroupBox>
+        <fluent:RibbonGroupBox Header="Planung">
+          <fluent:RibbonGroupBox.Icon>
+            <fa:IconBlock Style="{StaticResource Note32}"/>
+          </fluent:RibbonGroupBox.Icon>
+          <fluent:Button Header="Jahrespläne" Click="JahrespläneButtonClick">
+            <fluent:Button.LargeIcon>
+              <Grid>
+                <fa:IconBlock Style="{StaticResource Jahresplan32}"/>
+              </Grid>
+            </fluent:Button.LargeIcon>
+          </fluent:Button>
+          <!--<RibbonButton x:Name="HalbjahresplanButton"
+                               Label="Halbjahrespläne" 
+                               Click="HalbjahresplanButtonClick"
+                               LargeImageSource="/SoftTeach;component/Images/Halbjahresplan32.png"
+                               SmallImageSource="/SoftTeach;component/Images/Halbjahresplan16.png"/>
+          <RibbonButton x:Name="MonatsplanButton"
+                               Label="Monatspläne" 
+                               Click="MonatsplanButtonClick"
+                               LargeImageSource="/SoftTeach;component/Images/Monatsplan32.png"
+                               SmallImageSource="/SoftTeach;component/Images/Monatsplan16.png"/>
+          <RibbonButton x:Name="TagesplanButton"
+                               Label="Tagespläne" 
+                               Click="TagesplanButtonClick"
+                               LargeImageSource="/SoftTeach;component/Images/Tagesplan32.png"
+                               SmallImageSource="/SoftTeach;component/Images/Tagesplan16.png"/>-->
+        </fluent:RibbonGroupBox>
+        <fluent:RibbonGroupBox Header="Stundenentwürfe">
+          <fluent:RibbonGroupBox.Icon>
+            <fa:IconBlock Style="{StaticResource Stundenentwurf32}"/>
+          </fluent:RibbonGroupBox.Icon>
+          <fluent:Button 
+            Header="Stundenentwürfe" 
+            Click="StundenentwuerfeButtonClick" >
+            <fluent:Button.LargeIcon>
+              <fa:IconBlock Style="{StaticResource Stundenentwurf32}"/>
+            </fluent:Button.LargeIcon>
+          </fluent:Button>
+          <fluent:Button 
+            Header="Phasen"
+            Click="PhasenButtonClick" >
+            <fluent:Button.LargeIcon>
+              <fa:IconBlock Style="{StaticResource Phase32}"/>
+            </fluent:Button.LargeIcon>
+          </fluent:Button>
+          <fluent:Button  
+            Header="Dateiverweis" 
+            Click="DateiverweisButtonClick">
+            <fluent:Button.LargeIcon>
+              <Grid>
+                <fa:IconBlock Style="{StaticResource Datei32}"/>
+                <fa:IconBlock Style="{StaticResource VerweisOverlay32}"/>
+              </Grid>
+            </fluent:Button.LargeIcon>
+          </fluent:Button>
+        </fluent:RibbonGroupBox>
       </fluent:RibbonTabItem>
 
       <!--        <RibbonGroup x:Name="DatenbankCurriculaGroup" Header="Curricula"
@@ -384,50 +440,20 @@
                                LargeImageSource="/SoftTeach;component/Images/Modul32.png"
                                SmallImageSource="/SoftTeach;component/Images/Modul16.png"/>
           </RibbonControlGroup>
-        </RibbonGroup>
-        <RibbonGroup x:Name="DatenbankPlanungGroup" Header="Planung"
-                            LargeImageSource="/SoftTeach;component/Images/Jahresplan32.png"
-                            SmallImageSource="/SoftTeach;component/Images/Jahresplan16.png">
-          <RibbonGroup.GroupSizeDefinitions>
-            <RibbonGroupSizeDefinition IsCollapsed="True"/>
-          </RibbonGroup.GroupSizeDefinitions>
-          <RibbonControlGroup>
-            <RibbonButton x:Name="JahrespläneButton"
-                               Label="Jahrespläne" 
-                               Click="JahrespläneButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Jahresplan32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Jahresplan16.png"/>
-            <RibbonButton x:Name="HalbjahresplanButton"
-                               Label="Halbjahrespläne" 
-                               Click="HalbjahresplanButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Halbjahresplan32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Halbjahresplan16.png"/>
-            <RibbonButton x:Name="MonatsplanButton"
-                               Label="Monatspläne" 
-                               Click="MonatsplanButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Monatsplan32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Monatsplan16.png"/>
-            <RibbonButton x:Name="TagesplanButton"
-                               Label="Tagespläne" 
-                               Click="TagesplanButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Tagesplan32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Tagesplan16.png"/>
-          </RibbonControlGroup>
-          <RibbonSeparator/>
-          <RibbonControlGroup >
-            <RibbonButton x:Name="SchulwocheButton"
+        </RibbonGroup>-->
+        <!--<RibbonControlGroup >
+          <RibbonButton x:Name="SchulwocheButton"
                                Label="Schulwochen" 
                                Click="SchulwocheButtonClick"
                                LargeImageSource="/SoftTeach;component/Images/Schulwoche32.png"
                                SmallImageSource="/SoftTeach;component/Images/Schulwoche16.png"/>
-            <RibbonButton x:Name="SchultagButton"
+          <RibbonButton x:Name="SchultagButton"
                                Label="Schultage" 
                                Click="SchultagButtonClick"
                                LargeImageSource="/SoftTeach;component/Images/Schultag32.png"
                                SmallImageSource="/SoftTeach;component/Images/Schultag16.png"/>
-          </RibbonControlGroup>
-        </RibbonGroup>
-          <RibbonSeparator></RibbonSeparator>
+        </RibbonControlGroup>-->
+      <!--         <RibbonSeparator></RibbonSeparator>
           <RibbonControlGroup>
             <RibbonButton x:Name="MedienButton"
                                Label="Medien" 
@@ -645,35 +671,6 @@
               <Grid>
                 <fa:IconBlock Style="{StaticResource Datenbank32}"/>
                 <fa:IconBlock Style="{StaticResource UpdateOverlay32}"/>
-              </Grid>
-            </fluent:Button.LargeIcon>
-          </fluent:Button>
-        </fluent:RibbonGroupBox>
-        <fluent:RibbonGroupBox Header="Stundenentwürfe">
-          <fluent:RibbonGroupBox.Icon>
-            <fa:IconBlock Style="{StaticResource Stundenentwurf32}"/>
-          </fluent:RibbonGroupBox.Icon>
-          <fluent:Button 
-            Header="Stundenentwürfe" 
-            Click="StundenentwuerfeButtonClick" >
-            <fluent:Button.LargeIcon>
-              <fa:IconBlock Style="{StaticResource Stundenentwurf32}"/>
-            </fluent:Button.LargeIcon>
-          </fluent:Button>
-          <fluent:Button 
-            Header="Phasen"
-            Click="PhasenButtonClick" >
-            <fluent:Button.LargeIcon>
-              <fa:IconBlock Style="{StaticResource Phase32}"/>
-            </fluent:Button.LargeIcon>
-          </fluent:Button>
-          <fluent:Button  
-            Header="Dateiverweis" 
-            Click="DateiverweisButtonClick">
-            <fluent:Button.LargeIcon>
-              <Grid>
-                <fa:IconBlock Style="{StaticResource Datei32}"/>
-                <fa:IconBlock Style="{StaticResource VerweisOverlay32}"/>
               </Grid>
             </fluent:Button.LargeIcon>
           </fluent:Button>

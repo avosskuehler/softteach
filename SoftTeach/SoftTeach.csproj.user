@@ -2,7 +2,7 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <PublishUrlHistory>C:\Service\SoftTeach\|D:\Service\SoftTeach\|publish\</PublishUrlHistory>
-    <InstallUrlHistory>\\vk\softteach\</InstallUrlHistory>
+    <InstallUrlHistory>\\vk2\softteach\|\\vk\softteach\</InstallUrlHistory>
     <SupportUrlHistory />
     <UpdateUrlHistory />
     <BootstrapperUrlHistory />

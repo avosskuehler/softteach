@@ -1222,6 +1222,15 @@
         return false;
       }
 
+      if (this.StundenentwurfFach == null)
+      {
+        return false;
+      }
+      if (this.StundenentwurfJahrgangsstufe == null)
+      {
+        return false;
+      }
+
       if (modulViewModel.ModulFach.FachBezeichnung != this.StundenentwurfFach.FachBezeichnung
         || modulViewModel.ModulJahrgangsstufe.JahrgangsstufeBezeichnung != this.StundenentwurfJahrgangsstufe.JahrgangsstufeBezeichnung)
       {

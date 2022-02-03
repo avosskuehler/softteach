@@ -94,6 +94,36 @@
     }
 
     /// <summary>
+    /// Holt den Namen für den Ausdruck des Sitzplans, das ist in der Regel
+    /// der Vorname, bei mehreren Schülern mit gleichem Vornamen wird der erste
+    /// Buchstabe des Nachnamens ergänzt.
+    /// </summary>
+    [DependsUpon("SitzplaneintragSchülereintrag")]
+    public string SitzplanSchülername
+    {
+      get
+      {
+        if (this.Model.Schülereintrag == null)
+        {
+          return string.Empty;
+        }
+
+        if (this.SitzplaneintragSitzplan.UsedSchülereinträge == null)
+        {
+          return this.Model.Schülereintrag.Person.Vorname;
+        }
+
+        var anzahlSchülerMitGleichemVornamen = this.SitzplaneintragSitzplan.UsedSchülereinträge.Count(o => o.Person.Vorname == this.Model.Schülereintrag.Person.Vorname);
+        if (anzahlSchülerMitGleichemVornamen > 1)
+        {
+          return string.Format("{0} {1}.", this.Model.Schülereintrag.Person.Vorname, this.Model.Schülereintrag.Person.Nachname.First());
+        }
+
+        return this.Model.Schülereintrag.Person.Vorname;
+      }
+    }
+
+    /// <summary>
     /// Holt oder setzt den Schülereintrag für den Schülereintragplan
     /// </summary>
     public Schülereintrag SitzplaneintragSchülereintrag

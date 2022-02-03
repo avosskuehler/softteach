@@ -14,7 +14,7 @@
   <Grid Background="{StaticResource MainBackgroundBrush}">
     <Grid.RowDefinitions>
       <RowDefinition Height="48"/>
-      <RowDefinition Height="48"/>
+      <RowDefinition Height="Auto"/>
       <RowDefinition/>
       <RowDefinition Height="32"/>
     </Grid.RowDefinitions>
@@ -26,21 +26,21 @@
 
     <Border Grid.Row="1" Name="DescriptionArea">
       <StackPanel Orientation="Horizontal" Margin="5">
-        <Button Width="180" Height="32" Name="AddButton" Command="{Binding Path=AddTendenztypCommand}">
+        <Button Name="AddButton" Command="{Binding Path=AddTendenztypCommand}">
           <StackPanel Orientation="Horizontal">
             <Grid>
-              <fa:IconBlock Style="{StaticResource Tendenztyp32}" Foreground="{DynamicResource Iconfarbe}"/>
-              <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+              <fa:IconBlock Style="{StaticResource Tendenztyp16}" Foreground="{DynamicResource Iconfarbe}"/>
+              <fa:IconBlock Style="{StaticResource AddOverlay16}" Foreground="{DynamicResource Iconfarbe}"/>
             </Grid>
             <Label Content="Tendenztyp hinzufügen"/>
           </StackPanel>
         </Button>
         <Label></Label>
-        <Button Width="180" Height="32" Name="RemoveButton" Command="{Binding Path=DeleteTendenztypCommand}">
+        <Button Name="RemoveButton" Command="{Binding Path=DeleteTendenztypCommand}">
           <StackPanel Orientation="Horizontal">
             <Grid>
-              <fa:IconBlock Style="{StaticResource Tendenztyp32}" Foreground="{DynamicResource Iconfarbe}"/>
-              <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+              <fa:IconBlock Style="{StaticResource Tendenztyp16}" Foreground="{DynamicResource Iconfarbe}"/>
+              <fa:IconBlock Style="{StaticResource RemoveOverlay16}" Foreground="{DynamicResource Iconfarbe}"/>
             </Grid>
             <Label Content="Tendenztyp entfernen"/>
           </StackPanel>

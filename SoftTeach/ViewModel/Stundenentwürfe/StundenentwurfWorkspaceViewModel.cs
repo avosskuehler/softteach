@@ -37,11 +37,6 @@
     private ModulViewModel modulFilter;
 
     /// <summary>
-    /// The Stundenentwurf currently selected
-    /// </summary>
-    private StundenentwurfViewModel currentStundenentwurf;
-
-    /// <summary>
     /// The item currently selected
     /// </summary>
     private StundenentwurfEintrag currentStundenentwurfEintrag;
@@ -51,38 +46,25 @@
     /// </summary>
     public StundenentwurfWorkspaceViewModel()
     {
-      this.AddStundenentwurfCommand = new DelegateCommand(this.AddStundenentwurf);
-      this.DeleteStundenentwurfCommand = new DelegateCommand(this.DeleteCurrentStundenentwurf, () => this.CurrentStundenentwurf != null);
-      this.DeleteStundenentwurfEintragCommand = new DelegateCommand(this.DeleteCurrentStundenentwurfEintrag, () => this.CurrentStundenentwurfEintrag != null);
+      this.DeleteStundenentwurfEintragCommand = new DelegateCommand(this.DeleteSelectedStundenentwurfEinträge, () => this.CurrentStundenentwurfEintrag != null);
       this.RemoveFilterCommand = new DelegateCommand(this.RemoveFilter);
 
-      this.FilteredAndSortedStundenentwürfe = new List<StundenentwurfEintrag>();
+      this.FilteredAndSortedStundenentwurfEinträge = new List<StundenentwurfEintrag>();
       this.SelectedStundenentwurfEinträge = new List<StundenentwurfEintrag>();
 
-      this.PopulateStundenentwürfe();
+      this.PopulateStundenentwurfEinträge();
 
       // Init display of subset of modules
       this.FilteredModule = CollectionViewSource.GetDefaultView(App.MainViewModel.Module);
       this.FilteredModule.Filter = this.FilterModules;
 
-      this.CurrentStundenentwurf = App.MainViewModel.Stundenentwürfe.Count > 0 ? App.MainViewModel.Stundenentwürfe[0] : null;
-
-      // Re-act to any changes from outside this ViewModel
-      App.MainViewModel.Stundenentwürfe.CollectionChanged += (sender, e) =>
-      {
-        if (e.OldItems != null && e.OldItems.Contains(this.CurrentStundenentwurf))
-        {
-          this.CurrentStundenentwurf = null;
-        }
-      };
-
       Selection.Instance.PropertyChanged += this.SelectionPropertyChanged;
     }
 
-    private void PopulateStundenentwürfe()
+    private void PopulateStundenentwurfEinträge()
     {
       UiServices.SetBusyState();
-      this.FilteredAndSortedStundenentwürfe.Clear();
+      this.FilteredAndSortedStundenentwurfEinträge.Clear();
 
       if (this.FachFilter == null)
       {
@@ -98,7 +80,7 @@
       {
         if (!App.MainViewModel.Jahrespläne.Any(o => o.Model.Id == jahresplan.Id))
         {
-          App.MainViewModel.Jahrespläne.Add(new JahresplanViewModel(jahresplan));
+          App.MainViewModel.LoadJahresplan(jahresplan);
         }
       }
 
@@ -121,7 +103,7 @@
       {
         if (!App.MainViewModel.Stundenentwürfe.Any(o => o.Model.Id == stundenentwurf.Id))
         {
-          App.MainViewModel.Stundenentwürfe.Add(new StundenentwurfViewModel(stundenentwurf));
+          App.MainViewModel.LoadStundenentwurf(stundenentwurf);
         }
       }
 
@@ -147,7 +129,7 @@
                   {
                     if (this.ModulFilter == null || stunde.StundeModul == this.ModulFilter)
                     {
-                      this.FilteredAndSortedStundenentwürfe.Add(new StundenentwurfEintrag(jahresplanViewModel, stunde.LerngruppenterminKlasse, stunde.StundeStundenentwurf, stunde.LerngruppenterminDatum));
+                      this.FilteredAndSortedStundenentwurfEinträge.Add(new StundenentwurfEintrag(jahresplanViewModel, stunde.LerngruppenterminKlasse, stunde.StundeStundenentwurf, stunde.LerngruppenterminDatum));
                     }
                   }
                 }
@@ -172,17 +154,17 @@
 
       foreach (var stundenentwurfViewModel in unbenutzteEntwürfe)
       {
-        this.FilteredAndSortedStundenentwürfe.Add(new StundenentwurfEintrag(App.MainViewModel.Jahrespläne[0], "Nicht zugeordnet", stundenentwurfViewModel, null));
+        this.FilteredAndSortedStundenentwurfEinträge.Add(new StundenentwurfEintrag(App.MainViewModel.Jahrespläne[0], "Nicht zugeordnet", stundenentwurfViewModel, null));
       }
 
-      this.FilteredAndSortedStundenentwürfe = this.FilteredAndSortedStundenentwürfe.OrderBy(o => o.Termin).ToList();
-      this.RaisePropertyChanged("FilteredAndSortedStundenentwürfe");
+      this.FilteredAndSortedStundenentwurfEinträge = this.FilteredAndSortedStundenentwurfEinträge.OrderBy(o => o.Termin).ToList();
+      this.RaisePropertyChanged("FilteredAndSortedStundenentwurfEinträge");
     }
 
     /// <summary>
     /// Holt oder setzt die gefilterten und sortierten Stundenentwürfe
     /// </summary>
-    public List<StundenentwurfEintrag> FilteredAndSortedStundenentwürfe { get; set; }
+    public List<StundenentwurfEintrag> FilteredAndSortedStundenentwurfEinträge { get; set; }
 
     /// <summary>
     /// Holt oder setzt die gefilterten Module
@@ -204,7 +186,7 @@
         this.fachFilter = value;
         this.RaisePropertyChanged("FachFilter");
         this.FilteredModule.Refresh();
-        this.PopulateStundenentwürfe();
+        this.PopulateStundenentwurfEinträge();
       }
     }
 
@@ -223,7 +205,7 @@
         this.jahrgangsstufeFilter = value;
         this.RaisePropertyChanged("JahrgangsstufeFilter");
         this.FilteredModule.Refresh();
-        this.PopulateStundenentwürfe();
+        this.PopulateStundenentwurfEinträge();
       }
     }
 
@@ -241,19 +223,9 @@
       {
         this.modulFilter = value;
         this.RaisePropertyChanged("ModulFilter");
-        this.PopulateStundenentwürfe();
+        this.PopulateStundenentwurfEinträge();
       }
     }
-
-    /// <summary>
-    /// Holt den Befehl zur adding a new Stundenentwurf
-    /// </summary>
-    public DelegateCommand AddStundenentwurfCommand { get; private set; }
-
-    /// <summary>
-    /// Holt den Befehl zur deleting the current Stundenentwurf
-    /// </summary>
-    public DelegateCommand DeleteStundenentwurfCommand { get; private set; }
 
     /// <summary>
     /// Holt den Befehl um den aktuellen Stundenwurfeintrag zu löschen
@@ -264,25 +236,6 @@
     /// Holt den Befehl zur resetting the current modul filter
     /// </summary>
     public DelegateCommand RemoveFilterCommand { get; private set; }
-
-    /// <summary>
-    /// Holt oder setzt die stundenentwurf currently selected in this workspace
-    /// </summary>
-    public StundenentwurfViewModel CurrentStundenentwurf
-    {
-      get
-      {
-        return this.currentStundenentwurf;
-      }
-
-      set
-      {
-        this.currentStundenentwurf = value;
-        Selection.Instance.Stundenentwurf = value;
-        this.DeleteStundenentwurfCommand.RaiseCanExecuteChanged();
-        this.RaisePropertyChanged("CurrentStundenentwurf");
-      }
-    }
 
     /// <summary>
     /// Holt oder setzt den ausgewählten Stundenentwurfseintrag
@@ -321,95 +274,42 @@
     }
 
     /// <summary>
-    /// Handles addition a new Stundenentwurf to the workspace and model
+    /// Löscht alle markierten Stundenentwurfeinträge
     /// </summary>
-    private void AddStundenentwurf()
+    private void DeleteSelectedStundenentwurfEinträge()
     {
-      using (new UndoBatch(App.MainViewModel, string.Format("Stundenentwurf neu erstellt."), false))
-      {
-        var entwurf = new Stundenentwurf();
-        var vm = new StundenentwurfViewModel(entwurf);
-        //App.UnitOfWork.Context.Stundenentwürfe.Add(entwurf);
-        App.MainViewModel.Stundenentwürfe.Add(vm);
-        this.CurrentStundenentwurf = vm;
-      }
-    }
-
-    /// <summary>
-    /// Handles addition a new Stundenentwurf to the workspace and model
-    /// </summary>
-    /// <param name="date">Das Datum des Stundenentwurfs.</param>
-    /// <param name="fach">Das Fach des Stundenentwurfs.</param>
-    /// <param name="jahrgangsstufe">Die Jahrgangsstufe des Stundenentwurfs.</param>
-    private void AddStundenentwurf(
-      DateTime date,
-      Fach fach,
-      Jahrgangsstufe jahrgangsstufe)
-    {
-      var entwurf = new Stundenentwurf();
-      entwurf.Datum = date;
-      entwurf.Fach = fach;
-      entwurf.Jahrgangsstufe = jahrgangsstufe;
-      var vm = new StundenentwurfViewModel(entwurf);
-
-      using (new UndoBatch(App.MainViewModel, string.Format("Stundenentwurf {0} erstellt.", vm), false))
-      {
-        //App.UnitOfWork.Context.Stundenentwürfe.Add(entwurf);
-        App.MainViewModel.Stundenentwürfe.Add(vm);
-        this.CurrentStundenentwurf = vm;
-      }
-    }
-
-    /// <summary>
-    /// Handles deletion of the current Stundenentwurf
-    /// </summary>
-    private void DeleteCurrentStundenentwurf()
-    {
-      if (this.CurrentStundenentwurf == null)
+      if (this.SelectedStundenentwurfEinträge.Count == 0)
       {
         return;
       }
 
-      using (new UndoBatch(App.MainViewModel, string.Format("Stundenentwurf {0} gelöscht.", this.CurrentStundenentwurf), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("{0} Stundenentwürfe gelöscht.", this.SelectedStundenentwurfEinträge.Count), false))
       {
-        //App.UnitOfWork.Context.Stundenentwürfe.Remove(this.CurrentStundenentwurf.Model);
-        App.MainViewModel.Stundenentwürfe.RemoveTest(this.CurrentStundenentwurf);
-        this.CurrentStundenentwurf = null;
+        foreach (StundenentwurfEintrag stundenentwurfEintrag in this.SelectedStundenentwurfEinträge)
+        {
+          if (stundenentwurfEintrag.Stundenentwurf.StundenentwurfStundenCollection.Any())
+          {
+            var stunde = this.CurrentStundenentwurfEintrag.Stundenentwurf.StundenentwurfStundenCollection.First();
+            InformationDialog.Show(
+              "Noch verwendet.",
+              string.Format("Ein Stundenentwurf wird noch in der Stunde {0} vom {1} in Klasse {2} verwendet und daher nicht gelöscht", stunde.Beschreibung, stunde.Tagesplan.Datum.ToString("dd.MM.yyyy"), stunde.Tagesplan.Monatsplan.Halbjahresplan.Jahresplan.Klasse.Bezeichnung),
+              false);
+
+            return;
+          }
+
+          foreach (var stundenentwurfEintrag2 in this.FilteredAndSortedStundenentwurfEinträge.Where(o => o.Stundenentwurf == this.CurrentStundenentwurfEintrag.Stundenentwurf).ToList())
+          {
+            this.FilteredAndSortedStundenentwurfEinträge.RemoveTest(stundenentwurfEintrag2);
+          }
+          App.MainViewModel.Stundenentwürfe.RemoveTest(this.CurrentStundenentwurfEintrag.Stundenentwurf);
+          App.UnitOfWork.Context.Stundenentwürfe.Remove(this.CurrentStundenentwurfEintrag.Stundenentwurf.Model);
+          this.CurrentStundenentwurfEintrag = null;
+          this.FilteredAndSortedStundenentwurfEinträge = this.FilteredAndSortedStundenentwurfEinträge.OrderBy(o => o.Termin).ToList();
+          this.RaisePropertyChanged("FilteredAndSortedStundenentwurfEinträge");
+        }
       }
     }
-
-    /// <summary>
-    /// Löscht den aktuellen Stundenentwurfeintrag im 
-    /// </summary>
-    private void DeleteCurrentStundenentwurfEintrag()
-    {
-      if (this.CurrentStundenentwurfEintrag == null)
-      {
-        return;
-      }
-
-      if (this.CurrentStundenentwurfEintrag.Stundenentwurf.StundenentwurfStundenCollection.Any())
-      {
-        var stunde = this.CurrentStundenentwurf.StundenentwurfStundenCollection.First();
-        InformationDialog.Show(
-          "Noch verwendet.",
-          string.Format("Dieser Stundenentwurf wird noch in der Stunde {0} vom {1} in Klasse {2} verwendet und daher nicht gelöscht", stunde.Beschreibung, stunde.Tagesplan.Datum.ToString("dd.MM.yyyy"), stunde.Tagesplan.Monatsplan.Halbjahresplan.Jahresplan.Klasse.Bezeichnung),
-          false);
-
-        return;
-      }
-
-      using (new UndoBatch(App.MainViewModel, string.Format("Stundenentwurf {0} gelöscht.", this.CurrentStundenentwurfEintrag.Stundenentwurf), false))
-      {
-        this.FilteredAndSortedStundenentwürfe.Remove(
-          this.FilteredAndSortedStundenentwürfe.First(o => o.Stundenentwurf == this.CurrentStundenentwurfEintrag.Stundenentwurf));
-        App.MainViewModel.Stundenentwürfe.RemoveTest(this.CurrentStundenentwurfEintrag.Stundenentwurf);
-        this.CurrentStundenentwurfEintrag = null;
-        this.FilteredAndSortedStundenentwürfe = this.FilteredAndSortedStundenentwürfe.OrderBy(o => o.Termin).ToList();
-        this.RaisePropertyChanged("FilteredAndSortedStundenentwürfe");
-      }
-    }
-
 
     /// <summary>
     /// Removes all filter.

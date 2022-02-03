@@ -1,5 +1,4 @@
-﻿
-namespace SoftTeach.View.Main
+﻿namespace SoftTeach.View.Main
 {
   using System.Collections.Generic;
   using System.Linq;
@@ -13,6 +12,7 @@ namespace SoftTeach.View.Main
   using SoftTeach.View.Noten;
   using SoftTeach.View.Personen;
   using SoftTeach.View.Sitzpläne;
+  using SoftTeach.View.Stundenentwürfe;
   using SoftTeach.View.Stundenpläne;
   using SoftTeach.View.Termine;
   using SoftTeach.ViewModel.Curricula;
@@ -204,7 +204,7 @@ namespace SoftTeach.View.Main
     /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
     private void JahrespläneButtonClick(object sender, RoutedEventArgs e)
     {
-      var jahresplanView = new JahresplanWorkspaceView();
+      var jahresplanView = new JahresplanWorkspaceDBView();
       jahresplanView.ShowDialog();
     }
 
@@ -280,7 +280,7 @@ namespace SoftTeach.View.Main
     /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
     private void StundenentwuerfeButtonClick(object sender, RoutedEventArgs e)
     {
-      var stundenentwurfView = new StundenentwurfWorkspaceView();
+      var stundenentwurfView = new StundenentwurfWorkspaceDBView();
       stundenentwurfView.DataContext = App.MainViewModel.StundenentwurfWorkspace;
       stundenentwurfView.ShowDialog();
     }

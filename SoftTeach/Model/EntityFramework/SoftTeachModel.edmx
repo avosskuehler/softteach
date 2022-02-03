@@ -4955,7 +4955,7 @@
           <edmx:ConnectorPoint PointX="2.3958333333333335" PointY="4.8611292226521954" />
           <edmx:ConnectorPoint PointX="2.5" PointY="4.8611292226521954" />
         </edmx:AssociationConnector>
-        <edmx:EntityTypeShape EntityType="SoftTeach.Model.Schultag" Width="1.5" PointX="4.625" PointY="5" Height="2.1725878906249996" IsExpanded="false" />
+        <edmx:EntityTypeShape EntityType="SoftTeach.Model.Schultag" Width="1.5" PointX="4.5" PointY="4.875" Height="2.1725878906249996" IsExpanded="false" />
         <edmx:AssociationConnector Association="SoftTeach.Model.SchulwocheSchultag">
           <edmx:ConnectorPoint PointX="4" PointY="4.9901432291666659" />
           <edmx:ConnectorPoint PointX="4.5" PointY="4.9901432291666659" />

@@ -154,7 +154,7 @@
               <RotateTransform Angle="{Binding SitzplaneintragSitzplatz.SitzplatzDrehwinkel}"/>
             </Border.RenderTransform>
             <TextBlock TextWrapping="Wrap" Margin="0" LineHeight="12" LineStackingStrategy="BlockLineHeight" RenderTransformOrigin="0.5,0.5"
-                       Text="{Binding SitzplaneintragSchülereintrag.Person.Vorname}"
+                       Text="{Binding SitzplanSchülername}"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
                        FontSize="12">

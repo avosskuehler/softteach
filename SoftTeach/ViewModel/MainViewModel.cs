@@ -57,6 +57,7 @@
     private WochenplanWorkspaceViewModel wochenplanWorkspace;
     private TagesplanWorkspaceViewModel tagesplanWorkspace;
     private StundenentwurfWorkspaceViewModel stundenentwurfWorkspace;
+    private ObservableCollection<StundenentwurfViewModel> stundenentwürfe;
     private ObservableCollection<JahresplanViewModel> jahrespläne;
     private ObservableCollection<CurriculumViewModel> curricula;
     private ObservableCollection<RaumViewModel> räume;
@@ -142,7 +143,8 @@
 
       // The creation of the allStundenentwürfe includes the creation of
       // the phase and dateiverweis models
-      this.Stundenentwürfe = new ObservableCollection<StundenentwurfViewModel>();
+      this.stundenentwürfe = new ObservableCollection<StundenentwurfViewModel>();
+      //this.Stundenentwürfe = new ObservableCollection<StundenentwurfViewModel>();
       //this.Phasen = new ObservableCollection<PhaseViewModel>();
       //this.Dateiverweise = new ObservableCollection<DateiverweisViewModel>();
 
@@ -362,7 +364,13 @@
     /// <summary>
     /// Holt alle Stundenentwürfe der Datenbank
     /// </summary>
-    public ObservableCollection<StundenentwurfViewModel> Stundenentwürfe { get; private set; }
+    public ObservableCollection<StundenentwurfViewModel> Stundenentwürfe
+    {
+      get
+      {
+        return this.stundenentwürfe;
+      }
+    }
 
     ///// <summary>
     ///// Holt alle Phasen der Datenbank
@@ -1297,6 +1305,19 @@
       App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
     }
 
+    public void LoadJahresplan(Jahresplan jahresplan)
+    {
+      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+      var collection = this.jahrespläne;
+      this.jahrespläne.CollectionChanged -= this.JahrespläneCollectionChanged;
+      if (!collection.Any(o => o.Model.Id == jahresplan.Id))
+      {
+        collection.Add(new JahresplanViewModel(jahresplan));
+      }
+      this.jahrespläne.CollectionChanged += this.JahrespläneCollectionChanged;
+      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
+    }
+
     public void LoadSchülerlisten()
     {
       App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
@@ -1313,6 +1334,19 @@
 
       this.schülerlisten.CollectionChanged += this.SchülerlistenCollectionChanged;
 
+      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
+    }
+
+    public void LoadStundenentwurf(Stundenentwurf stundenentwurf)
+    {
+      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+      var collection = this.stundenentwürfe;
+      this.stundenentwürfe.CollectionChanged -= this.StundenentwürfeCollectionChanged;
+      if (!collection.Any(o => o.Model.Id == stundenentwurf.Id))
+      {
+        collection.Add(new StundenentwurfViewModel(stundenentwurf));
+      }
+      this.jahrespläne.CollectionChanged += this.StundenentwürfeCollectionChanged;
       App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
     }
 
@@ -1979,7 +2013,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void StundenentwürfeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Stundenentwürfe", this.Stundenentwürfe, e, "Änderung der Stundenentwürfe");
+      this.UndoableCollectionChanged(this, "Stundenentwürfe", this.stundenentwürfe, e, "Änderung der Stundenentwürfe");
     }
 
     /// <summary>

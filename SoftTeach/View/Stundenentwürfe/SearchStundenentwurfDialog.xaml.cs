@@ -21,22 +21,10 @@
     public SearchStundenentwurfDialog(StundenentwurfWorkspaceViewModel stundenentwurfWorkspaceViewModel)
     {
       this.StundenentwurfWorkspaceViewModel = stundenentwurfWorkspaceViewModel;
-      if (stundenentwurfWorkspaceViewModel.CurrentStundenentwurf != null)
-      {
-        this.StundenentwurfWorkspaceViewModel.FachFilter =
-          stundenentwurfWorkspaceViewModel.CurrentStundenentwurf.StundenentwurfFach;
-        this.StundenentwurfWorkspaceViewModel.ModulFilter =
-          stundenentwurfWorkspaceViewModel.CurrentStundenentwurf.StundenentwurfModul;
-        this.StundenentwurfWorkspaceViewModel.JahrgangsstufeFilter =
-          stundenentwurfWorkspaceViewModel.CurrentStundenentwurf.StundenentwurfJahrgangsstufe;
-      }
-      else
-      {
-        this.StundenentwurfWorkspaceViewModel.FachFilter = Selection.Instance.Fach;
-        this.StundenentwurfWorkspaceViewModel.ModulFilter = Selection.Instance.Modul;
-        this.StundenentwurfWorkspaceViewModel.JahrgangsstufeFilter = App.MainViewModel.Jahrgangsstufen.First(o => o.JahrgangsstufeBezeichnung ==
-          Selection.Instance.Klasse.Model.Klassenstufe.Jahrgangsstufe.Bezeichnung);
-      }
+      this.StundenentwurfWorkspaceViewModel.FachFilter = Selection.Instance.Fach;
+      this.StundenentwurfWorkspaceViewModel.ModulFilter = Selection.Instance.Modul;
+      this.StundenentwurfWorkspaceViewModel.JahrgangsstufeFilter = App.MainViewModel.Jahrgangsstufen.First(o => o.JahrgangsstufeBezeichnung ==
+        Selection.Instance.Klasse.Model.Klassenstufe.Jahrgangsstufe.Bezeichnung);
 
       this.InitializeComponent();
       this.DataContext = stundenentwurfWorkspaceViewModel;
@@ -54,7 +42,7 @@
     {
       get
       {
-        return this.StundenentwurfWorkspaceViewModel.CurrentStundenentwurf;
+        return this.StundenentwurfWorkspaceViewModel.CurrentStundenentwurfEintrag.Stundenentwurf;
       }
     }
 
@@ -80,7 +68,7 @@
         if (entwurf != null)
         {
           var entwurfsKopie = (StundenentwurfViewModel)entwurf.Stundenentwurf.Clone();
-          this.StundenentwurfWorkspaceViewModel.CurrentStundenentwurf = entwurfsKopie;
+          this.StundenentwurfWorkspaceViewModel.CurrentStundenentwurfEintrag.Stundenentwurf = entwurfsKopie;
         }
       }
       else
@@ -104,7 +92,7 @@
             }
           }
 
-          this.StundenentwurfWorkspaceViewModel.CurrentStundenentwurf = newEntwurf;
+          this.StundenentwurfWorkspaceViewModel.CurrentStundenentwurfEintrag.Stundenentwurf = newEntwurf;
         }
       }
 
@@ -116,7 +104,7 @@
       var entwuerfe = this.StundenentwurfWorkspaceViewModel.SelectedStundenentwurfEinträge;
       if (entwuerfe.Count != 1)
       {
-        var dlg = new InformationDialog("Mehrer Entwürfe ausgewählt.", "Bitte für den Verweis nur einen Stundenentwurf durch Anklicken auswählen. Wenn mehrere Entwürfe zusammengefasst werden sollen bitte auf Kopie klicken.", false);
+        var dlg = new InformationDialog("Mehrere Entwürfe ausgewählt.", "Bitte für den Verweis nur einen Stundenentwurf durch Anklicken auswählen. Wenn mehrere Entwürfe zusammengefasst werden sollen bitte auf Kopie klicken.", false);
         dlg.ShowDialog();
         return;
       }

@@ -30,10 +30,10 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>\\vk\softteach\</InstallUrl>
+    <InstallUrl>\\vk2\softteach\</InstallUrl>
     <ProductName>SoftTeach</ProductName>
     <PublisherName>VK</PublisherName>
-    <ApplicationRevision>26</ApplicationRevision>
+    <ApplicationRevision>30</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -680,8 +680,8 @@
     <Compile Include="View\Datenbank\PhaseWorkspaceView.xaml.cs">
       <DependentUpon>PhaseWorkspaceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Datenbank\StundenentwurfWorkspaceView.xaml.cs">
-      <DependentUpon>StundenentwurfWorkspaceView.xaml</DependentUpon>
+    <Compile Include="View\Datenbank\StundenentwurfWorkspaceDBView.xaml.cs">
+      <DependentUpon>StundenentwurfWorkspaceDBView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Datenbank\SchultagWorkspaceView.xaml.cs">
       <DependentUpon>SchultagWorkspaceView.xaml</DependentUpon>
@@ -698,8 +698,8 @@
     <Compile Include="View\Datenbank\HalbjahresplanWorkspaceView.xaml.cs">
       <DependentUpon>HalbjahresplanWorkspaceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Datenbank\JahresplanWorkspaceView.xaml.cs">
-      <DependentUpon>JahresplanWorkspaceView.xaml</DependentUpon>
+    <Compile Include="View\Datenbank\JahresplanWorkspaceDBView.xaml.cs">
+      <DependentUpon>JahresplanWorkspaceDBView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Datenbank\SequenzWorkspaceView.xaml.cs">
       <DependentUpon>SequenzWorkspaceView.xaml</DependentUpon>
@@ -1005,9 +1005,6 @@
     </Compile>
     <Compile Include="View\Stundenentwürfe\StundenentwurfDetailView.xaml.cs">
       <DependentUpon>StundenentwurfDetailView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Stundenentwürfe\StundenentwurfWorkspaceView.xaml.cs">
-      <DependentUpon>StundenentwurfWorkspaceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\Wochenpläne\TerminplanEintragEqualityComparer.cs" />
     <Compile Include="View\Wochenpläne\MetroTagesplanPage.xaml.cs">
@@ -1569,7 +1566,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Datenbank\StundenentwurfWorkspaceView.xaml">
+    <Page Include="View\Datenbank\StundenentwurfWorkspaceDBView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1593,7 +1590,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Datenbank\JahresplanWorkspaceView.xaml">
+    <Page Include="View\Datenbank\JahresplanWorkspaceDBView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1994,10 +1991,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Stundenentwürfe\StundenentwurfDetailView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Stundenentwürfe\StundenentwurfWorkspaceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -522,8 +522,6 @@ namespace SoftTeach.ViewModel.Termine
     /// </summary>
     private void SearchStundenentwurf()
     {
-      App.MainViewModel.StundenentwurfWorkspace.CurrentStundenentwurf = this.StundeStundenentwurf;
-
       var dlg = new SearchStundenentwurfDialog(App.MainViewModel.StundenentwurfWorkspace);
       if (dlg.ShowDialog().GetValueOrDefault(false))
       {

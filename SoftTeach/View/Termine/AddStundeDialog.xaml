@@ -13,9 +13,6 @@
         Height="600" 
         Width="900">
   <Window.Resources>
-    <DataTemplate DataType="{x:Type StundenentwürfeViewModel:StundenentwurfWorkspaceViewModel}">
-      <StundenentwürfeView:StundenentwurfWorkspaceView />
-    </DataTemplate>
   </Window.Resources>
   <Grid>
     <Grid.RowDefinitions>
