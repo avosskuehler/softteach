@@ -245,7 +245,7 @@
         //}
         //else
         //{
-          return;
+        return;
         //}
       }
 
@@ -348,6 +348,11 @@
           person.PersonGeburtstag.Value.Day);
         termin.Datum = geburstagInDerWoche;
         var alter = person.PersonAlter(this.tagesplanDatum);
+        if (alter > 18)
+        {
+          continue;
+        }
+
         termin.Beschreibung = string.Format("{0} {1} ({2})", person.PersonVorname, person.PersonNachname, alter);
         termin.Jahrtyp = App.MainViewModel.Jahrtypen.First(o => o.JahrtypJahr == jahresplanJahr).Model;
 

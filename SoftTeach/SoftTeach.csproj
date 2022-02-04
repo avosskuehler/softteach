@@ -33,7 +33,7 @@
     <InstallUrl>\\vk2\softteach\</InstallUrl>
     <ProductName>SoftTeach</ProductName>
     <PublisherName>VK</PublisherName>
-    <ApplicationRevision>30</ApplicationRevision>
+    <ApplicationRevision>32</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>

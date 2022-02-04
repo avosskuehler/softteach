@@ -718,6 +718,7 @@
 
     private void NeuerStundenplanButtonClick(object sender, RoutedEventArgs e)
     {
+      App.MainViewModel.LoadRäume();
       var dlg = new AskForSchuljahr();
       if (dlg.ShowDialog().GetValueOrDefault(false))
       {
@@ -737,12 +738,14 @@
 
     private void StundenplanZeigenButtonClick(object sender, RoutedEventArgs e)
     {
+      App.MainViewModel.LoadRäume();
       var stundenplanView = new ShowStundenplanDialog();
       stundenplanView.ShowDialog();
     }
 
     private void StundenplanÄnderungButtonClick(object sender, RoutedEventArgs e)
     {
+      App.MainViewModel.LoadRäume();
       var aktuellerStundenplan = App.MainViewModel.StundenplanWorkspace.GetAktuellenStundenplan();
       App.MainViewModel.StundenplanWorkspace.AddStundenplanÄnderung(aktuellerStundenplan);
     }

@@ -226,7 +226,7 @@
 
     public string Stundenplan1Bezeichnung
     {
-      get { return App.MainViewModel.Unterrichtsstunden[0].UnterrichtsstundeBezeichnung; }
+      get { return App.MainViewModel.Unterrichtsstunden[0].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
 
     public string Stundenplan1Zeit
@@ -236,7 +236,7 @@
 
     public string Stundenplan2Bezeichnung
     {
-      get { return App.MainViewModel.Unterrichtsstunden[1].UnterrichtsstundeBezeichnung; }
+      get { return App.MainViewModel.Unterrichtsstunden[1].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
 
     public string Stundenplan2Zeit
@@ -246,7 +246,7 @@
 
     public string Stundenplan3Bezeichnung
     {
-      get { return App.MainViewModel.Unterrichtsstunden[2].UnterrichtsstundeBezeichnung; }
+      get { return App.MainViewModel.Unterrichtsstunden[2].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
 
     public string Stundenplan3Zeit
@@ -256,7 +256,7 @@
 
     public string Stundenplan4Bezeichnung
     {
-      get { return App.MainViewModel.Unterrichtsstunden[3].UnterrichtsstundeBezeichnung; }
+      get { return App.MainViewModel.Unterrichtsstunden[3].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
 
     public string Stundenplan4Zeit
@@ -266,7 +266,7 @@
 
     public string Stundenplan5Bezeichnung
     {
-      get { return App.MainViewModel.Unterrichtsstunden[4].UnterrichtsstundeBezeichnung; }
+      get { return App.MainViewModel.Unterrichtsstunden[4].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
 
     public string Stundenplan5Zeit
@@ -276,7 +276,7 @@
 
     public string Stundenplan6Bezeichnung
     {
-      get { return App.MainViewModel.Unterrichtsstunden[5].UnterrichtsstundeBezeichnung; }
+      get { return App.MainViewModel.Unterrichtsstunden[5].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
 
     public string Stundenplan6Zeit
@@ -286,7 +286,7 @@
 
     public string Stundenplan7Bezeichnung
     {
-      get { return App.MainViewModel.Unterrichtsstunden[6].UnterrichtsstundeBezeichnung; }
+      get { return App.MainViewModel.Unterrichtsstunden[6].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
 
     public string Stundenplan7Zeit
@@ -296,7 +296,7 @@
 
     public string Stundenplan8Bezeichnung
     {
-      get { return App.MainViewModel.Unterrichtsstunden[7].UnterrichtsstundeBezeichnung; }
+      get { return App.MainViewModel.Unterrichtsstunden[7].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
 
     public string Stundenplan8Zeit
@@ -306,7 +306,7 @@
 
     public string Stundenplan9Bezeichnung
     {
-      get { return App.MainViewModel.Unterrichtsstunden[8].UnterrichtsstundeBezeichnung; }
+      get { return App.MainViewModel.Unterrichtsstunden[8].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
 
     public string Stundenplan9Zeit
@@ -316,7 +316,7 @@
 
     public string Stundenplan10Bezeichnung
     {
-      get { return App.MainViewModel.Unterrichtsstunden[9].UnterrichtsstundeBezeichnung; }
+      get { return App.MainViewModel.Unterrichtsstunden[9].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
 
     public string Stundenplan10Zeit

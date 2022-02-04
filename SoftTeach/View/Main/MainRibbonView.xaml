@@ -126,7 +126,7 @@
               Header="Speichern"
               ToolTip="Änderungen speichern ..."  >
               <fluent:Button.Icon>
-                <fa:IconBlock Style="{StaticResource Save32}"/>
+                <fa:IconBlock Style="{StaticResource Save16}"/>
               </fluent:Button.Icon>
             </fluent:Button>
             <fluent:SeparatorTabItem/>
@@ -138,7 +138,7 @@
               Header="Undo"
               ToolTip="Änderungen rückgängig machen ..."  >
               <fluent:Button.Icon>
-                <fa:IconBlock Style="{StaticResource Undo32}"/>
+                <fa:IconBlock Style="{StaticResource Undo16}"/>
               </fluent:Button.Icon>
             </fluent:Button>
             <fluent:Button 
@@ -149,7 +149,7 @@
               Header="Redo"
               ToolTip="Änderungen wiederherstellen ..."  >
               <fluent:Button.Icon>
-                <fa:IconBlock Style="{StaticResource Redo32}"/>
+                <fa:IconBlock Style="{StaticResource Redo16}"/>
               </fluent:Button.Icon>
             </fluent:Button>
             <fluent:SeparatorTabItem/>

@@ -18,7 +18,7 @@
     </Style>
   </UserControl.Resources>
 
-  <Border x:Name="SurroundBorder" BorderThickness="2" CornerRadius="3"
+  <Border x:Name="SurroundBorder" BorderThickness="1"
           MouseEnter="SurroundBorderMouseEnter" 
           MouseLeave="SurroundBorderMouseLeave"
           MouseLeftButtonDown="SurroundBorderMouseLeftButtonDown"
@@ -27,7 +27,7 @@
           AllowDrop="True" 
           DragEnter="SurroundBorderDragEnter" 
           DragLeave="SurroundBorderDragLeave">
-    <Border Background="{Binding Path=StundenplaneintragBackground}" CornerRadius="3">
+    <Border Background="{Binding Path=StundenplaneintragBackground}">
       <!--<Border.BorderBrush>
       <SolidColorBrush x:Name="animatedBrush" Color="Transparent" />
     </Border.BorderBrush>-->

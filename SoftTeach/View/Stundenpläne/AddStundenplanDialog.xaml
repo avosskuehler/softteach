@@ -17,9 +17,14 @@
       <RowDefinition Height="*"/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader Grid.Row="0" Title="Neuen Stundenplan eintragen ..."
-                                      Icon="/SoftTeach;component/Images/StundenplanNeu32.png"/>
-    <Grid Background="{StaticResource DefaultOfficeBackgroundBrush}" Grid.Row="1" >
+    <controls:SmallDialogHeader Grid.Row="0" Title="Neuen Stundenplan eintragen ...">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Stundenplan48}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
+    <Grid Grid.Row="1" >
       <ContentControl Content="{Binding}">
         <ContentControl.Resources>
           <DataTemplate DataType="{x:Type StundenplanView:StundenplanViewModel}">

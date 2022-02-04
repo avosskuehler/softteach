@@ -809,6 +809,10 @@
           person.PersonGeburtstag.Value.Day);
         termin.Datum = geburstagInDerWoche;
         var alter = person.PersonAlter(this.WochenplanMontag.AddDays((int)geburstagInDerWoche.DayOfWeek));
+        if (alter>18)
+        {
+          continue;
+        }
         termin.Beschreibung = string.Format("{0} {1} ({2})", person.PersonVorname, person.PersonNachname, alter);
         var jahrtypViewModel = App.MainViewModel.Jahrtypen.FirstOrDefault(o => o.JahrtypJahr == jahresplanJahr);
         if (jahrtypViewModel != null)

@@ -15,7 +15,7 @@
       </DataTemplate>
     </ResourceDictionary>
   </UserControl.Resources>
-  <GroupBox Padding="5" Header="Gewählter Stundenplan" Margin="5"
+  <HeaderedContentControl Padding="5" Header="Gewählter Stundenplan" Margin="5"
                 HeaderTemplate="{StaticResource GroupBoxHeader}">
     <Grid>
       <Grid.RowDefinitions>
@@ -64,80 +64,80 @@
           <ColumnDefinition MinWidth="100"/>
         </Grid.ColumnDefinitions>
         <!--<Border Grid.Row="0" Grid.Column="0" Background="Green" CornerRadius="10"/>-->
-        <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource StundenplanRowHeaderBorder}">
-          <TextBlock Style="{StaticResource StundenplanRowHeaderText}">
+        <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource WochenplanRowHeaderBorder}">
+          <TextBlock Style="{StaticResource WochenplanRowHeaderText}">
           <Bold><Run Text="{Binding Path=Stundenplan1Bezeichnung, Mode=OneWay}"></Run></Bold><LineBreak/>
           <Run Text="{Binding Path=Stundenplan1Zeit, Mode=OneWay}"></Run>
           </TextBlock>
         </Border>
-        <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource StundenplanRowHeaderBorder}">
-          <TextBlock Style="{StaticResource StundenplanRowHeaderText}">
+        <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource WochenplanRowHeaderBorder}">
+          <TextBlock Style="{StaticResource WochenplanRowHeaderText}">
           <Bold><Run Text="{Binding Path=Stundenplan2Bezeichnung, Mode=OneWay}"></Run></Bold><LineBreak/>
           <Run Text="{Binding Path=Stundenplan2Zeit, Mode=OneWay}"></Run>
           </TextBlock>
         </Border>
-        <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource StundenplanRowHeaderBorder}">
-          <TextBlock Style="{StaticResource StundenplanRowHeaderText}">
+        <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource WochenplanRowHeaderBorder}">
+          <TextBlock Style="{StaticResource WochenplanRowHeaderText}">
           <Bold><Run Text="{Binding Path=Stundenplan3Bezeichnung, Mode=OneWay}"></Run></Bold><LineBreak/>
           <Run Text="{Binding Path=Stundenplan3Zeit, Mode=OneWay}"></Run>
           </TextBlock>
         </Border>
-        <Border Grid.Row="4" Grid.Column="0" Style="{StaticResource StundenplanRowHeaderBorder}">
-          <TextBlock Style="{StaticResource StundenplanRowHeaderText}">
+        <Border Grid.Row="4" Grid.Column="0" Style="{StaticResource WochenplanRowHeaderBorder}">
+          <TextBlock Style="{StaticResource WochenplanRowHeaderText}">
           <Bold><Run Text="{Binding Path=Stundenplan4Bezeichnung, Mode=OneWay}"></Run></Bold><LineBreak/>
           <Run Text="{Binding Path=Stundenplan4Zeit, Mode=OneWay}"></Run>
           </TextBlock>
         </Border>
-        <Border Grid.Row="5" Grid.Column="0" Style="{StaticResource StundenplanRowHeaderBorder}">
-          <TextBlock Style="{StaticResource StundenplanRowHeaderText}">
+        <Border Grid.Row="5" Grid.Column="0" Style="{StaticResource WochenplanRowHeaderBorder}">
+          <TextBlock Style="{StaticResource WochenplanRowHeaderText}">
           <Bold><Run Text="{Binding Path=Stundenplan5Bezeichnung, Mode=OneWay}"></Run></Bold><LineBreak/>
           <Run Text="{Binding Path=Stundenplan5Zeit, Mode=OneWay}"></Run>
           </TextBlock>
         </Border>
-        <Border Grid.Row="6" Grid.Column="0" Style="{StaticResource StundenplanRowHeaderBorder}">
-          <TextBlock Style="{StaticResource StundenplanRowHeaderText}">
+        <Border Grid.Row="6" Grid.Column="0" Style="{StaticResource WochenplanRowHeaderBorder}">
+          <TextBlock Style="{StaticResource WochenplanRowHeaderText}">
           <Bold><Run Text="{Binding Path=Stundenplan6Bezeichnung, Mode=OneWay}"></Run></Bold><LineBreak/>
           <Run Text="{Binding Path=Stundenplan6Zeit, Mode=OneWay}"></Run>
           </TextBlock>
         </Border>
-        <Border Grid.Row="7" Grid.Column="0" Style="{StaticResource StundenplanRowHeaderBorder}">
-          <TextBlock Style="{StaticResource StundenplanRowHeaderText}">
+        <Border Grid.Row="7" Grid.Column="0" Style="{StaticResource WochenplanRowHeaderBorder}">
+          <TextBlock Style="{StaticResource WochenplanRowHeaderText}">
           <Bold><Run Text="{Binding Path=Stundenplan7Bezeichnung, Mode=OneWay}"></Run></Bold><LineBreak/>
           <Run Text="{Binding Path=Stundenplan7Zeit, Mode=OneWay}"></Run>
           </TextBlock>
         </Border>
-        <Border Grid.Row="8" Grid.Column="0" Style="{StaticResource StundenplanRowHeaderBorder}">
-          <TextBlock Style="{StaticResource StundenplanRowHeaderText}">
+        <Border Grid.Row="8" Grid.Column="0" Style="{StaticResource WochenplanRowHeaderBorder}">
+          <TextBlock Style="{StaticResource WochenplanRowHeaderText}">
           <Bold><Run Text="{Binding Path=Stundenplan8Bezeichnung, Mode=OneWay}"></Run></Bold><LineBreak/>
           <Run Text="{Binding Path=Stundenplan8Zeit, Mode=OneWay}"></Run>
           </TextBlock>
         </Border>
-        <Border Grid.Row="9" Grid.Column="0" Style="{StaticResource StundenplanRowHeaderBorder}">
-          <TextBlock Style="{StaticResource StundenplanRowHeaderText}">
+        <Border Grid.Row="9" Grid.Column="0" Style="{StaticResource WochenplanRowHeaderBorder}">
+          <TextBlock Style="{StaticResource WochenplanRowHeaderText}">
           <Bold><Run Text="{Binding Path=Stundenplan9Bezeichnung, Mode=OneWay}"></Run></Bold><LineBreak/>
           <Run Text="{Binding Path=Stundenplan9Zeit, Mode=OneWay}"></Run>
           </TextBlock>
         </Border>
-        <Border Grid.Row="10" Grid.Column="0" Style="{StaticResource StundenplanRowHeaderBorder}">
-          <TextBlock Style="{StaticResource StundenplanRowHeaderText}">
+        <Border Grid.Row="10" Grid.Column="0" Style="{StaticResource WochenplanRowHeaderBorder}">
+          <TextBlock Style="{StaticResource WochenplanRowHeaderText}">
           <Bold><Run Text="{Binding Path=Stundenplan10Bezeichnung, Mode=OneWay}"></Run></Bold><LineBreak/>
           <Run Text="{Binding Path=Stundenplan10Zeit, Mode=OneWay}"></Run>
           </TextBlock>
         </Border>
-        <Border Style="{StaticResource StundenplanHeaderBorder}" Grid.Row="0" Grid.Column="1">
-          <Label Style="{StaticResource StundenplanHeaderText}">Montag</Label>
+        <Border Style="{StaticResource WochenplanHeaderBorder}" Grid.Row="0" Grid.Column="1">
+          <Label Style="{StaticResource WochenplanHeaderText}">Montag</Label>
         </Border>
-        <Border Style="{StaticResource StundenplanHeaderBorder}" Grid.Row="0" Grid.Column="2">
-          <Label Style="{StaticResource StundenplanHeaderText}">Dienstag</Label>
+        <Border Style="{StaticResource WochenplanHeaderBorder}" Grid.Row="0" Grid.Column="2">
+          <Label Style="{StaticResource WochenplanHeaderText}">Dienstag</Label>
         </Border>
-        <Border Style="{StaticResource StundenplanHeaderBorder}" Grid.Row="0" Grid.Column="3">
-          <Label Style="{StaticResource StundenplanHeaderText}">Mittwoch</Label>
+        <Border Style="{StaticResource WochenplanHeaderBorder}" Grid.Row="0" Grid.Column="3">
+          <Label Style="{StaticResource WochenplanHeaderText}">Mittwoch</Label>
         </Border>
-        <Border Style="{StaticResource StundenplanHeaderBorder}" Grid.Row="0" Grid.Column="4">
-          <Label Style="{StaticResource StundenplanHeaderText}">Donnerstag</Label>
+        <Border Style="{StaticResource WochenplanHeaderBorder}" Grid.Row="0" Grid.Column="4">
+          <Label Style="{StaticResource WochenplanHeaderText}">Donnerstag</Label>
         </Border>
-        <Border Style="{StaticResource StundenplanHeaderBorder}" Grid.Row="0" Grid.Column="5">
-          <Label Style="{StaticResource StundenplanHeaderText}">Freitag</Label>
+        <Border Style="{StaticResource WochenplanHeaderBorder}" Grid.Row="0" Grid.Column="5">
+          <Label Style="{StaticResource WochenplanHeaderText}">Freitag</Label>
         </Border>
         <ContentControl Grid.Row="1" Grid.Column="1" Grid.RowSpan="{Binding Path=Stundenplan11Span}" Content="{Binding Path=Stundenplan11}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
         <ContentControl Grid.Row="2" Grid.Column="1" Grid.RowSpan="{Binding Path=Stundenplan12Span}" Content="{Binding Path=Stundenplan12}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
@@ -195,5 +195,5 @@
         <ContentControl Grid.Row="10" Grid.Column="5" Grid.RowSpan="{Binding Path=Stundenplan510Span}" Content="{Binding Path=Stundenplan510}" ContextMenu="{Binding Path=StundenplanContextMenu}"/>
       </Grid>
     </Grid>
-  </GroupBox>
+  </HeaderedContentControl>
 </UserControl>
