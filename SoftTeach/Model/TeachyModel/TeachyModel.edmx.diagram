@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8641f8bcd75149ad9f75b7057c6f4174" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="TeachyModel.ArbeitNeu" Width="1.5" PointX="12.5" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.AufgabeNeu" Width="1.5" PointX="7.5" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.BetroffeneKlasseNeu" Width="1.5" PointX="15.875" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.BewertungsschemataNeu" Width="1.5" PointX="16.5" PointY="17.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.CurriculaNeu" Width="1.5" PointX="24.125" PointY="16.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.DateitypNeu" Width="1.5" PointX="25" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.DateiverweisNeu" Width="1.5" PointX="22.875" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.ErgebnisseNeu" Width="1.5" PointX="7.5" PointY="21.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.FächerNeu" Width="1.5" PointX="20.5" PointY="14.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.FachstundenanzahlenNeu" Width="1.5" PointX="17.375" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.FerienNeu" Width="1.5" PointX="5.875" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.HausaufgabenNeu" Width="1.5" PointX="10.625" PointY="27.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.LerngruppeNeu" Width="1.5" PointX="15.625" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.ModuleNeu" Width="1.5" PointX="22.875" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.NotenNeu" Width="1.5" PointX="10.625" PointY="22.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.NotentendenzenNeu" Width="1.5" PointX="12.75" PointY="26" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.NotenWichtungNeu" Width="1.5" PointX="1" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.PersonenNeu" Width="1.5" PointX="4.125" PointY="25.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.PhaseNeu" Width="1.5" PointX="23" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.ProzentbereicheNeu" Width="1.5" PointX="16.5" PointY="20.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.RaumNeu" Width="1.5" PointX="3.5" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.RaumplanNeu" Width="1.5" PointX="1.125" PointY="13.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.ReihenNeu" Width="1.5" PointX="24.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.SchülereinträgeNeu" Width="1.5" PointX="6.875" PointY="25.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.SchülerlistenNeu" Width="1.5" PointX="6.875" PointY="28.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.SchuljahrNeu" Width="1.5" PointX="8.25" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.SequenzenNeu" Width="1.5" PointX="26.5" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.SitzplanNeu" Width="1.5" PointX="1.125" PointY="17" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.SitzplaneintragNeu" Width="1.5" PointX="3.25" PointY="18.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.SitzplatzNeu" Width="1.5" PointX="3.375" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.StundenplanNeu" Width="1.5" PointX="8.125" PointY="15.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.StundenplaneintragNeu" Width="1.5" PointX="5.75" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.TerminNeu" Width="1.5" PointX="12.25" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.LerngruppenterminNeu" Width="1.5" PointX="18.25" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.SchulterminNeu" Width="1.5" PointX="12.375" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.StundeNeu" Width="1.5" PointX="20.5" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.UnterrichtsstundeNeu" Width="1.5" PointX="10" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeachyModel.ZensurenNeu" Width="1.5" PointX="16.5" PointY="23.5" IsExpanded="true" />
+        <AssociationConnector Association="TeachyModel.FK_ArbeitAufgabe" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_ArbeitNoten" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_BewertungsschemaArbeit" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_FachArbeit" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_LerngruppeArbeit" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_AufgabeErgebnis" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_LerngruppeBetroffeneKlasse" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_TerminBetroffeneKlasse" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_BewertungsschemaProzentbereich" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_CurriculumReihe" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_FachCurriculum" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_SchuljahrCurriculum" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_DateitypDateiverweis" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_StundeDateiverweis" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_SchülereintragErgebnis" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_FachFachstundenanzahl" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_FachLerngruppe" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_FachModul" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_FachStunde" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_FachStundenplaneintrag" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="TeachyModel.FK_SchuljahrFerien" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_SchülereintragHausaufgaben" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_LerngruppeLerngruppentermin" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_LerngruppeStundenplaneintrag" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_NotenWichtungenLerngruppe" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_SchuljahrLerngruppe" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_ModulReihe" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_ModulStunde" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_SchülereintragNoten" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_ZensurNoten" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_PersonSchülereintrag" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_StundePhase" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_ZensurProzentbereich" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_RaumRaumplan" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_RaumStundenplaneintrag" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_RaumplanSitzplan" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_RaumplanSitzplatz" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_ReiheSequenz" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_SchülereintragSitzplaneintrag" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_SchülerlisteSchülereintrag" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_SchuljahrSchultermin" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_SchuljahrStundenplan" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_SitzplanSitzplaneintrag" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_SitzplatzSitzplaneintrag" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_StundenplanStundenplaneintrag" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_ErsteUnterrichtsstundeTermin" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_UnterrichtsstundeTermin" ManuallyRouted="false" />
+        <AssociationConnector Association="TeachyModel.FK_SchülereintragNotentendenz" />
+        <InheritanceConnector EntityType="TeachyModel.SchulterminNeu" />
+        <InheritanceConnector EntityType="TeachyModel.LerngruppenterminNeu" />
+        <InheritanceConnector EntityType="TeachyModel.StundeNeu" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

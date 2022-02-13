@@ -4,7 +4,6 @@
   using System.ComponentModel;
 
   using SoftTeach.ExceptionHandling;
-  using SoftTeach.Model.EntityFramework;
   using SoftTeach.UndoRedo;
 
   /// <summary>
@@ -19,13 +18,19 @@
     /// </summary>
     public UnitOfWork()
     {
-      this.Context = new SoftTeachDataModel();
+      this.OldContext = new EntityFramework.SoftTeachDataModel();
+      this.Context = new TeachyModel.TeachyEntities();
     }
 
     /// <summary>
     /// Holt den SoftTeach database model context, which is a DbContext.
     /// </summary>
-    public SoftTeachDataModel Context { get; set; }
+    public EntityFramework.SoftTeachDataModel OldContext { get; set; }
+
+    /// <summary>
+    /// Holt den SoftTeach database model context, which is a DbContext.
+    /// </summary>
+    public TeachyModel.TeachyEntities Context { get; set; }
 
     /// <summary>
     /// Diese Methode speichert alle Änderungen an der Datenbank

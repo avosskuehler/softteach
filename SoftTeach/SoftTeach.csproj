@@ -212,16 +212,61 @@
     <Compile Include="Model\EntityFramework\BetroffeneKlasse.cs">
       <DependentUpon>SoftTeachModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\EntityFramework\Bewertungsschema.cs">
-      <DependentUpon>SoftTeachModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\EntityFramework\Curriculum.cs">
-      <DependentUpon>SoftTeachModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\EntityFramework\Dateityp.cs">
       <DependentUpon>SoftTeachModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\EntityFramework\Dateiverweis.cs">
+      <DependentUpon>SoftTeachModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EntityFramework\Ferien.cs">
+      <DependentUpon>SoftTeachModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EntityFramework\Lerngruppentermin.cs">
+      <DependentUpon>SoftTeachModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EntityFramework\NotenWichtung.cs">
+      <DependentUpon>SoftTeachModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EntityFramework\Phase.cs">
+      <DependentUpon>SoftTeachModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EntityFramework\Raum.cs">
+      <DependentUpon>SoftTeachModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EntityFramework\Raumplan.cs">
+      <DependentUpon>SoftTeachModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EntityFramework\Schultermin.cs">
+      <DependentUpon>SoftTeachModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EntityFramework\Sitzplan.cs">
+      <DependentUpon>SoftTeachModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EntityFramework\Sitzplaneintrag.cs">
+      <DependentUpon>SoftTeachModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EntityFramework\Sitzplatz.cs">
+      <DependentUpon>SoftTeachModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EntityFramework\Stunde.cs">
+      <DependentUpon>SoftTeachModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EntityFramework\Stundenplan.cs">
+      <DependentUpon>SoftTeachModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EntityFramework\Stundenplaneintrag.cs">
+      <DependentUpon>SoftTeachModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EntityFramework\Termin.cs">
+      <DependentUpon>SoftTeachModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EntityFramework\Unterrichtsstunde.cs">
+      <DependentUpon>SoftTeachModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EntityFramework\Bewertungsschema.cs">
+      <DependentUpon>SoftTeachModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\EntityFramework\Curriculum.cs">
       <DependentUpon>SoftTeachModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\EntityFramework\Ergebnis.cs">
@@ -231,9 +276,6 @@
       <DependentUpon>SoftTeachModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\EntityFramework\Fachstundenanzahl.cs">
-      <DependentUpon>SoftTeachModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\EntityFramework\Ferien.cs">
       <DependentUpon>SoftTeachModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\EntityFramework\Halbjahresplan.cs">
@@ -260,9 +302,6 @@
     <Compile Include="Model\EntityFramework\Klassenstufe.cs">
       <DependentUpon>SoftTeachModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\EntityFramework\Lerngruppentermin.cs">
-      <DependentUpon>SoftTeachModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\EntityFramework\Medium.cs">
       <DependentUpon>SoftTeachModel.tt</DependentUpon>
     </Compile>
@@ -281,31 +320,16 @@
     <Compile Include="Model\EntityFramework\Notentendenz.cs">
       <DependentUpon>SoftTeachModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\EntityFramework\NotenWichtung.cs">
-      <DependentUpon>SoftTeachModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\EntityFramework\Person.cs">
       <DependentUpon>SoftTeachModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\EntityFramework\Phase.cs">
-      <DependentUpon>SoftTeachModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\EntityFramework\Prozentbereich.cs">
-      <DependentUpon>SoftTeachModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\EntityFramework\Raum.cs">
-      <DependentUpon>SoftTeachModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\EntityFramework\Raumplan.cs">
       <DependentUpon>SoftTeachModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\EntityFramework\Reihe.cs">
       <DependentUpon>SoftTeachModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\EntityFramework\Schultag.cs">
-      <DependentUpon>SoftTeachModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\EntityFramework\Schultermin.cs">
       <DependentUpon>SoftTeachModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\EntityFramework\Schulwoche.cs">
@@ -318,15 +342,6 @@
       <DependentUpon>SoftTeachModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\EntityFramework\Sequenz.cs">
-      <DependentUpon>SoftTeachModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\EntityFramework\Sitzplan.cs">
-      <DependentUpon>SoftTeachModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\EntityFramework\Sitzplaneintrag.cs">
-      <DependentUpon>SoftTeachModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\EntityFramework\Sitzplatz.cs">
       <DependentUpon>SoftTeachModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\EntityFramework\SoftTeachModel.Context.cs">
@@ -347,20 +362,131 @@
     <Compile Include="Model\EntityFramework\Sozialform.cs">
       <DependentUpon>SoftTeachModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\EntityFramework\Stunde.cs">
-      <DependentUpon>SoftTeachModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\EntityFramework\Stundenentwurf.cs">
-      <DependentUpon>SoftTeachModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\EntityFramework\Stundenplan.cs">
-      <DependentUpon>SoftTeachModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\EntityFramework\Stundenplaneintrag.cs">
       <DependentUpon>SoftTeachModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\EntityFramework\Tagesplan.cs">
       <DependentUpon>SoftTeachModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\ArbeitNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\AufgabeNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\BetroffeneKlasseNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\BewertungsschemataNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\CurriculaNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\DateitypNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\DateiverweisNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\ErgebnisseNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\FachstundenanzahlenNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\FerienNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\FächerNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\HausaufgabenNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\LerngruppeNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\LerngruppenterminNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\ModuleNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\NotenNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\NotentendenzenNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\NotenWichtungNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\PersonenNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\PhaseNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\ProzentbereicheNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\RaumNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\RaumplanNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\ReihenNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\SchuljahrNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\SchulterminNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\SchülereinträgeNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\SchülerlistenNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\SequenzenNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\SitzplaneintragNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\SitzplanNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\SitzplatzNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\StundeNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\StundenplaneintragNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\StundenplanNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\TeachyModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TeachyModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\TeachyModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\TeachyModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TeachyModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Model\EntityFramework\Tendenz.cs">
       <DependentUpon>SoftTeachModel.tt</DependentUpon>
@@ -368,17 +494,20 @@
     <Compile Include="Model\EntityFramework\Tendenztyp.cs">
       <DependentUpon>SoftTeachModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\EntityFramework\Termin.cs">
-      <DependentUpon>SoftTeachModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\EntityFramework\Termintyp.cs">
-      <DependentUpon>SoftTeachModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\EntityFramework\Unterrichtsstunde.cs">
       <DependentUpon>SoftTeachModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\EntityFramework\Zensur.cs">
       <DependentUpon>SoftTeachModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\TerminNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\UnterrichtsstundeNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\ZensurenNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\UnitOfWork.cs" />
     <Compile Include="Properties\Settings.cs" />
@@ -1050,6 +1179,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Content Include="Model\TeachyModel\TeachyModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TeachyModel.Context.cs</LastGenOutput>
+      <DependentUpon>TeachyModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Model\TeachyModel\TeachyModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TeachyModel.edmx</DependentUpon>
+      <LastGenOutput>TeachyModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Resources\FontAwesome\fontawesome-all.css" />
     <Content Include="Resources\FontAwesome\IconChar.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -1060,6 +1199,13 @@
     <Resource Include="Fonts\FontAwesome5Pro-Light-300.otf" />
     <Resource Include="Fonts\FontAwesome5Pro-Regular-400.otf" />
     <Resource Include="Fonts\FontAwesome5Pro-Solid-900.otf" />
+    <EntityDeploy Include="Model\TeachyModel\TeachyModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>TeachyModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Model\TeachyModel\TeachyModel.edmx.diagram">
+      <DependentUpon>TeachyModel.edmx</DependentUpon>
+    </None>
     <None Include="SoftTeach_TemporaryKey.pfx" />
     <Resource Include="Resources\Entypo.ttf" />
     <Resource Include="Resources\Entypo-license.txt" />

@@ -1,0 +1,3188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TeachyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Arbeiten">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LerngruppeId" Type="int" Nullable="false" />
+          <Property Name="FachId" Type="int" Nullable="false" />
+          <Property Name="BewertungsschemaId" Type="int" Nullable="false" />
+          <Property Name="Bepunktungstyp" Type="int" Nullable="false" />
+          <Property Name="Bezeichnung" Type="varchar(max)" Nullable="false" />
+          <Property Name="LfdNr" Type="int" Nullable="false" />
+          <Property Name="Datum" Type="datetime" Nullable="false" />
+          <Property Name="IstKlausur" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Aufgaben">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ArbeitId" Type="int" Nullable="false" />
+          <Property Name="LfdNr" Type="int" Nullable="false" />
+          <Property Name="MaxPunkte" Type="float" Nullable="false" />
+          <Property Name="Bezeichnung" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="BetroffeneKlassen">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TerminId" Type="int" Nullable="false" />
+          <Property Name="LerngruppeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Bewertungsschemata">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Bezeichnung" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Curricula">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FachId" Type="int" Nullable="false" />
+          <Property Name="Jahrgang" Type="int" Nullable="false" />
+          <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SchuljahrId" Type="int" Nullable="false" />
+          <Property Name="Halbjahr" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Dateitypen">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Kürzel" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Dateiverweise">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Dateiname" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DateitypId" Type="int" Nullable="false" />
+          <Property Name="StundeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ergebnisse">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AufgabeId" Type="int" Nullable="false" />
+          <Property Name="SchülereintragId" Type="int" Nullable="false" />
+          <Property Name="Punktzahl" Type="float" />
+        </EntityType>
+        <EntityType Name="Fächer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Farbe" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Fachstundenanzahlen">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FachId" Type="int" Nullable="false" />
+          <Property Name="Jahrgang" Type="int" Nullable="false" />
+          <Property Name="Stundenzahl" Type="int" Nullable="false" />
+          <Property Name="Teilungsstundenzahl" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ferien">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SchuljahrId" Type="int" Nullable="false" />
+          <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ErsterFerientag" Type="datetime" Nullable="false" />
+          <Property Name="LetzterFerientag" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Hausaufgaben">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Datum" Type="datetime" Nullable="false" />
+          <Property Name="Bezeichnung" Type="nvarchar" MaxLength="50" />
+          <Property Name="IstNachgereicht" Type="bit" Nullable="false" />
+          <Property Name="SchülereintragId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Lerngruppen">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Bezeichnung" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SchuljahrId" Type="int" Nullable="false" />
+          <Property Name="Halbjahr" Type="int" Nullable="false" />
+          <Property Name="FachId" Type="int" Nullable="false" />
+          <Property Name="Jahrgang" Type="int" Nullable="false" />
+          <Property Name="NotenWichtungId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Module">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FachId" Type="int" Nullable="false" />
+          <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Jahrgang" Type="int" Nullable="false" />
+          <Property Name="Bausteine" Type="nvarchar(max)" />
+          <Property Name="Stundenbedarf" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Noten">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SchülereintragId" Type="int" Nullable="false" />
+          <Property Name="ZensurId" Type="int" Nullable="false" />
+          <Property Name="Datum" Type="datetime" Nullable="false" />
+          <Property Name="Wichtung" Type="int" Nullable="false" />
+          <Property Name="IstSchriftlich" Type="bit" Nullable="false" />
+          <Property Name="ArbeitId" Type="int" />
+          <Property Name="Bezeichnung" Type="nvarchar(max)" />
+          <Property Name="Notentyp" Type="int" Nullable="false" />
+          <Property Name="NotenTermintyp" Type="int" />
+        </EntityType>
+        <EntityType Name="Notentendenzen">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Datum" Type="datetime" Nullable="false" />
+          <Property Name="Tendenz" Type="int" Nullable="false" />
+          <Property Name="Tendenztyp" Type="int" Nullable="false" />
+          <Property Name="Bezeichnung" Type="nvarchar(max)" />
+          <Property Name="SchülereintragId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NotenWichtungen">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="MündlichQualität" Type="real" Nullable="false" />
+          <Property Name="MündlichQuantität" Type="real" Nullable="false" />
+          <Property Name="MündlichSonstige" Type="real" Nullable="false" />
+          <Property Name="MündlichGesamt" Type="real" Nullable="false" />
+          <Property Name="SchriftlichKlassenarbeit" Type="real" Nullable="false" />
+          <Property Name="SchriftlichSonstige" Type="real" Nullable="false" />
+          <Property Name="SchriftlichGesamt" Type="real" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Personen">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Vorname" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Nachname" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Geschlecht" Type="bit" Nullable="false" />
+          <Property Name="Geburtstag" Type="datetime" />
+          <Property Name="Titel" Type="nvarchar(max)" />
+          <Property Name="Telefon" Type="nvarchar(max)" />
+          <Property Name="Fax" Type="nvarchar(max)" />
+          <Property Name="Handy" Type="nvarchar(max)" />
+          <Property Name="EMail" Type="nvarchar(max)" />
+          <Property Name="PLZ" Type="nvarchar(max)" />
+          <Property Name="Straße" Type="nvarchar(max)" />
+          <Property Name="Hausnummer" Type="nvarchar(max)" />
+          <Property Name="Ort" Type="nvarchar(max)" />
+          <Property Name="IstLehrer" Type="bit" Nullable="false" />
+          <Property Name="Foto" Type="image" />
+        </EntityType>
+        <EntityType Name="Phasen">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="StundeId" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StundeId" Type="int" Nullable="false" />
+          <Property Name="Zeit" Type="int" Nullable="false" />
+          <Property Name="Medium" Type="int" Nullable="false" />
+          <Property Name="Sozialform" Type="int" Nullable="false" />
+          <Property Name="Inhalt" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Reihenfolge" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Prozentbereiche">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ZensurId" Type="int" Nullable="false" />
+          <Property Name="VonProzent" Type="float" Nullable="false" />
+          <Property Name="BisProzent" Type="float" Nullable="false" />
+          <Property Name="BewertungsschemaId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Räume">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Raumpläne">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RaumId" Type="int" Nullable="false" />
+          <Property Name="Grundriss" Type="image" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Reihen">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ModulId" Type="int" Nullable="false" />
+          <Property Name="Thema" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Stundenbedarf" Type="int" Nullable="false" />
+          <Property Name="CurriculumId" Type="int" Nullable="false" />
+          <Property Name="Reihenfolge" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Schülereinträge">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SchülerlisteId" Type="int" Nullable="false" />
+          <Property Name="PersonId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Schülerlisten">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SchuljahrId" Type="int" Nullable="false" />
+          <Property Name="Halbjahr" Type="int" Nullable="false" />
+          <Property Name="Bezeichnung" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FachId" Type="int" Nullable="false" />
+          <Property Name="NotenWichtungId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Schuljahre">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Jahr" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sequenzen">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReiheId" Type="int" Nullable="false" />
+          <Property Name="Reihenfolge" Type="int" Nullable="false" />
+          <Property Name="Stundenbedarf" Type="int" Nullable="false" />
+          <Property Name="Thema" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sitzpläne">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RaumplanId" Type="int" Nullable="false" />
+          <Property Name="SchülerlisteId" Type="int" Nullable="false" />
+          <Property Name="GültigAb" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sitzplaneinträge">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SitzplanId" Type="int" Nullable="false" />
+          <Property Name="SitzplatzId" Type="int" Nullable="false" />
+          <Property Name="SchülereintragId" Type="int" />
+        </EntityType>
+        <EntityType Name="Sitzplätze">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RaumplanId" Type="int" Nullable="false" />
+          <Property Name="LinksObenX" Type="float" Nullable="false" />
+          <Property Name="LinksObenY" Type="float" Nullable="false" />
+          <Property Name="Breite" Type="float" Nullable="false" />
+          <Property Name="Höhe" Type="float" Nullable="false" />
+          <Property Name="Drehwinkel" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Stundenpläne">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SchuljahrID" Type="int" Nullable="false" />
+          <Property Name="Halbjahr" Type="int" Nullable="false" />
+          <Property Name="GültigAb" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Stundenplaneinträge">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StundenplanId" Type="int" Nullable="false" />
+          <Property Name="ErsteUnterrichtsstundeIndex" Type="int" Nullable="false" />
+          <Property Name="LetzteUnterrichtsstundeIndex" Type="int" Nullable="false" />
+          <Property Name="WochentagIndex" Type="int" Nullable="false" />
+          <Property Name="FachId" Type="int" Nullable="false" />
+          <Property Name="LerngruppeID" Type="int" Nullable="false" />
+          <Property Name="RaumId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Termine">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Termintyp" Type="int" Nullable="false" />
+          <Property Name="Beschreibung" Type="nvarchar(max)" />
+          <Property Name="ErsteUnterrichtsstundeId" Type="int" Nullable="false" />
+          <Property Name="LetzteUnterrichtsstundeId" Type="int" Nullable="false" />
+          <Property Name="Ort" Type="nvarchar(max)" />
+          <Property Name="IstGeprüft" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Termine_Lerngruppentermin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="LerngruppeId" Type="int" />
+          <Property Name="Datum" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Termine_Schultermin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="SchuljahrId" Type="int" Nullable="false" />
+          <Property Name="Datum" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Termine_Stunde">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="IstBenotet" Type="bit" Nullable="false" />
+          <Property Name="FachId" Type="int" Nullable="false" />
+          <Property Name="Jahrgang" Type="int" Nullable="false" />
+          <Property Name="ModulId" Type="int" />
+          <Property Name="Kopieren" Type="bit" Nullable="false" />
+          <Property Name="Computer" Type="bit" Nullable="false" />
+          <Property Name="Hausaufgaben" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Ansagen" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Unterrichtsstunden">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Beginn" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Ende" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Stundenindex" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Zensuren">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Notenpunkte" Type="int" Nullable="false" />
+          <Property Name="NoteMitTendenz" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="GanzeNote" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ArbeitAufgabe">
+          <End Role="Arbeiten" Type="Self.Arbeiten" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Aufgaben" Type="Self.Aufgaben" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Arbeiten">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Aufgaben">
+              <PropertyRef Name="ArbeitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ArbeitNoten">
+          <End Role="Arbeiten" Type="Self.Arbeiten" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Noten" Type="Self.Noten" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Arbeiten">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Noten">
+              <PropertyRef Name="ArbeitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AufgabeErgebnis">
+          <End Role="Aufgaben" Type="Self.Aufgaben" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Ergebnisse" Type="Self.Ergebnisse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Aufgaben">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ergebnisse">
+              <PropertyRef Name="AufgabeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BewertungsschemaArbeit">
+          <End Role="Bewertungsschemata" Type="Self.Bewertungsschemata" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Arbeiten" Type="Self.Arbeiten" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bewertungsschemata">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Arbeiten">
+              <PropertyRef Name="BewertungsschemaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BewertungsschemaProzentbereich">
+          <End Role="Bewertungsschemata" Type="Self.Bewertungsschemata" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Prozentbereiche" Type="Self.Prozentbereiche" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bewertungsschemata">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Prozentbereiche">
+              <PropertyRef Name="BewertungsschemaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurriculumReihe">
+          <End Role="Curricula" Type="Self.Curricula" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Reihen" Type="Self.Reihen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curricula">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reihen">
+              <PropertyRef Name="CurriculumId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DateitypDateiverweis">
+          <End Role="Dateitypen" Type="Self.Dateitypen" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Dateiverweise" Type="Self.Dateiverweise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dateitypen">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Dateiverweise">
+              <PropertyRef Name="DateitypId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ErsteUnterrichtsstundeTermin">
+          <End Role="Unterrichtsstunden" Type="Self.Unterrichtsstunden" Multiplicity="1" />
+          <End Role="Termine" Type="Self.Termine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unterrichtsstunden">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Termine">
+              <PropertyRef Name="ErsteUnterrichtsstundeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FachArbeit">
+          <End Role="Fächer" Type="Self.Fächer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Arbeiten" Type="Self.Arbeiten" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fächer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Arbeiten">
+              <PropertyRef Name="FachId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FachCurriculum">
+          <End Role="Fächer" Type="Self.Fächer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Curricula" Type="Self.Curricula" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fächer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Curricula">
+              <PropertyRef Name="FachId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FachFachstundenanzahl">
+          <End Role="Fächer" Type="Self.Fächer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Fachstundenanzahlen" Type="Self.Fachstundenanzahlen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fächer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Fachstundenanzahlen">
+              <PropertyRef Name="FachId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FachLerngruppe">
+          <End Role="Fächer" Type="Self.Fächer" Multiplicity="1" />
+          <End Role="Lerngruppen" Type="Self.Lerngruppen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fächer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Lerngruppen">
+              <PropertyRef Name="FachId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FachModul">
+          <End Role="Fächer" Type="Self.Fächer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Module" Type="Self.Module" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fächer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Module">
+              <PropertyRef Name="FachId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FachStunde">
+          <End Role="Fächer" Type="Self.Fächer" Multiplicity="1" />
+          <End Role="Termine_Stunde" Type="Self.Termine_Stunde" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fächer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Termine_Stunde">
+              <PropertyRef Name="FachId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FachStundenplaneintrag">
+          <End Role="Fächer" Type="Self.Fächer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Stundenplaneinträge" Type="Self.Stundenplaneinträge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fächer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stundenplaneinträge">
+              <PropertyRef Name="FachId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LerngruppeArbeit">
+          <End Role="Lerngruppen" Type="Self.Lerngruppen" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Arbeiten" Type="Self.Arbeiten" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lerngruppen">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Arbeiten">
+              <PropertyRef Name="LerngruppeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LerngruppeBetroffeneKlasse">
+          <End Role="Lerngruppen" Type="Self.Lerngruppen" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BetroffeneKlassen" Type="Self.BetroffeneKlassen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lerngruppen">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BetroffeneKlassen">
+              <PropertyRef Name="LerngruppeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LerngruppeLerngruppentermin">
+          <End Role="Lerngruppen" Type="Self.Lerngruppen" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Termine_Lerngruppentermin" Type="Self.Termine_Lerngruppentermin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lerngruppen">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Termine_Lerngruppentermin">
+              <PropertyRef Name="LerngruppeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lerngruppentermin_inherits_Termin">
+          <End Role="Termine" Type="Self.Termine" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Termine_Lerngruppentermin" Type="Self.Termine_Lerngruppentermin" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Termine">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Termine_Lerngruppentermin">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LerngruppeStundenplaneintrag">
+          <End Role="Lerngruppen" Type="Self.Lerngruppen" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Stundenplaneinträge" Type="Self.Stundenplaneinträge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lerngruppen">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stundenplaneinträge">
+              <PropertyRef Name="LerngruppeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ModulReihe">
+          <End Role="Module" Type="Self.Module" Multiplicity="1" />
+          <End Role="Reihen" Type="Self.Reihen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Module">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reihen">
+              <PropertyRef Name="ModulId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ModulStunde">
+          <End Role="Module" Type="Self.Module" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Termine_Stunde" Type="Self.Termine_Stunde" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Module">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Termine_Stunde">
+              <PropertyRef Name="ModulId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NotenWichtungenLerngruppe">
+          <End Role="NotenWichtungen" Type="Self.NotenWichtungen" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Lerngruppen" Type="Self.Lerngruppen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NotenWichtungen">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Lerngruppen">
+              <PropertyRef Name="NotenWichtungId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonSchülereintrag">
+          <End Role="Personen" Type="Self.Personen" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Schülereinträge" Type="Self.Schülereinträge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personen">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Schülereinträge">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RaumplanSitzplan">
+          <End Role="Raumpläne" Type="Self.Raumpläne" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Sitzpläne" Type="Self.Sitzpläne" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Raumpläne">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sitzpläne">
+              <PropertyRef Name="RaumplanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RaumplanSitzplatz">
+          <End Role="Raumpläne" Type="Self.Raumpläne" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Sitzplätze" Type="Self.Sitzplätze" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Raumpläne">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sitzplätze">
+              <PropertyRef Name="RaumplanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RaumRaumplan">
+          <End Role="Räume" Type="Self.Räume" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Raumpläne" Type="Self.Raumpläne" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Räume">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Raumpläne">
+              <PropertyRef Name="RaumId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RaumStundenplaneintrag">
+          <End Role="Räume" Type="Self.Räume" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Stundenplaneinträge" Type="Self.Stundenplaneinträge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Räume">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stundenplaneinträge">
+              <PropertyRef Name="RaumId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReiheSequenz">
+          <End Role="Reihen" Type="Self.Reihen" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Sequenzen" Type="Self.Sequenzen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reihen">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sequenzen">
+              <PropertyRef Name="ReiheId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SchülereintragErgebnis">
+          <End Role="Schülereinträge" Type="Self.Schülereinträge" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Ergebnisse" Type="Self.Ergebnisse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schülereinträge">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ergebnisse">
+              <PropertyRef Name="SchülereintragId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SchülereintragHausaufgaben">
+          <End Role="Schülereinträge" Type="Self.Schülereinträge" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Hausaufgaben" Type="Self.Hausaufgaben" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schülereinträge">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Hausaufgaben">
+              <PropertyRef Name="SchülereintragId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SchülereintragNoten">
+          <End Role="Schülereinträge" Type="Self.Schülereinträge" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Noten" Type="Self.Noten" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schülereinträge">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Noten">
+              <PropertyRef Name="SchülereintragId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SchülereintragNotentendenz">
+          <End Role="Schülereinträge" Type="Self.Schülereinträge" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Notentendenzen" Type="Self.Notentendenzen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schülereinträge">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Notentendenzen">
+              <PropertyRef Name="SchülereintragId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SchülereintragSitzplaneintrag">
+          <End Role="Schülereinträge" Type="Self.Schülereinträge" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Sitzplaneinträge" Type="Self.Sitzplaneinträge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schülereinträge">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sitzplaneinträge">
+              <PropertyRef Name="SchülereintragId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SchülerlisteSchülereintrag">
+          <End Role="Schülerlisten" Type="Self.Schülerlisten" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Schülereinträge" Type="Self.Schülereinträge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schülerlisten">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Schülereinträge">
+              <PropertyRef Name="SchülerlisteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SchuljahrCurriculum">
+          <End Role="Schuljahre" Type="Self.Schuljahre" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Curricula" Type="Self.Curricula" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schuljahre">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Curricula">
+              <PropertyRef Name="SchuljahrId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SchuljahrFerien">
+          <End Role="Schuljahre" Type="Self.Schuljahre" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Ferien" Type="Self.Ferien" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schuljahre">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ferien">
+              <PropertyRef Name="SchuljahrId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SchuljahrLerngruppe">
+          <End Role="Schuljahre" Type="Self.Schuljahre" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Lerngruppen" Type="Self.Lerngruppen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schuljahre">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Lerngruppen">
+              <PropertyRef Name="SchuljahrId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SchuljahrSchultermin">
+          <End Role="Schuljahre" Type="Self.Schuljahre" Multiplicity="1" />
+          <End Role="Termine_Schultermin" Type="Self.Termine_Schultermin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schuljahre">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Termine_Schultermin">
+              <PropertyRef Name="SchuljahrId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SchuljahrStundenplan">
+          <End Role="Schuljahre" Type="Self.Schuljahre" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Stundenpläne" Type="Self.Stundenpläne" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schuljahre">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stundenpläne">
+              <PropertyRef Name="SchuljahrID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schultermin_inherits_Termin">
+          <End Role="Termine" Type="Self.Termine" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Termine_Schultermin" Type="Self.Termine_Schultermin" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Termine">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Termine_Schultermin">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SitzplanSitzplaneintrag">
+          <End Role="Sitzpläne" Type="Self.Sitzpläne" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Sitzplaneinträge" Type="Self.Sitzplaneinträge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sitzpläne">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sitzplaneinträge">
+              <PropertyRef Name="SitzplanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SitzplatzSitzplaneintrag">
+          <End Role="Sitzplätze" Type="Self.Sitzplätze" Multiplicity="1" />
+          <End Role="Sitzplaneinträge" Type="Self.Sitzplaneinträge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sitzplätze">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sitzplaneinträge">
+              <PropertyRef Name="SitzplatzId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Stunde_inherits_Lerngruppentermin">
+          <End Role="Termine_Lerngruppentermin" Type="Self.Termine_Lerngruppentermin" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Termine_Stunde" Type="Self.Termine_Stunde" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Termine_Lerngruppentermin">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Termine_Stunde">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StundeDateiverweis">
+          <End Role="Termine_Stunde" Type="Self.Termine_Stunde" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Dateiverweise" Type="Self.Dateiverweise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Termine_Stunde">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Dateiverweise">
+              <PropertyRef Name="StundeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StundenplanStundenplaneintrag">
+          <End Role="Stundenpläne" Type="Self.Stundenpläne" Multiplicity="1" />
+          <End Role="Stundenplaneinträge" Type="Self.Stundenplaneinträge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stundenpläne">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stundenplaneinträge">
+              <PropertyRef Name="StundenplanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StundePhase">
+          <End Role="Termine_Stunde" Type="Self.Termine_Stunde" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Phasen" Type="Self.Phasen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Termine_Stunde">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Phasen">
+              <PropertyRef Name="StundeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TerminBetroffeneKlasse">
+          <End Role="Termine_Schultermin" Type="Self.Termine_Schultermin" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BetroffeneKlassen" Type="Self.BetroffeneKlassen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Termine_Schultermin">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BetroffeneKlassen">
+              <PropertyRef Name="TerminId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UnterrichtsstundeTermin">
+          <End Role="Unterrichtsstunden" Type="Self.Unterrichtsstunden" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Termine" Type="Self.Termine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unterrichtsstunden">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Termine">
+              <PropertyRef Name="LetzteUnterrichtsstundeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ZensurNoten">
+          <End Role="Zensuren" Type="Self.Zensuren" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Noten" Type="Self.Noten" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zensuren">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Noten">
+              <PropertyRef Name="ZensurId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ZensurProzentbereich">
+          <End Role="Zensuren" Type="Self.Zensuren" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Prozentbereiche" Type="Self.Prozentbereiche" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zensuren">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Prozentbereiche">
+              <PropertyRef Name="ZensurId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TeachyModelStoreContainer">
+          <EntitySet Name="Arbeiten" EntityType="Self.Arbeiten" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Aufgaben" EntityType="Self.Aufgaben" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BetroffeneKlassen" EntityType="Self.BetroffeneKlassen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Bewertungsschemata" EntityType="Self.Bewertungsschemata" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Curricula" EntityType="Self.Curricula" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Dateitypen" EntityType="Self.Dateitypen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Dateiverweise" EntityType="Self.Dateiverweise" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ergebnisse" EntityType="Self.Ergebnisse" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fächer" EntityType="Self.Fächer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fachstundenanzahlen" EntityType="Self.Fachstundenanzahlen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ferien" EntityType="Self.Ferien" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hausaufgaben" EntityType="Self.Hausaufgaben" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Lerngruppen" EntityType="Self.Lerngruppen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Module" EntityType="Self.Module" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Noten" EntityType="Self.Noten" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notentendenzen" EntityType="Self.Notentendenzen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NotenWichtungen" EntityType="Self.NotenWichtungen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Personen" EntityType="Self.Personen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Phasen" EntityType="Self.Phasen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Prozentbereiche" EntityType="Self.Prozentbereiche" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Räume" EntityType="Self.Räume" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Raumpläne" EntityType="Self.Raumpläne" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reihen" EntityType="Self.Reihen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Schülereinträge" EntityType="Self.Schülereinträge" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Schülerlisten" EntityType="Self.Schülerlisten" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Schuljahre" EntityType="Self.Schuljahre" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sequenzen" EntityType="Self.Sequenzen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sitzpläne" EntityType="Self.Sitzpläne" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sitzplaneinträge" EntityType="Self.Sitzplaneinträge" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sitzplätze" EntityType="Self.Sitzplätze" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stundenpläne" EntityType="Self.Stundenpläne" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stundenplaneinträge" EntityType="Self.Stundenplaneinträge" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Termine" EntityType="Self.Termine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Termine_Lerngruppentermin" EntityType="Self.Termine_Lerngruppentermin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Termine_Schultermin" EntityType="Self.Termine_Schultermin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Termine_Stunde" EntityType="Self.Termine_Stunde" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Unterrichtsstunden" EntityType="Self.Unterrichtsstunden" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Zensuren" EntityType="Self.Zensuren" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ArbeitAufgabe" Association="Self.FK_ArbeitAufgabe">
+            <End Role="Arbeiten" EntitySet="Arbeiten" />
+            <End Role="Aufgaben" EntitySet="Aufgaben" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ArbeitNoten" Association="Self.FK_ArbeitNoten">
+            <End Role="Arbeiten" EntitySet="Arbeiten" />
+            <End Role="Noten" EntitySet="Noten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AufgabeErgebnis" Association="Self.FK_AufgabeErgebnis">
+            <End Role="Aufgaben" EntitySet="Aufgaben" />
+            <End Role="Ergebnisse" EntitySet="Ergebnisse" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BewertungsschemaArbeit" Association="Self.FK_BewertungsschemaArbeit">
+            <End Role="Bewertungsschemata" EntitySet="Bewertungsschemata" />
+            <End Role="Arbeiten" EntitySet="Arbeiten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BewertungsschemaProzentbereich" Association="Self.FK_BewertungsschemaProzentbereich">
+            <End Role="Bewertungsschemata" EntitySet="Bewertungsschemata" />
+            <End Role="Prozentbereiche" EntitySet="Prozentbereiche" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurriculumReihe" Association="Self.FK_CurriculumReihe">
+            <End Role="Curricula" EntitySet="Curricula" />
+            <End Role="Reihen" EntitySet="Reihen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DateitypDateiverweis" Association="Self.FK_DateitypDateiverweis">
+            <End Role="Dateitypen" EntitySet="Dateitypen" />
+            <End Role="Dateiverweise" EntitySet="Dateiverweise" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ErsteUnterrichtsstundeTermin" Association="Self.FK_ErsteUnterrichtsstundeTermin">
+            <End Role="Unterrichtsstunden" EntitySet="Unterrichtsstunden" />
+            <End Role="Termine" EntitySet="Termine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FachArbeit" Association="Self.FK_FachArbeit">
+            <End Role="Fächer" EntitySet="Fächer" />
+            <End Role="Arbeiten" EntitySet="Arbeiten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FachCurriculum" Association="Self.FK_FachCurriculum">
+            <End Role="Fächer" EntitySet="Fächer" />
+            <End Role="Curricula" EntitySet="Curricula" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FachFachstundenanzahl" Association="Self.FK_FachFachstundenanzahl">
+            <End Role="Fächer" EntitySet="Fächer" />
+            <End Role="Fachstundenanzahlen" EntitySet="Fachstundenanzahlen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FachLerngruppe" Association="Self.FK_FachLerngruppe">
+            <End Role="Fächer" EntitySet="Fächer" />
+            <End Role="Lerngruppen" EntitySet="Lerngruppen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FachModul" Association="Self.FK_FachModul">
+            <End Role="Fächer" EntitySet="Fächer" />
+            <End Role="Module" EntitySet="Module" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FachStunde" Association="Self.FK_FachStunde">
+            <End Role="Fächer" EntitySet="Fächer" />
+            <End Role="Termine_Stunde" EntitySet="Termine_Stunde" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FachStundenplaneintrag" Association="Self.FK_FachStundenplaneintrag">
+            <End Role="Fächer" EntitySet="Fächer" />
+            <End Role="Stundenplaneinträge" EntitySet="Stundenplaneinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LerngruppeArbeit" Association="Self.FK_LerngruppeArbeit">
+            <End Role="Lerngruppen" EntitySet="Lerngruppen" />
+            <End Role="Arbeiten" EntitySet="Arbeiten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LerngruppeBetroffeneKlasse" Association="Self.FK_LerngruppeBetroffeneKlasse">
+            <End Role="Lerngruppen" EntitySet="Lerngruppen" />
+            <End Role="BetroffeneKlassen" EntitySet="BetroffeneKlassen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LerngruppeLerngruppentermin" Association="Self.FK_LerngruppeLerngruppentermin">
+            <End Role="Lerngruppen" EntitySet="Lerngruppen" />
+            <End Role="Termine_Lerngruppentermin" EntitySet="Termine_Lerngruppentermin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lerngruppentermin_inherits_Termin" Association="Self.FK_Lerngruppentermin_inherits_Termin">
+            <End Role="Termine" EntitySet="Termine" />
+            <End Role="Termine_Lerngruppentermin" EntitySet="Termine_Lerngruppentermin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LerngruppeStundenplaneintrag" Association="Self.FK_LerngruppeStundenplaneintrag">
+            <End Role="Lerngruppen" EntitySet="Lerngruppen" />
+            <End Role="Stundenplaneinträge" EntitySet="Stundenplaneinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ModulReihe" Association="Self.FK_ModulReihe">
+            <End Role="Module" EntitySet="Module" />
+            <End Role="Reihen" EntitySet="Reihen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ModulStunde" Association="Self.FK_ModulStunde">
+            <End Role="Module" EntitySet="Module" />
+            <End Role="Termine_Stunde" EntitySet="Termine_Stunde" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotenWichtungenLerngruppe" Association="Self.FK_NotenWichtungenLerngruppe">
+            <End Role="NotenWichtungen" EntitySet="NotenWichtungen" />
+            <End Role="Lerngruppen" EntitySet="Lerngruppen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonSchülereintrag" Association="Self.FK_PersonSchülereintrag">
+            <End Role="Personen" EntitySet="Personen" />
+            <End Role="Schülereinträge" EntitySet="Schülereinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RaumplanSitzplan" Association="Self.FK_RaumplanSitzplan">
+            <End Role="Raumpläne" EntitySet="Raumpläne" />
+            <End Role="Sitzpläne" EntitySet="Sitzpläne" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RaumplanSitzplatz" Association="Self.FK_RaumplanSitzplatz">
+            <End Role="Raumpläne" EntitySet="Raumpläne" />
+            <End Role="Sitzplätze" EntitySet="Sitzplätze" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RaumRaumplan" Association="Self.FK_RaumRaumplan">
+            <End Role="Räume" EntitySet="Räume" />
+            <End Role="Raumpläne" EntitySet="Raumpläne" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RaumStundenplaneintrag" Association="Self.FK_RaumStundenplaneintrag">
+            <End Role="Räume" EntitySet="Räume" />
+            <End Role="Stundenplaneinträge" EntitySet="Stundenplaneinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReiheSequenz" Association="Self.FK_ReiheSequenz">
+            <End Role="Reihen" EntitySet="Reihen" />
+            <End Role="Sequenzen" EntitySet="Sequenzen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SchülereintragErgebnis" Association="Self.FK_SchülereintragErgebnis">
+            <End Role="Schülereinträge" EntitySet="Schülereinträge" />
+            <End Role="Ergebnisse" EntitySet="Ergebnisse" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SchülereintragHausaufgaben" Association="Self.FK_SchülereintragHausaufgaben">
+            <End Role="Schülereinträge" EntitySet="Schülereinträge" />
+            <End Role="Hausaufgaben" EntitySet="Hausaufgaben" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SchülereintragNoten" Association="Self.FK_SchülereintragNoten">
+            <End Role="Schülereinträge" EntitySet="Schülereinträge" />
+            <End Role="Noten" EntitySet="Noten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SchülereintragNotentendenz" Association="Self.FK_SchülereintragNotentendenz">
+            <End Role="Schülereinträge" EntitySet="Schülereinträge" />
+            <End Role="Notentendenzen" EntitySet="Notentendenzen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SchülereintragSitzplaneintrag" Association="Self.FK_SchülereintragSitzplaneintrag">
+            <End Role="Schülereinträge" EntitySet="Schülereinträge" />
+            <End Role="Sitzplaneinträge" EntitySet="Sitzplaneinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SchülerlisteSchülereintrag" Association="Self.FK_SchülerlisteSchülereintrag">
+            <End Role="Schülerlisten" EntitySet="Schülerlisten" />
+            <End Role="Schülereinträge" EntitySet="Schülereinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SchuljahrCurriculum" Association="Self.FK_SchuljahrCurriculum">
+            <End Role="Schuljahre" EntitySet="Schuljahre" />
+            <End Role="Curricula" EntitySet="Curricula" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SchuljahrFerien" Association="Self.FK_SchuljahrFerien">
+            <End Role="Schuljahre" EntitySet="Schuljahre" />
+            <End Role="Ferien" EntitySet="Ferien" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SchuljahrLerngruppe" Association="Self.FK_SchuljahrLerngruppe">
+            <End Role="Schuljahre" EntitySet="Schuljahre" />
+            <End Role="Lerngruppen" EntitySet="Lerngruppen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SchuljahrSchultermin" Association="Self.FK_SchuljahrSchultermin">
+            <End Role="Schuljahre" EntitySet="Schuljahre" />
+            <End Role="Termine_Schultermin" EntitySet="Termine_Schultermin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SchuljahrStundenplan" Association="Self.FK_SchuljahrStundenplan">
+            <End Role="Schuljahre" EntitySet="Schuljahre" />
+            <End Role="Stundenpläne" EntitySet="Stundenpläne" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schultermin_inherits_Termin" Association="Self.FK_Schultermin_inherits_Termin">
+            <End Role="Termine" EntitySet="Termine" />
+            <End Role="Termine_Schultermin" EntitySet="Termine_Schultermin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SitzplanSitzplaneintrag" Association="Self.FK_SitzplanSitzplaneintrag">
+            <End Role="Sitzpläne" EntitySet="Sitzpläne" />
+            <End Role="Sitzplaneinträge" EntitySet="Sitzplaneinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SitzplatzSitzplaneintrag" Association="Self.FK_SitzplatzSitzplaneintrag">
+            <End Role="Sitzplätze" EntitySet="Sitzplätze" />
+            <End Role="Sitzplaneinträge" EntitySet="Sitzplaneinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Stunde_inherits_Lerngruppentermin" Association="Self.FK_Stunde_inherits_Lerngruppentermin">
+            <End Role="Termine_Lerngruppentermin" EntitySet="Termine_Lerngruppentermin" />
+            <End Role="Termine_Stunde" EntitySet="Termine_Stunde" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StundeDateiverweis" Association="Self.FK_StundeDateiverweis">
+            <End Role="Termine_Stunde" EntitySet="Termine_Stunde" />
+            <End Role="Dateiverweise" EntitySet="Dateiverweise" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StundenplanStundenplaneintrag" Association="Self.FK_StundenplanStundenplaneintrag">
+            <End Role="Stundenpläne" EntitySet="Stundenpläne" />
+            <End Role="Stundenplaneinträge" EntitySet="Stundenplaneinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StundePhase" Association="Self.FK_StundePhase">
+            <End Role="Termine_Stunde" EntitySet="Termine_Stunde" />
+            <End Role="Phasen" EntitySet="Phasen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TerminBetroffeneKlasse" Association="Self.FK_TerminBetroffeneKlasse">
+            <End Role="Termine_Schultermin" EntitySet="Termine_Schultermin" />
+            <End Role="BetroffeneKlassen" EntitySet="BetroffeneKlassen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UnterrichtsstundeTermin" Association="Self.FK_UnterrichtsstundeTermin">
+            <End Role="Unterrichtsstunden" EntitySet="Unterrichtsstunden" />
+            <End Role="Termine" EntitySet="Termine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ZensurNoten" Association="Self.FK_ZensurNoten">
+            <End Role="Zensuren" EntitySet="Zensuren" />
+            <End Role="Noten" EntitySet="Noten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ZensurProzentbereich" Association="Self.FK_ZensurProzentbereich">
+            <End Role="Zensuren" EntitySet="Zensuren" />
+            <End Role="Prozentbereiche" EntitySet="Prozentbereiche" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TeachyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ArbeitNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LerngruppeId" Type="Int32" Nullable="false" />
+          <Property Name="FachId" Type="Int32" Nullable="false" />
+          <Property Name="BewertungsschemaId" Type="Int32" Nullable="false" />
+          <Property Name="Bepunktungstyp" Type="Int32" Nullable="false" />
+          <Property Name="Bezeichnung" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LfdNr" Type="Int32" Nullable="false" />
+          <Property Name="Datum" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IstKlausur" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Aufgaben" Relationship="Self.FK_ArbeitAufgabe" FromRole="Arbeiten" ToRole="Aufgaben" />
+          <NavigationProperty Name="Noten" Relationship="Self.FK_ArbeitNoten" FromRole="Arbeiten" ToRole="Noten" />
+          <NavigationProperty Name="Bewertungsschema" Relationship="Self.FK_BewertungsschemaArbeit" FromRole="Arbeiten" ToRole="Bewertungsschemata" />
+          <NavigationProperty Name="Fach" Relationship="Self.FK_FachArbeit" FromRole="Arbeiten" ToRole="Fächer" />
+          <NavigationProperty Name="Lerngruppe" Relationship="Self.FK_LerngruppeArbeit" FromRole="Arbeiten" ToRole="Lerngruppen" />
+        </EntityType>
+        <EntityType Name="AufgabeNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ArbeitId" Type="Int32" Nullable="false" />
+          <Property Name="LfdNr" Type="Int32" Nullable="false" />
+          <Property Name="MaxPunkte" Type="Double" Nullable="false" />
+          <Property Name="Bezeichnung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Arbeit" Relationship="Self.FK_ArbeitAufgabe" FromRole="Aufgaben" ToRole="Arbeiten" />
+          <NavigationProperty Name="Ergebnisse" Relationship="Self.FK_AufgabeErgebnis" FromRole="Aufgaben" ToRole="Ergebnisse" />
+        </EntityType>
+        <EntityType Name="BetroffeneKlasseNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TerminId" Type="Int32" Nullable="false" />
+          <Property Name="LerngruppeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Lerngruppe" Relationship="Self.FK_LerngruppeBetroffeneKlasse" FromRole="BetroffeneKlassen" ToRole="Lerngruppen" />
+          <NavigationProperty Name="Schultermin" Relationship="Self.FK_TerminBetroffeneKlasse" FromRole="BetroffeneKlassen" ToRole="Schultermin" />
+        </EntityType>
+        <EntityType Name="BewertungsschemataNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Bezeichnung" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Arbeiten" Relationship="Self.FK_BewertungsschemaArbeit" FromRole="Bewertungsschemata" ToRole="Arbeiten" />
+          <NavigationProperty Name="Prozentbereiche" Relationship="Self.FK_BewertungsschemaProzentbereich" FromRole="Bewertungsschemata" ToRole="Prozentbereiche" />
+        </EntityType>
+        <EntityType Name="CurriculaNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FachId" Type="Int32" Nullable="false" />
+          <Property Name="Jahrgang" Type="Int32" Nullable="false" />
+          <Property Name="Bezeichnung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SchuljahrId" Type="Int32" Nullable="false" />
+          <Property Name="Halbjahr" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Reihen" Relationship="Self.FK_CurriculumReihe" FromRole="Curricula" ToRole="Reihen" />
+          <NavigationProperty Name="Fach" Relationship="Self.FK_FachCurriculum" FromRole="Curricula" ToRole="Fächer" />
+          <NavigationProperty Name="Schuljahr" Relationship="Self.FK_SchuljahrCurriculum" FromRole="Curricula" ToRole="Schuljahre" />
+        </EntityType>
+        <EntityType Name="DateitypNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Bezeichnung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Kürzel" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Dateiverweise" Relationship="Self.FK_DateitypDateiverweis" FromRole="Dateitypen" ToRole="Dateiverweise" />
+        </EntityType>
+        <EntityType Name="DateiverweisNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Dateiname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateitypId" Type="Int32" Nullable="false" />
+          <Property Name="StundeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Dateityp" Relationship="Self.FK_DateitypDateiverweis" FromRole="Dateiverweise" ToRole="Dateitypen" />
+          <NavigationProperty Name="Stunde" Relationship="Self.FK_StundeDateiverweis" FromRole="Dateiverweise" ToRole="Termine_Stunde" />
+        </EntityType>
+        <EntityType Name="ErgebnisseNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AufgabeId" Type="Int32" Nullable="false" />
+          <Property Name="SchülereintragId" Type="Int32" Nullable="false" />
+          <Property Name="Punktzahl" Type="Double" />
+          <NavigationProperty Name="Aufgabe" Relationship="Self.FK_AufgabeErgebnis" FromRole="Ergebnisse" ToRole="Aufgaben" />
+          <NavigationProperty Name="Schülereintrag" Relationship="Self.FK_SchülereintragErgebnis" FromRole="Ergebnisse" ToRole="Schülereinträge" />
+        </EntityType>
+        <EntityType Name="FächerNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Bezeichnung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Farbe" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Arbeiten" Relationship="Self.FK_FachArbeit" FromRole="Fächer" ToRole="Arbeiten" />
+          <NavigationProperty Name="Curricula" Relationship="Self.FK_FachCurriculum" FromRole="Fächer" ToRole="Curricula" />
+          <NavigationProperty Name="Fachstundenanzahlen" Relationship="Self.FK_FachFachstundenanzahl" FromRole="Fächer" ToRole="Fachstundenanzahlen" />
+          <NavigationProperty Name="Lerngruppen" Relationship="Self.FK_FachLerngruppe" FromRole="Fächer" ToRole="Lerngruppen" />
+          <NavigationProperty Name="Module" Relationship="Self.FK_FachModul" FromRole="Fächer" ToRole="Module" />
+          <NavigationProperty Name="Stunden" Relationship="Self.FK_FachStunde" FromRole="Fächer" ToRole="Stunden" />
+          <NavigationProperty Name="Stundenplaneinträge" Relationship="Self.FK_FachStundenplaneintrag" FromRole="Fächer" ToRole="Stundenplaneinträge" />
+        </EntityType>
+        <EntityType Name="FachstundenanzahlenNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FachId" Type="Int32" Nullable="false" />
+          <Property Name="Jahrgang" Type="Int32" Nullable="false" />
+          <Property Name="Stundenzahl" Type="Int32" Nullable="false" />
+          <Property Name="Teilungsstundenzahl" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Fach" Relationship="Self.FK_FachFachstundenanzahl" FromRole="Fachstundenanzahlen" ToRole="Fächer" />
+        </EntityType>
+        <EntityType Name="FerienNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SchuljahrId" Type="Int32" Nullable="false" />
+          <Property Name="Bezeichnung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ErsterFerientag" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LetzterFerientag" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Schuljahr" Relationship="Self.FK_SchuljahrFerien" FromRole="Ferien" ToRole="Schuljahr" />
+        </EntityType>
+        <EntityType Name="HausaufgabenNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Datum" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Bezeichnung" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IstNachgereicht" Type="Boolean" Nullable="false" />
+          <Property Name="SchülereintragId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Schülereintrag" Relationship="Self.FK_SchülereintragHausaufgaben" FromRole="Hausaufgaben" ToRole="Schülereinträge" />
+        </EntityType>
+        <EntityType Name="LerngruppeNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Bezeichnung" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SchuljahrId" Type="Int32" Nullable="false" />
+          <Property Name="Halbjahr" Type="Int32" Nullable="false" />
+          <Property Name="FachId" Type="Int32" Nullable="false" />
+          <Property Name="Jahrgang" Type="Int32" Nullable="false" />
+          <Property Name="NotenWichtungId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Arbeiten" Relationship="Self.FK_LerngruppeArbeit" FromRole="Lerngruppen" ToRole="Arbeiten" />
+          <NavigationProperty Name="BetroffeneKlassen" Relationship="Self.FK_LerngruppeBetroffeneKlasse" FromRole="Lerngruppen" ToRole="BetroffeneKlassen" />
+          <NavigationProperty Name="Fach" Relationship="Self.FK_FachLerngruppe" FromRole="Lerngruppen" ToRole="Fächer" />
+          <NavigationProperty Name="Lerngruppentermine" Relationship="Self.FK_LerngruppeLerngruppentermin" FromRole="Lerngruppen" ToRole="Termine_Lerngruppentermin" />
+          <NavigationProperty Name="Stundenplaneinträge" Relationship="Self.FK_LerngruppeStundenplaneintrag" FromRole="Lerngruppen" ToRole="Stundenplaneinträge" />
+          <NavigationProperty Name="NotenWichtung" Relationship="Self.FK_NotenWichtungenLerngruppe" FromRole="Lerngruppen" ToRole="NotenWichtungen" />
+          <NavigationProperty Name="Schuljahr" Relationship="Self.FK_SchuljahrLerngruppe" FromRole="Lerngruppen" ToRole="Schuljahre" />
+        </EntityType>
+        <EntityType Name="ModuleNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FachId" Type="Int32" Nullable="false" />
+          <Property Name="Bezeichnung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Jahrgang" Type="Int32" Nullable="false" />
+          <Property Name="Bausteine" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Stundenbedarf" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Fach" Relationship="Self.FK_FachModul" FromRole="Module" ToRole="Fächer" />
+          <NavigationProperty Name="Reihen" Relationship="Self.FK_ModulReihe" FromRole="Module" ToRole="Reihen" />
+          <NavigationProperty Name="Stunden" Relationship="Self.FK_ModulStunde" FromRole="Module" ToRole="Stunden" />
+        </EntityType>
+        <EntityType Name="NotenNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SchülereintragId" Type="Int32" Nullable="false" />
+          <Property Name="ZensurId" Type="Int32" Nullable="false" />
+          <Property Name="Datum" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Wichtung" Type="Int32" Nullable="false" />
+          <Property Name="IstSchriftlich" Type="Boolean" Nullable="false" />
+          <Property Name="ArbeitId" Type="Int32" />
+          <Property Name="Bezeichnung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Notentyp" Type="Int32" Nullable="false" />
+          <Property Name="NotenTermintyp" Type="Int32" />
+          <NavigationProperty Name="Arbeit" Relationship="Self.FK_ArbeitNoten" FromRole="Noten" ToRole="Arbeiten" />
+          <NavigationProperty Name="Schülereintrag" Relationship="Self.FK_SchülereintragNoten" FromRole="Noten" ToRole="Schülereinträge" />
+          <NavigationProperty Name="Zensur" Relationship="Self.FK_ZensurNoten" FromRole="Noten" ToRole="Zensuren" />
+        </EntityType>
+        <EntityType Name="NotentendenzenNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Datum" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Tendenz" Type="Int32" Nullable="false" />
+          <Property Name="Tendenztyp" Type="Int32" Nullable="false" />
+          <Property Name="Bezeichnung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SchülereintragId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Schülereintrag" Relationship="TeachyModel.FK_SchülereintragNotentendenz" FromRole="Notentendenzen" ToRole="Schülereinträge" />
+        </EntityType>
+        <EntityType Name="NotenWichtungNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Bezeichnung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MündlichQualität" Type="Single" Nullable="false" />
+          <Property Name="MündlichQuantität" Type="Single" Nullable="false" />
+          <Property Name="MündlichSonstige" Type="Single" Nullable="false" />
+          <Property Name="MündlichGesamt" Type="Single" Nullable="false" />
+          <Property Name="SchriftlichKlassenarbeit" Type="Single" Nullable="false" />
+          <Property Name="SchriftlichSonstige" Type="Single" Nullable="false" />
+          <Property Name="SchriftlichGesamt" Type="Single" Nullable="false" />
+          <NavigationProperty Name="Lerngruppen" Relationship="Self.FK_NotenWichtungenLerngruppe" FromRole="NotenWichtungen" ToRole="Lerngruppen" />
+        </EntityType>
+        <EntityType Name="PersonenNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Vorname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Nachname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Geschlecht" Type="Boolean" Nullable="false" />
+          <Property Name="Geburtstag" Type="DateTime" Precision="3" />
+          <Property Name="Titel" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Telefon" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Fax" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Handy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EMail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PLZ" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Straße" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Hausnummer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Ort" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IstLehrer" Type="Boolean" Nullable="false" />
+          <Property Name="Foto" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Schülereinträge" Relationship="Self.FK_PersonSchülereintrag" FromRole="Personen" ToRole="Schülereinträge" />
+        </EntityType>
+        <EntityType Name="PhaseNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="StundeId" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StundeId" Type="Int32" Nullable="false" />
+          <Property Name="Zeit" Type="Int32" Nullable="false" />
+          <Property Name="Medium" Type="Int32" Nullable="false" />
+          <Property Name="Sozialform" Type="Int32" Nullable="false" />
+          <Property Name="Inhalt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Reihenfolge" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Termine_Stunde" Relationship="Self.FK_StundePhase" FromRole="Phasen" ToRole="Termine_Stunde" />
+        </EntityType>
+        <EntityType Name="ProzentbereicheNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ZensurId" Type="Int32" Nullable="false" />
+          <Property Name="VonProzent" Type="Double" Nullable="false" />
+          <Property Name="BisProzent" Type="Double" Nullable="false" />
+          <Property Name="BewertungsschemaId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Bewertungsschema" Relationship="Self.FK_BewertungsschemaProzentbereich" FromRole="Prozentbereiche" ToRole="Bewertungsschemata" />
+          <NavigationProperty Name="Zensur" Relationship="Self.FK_ZensurProzentbereich" FromRole="Prozentbereiche" ToRole="Zensuren" />
+        </EntityType>
+        <EntityType Name="RaumNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Bezeichnung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Raumpläne" Relationship="Self.FK_RaumRaumplan" FromRole="Räume" ToRole="Raumpläne" />
+          <NavigationProperty Name="Stundenplaneinträge" Relationship="Self.FK_RaumStundenplaneintrag" FromRole="Räume" ToRole="Stundenplaneinträge" />
+        </EntityType>
+        <EntityType Name="RaumplanNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Bezeichnung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RaumId" Type="Int32" Nullable="false" />
+          <Property Name="Grundriss" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <NavigationProperty Name="Raum" Relationship="Self.FK_RaumRaumplan" FromRole="Raumpläne" ToRole="Räume" />
+          <NavigationProperty Name="Sitzpläne" Relationship="Self.FK_RaumplanSitzplan" FromRole="Raumpläne" ToRole="Sitzpläne" />
+          <NavigationProperty Name="Sitzplätze" Relationship="Self.FK_RaumplanSitzplatz" FromRole="Raumpläne" ToRole="Sitzplätze" />
+        </EntityType>
+        <EntityType Name="ReihenNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModulId" Type="Int32" Nullable="false" />
+          <Property Name="Thema" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Stundenbedarf" Type="Int32" Nullable="false" />
+          <Property Name="CurriculumId" Type="Int32" Nullable="false" />
+          <Property Name="Reihenfolge" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Curriculum" Relationship="Self.FK_CurriculumReihe" FromRole="Reihen" ToRole="Curricula" />
+          <NavigationProperty Name="Modul" Relationship="Self.FK_ModulReihe" FromRole="Reihen" ToRole="Module" />
+          <NavigationProperty Name="Sequenzen" Relationship="Self.FK_ReiheSequenz" FromRole="Reihen" ToRole="Sequenzen" />
+        </EntityType>
+        <EntityType Name="SchülereinträgeNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SchülerlisteId" Type="Int32" Nullable="false" />
+          <Property Name="PersonId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Ergebnisse" Relationship="Self.FK_SchülereintragErgebnis" FromRole="Schülereinträge" ToRole="Ergebnisse" />
+          <NavigationProperty Name="Hausaufgaben" Relationship="Self.FK_SchülereintragHausaufgaben" FromRole="Schülereinträge" ToRole="Hausaufgaben" />
+          <NavigationProperty Name="Noten" Relationship="Self.FK_SchülereintragNoten" FromRole="Schülereinträge" ToRole="Noten" />
+          <NavigationProperty Name="Person" Relationship="Self.FK_PersonSchülereintrag" FromRole="Schülereinträge" ToRole="Personen" />
+          <NavigationProperty Name="Sitzplaneinträge" Relationship="Self.FK_SchülereintragSitzplaneintrag" FromRole="Schülereinträge" ToRole="Sitzplaneinträge" />
+          <NavigationProperty Name="Schülerliste" Relationship="Self.FK_SchülerlisteSchülereintrag" FromRole="Schülereinträge" ToRole="Schülerlisten" />
+          <NavigationProperty Name="Notentendenzen" Relationship="TeachyModel.FK_SchülereintragNotentendenz" FromRole="Schülereinträge" ToRole="Notentendenzen" />
+        </EntityType>
+        <EntityType Name="SchülerlistenNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SchuljahrId" Type="Int32" Nullable="false" />
+          <Property Name="Halbjahr" Type="Int32" Nullable="false" />
+          <Property Name="Bezeichnung" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FachId" Type="Int32" Nullable="false" />
+          <Property Name="NotenWichtungId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Schülereinträge" Relationship="Self.FK_SchülerlisteSchülereintrag" FromRole="Schülerlisten" ToRole="Schülereinträge" />
+        </EntityType>
+        <EntityType Name="SchuljahrNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Bezeichnung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Jahr" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Curricula" Relationship="Self.FK_SchuljahrCurriculum" FromRole="Schuljahre" ToRole="Curricula" />
+          <NavigationProperty Name="Ferien" Relationship="Self.FK_SchuljahrFerien" FromRole="Schuljahr" ToRole="Ferien" />
+          <NavigationProperty Name="Lerngruppen" Relationship="Self.FK_SchuljahrLerngruppe" FromRole="Schuljahre" ToRole="Lerngruppen" />
+          <NavigationProperty Name="Schultermine" Relationship="Self.FK_SchuljahrSchultermin" FromRole="Schuljahr" ToRole="Schultermine" />
+          <NavigationProperty Name="Stundenpläne" Relationship="Self.FK_SchuljahrStundenplan" FromRole="Schuljahre" ToRole="Stundenpläne" />
+        </EntityType>
+        <EntityType Name="SequenzenNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReiheId" Type="Int32" Nullable="false" />
+          <Property Name="Reihenfolge" Type="Int32" Nullable="false" />
+          <Property Name="Stundenbedarf" Type="Int32" Nullable="false" />
+          <Property Name="Thema" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Reihe" Relationship="Self.FK_ReiheSequenz" FromRole="Sequenzen" ToRole="Reihen" />
+        </EntityType>
+        <EntityType Name="SitzplanNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Bezeichnung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RaumplanId" Type="Int32" Nullable="false" />
+          <Property Name="SchülerlisteId" Type="Int32" Nullable="false" />
+          <Property Name="GültigAb" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Raumplan" Relationship="Self.FK_RaumplanSitzplan" FromRole="Sitzpläne" ToRole="Raumpläne" />
+          <NavigationProperty Name="Sitzplaneinträge" Relationship="Self.FK_SitzplanSitzplaneintrag" FromRole="Sitzpläne" ToRole="Sitzplaneinträge" />
+        </EntityType>
+        <EntityType Name="SitzplaneintragNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SitzplanId" Type="Int32" Nullable="false" />
+          <Property Name="SitzplatzId" Type="Int32" Nullable="false" />
+          <Property Name="SchülereintragId" Type="Int32" />
+          <NavigationProperty Name="Schülereintrag" Relationship="Self.FK_SchülereintragSitzplaneintrag" FromRole="Sitzplaneinträge" ToRole="Schülereinträge" />
+          <NavigationProperty Name="Sitzplan" Relationship="Self.FK_SitzplanSitzplaneintrag" FromRole="Sitzplaneinträge" ToRole="Sitzpläne" />
+          <NavigationProperty Name="Sitzplatz" Relationship="Self.FK_SitzplatzSitzplaneintrag" FromRole="Sitzplaneinträge" ToRole="Sitzplätze" />
+        </EntityType>
+        <EntityType Name="SitzplatzNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RaumplanId" Type="Int32" Nullable="false" />
+          <Property Name="LinksObenX" Type="Double" Nullable="false" />
+          <Property Name="LinksObenY" Type="Double" Nullable="false" />
+          <Property Name="Breite" Type="Double" Nullable="false" />
+          <Property Name="Höhe" Type="Double" Nullable="false" />
+          <Property Name="Drehwinkel" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Raumplan" Relationship="Self.FK_RaumplanSitzplatz" FromRole="Sitzplätze" ToRole="Raumpläne" />
+          <NavigationProperty Name="Sitzplaneinträge" Relationship="Self.FK_SitzplatzSitzplaneintrag" FromRole="Sitzplätze" ToRole="Sitzplaneinträge" />
+        </EntityType>
+        <EntityType Name="StundenplanNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Bezeichnung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SchuljahrID" Type="Int32" Nullable="false" />
+          <Property Name="Halbjahr" Type="Int32" Nullable="false" />
+          <Property Name="GültigAb" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Schuljahre" Relationship="Self.FK_SchuljahrStundenplan" FromRole="Stundenpläne" ToRole="Schuljahre" />
+          <NavigationProperty Name="Stundenplaneinträge" Relationship="Self.FK_StundenplanStundenplaneintrag" FromRole="Stundenpläne" ToRole="Stundenplaneinträge" />
+        </EntityType>
+        <EntityType Name="StundenplaneintragNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StundenplanId" Type="Int32" Nullable="false" />
+          <Property Name="ErsteUnterrichtsstundeIndex" Type="Int32" Nullable="false" />
+          <Property Name="LetzteUnterrichtsstundeIndex" Type="Int32" Nullable="false" />
+          <Property Name="WochentagIndex" Type="Int32" Nullable="false" />
+          <Property Name="FachId" Type="Int32" Nullable="false" />
+          <Property Name="LerngruppeID" Type="Int32" Nullable="false" />
+          <Property Name="RaumId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Fach" Relationship="Self.FK_FachStundenplaneintrag" FromRole="Stundenplaneinträge" ToRole="Fächer" />
+          <NavigationProperty Name="Lerngruppe" Relationship="Self.FK_LerngruppeStundenplaneintrag" FromRole="Stundenplaneinträge" ToRole="Lerngruppen" />
+          <NavigationProperty Name="Raum" Relationship="Self.FK_RaumStundenplaneintrag" FromRole="Stundenplaneinträge" ToRole="Räume" />
+          <NavigationProperty Name="Stundenplan" Relationship="Self.FK_StundenplanStundenplaneintrag" FromRole="Stundenplaneinträge" ToRole="Stundenpläne" />
+        </EntityType>
+        <EntityType Name="TerminNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Termintyp" Type="Int32" Nullable="false" />
+          <Property Name="Beschreibung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ErsteUnterrichtsstundeId" Type="Int32" Nullable="false" />
+          <Property Name="LetzteUnterrichtsstundeId" Type="Int32" Nullable="false" />
+          <Property Name="Ort" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IstGeprüft" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Unterrichtsstunden" Relationship="Self.FK_ErsteUnterrichtsstundeTermin" FromRole="Termine" ToRole="Unterrichtsstunden" />
+          <NavigationProperty Name="Unterrichtsstunden1" Relationship="Self.FK_UnterrichtsstundeTermin" FromRole="Termine" ToRole="Unterrichtsstunden" />
+        </EntityType>
+        <EntityType Name="LerngruppenterminNeu" BaseType="TeachyModel.TerminNeu">
+          <Property Name="LerngruppeId" Type="Int32" />
+          <Property Name="Datum" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Lerngruppe" Relationship="Self.FK_LerngruppeLerngruppentermin" FromRole="Termine_Lerngruppentermin" ToRole="Lerngruppen" />
+        </EntityType>
+        <EntityType Name="SchulterminNeu" BaseType="TeachyModel.TerminNeu">
+          <Property Name="SchuljahrId" Type="Int32" Nullable="false" />
+          <Property Name="Datum" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="BetroffeneKlassen" Relationship="Self.FK_TerminBetroffeneKlasse" FromRole="Schultermin" ToRole="BetroffeneKlassen" />
+          <NavigationProperty Name="Schuljahr" Relationship="Self.FK_SchuljahrSchultermin" FromRole="Schultermine" ToRole="Schuljahr" />
+        </EntityType>
+        <EntityType Name="StundeNeu" BaseType="TeachyModel.LerngruppenterminNeu">
+          <Property Name="IstBenotet" Type="Boolean" Nullable="false" />
+          <Property Name="FachId" Type="Int32" Nullable="false" />
+          <Property Name="Jahrgang" Type="Int32" Nullable="false" />
+          <Property Name="ModulId" Type="Int32" />
+          <Property Name="Kopieren" Type="Boolean" Nullable="false" />
+          <Property Name="Computer" Type="Boolean" Nullable="false" />
+          <Property Name="Hausaufgaben" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ansagen" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Dateiverweise" Relationship="Self.FK_StundeDateiverweis" FromRole="Termine_Stunde" ToRole="Dateiverweise" />
+          <NavigationProperty Name="Fach" Relationship="Self.FK_FachStunde" FromRole="Stunden" ToRole="Fächer" />
+          <NavigationProperty Name="Modul" Relationship="Self.FK_ModulStunde" FromRole="Stunden" ToRole="Module" />
+          <NavigationProperty Name="Phasen" Relationship="Self.FK_StundePhase" FromRole="Termine_Stunde" ToRole="Phasen" />
+        </EntityType>
+        <EntityType Name="UnterrichtsstundeNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Bezeichnung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Beginn" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Ende" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Stundenindex" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Termine" Relationship="Self.FK_ErsteUnterrichtsstundeTermin" FromRole="Unterrichtsstunden" ToRole="Termine" />
+          <NavigationProperty Name="Termine1" Relationship="Self.FK_UnterrichtsstundeTermin" FromRole="Unterrichtsstunden" ToRole="Termine" />
+        </EntityType>
+        <EntityType Name="ZensurenNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Notenpunkte" Type="Int32" Nullable="false" />
+          <Property Name="NoteMitTendenz" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="GanzeNote" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Noten" Relationship="Self.FK_ZensurNoten" FromRole="Zensuren" ToRole="Noten" />
+          <NavigationProperty Name="Prozentbereiche" Relationship="Self.FK_ZensurProzentbereich" FromRole="Zensuren" ToRole="Prozentbereiche" />
+        </EntityType>
+        <Association Name="FK_ArbeitAufgabe">
+          <End Role="Arbeiten" Type="TeachyModel.ArbeitNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Aufgaben" Type="TeachyModel.AufgabeNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Arbeiten">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Aufgaben">
+              <PropertyRef Name="ArbeitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ArbeitNoten">
+          <End Role="Arbeiten" Type="TeachyModel.ArbeitNeu" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Noten" Type="TeachyModel.NotenNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Arbeiten">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Noten">
+              <PropertyRef Name="ArbeitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BewertungsschemaArbeit">
+          <End Role="Bewertungsschemata" Type="TeachyModel.BewertungsschemataNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Arbeiten" Type="TeachyModel.ArbeitNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bewertungsschemata">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Arbeiten">
+              <PropertyRef Name="BewertungsschemaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FachArbeit">
+          <End Role="Fächer" Type="TeachyModel.FächerNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Arbeiten" Type="TeachyModel.ArbeitNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fächer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Arbeiten">
+              <PropertyRef Name="FachId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LerngruppeArbeit">
+          <End Role="Lerngruppen" Type="TeachyModel.LerngruppeNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Arbeiten" Type="TeachyModel.ArbeitNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lerngruppen">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Arbeiten">
+              <PropertyRef Name="LerngruppeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AufgabeErgebnis">
+          <End Role="Aufgaben" Type="TeachyModel.AufgabeNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Ergebnisse" Type="TeachyModel.ErgebnisseNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Aufgaben">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ergebnisse">
+              <PropertyRef Name="AufgabeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LerngruppeBetroffeneKlasse">
+          <End Role="Lerngruppen" Type="TeachyModel.LerngruppeNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BetroffeneKlassen" Type="TeachyModel.BetroffeneKlasseNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lerngruppen">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BetroffeneKlassen">
+              <PropertyRef Name="LerngruppeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TerminBetroffeneKlasse">
+          <End Role="Schultermin" Type="TeachyModel.SchulterminNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BetroffeneKlassen" Type="TeachyModel.BetroffeneKlasseNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schultermin">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BetroffeneKlassen">
+              <PropertyRef Name="TerminId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BewertungsschemaProzentbereich">
+          <End Role="Bewertungsschemata" Type="TeachyModel.BewertungsschemataNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Prozentbereiche" Type="TeachyModel.ProzentbereicheNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bewertungsschemata">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Prozentbereiche">
+              <PropertyRef Name="BewertungsschemaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurriculumReihe">
+          <End Role="Curricula" Type="TeachyModel.CurriculaNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Reihen" Type="TeachyModel.ReihenNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curricula">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reihen">
+              <PropertyRef Name="CurriculumId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FachCurriculum">
+          <End Role="Fächer" Type="TeachyModel.FächerNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Curricula" Type="TeachyModel.CurriculaNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fächer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Curricula">
+              <PropertyRef Name="FachId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SchuljahrCurriculum">
+          <End Role="Schuljahre" Type="TeachyModel.SchuljahrNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Curricula" Type="TeachyModel.CurriculaNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schuljahre">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Curricula">
+              <PropertyRef Name="SchuljahrId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DateitypDateiverweis">
+          <End Role="Dateitypen" Type="TeachyModel.DateitypNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Dateiverweise" Type="TeachyModel.DateiverweisNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dateitypen">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Dateiverweise">
+              <PropertyRef Name="DateitypId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StundeDateiverweis">
+          <End Role="Termine_Stunde" Type="TeachyModel.StundeNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Dateiverweise" Type="TeachyModel.DateiverweisNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Termine_Stunde">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Dateiverweise">
+              <PropertyRef Name="StundeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SchülereintragErgebnis">
+          <End Role="Schülereinträge" Type="TeachyModel.SchülereinträgeNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Ergebnisse" Type="TeachyModel.ErgebnisseNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schülereinträge">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ergebnisse">
+              <PropertyRef Name="SchülereintragId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FachFachstundenanzahl">
+          <End Role="Fächer" Type="TeachyModel.FächerNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Fachstundenanzahlen" Type="TeachyModel.FachstundenanzahlenNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fächer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Fachstundenanzahlen">
+              <PropertyRef Name="FachId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FachLerngruppe">
+          <End Role="Fächer" Type="TeachyModel.FächerNeu" Multiplicity="1" />
+          <End Role="Lerngruppen" Type="TeachyModel.LerngruppeNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fächer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Lerngruppen">
+              <PropertyRef Name="FachId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FachModul">
+          <End Role="Fächer" Type="TeachyModel.FächerNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Module" Type="TeachyModel.ModuleNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fächer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Module">
+              <PropertyRef Name="FachId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FachStunde">
+          <End Role="Fächer" Type="TeachyModel.FächerNeu" Multiplicity="1" />
+          <End Role="Stunden" Type="TeachyModel.StundeNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fächer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stunden">
+              <PropertyRef Name="FachId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FachStundenplaneintrag">
+          <End Role="Fächer" Type="TeachyModel.FächerNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Stundenplaneinträge" Type="TeachyModel.StundenplaneintragNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fächer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stundenplaneinträge">
+              <PropertyRef Name="FachId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SchuljahrFerien">
+          <End Role="Schuljahr" Type="TeachyModel.SchuljahrNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Ferien" Type="TeachyModel.FerienNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schuljahr">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ferien">
+              <PropertyRef Name="SchuljahrId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SchülereintragHausaufgaben">
+          <End Role="Schülereinträge" Type="TeachyModel.SchülereinträgeNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Hausaufgaben" Type="TeachyModel.HausaufgabenNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schülereinträge">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Hausaufgaben">
+              <PropertyRef Name="SchülereintragId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LerngruppeLerngruppentermin">
+          <End Role="Lerngruppen" Type="TeachyModel.LerngruppeNeu" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Termine_Lerngruppentermin" Type="TeachyModel.LerngruppenterminNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lerngruppen">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Termine_Lerngruppentermin">
+              <PropertyRef Name="LerngruppeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LerngruppeStundenplaneintrag">
+          <End Role="Lerngruppen" Type="TeachyModel.LerngruppeNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Stundenplaneinträge" Type="TeachyModel.StundenplaneintragNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lerngruppen">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stundenplaneinträge">
+              <PropertyRef Name="LerngruppeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NotenWichtungenLerngruppe">
+          <End Role="NotenWichtungen" Type="TeachyModel.NotenWichtungNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Lerngruppen" Type="TeachyModel.LerngruppeNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NotenWichtungen">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Lerngruppen">
+              <PropertyRef Name="NotenWichtungId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SchuljahrLerngruppe">
+          <End Role="Schuljahre" Type="TeachyModel.SchuljahrNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Lerngruppen" Type="TeachyModel.LerngruppeNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schuljahre">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Lerngruppen">
+              <PropertyRef Name="SchuljahrId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ModulReihe">
+          <End Role="Module" Type="TeachyModel.ModuleNeu" Multiplicity="1" />
+          <End Role="Reihen" Type="TeachyModel.ReihenNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Module">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reihen">
+              <PropertyRef Name="ModulId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ModulStunde">
+          <End Role="Module" Type="TeachyModel.ModuleNeu" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Stunden" Type="TeachyModel.StundeNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Module">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stunden">
+              <PropertyRef Name="ModulId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SchülereintragNoten">
+          <End Role="Schülereinträge" Type="TeachyModel.SchülereinträgeNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Noten" Type="TeachyModel.NotenNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schülereinträge">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Noten">
+              <PropertyRef Name="SchülereintragId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ZensurNoten">
+          <End Role="Zensuren" Type="TeachyModel.ZensurenNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Noten" Type="TeachyModel.NotenNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zensuren">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Noten">
+              <PropertyRef Name="ZensurId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonSchülereintrag">
+          <End Role="Personen" Type="TeachyModel.PersonenNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Schülereinträge" Type="TeachyModel.SchülereinträgeNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personen">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Schülereinträge">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StundePhase">
+          <End Role="Termine_Stunde" Type="TeachyModel.StundeNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Phasen" Type="TeachyModel.PhaseNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Termine_Stunde">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Phasen">
+              <PropertyRef Name="StundeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ZensurProzentbereich">
+          <End Role="Zensuren" Type="TeachyModel.ZensurenNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Prozentbereiche" Type="TeachyModel.ProzentbereicheNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zensuren">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Prozentbereiche">
+              <PropertyRef Name="ZensurId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RaumRaumplan">
+          <End Role="Räume" Type="TeachyModel.RaumNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Raumpläne" Type="TeachyModel.RaumplanNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Räume">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Raumpläne">
+              <PropertyRef Name="RaumId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RaumStundenplaneintrag">
+          <End Role="Räume" Type="TeachyModel.RaumNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Stundenplaneinträge" Type="TeachyModel.StundenplaneintragNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Räume">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stundenplaneinträge">
+              <PropertyRef Name="RaumId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RaumplanSitzplan">
+          <End Role="Raumpläne" Type="TeachyModel.RaumplanNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Sitzpläne" Type="TeachyModel.SitzplanNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Raumpläne">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sitzpläne">
+              <PropertyRef Name="RaumplanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RaumplanSitzplatz">
+          <End Role="Raumpläne" Type="TeachyModel.RaumplanNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Sitzplätze" Type="TeachyModel.SitzplatzNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Raumpläne">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sitzplätze">
+              <PropertyRef Name="RaumplanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReiheSequenz">
+          <End Role="Reihen" Type="TeachyModel.ReihenNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Sequenzen" Type="TeachyModel.SequenzenNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reihen">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sequenzen">
+              <PropertyRef Name="ReiheId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SchülereintragSitzplaneintrag">
+          <End Role="Schülereinträge" Type="TeachyModel.SchülereinträgeNeu" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Sitzplaneinträge" Type="TeachyModel.SitzplaneintragNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schülereinträge">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sitzplaneinträge">
+              <PropertyRef Name="SchülereintragId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SchülerlisteSchülereintrag">
+          <End Role="Schülerlisten" Type="TeachyModel.SchülerlistenNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Schülereinträge" Type="TeachyModel.SchülereinträgeNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schülerlisten">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Schülereinträge">
+              <PropertyRef Name="SchülerlisteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SchuljahrSchultermin">
+          <End Role="Schuljahr" Type="TeachyModel.SchuljahrNeu" Multiplicity="1" />
+          <End Role="Schultermine" Type="TeachyModel.SchulterminNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schuljahr">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Schultermine">
+              <PropertyRef Name="SchuljahrId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SchuljahrStundenplan">
+          <End Role="Schuljahre" Type="TeachyModel.SchuljahrNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Stundenpläne" Type="TeachyModel.StundenplanNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schuljahre">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stundenpläne">
+              <PropertyRef Name="SchuljahrID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SitzplanSitzplaneintrag">
+          <End Role="Sitzpläne" Type="TeachyModel.SitzplanNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Sitzplaneinträge" Type="TeachyModel.SitzplaneintragNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sitzpläne">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sitzplaneinträge">
+              <PropertyRef Name="SitzplanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SitzplatzSitzplaneintrag">
+          <End Role="Sitzplätze" Type="TeachyModel.SitzplatzNeu" Multiplicity="1" />
+          <End Role="Sitzplaneinträge" Type="TeachyModel.SitzplaneintragNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sitzplätze">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sitzplaneinträge">
+              <PropertyRef Name="SitzplatzId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StundenplanStundenplaneintrag">
+          <End Role="Stundenpläne" Type="TeachyModel.StundenplanNeu" Multiplicity="1" />
+          <End Role="Stundenplaneinträge" Type="TeachyModel.StundenplaneintragNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stundenpläne">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stundenplaneinträge">
+              <PropertyRef Name="StundenplanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ErsteUnterrichtsstundeTermin">
+          <End Role="Unterrichtsstunden" Type="TeachyModel.UnterrichtsstundeNeu" Multiplicity="1" />
+          <End Role="Termine" Type="TeachyModel.TerminNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unterrichtsstunden">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Termine">
+              <PropertyRef Name="ErsteUnterrichtsstundeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UnterrichtsstundeTermin">
+          <End Role="Unterrichtsstunden" Type="TeachyModel.UnterrichtsstundeNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Termine" Type="TeachyModel.TerminNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unterrichtsstunden">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Termine">
+              <PropertyRef Name="LetzteUnterrichtsstundeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TeachyEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Arbeiten" EntityType="TeachyModel.ArbeitNeu" />
+          <EntitySet Name="Aufgaben" EntityType="TeachyModel.AufgabeNeu" />
+          <EntitySet Name="BetroffeneKlassen" EntityType="TeachyModel.BetroffeneKlasseNeu" />
+          <EntitySet Name="Bewertungsschemata" EntityType="TeachyModel.BewertungsschemataNeu" />
+          <EntitySet Name="Curricula" EntityType="TeachyModel.CurriculaNeu" />
+          <EntitySet Name="Dateitypen" EntityType="TeachyModel.DateitypNeu" />
+          <EntitySet Name="Dateiverweise" EntityType="TeachyModel.DateiverweisNeu" />
+          <EntitySet Name="Ergebnisse" EntityType="TeachyModel.ErgebnisseNeu" />
+          <EntitySet Name="Fächer" EntityType="TeachyModel.FächerNeu" />
+          <EntitySet Name="Fachstundenanzahlen" EntityType="TeachyModel.FachstundenanzahlenNeu" />
+          <EntitySet Name="Ferien" EntityType="TeachyModel.FerienNeu" />
+          <EntitySet Name="Hausaufgaben" EntityType="TeachyModel.HausaufgabenNeu" />
+          <EntitySet Name="Lerngruppen" EntityType="TeachyModel.LerngruppeNeu" />
+          <EntitySet Name="Module" EntityType="TeachyModel.ModuleNeu" />
+          <EntitySet Name="Noten" EntityType="TeachyModel.NotenNeu" />
+          <EntitySet Name="Notentendenzen" EntityType="TeachyModel.NotentendenzenNeu" />
+          <EntitySet Name="NotenWichtungen" EntityType="TeachyModel.NotenWichtungNeu" />
+          <EntitySet Name="Personen" EntityType="TeachyModel.PersonenNeu" />
+          <EntitySet Name="Phasen" EntityType="TeachyModel.PhaseNeu" />
+          <EntitySet Name="Prozentbereiche" EntityType="TeachyModel.ProzentbereicheNeu" />
+          <EntitySet Name="Räume" EntityType="TeachyModel.RaumNeu" />
+          <EntitySet Name="Raumpläne" EntityType="TeachyModel.RaumplanNeu" />
+          <EntitySet Name="Reihen" EntityType="TeachyModel.ReihenNeu" />
+          <EntitySet Name="Schülereinträge" EntityType="TeachyModel.SchülereinträgeNeu" />
+          <EntitySet Name="Schülerlisten" EntityType="TeachyModel.SchülerlistenNeu" />
+          <EntitySet Name="Schuljahre" EntityType="TeachyModel.SchuljahrNeu" />
+          <EntitySet Name="Sequenzen" EntityType="TeachyModel.SequenzenNeu" />
+          <EntitySet Name="Sitzpläne" EntityType="TeachyModel.SitzplanNeu" />
+          <EntitySet Name="Sitzplaneinträge" EntityType="TeachyModel.SitzplaneintragNeu" />
+          <EntitySet Name="Sitzplätze" EntityType="TeachyModel.SitzplatzNeu" />
+          <EntitySet Name="Stundenpläne" EntityType="TeachyModel.StundenplanNeu" />
+          <EntitySet Name="Stundenplaneinträge" EntityType="TeachyModel.StundenplaneintragNeu" />
+          <EntitySet Name="Termine" EntityType="TeachyModel.TerminNeu" />
+          <EntitySet Name="Unterrichtsstunden" EntityType="TeachyModel.UnterrichtsstundeNeu" />
+          <EntitySet Name="Zensuren" EntityType="TeachyModel.ZensurenNeu" />
+          <AssociationSet Name="FK_ArbeitAufgabe" Association="Self.FK_ArbeitAufgabe">
+            <End Role="Arbeiten" EntitySet="Arbeiten" />
+            <End Role="Aufgaben" EntitySet="Aufgaben" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ArbeitNoten" Association="Self.FK_ArbeitNoten">
+            <End Role="Arbeiten" EntitySet="Arbeiten" />
+            <End Role="Noten" EntitySet="Noten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BewertungsschemaArbeit" Association="Self.FK_BewertungsschemaArbeit">
+            <End Role="Bewertungsschemata" EntitySet="Bewertungsschemata" />
+            <End Role="Arbeiten" EntitySet="Arbeiten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FachArbeit" Association="Self.FK_FachArbeit">
+            <End Role="Fächer" EntitySet="Fächer" />
+            <End Role="Arbeiten" EntitySet="Arbeiten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LerngruppeArbeit" Association="Self.FK_LerngruppeArbeit">
+            <End Role="Lerngruppen" EntitySet="Lerngruppen" />
+            <End Role="Arbeiten" EntitySet="Arbeiten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AufgabeErgebnis" Association="Self.FK_AufgabeErgebnis">
+            <End Role="Aufgaben" EntitySet="Aufgaben" />
+            <End Role="Ergebnisse" EntitySet="Ergebnisse" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LerngruppeBetroffeneKlasse" Association="Self.FK_LerngruppeBetroffeneKlasse">
+            <End Role="Lerngruppen" EntitySet="Lerngruppen" />
+            <End Role="BetroffeneKlassen" EntitySet="BetroffeneKlassen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TerminBetroffeneKlasse" Association="Self.FK_TerminBetroffeneKlasse">
+            <End Role="Schultermin" EntitySet="Termine" />
+            <End Role="BetroffeneKlassen" EntitySet="BetroffeneKlassen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BewertungsschemaProzentbereich" Association="Self.FK_BewertungsschemaProzentbereich">
+            <End Role="Bewertungsschemata" EntitySet="Bewertungsschemata" />
+            <End Role="Prozentbereiche" EntitySet="Prozentbereiche" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurriculumReihe" Association="Self.FK_CurriculumReihe">
+            <End Role="Curricula" EntitySet="Curricula" />
+            <End Role="Reihen" EntitySet="Reihen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FachCurriculum" Association="Self.FK_FachCurriculum">
+            <End Role="Fächer" EntitySet="Fächer" />
+            <End Role="Curricula" EntitySet="Curricula" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SchuljahrCurriculum" Association="Self.FK_SchuljahrCurriculum">
+            <End Role="Schuljahre" EntitySet="Schuljahre" />
+            <End Role="Curricula" EntitySet="Curricula" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DateitypDateiverweis" Association="Self.FK_DateitypDateiverweis">
+            <End Role="Dateitypen" EntitySet="Dateitypen" />
+            <End Role="Dateiverweise" EntitySet="Dateiverweise" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StundeDateiverweis" Association="Self.FK_StundeDateiverweis">
+            <End Role="Termine_Stunde" EntitySet="Termine" />
+            <End Role="Dateiverweise" EntitySet="Dateiverweise" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SchülereintragErgebnis" Association="Self.FK_SchülereintragErgebnis">
+            <End Role="Schülereinträge" EntitySet="Schülereinträge" />
+            <End Role="Ergebnisse" EntitySet="Ergebnisse" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FachFachstundenanzahl" Association="Self.FK_FachFachstundenanzahl">
+            <End Role="Fächer" EntitySet="Fächer" />
+            <End Role="Fachstundenanzahlen" EntitySet="Fachstundenanzahlen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FachLerngruppe" Association="Self.FK_FachLerngruppe">
+            <End Role="Fächer" EntitySet="Fächer" />
+            <End Role="Lerngruppen" EntitySet="Lerngruppen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FachModul" Association="Self.FK_FachModul">
+            <End Role="Fächer" EntitySet="Fächer" />
+            <End Role="Module" EntitySet="Module" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FachStunde" Association="Self.FK_FachStunde">
+            <End Role="Fächer" EntitySet="Fächer" />
+            <End Role="Stunden" EntitySet="Termine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FachStundenplaneintrag" Association="Self.FK_FachStundenplaneintrag">
+            <End Role="Fächer" EntitySet="Fächer" />
+            <End Role="Stundenplaneinträge" EntitySet="Stundenplaneinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SchuljahrFerien" Association="Self.FK_SchuljahrFerien">
+            <End Role="Schuljahr" EntitySet="Schuljahre" />
+            <End Role="Ferien" EntitySet="Ferien" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SchülereintragHausaufgaben" Association="Self.FK_SchülereintragHausaufgaben">
+            <End Role="Schülereinträge" EntitySet="Schülereinträge" />
+            <End Role="Hausaufgaben" EntitySet="Hausaufgaben" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LerngruppeLerngruppentermin" Association="Self.FK_LerngruppeLerngruppentermin">
+            <End Role="Lerngruppen" EntitySet="Lerngruppen" />
+            <End Role="Termine_Lerngruppentermin" EntitySet="Termine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LerngruppeStundenplaneintrag" Association="Self.FK_LerngruppeStundenplaneintrag">
+            <End Role="Lerngruppen" EntitySet="Lerngruppen" />
+            <End Role="Stundenplaneinträge" EntitySet="Stundenplaneinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotenWichtungenLerngruppe" Association="Self.FK_NotenWichtungenLerngruppe">
+            <End Role="NotenWichtungen" EntitySet="NotenWichtungen" />
+            <End Role="Lerngruppen" EntitySet="Lerngruppen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SchuljahrLerngruppe" Association="Self.FK_SchuljahrLerngruppe">
+            <End Role="Schuljahre" EntitySet="Schuljahre" />
+            <End Role="Lerngruppen" EntitySet="Lerngruppen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ModulReihe" Association="Self.FK_ModulReihe">
+            <End Role="Module" EntitySet="Module" />
+            <End Role="Reihen" EntitySet="Reihen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ModulStunde" Association="Self.FK_ModulStunde">
+            <End Role="Module" EntitySet="Module" />
+            <End Role="Stunden" EntitySet="Termine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SchülereintragNoten" Association="Self.FK_SchülereintragNoten">
+            <End Role="Schülereinträge" EntitySet="Schülereinträge" />
+            <End Role="Noten" EntitySet="Noten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ZensurNoten" Association="Self.FK_ZensurNoten">
+            <End Role="Zensuren" EntitySet="Zensuren" />
+            <End Role="Noten" EntitySet="Noten" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonSchülereintrag" Association="Self.FK_PersonSchülereintrag">
+            <End Role="Personen" EntitySet="Personen" />
+            <End Role="Schülereinträge" EntitySet="Schülereinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StundePhase" Association="Self.FK_StundePhase">
+            <End Role="Termine_Stunde" EntitySet="Termine" />
+            <End Role="Phasen" EntitySet="Phasen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ZensurProzentbereich" Association="Self.FK_ZensurProzentbereich">
+            <End Role="Zensuren" EntitySet="Zensuren" />
+            <End Role="Prozentbereiche" EntitySet="Prozentbereiche" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RaumRaumplan" Association="Self.FK_RaumRaumplan">
+            <End Role="Räume" EntitySet="Räume" />
+            <End Role="Raumpläne" EntitySet="Raumpläne" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RaumStundenplaneintrag" Association="Self.FK_RaumStundenplaneintrag">
+            <End Role="Räume" EntitySet="Räume" />
+            <End Role="Stundenplaneinträge" EntitySet="Stundenplaneinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RaumplanSitzplan" Association="Self.FK_RaumplanSitzplan">
+            <End Role="Raumpläne" EntitySet="Raumpläne" />
+            <End Role="Sitzpläne" EntitySet="Sitzpläne" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RaumplanSitzplatz" Association="Self.FK_RaumplanSitzplatz">
+            <End Role="Raumpläne" EntitySet="Raumpläne" />
+            <End Role="Sitzplätze" EntitySet="Sitzplätze" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReiheSequenz" Association="Self.FK_ReiheSequenz">
+            <End Role="Reihen" EntitySet="Reihen" />
+            <End Role="Sequenzen" EntitySet="Sequenzen" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SchülereintragSitzplaneintrag" Association="Self.FK_SchülereintragSitzplaneintrag">
+            <End Role="Schülereinträge" EntitySet="Schülereinträge" />
+            <End Role="Sitzplaneinträge" EntitySet="Sitzplaneinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SchülerlisteSchülereintrag" Association="Self.FK_SchülerlisteSchülereintrag">
+            <End Role="Schülerlisten" EntitySet="Schülerlisten" />
+            <End Role="Schülereinträge" EntitySet="Schülereinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SchuljahrSchultermin" Association="Self.FK_SchuljahrSchultermin">
+            <End Role="Schuljahr" EntitySet="Schuljahre" />
+            <End Role="Schultermine" EntitySet="Termine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SchuljahrStundenplan" Association="Self.FK_SchuljahrStundenplan">
+            <End Role="Schuljahre" EntitySet="Schuljahre" />
+            <End Role="Stundenpläne" EntitySet="Stundenpläne" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SitzplanSitzplaneintrag" Association="Self.FK_SitzplanSitzplaneintrag">
+            <End Role="Sitzpläne" EntitySet="Sitzpläne" />
+            <End Role="Sitzplaneinträge" EntitySet="Sitzplaneinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SitzplatzSitzplaneintrag" Association="Self.FK_SitzplatzSitzplaneintrag">
+            <End Role="Sitzplätze" EntitySet="Sitzplätze" />
+            <End Role="Sitzplaneinträge" EntitySet="Sitzplaneinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StundenplanStundenplaneintrag" Association="Self.FK_StundenplanStundenplaneintrag">
+            <End Role="Stundenpläne" EntitySet="Stundenpläne" />
+            <End Role="Stundenplaneinträge" EntitySet="Stundenplaneinträge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ErsteUnterrichtsstundeTermin" Association="Self.FK_ErsteUnterrichtsstundeTermin">
+            <End Role="Unterrichtsstunden" EntitySet="Unterrichtsstunden" />
+            <End Role="Termine" EntitySet="Termine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UnterrichtsstundeTermin" Association="Self.FK_UnterrichtsstundeTermin">
+            <End Role="Unterrichtsstunden" EntitySet="Unterrichtsstunden" />
+            <End Role="Termine" EntitySet="Termine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SchülereintragNotentendenz" Association="TeachyModel.FK_SchülereintragNotentendenz">
+            <End Role="Schülereinträge" EntitySet="Schülereinträge" />
+            <End Role="Notentendenzen" EntitySet="Notentendenzen" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK_SchülereintragNotentendenz">
+          <End Type="TeachyModel.SchülereinträgeNeu" Role="Schülereinträge" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TeachyModel.NotentendenzenNeu" Role="Notentendenzen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schülereinträge">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Notentendenzen">
+              <PropertyRef Name="SchülereintragId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TeachyModelStoreContainer" CdmEntityContainer="TeachyEntities">
+          <EntitySetMapping Name="Arbeiten">
+            <EntityTypeMapping TypeName="TeachyModel.ArbeitNeu">
+              <MappingFragment StoreEntitySet="Arbeiten">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="LerngruppeId" ColumnName="LerngruppeId" />
+                <ScalarProperty Name="FachId" ColumnName="FachId" />
+                <ScalarProperty Name="BewertungsschemaId" ColumnName="BewertungsschemaId" />
+                <ScalarProperty Name="Bepunktungstyp" ColumnName="Bepunktungstyp" />
+                <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
+                <ScalarProperty Name="LfdNr" ColumnName="LfdNr" />
+                <ScalarProperty Name="Datum" ColumnName="Datum" />
+                <ScalarProperty Name="IstKlausur" ColumnName="IstKlausur" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Aufgaben">
+            <EntityTypeMapping TypeName="TeachyModel.AufgabeNeu">
+              <MappingFragment StoreEntitySet="Aufgaben">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ArbeitId" ColumnName="ArbeitId" />
+                <ScalarProperty Name="LfdNr" ColumnName="LfdNr" />
+                <ScalarProperty Name="MaxPunkte" ColumnName="MaxPunkte" />
+                <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BetroffeneKlassen">
+            <EntityTypeMapping TypeName="TeachyModel.BetroffeneKlasseNeu">
+              <MappingFragment StoreEntitySet="BetroffeneKlassen">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TerminId" ColumnName="TerminId" />
+                <ScalarProperty Name="LerngruppeId" ColumnName="LerngruppeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bewertungsschemata">
+            <EntityTypeMapping TypeName="TeachyModel.BewertungsschemataNeu">
+              <MappingFragment StoreEntitySet="Bewertungsschemata">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Curricula">
+            <EntityTypeMapping TypeName="TeachyModel.CurriculaNeu">
+              <MappingFragment StoreEntitySet="Curricula">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FachId" ColumnName="FachId" />
+                <ScalarProperty Name="Jahrgang" ColumnName="Jahrgang" />
+                <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
+                <ScalarProperty Name="SchuljahrId" ColumnName="SchuljahrId" />
+                <ScalarProperty Name="Halbjahr" ColumnName="Halbjahr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Dateitypen">
+            <EntityTypeMapping TypeName="TeachyModel.DateitypNeu">
+              <MappingFragment StoreEntitySet="Dateitypen">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
+                <ScalarProperty Name="Kürzel" ColumnName="Kürzel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Dateiverweise">
+            <EntityTypeMapping TypeName="TeachyModel.DateiverweisNeu">
+              <MappingFragment StoreEntitySet="Dateiverweise">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Dateiname" ColumnName="Dateiname" />
+                <ScalarProperty Name="DateitypId" ColumnName="DateitypId" />
+                <ScalarProperty Name="StundeId" ColumnName="StundeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ergebnisse">
+            <EntityTypeMapping TypeName="TeachyModel.ErgebnisseNeu">
+              <MappingFragment StoreEntitySet="Ergebnisse">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AufgabeId" ColumnName="AufgabeId" />
+                <ScalarProperty Name="SchülereintragId" ColumnName="SchülereintragId" />
+                <ScalarProperty Name="Punktzahl" ColumnName="Punktzahl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fächer">
+            <EntityTypeMapping TypeName="TeachyModel.FächerNeu">
+              <MappingFragment StoreEntitySet="Fächer">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
+                <ScalarProperty Name="Farbe" ColumnName="Farbe" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fachstundenanzahlen">
+            <EntityTypeMapping TypeName="TeachyModel.FachstundenanzahlenNeu">
+              <MappingFragment StoreEntitySet="Fachstundenanzahlen">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FachId" ColumnName="FachId" />
+                <ScalarProperty Name="Jahrgang" ColumnName="Jahrgang" />
+                <ScalarProperty Name="Stundenzahl" ColumnName="Stundenzahl" />
+                <ScalarProperty Name="Teilungsstundenzahl" ColumnName="Teilungsstundenzahl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ferien">
+            <EntityTypeMapping TypeName="TeachyModel.FerienNeu">
+              <MappingFragment StoreEntitySet="Ferien">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SchuljahrId" ColumnName="SchuljahrId" />
+                <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
+                <ScalarProperty Name="ErsterFerientag" ColumnName="ErsterFerientag" />
+                <ScalarProperty Name="LetzterFerientag" ColumnName="LetzterFerientag" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hausaufgaben">
+            <EntityTypeMapping TypeName="TeachyModel.HausaufgabenNeu">
+              <MappingFragment StoreEntitySet="Hausaufgaben">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Datum" ColumnName="Datum" />
+                <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
+                <ScalarProperty Name="IstNachgereicht" ColumnName="IstNachgereicht" />
+                <ScalarProperty Name="SchülereintragId" ColumnName="SchülereintragId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lerngruppen">
+            <EntityTypeMapping TypeName="TeachyModel.LerngruppeNeu">
+              <MappingFragment StoreEntitySet="Lerngruppen">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
+                <ScalarProperty Name="SchuljahrId" ColumnName="SchuljahrId" />
+                <ScalarProperty Name="Halbjahr" ColumnName="Halbjahr" />
+                <ScalarProperty Name="FachId" ColumnName="FachId" />
+                <ScalarProperty Name="Jahrgang" ColumnName="Jahrgang" />
+                <ScalarProperty Name="NotenWichtungId" ColumnName="NotenWichtungId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Module">
+            <EntityTypeMapping TypeName="TeachyModel.ModuleNeu">
+              <MappingFragment StoreEntitySet="Module">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FachId" ColumnName="FachId" />
+                <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
+                <ScalarProperty Name="Jahrgang" ColumnName="Jahrgang" />
+                <ScalarProperty Name="Bausteine" ColumnName="Bausteine" />
+                <ScalarProperty Name="Stundenbedarf" ColumnName="Stundenbedarf" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Noten">
+            <EntityTypeMapping TypeName="TeachyModel.NotenNeu">
+              <MappingFragment StoreEntitySet="Noten">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SchülereintragId" ColumnName="SchülereintragId" />
+                <ScalarProperty Name="ZensurId" ColumnName="ZensurId" />
+                <ScalarProperty Name="Datum" ColumnName="Datum" />
+                <ScalarProperty Name="Wichtung" ColumnName="Wichtung" />
+                <ScalarProperty Name="IstSchriftlich" ColumnName="IstSchriftlich" />
+                <ScalarProperty Name="ArbeitId" ColumnName="ArbeitId" />
+                <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
+                <ScalarProperty Name="Notentyp" ColumnName="Notentyp" />
+                <ScalarProperty Name="NotenTermintyp" ColumnName="NotenTermintyp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notentendenzen">
+            <EntityTypeMapping TypeName="TeachyModel.NotentendenzenNeu">
+              <MappingFragment StoreEntitySet="Notentendenzen">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Datum" ColumnName="Datum" />
+                <ScalarProperty Name="Tendenz" ColumnName="Tendenz" />
+                <ScalarProperty Name="Tendenztyp" ColumnName="Tendenztyp" />
+                <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
+                <ScalarProperty Name="SchülereintragId" ColumnName="SchülereintragId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NotenWichtungen">
+            <EntityTypeMapping TypeName="TeachyModel.NotenWichtungNeu">
+              <MappingFragment StoreEntitySet="NotenWichtungen">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
+                <ScalarProperty Name="MündlichQualität" ColumnName="MündlichQualität" />
+                <ScalarProperty Name="MündlichQuantität" ColumnName="MündlichQuantität" />
+                <ScalarProperty Name="MündlichSonstige" ColumnName="MündlichSonstige" />
+                <ScalarProperty Name="MündlichGesamt" ColumnName="MündlichGesamt" />
+                <ScalarProperty Name="SchriftlichKlassenarbeit" ColumnName="SchriftlichKlassenarbeit" />
+                <ScalarProperty Name="SchriftlichSonstige" ColumnName="SchriftlichSonstige" />
+                <ScalarProperty Name="SchriftlichGesamt" ColumnName="SchriftlichGesamt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Personen">
+            <EntityTypeMapping TypeName="TeachyModel.PersonenNeu">
+              <MappingFragment StoreEntitySet="Personen">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Vorname" ColumnName="Vorname" />
+                <ScalarProperty Name="Nachname" ColumnName="Nachname" />
+                <ScalarProperty Name="Geschlecht" ColumnName="Geschlecht" />
+                <ScalarProperty Name="Geburtstag" ColumnName="Geburtstag" />
+                <ScalarProperty Name="Titel" ColumnName="Titel" />
+                <ScalarProperty Name="Telefon" ColumnName="Telefon" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Handy" ColumnName="Handy" />
+                <ScalarProperty Name="EMail" ColumnName="EMail" />
+                <ScalarProperty Name="PLZ" ColumnName="PLZ" />
+                <ScalarProperty Name="Straße" ColumnName="Straße" />
+                <ScalarProperty Name="Hausnummer" ColumnName="Hausnummer" />
+                <ScalarProperty Name="Ort" ColumnName="Ort" />
+                <ScalarProperty Name="IstLehrer" ColumnName="IstLehrer" />
+                <ScalarProperty Name="Foto" ColumnName="Foto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Phasen">
+            <EntityTypeMapping TypeName="TeachyModel.PhaseNeu">
+              <MappingFragment StoreEntitySet="Phasen">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StundeId" ColumnName="StundeId" />
+                <ScalarProperty Name="Zeit" ColumnName="Zeit" />
+                <ScalarProperty Name="Medium" ColumnName="Medium" />
+                <ScalarProperty Name="Sozialform" ColumnName="Sozialform" />
+                <ScalarProperty Name="Inhalt" ColumnName="Inhalt" />
+                <ScalarProperty Name="Reihenfolge" ColumnName="Reihenfolge" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Prozentbereiche">
+            <EntityTypeMapping TypeName="TeachyModel.ProzentbereicheNeu">
+              <MappingFragment StoreEntitySet="Prozentbereiche">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ZensurId" ColumnName="ZensurId" />
+                <ScalarProperty Name="VonProzent" ColumnName="VonProzent" />
+                <ScalarProperty Name="BisProzent" ColumnName="BisProzent" />
+                <ScalarProperty Name="BewertungsschemaId" ColumnName="BewertungsschemaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Räume">
+            <EntityTypeMapping TypeName="TeachyModel.RaumNeu">
+              <MappingFragment StoreEntitySet="Räume">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Raumpläne">
+            <EntityTypeMapping TypeName="TeachyModel.RaumplanNeu">
+              <MappingFragment StoreEntitySet="Raumpläne">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
+                <ScalarProperty Name="RaumId" ColumnName="RaumId" />
+                <ScalarProperty Name="Grundriss" ColumnName="Grundriss" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reihen">
+            <EntityTypeMapping TypeName="TeachyModel.ReihenNeu">
+              <MappingFragment StoreEntitySet="Reihen">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ModulId" ColumnName="ModulId" />
+                <ScalarProperty Name="Thema" ColumnName="Thema" />
+                <ScalarProperty Name="Stundenbedarf" ColumnName="Stundenbedarf" />
+                <ScalarProperty Name="CurriculumId" ColumnName="CurriculumId" />
+                <ScalarProperty Name="Reihenfolge" ColumnName="Reihenfolge" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Schülereinträge">
+            <EntityTypeMapping TypeName="TeachyModel.SchülereinträgeNeu">
+              <MappingFragment StoreEntitySet="Schülereinträge">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SchülerlisteId" ColumnName="SchülerlisteId" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Schülerlisten">
+            <EntityTypeMapping TypeName="TeachyModel.SchülerlistenNeu">
+              <MappingFragment StoreEntitySet="Schülerlisten">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SchuljahrId" ColumnName="SchuljahrId" />
+                <ScalarProperty Name="Halbjahr" ColumnName="Halbjahr" />
+                <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
+                <ScalarProperty Name="FachId" ColumnName="FachId" />
+                <ScalarProperty Name="NotenWichtungId" ColumnName="NotenWichtungId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Schuljahre">
+            <EntityTypeMapping TypeName="TeachyModel.SchuljahrNeu">
+              <MappingFragment StoreEntitySet="Schuljahre">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
+                <ScalarProperty Name="Jahr" ColumnName="Jahr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sequenzen">
+            <EntityTypeMapping TypeName="TeachyModel.SequenzenNeu">
+              <MappingFragment StoreEntitySet="Sequenzen">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ReiheId" ColumnName="ReiheId" />
+                <ScalarProperty Name="Reihenfolge" ColumnName="Reihenfolge" />
+                <ScalarProperty Name="Stundenbedarf" ColumnName="Stundenbedarf" />
+                <ScalarProperty Name="Thema" ColumnName="Thema" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sitzpläne">
+            <EntityTypeMapping TypeName="TeachyModel.SitzplanNeu">
+              <MappingFragment StoreEntitySet="Sitzpläne">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
+                <ScalarProperty Name="RaumplanId" ColumnName="RaumplanId" />
+                <ScalarProperty Name="SchülerlisteId" ColumnName="SchülerlisteId" />
+                <ScalarProperty Name="GültigAb" ColumnName="GültigAb" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sitzplaneinträge">
+            <EntityTypeMapping TypeName="TeachyModel.SitzplaneintragNeu">
+              <MappingFragment StoreEntitySet="Sitzplaneinträge">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SitzplanId" ColumnName="SitzplanId" />
+                <ScalarProperty Name="SitzplatzId" ColumnName="SitzplatzId" />
+                <ScalarProperty Name="SchülereintragId" ColumnName="SchülereintragId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sitzplätze">
+            <EntityTypeMapping TypeName="TeachyModel.SitzplatzNeu">
+              <MappingFragment StoreEntitySet="Sitzplätze">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="RaumplanId" ColumnName="RaumplanId" />
+                <ScalarProperty Name="LinksObenX" ColumnName="LinksObenX" />
+                <ScalarProperty Name="LinksObenY" ColumnName="LinksObenY" />
+                <ScalarProperty Name="Breite" ColumnName="Breite" />
+                <ScalarProperty Name="Höhe" ColumnName="Höhe" />
+                <ScalarProperty Name="Drehwinkel" ColumnName="Drehwinkel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stundenpläne">
+            <EntityTypeMapping TypeName="TeachyModel.StundenplanNeu">
+              <MappingFragment StoreEntitySet="Stundenpläne">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
+                <ScalarProperty Name="SchuljahrID" ColumnName="SchuljahrID" />
+                <ScalarProperty Name="Halbjahr" ColumnName="Halbjahr" />
+                <ScalarProperty Name="GültigAb" ColumnName="GültigAb" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stundenplaneinträge">
+            <EntityTypeMapping TypeName="TeachyModel.StundenplaneintragNeu">
+              <MappingFragment StoreEntitySet="Stundenplaneinträge">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StundenplanId" ColumnName="StundenplanId" />
+                <ScalarProperty Name="ErsteUnterrichtsstundeIndex" ColumnName="ErsteUnterrichtsstundeIndex" />
+                <ScalarProperty Name="LetzteUnterrichtsstundeIndex" ColumnName="LetzteUnterrichtsstundeIndex" />
+                <ScalarProperty Name="WochentagIndex" ColumnName="WochentagIndex" />
+                <ScalarProperty Name="FachId" ColumnName="FachId" />
+                <ScalarProperty Name="LerngruppeID" ColumnName="LerngruppeID" />
+                <ScalarProperty Name="RaumId" ColumnName="RaumId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Termine">
+            <EntityTypeMapping TypeName="IsTypeOf(TeachyModel.TerminNeu)">
+              <MappingFragment StoreEntitySet="Termine">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IstGeprüft" ColumnName="IstGeprüft" />
+                <ScalarProperty Name="Ort" ColumnName="Ort" />
+                <ScalarProperty Name="LetzteUnterrichtsstundeId" ColumnName="LetzteUnterrichtsstundeId" />
+                <ScalarProperty Name="ErsteUnterrichtsstundeId" ColumnName="ErsteUnterrichtsstundeId" />
+                <ScalarProperty Name="Beschreibung" ColumnName="Beschreibung" />
+                <ScalarProperty Name="Termintyp" ColumnName="Termintyp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(TeachyModel.SchulterminNeu)">
+              <MappingFragment StoreEntitySet="Termine_Schultermin">
+                <ScalarProperty Name="Datum" ColumnName="Datum" />
+                <ScalarProperty Name="SchuljahrId" ColumnName="SchuljahrId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(TeachyModel.LerngruppenterminNeu)">
+              <MappingFragment StoreEntitySet="Termine_Lerngruppentermin">
+                <ScalarProperty Name="Datum" ColumnName="Datum" />
+                <ScalarProperty Name="LerngruppeId" ColumnName="LerngruppeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(TeachyModel.StundeNeu)">
+              <MappingFragment StoreEntitySet="Termine_Stunde">
+                
+                <ScalarProperty Name="Ansagen" ColumnName="Ansagen" />
+                <ScalarProperty Name="Hausaufgaben" ColumnName="Hausaufgaben" />
+                <ScalarProperty Name="Computer" ColumnName="Computer" />
+                <ScalarProperty Name="Kopieren" ColumnName="Kopieren" />
+                <ScalarProperty Name="ModulId" ColumnName="ModulId" />
+                <ScalarProperty Name="Jahrgang" ColumnName="Jahrgang" />
+                <ScalarProperty Name="FachId" ColumnName="FachId" />
+                <ScalarProperty Name="IstBenotet" ColumnName="IstBenotet" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Unterrichtsstunden">
+            <EntityTypeMapping TypeName="TeachyModel.UnterrichtsstundeNeu">
+              <MappingFragment StoreEntitySet="Unterrichtsstunden">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
+                <ScalarProperty Name="Beginn" ColumnName="Beginn" />
+                <ScalarProperty Name="Ende" ColumnName="Ende" />
+                <ScalarProperty Name="Stundenindex" ColumnName="Stundenindex" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Zensuren">
+            <EntityTypeMapping TypeName="TeachyModel.ZensurenNeu">
+              <MappingFragment StoreEntitySet="Zensuren">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Notenpunkte" ColumnName="Notenpunkte" />
+                <ScalarProperty Name="NoteMitTendenz" ColumnName="NoteMitTendenz" />
+                <ScalarProperty Name="GanzeNote" ColumnName="GanzeNote" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Kein" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
