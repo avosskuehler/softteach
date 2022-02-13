@@ -669,6 +669,7 @@
           o.SchülerlisteFach.FachBezeichnung == stunde.LerngruppenterminFach
           && o.SchülerlisteJahrtyp.JahrtypBezeichnung == stunde.LerngruppenterminSchuljahr
           && o.SchülerlisteKlasse.KlasseBezeichnung == stunde.LerngruppenterminKlasse);
+      Selection.Instance.Schülerliste = schülerliste;
 
       if (Configuration.Instance.IsMetroMode)
       {
