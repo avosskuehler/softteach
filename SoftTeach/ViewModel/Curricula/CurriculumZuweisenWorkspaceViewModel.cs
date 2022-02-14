@@ -10,7 +10,7 @@
   using GongSolutions.Wpf.DragDrop;
 
   using SoftTeach.ExceptionHandling;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.UndoRedo;
   using SoftTeach.ViewModel.Helper;
   using SoftTeach.ViewModel.Jahrespläne;
@@ -139,7 +139,7 @@
     /// </summary>
     private void PopulateSequenzen()
     {
-      foreach (SequenzViewModel sequenzViewModel in this.currentCurriculum.ReihenSequenzen.Where(o => o is SequenzViewModel).OrderBy(o => o.AbfolgeIndex))
+      foreach (SequenzViewModel sequenzViewModel in this.currentCurriculum.ReihenSequenzen.Where(o => o is SequenzViewModel).OrderBy(o => o.Reihenfolge))
       {
         this.UsedSequenzenDesCurriculums.Add(sequenzViewModel);
       }
@@ -147,9 +147,9 @@
       // ResequenceList
       SequencingService.SetCollectionSequence(this.UsedSequenzenDesCurriculums);
 
-      foreach (ReiheViewModel reiheViewModel in this.currentCurriculum.ReihenSequenzen.Where(o => o is ReiheViewModel).OrderBy(o => o.AbfolgeIndex))
+      foreach (ReiheViewModel reiheViewModel in this.currentCurriculum.ReihenSequenzen.Where(o => o is ReiheViewModel).OrderBy(o => o.Reihenfolge))
       {
-        foreach (var sequenzViewModel in reiheViewModel.AvailableSequenzen.OrderBy(o => o.AbfolgeIndex))
+        foreach (var sequenzViewModel in reiheViewModel.AvailableSequenzen.OrderBy(o => o.Reihenfolge))
         {
           this.AvailableSequenzenDesCurriculums.Add(sequenzViewModel);
         }
@@ -255,7 +255,7 @@
 
       foreach (var model in AvailableSequenzenDesCurriculums)
       {
-        model.AbfolgeIndex = -1;
+        model.Reihenfolge = -1;
       }
 
       this.UpdateTagespläneAndSequenzenCollection();

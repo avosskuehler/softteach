@@ -2,7 +2,7 @@
 {
   using System;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.ViewModel.Helper;
 
@@ -17,7 +17,7 @@
     /// <param name="ergebnis">
     /// The underlying ergebnis this ViewModel is to be based on
     /// </param>
-    public ErgebnisViewModel(Ergebnis ergebnis)
+    public ErgebnisViewModel(ErgebnisNeu ergebnis)
     {
       if (ergebnis == null)
       {
@@ -30,12 +30,12 @@
     /// <summary>
     /// Holt the underlying Ergebnis this ViewModel is based on
     /// </summary>
-    public Ergebnis Model { get; private set; }
+    public ErgebnisNeu Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Punktzahl
     /// </summary>
-    public float? ErgebnisPunktzahl
+    public double? ErgebnisPunktzahl
     {
       get
       {

@@ -1,6 +1,6 @@
 ﻿namespace SoftTeach.ViewModel.Stundenpläne
 {
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Stundenpläne;
@@ -28,7 +28,7 @@
       this.DeleteStundenplanCommand = new DelegateCommand(this.DeleteCurrentStundenplan, () => this.CurrentStundenplan != null);
       this.EditStundenplanCommand = new DelegateCommand(this.AddStundenplanÄnderung, () => this.CurrentStundenplan != null);
 
-      this.CurrentStundenplan = App.MainViewModel.Stundenpläne.FirstOrDefault(o => o.StundenplanJahrtyp.JahrtypJahr == Selection.Instance.Jahrtyp.JahrtypJahr);
+      this.CurrentStundenplan = App.MainViewModel.Stundenpläne.FirstOrDefault(o => o.StundenplanSchuljahr.SchuljahrJahr == Selection.Instance.Schuljahr.SchuljahrJahr);
 
       // Re-act to any changes from outside this ViewModel
       App.MainViewModel.Stundenpläne.CollectionChanged += (sender, e) =>
@@ -82,17 +82,17 @@
     /// <summary>
     /// Handles addition a new Stundenplan to the workspace and model
     /// </summary>
-    /// <param name="jahrtyp"> The jahrtyp. </param>
-    /// <param name="halbjahrtyp"> The halbjahrtyp. </param>
+    /// <param name="schuljahr"> The schuljahr. </param>
+    /// <param name="halbschuljahr"> The halbschuljahr. </param>
     /// <param name="gültigAb"> The gültig Ab. </param>
-    public void AddStundenplan(JahrtypViewModel jahrtyp, HalbjahrtypViewModel halbjahrtyp, DateTime gültigAb)
+    public void AddStundenplan(SchuljahrViewModel schuljahr, Halbjahr halbschuljahr, DateTime gültigAb)
     {
       using (new UndoBatch(App.MainViewModel, string.Format("Stundenplan ergänzt"), false))
       {
 
         var stundenplan = new Stundenplan();
-        stundenplan.Jahrtyp = jahrtyp.Model;
-        stundenplan.Halbjahrtyp = halbjahrtyp.Model;
+        stundenplan.Schuljahr = schuljahr.Model;
+        stundenplan.Halbjahr = halbschuljahr.Model;
         stundenplan.GültigAb = gültigAb;
         stundenplan.Bezeichnung = string.Format("Stundenplan für {0} {1}", Configuration.Instance.Lehrer.Titel, Configuration.Instance.Lehrer.Nachname);
         //App.UnitOfWork.Context.Stundenpläne.Add(stundenplan);
@@ -167,7 +167,7 @@
     /// </summary>
     private void AddStundenplan()
     {
-      this.AddStundenplan(Selection.Instance.Jahrtyp, Selection.Instance.Halbjahr, DateTime.Now);
+      this.AddStundenplan(Selection.Instance.Schuljahr, Selection.Instance.Halbjahr, DateTime.Now);
     }
 
     /// <summary>

@@ -20,7 +20,7 @@
       <CollectionViewSource.SortDescriptions>
         <scm:SortDescription PropertyName="ViewModelType" Direction="Ascending" />
         <scm:SortDescription PropertyName="TagesplanDatum" Direction="Ascending" />
-        <scm:SortDescription PropertyName="AbfolgeIndex" Direction="Ascending" />
+        <scm:SortDescription PropertyName="Reihenfolge" Direction="Ascending" />
       </CollectionViewSource.SortDescriptions>
       <CollectionViewSource.GroupDescriptions>
         <PropertyGroupDescription PropertyName="ViewModelType"/>

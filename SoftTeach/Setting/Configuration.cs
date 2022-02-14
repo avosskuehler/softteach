@@ -26,7 +26,7 @@ namespace SoftTeach.Setting
 
   using MahApps.Metro.Controls;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
 
   /// <summary>
   /// The selection.
@@ -147,7 +147,7 @@ namespace SoftTeach.Setting
 
     /// <summary>
     ///   Holt oder setzt einen Wert, der angibt, wohin das Programm nach
-    /// der Auswahl der Schülerliste springen soll (im Metro mode)
+    /// der Auswahl der Lerngruppe springen soll (im Metro mode)
     /// </summary>
     public NavigateTarget NavigateTarget
     {

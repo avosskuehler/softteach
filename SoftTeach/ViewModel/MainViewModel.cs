@@ -13,7 +13,7 @@
   using System.Windows.Media;
 
   using SoftTeach.ExceptionHandling;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Main;
@@ -51,7 +51,7 @@
     private ImageSource inactiveIcon;
     private ArbeitWorkspaceViewModel arbeitWorkspace;
     private RaumWorkspaceViewModel raumWorkspace;
-    private SchülerlisteWorkspaceViewModel schülerlisteWorkspace;
+    private LerngruppeWorkspaceViewModel schülerlisteWorkspace;
     private JahresplanWorkspaceViewModel jahresplanWorkspace;
     private SitzplanWorkspaceViewModel sitzplanWorkspace;
     private WochenplanWorkspaceViewModel wochenplanWorkspace;
@@ -63,7 +63,7 @@
     private ObservableCollection<RaumViewModel> räume;
     private ObservableCollection<SitzplanViewModel> sitzpläne;
     private ObservableCollection<ArbeitViewModel> arbeiten;
-    private ObservableCollection<SchülerlisteViewModel> schülerlisten;
+    private ObservableCollection<Personen.LerngruppeViewModel> schülerlisten;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="MainViewModel"/> Klasse. 
@@ -80,10 +80,10 @@
       UndoService.Current[this].Clear();
 
       // Build data structures to populate areas of the application surface
-      this.Jahrtypen = new ObservableCollection<JahrtypViewModel>();
+      this.Schuljahre = new ObservableCollection<SchuljahrViewModel>();
       this.Schulwochen = new ObservableCollection<SchulwocheViewModel>();
       this.Schultage = new ObservableCollection<SchultagViewModel>();
-      this.Halbjahrtypen = new ObservableCollection<HalbjahrtypViewModel>();
+      this.Halbjahre = new ObservableCollection<Halbjahr>();
       this.Monatstypen = new ObservableCollection<MonatstypViewModel>();
       this.Termintypen = new ObservableCollection<TermintypViewModel>();
       this.Medien = new ObservableCollection<MediumViewModel>();
@@ -91,8 +91,8 @@
       this.Sozialformen = new ObservableCollection<SozialformViewModel>();
       this.Unterrichtsstunden = new ObservableCollection<UnterrichtsstundeViewModel>();
       this.Jahrgangsstufen = new ObservableCollection<JahrgangsstufeViewModel>();
-      this.Klassenstufen = new ObservableCollection<KlassenstufeViewModel>();
-      this.Klassen = new ObservableCollection<KlasseViewModel>();
+      this.Klassenstufen = new ObservableCollection<int>();
+      this.Klassen = new ObservableCollection<Datenbank.LerngruppeViewModel>();
       this.Fächer = new ObservableCollection<FachViewModel>();
       this.Module = new ObservableCollection<ModulViewModel>();
       //this.Reihen = new ObservableCollection<ReiheViewModel>();
@@ -119,9 +119,9 @@
       //this.Aufgaben = new ObservableCollection<AufgabeViewModel>();
       //this.Ergebnisse = new ObservableCollection<ErgebnisViewModel>();
 
-      // The creation of the Schülerlisten includes the creation of
+      // The creation of the Lerngruppen includes the creation of
       // the schülereintrag, noten, notentendenzen, hausaufgaben models
-      this.schülerlisten = new ObservableCollection<SchülerlisteViewModel>();
+      this.schülerlisten = new ObservableCollection<Personen.LerngruppeViewModel>();
       //this.Schülereinträge = new ObservableCollection<SchülereintragViewModel>();
       //this.Noten = new ObservableCollection<NoteViewModel>();
       //this.Notentendenzen = new ObservableCollection<NotentendenzViewModel>();
@@ -169,7 +169,7 @@
       if (e.PropertyName == "Schuljahr")
       {
         LoadJahrespläne();
-        LoadSchülerlisten();
+        LoadLerngruppen();
       }
     }
 
@@ -200,14 +200,14 @@
     #region ModelCollections
 
     /// <summary>
-    /// Holt alle Jahrtypen der Datenbank
+    /// Holt alle Schuljahre der Datenbank
     /// </summary>
-    public ObservableCollection<JahrtypViewModel> Jahrtypen { get; private set; }
+    public ObservableCollection<SchuljahrViewModel> Schuljahre { get; private set; }
 
     /// <summary>
-    /// Holt alle Halbjahrtypen der Datenbank
+    /// Holt alle Halbjahre der Datenbank
     /// </summary>
-    public ObservableCollection<HalbjahrtypViewModel> Halbjahrtypen { get; private set; }
+    public ObservableCollection<Halbjahr> Halbjahre { get; private set; }
 
     /// <summary>
     /// Holt alle Monatstypen der Datenbank
@@ -242,17 +242,12 @@
     /// <summary>
     /// Holt alle Klassenstufen der Datenbank
     /// </summary>
-    public ObservableCollection<KlassenstufeViewModel> Klassenstufen { get; private set; }
+    public ObservableCollection<int> Klassenstufen { get; private set; }
 
     /// <summary>
-    /// Holt alle Klassen der Datenbank
+    /// Holt alle Lerngruppen der Datenbank
     /// </summary>
-    public ObservableCollection<KlasseViewModel> Klassen { get; private set; }
-
-    /// <summary>
-    /// Holt alle Schülerlisten der Datenbank
-    /// </summary>
-    public ObservableCollection<SchülerlisteViewModel> Schülerlisten
+    public ObservableCollection<LerngruppeViewModel> Lerngruppen
     {
       get
       {
@@ -617,9 +612,9 @@
     public SchulterminWorkspaceViewModel SchulterminWorkspace { get; private set; }
 
     /// <summary>
-    /// Holt den workspace for managing Jahrtypen
+    /// Holt den workspace for managing Schuljahre
     /// </summary>
-    public JahrtypWorkspaceViewModel JahrtypWorkspace { get; private set; }
+    public SchuljahrWorkspaceViewModel SchuljahrWorkspace { get; private set; }
 
     /// <summary>
     /// Holt den workspace for managing Fächer
@@ -672,15 +667,15 @@
     public FachstundenanzahlWorkspaceViewModel FachstundenanzahlWorkspace { get; private set; }
 
     /// <summary>
-    /// Holt den workspace for managing Schülerlisten
+    /// Holt den workspace for managing Lerngruppen
     /// </summary>
-    public SchülerlisteWorkspaceViewModel SchülerlisteWorkspace
+    public LerngruppeWorkspaceViewModel LerngruppeWorkspace
     {
       get
       {
         if (this.schülerlisteWorkspace == null)
         {
-          this.schülerlisteWorkspace = new SchülerlisteWorkspaceViewModel();
+          this.schülerlisteWorkspace = new LerngruppeWorkspaceViewModel();
         }
 
         return this.schülerlisteWorkspace;
@@ -763,7 +758,7 @@
       get
       {
         // Schüler anlegen, wenn noch nicht geschehen, da für Sitzpläne benötigt
-        var schüler = this.SchülerlisteWorkspace;
+        var schüler = this.LerngruppeWorkspace;
 
         if (this.sitzplanWorkspace == null)
         {
@@ -872,18 +867,18 @@
         //Console.WriteLine("Elapsed Räume {0}", watch.ElapsedMilliseconds);
         //watch.Restart();
 
-        foreach (var jahrtyp in context.Jahrtypen)
+        foreach (var schuljahr in context.Schuljahre)
         {
-          this.Jahrtypen.Add(new JahrtypViewModel(jahrtyp));
+          this.Schuljahre.Add(new SchuljahrViewModel(schuljahr));
         }
-        Console.WriteLine("Elapsed Jahrtypen {0}", watch.ElapsedMilliseconds);
+        Console.WriteLine("Elapsed Schuljahre {0}", watch.ElapsedMilliseconds);
         watch.Restart();
 
-        foreach (var halbjahrtyp in context.Halbjahrtypen)
+        foreach (var halbschuljahr in context.Halbjahre)
         {
-          this.Halbjahrtypen.Add(new HalbjahrtypViewModel(halbjahrtyp));
+          this.Halbjahre.Add(new Halbjahr(halbschuljahr));
         }
-        Console.WriteLine("Elapsed Halbjahrtypen {0}", watch.ElapsedMilliseconds);
+        Console.WriteLine("Elapsed Halbjahre {0}", watch.ElapsedMilliseconds);
         watch.Restart();
 
         foreach (var monatstyp in context.Monatstypen)
@@ -978,7 +973,7 @@
 
         //foreach (var klassenstufe in context.Klassenstufen)
         //{
-        //  this.Klassenstufen.Add(new KlassenstufeViewModel(klassenstufe));
+        //  this.Klassenstufen.Add(new int(klassenstufe));
         //}
         //this.Klassenstufen.BubbleSort();
 
@@ -1027,7 +1022,7 @@
         Console.WriteLine("PopulateFromSettings {0}", watch.ElapsedMilliseconds);
         watch.Restart();
 
-        foreach (Schultermin termin in context.Termine.OfType<Schultermin>().Where(o => o.Jahrtyp.Jahr == Selection.Instance.Jahrtyp.JahrtypJahr))
+        foreach (Schultermin termin in context.Termine.OfType<Schultermin>().Where(o => o.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr))
         {
           this.Schultermine.Add(new SchulterminViewModel(termin as Schultermin));
         }
@@ -1040,7 +1035,7 @@
         //}
         //Console.WriteLine("Elapsed BetroffeneKlasse {0}", watch.ElapsedMilliseconds);
 
-        //foreach (Person person in context.Personen.Where(o => o.Schülereintrag.Any(a => a.Schülerliste.Jahrtyp.Jahr == Selection.Instance.Jahrtyp.JahrtypJahr)))
+        //foreach (Person person in context.Personen.Where(o => o.Schülereintrag.Any(a => a.Lerngruppe.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr)))
         foreach (Person person in context.Personen)
         {
           this.Personen.Add(new PersonViewModel(person));
@@ -1048,8 +1043,8 @@
         Console.WriteLine("Elapsed Personen {0}", watch.ElapsedMilliseconds);
         watch.Restart();
 
-        //LoadSchülerliste();
-        //Console.WriteLine("Elapsed Schülerlisten {0}", watch.ElapsedMilliseconds);
+        //LoadLerngruppe();
+        //Console.WriteLine("Elapsed Lerngruppen {0}", watch.ElapsedMilliseconds);
         //watch.Restart();
 
         //foreach (var schülereintrag in context.Schülereinträge)
@@ -1076,7 +1071,7 @@
         //Console.WriteLine("Elapsed Prozentbereiche {0}", watch.ElapsedMilliseconds);
 
 
-        foreach (var stundenentwurf in context.Stundenentwürfe.Where(o => o.Stunden.Any(a => a.Tagesplan.Monatsplan.Halbjahresplan.Jahresplan.Jahrtyp.Jahr == Selection.Instance.Jahrtyp.JahrtypJahr)))
+        foreach (var stundenentwurf in context.Stundenentwürfe.Where(o => o.Stunden.Any(a => a.Tagesplan.Monatsplan.Halbjahresplan.Jahresplan.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr)))
         {
           this.Stundenentwürfe.Add(new StundenentwurfViewModel(stundenentwurf));
         }
@@ -1190,7 +1185,7 @@
         this.MediumWorkspace = new MediumWorkspaceViewModel();
         this.DateitypWorkspace = new DateitypWorkspaceViewModel();
         this.FachWorkspace = new FachWorkspaceViewModel();
-        this.JahrtypWorkspace = new JahrtypWorkspaceViewModel();
+        this.SchuljahrWorkspace = new SchuljahrWorkspaceViewModel();
         this.TermintypWorkspace = new TermintypWorkspaceViewModel();
         this.SozialformWorkspace = new SozialformWorkspaceViewModel();
         this.ModulWorkspace = new ModulWorkspaceViewModel();
@@ -1198,7 +1193,7 @@
         this.UnterrichtsstundeWorkspace = new UnterrichtsstundeWorkspaceViewModel();
         this.FerienWorkspace = new FerienWorkspaceViewModel();
         this.FachstundenanzahlWorkspace = new FachstundenanzahlWorkspaceViewModel();
-        //this.SchülerlisteWorkspace = new SchülerlisteWorkspaceViewModel();
+        //this.LerngruppeWorkspace = new LerngruppeWorkspaceViewModel();
         this.SchülereintragWorkspace = new SchülereintragWorkspaceViewModel();
         this.PersonenWorkspace = new PersonenWorkspaceViewModel();
         this.NotenWichtungWorkspace = new NotenWichtungWorkspaceViewModel();
@@ -1222,8 +1217,8 @@
         // Register collection changed events,
         // so dass undo/redo stack aktualisiert wird
         // wenn sich die collections ändern
-        this.Jahrtypen.CollectionChanged += this.JahrtypenCollectionChanged;
-        this.Halbjahrtypen.CollectionChanged += this.HalbjahrtypenCollectionChanged;
+        this.Schuljahre.CollectionChanged += this.SchuljahreCollectionChanged;
+        this.Halbjahre.CollectionChanged += this.HalbjahreCollectionChanged;
         this.Monatstypen.CollectionChanged += this.MonatstypenCollectionChanged;
         this.Termintypen.CollectionChanged += this.TermintypenCollectionChanged;
         this.Medien.CollectionChanged += this.MedienCollectionChanged;
@@ -1250,7 +1245,7 @@
         //this.Lerngruppentermine.CollectionChanged += this.LerngruppentermineCollectionChanged;
         this.BetroffeneKlassen.CollectionChanged += this.BetroffeneKlassenCollectionChanged;
         this.Personen.CollectionChanged += this.PersonenCollectionChanged;
-        //this.schülerlisten.CollectionChanged += this.SchülerlistenCollectionChanged;
+        //this.schülerlisten.CollectionChanged += this.LerngruppenCollectionChanged;
         //this.Schülereinträge.CollectionChanged += this.SchülereinträgeCollectionChanged;
         //this.Noten.CollectionChanged += this.NotenCollectionChanged;
         //this.Notentendenzen.CollectionChanged += this.NotentendenzenCollectionChanged;
@@ -1294,7 +1289,7 @@
       App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
       var collection = this.jahrespläne;
       this.jahrespläne.CollectionChanged -= this.JahrespläneCollectionChanged;
-      foreach (var jahresplan in App.UnitOfWork.Context.Jahrespläne.Where(o => o.Jahrtyp.Jahr == Selection.Instance.Jahrtyp.JahrtypJahr))
+      foreach (var jahresplan in App.UnitOfWork.Context.Jahrespläne.Where(o => o.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr))
       {
         if (!collection.Any(o => o.Model.Id == jahresplan.Id))
         {
@@ -1318,21 +1313,21 @@
       App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
     }
 
-    public void LoadSchülerlisten()
+    public void LoadLerngruppen()
     {
       App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
       var collection = this.schülerlisten;
-      this.schülerlisten.CollectionChanged -= this.SchülerlistenCollectionChanged;
-      //foreach (var schülerliste in App.UnitOfWork.Context.Schülerlisten)
-      foreach (var schülerliste in App.UnitOfWork.Context.Schülerlisten.Where(o => o.Jahrtyp.Jahr == Selection.Instance.Jahrtyp.JahrtypJahr))
+      this.schülerlisten.CollectionChanged -= this.LerngruppenCollectionChanged;
+      //foreach (var schülerliste in App.UnitOfWork.Context.Lerngruppen)
+      foreach (var schülerliste in App.UnitOfWork.Context.Lerngruppen.Where(o => o.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr))
       {
         if (!collection.Any(o => o.Model.Id == schülerliste.Id))
         {
-          collection.Add(new SchülerlisteViewModel(schülerliste));
+          collection.Add(new LerngruppeViewModel(schülerliste));
         }
       }
 
-      this.schülerlisten.CollectionChanged += this.SchülerlistenCollectionChanged;
+      this.schülerlisten.CollectionChanged += this.LerngruppenCollectionChanged;
 
       App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
     }
@@ -1355,7 +1350,7 @@
       App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
       var collection = this.arbeiten;
       this.arbeiten.CollectionChanged -= this.ArbeitenCollectionChanged;
-      foreach (var arbeit in App.UnitOfWork.Context.Arbeiten.Where(o => o.Jahrtyp.Jahr == Selection.Instance.Jahrtyp.JahrtypJahr))
+      foreach (var arbeit in App.UnitOfWork.Context.Arbeiten.Where(o => o.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr))
       {
         if (!collection.Any(o => o.Model.Id == arbeit.Id))
         {
@@ -1410,7 +1405,7 @@
       var collection = this.sitzpläne;
       this.sitzpläne.CollectionChanged -= this.SitzpläneCollectionChanged;
 
-      foreach (var sitzplan in App.UnitOfWork.Context.Sitzpläne.Where(o => o.Schülerliste.Jahrtyp.Jahr == Selection.Instance.Jahrtyp.JahrtypJahr))
+      foreach (var sitzplan in App.UnitOfWork.Context.Sitzpläne.Where(o => o.Lerngruppe.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr))
       {
         if (!collection.Any(o => o.Model.Id == sitzplan.Id))
         {
@@ -1474,7 +1469,7 @@
           Directory.CreateDirectory(fachPath);
         }
 
-        var jahrgangsstufe = modulViewModel.ModulJahrgangsstufe.JahrgangsstufeBezeichnung;
+        var jahrgangsstufe = modulViewModel.ModulJahrgang.JahrgangsstufeBezeichnung;
         jahrgangsstufe = jahrgangsstufe.Replace("/", "+");
         var jahrgangsPath = Path.Combine(fachPath, jahrgangsstufe);
         if (!Directory.Exists(jahrgangsPath))
@@ -1555,25 +1550,25 @@
     #region CollectionChangedEventHandler
 
     /// <summary>
-    /// Tritt auf, wenn die JahrtypenCollection verändert wurde.
+    /// Tritt auf, wenn die SchuljahreCollection verändert wurde.
     /// Gibt die Änderungen an den Undostack weiter.
     /// </summary>
     /// <param name="sender">Die auslösende Collection</param>
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void JahrtypenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    private void SchuljahreCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Jahrtypen", this.Jahrtypen, e, "Änderung der Jahrtypen");
+      this.UndoableCollectionChanged(this, "Schuljahre", this.Schuljahre, e, "Änderung der Schuljahre");
     }
 
     /// <summary>
-    /// Tritt auf, wenn die HalbjahrtypenCollection verändert wurde.
+    /// Tritt auf, wenn die HalbjahreCollection verändert wurde.
     /// Gibt die Änderungen an den Undostack weiter.
     /// </summary>
     /// <param name="sender">Die auslösende Collection</param>
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void HalbjahrtypenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    private void HalbjahreCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Halbjahrtypen", this.Halbjahrtypen, e, "Änderung der Halbjahrtypen");
+      this.UndoableCollectionChanged(this, "Halbjahre", this.Halbjahre, e, "Änderung der Halbjahre");
     }
 
     /// <summary>
@@ -1863,14 +1858,14 @@
     }
 
     /// <summary>
-    /// Tritt auf, wenn die SchülerlistenCollection verändert wurde.
+    /// Tritt auf, wenn die LerngruppenCollection verändert wurde.
     /// Gibt die Änderungen an den Undostack weiter.
     /// </summary>
     /// <param name="sender">Die auslösende Collection</param>
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void SchülerlistenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    private void LerngruppenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Schülerlisten", this.Schülerlisten, e, "Änderung der Schülerlisten");
+      this.UndoableCollectionChanged(this, "Lerngruppen", this.Lerngruppen, e, "Änderung der Lerngruppen");
     }
 
     ///// <summary>

@@ -1,4 +1,4 @@
-﻿// <copyright file="AskForSchülerlisteToAddDialog.xaml.cs" company="Paul Natorp Gymnasium, Berlin">        
+﻿// <copyright file="AskForLerngruppeToAddDialog.xaml.cs" company="Paul Natorp Gymnasium, Berlin">        
 // SoftTeach - Lehrerunterrichtsdatenbank
 // Copyright (C) 2013 Dr. Adrian Voßkühler
 // -----------------------------------------------------------------------

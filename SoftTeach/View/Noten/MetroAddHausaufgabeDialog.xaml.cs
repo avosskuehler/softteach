@@ -67,7 +67,7 @@ namespace SoftTeach.View.Noten
       Selection.Instance.HausaufgabeBezeichnung = this.Bezeichnung;
 
       // Reset currently selected hausaufgaben
-      foreach (var schülereintragViewModel in Selection.Instance.Schülerliste.Schülereinträge)
+      foreach (var schülereintragViewModel in Selection.Instance.Lerngruppe.Schülereinträge)
       {
         schülereintragViewModel.CurrentHausaufgabe = null;
       }

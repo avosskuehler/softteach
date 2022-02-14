@@ -4,7 +4,7 @@
 
   using System.Linq;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
@@ -18,17 +18,12 @@
     private FachViewModel fach;
 
     /// <summary>
-    /// The jahrgangsstufe currently assigned to this Modul
-    /// </summary>
-    private JahrgangsstufeViewModel jahrgangsstufe;
-
-    /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="ModulViewModel"/> Klasse. 
     /// </summary>
     /// <param name="modul">
     /// The underlying modul this ViewModel is to be based on
     /// </param>
-    public ModulViewModel(Modul modul)
+    public ModulViewModel(ModulNeu modul)
     {
       if (modul == null)
       {
@@ -45,20 +40,12 @@
           this.ModulFach = null;
         }
       };
-
-      App.MainViewModel.Jahrgangsstufen.CollectionChanged += (sender, e) =>
-      {
-        if (e.OldItems != null && e.OldItems.Contains(this.ModulJahrgangsstufe))
-        {
-          this.ModulJahrgangsstufe = null;
-        }
-      };
     }
 
     /// <summary>
     /// Holt den underlying Modul this ViewModel is based on
     /// </summary>
-    public Modul Model { get; private set; }
+    public ModulNeu Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Bezeichnung
@@ -124,33 +111,21 @@
     }
 
     /// <summary>
-    /// Holt oder setzt die fach currently assigned to this Stundenentwurf
+    /// Holt oder setzt den Jahrgang für das Modul
     /// </summary>
-    public JahrgangsstufeViewModel ModulJahrgangsstufe
+    public int ModulJahrgang
     {
       get
       {
-        // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Jahrgangsstufe == null)
-        {
-          return null;
-        }
-
-        if (this.jahrgangsstufe == null || this.jahrgangsstufe.Model != this.Model.Jahrgangsstufe)
-        {
-          this.jahrgangsstufe = App.MainViewModel.Jahrgangsstufen.SingleOrDefault(d => d.Model == this.Model.Jahrgangsstufe);
-        }
-
-        return this.jahrgangsstufe;
+        return this.Model.Jahrgang;
       }
 
       set
       {
-        if (value.JahrgangsstufeBezeichnung == this.jahrgangsstufe.JahrgangsstufeBezeichnung) return;
-        this.UndoablePropertyChanging(this, "ModulJahrgangsstufe", this.jahrgangsstufe, value);
-        this.jahrgangsstufe = value;
-        this.Model.Jahrgangsstufe = value.Model;
-        this.RaisePropertyChanged("ModulJahrgangsstufe");
+        if (value == this.Model.Jahrgang) return;
+        this.UndoablePropertyChanging(this, "ModulJahrgang", this.Model.Jahrgang, value);
+        this.Model.Jahrgang = value;
+        this.RaisePropertyChanged("ModulJahrgang");
       }
     }
 

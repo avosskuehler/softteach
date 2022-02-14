@@ -23,15 +23,15 @@
           </Grid.RowDefinitions>
           <StackPanel Orientation="Horizontal"  Grid.Row="0" HorizontalAlignment="Center">
             <Label Content="Noten am" FontSize="18"/>
-            <DatePicker SelectedDate="{Binding Path=CurrentSchülerliste.NotenDatum}" FontSize="18" VerticalAlignment="Center" Width="140"/>
+            <DatePicker SelectedDate="{Binding Path=CurrentLerngruppe.NotenDatum}" FontSize="18" VerticalAlignment="Center" Width="140"/>
           </StackPanel>
           <ComboBox Grid.Row="1" Margin="0,3" 
-                    ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Schülerlisten}"
-                    SelectedItem="{Binding Path=CurrentSchülerliste}"
-                    DisplayMemberPath="SchülerlisteKurzbezeichnung"
+                    ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Lerngruppen}"
+                    SelectedItem="{Binding Path=CurrentLerngruppe}"
+                    DisplayMemberPath="LerngruppeKurzbezeichnung"
                     Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"
                     HorizontalAlignment="Stretch"/>
-          <DataGrid Grid.Row="2" SelectedItem="{Binding Path=CurrentSchülereintrag, Mode=TwoWay}" ItemsSource="{Binding Path=CurrentSchülerliste.Schülereinträge}" AutoGenerateColumns="False" >
+          <DataGrid Grid.Row="2" SelectedItem="{Binding Path=CurrentSchülereintrag, Mode=TwoWay}" ItemsSource="{Binding Path=CurrentLerngruppe.Schülereinträge}" AutoGenerateColumns="False" >
             <DataGrid.Columns>
               <DataGridTextColumn Header="Vorname" 
                                   Binding="{Binding Path=SchülereintragPerson.PersonVorname}"

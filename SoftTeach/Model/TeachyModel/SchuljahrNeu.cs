@@ -17,7 +17,7 @@ namespace SoftTeach.Model.TeachyModel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SchuljahrNeu()
         {
-            this.Curricula = new HashSet<CurriculaNeu>();
+            this.Curricula = new HashSet<CurriculumNeu>();
             this.Ferien = new HashSet<FerienNeu>();
             this.Lerngruppen = new HashSet<LerngruppeNeu>();
             this.Schultermine = new HashSet<SchulterminNeu>();
@@ -29,7 +29,7 @@ namespace SoftTeach.Model.TeachyModel
         public int Jahr { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CurriculaNeu> Curricula { get; set; }
+        public virtual ICollection<CurriculumNeu> Curricula { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FerienNeu> Ferien { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

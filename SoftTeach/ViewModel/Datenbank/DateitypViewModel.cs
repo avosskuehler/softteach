@@ -1,7 +1,7 @@
 ﻿namespace SoftTeach.ViewModel.Datenbank
 {
   using System;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
@@ -15,7 +15,7 @@
     /// <param name="dateityp">
     /// The underlying dateityp this ViewModel is to be based on
     /// </param>
-    public DateitypViewModel(Dateityp dateityp)
+    public DateitypViewModel(DateitypNeu dateityp)
     {
       if (dateityp == null)
       {
@@ -28,7 +28,7 @@
     /// <summary>
     /// Holt den underlying Dateityp this ViewModel is based on
     /// </summary>
-    public Dateityp Model { get; private set; }
+    public DateitypNeu Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die bezeichnung of this Dateityp

@@ -56,15 +56,15 @@
           <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">Schuljahr</Label>
           <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
             <!--<ComboBox Margin="3,3,0,3" Width="62"
-                ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Halbjahrtypen}" 
-                SelectedItem="{Binding Path=Halbjahrtyp}"
-                DisplayMemberPath="HalbjahrtypBezeichnung"
+                ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Halbjahre}" 
+                SelectedItem="{Binding Path=Halbjahr}"
+                DisplayMemberPath="HalbjahrBezeichnung"
                 Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" 
                 HorizontalAlignment="Left"/>-->
             <ComboBox Margin="0,3,3,3" Width="72"
-                ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Jahrtypen}" 
-                SelectedItem="{Binding Path=Jahrtyp}"
-                DisplayMemberPath="JahrtypBezeichnung"
+                ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Schuljahre}" 
+                SelectedItem="{Binding Path=Schuljahr}"
+                DisplayMemberPath="SchuljahrBezeichnung"
                 Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"
                 HorizontalAlignment="Left"/>
           </StackPanel>
@@ -75,7 +75,7 @@
                   <fa:IconBlock Style="{StaticResource Schuljahr32}" Foreground="{DynamicResource Iconfarbe}"/>
                   <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
                 </Grid>
-                <TextBlock TextWrapping="Wrap" Padding="5,0,0,0">Schuljahr entfernen. <LineBreak/>(Damit werden Jahrespläne, Curricula, Arbeiten, <LineBreak/>Schülerlisten, Termine und Stundenpläne gelöscht.)</TextBlock>
+                <TextBlock TextWrapping="Wrap" Padding="5,0,0,0">Schuljahr entfernen. <LineBreak/>(Damit werden Jahrespläne, Curricula, Arbeiten, <LineBreak/>Lerngruppen, Termine und Stundenpläne gelöscht.)</TextBlock>
               </StackPanel>
             </Button>
           </StackPanel>
@@ -94,7 +94,7 @@
                   <fa:IconBlock Style="{StaticResource Fach32}" Foreground="{DynamicResource Iconfarbe}"/>
                   <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
                 </Grid>
-                <TextBlock TextWrapping="Wrap" Padding="5,0,0,0">Fach entfernen. <LineBreak/>(Damit werden Jahrespläne, Curricula, Arbeiten, <LineBreak/>Schülerlisten, Module, Stundenpläne<LineBreak/> und Stundenentwürfe gelöscht.)</TextBlock>
+                <TextBlock TextWrapping="Wrap" Padding="5,0,0,0">Fach entfernen. <LineBreak/>(Damit werden Jahrespläne, Curricula, Arbeiten, <LineBreak/>Lerngruppen, Module, Stundenpläne<LineBreak/> und Stundenentwürfe gelöscht.)</TextBlock>
               </StackPanel>
             </Button>
           </StackPanel>
@@ -105,7 +105,7 @@
                   <fa:IconBlock Style="{StaticResource Person32}" Foreground="{DynamicResource Iconfarbe}"/>
                   <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
                 </Grid>
-                <TextBlock TextWrapping="Wrap" Padding="5,0,0,0">Personen entfernen, die in keiner Schülerliste aufgelistet sind.</TextBlock>
+                <TextBlock TextWrapping="Wrap" Padding="5,0,0,0">Personen entfernen, die in keiner Lerngruppe aufgelistet sind.</TextBlock>
               </StackPanel>
             </Button>
           </StackPanel>

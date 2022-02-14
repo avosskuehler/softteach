@@ -8,7 +8,7 @@
   using System.Windows.Controls;
 
   using GongSolutions.Wpf.DragDrop;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Sitzpläne;
@@ -27,9 +27,9 @@
     private RaumplanViewModel raumplan;
 
     /// <summary>
-    /// Der Schülerliste der zu diesem Sitzplan gehört
+    /// Der Lerngruppe der zu diesem Sitzplan gehört
     /// </summary>
-    private SchülerlisteViewModel schülerliste;
+    private LerngruppeViewModel schülerliste;
 
     /// <summary>
     /// The schüler currently selected
@@ -44,7 +44,7 @@
     /// <param name="sitzplan">
     /// The underlying sitzplan this ViewModel is to be based on
     /// </param>
-    public SitzplanViewModel(Sitzplan sitzplan)
+    public SitzplanViewModel(SitzplanNeu sitzplan)
     {
       if (sitzplan == null)
       {
@@ -79,7 +79,7 @@
           // Noch keine Sitzplaneinträge vorhanden, erstelle also alle neu aus den Sitzplätzen des Raumplans
           foreach (var sitzplatz in sitzplan.Raumplan.Sitzplätze)
           {
-            var sitzplaneintrag = new Sitzplaneintrag();
+            var sitzplaneintrag = new SitzplaneintragNeu();
             sitzplaneintrag.Sitzplan = this.Model;
             sitzplaneintrag.Sitzplatz = sitzplatz;
             //App.UnitOfWork.Context.Sitzplaneinträge.Add(sitzplaneintrag);
@@ -94,9 +94,9 @@
 
 
       // Build data structures for Schülereinträge
-      this.UsedSchülereinträge = new ObservableCollection<Schülereintrag>();
-      this.AvailableSchülereinträge = new ObservableCollection<Schülereintrag>();
-      foreach (var schülereintrag in sitzplan.Schülerliste.Schülereinträge.OrderBy(o => o.Person.Vorname))
+      this.UsedSchülereinträge = new ObservableCollection<SchülereintragNeu>();
+      this.AvailableSchülereinträge = new ObservableCollection<SchülereintragNeu>();
+      foreach (var schülereintrag in sitzplan.Lerngruppe.Schülereinträge.OrderBy(o => o.Person.Vorname))
       {
         //var schülerId = schülereintrag.Id;
         //var vm = App.MainViewModel.Schülereinträge.First(o => o.Model.Id == schülerId);
@@ -129,7 +129,7 @@
     /// <summary>
     /// Holt den underlying Sitzplan this ViewModel is based on
     /// </summary>
-    public Sitzplan Model { get; private set; }
+    public SitzplanNeu Model { get; private set; }
 
     /// <summary>
     /// Holt die schülereinträge for this schülerliste
@@ -139,12 +139,12 @@
     /// <summary>
     /// Holt die im Sitzplan verwendeten Schülereinträge
     /// </summary>
-    public ObservableCollection<Schülereintrag> UsedSchülereinträge { get; private set; }
+    public ObservableCollection<SchülereintragNeu> UsedSchülereinträge { get; private set; }
 
     /// <summary>
     /// Holt die im Sitzplan nicht verwendeten Schülereinträge
     /// </summary>
-    public ObservableCollection<Schülereintrag> AvailableSchülereinträge { get; private set; }
+    public ObservableCollection<SchülereintragNeu> AvailableSchülereinträge { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die currently selected sitzplaneintrag
@@ -183,21 +183,21 @@
     }
 
     /// <summary>
-    /// Holt oder setzt den Schülerliste für den Schülerlisteplan
+    /// Holt oder setzt den Lerngruppe für den Lerngruppeplan
     /// </summary>
-    public SchülerlisteViewModel SitzplanSchülerliste
+    public LerngruppeViewModel SitzplanLerngruppe
     {
       get
       {
         // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Schülerliste == null)
+        if (this.Model.Lerngruppe == null)
         {
           return null;
         }
 
-        if (this.schülerliste == null || this.schülerliste.Model != this.Model.Schülerliste)
+        if (this.schülerliste == null || this.schülerliste.Model != this.Model.Lerngruppe)
         {
-          this.schülerliste = App.MainViewModel.Schülerlisten.SingleOrDefault(d => d.Model == this.Model.Schülerliste);
+          this.schülerliste = App.MainViewModel.Lerngruppen.SingleOrDefault(d => d.Model == this.Model.Lerngruppe);
         }
 
         return this.schülerliste;
@@ -208,13 +208,13 @@
         if (value == null) return;
         if (this.schülerliste != null)
         {
-          if (value.SchülerlisteÜberschrift == this.schülerliste.SchülerlisteÜberschrift) return;
+          if (value.LerngruppeÜberschrift == this.schülerliste.LerngruppeÜberschrift) return;
         }
 
-        this.UndoablePropertyChanging(this, "SitzplanSchülerliste", this.schülerliste, value);
+        this.UndoablePropertyChanging(this, "SitzplanLerngruppe", this.schülerliste, value);
         this.schülerliste = value;
-        this.Model.Schülerliste = value.Model;
-        this.RaisePropertyChanged("SitzplanSchülerliste");
+        this.Model.Lerngruppe = value.Model;
+        this.RaisePropertyChanged("SitzplanLerngruppe");
       }
     }
 
@@ -376,7 +376,7 @@
       var sourceItem = dropInfo.Data;
       var targetItem = dropInfo.TargetItem;
       if ((sourceItem is SchülereintragViewModel && targetItem is SitzplaneintragViewModel)
-        || sourceItem is SitzplaneintragViewModel || (sourceItem is Schülereintrag && targetItem is SitzplaneintragViewModel))
+        || sourceItem is SitzplaneintragViewModel || (sourceItem is SchülereintragNeu && targetItem is SitzplaneintragViewModel))
       {
         dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
         dropInfo.Effects = DragDropEffects.Move;
@@ -397,9 +397,9 @@
       {
         var sourceItem = dropInfo.Data;
         var targetItem = dropInfo.TargetItem;
-        if (sourceItem is Schülereintrag && targetItem is SitzplaneintragViewModel)
+        if (sourceItem is SchülereintragNeu && targetItem is SitzplaneintragViewModel)
         {
-          var source = sourceItem as Schülereintrag;
+          var source = sourceItem as SchülereintragNeu;
           var target = targetItem as SitzplaneintragViewModel;
           target.SitzplaneintragSchülereintrag = source;
           if (this.AvailableSchülereinträge.Contains(source))
@@ -463,8 +463,8 @@
 
       if (this.SitzplanMädchenJungeNebeneinander.HasValue)
       {
-        var mädchen = this.AvailableSchülereinträge.Where(o => o.Person.Geschlecht).Shuffle().ToList();
-        var jungen = this.AvailableSchülereinträge.Where(o => !o.Person.Geschlecht).Shuffle().ToList();
+        var mädchen = this.AvailableSchülereinträge.Where(o => o.Person.Geschlecht == Geschlecht.w).Shuffle().ToList();
+        var jungen = this.AvailableSchülereinträge.Where(o => o.Person.Geschlecht != Geschlecht.w).Shuffle().ToList();
 
         var größereGruppe = mädchen.Count >= jungen.Count ? mädchen : jungen;
         var kleinereGruppe = mädchen.Count >= jungen.Count ? jungen : mädchen;
@@ -573,7 +573,7 @@
 
       this.UsedSchülereinträge.Clear();
 
-      foreach (var schülereintrag in this.Model.Schülerliste.Schülereinträge.OrderBy(o => o.Person.Vorname))
+      foreach (var schülereintrag in this.Model.Lerngruppe.Schülereinträge.OrderBy(o => o.Person.Vorname))
       {
         var schülerId = schülereintrag.Id;
         //var vm = App.MainViewModel.Schülereinträge.First(o => o.Model.Id == schülerId);

@@ -3,7 +3,7 @@
   using System;
   using System.Linq;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.View.Curricula;
   using SoftTeach.ViewModel.Helper;
@@ -19,7 +19,7 @@
     /// <param name="sequenz">
     /// The underlying sequenz this ViewModel is to be based on
     /// </param>
-    public SequenzViewModel(Sequenz sequenz)
+    public SequenzViewModel(SequenzNeu sequenz)
     {
       if (sequenz == null)
       {
@@ -38,7 +38,7 @@
     /// <param name="sequenz">
     /// The underlying sequenz this ViewModel is to be based on 
     /// </param>
-    public SequenzViewModel(ReiheViewModel reihe, Sequenz sequenz)
+    public SequenzViewModel(ReiheViewModel reihe, SequenzNeu sequenz)
     {
       if (sequenz == null)
       {
@@ -56,7 +56,7 @@
     /// <summary>
     /// Holt den underlying Sequenz this ViewModel is based on
     /// </summary>
-    public Sequenz Model { get; private set; }
+    public SequenzNeu Model { get; private set; }
 
     /// <summary>
     /// Holt den Befehl zur Bearbeitung der Sequenz
@@ -81,23 +81,23 @@
     /// <summary>
     /// Holt oder setzt die index for the abfolge in this sequenz
     /// </summary>
-    public override int AbfolgeIndex
+    public override int Reihenfolge
     {
       get
       {
-        return this.Model.AbfolgeIndex;
+        return this.Model.Reihenfolge;
       }
 
       set
       {
-        if (value == this.Model.AbfolgeIndex)
+        if (value == this.Model.Reihenfolge)
         {
           return;
         }
 
-        this.UndoablePropertyChanging(this, "AbfolgeIndex", this.Model.AbfolgeIndex, value);
-        this.Model.AbfolgeIndex = value;
-        this.RaisePropertyChanged("AbfolgeIndex");
+        this.UndoablePropertyChanging(this, "Reihenfolge", this.Model.Reihenfolge, value);
+        this.Model.Reihenfolge = value;
+        this.RaisePropertyChanged("Reihenfolge");
       }
     }
 
@@ -156,7 +156,7 @@
   App.MainViewModel.Fachstundenanzahl.First(
     o =>
     o.FachstundenanzahlFach.FachBezeichnung == Selection.Instance.Fach.FachBezeichnung
-    && o.FachstundenanzahlKlassenstufe.Model == Selection.Instance.Klasse.Model.Klassenstufe);
+    && o.FachstundenanzahlJahrgang.Model == Selection.Instance.Klasse.Model.Klassenstufe);
         var wochenstunden = fachstundenanzahl.FachstundenanzahlStundenzahl
                             + fachstundenanzahl.FachstundenanzahlTeilungsstundenzahl;
         return (int)(this.SequenzStundenbedarf / (float)wochenstunden * Properties.Settings.Default.Wochenbreite);

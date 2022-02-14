@@ -5,7 +5,7 @@
 
   using Helper;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
 
   /// <summary>
   /// ViewModel for managing Personen
@@ -114,7 +114,7 @@
     [DependsUpon("IsShowingSchüler")]
     public string PersonenÜberschrift
     {
-      get { return this.IsShowingSchüler ? "Schülerliste" : "Lehrerliste"; }
+      get { return this.IsShowingSchüler ? "Lerngruppe" : "Lehrerliste"; }
     }
 
     /// <summary>
@@ -148,7 +148,7 @@
     /// </summary>
     private void AddPerson()
     {
-      var person = new Person();
+      var person = new PersonNeu();
       var vm = new PersonViewModel(person);
       App.MainViewModel.Personen.Add(vm);
       this.CurrentPerson = vm;

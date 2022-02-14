@@ -16,7 +16,7 @@
       // Resequence
       foreach (var sequencedObject in targetCollection)
       {
-        sequencedObject.AbfolgeIndex = sequenceNumber;
+        sequencedObject.Reihenfolge = sequenceNumber;
         sequenceNumber++;
       }
 

@@ -1,7 +1,7 @@
 ﻿namespace SoftTeach.ViewModel.Datenbank
 {
   using System;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
@@ -15,7 +15,7 @@
     /// <param name="notenWichtung">
     /// The underlying notenWichtung this ViewModel is to be based on
     /// </param>
-    public NotenWichtungViewModel(NotenWichtung notenWichtung)
+    public NotenWichtungViewModel(NotenWichtungNeu notenWichtung)
     {
       if (notenWichtung == null)
       {
@@ -28,7 +28,7 @@
     /// <summary>
     /// Holt den underlying NotenWichtung this ViewModel is based on
     /// </summary>
-    public NotenWichtung Model { get; private set; }
+    public NotenWichtungNeu Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Bezeichnung

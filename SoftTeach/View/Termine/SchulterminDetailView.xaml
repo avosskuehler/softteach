@@ -39,7 +39,7 @@
           <DatePicker  Grid.Row="0" Grid.Column="1" Height="25" Width="Auto" BorderThickness="0" SelectedDateFormat="Long" SelectedDate="{Binding Path=SchulterminDatum}"/>
           <StackPanel Grid.Row="0" Grid.Column="4" Orientation="Horizontal">
             <Label>Schuljahr</Label>
-            <Label Height="23" Content="{Binding Path=SchulterminJahrtyp.JahrtypBezeichnung}"/>
+            <Label Height="23" Content="{Binding Path=SchulterminSchuljahr.SchuljahrBezeichnung}"/>
           </StackPanel>
           <CheckBox Grid.Row="1" Grid.Column="0" Name="Ganztag" VerticalAlignment="Center" Padding="0,0,10,0" Checked="GanztagChecked">Ganztägig</CheckBox>
           <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">

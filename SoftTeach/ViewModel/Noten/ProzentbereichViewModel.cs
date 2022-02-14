@@ -3,7 +3,7 @@
   using System;
   using System.Linq;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Helper;
 
@@ -23,7 +23,7 @@
     /// <param name="prozentbereich">
     /// The underlying prozentbereich this ViewModel is to be based on
     /// </param>
-    public ProzentbereichViewModel(Prozentbereich prozentbereich)
+    public ProzentbereichViewModel(ProzentbereichNeu prozentbereich)
     {
       if (prozentbereich == null)
       {
@@ -36,12 +36,12 @@
     /// <summary>
     /// Holt das zugrundeliegende Modell des Prozentbereichs.
     /// </summary>
-    public Prozentbereich Model { get; private set; }
+    public ProzentbereichNeu Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt den Prozentbereich ab dem die Zensur erteilt wird
     /// </summary>
-    public float ProzentbereichVonProzent
+    public double ProzentbereichVonProzent
     {
       get
       {
@@ -61,7 +61,7 @@
     /// <summary>
     /// Holt oder setzt den Prozentbereich bis zu dem die Zensur erteilt wird
     /// </summary>
-    public float ProzentbereichBisProzent
+    public double ProzentbereichBisProzent
     {
       get
       {

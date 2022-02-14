@@ -14,8 +14,8 @@ namespace SoftTeach.Model.TeachyModel
     
     public partial class LerngruppenterminNeu : TerminNeu
     {
-        public Nullable<int> LerngruppeId { get; set; }
-        public Nullable<System.DateTime> Datum { get; set; }
+        public int LerngruppeId { get; set; }
+        public System.DateTime Datum { get; set; }
     
         public virtual LerngruppeNeu Lerngruppe { get; set; }
     }

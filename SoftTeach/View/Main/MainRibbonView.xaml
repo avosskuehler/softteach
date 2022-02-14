@@ -66,9 +66,9 @@
               <scm:SortDescription PropertyName="KlasseBezeichnung"/>
             </CollectionViewSource.SortDescriptions>
           </CollectionViewSource>
-          <CollectionViewSource Source="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Jahrtypen}" x:Key="JahrtypenSorted">
+          <CollectionViewSource Source="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Schuljahre}" x:Key="SchuljahreSorted">
             <CollectionViewSource.SortDescriptions>
-              <scm:SortDescription PropertyName="JahrtypJahr"/>
+              <scm:SortDescription PropertyName="SchuljahrJahr"/>
             </CollectionViewSource.SortDescriptions>
           </CollectionViewSource>
         </ResourceDictionary>
@@ -177,12 +177,12 @@
           </fluent:RibbonGroupBox.Icon>
           <fluent:ComboBox  Width="110"
             SelectedValue="{Binding Source={x:Static setting:Selection.Instance}, Path=Halbjahr}"
-            DisplayMemberPath="HalbjahrtypBezeichnung" 
-            ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Halbjahrtypen}" />
+            DisplayMemberPath="HalbjahrBezeichnung" 
+            ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Halbjahre}" />
           <fluent:ComboBox 
-            SelectedValue="{Binding Source={x:Static setting:Selection.Instance}, Path=Jahrtyp}" 
-            DisplayMemberPath="JahrtypBezeichnung" 
-            ItemsSource="{Binding Source={StaticResource JahrtypenSorted}}" />
+            SelectedValue="{Binding Source={x:Static setting:Selection.Instance}, Path=Schuljahr}" 
+            DisplayMemberPath="SchuljahrBezeichnung" 
+            ItemsSource="{Binding Source={StaticResource SchuljahreSorted}}" />
         </fluent:RibbonGroupBox>
         <fluent:RibbonGroupBox Header="Lerngruppe">
           <fluent:RibbonGroupBox.Icon>
@@ -233,8 +233,8 @@
             </fluent:Button.LargeIcon>
           </fluent:Button>
           <fluent:Button 
-            Header="Schülerlisten" 
-            Click="SchülerlisteButtonClick">
+            Header="Lerngruppen" 
+            Click="LerngruppeButtonClick">
             <fluent:Button.LargeIcon>
               <Grid>
                 <fa:IconBlock Style="{StaticResource Klasse32}"/>
@@ -507,9 +507,9 @@
                                Click="SchuljahreButtonClick"
                                LargeImageSource="/SoftTeach;component/Images/Schuljahr32.png"
                                SmallImageSource="/SoftTeach;component/Images/Schuljahr16.png"/>
-            <RibbonButton x:Name="HalbjahrtypButton"
-                               Label="Halbjahrtypen" 
-                               Click="HalbjahrtypButtonClick"
+            <RibbonButton x:Name="HalbjahrButton"
+                               Label="Halbjahre" 
+                               Click="HalbjahrButtonClick"
                                LargeImageSource="/SoftTeach;component/Images/Halbjahre32.png"
                                SmallImageSource="/SoftTeach;component/Images/Halbjahre16.png"/>
             <RibbonButton x:Name="MonatstypButton"
@@ -566,11 +566,11 @@
                                Click="PersonDBButtonClick"
                                LargeImageSource="/SoftTeach;component/Images/Person32.png"
                                SmallImageSource="/SoftTeach;component/Images/Person16.png"/>
-            <RibbonButton x:Name="SchülerlisteButton"
-                               Label="Schülerlisten" 
-                               Click="SchülerlisteButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Schülerliste32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Schülerliste16.png"/>
+            <RibbonButton x:Name="LerngruppeButton"
+                               Label="Lerngruppen" 
+                               Click="LerngruppeButtonClick"
+                               LargeImageSource="/SoftTeach;component/Images/Lerngruppe32.png"
+                               SmallImageSource="/SoftTeach;component/Images/Lerngruppe16.png"/>
             <RibbonButton x:Name="SchülereintragButton"
                                Label="Schülereinträge" 
                                Click="SchülereintragButtonClick"

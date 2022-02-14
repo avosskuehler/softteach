@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib"
+                    xmlns:Data="clr-namespace:SoftTeach.Model.TeachyModel">
+  <ObjectDataProvider x:Key="Bepunktungstypen" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+    <ObjectDataProvider.MethodParameters>
+      <x:Type TypeName="Data:Bepunktungstyp"/>
+    </ObjectDataProvider.MethodParameters>
+  </ObjectDataProvider>
+
+</ResourceDictionary>

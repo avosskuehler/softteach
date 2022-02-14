@@ -21,9 +21,9 @@
   public class SchülereintragWorkspaceViewModel : ViewModelBase
   {
     /// <summary>
-    /// The Schülerliste currently selected
+    /// The Lerngruppe currently selected
     /// </summary>
-    private SchülerlisteViewModel currentSchülerliste;
+    private LerngruppeViewModel currentLerngruppe;
 
     /// <summary>
     /// The Schülereintrag currently selected
@@ -35,10 +35,10 @@
     /// </summary>
     public SchülereintragWorkspaceViewModel()
     {
-      this.CurrentSchülerliste = App.MainViewModel.Schülerlisten.Count > 0 ? App.MainViewModel.Schülerlisten[0] : null;
-      if (this.CurrentSchülerliste != null)
+      this.CurrentLerngruppe = App.MainViewModel.Lerngruppen.Count > 0 ? App.MainViewModel.Lerngruppen[0] : null;
+      if (this.CurrentLerngruppe != null)
       {
-        this.CurrentSchülereintrag = this.currentSchülerliste.CurrentSchülereintrag;
+        this.CurrentSchülereintrag = this.currentLerngruppe.CurrentSchülereintrag;
       }
 
       // Re-act to any changes from outside this ViewModel
@@ -67,7 +67,7 @@
     public DelegateCommand AddSonstigeNotenCommand { get; private set; }
 
     /// <summary>
-    /// Holt den Befehl, um die Notenliste der aktuellen Schülerliste auszudrucken
+    /// Holt den Befehl, um die Notenliste der aktuellen Lerngruppe auszudrucken
     /// </summary>
     public DelegateCommand PrintNotenlisteCommand { get; private set; }
 
@@ -95,25 +95,25 @@
     }
 
     /// <summary>
-    /// Holt oder setzt die Schülerliste currently selected in this workspace
+    /// Holt oder setzt die Lerngruppe currently selected in this workspace
     /// </summary>
-    public SchülerlisteViewModel CurrentSchülerliste
+    public LerngruppeViewModel CurrentLerngruppe
     {
       get
       {
-        return this.currentSchülerliste;
+        return this.currentLerngruppe;
       }
 
       set
       {
-        this.currentSchülerliste = value;
-        if (this.currentSchülerliste != null)
+        this.currentLerngruppe = value;
+        if (this.currentLerngruppe != null)
         {
-          this.currentSchülerliste.NotenDatum = DateTime.Now;
+          this.currentLerngruppe.NotenDatum = DateTime.Now;
         }
 
-        Selection.Instance.Schülerliste = value;
-        this.RaisePropertyChanged("CurrentSchülerliste");
+        Selection.Instance.Lerngruppe = value;
+        this.RaisePropertyChanged("CurrentLerngruppe");
       }
     }
 
@@ -122,7 +122,7 @@
     /// </summary>
     private async void AddHausaufgaben()
     {
-      Selection.Instance.Schülerliste = this.CurrentSchülerliste;
+      Selection.Instance.Lerngruppe = this.CurrentLerngruppe;
 
       if (Configuration.Instance.IsMetroMode)
       {
@@ -142,12 +142,12 @@
           Selection.Instance.HausaufgabeBezeichnung = addDlg.Bezeichnung;
 
           // Reset currently selected hausaufgaben
-          foreach (var schülereintragViewModel in this.currentSchülerliste.Schülereinträge)
+          foreach (var schülereintragViewModel in this.currentLerngruppe.Schülereinträge)
           {
             schülereintragViewModel.CurrentHausaufgabe = null;
           }
 
-          var dlg = new HausaufgabenDialog { Schülerliste = this.currentSchülerliste };
+          var dlg = new HausaufgabenDialog { Lerngruppe = this.currentLerngruppe };
           undo = !dlg.ShowDialog().GetValueOrDefault(false);
         }
       }
@@ -163,7 +163,7 @@
     /// </summary>
     private async void AddSonstigeNoten()
     {
-      Selection.Instance.Schülerliste = this.CurrentSchülerliste;
+      Selection.Instance.Lerngruppe = this.CurrentLerngruppe;
 
       if (Configuration.Instance.IsMetroMode)
       {
@@ -185,12 +185,12 @@
           Selection.Instance.SonstigeNoteWichtung = addDlg.Wichtung;
 
           // Reset currently selected note
-          foreach (var schülereintragViewModel in this.CurrentSchülerliste.Schülereinträge)
+          foreach (var schülereintragViewModel in this.CurrentLerngruppe.Schülereinträge)
           {
             schülereintragViewModel.CurrentNote = null;
           }
 
-          var dlg = new SonstigeNotenDialog() { Schülerliste = this.CurrentSchülerliste };
+          var dlg = new SonstigeNotenDialog() { Lerngruppe = this.CurrentLerngruppe };
           undo = !dlg.ShowDialog().GetValueOrDefault(false);
         }
       }
@@ -227,7 +227,7 @@
       // create the print output usercontrol
       var content = new NotenlistePrintView
       {
-        DataContext = this.CurrentSchülerliste,
+        DataContext = this.CurrentLerngruppe,
         Width = fixedPage.Width,
         Height = fixedPage.Height
       };
@@ -241,7 +241,7 @@
       fixedPage.UpdateLayout();
 
       // print it out
-      var title = "Noten" + this.CurrentSchülerliste.SchülerlisteKlasse.KlasseBezeichnung + this.CurrentSchülerliste.SchülerlisteFach.FachBezeichnung;
+      var title = "Noten" + this.CurrentLerngruppe.LerngruppeBezeichnung + this.CurrentLerngruppe.LerngruppeFach.FachBezeichnung;
       pd.PrintVisual(fixedPage, title);
     }
 
@@ -252,7 +252,7 @@
     {
       using (new UndoBatch(App.MainViewModel, string.Format("Neue Zeugnisnoten erstellt"), false))
       {
-        var workspace = new NotenlistenWorkspaceViewModel(this.CurrentSchülerliste);
+        var workspace = new NotenlistenWorkspaceViewModel(this.CurrentLerngruppe);
         var dlg = new NotenlistenDialog { DataContext = workspace };
         dlg.ShowDialog();
       }
@@ -284,7 +284,7 @@
       // create the print output usercontrol
       var content = new NotenlisteDetailPrintView
       {
-        DataContext = this.CurrentSchülerliste,
+        DataContext = this.CurrentLerngruppe,
         Width = fixedPage.Width,
         Height = fixedPage.Height
       };
@@ -298,7 +298,7 @@
       fixedPage.UpdateLayout();
 
       // print it out
-      var title = "Noten" + this.CurrentSchülerliste.SchülerlisteKlasse.KlasseBezeichnung + this.CurrentSchülerliste.SchülerlisteFach.FachBezeichnung;
+      var title = "Noten" + this.CurrentLerngruppe.LerngruppeBezeichnung + this.CurrentLerngruppe.LerngruppeFach.FachBezeichnung;
       pd.PrintVisual(fixedPage, title);
     }
 
@@ -314,8 +314,8 @@
     //    return;
     //  }
 
-    //  if (App.MainViewModel.Schülereinträge.Any(o => o.SchülereintragHalbjahrtyp == dlg.Halbjahrtyp
-    //                                               && o.SchülereintragJahrtyp == dlg.Jahrtyp
+    //  if (App.MainViewModel.Schülereinträge.Any(o => o.SchülereintragHalbjahr == dlg.Halbjahr
+    //                                               && o.SchülereintragSchuljahr == dlg.Schuljahr
     //                                               && o.SchülereintragKlasse == dlg.Klasse))
     //  {
     //    ExceptionMethods.ProcessMessage(
@@ -327,8 +327,8 @@
     //  var schülerliste = new Schülereintrag>();
     //  App.UnitOfWork.Schülereintrag.Add(schülerliste);
     //  schülerliste.Klasse = dlg.Klasse.Model;
-    //  schülerliste.Jahrtyp = dlg.Jahrtyp.Model;
-    //  schülerliste.Halbjahrtyp = dlg.Halbjahrtyp.Model;
+    //  schülerliste.Schuljahr = dlg.Schuljahr.Model;
+    //  schülerliste.Halbjahr = dlg.Halbjahr.Model;
     //  if (dlg.Fach != null)
     //  {
     //    schülerliste.Fach = dlg.Fach.Model;

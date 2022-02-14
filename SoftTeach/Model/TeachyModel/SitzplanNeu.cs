@@ -23,11 +23,13 @@ namespace SoftTeach.Model.TeachyModel
         public int Id { get; set; }
         public string Bezeichnung { get; set; }
         public int RaumplanId { get; set; }
-        public int SchülerlisteId { get; set; }
         public System.DateTime GültigAb { get; set; }
+        public int SchülerlisteId { get; set; }
+        public int LerngruppeId { get; set; }
     
         public virtual RaumplanNeu Raumplan { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SitzplaneintragNeu> Sitzplaneinträge { get; set; }
+        public virtual LerngruppeNeu Lerngruppe { get; set; }
     }
 }

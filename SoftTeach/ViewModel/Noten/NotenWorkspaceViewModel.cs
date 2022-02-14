@@ -5,6 +5,7 @@
   using System.Windows.Data;
 
   using Helper;
+  using SoftTeach.Model.TeachyModel;
 
   /// <summary>
   /// ViewModel for managing Note
@@ -103,7 +104,7 @@
       get
       {
         return
-          this.CurrentNote.Model.Schülereintrag.Schülerliste.Fach.Bezeichnung +
+          this.CurrentNote.Model.Schülereintrag.Lerngruppe.Fach.Bezeichnung +
           "note für " +
           this.CurrentNote.Model.Schülereintrag.Person.Vorname +
           " " +

@@ -17,7 +17,7 @@ namespace SoftTeach.Model.TeachyModel
         public int Id { get; set; }
         public int StundeId { get; set; }
         public int Zeit { get; set; }
-        public int Medium { get; set; }
+        public Medium Medium { get; set; }
         public int Sozialform { get; set; }
         public string Inhalt { get; set; }
         public int Reihenfolge { get; set; }

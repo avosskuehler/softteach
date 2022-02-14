@@ -2,7 +2,7 @@
 {
   using System;
   using System.Linq;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
@@ -13,7 +13,7 @@
     /// <summary>
     /// The klassenstufe currently assigned to this FachstundenanzahlViewModel
     /// </summary>
-    private KlassenstufeViewModel klassenstufe;
+    private int jahrgang;
 
     /// <summary>
     /// The fach currently assigned to this FachstundenanzahlViewModel
@@ -26,7 +26,7 @@
     /// <param name="fachstundenanzahl">
     /// The underlying fachstundenanzahl this ViewModel is to be based on
     /// </param>
-    public FachstundenanzahlViewModel(Fachstundenanzahl fachstundenanzahl)
+    public FachstundenanzahlViewModel(FachstundenanzahlNeu fachstundenanzahl)
     {
       if (fachstundenanzahl == null)
       {
@@ -39,7 +39,7 @@
     /// <summary>
     /// Holt den underlying Fachstundenanzahl this ViewModel is based on
     /// </summary>
-    public Fachstundenanzahl Model { get; private set; }
+    public FachstundenanzahlNeu Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Stundenzahl
@@ -82,31 +82,19 @@
     /// <summary>
     /// Holt oder setzt die klassenstufeViewModel currently assigned to this Stundenentwurf
     /// </summary>
-    public KlassenstufeViewModel FachstundenanzahlKlassenstufe
+    public int FachstundenanzahlJahrgang
     {
       get
       {
-        // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Klassenstufe == null)
-        {
-          return null;
-        }
-
-        if (this.klassenstufe == null || this.klassenstufe.Model != this.Model.Klassenstufe)
-        {
-          this.klassenstufe = App.MainViewModel.Klassenstufen.SingleOrDefault(d => d.Model == this.Model.Klassenstufe);
-        }
-
-        return this.klassenstufe;
+        return this.Model.Jahrgang;
       }
 
       set
       {
-        if (value.KlassenstufeBezeichnung == this.klassenstufe.KlassenstufeBezeichnung) return;
-        this.UndoablePropertyChanging(this, "FachstundenanzahlKlassenstufe", this.klassenstufe, value);
-        this.klassenstufe = value;
-        this.Model.Klassenstufe = value.Model;
-        this.RaisePropertyChanged("FachstundenanzahlKlassenstufe");
+        if (value == this.Model.Jahrgang) return;
+        this.UndoablePropertyChanging(this, "FachstundenanzahlJahrgang", this.Model.Jahrgang, value);
+        this.Model.Jahrgang = value;
+        this.RaisePropertyChanged("FachstundenanzahlJahrgang");
       }
     }
 
@@ -123,7 +111,7 @@
           return null;
         }
 
-        if (this.klassenstufe == null || this.fach.Model != this.Model.Fach)
+        if (this.jahrgang == null || this.fach.Model != this.Model.Fach)
         {
           this.fach = App.MainViewModel.Fächer.SingleOrDefault(d => d.Model == this.Model.Fach);
         }
@@ -147,7 +135,7 @@
     /// <returns>Ein <see cref="string"/> mit einer Kurzform des ViewModels.</returns>
     public override string ToString()
     {
-      return this.FachstundenanzahlFach.FachBezeichnung + " " + this.FachstundenanzahlKlassenstufe.KlassenstufeBezeichnung;
+      return this.FachstundenanzahlFach.FachBezeichnung + " " + this.FachstundenanzahlJahrgang;
     }
   }
 }

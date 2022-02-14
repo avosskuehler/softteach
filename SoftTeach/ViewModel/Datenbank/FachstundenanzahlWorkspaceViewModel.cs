@@ -1,6 +1,6 @@
 ﻿namespace SoftTeach.ViewModel.Datenbank
 {
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.ViewModel.Helper;
 
@@ -67,11 +67,11 @@
     /// </summary>
     private void AddFachstundenanzahl()
     {
-      var fachstundenanzahl = new Fachstundenanzahl();
+      var fachstundenanzahl = new FachstundenanzahlNeu();
 
       // App.UnitOfWork.GetRepository<Fachstundenanzahl>().Add(fachstundenanzahl);
       fachstundenanzahl.Fach = Selection.Instance.Fach.Model;
-      fachstundenanzahl.Klassenstufe = App.MainViewModel.Klassenstufen[0].Model;
+      fachstundenanzahl.Jahrgang = 7;
       fachstundenanzahl.Stundenzahl = 4;
       fachstundenanzahl.Teilungsstundenzahl = 0;
 

@@ -10,7 +10,7 @@
   using Microsoft.Office.Interop.Excel;
 
   using SoftTeach.ExceptionHandling;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Personen;
 
   /// <summary>
@@ -19,9 +19,9 @@
   public class ExportData
   {
     /// <summary>
-    /// Exportiert eine Schülerliste nach Excel
+    /// Exportiert eine Lerngruppe nach Excel
     /// </summary>
-    /// <param name="viewModel">Das view model der Schülerliste.</param>
+    /// <param name="viewModel">Das view model der Lerngruppe.</param>
     public static void ToXls(ViewModelBase viewModel)
     {
       try
@@ -34,16 +34,16 @@
 
         var row = 1;
 
-        if (viewModel is SchülerlisteViewModel)
+        if (viewModel is LerngruppeViewModel)
         {
-          var schülerliste = viewModel as SchülerlisteViewModel;
+          var schülerliste = viewModel as LerngruppeViewModel;
           ws.Cells[row, 1] = "Vorname";
           ws.Cells[row, 2] = "Nachname";
           row++;
-          foreach (var person in schülerliste.Schülereinträge.OrderBy(o => o.SchülereintragPerson.PersonVorname))
+          foreach (var person in schülerliste.Schülereinträge.OrderBy(o => o.SchülereintragPerson.Vorname))
           {
-            ws.Cells[row, 1] = person.SchülereintragPerson.PersonVorname;
-            ws.Cells[row, 2] = person.SchülereintragPerson.PersonNachname;
+            ws.Cells[row, 1] = person.SchülereintragPerson.Vorname;
+            ws.Cells[row, 2] = person.SchülereintragPerson.Nachname;
             row++;
           }
         }
@@ -95,7 +95,7 @@
 
             var existiert =
               App.MainViewModel.Personen.FirstOrDefault(
-                o => o.PersonIstWeiblich == geschlecht && o.PersonVorname == vorname && o.PersonNachname == nachname);
+                o => o.PersonIstWeiblich == geschlecht && o.Vorname == vorname && o.Nachname == nachname);
 
             if (existiert != null)
             {

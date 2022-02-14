@@ -26,7 +26,7 @@ Tagespläne ändern Sie im Tagesplan Modul."/>
       <DataGrid ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Tagespläne}" AutoGenerateColumns="False"
                 IsReadOnly="True" Margin="10,0,-10,0">
         <DataGrid.Columns>
-          <DataGridTextColumn Header="Jahresplan" Binding="{Binding Path=Model.Monatsplan.Halbjahresplan.Jahresplan.Jahrtyp.Bezeichnung}"/>
+          <DataGridTextColumn Header="Jahresplan" Binding="{Binding Path=Model.Monatsplan.Halbjahresplan.Jahresplan.Schuljahr.Bezeichnung}"/>
           <DataGridTextColumn Header="Wochentag" Binding="{Binding Path=TagesplanWochentag}"/>
           <DataGridTextColumn Header="Datum" Binding="{Binding Path=TagesplanDatum.Date, StringFormat={}{0:dd. MMMM yyyy}}"/>
           <DataGridTextColumn Header="Ferientag" Binding="{Binding Path=TagesplanFerientag}"/>

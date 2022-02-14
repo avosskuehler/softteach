@@ -3,7 +3,7 @@
   using System;
   using System.Collections.ObjectModel;
   using System.Collections.Specialized;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Sitzpläne;
   using SoftTeach.ViewModel.Helper;
@@ -24,7 +24,7 @@
     /// <param name="raum">
     /// The underlying raum this ViewModel is to be based on
     /// </param>
-    public RaumViewModel(Raum raum)
+    public RaumViewModel(RaumNeu raum)
     {
       if (raum == null)
       {
@@ -66,7 +66,7 @@
     /// <summary>
     /// Holt den underlying Raum this ViewModel is based on
     /// </summary>
-    public Raum Model { get; private set; }
+    public RaumNeu Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Raumpläne dieser Raumplan
@@ -142,7 +142,7 @@
     /// </summary>
     private void AddRaumplan()
     {
-      var raumplan = new Raumplan();
+      var raumplan = new RaumplanNeu();
       raumplan.Raum = this.Model;
       var raumplanViewModel = new RaumplanViewModel(raumplan);
       bool undo = false;

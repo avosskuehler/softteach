@@ -19,13 +19,13 @@
     public BetroffeneKlassenDialog()
     {
       this.InitializeComponent();
-      this.Klassen = new ObservableCollection<KlasseViewModel>();
+      this.Klassen = new ObservableCollection<LerngruppeViewModel>();
     }
 
     /// <summary>
     /// Holt oder setzt die collection of selected <see cref="Klassen"/>
     /// </summary>
-    public ObservableCollection<KlasseViewModel> Klassen { get; set; }
+    public ObservableCollection<LerngruppeViewModel> Klassen { get; set; }
 
     /// <summary>
     /// Der event handler für den OK und Ja Button. Setzt DialogResult=true
@@ -161,7 +161,7 @@
           var checkbox = child as CheckBox;
           if (checkbox != null && checkbox.Tag != null && checkbox.IsChecked.GetValueOrDefault())
           {
-            this.Klassen.Add(checkbox.Tag as KlasseViewModel);
+            this.Klassen.Add(checkbox.Tag as LerngruppeViewModel);
           }
         }
       }

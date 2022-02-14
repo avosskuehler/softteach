@@ -23,7 +23,7 @@ namespace SoftTeach.Model.TeachyModel
         public int Id { get; set; }
         public string Bezeichnung { get; set; }
         public int SchuljahrID { get; set; }
-        public int Halbjahr { get; set; }
+        public Halbjahr Halbjahr { get; set; }
         public System.DateTime GültigAb { get; set; }
     
         public virtual SchuljahrNeu Schuljahre { get; set; }

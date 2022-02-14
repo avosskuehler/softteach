@@ -6,7 +6,7 @@
   using System.ComponentModel;
   using System.Linq;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Noten;
@@ -27,7 +27,7 @@
     /// </summary>
     public AufgabeViewModel()
     {
-      var aufgabe = new Aufgabe();
+      var aufgabe = new AufgabeNeu();
       aufgabe.LfdNr = Selection.Instance.Arbeit.Aufgaben.Count;
       aufgabe.MaxPunkte = 10;
       aufgabe.Bezeichnung = string.Empty;
@@ -43,7 +43,7 @@
     /// <param name="aufgabe">
     /// The underlying aufgabe this ViewModel is to be based on
     /// </param>
-    public AufgabeViewModel(Aufgabe aufgabe)
+    public AufgabeViewModel(AufgabeNeu aufgabe)
     {
       if (aufgabe == null)
       {
@@ -72,7 +72,7 @@
     /// <summary>
     /// Holt den underlying Aufgabe this ViewModel is based on
     /// </summary>
-    public Aufgabe Model { get; private set; }
+    public AufgabeNeu Model { get; private set; }
 
     /// <summary>
     /// Holt den Befehl zur Editierung der Aufgabe
@@ -135,14 +135,14 @@
     /// Holt die Spaltenüberschrift für diese Aufgabe
     /// </summary>
     [DependsUpon("AufgabeBezeichnung")]
-    [DependsUpon("AbfolgeIndex")]
+    [DependsUpon("Reihenfolge")]
     [DependsUpon("AufgabeMaxPunkte")]
     public string AufgabeColumnHeader
     {
       get
       {
         var aufgabenName = this.AufgabeBezeichnung.Trim() == string.Empty
-                             ? "Nr." + this.AbfolgeIndex
+                             ? "Nr." + this.Reihenfolge
                              : this.AufgabeBezeichnung;
         var header = aufgabenName + " (" + this.AufgabeMaxPunkte + "P)";
         return header;
@@ -152,7 +152,7 @@
     /// <summary>
     /// Holt oder setzt die LfdNr
     /// </summary>
-    public int AbfolgeIndex
+    public int Reihenfolge
     {
       get
       {
@@ -162,16 +162,16 @@
       set
       {
         if (value == this.Model.LfdNr) return;
-        this.UndoablePropertyChanging(this, "AbfolgeIndex", this.Model.LfdNr, value);
+        this.UndoablePropertyChanging(this, "Reihenfolge", this.Model.LfdNr, value);
         this.Model.LfdNr = value;
-        this.RaisePropertyChanged("AbfolgeIndex");
+        this.RaisePropertyChanged("Reihenfolge");
       }
     }
 
     /// <summary>
     /// Holt oder setzt die MaxPunkte
     /// </summary>
-    public float AufgabeMaxPunkte
+    public double AufgabeMaxPunkte
     {
       get
       {

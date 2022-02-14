@@ -36,9 +36,9 @@ namespace SoftTeach.View.Stundenpläne
     /// <summary>
     /// Initializes a new instance of the <see cref="AddStundenplanDialog"/> class.
     /// </summary>
-    public AddStundenplanDialog(JahrtypViewModel jahrtyp, HalbjahrtypViewModel halbjahrtyp, DateTime gültigAb)
+    public AddStundenplanDialog(SchuljahrViewModel schuljahr, Halbjahr halbschuljahr, DateTime gültigAb)
     {
-      App.MainViewModel.StundenplanWorkspace.AddStundenplan(jahrtyp, halbjahrtyp, gültigAb);
+      App.MainViewModel.StundenplanWorkspace.AddStundenplan(schuljahr, halbschuljahr, gültigAb);
       this.StundenplanViewModel = App.MainViewModel.StundenplanWorkspace.CurrentStundenplan;
       this.StundenplanViewModel.ViewMode = StundenplanViewMode.Default | StundenplanViewMode.Edit;
       this.InitializeComponent();
@@ -64,18 +64,18 @@ namespace SoftTeach.View.Stundenpläne
         {
           // Create a new Jahresplan
           App.MainViewModel.JahresplanWorkspace.AddJahresplan(
-            this.StundenplanViewModel.StundenplanJahrtyp,
+            this.StundenplanViewModel.StundenplanSchuljahr,
             stundenplaneintragViewModel.StundenplaneintragFach,
             stundenplaneintragViewModel.StundenplaneintragKlasse,
-            this.StundenplanViewModel.StundenplanHalbjahrtyp.HalbjahrtypBezeichnung == "Sommer");
+            this.StundenplanViewModel.StundenplanHalbjahr.HalbjahrBezeichnung == "Sommer");
         }
 
         // Create special jahresplan for vertretungsstunden etc.
         App.MainViewModel.JahresplanWorkspace.AddJahresplan(
-          this.StundenplanViewModel.StundenplanJahrtyp,
+          this.StundenplanViewModel.StundenplanSchuljahr,
           App.MainViewModel.Fächer.Single(o => o.FachBezeichnung == "Vertretungsstunden"),
           App.MainViewModel.Klassen.Single(o => o.KlasseBezeichnung == "Alle"),
-          this.StundenplanViewModel.StundenplanHalbjahrtyp.HalbjahrtypBezeichnung == "Sommer");
+          this.StundenplanViewModel.StundenplanHalbjahr.HalbjahrBezeichnung == "Sommer");
       }
 
       this.Cursor = Cursors.Arrow;

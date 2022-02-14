@@ -27,7 +27,7 @@ Reihen ändern Sie im Curriculum Modul."/>
         <DataGrid.Columns>
           <DataGridTextColumn Header="Modul" Binding="{Binding Path=ReiheThema}" Width="*"/>
           <DataGridTextColumn Header="Stundenbedarf" Binding="{Binding Path=ReiheStundenbedarfString}"/>
-          <DataGridTextColumn Header="Reihenfolge" Binding="{Binding Path=AbfolgeIndex}"/>
+          <DataGridTextColumn Header="Reihenfolge" Binding="{Binding Path=Reihenfolge}"/>
         </DataGrid.Columns>
       </DataGrid>
     </GroupBox>

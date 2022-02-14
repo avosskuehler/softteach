@@ -11,10 +11,10 @@
     <Setting Name="Fach" Type="System.String" Scope="User">
       <Value Profile="(Default)">Physik</Value>
     </Setting>
-    <Setting Name="Jahrgangsstufe" Type="System.String" Scope="User">
+    <Setting Name="Jahrgang" Type="System.String" Scope="User">
       <Value Profile="(Default)">7</Value>
     </Setting>
-    <Setting Name="Klasse" Type="System.String" Scope="User">
+    <Setting Name="Lerngruppe" Type="System.String" Scope="User">
       <Value Profile="(Default)">7D</Value>
     </Setting>
     <Setting Name="Modul" Type="System.String" Scope="User">

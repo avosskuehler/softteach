@@ -2,11 +2,11 @@
 namespace SoftTeach.View.Personen
 {
   /// <summary>
-  /// Interaction logic for SchülerlisteDetailView.xaml
+  /// Interaction logic for LerngruppeDetailView.xaml
   /// </summary>
-  public partial class SchülerlisteDetailView
+  public partial class LerngruppeDetailView
   {
-    public SchülerlisteDetailView()
+    public LerngruppeDetailView()
     {
       this.InitializeComponent();
     }

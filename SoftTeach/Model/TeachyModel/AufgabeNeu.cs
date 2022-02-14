@@ -17,7 +17,7 @@ namespace SoftTeach.Model.TeachyModel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public AufgabeNeu()
         {
-            this.Ergebnisse = new HashSet<ErgebnisseNeu>();
+            this.Ergebnisse = new HashSet<ErgebnisNeu>();
         }
     
         public int Id { get; set; }
@@ -28,6 +28,6 @@ namespace SoftTeach.Model.TeachyModel
     
         public virtual ArbeitNeu Arbeit { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ErgebnisseNeu> Ergebnisse { get; set; }
+        public virtual ICollection<ErgebnisNeu> Ergebnisse { get; set; }
     }
 }

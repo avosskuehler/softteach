@@ -12,7 +12,7 @@ namespace SoftTeach.ViewModel.Termine
 
   using MahApps.Metro.Controls.Dialogs;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Noten;
@@ -263,9 +263,9 @@ namespace SoftTeach.ViewModel.Termine
     }
 
     /// <summary>
-    /// Holt oder setzt den AbfolgeIndex dieser Stunde im laufenden Jahresplan.
+    /// Holt oder setzt den Reihenfolge dieser Stunde im laufenden Jahresplan.
     /// </summary>
-    public int AbfolgeIndex { get; set; }
+    public int Reihenfolge { get; set; }
 
     /// <summary>
     /// Holt einen String mit dem Stundenbereich der laufenden Nummer.
@@ -336,7 +336,7 @@ namespace SoftTeach.ViewModel.Termine
     {
       get
       {
-        return this.LerngruppenterminKlasse + " " + this.LerngruppenterminFach + " " + this.LerngruppenterminDatum.ToLongDateString();
+        return this.LerngruppenterminLerngruppe + " " + this.LerngruppenterminFach + " " + this.LerngruppenterminDatum.ToLongDateString();
       }
     }
 
@@ -428,7 +428,7 @@ namespace SoftTeach.ViewModel.Termine
     /// </summary>
     protected override void ViewLerngruppentermin()
     {
-      this.UpdateSchülerlisteInSelection();
+      this.UpdateLerngruppeInSelection();
       if (Configuration.Instance.IsMetroMode)
       {
         var stundePage = new MetroStundenentwurfPage();
@@ -445,7 +445,7 @@ namespace SoftTeach.ViewModel.Termine
     /// </summary>
     protected override void EditLerngruppentermin()
     {
-      this.UpdateSchülerlisteInSelection();
+      this.UpdateLerngruppeInSelection();
       bool undo = false;
       using (new UndoBatch(App.MainViewModel, string.Format("Stunde {0} editieren", this), false))
       {
@@ -499,7 +499,7 @@ namespace SoftTeach.ViewModel.Termine
       entwurf.Stundenthema = "Neues Thema";
       var availableModule =
         App.MainViewModel.Module.Where(
-          o => o.ModulJahrgangsstufe.Model == entwurf.Jahrgangsstufe && o.ModulFach.Model == entwurf.Fach);
+          o => o.ModulJahrgang.Model == entwurf.Jahrgangsstufe && o.ModulFach.Model == entwurf.Fach);
       entwurf.Modul = availableModule.First().Model;
 
       var vm = new StundenentwurfViewModel(entwurf);
@@ -662,7 +662,7 @@ namespace SoftTeach.ViewModel.Termine
     /// </summary>
     private async void AddHausaufgaben()
     {
-      this.UpdateSchülerlisteInSelection();
+      this.UpdateLerngruppeInSelection();
       var undo = false;
       using (new UndoBatch(App.MainViewModel, string.Format("Hausaufgaben hinzugefügt."), false))
       {

@@ -3,11 +3,11 @@
   using System.Windows;
 
   /// <summary>
-  /// Interaction logic for HalbjahrtypWorkspaceView.xaml
+  /// Interaction logic for HalbjahrWorkspaceView.xaml
   /// </summary>
-  public partial class HalbjahrtypWorkspaceView : Window
+  public partial class HalbjahrWorkspaceView : Window
   {
-    public HalbjahrtypWorkspaceView()
+    public HalbjahrWorkspaceView()
     {
       this.InitializeComponent();
     }

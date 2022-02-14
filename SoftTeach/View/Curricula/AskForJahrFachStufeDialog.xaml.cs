@@ -18,7 +18,7 @@
 namespace SoftTeach.View.Curricula
 {
   using System.Windows;
-
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.View.Stundenpläne;
   using SoftTeach.ViewModel.Datenbank;
@@ -28,10 +28,10 @@ namespace SoftTeach.View.Curricula
   /// </summary>
   public partial class AskForJahrFachStufeDialog
   {
-    public JahrtypViewModel Jahrtyp { get; set; }
-    public HalbjahrtypViewModel Halbjahrtyp { get; set; }
+    public SchuljahrViewModel Schuljahr { get; set; }
+    public Halbjahr Halbjahr { get; set; }
     public FachViewModel Fach { get; set; }
-    public KlassenstufeViewModel Klassenstufe { get; set; }
+    public int Klassenstufe { get; set; }
     public string Bezeichnung { get; set; }
 
     #region Constructors and Destructors
@@ -43,8 +43,8 @@ namespace SoftTeach.View.Curricula
     {
       this.InitializeComponent();
       this.DataContext = this;
-      this.Jahrtyp = Selection.Instance.Jahrtyp;
-      this.Halbjahrtyp = Selection.Instance.Halbjahr;
+      this.Schuljahr = Selection.Instance.Schuljahr;
+      this.Halbjahr = Selection.Instance.Halbjahr;
       this.Fach = App.MainViewModel.Fächer[0];
       this.Klassenstufe = App.MainViewModel.Klassenstufen[0];
       this.Bezeichnung = "Neue Bezeichnung";

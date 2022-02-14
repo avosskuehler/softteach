@@ -2,7 +2,7 @@
 {
   using System;
   using System.Linq;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.ViewModel.Helper;
 
@@ -12,17 +12,17 @@
   public class FerienViewModel : ViewModelBase, IComparable
   {
     /// <summary>
-    /// The jahrtyp currently assigned to this ferien
+    /// The schuljahr currently assigned to this ferien
     /// </summary>
-    private JahrtypViewModel jahrtyp;
+    private SchuljahrViewModel schuljahr;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="FerienViewModel"/> Klasse. 
     /// </summary>
     public FerienViewModel()
     {
-      var ferien = new Ferien();
-      ferien.Jahrtyp = Selection.Instance.Jahrtyp.Model;
+      var ferien = new FerienNeu();
+      ferien.Schuljahr = Selection.Instance.Schuljahr.Model;
       ferien.Bezeichnung = "Neue Ferien";
       ferien.ErsterFerientag = DateTime.Now;
       ferien.LetzterFerientag = DateTime.Now;
@@ -36,7 +36,7 @@
     /// <param name="ferien">
     /// The underlying ferien this ViewModel is to be based on
     /// </param>
-    public FerienViewModel(Ferien ferien)
+    public FerienViewModel(FerienNeu ferien)
     {
       if (ferien == null)
       {
@@ -49,7 +49,7 @@
     /// <summary>
     /// Holt den underlying Ferien this ViewModel is based on
     /// </summary>
-    public Ferien Model { get; private set; }
+    public FerienNeu Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Bezeichnung
@@ -111,35 +111,35 @@
     /// <summary>
     /// Holt oder setzt die fach currently assigned to this Stundenentwurf
     /// </summary>
-    public JahrtypViewModel FerienJahrtyp
+    public SchuljahrViewModel FerienSchuljahr
     {
       get
       {
         // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Jahrtyp == null)
+        if (this.Model.Schuljahr == null)
         {
           return null;
         }
 
-        if (this.jahrtyp == null || this.jahrtyp.Model != this.Model.Jahrtyp)
+        if (this.schuljahr == null || this.schuljahr.Model != this.Model.Schuljahr)
         {
-          this.jahrtyp = App.MainViewModel.Jahrtypen.SingleOrDefault(d => d.Model == this.Model.Jahrtyp);
+          this.schuljahr = App.MainViewModel.Schuljahre.SingleOrDefault(d => d.Model == this.Model.Schuljahr);
         }
 
-        return this.jahrtyp;
+        return this.schuljahr;
       }
 
       set
       {
-        if (this.jahrtyp != null)
+        if (this.schuljahr != null)
         {
-          if (value.JahrtypBezeichnung == this.jahrtyp.JahrtypBezeichnung) return;
+          if (value.SchuljahrBezeichnung == this.schuljahr.SchuljahrBezeichnung) return;
         }
 
-        this.UndoablePropertyChanging(this, "FerienJahrtyp", this.jahrtyp, value);
-        this.jahrtyp = value;
-        this.Model.Jahrtyp = value.Model;
-        this.RaisePropertyChanged("FerienJahrtyp");
+        this.UndoablePropertyChanging(this, "FerienSchuljahr", this.schuljahr, value);
+        this.schuljahr = value;
+        this.Model.Schuljahr = value.Model;
+        this.RaisePropertyChanged("FerienSchuljahr");
       }
     }
 
@@ -149,7 +149,7 @@
     /// <returns>Ein <see cref="string"/> mit einer Kurzform des ViewModels.</returns>
     public override string ToString()
     {
-      return this.FerienBezeichnung + " " + this.FerienJahrtyp.JahrtypBezeichnung;
+      return this.FerienBezeichnung + " " + this.FerienSchuljahr.SchuljahrBezeichnung;
     }
 
     /// <summary>

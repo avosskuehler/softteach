@@ -15,14 +15,14 @@ namespace SoftTeach.Model.TeachyModel
     public partial class TerminNeu
     {
         public int Id { get; set; }
-        public int Termintyp { get; set; }
+        public Termintyp Termintyp { get; set; }
         public string Beschreibung { get; set; }
         public int ErsteUnterrichtsstundeId { get; set; }
         public int LetzteUnterrichtsstundeId { get; set; }
         public string Ort { get; set; }
         public bool IstGeprüft { get; set; }
     
-        public virtual UnterrichtsstundeNeu Unterrichtsstunden { get; set; }
-        public virtual UnterrichtsstundeNeu Unterrichtsstunden1 { get; set; }
+        public virtual UnterrichtsstundeNeu ErsteUnterrichtsstunde { get; set; }
+        public virtual UnterrichtsstundeNeu LetzteUnterrichtsstunde { get; set; }
     }
 }

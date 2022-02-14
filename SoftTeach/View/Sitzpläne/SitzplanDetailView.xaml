@@ -22,10 +22,10 @@
       <ComboBox Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"
                 ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Raumpläne}"
                 SelectedItem="{Binding Path=SitzplanRaumplan}"/>
-      <Label  Content="Schülerliste auswählen" VerticalAlignment="Center"/>
+      <Label  Content="Lerngruppe auswählen" VerticalAlignment="Center"/>
       <ComboBox Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"
-                ItemsSource="{Binding Path=SchülerlistenView}"
-                SelectedItem="{Binding Path=SitzplanSchülerliste}"/>
+                ItemsSource="{Binding Path=LerngruppenView}"
+                SelectedItem="{Binding Path=SitzplanLerngruppe}"/>
       <Border BorderThickness="1" Margin="5" BorderBrush="{x:Static SystemColors.ControlDarkDarkBrush}" />
       <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding ShuffleCommand}" 
 				ToolTip="Neuen Grundriss laden">
@@ -39,7 +39,7 @@
       </Button>
     </StackPanel>
     <ListBox Grid.Row="1"
-                 ItemsSource="{Binding Path=SitzplanSchülerliste.SchülereinträgeView}"             
+                 ItemsSource="{Binding Path=SitzplanLerngruppe.SchülereinträgeView}"             
                  BorderThickness="0"
                  Name="SchülerListBox"
                  ItemTemplate="{StaticResource KlassenlisteHausaufgabenView}"

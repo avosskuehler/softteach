@@ -7,7 +7,7 @@
   using System.Linq;
   using System.Windows.Controls;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Stundenpläne;
   using SoftTeach.ViewModel.Datenbank;
@@ -19,14 +19,14 @@
   public class StundenplanViewModel : ViewModelBase, IComparable, ICloneable
   {
     /// <summary>
-    /// The jahrtyp currently assigned to this stundenplan
+    /// The schuljahr currently assigned to this stundenplan
     /// </summary>
-    private JahrtypViewModel jahrtyp;
+    private SchuljahrViewModel schuljahr;
 
     /// <summary>
-    /// The halbjahrtyp assigned to this stundenplan
+    /// The halbschuljahr assigned to this stundenplan
     /// </summary>
-    private HalbjahrtypViewModel halbjahrtyp;
+    private Halbjahr halbschuljahr;
 
     /// <summary>
     /// The stundenplaneintraf currently selected
@@ -163,64 +163,64 @@
     }
 
     /// <summary>
-    /// Holt oder setzt die Jahrtyp currently assigned to this Stundenplan
+    /// Holt oder setzt die Schuljahr currently assigned to this Stundenplan
     /// </summary>
-    public JahrtypViewModel StundenplanJahrtyp
+    public SchuljahrViewModel StundenplanSchuljahr
     {
       get
       {
         // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Jahrtyp == null)
+        if (this.Model.Schuljahr == null)
         {
           return null;
         }
 
-        if (this.jahrtyp == null || this.jahrtyp.Model != this.Model.Jahrtyp)
+        if (this.schuljahr == null || this.schuljahr.Model != this.Model.Schuljahr)
         {
-          this.jahrtyp = App.MainViewModel.Jahrtypen.SingleOrDefault(d => d.Model == this.Model.Jahrtyp);
+          this.schuljahr = App.MainViewModel.Schuljahre.SingleOrDefault(d => d.Model == this.Model.Schuljahr);
         }
 
-        return this.jahrtyp;
+        return this.schuljahr;
       }
 
       set
       {
-        if (value.JahrtypBezeichnung == this.jahrtyp.JahrtypBezeichnung) return;
-        this.UndoablePropertyChanging(this, "StundenplanJahrtyp", this.jahrtyp, value);
-        this.jahrtyp = value;
-        this.Model.Jahrtyp = value.Model;
-        this.RaisePropertyChanged("StundenplanJahrtyp");
+        if (value.SchuljahrBezeichnung == this.schuljahr.SchuljahrBezeichnung) return;
+        this.UndoablePropertyChanging(this, "StundenplanSchuljahr", this.schuljahr, value);
+        this.schuljahr = value;
+        this.Model.Schuljahr = value.Model;
+        this.RaisePropertyChanged("StundenplanSchuljahr");
       }
     }
 
     /// <summary>
-    /// Holt oder setzt die Halbjahrtyp currently assigned to this Stundenplan
+    /// Holt oder setzt die Halbjahr currently assigned to this Stundenplan
     /// </summary>
-    public HalbjahrtypViewModel StundenplanHalbjahrtyp
+    public Halbjahr StundenplanHalbjahr
     {
       get
       {
         // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Halbjahrtyp == null)
+        if (this.Model.Halbjahr == null)
         {
           return null;
         }
 
-        if (this.halbjahrtyp == null || this.halbjahrtyp.Model != this.Model.Halbjahrtyp)
+        if (this.halbschuljahr == null || this.halbschuljahr.Model != this.Model.Halbjahr)
         {
-          this.halbjahrtyp = App.MainViewModel.Halbjahrtypen.SingleOrDefault(d => d.Model == this.Model.Halbjahrtyp);
+          this.halbschuljahr = App.MainViewModel.Halbjahre.SingleOrDefault(d => d.Model == this.Model.Halbjahr);
         }
 
-        return this.halbjahrtyp;
+        return this.halbschuljahr;
       }
 
       set
       {
-        if (value.HalbjahrtypBezeichnung == this.halbjahrtyp.HalbjahrtypBezeichnung) return;
-        this.UndoablePropertyChanging(this, "StundenplanHalbjahrtyp", this.halbjahrtyp, value);
-        this.halbjahrtyp = value;
-        this.Model.Halbjahrtyp = value.Model;
-        this.RaisePropertyChanged("StundenplanHalbjahrtyp");
+        if (value.HalbjahrBezeichnung == this.halbschuljahr.HalbjahrBezeichnung) return;
+        this.UndoablePropertyChanging(this, "StundenplanHalbjahr", this.halbschuljahr, value);
+        this.halbschuljahr = value;
+        this.Model.Halbjahr = value.Model;
+        this.RaisePropertyChanged("StundenplanHalbjahr");
       }
     }
 
@@ -987,8 +987,8 @@
     public object Clone()
     {
       var stundenplan = new Stundenplan();
-      stundenplan.Jahrtyp = this.StundenplanJahrtyp.Model;
-      stundenplan.Halbjahrtyp = this.StundenplanHalbjahrtyp.Model;
+      stundenplan.Schuljahr = this.StundenplanSchuljahr.Model;
+      stundenplan.Halbjahr = this.StundenplanHalbjahr.Model;
       stundenplan.GültigAb = this.StundenplanGültigAb;
       stundenplan.Bezeichnung = this.StundenplanBezeichnung;
       var stundenplanViewModel = new StundenplanViewModel(stundenplan);

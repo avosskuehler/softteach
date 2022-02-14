@@ -23,7 +23,7 @@ namespace SoftTeach.View.Datenbank
   using SoftTeach.ViewModel.Helper;
 
   using SoftTeach.ViewModel.Datenbank;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
 
   /// <summary>
   /// Ein Dialog um nicht gemachte Arbeiten einzutragen.
@@ -44,14 +44,14 @@ namespace SoftTeach.View.Datenbank
     #endregion
 
     /// <summary>
-    /// Holt oder setzt den Jahrtyp für die Arbeit
+    /// Holt oder setzt den Schuljahr für die Arbeit
     /// </summary>
-    public JahrtypViewModel Jahrtyp { get; set; }
+    public SchuljahrViewModel Schuljahr { get; set; }
 
     /// <summary>
-    /// Holt oder setzt den Halbjahrtyp für die Arbeit
+    /// Holt oder setzt den Halbjahr für die Arbeit
     /// </summary>
-    public HalbjahrtypViewModel Halbjahrtyp { get; set; }
+    public Halbjahr Halbjahr { get; set; }
 
     /// <summary>
     /// Holt oder setzt das Fach für die Arbeit
@@ -84,7 +84,7 @@ namespace SoftTeach.View.Datenbank
     /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
     private void DeleteSchuljahrClick(object sender, RoutedEventArgs e)
     {
-      App.MainViewModel.Jahrtypen.RemoveTest(this.Jahrtyp);
+      App.MainViewModel.Schuljahre.RemoveTest(this.Schuljahr);
       App.UnitOfWork.SaveChanges();
     }
 
@@ -193,7 +193,7 @@ namespace SoftTeach.View.Datenbank
       App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
 
       // Curricula ohne Reihen löschen
-      var leereCurricula = App.UnitOfWork.Context.Curricula.Where(o => !o.Reihen.Any(a => a.AbfolgeIndex != -1)).ToList();
+      var leereCurricula = App.UnitOfWork.Context.Curricula.Where(o => !o.Reihen.Any(a => a.Reihenfolge != -1)).ToList();
 
       App.UnitOfWork.Context.Curricula.RemoveRange(leereCurricula);
 

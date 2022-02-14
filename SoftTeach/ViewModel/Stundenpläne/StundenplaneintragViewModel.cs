@@ -4,7 +4,7 @@
   using System.Linq;
   using System.Windows.Media;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Stundenpläne;
   using SoftTeach.ViewModel.Datenbank;
@@ -24,7 +24,7 @@
     /// <summary>
     /// The klasse currently assigned to this stundenplaneintrag
     /// </summary>
-    private KlasseViewModel klasse;
+    private LerngruppeViewModel klasse;
 
     /// <summary>
     /// The raum currently assigned to this stundenplaneintrag
@@ -154,7 +154,7 @@
     /// <summary>
     /// Holt oder setzt die Klasse currently assigned to this Jahresplan
     /// </summary>
-    public KlasseViewModel StundenplaneintragKlasse
+    public LerngruppeViewModel StundenplaneintragKlasse
     {
       get
       {

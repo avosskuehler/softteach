@@ -35,11 +35,11 @@ namespace SoftTeach.View.Curricula
     /// </summary>
     /// <param name="fachViewModel"> The fach View Model.  </param>
     /// <param name="klassenstufeViewModel"> The klassenstufe View Model.  </param>
-    /// <param name="halbjahrtypViewModel"> The halbjahrtyp View Model. </param>
+    /// <param name="halbschuljahrViewModel"> The halbschuljahr View Model. </param>
     public AskForHalbjahresplanToAdaptDialog(
       FachViewModel fachViewModel,
-      KlassenstufeViewModel klassenstufeViewModel,
-      HalbjahrtypViewModel halbjahrtypViewModel)
+      int klassenstufeViewModel,
+      Halbjahr halbschuljahrViewModel)
     {
       this.InitializeComponent();
       this.DataContext = this;
@@ -47,7 +47,7 @@ namespace SoftTeach.View.Curricula
                 o =>
           o.HalbjahresplanFach == fachViewModel
           && o.HalbjahresplanKlasse.Model.Klassenstufe == klassenstufeViewModel.Model
-          && o.HalbjahresplanHalbjahrtyp == halbjahrtypViewModel));
+          && o.HalbjahresplanHalbjahr == halbschuljahrViewModel));
       this.FilteredHalbjahrespläne = new ObservableCollection<HalbjahresplanViewModel>();
       foreach (var halbjahresplanViewModel in filteredHalbjahrespläne)
       {

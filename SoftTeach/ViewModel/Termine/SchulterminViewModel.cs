@@ -6,7 +6,7 @@
   using System.Collections.Specialized;
   using System.Linq;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Termine;
   using SoftTeach.ViewModel.Datenbank;
@@ -18,9 +18,9 @@
   public class SchulterminViewModel : TerminViewModel
   {
     /// <summary>
-    /// The jahrtyp currently assigned to this termin
+    /// The schuljahr currently assigned to this termin
     /// </summary>
-    private JahrtypViewModel jahrtyp;
+    private SchuljahrViewModel schuljahr;
 
     /// <summary>
     /// The betroffeneKlasse currently selected
@@ -109,31 +109,31 @@
     /// <summary>
     /// Holt oder setzt die halbjahr currently assigned to this Termin
     /// </summary>
-    public JahrtypViewModel SchulterminJahrtyp
+    public SchuljahrViewModel SchulterminSchuljahr
     {
       get
       {
         // We need to reflect any changes made in the model so we check the current value before returning
-        if (((Schultermin)this.Model).Jahrtyp == null)
+        if (((Schultermin)this.Model).Schuljahr == null)
         {
           return null;
         }
 
-        if (this.jahrtyp == null || this.jahrtyp.Model != ((Schultermin)this.Model).Jahrtyp)
+        if (this.schuljahr == null || this.schuljahr.Model != ((Schultermin)this.Model).Schuljahr)
         {
-          this.jahrtyp = App.MainViewModel.Jahrtypen.SingleOrDefault(d => d.Model == ((Schultermin)this.Model).Jahrtyp);
+          this.schuljahr = App.MainViewModel.Schuljahre.SingleOrDefault(d => d.Model == ((Schultermin)this.Model).Schuljahr);
         }
 
-        return this.jahrtyp;
+        return this.schuljahr;
       }
 
       set
       {
-        if (value.JahrtypBezeichnung == this.jahrtyp.JahrtypBezeichnung) return;
-        this.UndoablePropertyChanging(this, "SchulterminJahrtyp", this.jahrtyp, value);
-        this.jahrtyp = value;
-        ((Schultermin)this.Model).Jahrtyp = value.Model;
-        this.RaisePropertyChanged("SchulterminJahrtyp");
+        if (value.SchuljahrBezeichnung == this.schuljahr.SchuljahrBezeichnung) return;
+        this.UndoablePropertyChanging(this, "SchulterminSchuljahr", this.schuljahr, value);
+        this.schuljahr = value;
+        ((Schultermin)this.Model).Schuljahr = value.Model;
+        this.RaisePropertyChanged("SchulterminSchuljahr");
       }
     }
 

@@ -13,7 +13,7 @@
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
     <controls:SmallDialogHeader Grid.Row="0" Title="Wie sollen die Gruppen eingeteilt werden?"
-                                      Icon="/SoftTeach;component/Images/Schülerliste32.png"/>
+                                      Icon="/SoftTeach;component/Images/Lerngruppe32.png"/>
 
     <Grid Grid.Row="1" Background="{x:Static SystemColors.MenuBarBrush}">
       <Grid.RowDefinitions>
@@ -49,7 +49,7 @@
                  ItemsSource="{Binding Path=GruppenView}"             
                  BorderThickness="0"
                  Name="GruppenListBox"
-                 ItemTemplate="{StaticResource SchülerlisteGruppenView}"
+                 ItemTemplate="{StaticResource LerngruppeGruppenView}"
                  ItemContainerStyle="{StaticResource UnselectableListBoxItem}">
         <ListBox.ItemsPanel>
           <ItemsPanelTemplate>

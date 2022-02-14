@@ -6,7 +6,7 @@
 
   using Setting;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Noten;
 
@@ -76,28 +76,18 @@
       using (new UndoBatch(App.MainViewModel, string.Format("Arbeit angelegt"), false))
       {
 
-        var arbeit = new Arbeit();
-        arbeit.Klasse = dlg.Klasse.Model;
-        arbeit.Jahrtyp = dlg.Jahrtyp.Model;
-        arbeit.Halbjahrtyp = dlg.Halbjahrtyp.Model;
+        var arbeit = new ArbeitNeu();
+        arbeit.Lerngruppe = dlg.Klasse.Model;
         arbeit.Fach = dlg.Fach.Model;
-        arbeit.Bepunktungstyp = dlg.Bepunktungstyp.ToString();
+        arbeit.Bepunktungstyp = dlg.Bepunktungstyp;
         arbeit.Bewertungsschema = dlg.Bewertungsschema.Model;
         arbeit.Bezeichnung = dlg.Bezeichnung;
         arbeit.Datum = dlg.Datum;
         arbeit.IstKlausur = dlg.IstKlausur;
 
-        var vorhandeneArbeiten =
-          App.MainViewModel.Arbeiten.Count(
-            o =>
-            o.ArbeitJahrtyp.JahrtypBezeichnung == Selection.Instance.Jahrtyp.JahrtypBezeichnung
-            && o.ArbeitHalbjahrtyp.HalbjahrtypIndex == Selection.Instance.Halbjahr.HalbjahrtypIndex
-            && o.ArbeitKlasse.KlasseBezeichnung == Selection.Instance.Klasse.KlasseBezeichnung
-            && o.ArbeitFach.FachBezeichnung == Selection.Instance.Fach.FachBezeichnung);
+        var vorhandeneArbeiten = arbeit.Lerngruppe.Arbeiten.Count();
         arbeit.LfdNr = vorhandeneArbeiten + 1;
 
-        // App.UnitOfWork.GetRepository<Arbeit>().Add(arbeit);
-        //App.UnitOfWork.Context.Arbeiten.Add(arbeit);
         var vm = new ArbeitViewModel(arbeit);
         App.MainViewModel.Arbeiten.Add(vm);
         this.CurrentArbeit = vm;

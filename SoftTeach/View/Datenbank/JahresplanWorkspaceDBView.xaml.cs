@@ -1,6 +1,6 @@
 ﻿namespace SoftTeach.View.Datenbank
 {
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using System.Collections.Generic;
   using System.Linq;
   using System.Windows;
@@ -13,7 +13,7 @@
     public JahresplanWorkspaceDBView()
     {
       this.Jahrespläne = new List<Jahresplan>();
-      foreach (var jahresplan in App.UnitOfWork.Context.Jahrespläne.OrderBy(o => o.Jahrtyp.Jahr).ThenBy(o => o.Fach.Bezeichnung).ThenBy(o => o.Klasse.Klassenstufe))
+      foreach (var jahresplan in App.UnitOfWork.Context.Jahrespläne.OrderBy(o => o.Schuljahr.Jahr).ThenBy(o => o.Fach.Bezeichnung).ThenBy(o => o.Klasse.Klassenstufe))
       {
         this.Jahrespläne.Add(jahresplan);
       }

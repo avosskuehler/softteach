@@ -63,9 +63,9 @@ namespace SoftTeach.View.Noten
       this.VorhandeneNotenlistenControl.Visibility = Visibility.Collapsed;
       this.DatePicker.IsEnabled = true;
       var workspace = this.DataContext as NotenlistenWorkspaceViewModel;
-      if (workspace != null && workspace.CurrentSchülerliste == null)
+      if (workspace != null && workspace.CurrentLerngruppe == null)
       {
-        workspace.ResetSchülerliste();
+        workspace.ResetLerngruppe();
       }
     }
 
@@ -112,7 +112,7 @@ namespace SoftTeach.View.Noten
       var workspace = this.DataContext as NotenlistenWorkspaceViewModel;
       if (workspace != null && workspace.NotenlistenEinträge.Count == 0)
       {
-        workspace.CurrentSchülerliste = null;
+        workspace.CurrentLerngruppe = null;
       }
     }
 

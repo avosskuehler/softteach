@@ -10,7 +10,7 @@
   using System.Windows.Shapes;
   using Microsoft.Win32;
   using SoftTeach.ExceptionHandling;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Sitzpläne;
   using SoftTeach.ViewModel.Helper;
@@ -41,7 +41,7 @@
     /// <param name="raumplan">
     /// The underlying raumplan this ViewModel is to be based on
     /// </param>
-    public RaumplanViewModel(Raumplan raumplan)
+    public RaumplanViewModel(RaumplanNeu raumplan)
     {
       if (raumplan == null)
       {
@@ -78,7 +78,7 @@
     /// <summary>
     /// Holt den underlying Raumplan this ViewModel is based on
     /// </summary>
-    public Raumplan Model { get; private set; }
+    public RaumplanNeu Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Sitzplätze dieser Raumplan
@@ -295,7 +295,7 @@
     /// <param name="angle"> The angle. </param>
     public void AddSitzplatz(double left, double top, double width, double height, double angle)
     {
-      var sitzplatz = new Sitzplatz();
+      var sitzplatz = new SitzplatzNeu();
       sitzplatz.LinksObenX = left;
       sitzplatz.LinksObenY = top;
       sitzplatz.Breite = width;

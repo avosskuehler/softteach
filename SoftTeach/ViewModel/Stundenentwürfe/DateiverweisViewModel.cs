@@ -5,7 +5,7 @@
   using System.Linq;
   using System.Windows.Media;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Helper;
 

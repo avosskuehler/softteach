@@ -3,7 +3,7 @@
   using System;
   using System.Linq;
   using System.Windows.Media;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Termine;
@@ -21,38 +21,18 @@
     /// <param name="lerngruppentermin">
     /// The underlying lerngruppentermin this ViewModel is to be based on
     /// </param>
-    public LerngruppenterminViewModel(Lerngruppentermin lerngruppentermin)
+    public LerngruppenterminViewModel(LerngruppenterminNeu lerngruppentermin)
       : base(lerngruppentermin)
     {
-    }
-
-    /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="LerngruppenterminViewModel"/> Klasse. 
-    /// </summary>
-    /// <param name="parentTagesplan">
-    /// The tagesplan this ViewModel belongs to
-    /// </param>
-    /// <param name="lerngruppentermin">
-    /// The underlying lerngruppentermin this ViewModel is to be based on
-    /// </param>
-    public LerngruppenterminViewModel(TagesplanViewModel parentTagesplan, Lerngruppentermin lerngruppentermin)
-      : base(lerngruppentermin)
-    {
-      if (parentTagesplan == null)
-      {
-        throw new ArgumentNullException("parentTagesplan");
-      }
-
-      this.ParentTagesplan = parentTagesplan;
       this.ViewLerngruppenterminCommand = new DelegateCommand(this.ViewLerngruppentermin);
       this.EditLerngruppenterminCommand = new DelegateCommand(this.EditLerngruppentermin);
       this.RemoveLerngruppenterminCommand = new DelegateCommand(this.DeleteTermin);
     }
 
     /// <summary>
-    /// Holt den tagesplan this lerngruppentermin belongs to.
+    /// Holt den underlying Termin this ViewModel is based on
     /// </summary>
-    public TagesplanViewModel ParentTagesplan { get; private set; }
+    public new LerngruppenterminNeu Model { get; private set; }
 
     /// <summary>
     /// Holt den Befehl zur Ansicht des aktuellen Lerngruppentermins
@@ -72,7 +52,7 @@
     /// <summary>
     /// Holt den Kalenderfarbe of this Tagesplan
     /// </summary>
-    [ViewModelBase.DependsUponAttribute("TerminTermintyp")]
+    [DependsUpon("TerminTermintyp")]
     public SolidColorBrush LerngruppenterminFarbe
     {
       get
@@ -82,19 +62,64 @@
           return Brushes.Black;
         }
 
-        var convertFromString = ColorConverter.ConvertFromString(this.Model.Termintyp.Kalenderfarbe);
-        return convertFromString != null ? new SolidColorBrush((Color)convertFromString) : Brushes.Transparent;
+        switch (this.Model.Termintyp)
+        {
+          case Termintyp.Klausur:
+            return Brushes.Yellow;
+          case Termintyp.TagDerOffenenTür:
+            return Brushes.Blue;
+          case Termintyp.Wandertag:
+            return Brushes.Magenta;
+          case Termintyp.Abitur:
+            return Brushes.Red;
+          case Termintyp.MSA:
+            return Brushes.Red;
+          case Termintyp.Unterricht:
+            return Brushes.LightBlue;
+          case Termintyp.Vertretung:
+            return Brushes.LightGray;
+          case Termintyp.Besprechung:
+            return Brushes.Orange;
+          case Termintyp.Sondertermin:
+            return Brushes.Orange;
+          case Termintyp.Ferien:
+            return Brushes.Green;
+          case Termintyp.Kursfahrt:
+            return Brushes.Fuchsia;
+          case Termintyp.Klassenfahrt:
+            return Brushes.Fuchsia;
+          case Termintyp.Projekttag:
+            return Brushes.Orange;
+          case Termintyp.Praktikum:
+            return Brushes.Orange;
+          case Termintyp.Geburtstag:
+            return Brushes.SteelBlue;
+          case Termintyp.Veranstaltung:
+            return Brushes.Maroon;
+          case Termintyp.PSE:
+            return Brushes.Fuchsia;
+          default:
+            return Brushes.Transparent;
+        }
       }
     }
 
     /// <summary>
-    /// Holt a <see cref="DateTime"/> with the date this lerngruppentermin belongs to
+    /// Holt oder setzt die Bezeichnung dieser Lerngruppe.
     /// </summary>
     public DateTime LerngruppenterminDatum
     {
       get
       {
-        return ((Lerngruppentermin)this.Model).Tagesplan.Datum;
+        return this.Model.Datum;
+      }
+
+      set
+      {
+        if (value == this.Model.Datum) return;
+        this.UndoablePropertyChanging(this, "LerngruppenterminDatum", this.Model.Datum, value);
+        this.Model.Datum = value;
+        this.RaisePropertyChanged("LerngruppenterminDatum");
       }
     }
 
@@ -106,7 +131,7 @@
     {
       get
       {
-        return ((Lerngruppentermin)this.Model).Tagesplan.Datum.ToString("ddd dd.MM");
+        return this.LerngruppenterminDatum.ToString("ddd dd.MM");
       }
     }
 
@@ -117,7 +142,7 @@
     {
       get
       {
-        return (int)((Lerngruppentermin)this.Model).Tagesplan.Datum.DayOfWeek;
+        return (int)this.LerngruppenterminDatum.DayOfWeek;
       }
     }
 
@@ -128,7 +153,7 @@
     {
       get
       {
-        return ((Lerngruppentermin)this.Model).Tagesplan.Monatsplan.Halbjahresplan.Jahresplan.Jahrtyp.Bezeichnung;
+        return this.Model.Lerngruppe.Schuljahr.Bezeichnung;
       }
     }
 
@@ -139,7 +164,7 @@
     {
       get
       {
-        return ((Lerngruppentermin)this.Model).Tagesplan.Monatsplan.Halbjahresplan.Halbjahrtyp.Bezeichnung;
+        return this.Model.Lerngruppe.Halbjahr.ToString();
       }
     }
 
@@ -150,18 +175,18 @@
     {
       get
       {
-        return ((Lerngruppentermin)this.Model).Tagesplan.Monatsplan.Halbjahresplan.Jahresplan.Fach.Bezeichnung;
+        return this.Model.Lerngruppe.Fach.Bezeichnung;
       }
     }
 
     /// <summary>
     /// Holt a <see cref="string"/> with the klasse this lerngruppentermin belongs to
     /// </summary>
-    public string LerngruppenterminKlasse
+    public string LerngruppenterminLerngruppe
     {
       get
       {
-        return ((Lerngruppentermin)this.Model).Tagesplan.Monatsplan.Halbjahresplan.Jahresplan.Klasse.Bezeichnung;
+        return this.Model.Lerngruppe.Bezeichnung;
       }
     }
 
@@ -179,7 +204,8 @@
     /// </summary>
     protected override void DeleteTermin()
     {
-      this.ParentTagesplan.DeleteLerngruppentermin(this);
+      //TODO
+      //this.ParentTagesplan.DeleteLerngruppentermin(this);
     }
 
     /// <summary>
@@ -201,7 +227,7 @@
         this.TerminTermintyp = dlg.TerminTermintyp;
         this.TerminErsteUnterrichtsstunde = dlg.TerminErsteUnterrichtsstunde;
         this.TerminLetzteUnterrichtsstunde = dlg.TerminLetzteUnterrichtsstunde;
-        this.ParentTagesplan.UpdateBeschreibung();
+        //this.ParentTagesplan.UpdateBeschreibung();
       }
     }
 
@@ -213,12 +239,12 @@
       using (new UndoBatch(App.MainViewModel, string.Format("Lerngruppentermin {0} editieren", this), false))
       {
         var dlg = new AddLerngruppenterminDialog
-                    {
-                      Terminbezeichnung = this.TerminBeschreibung,
-                      TerminTermintyp = this.TerminTermintyp,
-                      TerminErsteUnterrichtsstunde = this.TerminErsteUnterrichtsstunde,
-                      TerminLetzteUnterrichtsstunde = this.TerminLetzteUnterrichtsstunde
-                    };
+        {
+          Terminbezeichnung = this.TerminBeschreibung,
+          TerminTermintyp = this.TerminTermintyp,
+          TerminErsteUnterrichtsstunde = this.TerminErsteUnterrichtsstunde,
+          TerminLetzteUnterrichtsstunde = this.TerminLetzteUnterrichtsstunde
+        };
 
         if (dlg.ShowDialog().GetValueOrDefault(false))
         {
@@ -226,23 +252,23 @@
           this.TerminTermintyp = dlg.TerminTermintyp;
           this.TerminErsteUnterrichtsstunde = dlg.TerminErsteUnterrichtsstunde;
           this.TerminLetzteUnterrichtsstunde = dlg.TerminLetzteUnterrichtsstunde;
-          this.ParentTagesplan.UpdateBeschreibung();
+          //this.ParentTagesplan.UpdateBeschreibung();
         }
       }
     }
 
     /// <summary>
-    /// Aktualisiert die Schülerliste in der singleton Selection Klasse
+    /// Aktualisiert die Lerngruppe in der singleton Selection Klasse
     /// </summary>
-    protected void UpdateSchülerlisteInSelection()
+    protected void UpdateLerngruppeInSelection()
     {
       var schülerliste =
-        App.MainViewModel.Schülerlisten.FirstOrDefault(
+        App.MainViewModel.Lerngruppen.FirstOrDefault(
           o =>
-          o.SchülerlisteFach.FachBezeichnung == this.LerngruppenterminFach
-          && o.SchülerlisteJahrtyp.JahrtypBezeichnung == this.LerngruppenterminSchuljahr
-          && o.SchülerlisteKlasse.KlasseBezeichnung == this.LerngruppenterminKlasse);
-      Selection.Instance.Schülerliste = schülerliste;
+          o.LerngruppeFach.FachBezeichnung == this.LerngruppenterminFach
+          && o.LerngruppeSchuljahr.SchuljahrBezeichnung == this.LerngruppenterminSchuljahr
+          && o.LerngruppeBezeichnung == this.LerngruppenterminLerngruppe);
+      Selection.Instance.Lerngruppe = schülerliste;
     }
   }
 }

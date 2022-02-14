@@ -10,7 +10,7 @@
   xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
   mc:Ignorable="d"
   d:DesignWidth="991.045" d:DesignHeight="479.114"
-  DataContext="{Binding Source={x:Static setting:Selection.Instance}, Path=Schülerliste}">
+  DataContext="{Binding Source={x:Static setting:Selection.Instance}, Path=Lerngruppe}">
   <dialogs:BaseMetroDialog.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
@@ -60,9 +60,9 @@
             </Style>
           </ListBox.ItemContainerStyle>-->
         </ListBox>
-        <!--<DataGrid Grid.Row="1" ItemsSource="{Binding Path=CurrentSchülerliste.Schülereinträge}" AutoGenerateColumns="False" >
+        <!--<DataGrid Grid.Row="1" ItemsSource="{Binding Path=CurrentLerngruppe.Schülereinträge}" AutoGenerateColumns="False" >
           <DataGrid.Columns>
-            <DataGridTextColumn Header="Klasse" Binding="{Binding Path=Model.Schülerliste.Klasse.Bezeichnung}" SortMemberPath="Bezeichnung"/>
+            <DataGridTextColumn Header="Klasse" Binding="{Binding Path=Model.Lerngruppe.Klasse.Bezeichnung}" SortMemberPath="Bezeichnung"/>
             <DataGridTextColumn Header="Vorname" Binding="{Binding Path=SchülereintragPerson.PersonVorname}" SortMemberPath="PersonVorname"/>
             <DataGridTextColumn Header="Nachname" Binding="{Binding Path=SchülereintragPerson.PersonNachname}" SortMemberPath="PersonNachname"/>
             <DataGridCheckBoxColumn Header="HA nicht gemacht"/>

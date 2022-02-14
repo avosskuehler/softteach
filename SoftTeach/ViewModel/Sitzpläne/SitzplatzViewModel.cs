@@ -6,7 +6,7 @@
   using System.Windows.Media;
   using System.Windows.Shapes;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
@@ -22,7 +22,7 @@
     /// <param name="sitzplatz">
     /// The underlying sitzplatz this ViewModel is to be based on
     /// </param>
-    public SitzplatzViewModel(Sitzplatz sitzplatz)
+    public SitzplatzViewModel(SitzplatzNeu sitzplatz)
     {
       if (sitzplatz == null)
       {
@@ -37,7 +37,7 @@
     /// <summary>
     /// Holt den underlying Sitzplatz this ViewModel is based on
     /// </summary>
-    public Sitzplatz Model { get; private set; }
+    public SitzplatzNeu Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die x Position des linken oberern Sitzplatzrechtecks.

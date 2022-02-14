@@ -9,7 +9,7 @@
         Width="765"
         WindowState="Maximized">
   <Window.Resources>
-    <CollectionViewSource x:Key="SchülerViewSource" Source="{Binding Path=CurrentSchülerliste.Schülereinträge}">
+    <CollectionViewSource x:Key="SchülerViewSource" Source="{Binding Path=CurrentLerngruppe.Schülereinträge}">
       <CollectionViewSource.SortDescriptions>
         <componentModel:SortDescription PropertyName="SchülereintragSortByNachnameProperty" Direction="Ascending" />
       </CollectionViewSource.SortDescriptions>

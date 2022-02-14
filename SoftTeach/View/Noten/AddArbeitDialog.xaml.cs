@@ -22,6 +22,7 @@ namespace SoftTeach.View.Noten
   using System.Windows;
 
   using SoftTeach.ExceptionHandling;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Noten;
@@ -31,8 +32,6 @@ namespace SoftTeach.View.Noten
   /// </summary>
   public partial class AddArbeitDialog
   {
-    #region Constructors and Destructors
-
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="AddArbeitDialog"/> Klasse. 
     /// </summary>
@@ -41,8 +40,8 @@ namespace SoftTeach.View.Noten
       this.InitializeComponent();
       this.DataContext = this;
       this.Klasse = Selection.Instance.Klasse;
-      this.Jahrtyp = Selection.Instance.Jahrtyp;
-      this.Halbjahrtyp = Selection.Instance.Halbjahr;
+      this.Schuljahr = Selection.Instance.Schuljahr;
+      this.Halbjahr = Selection.Instance.Halbjahr;
       this.Fach = Selection.Instance.Fach;
       this.Bepunktungstyp = Bepunktungstyp.NoteMitTendenz;
       this.Bewertungsschema = App.MainViewModel.Bewertungsschemata[0];
@@ -51,21 +50,20 @@ namespace SoftTeach.View.Noten
       this.IstKlausur = true;
     }
 
-    #endregion
     /// <summary>
     /// Holt oder setzt die Klasse für die Arbeit
     /// </summary>
-    public KlasseViewModel Klasse { get; set; }
+    public LerngruppeViewModel Klasse { get; set; }
 
     /// <summary>
-    /// Holt oder setzt den Jahrtyp für die Arbeit
+    /// Holt oder setzt den Schuljahr für die Arbeit
     /// </summary>
-    public JahrtypViewModel Jahrtyp { get; set; }
+    public SchuljahrViewModel Schuljahr { get; set; }
 
     /// <summary>
-    /// Holt oder setzt den Halbjahrtyp für die Arbeit
+    /// Holt oder setzt den Halbjahr für die Arbeit
     /// </summary>
-    public HalbjahrtypViewModel Halbjahrtyp { get; set; }
+    public Halbjahr Halbjahr { get; set; }
 
     /// <summary>
     /// Holt oder setzt das Fach für die Arbeit
@@ -105,8 +103,8 @@ namespace SoftTeach.View.Noten
       // Doppelte Arbeiten zum selben Termin vermeiden.
       if (App.MainViewModel.Arbeiten.Any(
           o =>
-          o.ArbeitJahrtyp.JahrtypBezeichnung == this.Jahrtyp.JahrtypBezeichnung
-          && o.ArbeitHalbjahrtyp.HalbjahrtypIndex == this.Halbjahrtyp.HalbjahrtypIndex
+          o.ArbeitSchuljahr.SchuljahrBezeichnung == this.Schuljahr.SchuljahrBezeichnung
+          && o.ArbeitHalbjahr.HalbjahrIndex == this.Halbjahr.HalbjahrIndex
           && o.ArbeitKlasse.KlasseBezeichnung == this.Klasse.KlasseBezeichnung
           && o.ArbeitFach.FachBezeichnung == this.Fach.FachBezeichnung && o.ArbeitDatum.Date == this.Datum.Date))
       {

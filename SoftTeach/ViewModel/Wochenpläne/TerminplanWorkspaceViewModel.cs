@@ -7,7 +7,7 @@
   using System.Windows.Controls;
 
   using SoftTeach.ExceptionHandling;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Termine;
   using SoftTeach.View.Wochenpläne;
@@ -451,7 +451,7 @@
 
       var vertretungsjahresplan =
         App.MainViewModel.Jahrespläne.SingleOrDefault(
-          o => o.JahresplanFach.FachBezeichnung == "Vertretungsstunden" && o.JahresplanJahrtyp.JahrtypJahr == jahresplanJahr);
+          o => o.JahresplanFach.FachBezeichnung == "Vertretungsstunden" && o.JahresplanSchuljahr.SchuljahrJahr == jahresplanJahr);
 
       if (vertretungsjahresplan == null)
       {

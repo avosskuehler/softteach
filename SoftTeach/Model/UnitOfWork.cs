@@ -62,6 +62,10 @@
       {
         this.Context.Dispose();
       }
+      if (null != this.OldContext)
+      {
+        this.OldContext.Dispose();
+      }
     }
 
     internal void Remove(object model)

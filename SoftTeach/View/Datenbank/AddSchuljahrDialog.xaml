@@ -27,7 +27,7 @@
       <GroupBox Header="Bitte tragen Sie hier die Ferientermine ein" Padding="3" Margin="5">
         <DataGrid Height="250" SelectedItem="{Binding Path=CurrentFerien, Mode=TwoWay}" ItemsSource="{Binding Path=Ferien}" AutoGenerateColumns="False">
           <DataGrid.Columns>
-            <!--<DataGridTextColumn Header="Schuljahr" Binding="{Binding Path=FerienJahrtyp.JahrtypBezeichnung}"/>-->
+            <!--<DataGridTextColumn Header="Schuljahr" Binding="{Binding Path=FerienSchuljahr.SchuljahrBezeichnung}"/>-->
             <DataGridTextColumn Header="Bezeichnung" Binding="{Binding FerienBezeichnung}" />
             <DataGridTemplateColumn Header="Erster Ferientag">
               <DataGridTemplateColumn.CellTemplate>

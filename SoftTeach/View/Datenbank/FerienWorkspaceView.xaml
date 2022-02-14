@@ -50,9 +50,9 @@
                 <DataGrid.Columns>
                     <DataGridComboBoxColumn 
                         Header="Schuljahr" 
-                        ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Jahrtypen}"
-                        SelectedItemBinding="{Binding Path=FerienJahrtyp}" 
-                        DisplayMemberPath="JahrtypBezeichnung"
+                        ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Schuljahre}"
+                        SelectedItemBinding="{Binding Path=FerienSchuljahr}" 
+                        DisplayMemberPath="SchuljahrBezeichnung"
                         />
                     <DataGridTextColumn Header="Bezeichnung" Binding="{Binding Path=FerienBezeichnung}" />
                     <DataGridTemplateColumn Header="Erster Ferientag">

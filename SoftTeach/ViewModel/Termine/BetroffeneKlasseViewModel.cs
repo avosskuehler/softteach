@@ -2,7 +2,7 @@
 {
   using System;
   using System.Linq;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Helper;
 
@@ -14,7 +14,7 @@
     /// <summary>
     /// The klasse currently assigned to this betroffeneKlasse
     /// </summary>
-    private KlasseViewModel klasse;
+    private LerngruppeViewModel klasse;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="BetroffeneKlasseViewModel"/> Klasse. 
@@ -40,7 +40,7 @@
     /// <summary>
     /// Holt oder setzt die halbjahr currently assigned to this Termin
     /// </summary>
-    public KlasseViewModel BetroffeneKlasseKlasse
+    public LerngruppeViewModel BetroffeneKlasseKlasse
     {
       get
       {

@@ -27,8 +27,8 @@
               Maximum="100"
               DecimalPlaces="0" Change="1"
           HorizontalAlignment="Left"/>
-        <Label >AbfolgeIndex</Label>
-        <Label Content="{Binding Sequenz.AbfolgeIndex}"/>
+        <Label >Reihenfolge</Label>
+        <Label Content="{Binding Sequenz.Reihenfolge}"/>
       </StackPanel>
     </StackPanel>
     <Grid Background="{StaticResource DefaultButtonsBackgroundBrush}" Grid.Row="2">

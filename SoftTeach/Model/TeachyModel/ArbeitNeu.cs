@@ -18,14 +18,14 @@ namespace SoftTeach.Model.TeachyModel
         public ArbeitNeu()
         {
             this.Aufgaben = new HashSet<AufgabeNeu>();
-            this.Noten = new HashSet<NotenNeu>();
+            this.Noten = new HashSet<NoteNeu>();
         }
     
         public int Id { get; set; }
         public int LerngruppeId { get; set; }
         public int FachId { get; set; }
         public int BewertungsschemaId { get; set; }
-        public int Bepunktungstyp { get; set; }
+        public Bepunktungstyp Bepunktungstyp { get; set; }
         public string Bezeichnung { get; set; }
         public int LfdNr { get; set; }
         public System.DateTime Datum { get; set; }
@@ -34,9 +34,9 @@ namespace SoftTeach.Model.TeachyModel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AufgabeNeu> Aufgaben { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<NotenNeu> Noten { get; set; }
-        public virtual BewertungsschemataNeu Bewertungsschema { get; set; }
-        public virtual FächerNeu Fach { get; set; }
+        public virtual ICollection<NoteNeu> Noten { get; set; }
+        public virtual BewertungsschemaNeu Bewertungsschema { get; set; }
+        public virtual FachNeu Fach { get; set; }
         public virtual LerngruppeNeu Lerngruppe { get; set; }
     }
 }

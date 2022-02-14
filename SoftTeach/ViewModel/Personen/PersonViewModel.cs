@@ -12,7 +12,7 @@
   using GongSolutions.Wpf.DragDrop;
 
   using SoftTeach.ExceptionHandling;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Resources.Controls;
   using SoftTeach.UndoRedo;
   using SoftTeach.ViewModel.Helper;
@@ -33,7 +33,7 @@
     public PersonViewModel()
     {
       this.DeletePersonCommand = new DelegateCommand(this.DeletePerson);
-      var person = new Person();
+      var person = new PersonNeu();
       this.Model = person;
       //App.UnitOfWork.Context.Personen.Add(person);
       using (new UndoBatch(App.MainViewModel, string.Format("Neue Person angelegt"), false))
@@ -48,7 +48,7 @@
     /// <param name="person">
     /// The underlying person this ViewModel is to be based on
     /// </param>
-    public PersonViewModel(Person person)
+    public PersonViewModel(PersonNeu person)
     {
       if (person == null)
       {
@@ -67,12 +67,12 @@
     /// <summary>
     /// Holt oder setzt die underlying Person this ViewModel is based on
     /// </summary>
-    public Person Model { get; protected set; }
+    public PersonNeu Model { get; protected set; }
 
     /// <summary>
     /// Holt oder setzt die Vorname
     /// </summary>
-    public string PersonVorname
+    public string Vorname
     {
       get
       {
@@ -82,25 +82,25 @@
       set
       {
         if (value == this.Model.Vorname) return;
-        this.UndoablePropertyChanging(this, "PersonVorname", this.Model.Vorname, value);
+        this.UndoablePropertyChanging(this, "Vorname", this.Model.Vorname, value);
         this.Model.Vorname = value;
-        this.RaisePropertyChanged("PersonVorname");
+        this.RaisePropertyChanged("Vorname");
       }
     }
 
     /// <summary>
     /// Holt den Vornamen in Kurzform
     /// </summary>
-    public string PersonVornameKurz
+    public string VornameKurz
     {
       get
       {
-        var split = this.PersonVorname.Split(' ');
+        var split = this.Vorname.Split(' ');
         var split2 = split[0].Split('-');
         if (split2.Count() > 1)
         {
-          var posBindestrich = this.PersonVorname.IndexOf('-');
-          return this.PersonVorname.Substring(0, posBindestrich + 2);
+          var posBindestrich = this.Vorname.IndexOf('-');
+          return this.Vorname.Substring(0, posBindestrich + 2);
         }
 
         return split[0];
@@ -110,7 +110,7 @@
     /// <summary>
     /// Holt oder setzt die Nachname
     /// </summary>
-    public string PersonNachname
+    public string Nachname
     {
       get
       {
@@ -120,16 +120,16 @@
       set
       {
         if (value == this.Model.Nachname) return;
-        this.UndoablePropertyChanging(this, "PersonNachname", this.Model.Nachname, value);
+        this.UndoablePropertyChanging(this, "Nachname", this.Model.Nachname, value);
         this.Model.Nachname = value;
-        this.RaisePropertyChanged("PersonNachname");
+        this.RaisePropertyChanged("Nachname");
       }
     }
 
     /// <summary>
-    /// Holt oder setzt einen Wert, der angibt, ob die Person weiblich ist
+    /// Holt oder setzt das Geschlecht
     /// </summary>
-    public bool PersonIstWeiblich
+    public Geschlecht Geschlecht
     {
       get
       {
@@ -139,28 +139,33 @@
       set
       {
         if (value == this.Model.Geschlecht) return;
-        this.UndoablePropertyChanging(this, "PersonIstWeiblich", this.Model.Geschlecht, value);
+        this.UndoablePropertyChanging(this, "Geschlecht", this.Model.Geschlecht, value);
         this.Model.Geschlecht = value;
-        this.RaisePropertyChanged("PersonIstWeiblich");
+        this.RaisePropertyChanged("Geschlecht");
       }
     }
 
-    ///// <summary>
-    ///// Holt oder setzt einen Wert, der angibt, ob die Person männlich ist
-    ///// </summary>
-    //[DependsUpon("PersonIstWeiblich")]
-    //public bool PersonIstMännlich
-    //{
-    //  get
-    //  {
-    //    return !this.PersonIstWeiblich;
-    //  }
-
-    //  set
-    //  {
-    //    this.PersonIstWeiblich = !value;
-    //  }
-    //}
+    /// <summary>
+    /// Holt oder setzt einen Wert, der angibt, ob die Person weiblich ist
+    /// </summary>
+    [DependsUpon("Geschlecht")]
+    public bool PersonIstWeiblich
+    {
+      get
+      {
+        switch (this.Model.Geschlecht)
+        {
+          case Geschlecht.m:
+            return false;
+          case Geschlecht.w:
+            return true;
+          case Geschlecht.d:
+            return false;
+          default:
+            return false;
+        }
+      }
+    }
 
     /// <summary>
     /// Holt oder setzt einen Wert, der angibt, ob diese Person ein Lehrer ist.
@@ -494,9 +499,9 @@
           return string.Empty;
         }
 
-        info.Append(this.PersonVorname);
+        info.Append(this.Vorname);
         info.Append(" ");
-        info.Append(this.PersonNachname);
+        info.Append(this.Nachname);
         var dateTime = this.PersonGeburtstag;
         if (dateTime != null)
         {
@@ -531,9 +536,9 @@
           return string.Empty;
         }
 
-        info.Append(this.PersonVorname);
+        info.Append(this.Vorname);
         info.Append(" ");
-        info.Append(this.PersonNachname.Substring(0, 1));
+        info.Append(this.Nachname.Substring(0, 1));
         info.Append(".");
 
         return info.ToString();
@@ -586,7 +591,7 @@
       var otherPersonViewModel = obj as PersonViewModel;
       if (otherPersonViewModel != null)
       {
-        return StringLogicalComparer.Compare(this.PersonVorname, otherPersonViewModel.PersonVorname);
+        return StringLogicalComparer.Compare(this.Vorname, otherPersonViewModel.Vorname);
       }
 
       throw new ArgumentException("Object is not a PersonViewModel");

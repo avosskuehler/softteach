@@ -1,11 +1,11 @@
 ﻿namespace SoftTeach.View.Personen
 {
   /// <summary>
-  /// Interaction logic for MetroSchülerlistePage.xaml
+  /// Interaction logic for MetroLerngruppePage.xaml
   /// </summary>
-  public partial class MetroSchülerlistePage
+  public partial class MetroLerngruppePage
   {
-    public MetroSchülerlistePage()
+    public MetroLerngruppePage()
     {
       this.InitializeComponent();
     }

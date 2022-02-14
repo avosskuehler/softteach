@@ -6,7 +6,7 @@
 
   using MahApps.Metro.Controls.Dialogs;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.View.Noten;
   using SoftTeach.ViewModel.Datenbank;
@@ -32,7 +32,7 @@
     /// </summary>
     public NoteViewModel()
     {
-      var note = new Note();
+      var note = new NoteNeu();
       note.Datum = DateTime.Now;
       note.IstSchriftlich = false;
       note.Wichtung = 1;
@@ -48,7 +48,7 @@
     /// <param name="note">
     /// The underlying note this ViewModel is to be based on
     /// </param>
-    public NoteViewModel(Note note)
+    public NoteViewModel(NoteNeu note)
     {
       if (note == null)
       {
@@ -82,7 +82,7 @@
     /// <summary>
     /// Holt das Modell für dieses ViewModel.
     /// </summary>
-    public Note Model { get; private set; }
+    public NoteNeu Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Bezeichnung der Note.
@@ -154,14 +154,14 @@
     {
       get
       {
-        return (Notentyp)Enum.Parse(typeof(Notentyp), this.Model.Notentyp);
+        return this.Model.Notentyp;
       }
 
       set
       {
-        if (value.ToString() == this.Model.Notentyp) return;
-        this.UndoablePropertyChanging(this, "NoteNotentyp", this.NoteNotentyp, value);
-        this.Model.Notentyp = value.ToString();
+        if (value == this.Model.Notentyp) return;
+        this.UndoablePropertyChanging(this, "NoteNotentyp", this.Model.Notentyp, value);
+        this.Model.Notentyp = value;
         this.RaisePropertyChanged("NoteNotentyp");
       }
     }
@@ -173,19 +173,14 @@
     {
       get
       {
-        if (this.Model.NotenTermintyp == null)
-        {
-          this.Model.NotenTermintyp = NotenTermintyp.Einzeln.ToString();
-        }
-
-        return (NotenTermintyp)Enum.Parse(typeof(NotenTermintyp), this.Model.NotenTermintyp);
+        return this.Model.NotenTermintyp;
       }
 
       set
       {
-        if (value.ToString() == this.Model.NotenTermintyp) return;
-        this.UndoablePropertyChanging(this, "NoteTermintyp", this.NoteTermintyp, value);
-        this.Model.NotenTermintyp = value.ToString();
+        if (value == this.Model.NotenTermintyp) return;
+        this.UndoablePropertyChanging(this, "NoteTermintyp", this.Model.Notentyp, value);
+        this.Model.NotenTermintyp = value;
         this.RaisePropertyChanged("NoteTermintyp");
       }
     }
@@ -283,10 +278,7 @@
     {
       get
       {
-        var bepunktungsTyp =
-          (Bepunktungstyp)
-          Enum.Parse(typeof(Bepunktungstyp), this.Model.Schülereintrag.Schülerliste.Klasse.Klassenstufe.Jahrgangsstufe.Bepunktungstyp);
-        switch (bepunktungsTyp)
+        switch (this.Model.Schülereintrag.Lerngruppe.Bepunktungstyp)
         {
           case Bepunktungstyp.GanzeNote:
             return this.NoteZensur.ZensurGanzeNote.ToString(CultureInfo.InvariantCulture);
@@ -343,12 +335,12 @@
     /// <summary>
     /// Holt das Schuljahr dieser Note
     /// </summary>
-    public JahrtypViewModel NoteJahrtyp
+    public SchuljahrViewModel NoteSchuljahr
     {
       get
       {
         return
-          App.MainViewModel.Jahrtypen.SingleOrDefault(d => d.Model == this.Model.Schülereintrag.Schülerliste.Jahrtyp);
+          App.MainViewModel.Schuljahre.SingleOrDefault(d => d.Model == this.Model.Schülereintrag.Lerngruppe.Schuljahr);
       }
     }
 

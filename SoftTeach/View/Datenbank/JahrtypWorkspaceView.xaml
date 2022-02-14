@@ -1,4 +1,4 @@
-﻿<Window x:Class="SoftTeach.View.Datenbank.JahrtypWorkspaceView"
+﻿<Window x:Class="SoftTeach.View.Datenbank.SchuljahrWorkspaceView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -23,7 +23,7 @@
                               Title="Ergänzen oder entfernen Sie hier Schuljahre."/>
     <Border Grid.Row="1" Name="DescriptionArea">
       <StackPanel Orientation="Horizontal" Margin="5">
-        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Width="150" Height="32" Name="AddButton" Command="{Binding Path=AddJahrtypCommand}">
+        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Width="150" Height="32" Name="AddButton" Command="{Binding Path=AddSchuljahrCommand}">
           <StackPanel Orientation="Horizontal">
             <Grid>
               <Image Source="/SoftTeach;component/Images/Schuljahr32.png"/>
@@ -33,7 +33,7 @@
           </StackPanel>
         </Button>
         <Label></Label>
-        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Width="150" Height="32" Name="RemoveButton" Command="{Binding Path=DeleteJahrtypCommand}">
+        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Width="150" Height="32" Name="RemoveButton" Command="{Binding Path=DeleteSchuljahrCommand}">
           <StackPanel Orientation="Horizontal">
             <Grid>
               <Image Source="/SoftTeach;component/Images/Schuljahr32.png"/>
@@ -54,10 +54,10 @@
       </StackPanel>
     </Border>
     <GroupBox Grid.Row="2" Header="Tabelle der Schuljahre" Padding="3" Margin="5">
-      <DataGrid SelectedItem="{Binding Path=CurrentJahrtyp, Mode=TwoWay}" ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Jahrtypen}" AutoGenerateColumns="False">
+      <DataGrid SelectedItem="{Binding Path=CurrentSchuljahr, Mode=TwoWay}" ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Schuljahre}" AutoGenerateColumns="False">
         <DataGrid.Columns>
-          <DataGridTextColumn Header="Bezeichnung" Binding="{Binding Path=JahrtypBezeichnung}" />
-          <DataGridTextColumn Header="Jahr" Binding="{Binding Path=JahrtypJahr}" Width="*" />
+          <DataGridTextColumn Header="Bezeichnung" Binding="{Binding Path=SchuljahrBezeichnung}" />
+          <DataGridTextColumn Header="Jahr" Binding="{Binding Path=SchuljahrJahr}" Width="*" />
         </DataGrid.Columns>
       </DataGrid>
     </GroupBox>

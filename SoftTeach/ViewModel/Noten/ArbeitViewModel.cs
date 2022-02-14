@@ -11,12 +11,13 @@
   using System.Windows.Documents;
 
   using SoftTeach.ExceptionHandling;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Noten;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Helper;
+  using SoftTeach.ViewModel.Personen;
 
   /// <summary>
   /// ViewModel of an individual arbeit
@@ -64,19 +65,19 @@
     private FachViewModel fach;
 
     /// <summary>
-    /// The jahrtyp currently assigned to this arbeit
+    /// The schuljahr currently assigned to this arbeit
     /// </summary>
-    private JahrtypViewModel jahrtyp;
+    private SchuljahrViewModel schuljahr;
 
     /// <summary>
     /// The schuljahr currently assigned to this arbeit
     /// </summary>
-    private HalbjahrtypViewModel halbjahrtyp;
+    private Halbjahr halbschuljahr;
 
     /// <summary>
     /// The klasse currently assigned to this arbeit
     /// </summary>
-    private KlasseViewModel klasse;
+    private LerngruppeViewModel lerngruppe;
 
     /// <summary>
     /// Das Bewertungsschema für diese Arbeit.
@@ -99,7 +100,7 @@
     /// <param name="arbeit">
     /// The underlying arbeit this ViewModel is to be based on
     /// </param>
-    public ArbeitViewModel(Arbeit arbeit)
+    public ArbeitViewModel(ArbeitNeu arbeit)
     {
       if (arbeit == null)
       {
@@ -149,7 +150,7 @@
     /// <summary>
     /// Holt den underlying Arbeit this ViewModel is based on
     /// </summary>
-    public Arbeit Model { get; private set; }
+    public ArbeitNeu Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Aufgaben dieser Arbeit
@@ -302,96 +303,34 @@
     }
 
     /// <summary>
-    /// Holt oder setzt die Jahrtyp currently assigned to this Arbeit
+    /// Holt oder setzt die Lerngruppe currently assigned to this Arbeit
     /// </summary>
-    public JahrtypViewModel ArbeitJahrtyp
+    public LerngruppeViewModel ArbeitLerngruppe
     {
       get
       {
         // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Jahrtyp == null)
+        if (this.Model.Lerngruppe == null)
         {
           return null;
         }
 
-        if (this.jahrtyp == null || this.jahrtyp.Model != this.Model.Jahrtyp)
+        if (this.lerngruppe == null || this.lerngruppe.Model != this.Model.Lerngruppe)
         {
-          this.jahrtyp =
-            App.MainViewModel.Jahrtypen.SingleOrDefault(d => d.Model == this.Model.Jahrtyp);
+          this.lerngruppe =
+            App.MainViewModel.Lerngruppen.SingleOrDefault(d => d.Model == this.Model.Lerngruppe);
         }
 
-        return this.jahrtyp;
+        return this.lerngruppe;
       }
 
       set
       {
-        if (value.JahrtypBezeichnung == this.jahrtyp.JahrtypBezeichnung) return;
-        this.UndoablePropertyChanging(this, "ArbeitJahrtyp", this.jahrtyp, value);
-        this.jahrtyp = value;
-        this.Model.Jahrtyp = value.Model;
-        this.RaisePropertyChanged("ArbeitJahrtyp");
-      }
-    }
-
-    /// <summary>
-    /// Holt oder setzt die Schuljahr currently assigned to this Arbeit
-    /// </summary>
-    public HalbjahrtypViewModel ArbeitHalbjahrtyp
-    {
-      get
-      {
-        // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Halbjahrtyp == null)
-        {
-          return null;
-        }
-
-        if (this.halbjahrtyp == null || this.halbjahrtyp.Model != this.Model.Halbjahrtyp)
-        {
-          this.halbjahrtyp = App.MainViewModel.Halbjahrtypen.SingleOrDefault(d => d.Model == this.Model.Halbjahrtyp);
-        }
-
-        return this.halbjahrtyp;
-      }
-
-      set
-      {
-        if (value.HalbjahrtypBezeichnung == this.halbjahrtyp.HalbjahrtypBezeichnung) return;
-        this.UndoablePropertyChanging(this, "ArbeitHalbjahrtyp", this.halbjahrtyp, value);
-        this.halbjahrtyp = value;
-        this.Model.Halbjahrtyp = value.Model;
-        this.RaisePropertyChanged("ArbeitHalbjahrtyp");
-      }
-    }
-
-    /// <summary>
-    /// Holt oder setzt die Klasse currently assigned to this Arbeit
-    /// </summary>
-    public KlasseViewModel ArbeitKlasse
-    {
-      get
-      {
-        // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Klasse == null)
-        {
-          return null;
-        }
-
-        if (this.klasse == null || this.klasse.Model != this.Model.Klasse)
-        {
-          this.klasse = App.MainViewModel.Klassen.SingleOrDefault(d => d.Model == this.Model.Klasse);
-        }
-
-        return this.klasse;
-      }
-
-      set
-      {
-        if (value.KlasseBezeichnung == this.klasse.KlasseBezeichnung) return;
-        this.UndoablePropertyChanging(this, "ArbeitKlasse", this.klasse, value);
-        this.klasse = value;
-        this.Model.Klasse = value.Model;
-        this.RaisePropertyChanged("ArbeitKlasse");
+        if (value == this.lerngruppe) return;
+        this.UndoablePropertyChanging(this, "ArbeitLerngruppe", this.lerngruppe, value);
+        this.lerngruppe = value;
+        this.Model.Lerngruppe = value.Model;
+        this.RaisePropertyChanged("ArbeitLerngruppe");
       }
     }
 
@@ -439,19 +378,14 @@
     {
       get
       {
-        var schülerliste = App.MainViewModel.Schülerlisten.FirstOrDefault(
-          o =>
-          o.SchülerlisteJahrtyp.JahrtypJahr == this.ArbeitJahrtyp.JahrtypJahr
-          && o.SchülerlisteFach.FachBezeichnung == this.ArbeitFach.FachBezeichnung
-          && o.SchülerlisteKlasse.KlasseBezeichnung == this.ArbeitKlasse.KlasseBezeichnung);
-        return schülerliste == null ? new ObservableCollection<SchülereintragViewModel>() : schülerliste.Schülereinträge;
+        return this.ArbeitLerngruppe.Schülereinträge;
       }
     }
 
     /// <summary>
     /// Holt die Gesamtpunktzahl der Arbeit
     /// </summary>
-    public float ArbeitGesamtpunktzahl
+    public double ArbeitGesamtpunktzahl
     {
       get
       {
@@ -466,21 +400,21 @@
     {
       get
       {
-        return (Bepunktungstyp)Enum.Parse(typeof(Bepunktungstyp), this.Model.Bepunktungstyp);
+        return this.Model.Bepunktungstyp;
       }
 
       set
       {
-        if (value.ToString() == this.Model.Bepunktungstyp) return;
-        this.UndoablePropertyChanging(this, "ArbeitBepunktungstyp", this.Model.Bepunktungstyp, value.ToString());
-        this.Model.Bepunktungstyp = value.ToString();
+        if (value == this.Model.Bepunktungstyp) return;
+        this.UndoablePropertyChanging(this, "ArbeitBepunktungstyp", this.Model.Bepunktungstyp, value);
+        this.Model.Bepunktungstyp = value;
         this.RaisePropertyChanged("ArbeitBepunktungstyp");
         this.UpdateNoten();
       }
     }
 
     /// <summary>
-    /// Holt die Überschrift für die Notenliste dieser Schülerliste
+    /// Holt die Überschrift für die Notenliste dieser Lerngruppe
     /// </summary>
     [DependsUpon("ArbeitKlasse")]
     [DependsUpon("ArbeitFach")]
@@ -490,7 +424,7 @@
     {
       get
       {
-        return this.ArbeitKlasse.KlasseBezeichnung + " " +
+        return this.ArbeitLerngruppe.LerngruppeBezeichnung + " " +
            this.ArbeitFach.FachBezeichnung + ", " +
           this.ArbeitBezeichnung + " am " +
           this.ArbeitDatum.ToShortDateString();
@@ -754,7 +688,7 @@
     /// </summary>
     private void AddAufgabe()
     {
-      var aufgabe = new Aufgabe();
+      var aufgabe = new AufgabeNeu();
       aufgabe.LfdNr = this.Aufgaben.Count + 1;
       aufgabe.Bezeichnung = "Nr. " + aufgabe.LfdNr;
       aufgabe.MaxPunkte = 10;
@@ -777,7 +711,7 @@
 
         foreach (var schülereintragViewModel in this.Schülereinträge)
         {
-          var ergebnis = new Ergebnis();
+          var ergebnis = new ErgebnisNeu();
           ergebnis.Schülereintrag = schülereintragViewModel.Model;
           ergebnis.Aufgabe = aufgabe;
 

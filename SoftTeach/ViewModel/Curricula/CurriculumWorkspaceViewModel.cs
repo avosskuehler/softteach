@@ -6,7 +6,7 @@
   using System.Linq;
   using System.Windows.Data;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Curricula;
@@ -31,7 +31,7 @@
     /// <summary>
     /// Die Jahrgangsstufe, deren Stundenentwürfe nur dargestellt werden sollen.
     /// </summary>
-    private JahrtypViewModel jahrtypFilter;
+    private SchuljahrViewModel schuljahrFilter;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="CurriculumWorkspaceViewModel"/> Klasse. 
@@ -41,7 +41,7 @@
       this.AddCurriculumCommand = new DelegateCommand(this.AddCurriculum);
       this.CopyCurriculumCommand = new DelegateCommand(this.CopyCurrentCurriculum, () => this.CurrentCurriculum != null);
       this.DeleteCurriculumCommand = new DelegateCommand(this.DeleteCurrentCurriculum, () => this.CurrentCurriculum != null);
-      this.ResetJahrtypFilterCommand = new DelegateCommand(() => this.JahrtypFilter = null, () => this.JahrtypFilter != null);
+      this.ResetSchuljahrFilterCommand = new DelegateCommand(() => this.SchuljahrFilter = null, () => this.SchuljahrFilter != null);
       this.ResetFachFilterCommand = new DelegateCommand(() => this.FachFilter = null, () => this.FachFilter != null);
 
       this.CurrentCurriculum = App.MainViewModel.Curricula.Count > 0 ? App.MainViewModel.Curricula[0] : null;
@@ -50,8 +50,8 @@
       {
         this.CurriculaViewSource.Filter += this.CurriculaViewSource_Filter;
         this.CurriculaViewSource.SortDescriptions.Add(new SortDescription("CurriculumFach", ListSortDirection.Ascending));
-        this.CurriculaViewSource.SortDescriptions.Add(new SortDescription("CurriculumJahrtyp", ListSortDirection.Ascending));
-        this.CurriculaViewSource.SortDescriptions.Add(new SortDescription("CurriculumHalbjahrtyp", ListSortDirection.Ascending));
+        this.CurriculaViewSource.SortDescriptions.Add(new SortDescription("CurriculumSchuljahr", ListSortDirection.Ascending));
+        this.CurriculaViewSource.SortDescriptions.Add(new SortDescription("CurriculumHalbjahr", ListSortDirection.Ascending));
         this.CurriculaViewSource.SortDescriptions.Add(new SortDescription("CurriculumKlassenstufe", ListSortDirection.Ascending));
       }
 
@@ -88,7 +88,7 @@
     /// <summary>
     /// Holt den Befehl zur adding a new Jahresplan
     /// </summary>
-    public DelegateCommand ResetJahrtypFilterCommand { get; private set; }
+    public DelegateCommand ResetSchuljahrFilterCommand { get; private set; }
 
     /// <summary>
     /// Holt den Befehl zur adding a new Jahresplan
@@ -156,24 +156,24 @@
     /// <summary>
     /// Holt oder setzt die jahrgangsstufe filter for the stundenentwurf list.
     /// </summary>
-    public JahrtypViewModel JahrtypFilter
+    public SchuljahrViewModel SchuljahrFilter
     {
       get
       {
-        return this.jahrtypFilter;
+        return this.schuljahrFilter;
       }
 
       set
       {
-        this.jahrtypFilter = value;
-        this.RaisePropertyChanged("JahrtypFilter");
+        this.schuljahrFilter = value;
+        this.RaisePropertyChanged("SchuljahrFilter");
         this.CurriculaView.Refresh();
-        this.ResetJahrtypFilterCommand.RaiseCanExecuteChanged();
+        this.ResetSchuljahrFilterCommand.RaiseCanExecuteChanged();
       }
     }
 
     /// <summary>
-    /// Filtert die Terminliste nach Jahrtyp und Termintyp
+    /// Filtert die Terminliste nach Schuljahr und Termintyp
     /// </summary>
     /// <param name="item">Das TerminViewModel, das gefiltert werden soll</param>
     /// <returns>True, wenn das Objekt in der Liste bleiben soll.</returns>
@@ -186,16 +186,16 @@
         return;
       }
 
-      if (this.jahrtypFilter != null && this.fachFilter != null)
+      if (this.schuljahrFilter != null && this.fachFilter != null)
       {
-        e.Accepted = curriculumViewModel.CurriculumJahrtyp.JahrtypBezeichnung == this.jahrtypFilter.JahrtypBezeichnung
+        e.Accepted = curriculumViewModel.CurriculumSchuljahr.SchuljahrBezeichnung == this.schuljahrFilter.SchuljahrBezeichnung
           && curriculumViewModel.CurriculumFach.FachBezeichnung == this.fachFilter.FachBezeichnung;
         return;
       }
 
-      if (this.jahrtypFilter != null)
+      if (this.schuljahrFilter != null)
       {
-        e.Accepted = curriculumViewModel.CurriculumJahrtyp.JahrtypBezeichnung == this.jahrtypFilter.JahrtypBezeichnung;
+        e.Accepted = curriculumViewModel.CurriculumSchuljahr.SchuljahrBezeichnung == this.schuljahrFilter.SchuljahrBezeichnung;
         return;
       }
 
@@ -207,7 +207,7 @@
     }
 
     /// <summary>
-    /// Updates the Jahrtypfilter, if a schuljahr is set.
+    /// Updates the Schuljahrfilter, if a schuljahr is set.
     /// </summary>
     /// <param name="sender">Source of the event</param>
     /// <param name="e">A <see cref="PropertyChangedEventArgs"/> with the event data.</param>
@@ -215,7 +215,7 @@
     {
       if (e.PropertyName == "Schuljahr")
       {
-        this.JahrtypFilter = Selection.Instance.Jahrtyp;
+        this.SchuljahrFilter = Selection.Instance.Schuljahr;
         this.CurriculaView.Refresh();
       }
     }
@@ -234,8 +234,8 @@
           curriculum.Bezeichnung = dlg.Bezeichnung;
           curriculum.Fach = dlg.Fach.Model;
           curriculum.Klassenstufe = dlg.Klassenstufe.Model;
-          curriculum.Jahrtyp = dlg.Jahrtyp.Model;
-          curriculum.Halbjahrtyp = dlg.Halbjahrtyp.Model;
+          curriculum.Schuljahr = dlg.Schuljahr.Model;
+          curriculum.Halbjahr = dlg.Halbjahr.Model;
           //App.UnitOfWork.Context.Curricula.Add(curriculum);
           var vm = new CurriculumViewModel(curriculum);
           App.MainViewModel.Curricula.Add(vm);
@@ -259,8 +259,8 @@
         var dlg = new AskForJahrFachStufeDialog();
         dlg.Fach = this.CurrentCurriculum.CurriculumFach;
         dlg.Klassenstufe = this.CurrentCurriculum.CurriculumKlassenstufe;
-        dlg.Halbjahrtyp = this.CurrentCurriculum.CurriculumHalbjahrtyp;
-        dlg.Jahrtyp = Selection.Instance.Jahrtyp;
+        dlg.Halbjahr = this.CurrentCurriculum.CurriculumHalbjahr;
+        dlg.Schuljahr = Selection.Instance.Schuljahr;
         if (dlg.ShowDialog().GetValueOrDefault(false))
         {
           // Create a clone of this curriculum for the adaption dialog
@@ -268,13 +268,13 @@
           curriculumClone.Bezeichnung = dlg.Bezeichnung;
           curriculumClone.Fach = dlg.Fach.Model;
           curriculumClone.Klassenstufe = dlg.Klassenstufe.Model;
-          curriculumClone.Jahrtyp = dlg.Jahrtyp.Model;
-          curriculumClone.Halbjahrtyp = dlg.Halbjahrtyp.Model;
+          curriculumClone.Schuljahr = dlg.Schuljahr.Model;
+          curriculumClone.Halbjahr = dlg.Halbjahr.Model;
 
           foreach (var reihe in this.CurrentCurriculum.Model.Reihen)
           {
             var reiheClone = new Reihe();
-            reiheClone.AbfolgeIndex = reihe.AbfolgeIndex;
+            reiheClone.Reihenfolge = reihe.Reihenfolge;
             reiheClone.Modul = reihe.Modul;
             reiheClone.Stundenbedarf = reihe.Stundenbedarf;
             reiheClone.Thema = reihe.Thema;
@@ -284,7 +284,7 @@
             foreach (var sequenz in reihe.Sequenzen)
             {
               var sequenzClone = new Sequenz();
-              sequenzClone.AbfolgeIndex = sequenz.AbfolgeIndex;
+              sequenzClone.Reihenfolge = sequenz.Reihenfolge;
               sequenzClone.Stundenbedarf = sequenz.Stundenbedarf;
               sequenzClone.Thema = sequenz.Thema;
               sequenzClone.Reihe = reiheClone;

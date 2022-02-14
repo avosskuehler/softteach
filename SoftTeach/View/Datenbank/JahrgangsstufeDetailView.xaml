@@ -56,7 +56,7 @@
     <Border Grid.Column="1" Margin="4">
       <ContentControl Content="{Binding Path=CurrentKlassenstufe}">
         <ContentControl.Resources>
-          <DataTemplate DataType="{x:Type datenbank:KlassenstufeViewModel}">
+          <DataTemplate DataType="{x:Type datenbank:int}">
             <datenbankView:KlassenstufeDetailView />
           </DataTemplate>
         </ContentControl.Resources>

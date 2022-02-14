@@ -55,13 +55,13 @@
           <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Label Grid.Row="0" Grid.Column="0" Padding="3" VerticalAlignment="Center">Schuljahr</Label>
-        <ComboBox Grid.Row="0" Grid.Column="1" MinWidth="100"  ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Jahrtypen}"
-                              SelectedValue="{Binding Path=JahrtypFilter}" 
+        <ComboBox Grid.Row="0" Grid.Column="1" MinWidth="100"  ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Schuljahre}"
+                              SelectedValue="{Binding Path=SchuljahrFilter}" 
                               SelectedValuePath="." 
-                              DisplayMemberPath="JahrtypBezeichnung"
+                              DisplayMemberPath="SchuljahrBezeichnung"
                         Style="{StaticResource DatagridComboBoxElementStyle}"/>
         <Button Grid.Row="0" Grid.Column="2" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-                Command="{Binding Path=ResetJahrtypFilterCommand}">
+                Command="{Binding Path=ResetSchuljahrFilterCommand}">
           <Image Source="/SoftTeach;component/Images/Remove16.png"/>
         </Button>
         <Label Grid.Row="1" Grid.Column="0" Padding="3" VerticalAlignment="Center">Fach</Label>
@@ -82,9 +82,9 @@
       <DataGrid.Columns>
         <DataGridComboBoxColumn 
                         Header="Schuljahr" 
-                        ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Jahrtypen}"
-                        SelectedItemBinding="{Binding Path=JahresplanJahrtyp}" 
-                        DisplayMemberPath="JahrtypKurzbezeichnung" SortMemberPath="JahresplanJahrtyp.JahrtypBezeichnung"
+                        ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Schuljahre}"
+                        SelectedItemBinding="{Binding Path=JahresplanSchuljahr}" 
+                        DisplayMemberPath="SchuljahrKurzbezeichnung" SortMemberPath="JahresplanSchuljahr.SchuljahrBezeichnung"
           EditingElementStyle="{StaticResource DatagridComboBoxElementStyle}"/>
         <DataGridComboBoxColumn 
                         Header="Fach" 

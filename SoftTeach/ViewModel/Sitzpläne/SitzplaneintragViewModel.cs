@@ -6,7 +6,7 @@
   using System.Windows.Controls;
   using System.Windows.Media;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
@@ -32,7 +32,7 @@
     /// <summary>
     /// Der Schülereintrag der zu diesem Sitzplaneintrag gehört
     /// </summary>
-    private Schülereintrag schülereintrag;
+    private SchülereintragNeu schülereintrag;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="SitzplaneintragViewModel"/> Klasse. 
@@ -40,7 +40,7 @@
     /// <param name="sitzplaneintrag">
     /// The underlying sitzplaneintrag this ViewModel is to be based on
     /// </param>
-    public SitzplaneintragViewModel(Sitzplaneintrag sitzplaneintrag)
+    public SitzplaneintragViewModel(SitzplaneintragNeu sitzplaneintrag)
     {
       if (sitzplaneintrag == null)
       {
@@ -55,7 +55,7 @@
     /// <summary>
     /// Holt den underlying Sitzplaneintrag this ViewModel is based on
     /// </summary>
-    public Sitzplaneintrag Model { get; private set; }
+    public SitzplaneintragNeu Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt den Sitzplan für den Sitzplanplan
@@ -126,7 +126,7 @@
     /// <summary>
     /// Holt oder setzt den Schülereintrag für den Schülereintragplan
     /// </summary>
-    public Schülereintrag SitzplaneintragSchülereintrag
+    public SchülereintragNeu SitzplaneintragSchülereintrag
     {
       get
       {

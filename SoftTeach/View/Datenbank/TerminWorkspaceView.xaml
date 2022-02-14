@@ -27,7 +27,7 @@ Termine ändern Sie im Termin Modul."/>
         <DataGrid ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Schultermine}" AutoGenerateColumns="False"
                 IsReadOnly="True">
           <DataGrid.Columns>
-            <DataGridTextColumn Header="Schuljahr" Binding="{Binding Path=SchulterminJahrtyp.JahrtypBezeichnung}"/>
+            <DataGridTextColumn Header="Schuljahr" Binding="{Binding Path=SchulterminSchuljahr.SchuljahrBezeichnung}"/>
             <DataGridTextColumn Header="Datum" Binding="{Binding Path=SchulterminDatum, StringFormat={}{0:dd. MMMM yyyy},ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}"/>
             <DataGridTextColumn Header="von" Binding="{Binding Path=TerminErsteUnterrichtsstunde.UnterrichtsstundeBezeichnung}"/>
             <DataGridTextColumn Header="bis" Binding="{Binding Path=TerminLetzteUnterrichtsstunde.UnterrichtsstundeBezeichnung}"/>

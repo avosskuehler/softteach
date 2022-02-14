@@ -2,7 +2,7 @@
 {
   using System.Linq;
   using SoftTeach.ExceptionHandling;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
@@ -68,7 +68,7 @@
     /// </summary>
     private void AddUnterrichtsstunde()
     {
-      var unterrichtsstunde = new Unterrichtsstunde();
+      var unterrichtsstunde = new UnterrichtsstundeNeu();
 
       // Check for existing jahresplan
       if (App.MainViewModel.Unterrichtsstunden.Any(vorhandenesUnterrichtsstunde => vorhandenesUnterrichtsstunde.UnterrichtsstundeBezeichnung == unterrichtsstunde.Bezeichnung))

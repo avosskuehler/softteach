@@ -3,11 +3,11 @@
   using System.Windows;
 
   /// <summary>
-  /// Interaction logic for SchülerlisteWorkspace.xaml
+  /// Interaction logic for LerngruppeWorkspace.xaml
   /// </summary>
-  public partial class SchülerlisteWorkspace : Window
+  public partial class LerngruppeWorkspace : Window
   {
-    public SchülerlisteWorkspace()
+    public LerngruppeWorkspace()
     {
       this.InitializeComponent();
     }

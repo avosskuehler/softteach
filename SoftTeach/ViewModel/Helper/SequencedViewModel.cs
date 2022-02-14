@@ -12,7 +12,7 @@
     /// <summary>
     /// Holt oder setzt die Abfolgindex of this reihe
     /// </summary>
-    public abstract int AbfolgeIndex { get; set; }
+    public abstract int Reihenfolge { get; set; }
 
     /// <summary>
     /// Compares the current object with another object of the same type.
@@ -29,7 +29,7 @@
         return -1;
       }
 
-      return this.AbfolgeIndex.CompareTo(compareSequenz.AbfolgeIndex);
+      return this.Reihenfolge.CompareTo(compareSequenz.Reihenfolge);
     }
   }
 }

@@ -1,7 +1,7 @@
 ﻿namespace SoftTeach.ViewModel.Datenbank
 {
   using System;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
@@ -15,7 +15,7 @@
     /// <param name="unterrichtsstunde">
     /// The underlying unterrichtsstunde this ViewModel is to be based on
     /// </param>
-    public UnterrichtsstundeViewModel(Unterrichtsstunde unterrichtsstunde)
+    public UnterrichtsstundeViewModel(UnterrichtsstundeNeu unterrichtsstunde)
     {
       if (unterrichtsstunde == null)
       {
@@ -28,7 +28,7 @@
     /// <summary>
     /// Holt den underlying Unterrichtsstunde this ViewModel is based on
     /// </summary>
-    public Unterrichtsstunde Model { get; private set; }
+    public UnterrichtsstundeNeu Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Bezeichnung

@@ -1,4 +1,4 @@
-﻿// <copyright file="AskForSchülerlisteToAddDialog.xaml.cs" company="Paul Natorp Gymnasium, Berlin">        
+﻿// <copyright file="AskForLerngruppeToAddDialog.xaml.cs" company="Paul Natorp Gymnasium, Berlin">        
 // SoftTeach - Lehrerunterrichtsdatenbank
 // Copyright (C) 2013 Dr. Adrian Voßkühler
 // -----------------------------------------------------------------------
@@ -31,19 +31,19 @@ namespace SoftTeach.View.Personen
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="GruppenErstellenDialog"/> Klasse. 
     /// </summary>
-    public GruppenErstellenDialog(SchülerlisteViewModel schülerliste)
+    public GruppenErstellenDialog(LerngruppeViewModel schülerliste)
     {
       this.InitializeComponent();
-      this.Schülerliste = schülerliste;
-      this.DataContext = this.Schülerliste;
+      this.Lerngruppe = schülerliste;
+      this.DataContext = this.Lerngruppe;
     }
 
     #endregion
 
     /// <summary>
-    /// Holt oder setzt das Schuljahr für die Schülerliste
+    /// Holt oder setzt das Schuljahr für die Lerngruppe
     /// </summary>
-    public SchülerlisteViewModel Schülerliste { get; set; }
+    public LerngruppeViewModel Lerngruppe { get; set; }
 
     private void OkClick(object sender, RoutedEventArgs e)
     {

@@ -852,4 +852,16 @@
     <Setter Property="Icon" Value="Tasks"/>
   </Style>
 
+  <Style x:Key="Lerngruppe16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Users"/>
+  </Style>
+
+  <Style x:Key="Lerngruppe32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Users"/>
+  </Style>
+
+  <Style x:Key="Lerngruppe48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Users"/>
+  </Style>
+
 </ResourceDictionary>

@@ -3,7 +3,7 @@
   using System.Linq;
 
   using SoftTeach.ExceptionHandling;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
@@ -70,7 +70,7 @@
     /// </summary>
     private void AddRaum()
     {
-      var raum = new Raum();
+      var raum = new RaumNeu();
  
       // Check for existing raum
       if (App.MainViewModel.Räume.Any(vorhandenerRaum => vorhandenerRaum.RaumBezeichnung == raum.Bezeichnung))

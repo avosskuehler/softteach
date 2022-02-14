@@ -8,7 +8,7 @@
   using System.Windows.Data;
   using System.Windows.Input;
   using SoftTeach.ExceptionHandling;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Termine;
@@ -29,7 +29,7 @@
     /// <summary>
     /// Die Jahrgangsstufe, dessen Termine nur dargestellt werden sollen.
     /// </summary>
-    private JahrtypViewModel jahrtypFilter;
+    private SchuljahrViewModel schuljahrFilter;
 
     /// <summary>
     /// Der Termintyp, dessen Termine nur dargestellt werden sollen.
@@ -48,7 +48,7 @@
     public SchulterminWorkspaceViewModel()
     {
       this.AddTerminCommand = new DelegateCommand(this.AddTermin);
-      this.ResetJahrtypFilterCommand = new DelegateCommand(() => this.JahrtypFilter = null, () => this.JahrtypFilter != null);
+      this.ResetSchuljahrFilterCommand = new DelegateCommand(() => this.SchuljahrFilter = null, () => this.SchuljahrFilter != null);
       this.ResetTermintypFilterCommand = new DelegateCommand(() => this.TermintypFilter = null, () => this.TermintypFilter != null);
       this.AddMultipleDayTerminCommand = new DelegateCommand(this.AddMultipleDayTermin, () => this.CurrentTermin != null);
       this.DeleteTerminCommand = new DelegateCommand(this.DeleteCurrentTermin, () => this.CurrentTermin != null);
@@ -82,7 +82,7 @@
     /// <summary>
     /// Holt den Befehl zur adding a new Jahresplan
     /// </summary>
-    public DelegateCommand ResetJahrtypFilterCommand { get; private set; }
+    public DelegateCommand ResetSchuljahrFilterCommand { get; private set; }
 
     /// <summary>
     /// Holt den Befehl den termintyp filter zu entfernen
@@ -127,17 +127,17 @@
     /// <summary>
     /// Holt oder setzt die fach filter for the module list.
     /// </summary>
-    public JahrtypViewModel JahrtypFilter
+    public SchuljahrViewModel SchuljahrFilter
     {
       get
       {
-        return this.jahrtypFilter;
+        return this.schuljahrFilter;
       }
 
       set
       {
-        this.jahrtypFilter = value;
-        this.RaisePropertyChanged("JahrtypFilter");
+        this.schuljahrFilter = value;
+        this.RaisePropertyChanged("SchuljahrFilter");
         this.TermineView.Refresh();
       }
     }
@@ -209,7 +209,7 @@
           {
             case NotifyCollectionChangedAction.Add:
               betroffeneJahrespläne = jahrespläne.Where(
-               plan => (plan.JahresplanJahrtyp == terminViewModel.SchulterminJahrtyp
+               plan => (plan.JahresplanSchuljahr == terminViewModel.SchulterminSchuljahr
                  && plan.JahresplanKlasse == ((BetroffeneKlasseViewModel)eventArgs.NewItems[0]).BetroffeneKlasseKlasse));
 
               if (eventArgs.NewItems.Count > 1)
@@ -248,7 +248,7 @@
             case NotifyCollectionChangedAction.Remove:
               var betroffeneKlasse = eventArgs.OldItems[0] as BetroffeneKlasseViewModel;
               betroffeneJahrespläne = jahrespläne.Where(
-               plan => (plan.JahresplanJahrtyp == terminViewModel.SchulterminJahrtyp
+               plan => (plan.JahresplanSchuljahr == terminViewModel.SchulterminSchuljahr
                  && plan.JahresplanKlasse == betroffeneKlasse.BetroffeneKlasseKlasse));
 
               if (eventArgs.OldItems.Count > 1)
@@ -282,7 +282,7 @@
           // betroffene Klassen list of the termin
           // Filter by betroffene Klasse
           betroffeneJahrespläne = jahrespläne.Where(
-           plan => (plan.JahresplanJahrtyp == terminViewModel.SchulterminJahrtyp
+           plan => (plan.JahresplanSchuljahr == terminViewModel.SchulterminSchuljahr
              && terminViewModel.BetroffeneKlassen.Any(betroffeneKlasse => betroffeneKlasse.Model.Klasse == plan.JahresplanKlasse.Model)));
 
           // Skip if there is nothing to do
@@ -468,22 +468,22 @@
     }
 
     /// <summary>
-    /// Filtert die Terminliste nach Jahrtyp und Termintyp
+    /// Filtert die Terminliste nach Schuljahr und Termintyp
     /// </summary>
     /// <param name="item">Das TerminViewModel, das gefiltert werden soll</param>
     /// <returns>True, wenn das Objekt in der Liste bleiben soll.</returns>
     private bool CustomFilter(object item)
     {
       var schultermin = item as SchulterminViewModel;
-      if (this.jahrtypFilter != null && this.termintypFilter != null)
+      if (this.schuljahrFilter != null && this.termintypFilter != null)
       {
-        return schultermin.SchulterminJahrtyp.JahrtypBezeichnung == this.jahrtypFilter.JahrtypBezeichnung
+        return schultermin.SchulterminSchuljahr.SchuljahrBezeichnung == this.schuljahrFilter.SchuljahrBezeichnung
           && schultermin.TerminTermintyp.TermintypBezeichnung == this.termintypFilter.TermintypBezeichnung;
       }
 
-      if (this.jahrtypFilter != null)
+      if (this.schuljahrFilter != null)
       {
-        return schultermin.SchulterminJahrtyp.JahrtypBezeichnung == this.jahrtypFilter.JahrtypBezeichnung;
+        return schultermin.SchulterminSchuljahr.SchuljahrBezeichnung == this.schuljahrFilter.SchuljahrBezeichnung;
       }
 
       if (this.termintypFilter != null)
@@ -503,7 +503,7 @@
     {
       if (e.PropertyName == "Schuljahr")
       {
-        this.JahrtypFilter = Selection.Instance.Jahrtyp;
+        this.SchuljahrFilter = Selection.Instance.Schuljahr;
       }
     }
 
@@ -518,9 +518,9 @@
       termin.ErsteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[0].Model;
       var letzte = Math.Min(App.MainViewModel.Unterrichtsstunden.Count - 1, 9);
       termin.LetzteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[letzte].Model;
-      if (Selection.Instance.Jahrtyp != null)
+      if (Selection.Instance.Schuljahr != null)
       {
-        termin.Jahrtyp = Selection.Instance.Jahrtyp.Model;
+        termin.Schuljahr = Selection.Instance.Schuljahr.Model;
       }
 
       termin.Termintyp = App.MainViewModel.Termintypen[0].Model;
@@ -551,7 +551,7 @@
         termin.Datum = aktuellesDatum;
         termin.ErsteUnterrichtsstunde = this.CurrentTermin.TerminErsteUnterrichtsstunde.Model;
         termin.LetzteUnterrichtsstunde = this.CurrentTermin.TerminLetzteUnterrichtsstunde.Model;
-        termin.Jahrtyp = this.CurrentTermin.SchulterminJahrtyp.Model;
+        termin.Schuljahr = this.CurrentTermin.SchulterminSchuljahr.Model;
         termin.Termintyp = this.CurrentTermin.TerminTermintyp.Model;
         //App.UnitOfWork.Context.Termine.Add(termin);
 

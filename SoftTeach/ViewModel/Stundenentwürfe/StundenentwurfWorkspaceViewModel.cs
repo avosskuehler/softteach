@@ -8,7 +8,7 @@
   using System.Windows.Data;
 
   using SoftTeach.ExceptionHandling;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
   using SoftTeach.ViewModel.Datenbank;
@@ -89,14 +89,14 @@
         o.JahresplanFach == this.FachFilter
         && o.JahresplanJahrgangsstufe == this.JahrgangsstufeFilter);
 
-      var lastJahrtyp = App.MainViewModel.Jahrtypen[App.MainViewModel.Jahrtypen.Count - 1];
+      var lastSchuljahr = App.MainViewModel.Schuljahre[App.MainViewModel.Schuljahre.Count - 1];
       if (DateTime.Now.Month > 7 || DateTime.Now.Month == 1)
       {
-        Selection.Instance.Halbjahr = App.MainViewModel.Halbjahrtypen[0];
+        Selection.Instance.Halbjahr = App.MainViewModel.Halbjahre[0];
       }
       else
       {
-        Selection.Instance.Halbjahr = App.MainViewModel.Halbjahrtypen[1];
+        Selection.Instance.Halbjahr = App.MainViewModel.Halbjahre[1];
       }
 
       foreach (var stundenentwurf in App.UnitOfWork.Context.Stundenentwürfe.Where(o => o.FachId == this.FachFilter.Model.Id && o.JahrgangsstufeId == this.JahrgangsstufeFilter.Model.Id))
@@ -111,7 +111,7 @@
       {
         foreach (var halbjahresplanViewModel in jahresplanViewModel.Halbjahrespläne)
         {
-          //if (halbjahresplanViewModel.HalbjahresplanHalbjahrtyp == Selection.Instance.Halbjahr && jahresplanViewModel.JahresplanJahrtyp == lastJahrtyp)
+          //if (halbjahresplanViewModel.HalbjahresplanHalbjahr == Selection.Instance.Halbjahr && jahresplanViewModel.JahresplanSchuljahr == lastSchuljahr)
           //{
           //  continue;
           //}
@@ -129,7 +129,7 @@
                   {
                     if (this.ModulFilter == null || stunde.StundeModul == this.ModulFilter)
                     {
-                      this.FilteredAndSortedStundenentwurfEinträge.Add(new StundenentwurfEintrag(jahresplanViewModel, stunde.LerngruppenterminKlasse, stunde.StundeStundenentwurf, stunde.LerngruppenterminDatum));
+                      this.FilteredAndSortedStundenentwurfEinträge.Add(new StundenentwurfEintrag(jahresplanViewModel, stunde.LerngruppenterminLerngruppe, stunde.StundeStundenentwurf, stunde.LerngruppenterminDatum));
                     }
                   }
                 }
@@ -337,7 +337,7 @@
       if (this.FachFilter != null && this.JahrgangsstufeFilter != null)
       {
         if (modulViewModel.ModulFach == this.FachFilter
-          && modulViewModel.ModulJahrgangsstufe == this.JahrgangsstufeFilter)
+          && modulViewModel.ModulJahrgang == this.JahrgangsstufeFilter)
         {
           return true;
         }
@@ -357,7 +357,7 @@
 
       if (this.JahrgangsstufeFilter != null)
       {
-        if (modulViewModel.ModulJahrgangsstufe == this.JahrgangsstufeFilter)
+        if (modulViewModel.ModulJahrgang == this.JahrgangsstufeFilter)
         {
           return true;
         }

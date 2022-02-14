@@ -10,7 +10,7 @@
 
   using MahApps.Metro.Controls.Dialogs;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Noten;
@@ -84,8 +84,8 @@
     /// </summary>
     public SchülereintragViewModel()
     {
-      var schülereintrag = new Schülereintrag();
-      schülereintrag.Schülerliste = Selection.Instance.Schülerliste.Model;
+      var schülereintrag = new SchülereintragNeu();
+      schülereintrag.Lerngruppe = Selection.Instance.Lerngruppe.Model;
       //App.UnitOfWork.Context.Schülereinträge.Add(schülereintrag);
       this.Model = schülereintrag;
       //App.MainViewModel.Schülereinträge.Add(this);
@@ -97,7 +97,7 @@
     /// <param name="schülereintrag">
     /// The underlying schülereintrag this ViewModel is to be based on
     /// </param>
-    public SchülereintragViewModel(Schülereintrag schülereintrag)
+    public SchülereintragViewModel(SchülereintragNeu schülereintrag)
     {
       if (schülereintrag == null)
       {
@@ -186,7 +186,7 @@
     /// <summary>
     /// Holt das Model für den aktuellen Schülereintrag.
     /// </summary>
-    public Schülereintrag Model { get; private set; }
+    public SchülereintragNeu Model { get; private set; }
 
     /// <summary>
     /// Holt das Command zur Erstellung einer einzelnen nicht gemachten Hausaufgabe
@@ -477,7 +477,7 @@
     {
       get
       {
-        return this.Model.Schülerliste.Fach.Bezeichnung + ": Noten für " + this.Model.Person.Vorname + " "
+        return this.Model.Lerngruppe.Fach.Bezeichnung + ": Noten für " + this.Model.Person.Vorname + " "
                + this.Model.Person.Nachname;
       }
     }
@@ -533,7 +533,7 @@
       get
       {
         var stand = this.Noten.Where(
-          o => o.NoteNotentyp == Notentyp.GesamtStand && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+          o => o.NoteNotentyp == Notentyp.GesamtStand && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
         return stand;
       }
     }
@@ -591,7 +591,7 @@
     {
       get
       {
-        return this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+        return this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
       }
     }
 
@@ -602,7 +602,7 @@
     {
       get
       {
-        return this.Noten.Where(o => o.NoteNotentyp == Notentyp.MündlichQualität && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+        return this.Noten.Where(o => o.NoteNotentyp == Notentyp.MündlichQualität && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
       }
     }
 
@@ -686,7 +686,7 @@
     {
       get
       {
-        return this.Noten.Where(o => o.NoteNotentyp == Notentyp.MündlichQuantität && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+        return this.Noten.Where(o => o.NoteNotentyp == Notentyp.MündlichQuantität && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
       }
     }
 
@@ -698,7 +698,7 @@
       get
       {
         var qualitätsNoten =
-          this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichQualität && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+          this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichQualität && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
         return this.BerechneDurchschnittsNote(qualitätsNoten);
       }
     }
@@ -710,7 +710,7 @@
     {
       get
       {
-        return this.Model.Schülerliste.NotenWichtung.MündlichQualität;
+        return this.Model.Lerngruppe.NotenWichtung.MündlichQualität;
       }
     }
 
@@ -722,44 +722,44 @@
       get
       {
         var quantitätsNoten =
-          this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichQuantität && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+          this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichQuantität && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
         return this.BerechneDurchschnittsNote(quantitätsNoten);
       }
     }
 
     /// <summary>
     /// Holt den Gewichtungsanteil der mündlichen Qualität für
-    /// die aktuelle Schülerliste
+    /// die aktuelle Lerngruppe
     /// </summary>
     public float MündlicheQuantitätWichtung
     {
       get
       {
-        return this.Model.Schülerliste.NotenWichtung.MündlichQuantität;
+        return this.Model.Lerngruppe.NotenWichtung.MündlichQuantität;
       }
     }
 
     /// <summary>
     /// Holt den Gewichtungsanteil der mündlichen Note für
-    /// die aktuelle Schülerliste
+    /// die aktuelle Lerngruppe
     /// </summary>
     public float MündlicheNotenWichtung
     {
       get
       {
-        return this.Model.Schülerliste.NotenWichtung.MündlichGesamt;
+        return this.Model.Lerngruppe.NotenWichtung.MündlichGesamt;
       }
     }
 
     /// <summary>
     /// Holt den Gewichtungsanteil der schriftlichen Note für
-    /// die aktuelle Schülerliste
+    /// die aktuelle Lerngruppe
     /// </summary>
     public float SchriftlicheNotenWichtung
     {
       get
       {
-        return this.Model.Schülerliste.NotenWichtung.SchriftlichGesamt;
+        return this.Model.Lerngruppe.NotenWichtung.SchriftlichGesamt;
       }
     }
 
@@ -771,7 +771,7 @@
       get
       {
         var weitere = this.Noten.Where(
-          o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichSonstige && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+          o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichSonstige && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
         return weitere;
       }
     }
@@ -785,20 +785,20 @@
       get
       {
         var sonstigeNoten =
-          this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichSonstige && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+          this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichSonstige && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
         return this.BerechneDurchschnittsNote(sonstigeNoten);
       }
     }
 
     /// <summary>
     /// Holt den Gewichtungsanteil der weiteren mündlichen Noten für
-    /// die aktuelle Schülerliste
+    /// die aktuelle Lerngruppe
     /// </summary>
     public float MündlicheWeitereNotenWichtung
     {
       get
       {
-        return this.Model.Schülerliste.NotenWichtung.MündlichSonstige;
+        return this.Model.Lerngruppe.NotenWichtung.MündlichSonstige;
       }
     }
 
@@ -810,7 +810,7 @@
       get
       {
         var stand = this.Noten.Where(
-          o => o.NoteNotentyp == Notentyp.MündlichStand && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+          o => o.NoteNotentyp == Notentyp.MündlichStand && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
         return stand;
       }
     }
@@ -869,7 +869,7 @@
     {
       get
       {
-        return this.Noten.Where(o => o.NoteIstSchriftlich && o.NoteNotentyp == Notentyp.SchriftlichKlassenarbeit && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+        return this.Noten.Where(o => o.NoteIstSchriftlich && o.NoteNotentyp == Notentyp.SchriftlichKlassenarbeit && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
       }
     }
 
@@ -881,20 +881,20 @@
       get
       {
         var klassenarbeitNoten =
-          this.Noten.Where(o => o.NoteIstSchriftlich && o.NoteNotentyp == Notentyp.SchriftlichKlassenarbeit && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+          this.Noten.Where(o => o.NoteIstSchriftlich && o.NoteNotentyp == Notentyp.SchriftlichKlassenarbeit && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
         return this.BerechneDurchschnittsNote(klassenarbeitNoten);
       }
     }
 
     /// <summary>
     /// Holt den Gewichtungsanteil der schriftlichen Klausuren und
-    /// Klassenarbeiten für die aktuelle Schülerliste
+    /// Klassenarbeiten für die aktuelle Lerngruppe
     /// </summary>
     public float SchriftlichKlausurenWichtung
     {
       get
       {
-        return this.Model.Schülerliste.NotenWichtung.SchriftlichKlassenarbeit;
+        return this.Model.Lerngruppe.NotenWichtung.SchriftlichKlassenarbeit;
       }
     }
 
@@ -906,7 +906,7 @@
     {
       get
       {
-        var weitere = this.Noten.Where(o => o.NoteIstSchriftlich && o.NoteNotentyp == Notentyp.SchriftlichSonstige && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+        var weitere = this.Noten.Where(o => o.NoteIstSchriftlich && o.NoteNotentyp == Notentyp.SchriftlichSonstige && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
         return weitere;
       }
     }
@@ -920,20 +920,20 @@
       get
       {
         var sonstigeNoten = this.Noten.Where(
-          o => o.NoteIstSchriftlich && o.NoteNotentyp == Notentyp.SchriftlichSonstige && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+          o => o.NoteIstSchriftlich && o.NoteNotentyp == Notentyp.SchriftlichSonstige && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
         return this.BerechneDurchschnittsNote(sonstigeNoten);
       }
     }
 
     /// <summary>
     /// Holt den Gewichtungsanteil der weiteren schriftlichen Noten für
-    /// die aktuelle Schülerliste
+    /// die aktuelle Lerngruppe
     /// </summary>
     public float SchriftlichWeitereNotenWichtung
     {
       get
       {
-        return this.Model.Schülerliste.NotenWichtung.SchriftlichSonstige;
+        return this.Model.Lerngruppe.NotenWichtung.SchriftlichSonstige;
       }
     }
 
@@ -945,7 +945,7 @@
       get
       {
         var stand = this.Noten.Where(
-          o => o.NoteNotentyp == Notentyp.SchriftlichStand && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+          o => o.NoteNotentyp == Notentyp.SchriftlichStand && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
         return stand;
       }
     }
@@ -1098,7 +1098,7 @@
     /// <summary>
     /// Holt die berechnete Summe aller Punkte der aktuellen Arbeit
     /// </summary>
-    public float CurrentArbeitPunktsumme
+    public double CurrentArbeitPunktsumme
     {
       get
       {
@@ -1170,14 +1170,14 @@
           using (new UndoBatch(App.MainViewModel, string.Format("Note angelegt"), false))
           {
 
-            var note = new Note();
+            var note = new NoteNeu();
             note.Arbeit = Selection.Instance.Arbeit.Model;
             note.Bezeichnung = Selection.Instance.Arbeit.ArbeitBezeichnung;
             note.Datum = Selection.Instance.Arbeit.ArbeitDatum;
             note.IstSchriftlich = true;
             note.Notentyp = Selection.Instance.Arbeit.ArbeitIstKlausur
-                              ? Notentyp.SchriftlichKlassenarbeit.ToString()
-                              : Notentyp.SchriftlichSonstige.ToString();
+                              ? Notentyp.SchriftlichKlassenarbeit
+                              : Notentyp.SchriftlichSonstige;
             note.Wichtung = 1;
             note.Zensur = zensur.Model;
             note.Schülereintrag = this.Model;
@@ -1343,8 +1343,8 @@
       //  return "?";
       //}
 
-      var mündlicheWichtung = this.Model.Schülerliste.NotenWichtung.MündlichGesamt;
-      var schriftlichWichtung = this.Model.Schülerliste.NotenWichtung.SchriftlichGesamt;
+      var mündlicheWichtung = this.Model.Lerngruppe.NotenWichtung.MündlichGesamt;
+      var schriftlichWichtung = this.Model.Lerngruppe.NotenWichtung.SchriftlichGesamt;
       var localNote = (this.mündlicheGesamtnote * mündlicheWichtung)
                        + (this.schriftlicheGesamtnote * schriftlichWichtung);
       localNote = (int)Math.Round(localNote, 0);
@@ -1379,7 +1379,7 @@
 
     public void AnpassungenAuslesen()
     {
-      if (Selection.Instance.Schülerliste == null)
+      if (Selection.Instance.Lerngruppe == null)
       {
         return;
       }
@@ -1393,7 +1393,7 @@
         this.Noten.Where(
           o =>
           o.NoteTermintyp != NotenTermintyp.Einzeln
-          && o.NoteDatum.Date == Selection.Instance.Schülerliste.NotenDatum.Date
+          && o.NoteDatum.Date == Selection.Instance.Lerngruppe.NotenDatum.Date
           && o.NoteNotentyp == Notentyp.MündlichStand).OrderBy(o => o.NoteDatum);
 
       if (terminNoten.Any())
@@ -1405,7 +1405,7 @@
       terminNoten =
         this.Noten.Where(
         o => o.NoteTermintyp != NotenTermintyp.Einzeln
-          && o.NoteDatum.Date == Selection.Instance.Schülerliste.NotenDatum.Date
+          && o.NoteDatum.Date == Selection.Instance.Lerngruppe.NotenDatum.Date
           && o.NoteNotentyp == Notentyp.SchriftlichStand).OrderBy(o => o.NoteDatum);
       if (terminNoten.Any())
       {
@@ -1415,7 +1415,7 @@
       this.BerechneGesamtnote();
       terminNoten = this.Noten.Where(
         o => o.NoteTermintyp != NotenTermintyp.Einzeln
-          && o.NoteDatum.Date == Selection.Instance.Schülerliste.NotenDatum.Date
+          && o.NoteDatum.Date == Selection.Instance.Lerngruppe.NotenDatum.Date
           && o.NoteNotentyp == Notentyp.GesamtStand).OrderBy(o => o.NoteDatum);
 
       if (terminNoten.Any())
@@ -1436,19 +1436,19 @@
     /// im Format des Klassenstufen <see cref="Bepunktungstyp"/>s</returns>
     private string BerechneMündlicheGesamtnote()
     {
-      if (Selection.Instance.Schülerliste == null)
+      if (Selection.Instance.Lerngruppe == null)
       {
         return string.Empty;
       }
 
       var qualitätsNoten =
-        this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichQualität && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+        this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichQualität && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
       var qualitätsNotenDurchschnitt = this.BerechneDurchschnittsNotenwert(qualitätsNoten);
       var quantitätsNoten =
-        this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichQuantität && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+        this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichQuantität && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
       var quantitätsNotenDurchschnitt = this.BerechneDurchschnittsNotenwert(quantitätsNoten);
       var sonstigeNoten =
-        this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichSonstige && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+        this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichSonstige && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
       var sonstigeNotenDurchschnitt = this.BerechneDurchschnittsNotenwert(sonstigeNoten);
 
       var mündlichGesamt = 0;
@@ -1511,9 +1511,9 @@
     private string BerechneSchriftlicheGesamtnote()
     {
       var klausurenNoten =
-        this.Noten.Where(o => o.NoteIstSchriftlich && o.NoteNotentyp == Notentyp.SchriftlichKlassenarbeit && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+        this.Noten.Where(o => o.NoteIstSchriftlich && o.NoteNotentyp == Notentyp.SchriftlichKlassenarbeit && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
       var klausurNotenDurchschnitt = this.BerechneDurchschnittsNotenwert(klausurenNoten);
-      var sonstigeNoten = this.Noten.Where(o => o.NoteIstSchriftlich && o.NoteNotentyp == Notentyp.SchriftlichSonstige && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+      var sonstigeNoten = this.Noten.Where(o => o.NoteIstSchriftlich && o.NoteNotentyp == Notentyp.SchriftlichSonstige && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
       var sonstigeNotenDurchschnitt = this.BerechneDurchschnittsNotenwert(sonstigeNoten);
 
       var schriftlichGesamt = 0;
@@ -1636,10 +1636,7 @@
     /// <returns>Die Note als String im Format der Klassenstufe.</returns>
     private string GetNotenString(ZensurViewModel zensur)
     {
-      var bepunktungsTyp =
-        (Bepunktungstyp)
-        Enum.Parse(typeof(Bepunktungstyp), this.Model.Schülerliste.Klasse.Klassenstufe.Jahrgangsstufe.Bepunktungstyp);
-      switch (bepunktungsTyp)
+      switch (this.Model.Lerngruppe.Bepunktungstyp)
       {
         case Bepunktungstyp.GanzeNote:
           return zensur.ZensurGanzeNote.ToString(CultureInfo.InvariantCulture);
@@ -1766,7 +1763,7 @@
     /// </summary>
     private void ErstelleHausaufgabe()
     {
-      var hausaufgabe = new Hausaufgabe();
+      var hausaufgabe = new HausaufgabeNeu();
       hausaufgabe.Bezeichnung = Selection.Instance.HausaufgabeBezeichnung;
       hausaufgabe.Datum = Selection.Instance.HausaufgabeDatum;
       hausaufgabe.IstNachgereicht = false;
@@ -1850,12 +1847,12 @@
       using (new UndoBatch(App.MainViewModel, string.Format("Note ergänzt"), false))
       {
 
-        var note = new Note();
+        var note = new NoteNeu();
         note.Bezeichnung = string.Empty;
         note.Datum = DateTime.Now;
         note.IstSchriftlich = false;
-        note.Notentyp = Notentyp.MündlichQualität.ToString();
-        note.NotenTermintyp = NotenTermintyp.Einzeln.ToString();
+        note.Notentyp = Notentyp.MündlichQualität;
+        note.NotenTermintyp = NotenTermintyp.Einzeln;
         note.Wichtung = 1;
         note.Zensur = App.MainViewModel.Zensuren.FirstOrDefault().Model;
         note.Schülereintrag = this.Model;
@@ -2044,12 +2041,12 @@
     /// <param name="notenwert">Ein ganzzahliger Notenwert für die Note.</param>
     private void AddSonstigeNote(int notenwert)
     {
-      var note = new Note();
+      var note = new NoteNeu();
       note.Datum = Selection.Instance.SonstigeNoteDatum;
       note.Bezeichnung = Selection.Instance.SonstigeNoteBezeichnung;
       note.IstSchriftlich = Selection.Instance.SonstigeNoteNotentyp != Notentyp.MündlichSonstige;
-      note.Notentyp = Selection.Instance.SonstigeNoteNotentyp.ToString();
-      note.NotenTermintyp = NotenTermintyp.Einzeln.ToString();
+      note.Notentyp = Selection.Instance.SonstigeNoteNotentyp;
+      note.NotenTermintyp = NotenTermintyp.Einzeln;
       note.Wichtung = Selection.Instance.SonstigeNoteWichtung;
       note.Zensur = App.MainViewModel.Zensuren.First(o => o.ZensurNoteMitTendenz == notenwert.ToString(CultureInfo.InvariantCulture)).Model;
       note.Schülereintrag = this.Model;
@@ -2074,16 +2071,15 @@
     /// <param name="notenwert">Ein ganzzahliger Notenwert für die Note.</param>
     private void AddMündlicheNote(Notentyp notentyp, int notenwert)
     {
-      var note = new Note();
+      var note = new NoteNeu();
       note.Datum = DateTime.Now;
       var stunde = Selection.Instance.Stunde;
-      if (stunde != null && stunde.Stundenentwurf != null)
+      if (stunde != null)
       {
-        note.Bezeichnung = stunde.Stundenentwurf.Stundenthema;
-        note.Datum = stunde.Tagesplan.Datum;
+        note.Bezeichnung = stunde.Beschreibung;
+        note.Datum = stunde.Datum;
 
-        var alteNote =
-          this.Noten.FirstOrDefault(o => o.NoteDatum == stunde.Tagesplan.Datum & o.NoteNotentyp == notentyp);
+        var alteNote = this.Noten.FirstOrDefault(o => o.NoteDatum == stunde.Datum & o.NoteNotentyp == notentyp);
         if (alteNote != null)
         {
           var result = this.Noten.Remove(alteNote);
@@ -2091,8 +2087,8 @@
       }
 
       note.IstSchriftlich = false;
-      note.Notentyp = notentyp.ToString();
-      note.NotenTermintyp = NotenTermintyp.Einzeln.ToString();
+      note.Notentyp = notentyp;
+      note.NotenTermintyp = NotenTermintyp.Einzeln;
       note.Wichtung = 1;
       note.Zensur = App.MainViewModel.Zensuren.First(o => o.ZensurNoteMitTendenz == notenwert.ToString(CultureInfo.InvariantCulture)).Model;
       note.Schülereintrag = this.Model;
@@ -2120,7 +2116,7 @@
       using (new UndoBatch(App.MainViewModel, string.Format("Note ergänzt"), false))
       {
 
-        var note = new Note();
+        var note = new NoteNeu();
         note.Datum = datum;
         note.Bezeichnung = termintyp.ToString();
 
@@ -2145,8 +2141,8 @@
             note.IstSchriftlich = false;
             break;
         }
-        note.Notentyp = notentyp.ToString();
-        note.NotenTermintyp = termintyp.ToString();
+        note.Notentyp = notentyp;
+        note.NotenTermintyp = termintyp;
         note.Wichtung = 1;
         note.Zensur = App.MainViewModel.Zensuren.First(o => o.ZensurNotenpunkte == notenwert).Model;
         note.Schülereintrag = this.Model;
@@ -2218,7 +2214,7 @@
     /// </summary>
     private async void AddNotentendenz()
     {
-      var notentendenz = new Notentendenz();
+      var notentendenz = new NotentendenzNeu();
       notentendenz.Bezeichnung = string.Empty;
       notentendenz.Datum = DateTime.Now;
       notentendenz.Tendenz = App.MainViewModel.Tendenzen.First().Model;
@@ -2284,8 +2280,8 @@
     /// <returns>Ein Wert in Notenpunkten, der zur Gesamtnote hinzugerechnet werden muss (da negativ)</returns>
     private int BerechneHausaufgabenBepunktung()
     {
-      var nichtGemachteHausaufgaben = this.Hausaufgaben.Count(o => o.HausaufgabeDatum <= Selection.Instance.Schülerliste.NotenDatum);
-      var nachgereichteHausaufgaben = this.Hausaufgaben.Count(o => o.HausaufgabeDatum <= Selection.Instance.Schülerliste.NotenDatum && o.HausaufgabeIstNachgereicht);
+      var nichtGemachteHausaufgaben = this.Hausaufgaben.Count(o => o.HausaufgabeDatum <= Selection.Instance.Lerngruppe.NotenDatum);
+      var nachgereichteHausaufgaben = this.Hausaufgaben.Count(o => o.HausaufgabeDatum <= Selection.Instance.Lerngruppe.NotenDatum && o.HausaufgabeIstNachgereicht);
       var nichtGemachteNichtNachgereichteHausaufgaben = nichtGemachteHausaufgaben - nachgereichteHausaufgaben;
 
       var bewertung = 0;
@@ -2301,16 +2297,15 @@
     /// <returns>Einen Wert in Notenpunkten der zur Gesamtnote hinzugerechnet werden muss.</returns>
     private int BerechneTendenzBepunktung()
     {
-      var anzahlTendenzen = this.Notentendenzen.Count(o => o.NotentendenzDatum <= Selection.Instance.Schülerliste.NotenDatum);
+      var anzahlTendenzen = this.Notentendenzen.Count(o => o.NotentendenzDatum <= Selection.Instance.Lerngruppe.NotenDatum);
       if (anzahlTendenzen == 0)
       {
         return 0;
       }
 
-      var tendenzSumme = this.Notentendenzen.Sum(o => o.NotentendenzTendenz.TendenzWichtung);
+      var tendenzSumme = this.Notentendenzen.Sum(o => (int)o.NotentendenzTendenz);
       var schlüssel = (int)Math.Round(tendenzSumme / (float)anzahlTendenzen, 0);
       return schlüssel != 0 ? schlüssel * -1 + 3 : 2;
     }
-
   }
 }

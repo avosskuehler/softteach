@@ -2,7 +2,7 @@
 {
   using System.Linq;
   using SoftTeach.ExceptionHandling;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
@@ -68,7 +68,7 @@
     /// </summary>
     private void AddZensur()
     {
-      var zensur = new Zensur();
+      var zensur = new ZensurNeu();
  
       // Check for existing zensur
       if (App.MainViewModel.Zensuren.Any(vorhandenerZensur => vorhandenerZensur.ZensurNotenpunkte == zensur.Notenpunkte))

@@ -25,7 +25,7 @@ Curricula ändern Sie im Curricula Modul."/>
       <DataGrid ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Curricula}" AutoGenerateColumns="False"
                 IsReadOnly="True">
         <DataGrid.Columns>
-          <DataGridTextColumn Header="Jahr" Binding="{Binding Path= CurriculumJahrtyp.JahrtypBezeichnung}"/>
+          <DataGridTextColumn Header="Jahr" Binding="{Binding Path= CurriculumSchuljahr.SchuljahrBezeichnung}"/>
           <DataGridTextColumn Header="Fach" Binding="{Binding Path=CurriculumFach.FachBezeichnung}"/>
           <DataGridTextColumn Header="Klassenstufe" Binding="{Binding Path=CurriculumKlassenstufe.KlassenstufeBezeichnung}"/>
           <DataGridTextColumn Header="Bezeichnung" Binding="{Binding Path=CurriculumBezeichnung}" Width="*"/>

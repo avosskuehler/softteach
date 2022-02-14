@@ -23,7 +23,7 @@ namespace SoftTeach.Model.TeachyModel
         public int LerngruppeID { get; set; }
         public int RaumId { get; set; }
     
-        public virtual FächerNeu Fach { get; set; }
+        public virtual FachNeu Fach { get; set; }
         public virtual LerngruppeNeu Lerngruppe { get; set; }
         public virtual RaumNeu Raum { get; set; }
         public virtual StundenplanNeu Stundenplan { get; set; }

@@ -17,7 +17,7 @@
 
   using GongSolutions.Wpf.DragDrop;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Stundenentwürfe;
@@ -86,7 +86,7 @@
 
       // Build data structures for phasen
       this.Phasen = new ObservableCollection<PhaseViewModel>();
-      foreach (var phase in stundenentwurf.Phasen.OrderBy(o => o.AbfolgeIndex))
+      foreach (var phase in stundenentwurf.Phasen.OrderBy(o => o.Reihenfolge))
       {
         var vm = new PhaseViewModel(phase);
         //App.MainViewModel.Phasen.Add(vm);
@@ -662,7 +662,7 @@
         foreach (var phase in this.Model.Phasen.ToList())
         {
           var phaseClone = new Phase();
-          phaseClone.AbfolgeIndex = phase.AbfolgeIndex;
+          phaseClone.Reihenfolge = phase.Reihenfolge;
           phaseClone.Inhalt = phase.Inhalt;
           phaseClone.Medium = phase.Medium;
           phaseClone.Sozialform = phase.Sozialform;
@@ -814,7 +814,7 @@
         newIndex = this.Phasen.Count;
       }
 
-      foreach (var phaseViewModel in phaseViewModels.OrderByDescending(o => o.AbfolgeIndex))
+      foreach (var phaseViewModel in phaseViewModels.OrderByDescending(o => o.Reihenfolge))
       {
         var oldIndex = this.Phasen.IndexOf(phaseViewModel);
         if (newIndex > oldIndex)
@@ -897,7 +897,7 @@
       using (new UndoBatch(App.MainViewModel, string.Format("Neue Phase angelegt"), false))
       {
         var phase = new Phase();
-        phase.AbfolgeIndex = this.Phasen.Count;
+        phase.Reihenfolge = this.Phasen.Count;
         phase.Zeit = 10;
         phase.Inhalt = string.Empty;
         phase.Medium = App.MainViewModel.Medien.First().Model;
@@ -916,7 +916,7 @@
     /// <summary>
     /// Fügt eine gegebene Phase diesem Stundenentwurf hinzu.
     /// An erster Stelle und unter zurücksetzung des
-    /// AbfolgeIndexes.
+    /// Reihenfolgees.
     /// </summary>
     /// <param name="vm"> Das ViewModel der hinzuzufügenden Phase </param>
     /// <param name="index"> The index. </param>
@@ -1169,7 +1169,7 @@
         foreach (var phaseContainer in phasenCollection)
         {
           var phase = new Phase();
-          phase.AbfolgeIndex = insertIndex;
+          phase.Reihenfolge = insertIndex;
           phase.Zeit = phaseContainer.Zeit;
           phase.Inhalt = phaseContainer.Inhalt;
           var mediumViewModel = App.MainViewModel.Medien.FirstOrDefault(o => o.MediumBezeichnung == phaseContainer.Medium);
@@ -1210,7 +1210,7 @@
     }
 
     /// <summary>
-    /// Filtert die Terminliste nach Jahrtyp und Termintyp
+    /// Filtert die Terminliste nach Schuljahr und Termintyp
     /// </summary>
     /// <param name="item">Das TerminViewModel, das gefiltert werden soll</param>
     /// <returns>True, wenn das Objekt in der Liste bleiben soll.</returns>
@@ -1232,7 +1232,7 @@
       }
 
       if (modulViewModel.ModulFach.FachBezeichnung != this.StundenentwurfFach.FachBezeichnung
-        || modulViewModel.ModulJahrgangsstufe.JahrgangsstufeBezeichnung != this.StundenentwurfJahrgangsstufe.JahrgangsstufeBezeichnung)
+        || modulViewModel.ModulJahrgang.JahrgangsstufeBezeichnung != this.StundenentwurfJahrgangsstufe.JahrgangsstufeBezeichnung)
       {
         return false;
       }

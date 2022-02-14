@@ -2,7 +2,7 @@
 {
   using System;
   using System.Windows.Media;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
@@ -16,7 +16,7 @@
     /// <param name="fach">
     /// The underlying fach this ViewModel is to be based on
     /// </param>
-    public FachViewModel(Fach fach)
+    public FachViewModel(FachNeu fach)
     {
       if (fach == null)
       {
@@ -29,7 +29,7 @@
     /// <summary>
     /// Holt den underlying Fach this ViewModel is based on
     /// </summary>
-    public Fach Model { get; private set; }
+    public FachNeu Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Bezeichnung

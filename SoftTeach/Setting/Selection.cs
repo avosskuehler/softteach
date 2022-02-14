@@ -22,7 +22,7 @@ namespace SoftTeach.Setting
   using System.Linq;
 
   using Properties;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Sitzpläne;
 
   using ViewModel.Datenbank;
@@ -39,12 +39,12 @@ namespace SoftTeach.Setting
     private RaumViewModel raum;
     private RaumplanViewModel raumplan;
     private FachViewModel fach;
-    private HalbjahrtypViewModel halbjahr;
-    private SchülerlisteViewModel schülerliste;
-    private JahrtypViewModel jahrtyp;
-    private KlasseViewModel klasse;
+    private Halbjahr halbjahr;
+    private int jahrgang;
+    private LerngruppeViewModel lerngruppe;
+    private SchuljahrViewModel schuljahr;
     private ModulViewModel modul;
-    private Stunde stunde;
+    private StundeNeu stunde;
     private StundenentwurfViewModel stundenentwurf;
     private SchülereintragViewModel schülereintrag;
     private ArbeitViewModel arbeit;
@@ -107,7 +107,7 @@ namespace SoftTeach.Setting
     /// <summary>
     /// Holt oder setzt das Halbjahr.
     /// </summary>
-    public HalbjahrtypViewModel Halbjahr
+    public Halbjahr Halbjahr
     {
       get
       {
@@ -122,40 +122,23 @@ namespace SoftTeach.Setting
     }
 
     /// <summary>
-    /// Holt oder setzt die Klasse.
-    /// </summary>
-    public KlasseViewModel Klasse
-    {
-      get
-      {
-        return this.klasse;
-      }
-
-      set
-      {
-        this.klasse = value;
-        this.OnPropertyChanged("Klasse");
-      }
-    }
-
-    /// <summary>
     /// Holt oder setzt das Schuljahr.
     /// </summary>
-    public JahrtypViewModel Jahrtyp
+    public SchuljahrViewModel Schuljahr
     {
       get
       {
-        if (this.jahrtyp == null)
+        if (this.schuljahr == null)
         {
-          this.jahrtyp = App.MainViewModel.Jahrtypen.FirstOrDefault(o => o.JahrtypBezeichnung == "2021/2022");
+          this.schuljahr = App.MainViewModel.Schuljahre.FirstOrDefault(o => o.SchuljahrBezeichnung == "2021/2022");
         }
 
-        return this.jahrtyp;
+        return this.schuljahr;
       }
 
       set
       {
-        this.jahrtyp = value;
+        this.schuljahr = value;
         this.OnPropertyChanged("Schuljahr");
       }
     }
@@ -180,7 +163,7 @@ namespace SoftTeach.Setting
     /// <summary>
     /// Holt oder setzt die Stunde
     /// </summary>
-    public Stunde Stunde
+    public StundeNeu Stunde
     {
       get
       {
@@ -191,6 +174,23 @@ namespace SoftTeach.Setting
       {
         this.stunde = value;
         this.OnPropertyChanged("Stunde");
+      }
+    }
+
+    /// <summary>
+    /// Holt oder setzt den Jahrgang
+    /// </summary>
+    public int Jahrgang
+    {
+      get
+      {
+        return this.jahrgang;
+      }
+
+      set
+      {
+        this.jahrgang = value;
+        this.OnPropertyChanged("Jahrgang");
       }
     }
 
@@ -212,19 +212,19 @@ namespace SoftTeach.Setting
     }
 
     /// <summary>
-    /// Holt oder setzt die Schülerliste.
+    /// Holt oder setzt die Lerngruppe.
     /// </summary>
-    public SchülerlisteViewModel Schülerliste
+    public LerngruppeViewModel Lerngruppe
     {
       get
       {
-        return this.schülerliste;
+        return this.lerngruppe;
       }
 
       set
       {
-        this.schülerliste = value;
-        this.OnPropertyChanged("Schülerliste");
+        this.lerngruppe = value;
+        this.OnPropertyChanged("Lerngruppe");
       }
     }
 
@@ -468,37 +468,40 @@ namespace SoftTeach.Setting
     /// </summary>
     public void PopulateFromSettings()
     {
-      this.SetSelectionSilent(Settings.Default.Schuljahr, Settings.Default.Halbjahr, Settings.Default.Fach, Settings.Default.Klasse, Settings.Default.Modul);
-      if (this.Jahrtyp == null)
+      this.SetSelectionSilent(Settings.Default.Schuljahr, Settings.Default.Halbjahr, Settings.Default.Fach, Settings.Default.Lerngruppe, Settings.Default.Modul);
+      if (this.Schuljahr == null)
       {
-        if (App.MainViewModel.Jahrtypen.Count == 0)
+        if (App.MainViewModel.Schuljahre.Count == 0)
         {
 
         }
-        this.Jahrtyp = App.MainViewModel.Jahrtypen.Last();
+        this.Schuljahr = App.MainViewModel.Schuljahre.Last();
       }
       else
       {
         this.OnPropertyChanged("Schuljahr");
       }
+
       if (this.Halbjahr == null)
       {
         if (DateTime.Now.Month > 7 || DateTime.Now.Month == 1)
         {
-          this.Halbjahr = App.MainViewModel.Halbjahrtypen[0];
+          this.Halbjahr = App.MainViewModel.Halbjahre[0];
         }
         else
         {
-          this.Halbjahr = App.MainViewModel.Halbjahrtypen[1];
+          this.Halbjahr = App.MainViewModel.Halbjahre[1];
         }
       }
+
       if (this.Fach == null)
       {
         this.Fach = App.MainViewModel.Fächer.First();
       }
-      if (this.Klasse == null)
+
+      if (this.Lerngruppe == null)
       {
-        this.Klasse = App.MainViewModel.Klassen.First();
+        this.Lerngruppe = App.MainViewModel.Lerngruppen.First();
       }
     }
 
@@ -508,9 +511,9 @@ namespace SoftTeach.Setting
     public void UpdateUserSettings()
     {
       Settings.Default.Fach = this.Fach != null ? this.Fach.FachBezeichnung : string.Empty;
-      Settings.Default.Klasse = this.Klasse != null ? this.Klasse.KlasseBezeichnung : string.Empty;
-      Settings.Default.Schuljahr = this.Jahrtyp != null ? this.Jahrtyp.JahrtypBezeichnung : string.Empty;
-      Settings.Default.Halbjahr = this.Halbjahr != null ? this.Halbjahr.HalbjahrtypBezeichnung : string.Empty;
+      Settings.Default.Lerngruppe = this.Lerngruppe != null ? this.Lerngruppe.LerngruppeBezeichnung : string.Empty;
+      Settings.Default.Schuljahr = this.Schuljahr != null ? this.Schuljahr.SchuljahrBezeichnung : string.Empty;
+      Settings.Default.Halbjahr = this.Halbjahr != null ? this.Halbjahr.ToString() : string.Empty;
       Settings.Default.Modul = this.Modul != null ? this.Modul.ModulBezeichnung : string.Empty;
     }
 
@@ -534,19 +537,19 @@ namespace SoftTeach.Setting
     /// <param name="newSchuljahr"> The schuljahr. </param>
     /// <param name="newHalbjahr"> The halbjahr. </param>
     /// <param name="newFach">The fach. </param>
-    /// <param name="newKlasse"> The klasse. </param>
+    /// <param name="newLerngruppe"> The klasse. </param>
     /// <param name="newModul"> The modul. </param>    
     private void SetSelection(
       string newSchuljahr,
       string newHalbjahr,
       string newFach,
-      string newKlasse,
+      string newLerngruppe,
       string newModul)
     {
-      this.Jahrtyp = App.MainViewModel.Jahrtypen.FirstOrDefault(o => o.JahrtypBezeichnung == newSchuljahr);
-      this.Halbjahr = App.MainViewModel.Halbjahrtypen.FirstOrDefault(o => o.HalbjahrtypBezeichnung == newHalbjahr);
+      this.Schuljahr = App.MainViewModel.Schuljahre.FirstOrDefault(o => o.SchuljahrBezeichnung == newSchuljahr);
+      this.Halbjahr = (Halbjahr)Enum.Parse(typeof(Halbjahr), newHalbjahr);
       this.Fach = App.MainViewModel.Fächer.FirstOrDefault(o => o.FachBezeichnung == newFach);
-      this.Klasse = App.MainViewModel.Klassen.FirstOrDefault(o => o.KlasseBezeichnung == newKlasse);
+      this.Lerngruppe = App.MainViewModel.Lerngruppen.FirstOrDefault(o => o.LerngruppeBezeichnung == newLerngruppe);
       this.Modul = App.MainViewModel.Module.FirstOrDefault(o => o.ModulBezeichnung == newModul);
     }
 
@@ -562,13 +565,13 @@ namespace SoftTeach.Setting
       string newSchuljahr,
       string newHalbjahr,
       string newFach,
-      string newKlasse,
+      string newLerngruppe,
       string newModul)
     {
-      this.jahrtyp = App.MainViewModel.Jahrtypen.FirstOrDefault(o => o.JahrtypBezeichnung == newSchuljahr);
-      this.halbjahr = App.MainViewModel.Halbjahrtypen.FirstOrDefault(o => o.HalbjahrtypBezeichnung == newHalbjahr);
+      this.schuljahr = App.MainViewModel.Schuljahre.FirstOrDefault(o => o.SchuljahrBezeichnung == newSchuljahr);
+      this.halbjahr = (Halbjahr)Enum.Parse(typeof(Halbjahr), newHalbjahr);
       this.fach = App.MainViewModel.Fächer.FirstOrDefault(o => o.FachBezeichnung == newFach);
-      this.klasse = App.MainViewModel.Klassen.FirstOrDefault(o => o.KlasseBezeichnung == newKlasse);
+      this.lerngruppe = App.MainViewModel.Lerngruppen.FirstOrDefault(o => o.LerngruppeBezeichnung == newLerngruppe);
       this.modul = App.MainViewModel.Module.FirstOrDefault(o => o.ModulBezeichnung == newModul);
     }
 

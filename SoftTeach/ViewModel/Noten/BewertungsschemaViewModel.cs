@@ -3,7 +3,7 @@
   using System;
   using System.Collections.ObjectModel;
   using System.Collections.Specialized;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.UndoRedo;
   using SoftTeach.ViewModel.Helper;
 
@@ -23,7 +23,7 @@
     /// <param name="bewertungsschema">
     /// The underlying bewertungsschema this ViewModel is to be based on
     /// </param>
-    public BewertungsschemaViewModel(Bewertungsschema bewertungsschema)
+    public BewertungsschemaViewModel(BewertungsschemaNeu bewertungsschema)
     {
       if (bewertungsschema == null)
       {
@@ -66,7 +66,7 @@
     /// <summary>
     /// Holt den underlying Bewertungsschema this ViewModel is based on
     /// </summary>
-    public Bewertungsschema Model { get; private set; }
+    public BewertungsschemaNeu Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die currently selected phase
@@ -153,7 +153,7 @@
     /// </summary>
     private void AddProzentbereich()
     {
-      var prozentbereich = new Prozentbereich();
+      var prozentbereich = new ProzentbereichNeu();
       prozentbereich.BisProzent = 0.05f;
       prozentbereich.VonProzent = 0f;
       prozentbereich.Zensur = App.MainViewModel.Zensuren[0].Model;
@@ -179,7 +179,7 @@
         var startProzent = 0f;
         foreach (var zensurViewModel in zensuren)
         {
-          var prozentbereich = new Prozentbereich();
+          var prozentbereich = new ProzentbereichNeu();
           prozentbereich.BisProzent = startProzent + 0.05f;
           prozentbereich.VonProzent = startProzent;
           prozentbereich.Zensur = zensurViewModel.Model;

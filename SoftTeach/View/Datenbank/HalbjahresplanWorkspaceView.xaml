@@ -25,8 +25,8 @@ Halbjahrespläne ändern Sie im Halbjahresplan Modul."/>
       <DataGrid ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Halbjahrespläne}" AutoGenerateColumns="False"
                 IsReadOnly="True">
         <DataGrid.Columns>
-          <DataGridTextColumn Header="Bezeichnung" Binding="{Binding Path=HalbjahresplanHalbjahrtyp.HalbjahrtypBezeichnung}"/>
-          <DataGridTextColumn Header="Jahresplan" Binding="{Binding Path=Model.Jahresplan.Jahrtyp.JahrtypBezeichnung}" Width="*"/>
+          <DataGridTextColumn Header="Bezeichnung" Binding="{Binding Path=HalbjahresplanHalbjahr.HalbjahrBezeichnung}"/>
+          <DataGridTextColumn Header="Jahresplan" Binding="{Binding Path=Model.Jahresplan.Schuljahr.SchuljahrBezeichnung}" Width="*"/>
         </DataGrid.Columns>
       </DataGrid>
     </GroupBox>

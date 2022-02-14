@@ -16,7 +16,7 @@
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
     <controls:SmallDialogHeader Grid.Row="0" Title="Welche Schüler gehören zur Klasse?"
-                                      Icon="/SoftTeach;component/Images/Schülerliste32.png"/>
+                                      Icon="/SoftTeach;component/Images/Lerngruppe32.png"/>
 
     <Grid Grid.Row="1" Background="{x:Static SystemColors.MenuBarBrush}">
 

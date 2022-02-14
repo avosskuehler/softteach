@@ -64,16 +64,16 @@
         <Label Grid.Row="1" Grid.Column="0">Schuljahr</Label>
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
           <ComboBox Margin="3,3,0,3" Width="62"
-                ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Halbjahrtypen}" 
-                SelectedItem="{Binding Path=ArbeitHalbjahrtyp}"
-                DisplayMemberPath="HalbjahrtypBezeichnung"
+                ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Halbjahre}" 
+                SelectedItem="{Binding Path=ArbeitHalbjahr}"
+                DisplayMemberPath="HalbjahrBezeichnung"
                 IsEnabled="False"
                 Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" 
                 HorizontalAlignment="Left"/>
           <ComboBox Margin="0,3,3,3" Width="72"
-                ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Jahrtypen}" 
-                SelectedItem="{Binding Path=ArbeitJahrtyp}"
-                DisplayMemberPath="JahrtypBezeichnung"
+                ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Schuljahre}" 
+                SelectedItem="{Binding Path=ArbeitSchuljahr}"
+                DisplayMemberPath="SchuljahrBezeichnung"
                     IsEnabled="False"
                     Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"
                 HorizontalAlignment="Left"/>

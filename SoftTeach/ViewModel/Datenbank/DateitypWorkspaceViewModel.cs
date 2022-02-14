@@ -2,7 +2,7 @@
 {
   using System.Linq;
   using SoftTeach.ExceptionHandling;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
@@ -68,7 +68,7 @@
     /// </summary>
     private void AddDateityp()
     {
-      var dateityp = new Dateityp();
+      var dateityp = new DateitypNeu();
 
       // Check for existing tagesplan
       if (App.MainViewModel.Dateitypen.Any(vorhandenerDateityp => vorhandenerDateityp.DateitypBezeichnung == dateityp.Bezeichnung))

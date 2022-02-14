@@ -6,7 +6,7 @@
   using System.Linq;
   using System.Windows.Media;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
 
   using MahApps.Metro.Controls.Dialogs;
 
@@ -326,7 +326,7 @@
               return "Vertretung";
             }
 
-            return stunde.LerngruppenterminKlasse + "-" + stunde.LerngruppenterminFach;
+            return stunde.LerngruppenterminLerngruppe + "-" + stunde.LerngruppenterminFach;
           }
 
           if (this.TerminViewModel is LerngruppenterminViewModel)
@@ -515,7 +515,7 @@
           Selection.Instance.Fach =
             App.MainViewModel.Fächer.First(o => o.FachBezeichnung == lerngruppentermin.LerngruppenterminFach);
           Selection.Instance.Klasse =
-            App.MainViewModel.Klassen.First(o => o.KlasseBezeichnung == lerngruppentermin.LerngruppenterminKlasse);
+            App.MainViewModel.Klassen.First(o => o.KlasseBezeichnung == lerngruppentermin.LerngruppenterminLerngruppe);
           if (lerngruppentermin is StundeViewModel)
           {
             var stunde = lerngruppentermin as StundeViewModel;
@@ -556,7 +556,7 @@
           Selection.Instance.Fach =
             App.MainViewModel.Fächer.First(o => o.FachBezeichnung == lerngruppentermin.LerngruppenterminFach);
           Selection.Instance.Klasse =
-            App.MainViewModel.Klassen.First(o => o.KlasseBezeichnung == lerngruppentermin.LerngruppenterminKlasse);
+            App.MainViewModel.Klassen.First(o => o.KlasseBezeichnung == lerngruppentermin.LerngruppenterminLerngruppe);
           if (lerngruppentermin is StundeViewModel)
           {
             var stunde = lerngruppentermin as StundeViewModel;
@@ -597,16 +597,16 @@
       var stunde = this.TerminViewModel as StundeViewModel;
       stunde.StundeStundenentwurf.StundenentwurfDatum = stunde.LerngruppenterminDatum;
       Selection.Instance.Fach = App.MainViewModel.Fächer.First(o => o.FachBezeichnung == stunde.LerngruppenterminFach);
-      Selection.Instance.Klasse = App.MainViewModel.Klassen.First(o => o.KlasseBezeichnung == stunde.LerngruppenterminKlasse);
+      Selection.Instance.Klasse = App.MainViewModel.Klassen.First(o => o.KlasseBezeichnung == stunde.LerngruppenterminLerngruppe);
       Selection.Instance.Stunde = stunde.Model as Stunde;
       Selection.Instance.Stundenentwurf = stunde.StundeStundenentwurf;
 
       var schülerliste =
-        App.MainViewModel.Schülerlisten.FirstOrDefault(
+        App.MainViewModel.Lerngruppen.FirstOrDefault(
           o =>
-          o.SchülerlisteFach.FachBezeichnung == stunde.LerngruppenterminFach
-          && o.SchülerlisteJahrtyp.JahrtypBezeichnung == stunde.LerngruppenterminSchuljahr
-          && o.SchülerlisteKlasse.KlasseBezeichnung == stunde.LerngruppenterminKlasse);
+          o.LerngruppeFach.FachBezeichnung == stunde.LerngruppenterminFach
+          && o.LerngruppeSchuljahr.SchuljahrBezeichnung == stunde.LerngruppenterminSchuljahr
+          && o.LerngruppeKlasse.KlasseBezeichnung == stunde.LerngruppenterminLerngruppe);
 
       if (schülerliste == null)
       {
@@ -664,12 +664,12 @@
 
       var stunde = this.TerminViewModel as StundeViewModel;
       var schülerliste =
-        App.MainViewModel.Schülerlisten.First(
+        App.MainViewModel.Lerngruppen.First(
           o =>
-          o.SchülerlisteFach.FachBezeichnung == stunde.LerngruppenterminFach
-          && o.SchülerlisteJahrtyp.JahrtypBezeichnung == stunde.LerngruppenterminSchuljahr
-          && o.SchülerlisteKlasse.KlasseBezeichnung == stunde.LerngruppenterminKlasse);
-      Selection.Instance.Schülerliste = schülerliste;
+          o.LerngruppeFach.FachBezeichnung == stunde.LerngruppenterminFach
+          && o.LerngruppeSchuljahr.SchuljahrBezeichnung == stunde.LerngruppenterminSchuljahr
+          && o.LerngruppeKlasse.KlasseBezeichnung == stunde.LerngruppenterminLerngruppe);
+      Selection.Instance.Lerngruppe = schülerliste;
 
       if (Configuration.Instance.IsMetroMode)
       {
@@ -694,7 +694,7 @@
             schülereintragViewModel.CurrentHausaufgabe = null;
           }
 
-          var dlg = new HausaufgabenDialog { Schülerliste = schülerliste };
+          var dlg = new HausaufgabenDialog { Lerngruppe = schülerliste };
           undo = !dlg.ShowDialog().GetValueOrDefault(false);
         }
       }
@@ -722,11 +722,11 @@
 
       var stunde = this.TerminViewModel as StundeViewModel;
       var schülerliste =
-        App.MainViewModel.Schülerlisten.First(
+        App.MainViewModel.Lerngruppen.First(
           o =>
-          o.SchülerlisteFach.FachBezeichnung == stunde.LerngruppenterminFach
-          && o.SchülerlisteJahrtyp.JahrtypBezeichnung == stunde.LerngruppenterminSchuljahr
-          && o.SchülerlisteKlasse.KlasseBezeichnung == stunde.LerngruppenterminKlasse);
+          o.LerngruppeFach.FachBezeichnung == stunde.LerngruppenterminFach
+          && o.LerngruppeSchuljahr.SchuljahrBezeichnung == stunde.LerngruppenterminSchuljahr
+          && o.LerngruppeKlasse.KlasseBezeichnung == stunde.LerngruppenterminLerngruppe);
 
       if (Configuration.Instance.IsMetroMode)
       {
@@ -753,7 +753,7 @@
             schülereintragViewModel.CurrentNote = null;
           }
 
-          var dlg = new SonstigeNotenDialog() { Schülerliste = schülerliste };
+          var dlg = new SonstigeNotenDialog() { Lerngruppe = schülerliste };
           undo = !dlg.ShowDialog().GetValueOrDefault(false);
         }
       }

@@ -3,7 +3,7 @@
   using System;
   using System.Linq;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Helper;
 
@@ -12,11 +12,6 @@
   /// </summary>
   public abstract class TerminViewModel : ViewModelBase
   {
-    /// <summary>
-    /// The termintyp currently assigned to this termin
-    /// </summary>
-    private TermintypViewModel termintyp;
-
     /// <summary>
     /// The ersteUnterrichtsstunde currently assigned to this termin
     /// </summary>
@@ -33,7 +28,7 @@
     /// <param name="termin">
     /// The underlying termin this ViewModel is to be based on
     /// </param>
-    protected TerminViewModel(Termin termin)
+    protected TerminViewModel(TerminNeu termin)
     {
       if (termin == null)
       {
@@ -41,14 +36,6 @@
       }
 
       this.Model = termin;
-
-      App.MainViewModel.Termintypen.CollectionChanged += (sender, e) =>
-      {
-        if (e.OldItems != null && e.OldItems.Contains(this.TerminTermintyp))
-        {
-          this.TerminTermintyp = null;
-        }
-      };
 
       App.MainViewModel.Unterrichtsstunden.CollectionChanged += (sender, e) =>
       {
@@ -74,39 +61,27 @@
     /// <summary>
     /// Holt den underlying Termin this ViewModel is based on
     /// </summary>
-    public Termin Model { get; private set; }
+    public TerminNeu Model { get; private set; }
 
     /// <summary>
-    /// Holt oder setzt die termintyp currently assigned to this Termin
+    /// Holt oder setzt den termintyp currently assigned to this Termin
     /// </summary>
-    public TermintypViewModel TerminTermintyp
+    public Termintyp TerminTermintyp
     {
       get
       {
-        // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Termintyp == null)
-        {
-          return null;
-        }
-
-        if (this.termintyp == null || this.termintyp.Model != this.Model.Termintyp)
-        {
-          this.termintyp = App.MainViewModel.Termintypen.SingleOrDefault(d => d.Model == this.Model.Termintyp);
-        }
-
-        return this.termintyp;
+        return this.Model.Termintyp;
       }
 
       set
       {
-        if (value.TermintypBezeichnung == this.Model.Termintyp.Bezeichnung)
+        if (value == this.Model.Termintyp)
         {
           return;
         }
 
-        this.UndoablePropertyChanging(this, "TerminTermintyp", this.TerminTermintyp, value);
-        this.termintyp = value;
-        this.Model.Termintyp = value.Model;
+        this.UndoablePropertyChanging(this, "TerminTermintyp", this.Model.Termintyp, value);
+        this.Model.Termintyp = value;
         this.RaisePropertyChanged("TerminTermintyp");
       }
     }

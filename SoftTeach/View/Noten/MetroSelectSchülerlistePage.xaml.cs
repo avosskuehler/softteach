@@ -5,16 +5,16 @@
   /// <summary>
   /// Interaction logic for MetroNotenLandingPage.xaml
   /// </summary>
-  public partial class MetroSelectSchülerlistePage
+  public partial class MetroSelectLerngruppePage
   {
     /// <summary>
-    /// Initializes a new instance of the <see cref="MetroSelectSchülerlistePage"/> class.
+    /// Initializes a new instance of the <see cref="MetroSelectLerngruppePage"/> class.
     /// </summary>
-    public MetroSelectSchülerlistePage()
+    public MetroSelectLerngruppePage()
     {
-      this.DataContext = App.MainViewModel.SchülerlisteWorkspace;
-      App.MainViewModel.SchülerlisteWorkspace.JahrtypFilter = Selection.Instance.Jahrtyp;
-      App.MainViewModel.SchülerlisteWorkspace.FachFilter = Selection.Instance.Fach;
+      this.DataContext = App.MainViewModel.LerngruppeWorkspace;
+      App.MainViewModel.LerngruppeWorkspace.SchuljahrFilter = Selection.Instance.Schuljahr;
+      App.MainViewModel.LerngruppeWorkspace.FachFilter = Selection.Instance.Fach;
       this.InitializeComponent();
     }
   }

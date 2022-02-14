@@ -30,8 +30,8 @@
           <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
-          <Label Content="{Binding Path=StundenplanHalbjahrtyp.HalbjahrtypBezeichnung}" Padding="0"/>
-          <Label Content="{Binding Path=StundenplanJahrtyp.JahrtypBezeichnung}" Padding="0"/>
+          <Label Content="{Binding Path=StundenplanHalbjahr.HalbjahrBezeichnung}" Padding="0"/>
+          <Label Content="{Binding Path=StundenplanSchuljahr.SchuljahrBezeichnung}" Padding="0"/>
         </StackPanel>
         <TextBox Grid.Column="1" Style="{StaticResource StundenplanDescriptionHeaderText}" Text="{Binding Path=StundenplanBezeichnung}">
           <TextBox.ToolTip>

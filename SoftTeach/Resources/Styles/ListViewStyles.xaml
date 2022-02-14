@@ -281,12 +281,12 @@
     </Setter>
   </Style>
 
-  <Style x:Key="JahrtypenHeaderStyle" TargetType="{x:Type GroupItem}">
+  <Style x:Key="SchuljahreHeaderStyle" TargetType="{x:Type GroupItem}">
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type GroupItem}" >
           <Border BorderThickness="3" BorderBrush="Transparent">
-            <HeaderedContentControl Header="{Binding Path=Name}" HeaderTemplate="{StaticResource JahrtypHeaderControlHeader}">
+            <HeaderedContentControl Header="{Binding Path=Name}" HeaderTemplate="{StaticResource SchuljahrHeaderControlHeader}">
               <ItemsPresenter Margin="0"/>
             </HeaderedContentControl>
           </Border>
@@ -1035,7 +1035,7 @@
   </DataTemplate>
 
 
-  <DataTemplate x:Key="SchülerlisteGruppenView">
+  <DataTemplate x:Key="LerngruppeGruppenView">
     <Border Background="LightBlue" CornerRadius="10" Padding="2,2,2,2">
       <Grid>
         <Grid.RowDefinitions>

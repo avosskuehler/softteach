@@ -54,7 +54,7 @@
                TextWrapping="Wrap"/>
   </DataTemplate>
 
-  <DataTemplate x:Key="JahrtypHeaderControlHeader">
+  <DataTemplate x:Key="SchuljahrHeaderControlHeader">
     <TextBlock Padding="5"
                Text="{Binding}" 
                HorizontalAlignment="Center"

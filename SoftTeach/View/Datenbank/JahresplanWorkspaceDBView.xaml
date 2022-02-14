@@ -29,7 +29,7 @@ Jahrespläne ändern Sie im Jahresplan Modul.">
     <GroupBox Grid.Row="1" Header="Tabelle der Jahrespläne" Padding="3" Margin="5">
       <DataGrid ItemsSource="{Binding Path=Jahrespläne}" AutoGenerateColumns="False" IsReadOnly="True">
         <DataGrid.Columns>
-          <DataGridTextColumn Header="Jahr" Binding="{Binding Path=Jahrtyp.Bezeichnung}"/>
+          <DataGridTextColumn Header="Jahr" Binding="{Binding Path=Schuljahr.Bezeichnung}"/>
           <DataGridTextColumn Header="Fach" Binding="{Binding Path=Fach.Bezeichnung}"/>
           <DataGridTextColumn Header="Klasse" Binding="{Binding Path=Klasse.Bezeichnung}"/>
           <DataGridTextColumn Header="Bezeichnung" Binding="{Binding Path=Bezeichnung}"  Width="*"/>

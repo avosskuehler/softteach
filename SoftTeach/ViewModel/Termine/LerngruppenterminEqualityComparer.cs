@@ -42,7 +42,7 @@ namespace SoftTeach.ViewModel.Termine
       // Check whether the WochenplanEinträge are equal.
       return x.LerngruppenterminDatum == y.LerngruppenterminDatum
         && x.LerngruppenterminFach == y.LerngruppenterminFach
-        && x.LerngruppenterminKlasse == y.LerngruppenterminKlasse;
+        && x.LerngruppenterminLerngruppe == y.LerngruppenterminLerngruppe;
     }
 
     /// <summary>
@@ -58,7 +58,7 @@ namespace SoftTeach.ViewModel.Termine
 
       int hashLerngruppenterminDatum = lerngruppentermin.LerngruppenterminDatum.GetHashCode();
       int hashLerngruppenterminFach = lerngruppentermin.LerngruppenterminFach.GetHashCode();
-      int hashLerngruppenterminKlasse = lerngruppentermin.LerngruppenterminKlasse.GetHashCode();
+      int hashLerngruppenterminKlasse = lerngruppentermin.LerngruppenterminLerngruppe.GetHashCode();
 
       // Calculate the hash code for the Lerngruppentermin.
       return hashLerngruppenterminDatum ^ hashLerngruppenterminFach ^ hashLerngruppenterminKlasse;

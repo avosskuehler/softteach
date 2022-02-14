@@ -3,11 +3,11 @@
   using System.Windows;
 
   /// <summary>
-  /// Interaction logic for JahrtypWorkspaceView.xaml
+  /// Interaction logic for SchuljahrWorkspaceView.xaml
   /// </summary>
-  public partial class JahrtypWorkspaceView : Window
+  public partial class SchuljahrWorkspaceView : Window
   {
-    public JahrtypWorkspaceView()
+    public SchuljahrWorkspaceView()
     {
       this.InitializeComponent();
     }

@@ -3,7 +3,7 @@
   using System;
   using System.Linq;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Helper;
@@ -29,7 +29,7 @@
     public PhaseViewModel()
     {
       var phase = new Phase();
-      phase.AbfolgeIndex = Selection.Instance.Stundenentwurf.Phasen.Count + 1;
+      phase.Reihenfolge = Selection.Instance.Stundenentwurf.Phasen.Count + 1;
       phase.Zeit = 10;
       phase.Inhalt = string.Empty;
       phase.Medium = App.MainViewModel.Medien.First().Model;
@@ -210,21 +210,21 @@
     }
 
     /// <summary>
-    /// Holt oder setzt die AbfolgeIndex
+    /// Holt oder setzt die Reihenfolge
     /// </summary>
-    public int AbfolgeIndex
+    public int Reihenfolge
     {
       get
       {
-        return this.Model.AbfolgeIndex;
+        return this.Model.Reihenfolge;
       }
 
       set
       {
-        if (value == this.Model.AbfolgeIndex) return;
-        this.UndoablePropertyChanging(this, "AbfolgeIndex", this.Model.AbfolgeIndex, value);
-        this.Model.AbfolgeIndex = value;
-        this.RaisePropertyChanged("AbfolgeIndex");
+        if (value == this.Model.Reihenfolge) return;
+        this.UndoablePropertyChanging(this, "Reihenfolge", this.Model.Reihenfolge, value);
+        this.Model.Reihenfolge = value;
+        this.RaisePropertyChanged("Reihenfolge");
       }
     }
 
@@ -239,7 +239,7 @@
     /// <returns>Ein <see cref="string"/> mit einer Kurzform des ViewModels.</returns>
     public override string ToString()
     {
-      return "Phase: " + this.PhaseInhalt + ", Index:" + this.AbfolgeIndex;
+      return "Phase: " + this.PhaseInhalt + ", Index:" + this.Reihenfolge;
     }
 
     /// <summary>
@@ -249,7 +249,7 @@
     public object Clone()
     {
       var phaseClone = new Phase();
-      phaseClone.AbfolgeIndex = this.Model.AbfolgeIndex;
+      phaseClone.Reihenfolge = this.Model.Reihenfolge;
       phaseClone.Inhalt = this.Model.Inhalt;
       phaseClone.Medium = this.Model.Medium;
       phaseClone.Sozialform = this.Model.Sozialform;

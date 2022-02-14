@@ -15,10 +15,10 @@
   <UserControl.Resources>
     <CollectionViewSource x:Key="SortedPhasenViewSource" Source="{Binding Path=Phasen}" IsLiveSortingRequested="True" >
       <CollectionViewSource.LiveSortingProperties>
-        <system:String>AbfolgeIndex</system:String>
+        <system:String>Reihenfolge</system:String>
       </CollectionViewSource.LiveSortingProperties>
       <CollectionViewSource.SortDescriptions>
-        <componentModel:SortDescription PropertyName="AbfolgeIndex" Direction="Ascending" />
+        <componentModel:SortDescription PropertyName="Reihenfolge" Direction="Ascending" />
       </CollectionViewSource.SortDescriptions>
     </CollectionViewSource>
     <converter:IgnoreNewItemPlaceHolderConverter x:Key="IgnoreNewItemPlaceHolderConverter"/>

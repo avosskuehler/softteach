@@ -21,13 +21,13 @@
     <controls:SmallDialogHeader  Icon="/SoftTeach;component/Images/Schülereintrag32.png" 
                               Grid.Row="0" 
                               Title="Das ist der Inhalt der Schülereinträge-Tabelle. Diese Darstellung dient nur zur Kontrolle. 
-Schülereinträge ändern Sie im Schülerlisten Modul."/>
+Schülereinträge ändern Sie im Lerngruppen Modul."/>
     <GroupBox Grid.Row="1" Header="Tabelle der Schülereinträge" Padding="3" Margin="5">
       <DataGrid ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Schülereinträge}" AutoGenerateColumns="False"
                 IsReadOnly="True">
         <DataGrid.Columns>
-          <DataGridTextColumn Header="Schuljahr" Binding="{Binding Path=Model.Schülerliste.Jahrtyp.Bezeichnung}"/>
-          <DataGridTextColumn Header="Klasse" Binding="{Binding Path=Model.Schülerliste.Klasse.Bezeichnung}"/>
+          <DataGridTextColumn Header="Schuljahr" Binding="{Binding Path=Model.Lerngruppe.Schuljahr.Bezeichnung}"/>
+          <DataGridTextColumn Header="Klasse" Binding="{Binding Path=Model.Lerngruppe.Klasse.Bezeichnung}"/>
           <DataGridTextColumn Header="Vorname" Binding="{Binding Path=SchülereintragPerson.PersonVorname}"/>
           <DataGridTextColumn Header="Nachname" Binding="{Binding Path=SchülereintragPerson.PersonNachname}"/>
         </DataGrid.Columns>

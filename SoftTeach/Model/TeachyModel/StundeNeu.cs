@@ -32,8 +32,8 @@ namespace SoftTeach.Model.TeachyModel
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DateiverweisNeu> Dateiverweise { get; set; }
-        public virtual FächerNeu Fach { get; set; }
-        public virtual ModuleNeu Modul { get; set; }
+        public virtual FachNeu Fach { get; set; }
+        public virtual ModulNeu Modul { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PhaseNeu> Phasen { get; set; }
     }

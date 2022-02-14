@@ -2,7 +2,7 @@
 {
   using System.Linq;
   using SoftTeach.ExceptionHandling;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
@@ -68,7 +68,7 @@
     /// </summary>
     private void AddNotenWichtung()
     {
-      var bepunktungstyp = new NotenWichtung();
+      var bepunktungstyp = new NotenWichtungNeu();
  
       // Check for existing tagesplan
       if (App.MainViewModel.NotenWichtungen.Any(o => o.NotenWichtungBezeichnung == bepunktungstyp.Bezeichnung))

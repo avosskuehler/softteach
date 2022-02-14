@@ -5,7 +5,7 @@
   using System.Windows.Data;
   using MahApps.Metro.Controls.Dialogs;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
   using SoftTeach.ViewModel.Helper;
@@ -46,7 +46,7 @@
       using (this.SitzpläneView.DeferRefresh())
       {
         this.SitzpläneView.Filter = this.CustomFilter;
-        this.SitzpläneView.SortDescriptions.Add(new SortDescription("SitzplanSchülerliste", ListSortDirection.Ascending));
+        this.SitzpläneView.SortDescriptions.Add(new SortDescription("SitzplanLerngruppe", ListSortDirection.Ascending));
         this.SitzpläneView.SortDescriptions.Add(new SortDescription("SitzplanRaumplan", ListSortDirection.Ascending));
       }
 
@@ -153,7 +153,7 @@
     }
 
     /// <summary>
-    /// Aktualisiert den Sitzplanfilter wenn der Raum oder die Schülerliste geändert wird.
+    /// Aktualisiert den Sitzplanfilter wenn der Raum oder die Lerngruppe geändert wird.
     /// </summary>
     /// <param name="sender">Source of the event</param>
     /// <param name="e">A <see cref="PropertyChangedEventArgs"/> with the event data.</param>
@@ -165,7 +165,7 @@
         this.SitzpläneView.Refresh();
       }
       else
-      if (e.PropertyName == "Schülerliste")
+      if (e.PropertyName == "Lerngruppe")
       {
         this.SitzpläneView.Refresh();
       }
@@ -184,9 +184,9 @@
         return false;
       }
 
-      if (Selection.Instance.Schülerliste != null && this.raumFilter != null)
+      if (Selection.Instance.Lerngruppe != null && this.raumFilter != null)
       {
-        if (sitzplan.SitzplanSchülerliste == null)
+        if (sitzplan.SitzplanLerngruppe == null)
         {
           return true;
         }
@@ -196,7 +196,7 @@
           return true;
         }
 
-        return sitzplan.SitzplanSchülerliste.SchülerlisteÜberschrift == Selection.Instance.Schülerliste.SchülerlisteÜberschrift
+        return sitzplan.SitzplanLerngruppe.LerngruppeÜberschrift == Selection.Instance.Lerngruppe.LerngruppeÜberschrift
           && sitzplan.SitzplanRaumplan.RaumplanRaum.RaumBezeichnung == this.raumFilter.RaumBezeichnung;
       }
 
@@ -227,7 +227,7 @@
         try
         {
           App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
-          var sitzplan = new Sitzplan { Bezeichnung = "Neuer Sitzplan", GültigAb = DateTime.Now.Date };
+          var sitzplan = new SitzplanNeu { Bezeichnung = "Neuer Sitzplan", GültigAb = DateTime.Now.Date };
 
           if (this.raumplanFilter != null)
           {
@@ -241,9 +241,9 @@
             return;
           }
 
-          if (Selection.Instance.Schülerliste != null)
+          if (Selection.Instance.Lerngruppe != null)
           {
-            sitzplan.Schülerliste = Selection.Instance.Schülerliste.Model;
+            sitzplan.Lerngruppe = Selection.Instance.Lerngruppe.Model;
           }
 
           //App.UnitOfWork.Context.Sitzpläne.Add(sitzplan);

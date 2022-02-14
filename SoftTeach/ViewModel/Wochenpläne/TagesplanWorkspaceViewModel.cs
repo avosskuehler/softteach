@@ -2,7 +2,7 @@
 {
   using System;
   using System.Linq;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Helper;
   using SoftTeach.ViewModel.Termine;
 
@@ -235,13 +235,13 @@
       int jahresplanJahr;
       this.GetJahrAndHalbjahr(out sommerHalbjahr, out jahresplanJahr);
 
-      var jahrtyp = App.MainViewModel.Jahrtypen.FirstOrDefault(o => o.JahrtypJahr == jahresplanJahr);
-      if (jahrtyp == null)
+      var schuljahr = App.MainViewModel.Schuljahre.FirstOrDefault(o => o.SchuljahrJahr == jahresplanJahr);
+      if (schuljahr == null)
       {
         //var result = InformationDialog.Show("Schuljahr fehlt", string.Format("Das Schuljahr {0} ist noch nicht angelegt, soll das jetzt gemacht werden?", jahresplanJahr), true);
         //if (result.HasValue && result.Value)
         //{
-        //  JahrtypWorkspaceViewModel.AddJahrtyp();
+        //  SchuljahrWorkspaceViewModel.AddSchuljahr();
         //}
         //else
         //{
@@ -265,7 +265,7 @@
       }
 
       // Get all jahrespläne for the selected week
-      var jahrespläne = App.MainViewModel.Jahrespläne.Where(o => o.JahresplanJahrtyp.JahrtypJahr == jahresplanJahr);
+      var jahrespläne = App.MainViewModel.Jahrespläne.Where(o => o.JahresplanSchuljahr.SchuljahrJahr == jahresplanJahr);
 
       foreach (var jahresplanViewModel in jahrespläne)
       {
@@ -305,7 +305,7 @@
 
       // Check for Ferien
       foreach (var ferien in App.MainViewModel.Ferien.Where(
-        schuljahr => schuljahr.FerienJahrtyp.Model.Jahr == jahresplanJahr))
+        schuljahr => schuljahr.FerienSchuljahr.Model.Jahr == jahresplanJahr))
       {
         var tag = this.tagesplanDatum;
         if (tag >= ferien.FerienErsterFerientag && tag <= ferien.FerienLetzterFerientag)
@@ -317,7 +317,7 @@
           termin.IstGeprüft = true;
           termin.Termintyp = App.MainViewModel.Termintypen.First(o => o.TermintypBezeichnung == "Ferien").Model;
           termin.Datum = tag;
-          termin.Jahrtyp = App.MainViewModel.Jahrtypen.First(o => o.JahrtypJahr == jahresplanJahr).Model;
+          termin.Schuljahr = App.MainViewModel.Schuljahre.First(o => o.SchuljahrJahr == jahresplanJahr).Model;
 
           var ferienTerminViewModel = new SchulterminViewModel(termin);
           var ferientagEintrag = new TerminplanEintrag(this, ferienTerminViewModel);
@@ -353,8 +353,8 @@
           continue;
         }
 
-        termin.Beschreibung = string.Format("{0} {1} ({2})", person.PersonVorname, person.PersonNachname, alter);
-        termin.Jahrtyp = App.MainViewModel.Jahrtypen.First(o => o.JahrtypJahr == jahresplanJahr).Model;
+        termin.Beschreibung = string.Format("{0} {1} ({2})", person.Vorname, person.Nachname, alter);
+        termin.Schuljahr = App.MainViewModel.Schuljahre.First(o => o.SchuljahrJahr == jahresplanJahr).Model;
 
         var geburtstagTerminViewModel = new SchulterminViewModel(termin);
         var geburtstagEintrag = new TerminplanEintrag(this, geburtstagTerminViewModel);

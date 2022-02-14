@@ -19,9 +19,9 @@
   public class StundennotenWorkspaceViewModel : ViewModelBase
   {
    /// <summary>
-    /// Holt oder setzt die Schülerliste für die es Noten geben soll.
+    /// Holt oder setzt die Lerngruppe für die es Noten geben soll.
     /// </summary>
-    private SchülerlisteViewModel schülerliste;
+    private LerngruppeViewModel schülerliste;
 
     /// <summary>
     /// Holt oder setzt die Stunde currently selected
@@ -41,9 +41,9 @@
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="StundennotenWorkspaceViewModel"/> Klasse. 
     /// </summary>
-    /// <param name="schülerlisteViewModel">Die Schülerliste für die Stundennoten gegeben werden sollen.</param>
+    /// <param name="schülerlisteViewModel">Die Lerngruppe für die Stundennoten gegeben werden sollen.</param>
     /// <param name="stundeViewModel">Die Stunde für die Noten gegeben werden sollen.</param>
-    public StundennotenWorkspaceViewModel(SchülerlisteViewModel schülerlisteViewModel, StundeViewModel stundeViewModel)
+    public StundennotenWorkspaceViewModel(LerngruppeViewModel schülerlisteViewModel, StundeViewModel stundeViewModel)
     {
       this.schülerliste = schülerlisteViewModel;
       this.completeSchülerView = CollectionViewSource.GetDefaultView(this.schülerliste.Schülereinträge);
@@ -127,7 +127,7 @@
     /// </summary>
     private async void AddHausaufgaben()
     {
-      Selection.Instance.Schülerliste = this.schülerliste;
+      Selection.Instance.Lerngruppe = this.schülerliste;
 
       if (Configuration.Instance.IsMetroMode)
       {
@@ -152,7 +152,7 @@
             schülereintragViewModel.CurrentHausaufgabe = null;
           }
 
-          var dlg = new HausaufgabenDialog { Schülerliste = this.schülerliste };
+          var dlg = new HausaufgabenDialog { Lerngruppe = this.schülerliste };
           undo = !dlg.ShowDialog().GetValueOrDefault(false);
         }
       }
@@ -168,7 +168,7 @@
     /// </summary>
     private async void AddSonstigeNoten()
     {
-      Selection.Instance.Schülerliste = this.schülerliste;
+      Selection.Instance.Lerngruppe = this.schülerliste;
 
       if (Configuration.Instance.IsMetroMode)
       {
@@ -195,7 +195,7 @@
             schülereintragViewModel.CurrentNote = null;
           }
 
-          var dlg = new SonstigeNotenDialog() { Schülerliste = this.schülerliste };
+          var dlg = new SonstigeNotenDialog() { Lerngruppe = this.schülerliste };
           undo = !dlg.ShowDialog().GetValueOrDefault(false);
         }
       }

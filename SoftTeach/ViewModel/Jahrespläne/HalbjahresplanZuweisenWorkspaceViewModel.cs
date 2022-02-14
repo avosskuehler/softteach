@@ -9,11 +9,12 @@
 
   using GongSolutions.Wpf.DragDrop;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ExceptionHandling;
   using SoftTeach.ViewModel.Helper;
   using SoftTeach.ViewModel.Stundenentwürfe;
   using SoftTeach.ViewModel.Termine;
+  using SoftTeach.ViewModel.Personen;
 
   /// <summary>
   /// ViewModel for managing Jahresplan
@@ -23,12 +24,12 @@
     /// <summary>
     /// Der Halbjahresplan der als Vorlage dient.
     /// </summary>
-    private readonly HalbjahresplanViewModel halbjahresplanTemplate;
+    private readonly LerngruppeViewModel halbjahresplanTemplate;
 
     /// <summary>
     /// Der Halbjahresplan der gefüllt werden soll.
     /// </summary>
-    private readonly HalbjahresplanViewModel currentHalbjahresplan;
+    private readonly LerngruppeViewModel currentHalbjahresplan;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="HalbjahresplanZuweisenWorkspaceViewModel"/> Klasse. 
@@ -42,11 +43,11 @@
     /// The HalbjahresplanViewModelwhich 
     /// contains the available stunden to be planned.
     /// </param>
-    public HalbjahresplanZuweisenWorkspaceViewModel(HalbjahresplanViewModel halbjahresplanTemplateViewModel, HalbjahresplanViewModel halbjahresplanViewModel)
+    public HalbjahresplanZuweisenWorkspaceViewModel(LerngruppeViewModel halbjahresplanTemplateViewModel, LerngruppeViewModel halbjahresplanViewModel)
     {
       this.halbjahresplanTemplate = halbjahresplanTemplateViewModel;
       this.currentHalbjahresplan = halbjahresplanViewModel;
-      this.TagespläneDesHalbjahresplans = new ObservableCollection<TagesplanViewModel>();
+      this.StundenDerLerngruppe = new ObservableCollection<StundeViewModel>();
       this.PopulateTagespläne();
       this.UsedStundenDesHalbjahresplans = new ObservableCollection<StundeViewModel>();
       this.AvailableStundenDesHalbjahresplans = new ObservableCollection<StundeViewModel>();
@@ -55,7 +56,7 @@
       this.PopulateBoth();
 
       // Listen for changes
-      this.TagespläneDesHalbjahresplans.CollectionChanged += this.TagespläneDesJahresplansCollectionChanged;
+      this.StundenDerLerngruppe.CollectionChanged += this.TagespläneDesJahresplansCollectionChanged;
       this.UsedStundenDesHalbjahresplans.CollectionChanged += this.UsedStundenDesJahresplansCollectionChanged;
       this.AvailableStundenDesHalbjahresplans.CollectionChanged += this.AvailableStundenDesJahresplansCollectionChanged;
       this.TagespläneAndStundenCollection.CollectionChanged += this.TagespläneAndStundenCollectionCollectionChanged;
@@ -77,7 +78,7 @@
     /// <summary>
     /// Holt die TagespläneDesHalbjahresplans
     /// </summary>
-    public ObservableCollection<TagesplanViewModel> TagespläneDesHalbjahresplans { get; private set; }
+    public ObservableCollection<StundeViewModel> StundenDerLerngruppe { get; private set; }
 
     /// <summary>
     /// Holt die UsedStundenDesHalbjahresplans
@@ -103,7 +104,7 @@
     public void DragOver(IDropInfo dropInfo)
     {
       var sourceItem = dropInfo.Data as StundeViewModel;
-      var targetItem = dropInfo.TargetItem as TagesplanViewModel;
+      var targetItem = dropInfo.TargetItem as StundeViewModel;
       if (sourceItem != null)
       {
         dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
@@ -173,7 +174,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void TagespläneDesJahresplansCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "TagespläneDesHalbjahresplans", this.TagespläneDesHalbjahresplans, e, true, "Änderung der TagespläneDesHalbjahresplans");
+      this.UndoableCollectionChanged(this, "TagespläneDesHalbjahresplans", this.StundenDerLerngruppe, e, true, "Änderung der TagespläneDesHalbjahresplans");
     }
 
     /// <summary>
@@ -214,7 +215,7 @@
     /// </summary>
     private void PopulateStunden()
     {
-      foreach (StundeViewModel stundeViewModel in this.halbjahresplanTemplate.Stunden.OrderBy(o => o.StundeLaufendeStundennummer))
+      foreach (StundeViewModel stundeViewModel in this.halbjahresplanTemplate.Model.Lerngruppentermine.OfType<Stunde.OrderBy(o => o.StundeLaufendeStundennummer))
       {
         this.UsedStundenDesHalbjahresplans.Add(stundeViewModel);
       }
@@ -233,7 +234,7 @@
       {
         foreach (var tagesplanViewModel in monatsplanViewModel.Tagespläne)
         {
-          this.TagespläneDesHalbjahresplans.Add(tagesplanViewModel);
+          this.StundenDerLerngruppe.Add(tagesplanViewModel);
         }
       }
     }
@@ -244,7 +245,7 @@
     private void PopulateBoth()
     {
       this.TagespläneAndStundenCollection.Clear();
-      foreach (var tagesplan in this.TagespläneDesHalbjahresplans)
+      foreach (var tagesplan in this.StundenDerLerngruppe)
       {
         this.TagespläneAndStundenCollection.Add(tagesplan);
       }
@@ -261,7 +262,7 @@
 
       foreach (var model in this.AvailableStundenDesHalbjahresplans)
       {
-        model.AbfolgeIndex = -1;
+        model.Reihenfolge = -1;
       }
 
       this.UpdateTagespläneAndStundenCollection();
@@ -292,7 +293,7 @@
       var stundenZähler = 0;
       var aktuelleStunde = this.UsedStundenDesHalbjahresplans[stundeIndex];
 
-      foreach (TagesplanViewModel tagesplan in this.TagespläneDesHalbjahresplans)
+      foreach (TagesplanViewModel tagesplan in this.StundenDerLerngruppe)
       {
         if (aktuelleStunde == null)
         {

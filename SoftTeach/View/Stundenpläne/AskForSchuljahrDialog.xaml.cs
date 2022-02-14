@@ -30,19 +30,19 @@ namespace SoftTeach.View.Stundenpläne
   /// </summary>
   public partial class AskForSchuljahr
   {
-    public JahrtypViewModel Jahrtyp
+    public SchuljahrViewModel Schuljahr
     {
       get
       {
-        return (JahrtypViewModel)this.JahrtypCombo.SelectedItem;
+        return (SchuljahrViewModel)this.SchuljahrCombo.SelectedItem;
       }
     }
 
-    public HalbjahrtypViewModel Halbjahrtyp
+    public Halbjahr Halbjahr
     {
       get
       {
-        return (HalbjahrtypViewModel)this.HalbjahrtypCombo.SelectedItem;
+        return (Halbjahr)this.HalbjahrCombo.SelectedItem;
       }
     }
 
@@ -63,8 +63,8 @@ namespace SoftTeach.View.Stundenpläne
     public AskForSchuljahr()
     {
       this.InitializeComponent();
-      this.JahrtypCombo.SelectedItem = Selection.Instance.Jahrtyp;
-      this.HalbjahrtypCombo.SelectedItem = Selection.Instance.Halbjahr;
+      this.SchuljahrCombo.SelectedItem = Selection.Instance.Schuljahr;
+      this.HalbjahrCombo.SelectedItem = Selection.Instance.Halbjahr;
       this.GültigAbDate.SelectedDate = DateTime.Now;
     }
 
@@ -74,7 +74,7 @@ namespace SoftTeach.View.Stundenpläne
     {
       if (
         App.MainViewModel.Stundenpläne.Any(
-          o => o.StundenplanJahrtyp == this.Jahrtyp && o.StundenplanHalbjahrtyp == this.Halbjahrtyp))
+          o => o.StundenplanSchuljahr == this.Schuljahr && o.StundenplanHalbjahr == this.Halbjahr))
       {
         new InformationDialog(
           "Stundenplan existiert bereits",

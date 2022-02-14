@@ -405,20 +405,20 @@
     /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
     private void SchuljahreButtonClick(object sender, RoutedEventArgs e)
     {
-      var jahrtypView = new JahrtypWorkspaceView { DataContext = App.MainViewModel.JahrtypWorkspace };
-      jahrtypView.ShowDialog();
+      var schuljahrView = new SchuljahrWorkspaceView { DataContext = App.MainViewModel.SchuljahrWorkspace };
+      schuljahrView.ShowDialog();
     }
 
     /// <summary>
-    /// Event handler for the Halbjahrtyp button in the ribbon section database, ribbon group Termine.
-    /// Shows a workspace for Halbjahrtypen.
+    /// Event handler for the Halbjahr button in the ribbon section database, ribbon group Termine.
+    /// Shows a workspace for Halbjahre.
     /// </summary>
     /// <param name="sender">Source of the event</param>
     /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void HalbjahrtypButtonClick(object sender, RoutedEventArgs e)
+    private void HalbjahrButtonClick(object sender, RoutedEventArgs e)
     {
-      var halbjahrtypView = new HalbjahrtypWorkspaceView();
-      halbjahrtypView.ShowDialog();
+      var halbschuljahrView = new HalbjahrWorkspaceView();
+      halbschuljahrView.ShowDialog();
     }
 
     /// <summary>
@@ -493,14 +493,14 @@
     }
 
     /// <summary>
-    /// Event handler for the Schülerliste button in the ribbon section database, ribbon group Personen.
-    /// Shows a workspace for Schülerlisten.
+    /// Event handler for the Lerngruppe button in the ribbon section database, ribbon group Personen.
+    /// Shows a workspace for Lerngruppen.
     /// </summary>
     /// <param name="sender">Source of the event</param>
     /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void SchülerlisteButtonClick(object sender, RoutedEventArgs e)
+    private void LerngruppeButtonClick(object sender, RoutedEventArgs e)
     {
-      var schülerlisteView = new SchülerlisteWorkspace();
+      var schülerlisteView = new LerngruppeWorkspace();
       schülerlisteView.ShowDialog();
     }
 
@@ -725,7 +725,7 @@
         bool undo;
         using (new UndoBatch(App.MainViewModel, string.Format("Stundenplan angelegt."), false))
         {
-          var stundenplanView = new AddStundenplanDialog(dlg.Jahrtyp, dlg.Halbjahrtyp, dlg.GültigAb);
+          var stundenplanView = new AddStundenplanDialog(dlg.Schuljahr, dlg.Halbjahr, dlg.GültigAb);
           undo = !stundenplanView.ShowDialog().GetValueOrDefault(false);
         }
 
@@ -770,18 +770,18 @@
 
     private void SpezialButtonClick(object sender, RoutedEventArgs e)
     {
-      //foreach (var schülerlisteViewModel in App.MainViewModel.Schülerlisten)
+      //foreach (var schülerlisteViewModel in App.MainViewModel.Lerngruppen)
       //{
       //  // Wenn Sommer
-      //  if (schülerlisteViewModel.SchülerlisteHalbjahrtyp.HalbjahrtypIndex == 2)
+      //  if (schülerlisteViewModel.LerngruppeHalbjahr.HalbjahrIndex == 2)
       //  {
       //    var winterListe =
-      //      App.MainViewModel.Schülerlisten.First(
+      //      App.MainViewModel.Lerngruppen.First(
       //        o =>
-      //        o.SchülerlisteJahrtyp == schülerlisteViewModel.SchülerlisteJahrtyp
-      //        && o.SchülerlisteFach == schülerlisteViewModel.SchülerlisteFach
-      //        && o.SchülerlisteKlasse == schülerlisteViewModel.SchülerlisteKlasse
-      //        && o.SchülerlisteHalbjahrtyp.HalbjahrtypIndex == 1);
+      //        o.LerngruppeSchuljahr == schülerlisteViewModel.LerngruppeSchuljahr
+      //        && o.LerngruppeFach == schülerlisteViewModel.LerngruppeFach
+      //        && o.LerngruppeKlasse == schülerlisteViewModel.LerngruppeKlasse
+      //        && o.LerngruppeHalbjahr.HalbjahrIndex == 1);
 
       //    foreach (var schülereintragViewModel in schülerlisteViewModel.Schülereinträge)
       //    {
@@ -826,10 +826,10 @@
       //}
 
       //var deleteListen =
-      //  App.MainViewModel.Schülerlisten.Where(o => o.SchülerlisteHalbjahrtyp.HalbjahrtypIndex == 2).ToList();
+      //  App.MainViewModel.Lerngruppen.Where(o => o.LerngruppeHalbjahr.HalbjahrIndex == 2).ToList();
       //foreach (var schülerlisteViewModel in deleteListen)
       //{
-      //  App.MainViewModel.Schülerlisten.Remove(schülerlisteViewModel);
+      //  App.MainViewModel.Lerngruppen.Remove(schülerlisteViewModel);
       //}
     }
 

@@ -7,7 +7,7 @@
 
   using MahApps.Metro.Controls.Dialogs;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Noten;
@@ -23,7 +23,7 @@
     /// </summary>
     public HausaufgabeViewModel()
     {
-      var hausaufgabe = new Hausaufgabe();
+      var hausaufgabe = new HausaufgabeNeu();
       hausaufgabe.Datum = DateTime.Now;
       hausaufgabe.Bezeichnung = string.Empty;
       hausaufgabe.IstNachgereicht = false;
@@ -38,7 +38,7 @@
     /// <param name="hausaufgabe">
     /// The underlying hausaufgabe this ViewModel is to be based on
     /// </param>
-    public HausaufgabeViewModel(Hausaufgabe hausaufgabe)
+    public HausaufgabeViewModel(HausaufgabeNeu hausaufgabe)
     {
       if (hausaufgabe == null)
       {
@@ -54,7 +54,7 @@
     /// <summary>
     /// Holt das DatenbankmodellHolt den underlying Hausaufgabe this ViewModel is based on
     /// </summary>
-    public Hausaufgabe Model { get; private set; }
+    public HausaufgabeNeu Model { get; private set; }
 
     /// <summary>
     /// Holt das Command zur Änderung einer einzelnen nicht gemachten Hausaufgabe
@@ -169,7 +169,7 @@
       get
       {
         return
-          this.Model.Schülereintrag.Schülerliste.Fach.Bezeichnung +
+          this.Model.Schülereintrag.Lerngruppe.Fach.Bezeichnung +
           "hausaufgabe von " +
           this.Model.Schülereintrag.Person.Vorname +
           " " +

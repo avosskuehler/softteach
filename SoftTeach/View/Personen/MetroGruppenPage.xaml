@@ -16,7 +16,7 @@
       d:DesignWidth="1366"
       Title="Gruppen"
       FontSize="20"
-      DataContext="{Binding Source={x:Static setting:Selection.Instance}, Path=Schülerliste}">
+      DataContext="{Binding Source={x:Static setting:Selection.Instance}, Path=Lerngruppe}">
   <Page.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>

@@ -6,7 +6,7 @@
   using System.Linq;
   using System.Windows;
   using SoftTeach.ExceptionHandling;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.ViewModel.Helper;
 
@@ -41,7 +41,7 @@
     /// </summary>
     public static readonly DependencyProperty JahrgangsstufeFilterProperty = DependencyProperty.Register(
       "JahrgangsstufeFilter",
-      typeof(JahrgangsstufeViewModel),
+      typeof(int?),
       typeof(ModulWorkspaceViewModel),
       new UIPropertyMetadata(OnPropertyChanged));
 
@@ -99,9 +99,9 @@
     /// <summary>
     /// Holt oder setzt die jahrgangsstufe filter for the module list.
     /// </summary>
-    public JahrgangsstufeViewModel JahrgangsstufeFilter
+    public int? JahrgangsstufeFilter
     {
-      get { return (JahrgangsstufeViewModel)this.GetValue(JahrgangsstufeFilterProperty); }
+      get { return (int)this.GetValue(JahrgangsstufeFilterProperty); }
       set { this.SetValue(JahrgangsstufeFilterProperty, value); }
     }
 
@@ -180,7 +180,7 @@
     /// </summary>
     private void AddModul()
     {
-      var modul = new Modul();
+      var modul = new ModulNeu();
 
       // Check for existing modul
       if (App.MainViewModel.Module.Any(vorhandenerModul => vorhandenerModul.ModulBezeichnung == modul.Bezeichnung))
@@ -191,7 +191,7 @@
       }
 
       modul.Fach = this.FachFilter != null ? this.FachFilter.Model : Selection.Instance.Fach.Model;
-      modul.Jahrgangsstufe = this.JahrgangsstufeFilter != null ? this.JahrgangsstufeFilter.Model : Selection.Instance.Klasse.Model.Klassenstufe.Jahrgangsstufe;
+      modul.Jahrgang = this.JahrgangsstufeFilter != null ? this.JahrgangsstufeFilter.Value : Selection.Instance.Lerngruppe.LerngruppeJahrgang;
 
       // App.UnitOfWork.GetRepository<Modul>().Add(modul);
       var vm = new ModulViewModel(modul);
@@ -238,7 +238,7 @@
         // Filter Modules of complete list
         filteredModules = App.MainViewModel.Module.Where(
           modul => modul.ModulFach == this.FachFilter &&
-            modul.ModulJahrgangsstufe == this.JahrgangsstufeFilter);
+            modul.ModulJahrgang == this.JahrgangsstufeFilter);
       }
       else if (this.FachFilter != null)
       {
@@ -248,7 +248,7 @@
       else if (this.JahrgangsstufeFilter != null)
       {
         // Filter Modules of complete list
-        filteredModules = App.MainViewModel.Module.Where(modul => modul.ModulJahrgangsstufe == this.JahrgangsstufeFilter);
+        filteredModules = App.MainViewModel.Module.Where(modul => modul.ModulJahrgang == this.JahrgangsstufeFilter);
       }
 
       // Add Module

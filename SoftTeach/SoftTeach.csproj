@@ -374,13 +374,16 @@
     <Compile Include="Model\TeachyModel\AufgabeNeu.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\TeachyModel\Bepunktungstyp.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\TeachyModel\BetroffeneKlasseNeu.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\TeachyModel\BewertungsschemataNeu.cs">
+    <Compile Include="Model\TeachyModel\BewertungsschemaNeu.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\TeachyModel\CurriculaNeu.cs">
+    <Compile Include="Model\TeachyModel\CurriculumNeu.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\TeachyModel\DateitypNeu.cs">
@@ -389,19 +392,25 @@
     <Compile Include="Model\TeachyModel\DateiverweisNeu.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\TeachyModel\ErgebnisseNeu.cs">
+    <Compile Include="Model\TeachyModel\ErgebnisNeu.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\TeachyModel\FachstundenanzahlenNeu.cs">
+    <Compile Include="Model\TeachyModel\FachNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\FachstundenanzahlNeu.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\TeachyModel\FerienNeu.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\TeachyModel\FächerNeu.cs">
+    <Compile Include="Model\TeachyModel\Geschlecht.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\TeachyModel\HausaufgabenNeu.cs">
+    <Compile Include="Model\TeachyModel\Halbjahr.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\HausaufgabeNeu.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\TeachyModel\LerngruppeNeu.cs">
@@ -410,25 +419,34 @@
     <Compile Include="Model\TeachyModel\LerngruppenterminNeu.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\TeachyModel\ModuleNeu.cs">
+    <Compile Include="Model\TeachyModel\Medium.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\TeachyModel\NotenNeu.cs">
+    <Compile Include="Model\TeachyModel\ModulNeu.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\TeachyModel\NotentendenzenNeu.cs">
+    <Compile Include="Model\TeachyModel\NoteNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\NotentendenzNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\NotenTermintyp.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\Notentyp.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\TeachyModel\NotenWichtungNeu.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\TeachyModel\PersonenNeu.cs">
+    <Compile Include="Model\TeachyModel\PersonNeu.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\TeachyModel\PhaseNeu.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\TeachyModel\ProzentbereicheNeu.cs">
+    <Compile Include="Model\TeachyModel\ProzentbereichNeu.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\TeachyModel\RaumNeu.cs">
@@ -437,7 +455,7 @@
     <Compile Include="Model\TeachyModel\RaumplanNeu.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\TeachyModel\ReihenNeu.cs">
+    <Compile Include="Model\TeachyModel\ReiheNeu.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\TeachyModel\SchuljahrNeu.cs">
@@ -446,13 +464,10 @@
     <Compile Include="Model\TeachyModel\SchulterminNeu.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\TeachyModel\SchülereinträgeNeu.cs">
+    <Compile Include="Model\TeachyModel\SchülereintragNeu.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\TeachyModel\SchülerlistenNeu.cs">
-      <DependentUpon>TeachyModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\TeachyModel\SequenzenNeu.cs">
+    <Compile Include="Model\TeachyModel\SequenzNeu.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\TeachyModel\SitzplaneintragNeu.cs">
@@ -500,13 +515,22 @@
     <Compile Include="Model\EntityFramework\Zensur.cs">
       <DependentUpon>SoftTeachModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\TeachyModel\Tendenz.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\Tendenztyp.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\TeachyModel\TerminNeu.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TeachyModel\Termintyp.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\TeachyModel\UnterrichtsstundeNeu.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\TeachyModel\ZensurenNeu.cs">
+    <Compile Include="Model\TeachyModel\ZensurNeu.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\UnitOfWork.cs" />
@@ -580,11 +604,10 @@
     <Compile Include="ViewModel\Curricula\CurriculumViewModel.cs" />
     <Compile Include="ViewModel\Curricula\CurriculumWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Curricula\ZeitstrahlCollectionContainer.cs" />
-    <Compile Include="ViewModel\Datenbank\AddJahrtypDialogViewModel.cs" />
+    <Compile Include="ViewModel\Datenbank\AddSchuljahrDialogViewModel.cs" />
     <Compile Include="ViewModel\Helper\ODSSupport\OdsReaderWriter.cs" />
     <Compile Include="ViewModel\Helper\UiServices.cs" />
     <Compile Include="ViewModel\Noten\NotenlistenEintrag.cs" />
-    <Compile Include="ViewModel\Noten\NotenTermintyp.cs" />
     <Compile Include="ViewModel\Noten\NotenlistenWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Noten\StundennotenReminderWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Sitzpläne\SitzplanWorkspaceViewModel.cs" />
@@ -597,16 +620,9 @@
     <Compile Include="ViewModel\Datenbank\NotenWichtungWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Datenbank\ZensurViewModel.cs" />
     <Compile Include="ViewModel\Datenbank\ZensurWorkspaceViewModel.cs" />
-    <Compile Include="ViewModel\Datenbank\TendenzViewModel.cs" />
-    <Compile Include="ViewModel\Datenbank\TendenzWorkspaceViewModel.cs" />
-    <Compile Include="ViewModel\Datenbank\TendenztypViewModel.cs" />
-    <Compile Include="ViewModel\Datenbank\TendenztypWorkspaceViewModel.cs" />
-    <Compile Include="ViewModel\Datenbank\SchultagViewModel.cs" />
-    <Compile Include="ViewModel\Datenbank\SchulwocheViewModel.cs" />
     <Compile Include="ViewModel\Datenbank\FachstundenanzahlWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Datenbank\FachstundenanzahlViewModel.cs" />
     <Compile Include="ViewModel\Datenbank\FachWorkspaceViewModel.cs" />
-    <Compile Include="ViewModel\Datenbank\KlassenstufeViewModel.cs" />
     <Compile Include="ViewModel\Curricula\ReiheViewModel.cs" />
     <Compile Include="ViewModel\Datenbank\DateitypWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Datenbank\DateitypViewModel.cs" />
@@ -623,14 +639,12 @@
     <Compile Include="ViewModel\Helper\SortedObservableCollection.cs" />
     <Compile Include="ViewModel\Jahrespläne\HalbjahresplanZuweisenWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Jahrespläne\HalbjahresplanAdaptViewDataTemplateSelector.cs" />
-    <Compile Include="ViewModel\Noten\Bepunktungstyp.cs" />
     <Compile Include="ViewModel\Noten\ArbeitWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Noten\BewertungsschemaWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Noten\BewertungsschemaViewModel.cs" />
     <Compile Include="ViewModel\Noten\NotenWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Noten\StundennotenWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Noten\ProzentbereichViewModel.cs" />
-    <Compile Include="ViewModel\Noten\Notentyp.cs" />
     <Compile Include="ViewModel\Noten\ErgebnisViewModel.cs" />
     <Compile Include="ViewModel\Noten\NotentendenzViewModel.cs" />
     <Compile Include="ViewModel\Noten\HausaufgabeViewModel.cs" />
@@ -640,9 +654,9 @@
     <Compile Include="ViewModel\Noten\SchülereintragWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Personen\PersonenWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Noten\SchülereintragViewModel.cs" />
-    <Compile Include="ViewModel\Personen\SchülerlisteViewModel.cs" />
+    <Compile Include="ViewModel\Personen\LerngruppeViewModel.cs" />
     <Compile Include="ViewModel\Personen\PersonViewModel.cs" />
-    <Compile Include="ViewModel\Personen\SchülerlisteWorkspaceViewModel.cs" />
+    <Compile Include="ViewModel\Personen\LerngruppeWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Sitzpläne\RaumWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Stundenentwürfe\DateiverweisViewModel.cs" />
     <Compile Include="ViewModel\Helper\SequencingService.cs" />
@@ -652,9 +666,7 @@
     <Compile Include="ViewModel\Termine\BetroffeneKlasseViewModel.cs" />
     <Compile Include="ViewModel\Termine\SchulterminViewModel.cs" />
     <Compile Include="ViewModel\Termine\LerngruppenterminViewModel.cs" />
-    <Compile Include="ViewModel\Datenbank\JahrgangsstufeViewModel.cs" />
     <Compile Include="ViewModel\Termine\TerminViewModel.cs" />
-    <Compile Include="ViewModel\Datenbank\JahrgangsstufeWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Termine\SchulterminUpdateType.cs" />
     <Compile Include="ViewModel\Termine\SchulterminWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Stundenentwürfe\StundenentwurfWorkspaceViewModel.cs" />
@@ -662,33 +674,19 @@
     <Compile Include="ViewModel\Helper\PropertyChangingEventArgs.cs" />
     <Compile Include="ViewModel\Helper\PropertyChangingEventHandler.cs" />
     <Compile Include="ViewModel\Helper\StringLogicalComparer.cs" />
-    <Compile Include="ViewModel\Datenbank\TermintypViewModel.cs" />
     <Compile Include="ViewModel\Datenbank\FerienViewModel.cs" />
     <Compile Include="ViewModel\Stundenpläne\StundenplaneintragViewModel.cs" />
     <Compile Include="ViewModel\Stundenpläne\StundenplanViewModel.cs" />
-    <Compile Include="ViewModel\Datenbank\TermintypWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Datenbank\FerienWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Datenbank\UnterrichtsstundeWorkspaceViewModel.cs" />
-    <Compile Include="ViewModel\Datenbank\SozialformWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Datenbank\ModulWorkspaceViewModel.cs" />
-    <Compile Include="ViewModel\Datenbank\MediumWorkspaceViewModel.cs" />
-    <Compile Include="ViewModel\Datenbank\JahrtypWorkspaceViewModel.cs" />
-    <Compile Include="ViewModel\Datenbank\JahrtypViewModel.cs" />
+    <Compile Include="ViewModel\Datenbank\SchuljahrWorkspaceViewModel.cs" />
+    <Compile Include="ViewModel\Datenbank\SchuljahrViewModel.cs" />
     <Compile Include="ViewModel\Termine\StundeViewModel.cs" />
-    <Compile Include="ViewModel\Jahrespläne\TagesplanViewModel.cs" />
-    <Compile Include="ViewModel\Jahrespläne\MonatsplanViewModel.cs" />
-    <Compile Include="ViewModel\Jahrespläne\HalbjahresplanViewModel.cs" />
-    <Compile Include="ViewModel\Jahrespläne\JahresplanViewModel.cs" />
-    <Compile Include="ViewModel\Jahrespläne\JahresplanWorkspaceViewModel.cs" />
-    <Compile Include="ViewModel\Datenbank\MonatstypViewModel.cs" />
-    <Compile Include="ViewModel\Datenbank\SozialformViewModel.cs" />
-    <Compile Include="ViewModel\Datenbank\MediumViewModel.cs" />
     <Compile Include="ViewModel\Stundenentwürfe\PhaseViewModel.cs" />
     <Compile Include="ViewModel\Datenbank\ModulViewModel.cs" />
     <Compile Include="ViewModel\Stundenentwürfe\StundenentwurfViewModel.cs" />
     <Compile Include="ViewModel\Datenbank\UnterrichtsstundeViewModel.cs" />
-    <Compile Include="ViewModel\Datenbank\KlasseViewModel.cs" />
-    <Compile Include="ViewModel\Datenbank\HalbjahrtypViewModel.cs" />
     <Compile Include="ViewModel\Datenbank\FachViewModel.cs" />
     <Compile Include="ViewModel\Helper\DelegateCommand.cs" />
     <Compile Include="ViewModel\Helper\ViewModelBase.cs" />
@@ -1513,6 +1511,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\Styles\DataGridStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\EnumProvider.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

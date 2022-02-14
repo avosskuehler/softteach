@@ -10,7 +10,7 @@
 
   using Personen;
   using Setting;
-
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.View.Noten;
 
   using PrintDialog = System.Windows.Controls.PrintDialog;
@@ -21,14 +21,14 @@
   public class NotenlistenWorkspaceViewModel : ViewModelBase
   {
     /// <summary>
-    /// The Schülerliste currently selected
+    /// The Lerngruppe currently selected
     /// </summary>
-    private SchülerlisteViewModel currentSchülerliste;
+    private LerngruppeViewModel currentLerngruppe;
 
     /// <summary>
-    /// The Schülerliste originally choosen
+    /// The Lerngruppe originally choosen
     /// </summary>
-    private SchülerlisteViewModel schülerlisteBackup;
+    private LerngruppeViewModel schülerlisteBackup;
 
     /// <summary>
     /// The Schülereintrag currently selected
@@ -48,17 +48,17 @@
     /// Initialisiert eine neue Instanz der <see cref="NotenlistenWorkspaceViewModel" /> Klasse.
     /// </summary>
     /// <param name="schülerliste">The schülerliste.</param>
-    public NotenlistenWorkspaceViewModel(SchülerlisteViewModel schülerliste)
+    public NotenlistenWorkspaceViewModel(LerngruppeViewModel schülerliste)
     {
       this.schülerlisteBackup = schülerliste;
-      this.CurrentSchülerliste = schülerliste;
-      if (this.CurrentSchülerliste != null)
+      this.CurrentLerngruppe = schülerliste;
+      if (this.CurrentLerngruppe != null)
       {
-        this.CurrentSchülereintrag = this.currentSchülerliste.Schülereinträge.First();
+        this.CurrentSchülereintrag = this.currentLerngruppe.Schülereinträge.First();
       }
 
       this.NotenTermintyp = NotenTermintyp.Zwischenstand;
-      Selection.Instance.Schülerliste = this.CurrentSchülerliste;
+      Selection.Instance.Lerngruppe = this.CurrentLerngruppe;
       this.NotenlistenEinträge = new ObservableCollection<NotenlistenEintrag>();
       this.Notendatum = DateTime.Today;
       this.PopulateNotenlisten();
@@ -73,7 +73,7 @@
     /// </summary>
     private void DeleteNotenliste()
     {
-      foreach (var schülereintragViewModel in CurrentSchülerliste.Schülereinträge)
+      foreach (var schülereintragViewModel in CurrentLerngruppe.Schülereinträge)
       {
         var notenToDelete =
           schülereintragViewModel.Noten.Where(
@@ -101,11 +101,11 @@
       var zeugnisnoten =
         this.CurrentSchülereintrag.Noten.Where(
           o =>
-          o.NoteJahrtyp == this.CurrentSchülerliste.SchülerlisteJahrtyp
+          o.NoteSchuljahr == this.CurrentLerngruppe.LerngruppeSchuljahr
           && o.NoteTermintyp != NotenTermintyp.Einzeln && o.NoteNotentyp == Notentyp.GesamtStand);
       foreach (var noteViewModel in zeugnisnoten)
       {
-        var eintrag = new NotenlistenEintrag(noteViewModel.NoteTermintyp, this.CurrentSchülerliste.SchülerlisteJahrtyp, noteViewModel.NoteDatum);
+        var eintrag = new NotenlistenEintrag(noteViewModel.NoteTermintyp, this.CurrentLerngruppe.LerngruppeSchuljahr, noteViewModel.NoteDatum);
         this.NotenlistenEinträge.Add(eintrag);
       }
     }
@@ -121,7 +121,7 @@
     //public DelegateCommand AddSonstigeNotenCommand { get; private set; }
 
     /// <summary>
-    /// Holt den Befehl, um die Notenliste der aktuellen Schülerliste auszudrucken
+    /// Holt den Befehl, um die Notenliste der aktuellen Lerngruppe auszudrucken
     /// </summary>
     public DelegateCommand PrintNotenlisteCommand { get; private set; }
 
@@ -154,7 +154,7 @@
           this.NotenTermintyp = this.currentNotenlistenEintrag.NotenTermintyp;
         }
 
-        this.CurrentSchülerliste.NotenDatum = this.Notendatum;
+        this.CurrentLerngruppe.NotenDatum = this.Notendatum;
         this.RaisePropertyChanged("CurrentNotenlistenEintrag");
       }
     }
@@ -178,21 +178,21 @@
     }
 
     /// <summary>
-    /// Holt oder setzt die Schülerliste currently selected in this workspace
+    /// Holt oder setzt die Lerngruppe currently selected in this workspace
     /// </summary>
-    public SchülerlisteViewModel CurrentSchülerliste
+    public LerngruppeViewModel CurrentLerngruppe
     {
       get
       {
-        return this.currentSchülerliste;
+        return this.currentLerngruppe;
       }
 
       set
       {
-        this.currentSchülerliste = value;
-        Selection.Instance.Schülerliste = value;
+        this.currentLerngruppe = value;
+        Selection.Instance.Lerngruppe = value;
 
-        this.RaisePropertyChanged("CurrentSchülerliste");
+        this.RaisePropertyChanged("CurrentLerngruppe");
       }
     }
 
@@ -246,9 +246,9 @@
       set
       {
         this.notendatum = value;
-        this.currentSchülerliste.NotenDatum = value;
-        Selection.Instance.Schülerliste.NotenDatum = value;
-        foreach (var schülereintragViewModel in this.currentSchülerliste.Schülereinträge)
+        this.currentLerngruppe.NotenDatum = value;
+        Selection.Instance.Lerngruppe.NotenDatum = value;
+        foreach (var schülereintragViewModel in this.currentLerngruppe.Schülereinträge)
         {
           schülereintragViewModel.AnpassungenAuslesen();
           schülereintragViewModel.UpdateNoten();
@@ -266,13 +266,13 @@
       get
       {
         var title = "Hier werden Noten gemacht";
-        if (this.CurrentSchülerliste != null)
+        if (this.CurrentLerngruppe != null)
         {
           title = string.Format(
             "Hier werden Noten für die Klasse {2} im Fach {1} für das Schuljahr {0} gemacht.",
-            this.CurrentSchülerliste.SchülerlisteJahrtyp.JahrtypBezeichnung,
-            this.CurrentSchülerliste.SchülerlisteFach.FachBezeichnung,
-            this.CurrentSchülerliste.SchülerlisteKlasse.KlasseBezeichnung);
+            this.CurrentLerngruppe.LerngruppeSchuljahr.SchuljahrBezeichnung,
+            this.CurrentLerngruppe.LerngruppeFach.FachBezeichnung,
+            this.CurrentLerngruppe.LerngruppeKlasse.KlasseBezeichnung);
         }
 
         return title;
@@ -293,7 +293,7 @@
     /// </summary>
     public void ZeugnisnotenAnlegen()
     {
-      foreach (var schülereintragViewModel in CurrentSchülerliste.Schülereinträge)
+      foreach (var schülereintragViewModel in CurrentLerngruppe.Schülereinträge)
       {
         schülereintragViewModel.AddNote(Notentyp.MündlichStand, this.NotenTermintyp, schülereintragViewModel.MündlicheGesamtNoteInPunkten, this.Notendatum);
         schülereintragViewModel.AddNote(Notentyp.SchriftlichStand, this.NotenTermintyp, schülereintragViewModel.SchriftlicheGesamtNoteInPunkten, this.Notendatum);
@@ -327,7 +327,7 @@
       // create the print output usercontrol
       var content = new NotenlistePrintView
       {
-        DataContext = this.CurrentSchülerliste,
+        DataContext = this.CurrentLerngruppe,
         Width = fixedPage.Width,
         Height = fixedPage.Height
       };
@@ -341,13 +341,13 @@
       fixedPage.UpdateLayout();
 
       // print it out
-      var title = "Noten" + this.CurrentSchülerliste.SchülerlisteKlasse.KlasseBezeichnung + this.CurrentSchülerliste.SchülerlisteFach.FachBezeichnung;
+      var title = "Noten" + this.CurrentLerngruppe.LerngruppeKlasse.KlasseBezeichnung + this.CurrentLerngruppe.LerngruppeFach.FachBezeichnung;
       pd.PrintVisual(fixedPage, title);
     }
 
-    public void ResetSchülerliste()
+    public void ResetLerngruppe()
     {
-      this.CurrentSchülerliste = this.schülerlisteBackup;
+      this.CurrentLerngruppe = this.schülerlisteBackup;
     }
   }
 }
