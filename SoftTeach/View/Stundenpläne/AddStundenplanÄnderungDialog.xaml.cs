@@ -72,7 +72,7 @@ namespace SoftTeach.View.Stundenpläne
             o =>
             o.JahresplanSchuljahr.SchuljahrJahr == änderung.ModifiedEntry.Model.Stundenplan.Schuljahr.Jahr
             && o.JahresplanFach.FachBezeichnung == änderung.ModifiedEntry.StundenplaneintragFach.FachBezeichnung
-            && o.JahresplanKlasse.KlasseBezeichnung == änderung.ModifiedEntry.StundenplaneintragKlasse.KlasseBezeichnung);
+            && o.JahresplanKlasse.KlasseBezeichnung == änderung.ModifiedEntry.StundenplaneintragLerngruppe.KlasseBezeichnung);
 
         if (jahresplanToChange == null)
         {
@@ -80,7 +80,7 @@ namespace SoftTeach.View.Stundenpläne
           App.MainViewModel.JahresplanWorkspace.AddJahresplan(
             this.StundenplanViewModel.StundenplanSchuljahr,
             änderung.ModifiedEntry.StundenplaneintragFach,
-            änderung.ModifiedEntry.StundenplaneintragKlasse,
+            änderung.ModifiedEntry.StundenplaneintragLerngruppe,
             this.StundenplanViewModel.StundenplanHalbjahr.HalbjahrBezeichnung == "Sommer");
 
           continue;

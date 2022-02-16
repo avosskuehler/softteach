@@ -44,7 +44,7 @@
     /// <param name="stundenplan">
     /// The underlying stundenplan this ViewModel is to be based on
     /// </param>
-    public StundenplanViewModel(Stundenplan stundenplan)
+    public StundenplanViewModel(StundenplanNeu stundenplan)
     {
       if (stundenplan == null)
       {
@@ -82,7 +82,7 @@
     /// <summary>
     /// Holt den underlying Stundenplan this ViewModel is based on
     /// </summary>
-    public Stundenplan Model { get; private set; }
+    public StundenplanNeu Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt a value containing the flags for the view mode
@@ -200,27 +200,15 @@
     {
       get
       {
-        // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Halbjahr == null)
-        {
-          return null;
-        }
-
-        if (this.halbschuljahr == null || this.halbschuljahr.Model != this.Model.Halbjahr)
-        {
-          this.halbschuljahr = App.MainViewModel.Halbjahre.SingleOrDefault(d => d.Model == this.Model.Halbjahr);
-        }
-
-        return this.halbschuljahr;
+        return this.Model.Halbjahr;
       }
 
       set
       {
-        if (value.HalbjahrBezeichnung == this.halbschuljahr.HalbjahrBezeichnung) return;
-        this.UndoablePropertyChanging(this, "StundenplanHalbjahr", this.halbschuljahr, value);
-        this.halbschuljahr = value;
-        this.Model.Halbjahr = value.Model;
-        this.RaisePropertyChanged("StundenplanHalbjahr");
+        if (value == this.Model.Halbjahr) return;
+        this.UndoablePropertyChanging(this, "StundenplanGültigAb", this.Model.Halbjahr, value);
+        this.Model.Halbjahr = value;
+        this.RaisePropertyChanged("StundenplanGültigAb");
       }
     }
 
@@ -874,16 +862,16 @@
       int ersteUnterrichtsstundeIndex,
       int letzteUnterrichtsstundeIndex,
       int wochentagIndex,
-      Fach fach,
-      Klasse klasse,
-      Raum raum)
+      FachNeu fach,
+      LerngruppeNeu lerngruppe,
+      RaumNeu raum)
     {
-      var stundenplaneintrag = new Stundenplaneintrag();
+      var stundenplaneintrag = new StundenplaneintragNeu();
       stundenplaneintrag.ErsteUnterrichtsstundeIndex = ersteUnterrichtsstundeIndex;
       stundenplaneintrag.LetzteUnterrichtsstundeIndex = letzteUnterrichtsstundeIndex;
       stundenplaneintrag.WochentagIndex = wochentagIndex;
       stundenplaneintrag.Fach = fach;
-      stundenplaneintrag.Klasse = klasse;
+      stundenplaneintrag.Lerngruppe = lerngruppe;
       stundenplaneintrag.Raum = raum;
       stundenplaneintrag.Stundenplan = this.Model;
       var vm = new StundenplaneintragViewModel(this, stundenplaneintrag);
@@ -933,9 +921,9 @@
       // Hier wird eine Kopie angelegt, die ermöglicht auch nach der Löschung im ViewModel
       // auch noch die Änderungen in den Jahresplänen vorzunehmen
       // Das findet ja erst nach allen Änderungen statt.
-      var eintrag = new Stundenplaneintrag
+      var eintrag = new StundenplaneintragNeu
       {
-        Klasse = stundenplaneintragViewModel.StundenplaneintragKlasse.Model,
+        Lerngruppe = stundenplaneintragViewModel.StundenplaneintragLerngruppe.Model,
         Fach = stundenplaneintragViewModel.StundenplaneintragFach.Model,
         ErsteUnterrichtsstundeIndex =
                           stundenplaneintragViewModel.StundenplaneintragErsteUnterrichtsstundeIndex,
@@ -986,9 +974,9 @@
     /// <returns>Den Stundenplan als Kopie.</returns>
     public object Clone()
     {
-      var stundenplan = new Stundenplan();
+      var stundenplan = new StundenplanNeu();
       stundenplan.Schuljahr = this.StundenplanSchuljahr.Model;
-      stundenplan.Halbjahr = this.StundenplanHalbjahr.Model;
+      stundenplan.Halbjahr = this.StundenplanHalbjahr;
       stundenplan.GültigAb = this.StundenplanGültigAb;
       stundenplan.Bezeichnung = this.StundenplanBezeichnung;
       var stundenplanViewModel = new StundenplanViewModel(stundenplan);
@@ -996,10 +984,10 @@
       {
         foreach (var stundenplanEintrag in this.Stundenplaneinträge)
         {
-          var clone = new Stundenplaneintrag();
+          var clone = new StundenplaneintragNeu();
           clone.ErsteUnterrichtsstundeIndex = stundenplanEintrag.StundenplaneintragErsteUnterrichtsstundeIndex;
           clone.Fach = stundenplanEintrag.StundenplaneintragFach.Model;
-          clone.Klasse = stundenplanEintrag.StundenplaneintragKlasse.Model;
+          clone.Lerngruppe = stundenplanEintrag.StundenplaneintragLerngruppe.Model;
           clone.LetzteUnterrichtsstundeIndex = stundenplanEintrag.StundenplaneintragLetzteUnterrichtsstundeIndex;
           clone.Raum = stundenplanEintrag.StundenplaneintragRaum.Model;
           clone.WochentagIndex = stundenplanEintrag.StundenplaneintragWochentagIndex;
@@ -1050,7 +1038,7 @@
 
       if (stundenplaneintragViewModel == null)
       {
-        var emptyStundenplanEintrag = new Stundenplaneintrag
+        var emptyStundenplanEintrag = new StundenplaneintragNeu
         {
           ErsteUnterrichtsstundeIndex = stundeIndex,
           LetzteUnterrichtsstundeIndex = stundeIndex,
@@ -1113,7 +1101,7 @@
     /// <param name="wochentagIndex"> The wochentag Index. </param>
     private void AddStundenplaneintrag(int ersteStundeIndex, int letzteStundeIndex, int wochentagIndex)
     {
-      var stundenplaneintrag = new Stundenplaneintrag();
+      var stundenplaneintrag = new StundenplaneintragNeu();
       stundenplaneintrag.ErsteUnterrichtsstundeIndex = ersteStundeIndex;
       stundenplaneintrag.LetzteUnterrichtsstundeIndex = letzteStundeIndex;
       stundenplaneintrag.WochentagIndex = wochentagIndex;

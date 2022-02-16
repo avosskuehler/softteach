@@ -231,7 +231,7 @@
 
       var comparer = new TerminplanEintragEqualityComparer();
 
-      bool sommerHalbjahr;
+      Halbjahr sommerHalbjahr;
       int jahresplanJahr;
       this.GetJahrAndHalbjahr(out sommerHalbjahr, out jahresplanJahr);
 
@@ -264,58 +264,57 @@
         }
       }
 
-      // Get all jahrespläne for the selected week
-      var jahrespläne = App.MainViewModel.Jahrespläne.Where(o => o.JahresplanSchuljahr.SchuljahrJahr == jahresplanJahr);
+      //// Get all jahrespläne for the selected week
+      //var jahrespläne = App.MainViewModel.Jahrespläne.Where(o => o.JahresplanSchuljahr.SchuljahrJahr == jahresplanJahr);
 
-      foreach (var jahresplanViewModel in jahrespläne)
-      {
-        // Get correct Halbjahresplan
-        var halbjahrespläne = sommerHalbjahr
-                                ? jahresplanViewModel.CurrentJahresplanSommerhalbjahr
-                                : jahresplanViewModel.CurrentJahresplanWinterhalbjahr;
+      //foreach (var jahresplanViewModel in jahrespläne)
+      //{
+      //  // Get correct Halbjahresplan
+      //  var halbjahrespläne = sommerHalbjahr
+      //                          ? jahresplanViewModel.CurrentJahresplanSommerhalbjahr
+      //                          : jahresplanViewModel.CurrentJahresplanWinterhalbjahr;
 
-        // Get correct month
-        if (halbjahrespläne == null)
-        {
-          continue;
-        }
+      //  // Get correct month
+      //  if (halbjahrespläne == null)
+      //  {
+      //    continue;
+      //  }
 
 
-        var month = halbjahrespläne.Monatspläne.SingleOrDefault(o => o.MonatsplanMonatindex == this.tagesplanDatum.Month);
-        if (month == null)
-        {
-          continue;
-        }
+      //  var month = halbjahrespläne.Monatspläne.SingleOrDefault(o => o.MonatsplanMonatindex == this.tagesplanDatum.Month);
+      //  if (month == null)
+      //  {
+      //    continue;
+      //  }
 
-        // Get correct days
-        var day = month.Tagespläne.Where(o => o.TagesplanDatum == this.tagesplanDatum);
+      //  // Get correct days
+      //  var day = month.Tagespläne.Where(o => o.TagesplanDatum == this.tagesplanDatum);
 
-        foreach (var tagesplanViewModel in day)
-        {
-          foreach (var lerngruppenterminViewModel in tagesplanViewModel.Lerngruppentermine)
-          {
-            var terminplanEintrag = new TerminplanEintrag(this, lerngruppenterminViewModel);
-            if (!this.Terminplaneinträge.Contains(terminplanEintrag, comparer))
-            {
-              this.Terminplaneinträge.Add(terminplanEintrag);
-            }
-          }
-        }
-      }
+      //  foreach (var tagesplanViewModel in day)
+      //  {
+      //    foreach (var lerngruppenterminViewModel in tagesplanViewModel.Lerngruppentermine)
+      //    {
+      //      var terminplanEintrag = new TerminplanEintrag(this, lerngruppenterminViewModel);
+      //      if (!this.Terminplaneinträge.Contains(terminplanEintrag, comparer))
+      //      {
+      //        this.Terminplaneinträge.Add(terminplanEintrag);
+      //      }
+      //    }
+      //  }
+      //}
 
       // Check for Ferien
-      foreach (var ferien in App.MainViewModel.Ferien.Where(
-        schuljahr => schuljahr.FerienSchuljahr.Model.Jahr == jahresplanJahr))
+      foreach (var ferien in App.MainViewModel.Ferien.Where(o => o.FerienSchuljahr.Model.Jahr == jahresplanJahr))
       {
         var tag = this.tagesplanDatum;
         if (tag >= ferien.FerienErsterFerientag && tag <= ferien.FerienLetzterFerientag)
         {
-          var termin = new Schultermin();
+          var termin = new SchulterminNeu();
           termin.Beschreibung = ferien.FerienBezeichnung;
           termin.ErsteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[0].Model;
           termin.LetzteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[8].Model;
           termin.IstGeprüft = true;
-          termin.Termintyp = App.MainViewModel.Termintypen.First(o => o.TermintypBezeichnung == "Ferien").Model;
+          termin.Termintyp = Termintyp.Ferien;
           termin.Datum = tag;
           termin.Schuljahr = App.MainViewModel.Schuljahre.First(o => o.SchuljahrJahr == jahresplanJahr).Model;
 
@@ -337,11 +336,11 @@
 
       foreach (var person in personenMitGeburtstag)
       {
-        var termin = new Schultermin();
+        var termin = new SchulterminNeu();
         termin.ErsteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[0].Model;
         termin.LetzteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[8].Model;
         termin.IstGeprüft = true;
-        termin.Termintyp = App.MainViewModel.Termintypen.First(o => o.TermintypBezeichnung == "Geburtstag").Model;
+        termin.Termintyp = Termintyp.Geburtstag;
         var geburstagInDerWoche = new DateTime(
           this.TagesplanDatum.Year,
           person.PersonGeburtstag.Value.Month,

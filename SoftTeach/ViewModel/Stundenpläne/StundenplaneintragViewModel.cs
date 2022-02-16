@@ -9,6 +9,7 @@
   using SoftTeach.View.Stundenpläne;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Helper;
+  using SoftTeach.ViewModel.Personen;
   using SoftTeach.ViewModel.Sitzpläne;
 
   /// <summary>
@@ -24,7 +25,7 @@
     /// <summary>
     /// The klasse currently assigned to this stundenplaneintrag
     /// </summary>
-    private LerngruppeViewModel klasse;
+    private LerngruppeViewModel lerngruppe;
 
     /// <summary>
     /// The raum currently assigned to this stundenplaneintrag
@@ -37,7 +38,7 @@
     /// <param name="stundenplaneintrag">
     /// The underlying stundenplaneintrag this ViewModel is to be based on
     /// </param>
-    public StundenplaneintragViewModel(Stundenplaneintrag stundenplaneintrag)
+    public StundenplaneintragViewModel(StundenplaneintragNeu stundenplaneintrag)
     {
       if (stundenplaneintrag == null)
       {
@@ -56,7 +57,7 @@
     /// <param name="stundenplaneintrag">
     /// The underlying stundenplaneintrag this ViewModel is to be based on
     /// </param>
-    public StundenplaneintragViewModel(StundenplanViewModel parent, Stundenplaneintrag stundenplaneintrag)
+    public StundenplaneintragViewModel(StundenplanViewModel parent, StundenplaneintragNeu stundenplaneintrag)
     {
       if (stundenplaneintrag == null)
       {
@@ -93,7 +94,7 @@
     /// <summary>
     /// Holt den underlying Stundenplaneintrag this ViewModel is based on
     /// </summary>
-    public Stundenplaneintrag Model { get; private set; }
+    public StundenplaneintragNeu Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt den Raum für den Stundenplaneintrag
@@ -154,35 +155,35 @@
     /// <summary>
     /// Holt oder setzt die Klasse currently assigned to this Jahresplan
     /// </summary>
-    public LerngruppeViewModel StundenplaneintragKlasse
+    public LerngruppeViewModel StundenplaneintragLerngruppe
     {
       get
       {
         // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Klasse == null)
+        if (this.Model.Lerngruppe == null)
         {
           return null;
         }
 
-        if (this.klasse == null || this.klasse.Model != this.Model.Klasse)
+        if (this.lerngruppe == null || this.lerngruppe.Model != this.Model.Lerngruppe)
         {
-          this.klasse = App.MainViewModel.Klassen.SingleOrDefault(d => d.Model == this.Model.Klasse);
+          this.lerngruppe = App.MainViewModel.Lerngruppen.SingleOrDefault(d => d.Model == this.Model.Lerngruppe);
         }
 
-        return this.klasse;
+        return this.lerngruppe;
       }
 
       set
       {
         if (value == null) return;
-        if (this.klasse != null)
+        if (this.lerngruppe != null)
         {
-          if (value.KlasseBezeichnung == this.klasse.KlasseBezeichnung) return;
+          if (value.LerngruppeBezeichnung == this.lerngruppe.LerngruppeBezeichnung) return;
         }
 
-        this.UndoablePropertyChanging(this, "StundenplaneintragKlasse", this.klasse, value);
-        this.klasse = value;
-        this.Model.Klasse = value.Model;
+        this.UndoablePropertyChanging(this, "StundenplaneintragKlasse", this.lerngruppe, value);
+        this.lerngruppe = value;
+        this.Model.Lerngruppe = value.Model;
         this.RaisePropertyChanged("StundenplaneintragKlasse");
       }
     }
@@ -279,12 +280,12 @@
     /// <summary>
     /// Holt einen Wert, der angibt, ob dieser Stundenplaneintrag ein Dummy ist.
     /// </summary>
-    [DependsUpon("StundenplaneintragKlasse")]
+    [DependsUpon("StundenplaneintragLerngruppe")]
     public bool IsDummy
     {
       get
       {
-        return this.Model.Klasse == null;
+        return this.Model.Lerngruppe == null;
       }
     }
 

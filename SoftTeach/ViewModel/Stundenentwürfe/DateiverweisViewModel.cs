@@ -8,6 +8,7 @@
   using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Helper;
+  using SoftTeach.ViewModel.Termine;
 
   /// <summary>
   /// ViewModel of an individual dateiverweis
@@ -25,7 +26,7 @@
     /// <param name="dateiverweis">
     /// The underlying dateiverweis this ViewModel is to be based on
     /// </param>
-    public DateiverweisViewModel(Dateiverweis dateiverweis)
+    public DateiverweisViewModel(DateiverweisNeu dateiverweis)
     {
       if (dateiverweis == null)
       {
@@ -44,7 +45,7 @@
     /// <summary>
     /// Holt den underlying Dateiverweis this ViewModel is based on
     /// </summary>
-    public Dateiverweis Model { get; private set; }
+    public DateiverweisNeu Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Dateiname
@@ -214,7 +215,7 @@
       // Wenn die Datei verschoben wurde, aber nicht zu finden ist, suche unter Standardverzeichnis
       if (!File.Exists(this.DateiverweisDateiname))
       {
-        var resolvedPfad = StundenentwurfViewModel.GetDateiverweispfad(this.Model.Stundenentwurf);
+        var resolvedPfad = StundeViewModel.GetDateiverweispfad(this.Model.Stunde);
         var newLocationTest = Path.Combine(resolvedPfad, this.DateiverweisDateinameOhnePfad);
         if (File.Exists(newLocationTest)) this.DateiverweisDateiname = newLocationTest;
       }

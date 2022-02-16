@@ -24,7 +24,7 @@ namespace SoftTeach.Setting
   using Properties;
   using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Sitzpläne;
-
+  using SoftTeach.ViewModel.Termine;
   using ViewModel.Datenbank;
   using ViewModel.Noten;
   using ViewModel.Personen;
@@ -44,8 +44,7 @@ namespace SoftTeach.Setting
     private LerngruppeViewModel lerngruppe;
     private SchuljahrViewModel schuljahr;
     private ModulViewModel modul;
-    private StundeNeu stunde;
-    private StundenentwurfViewModel stundenentwurf;
+    private StundeViewModel stunde;
     private SchülereintragViewModel schülereintrag;
     private ArbeitViewModel arbeit;
     private BewertungsschemaViewModel bewertungsschema;
@@ -163,7 +162,7 @@ namespace SoftTeach.Setting
     /// <summary>
     /// Holt oder setzt die Stunde
     /// </summary>
-    public StundeNeu Stunde
+    public StundeViewModel Stunde
     {
       get
       {
@@ -191,23 +190,6 @@ namespace SoftTeach.Setting
       {
         this.jahrgang = value;
         this.OnPropertyChanged("Jahrgang");
-      }
-    }
-
-    /// <summary>
-    /// Holt oder setzt den Stundenentwurf.
-    /// </summary>
-    public StundenentwurfViewModel Stundenentwurf
-    {
-      get
-      {
-        return this.stundenentwurf;
-      }
-
-      set
-      {
-        this.stundenentwurf = value;
-        this.OnPropertyChanged("Stundenentwurf");
       }
     }
 
@@ -486,11 +468,11 @@ namespace SoftTeach.Setting
       {
         if (DateTime.Now.Month > 7 || DateTime.Now.Month == 1)
         {
-          this.Halbjahr = App.MainViewModel.Halbjahre[0];
+          this.Halbjahr = Halbjahr.Winter;
         }
         else
         {
-          this.Halbjahr = App.MainViewModel.Halbjahre[1];
+          this.Halbjahr = Halbjahr.Sommer;
         }
       }
 

@@ -278,14 +278,15 @@
     /// </summary>
     protected void UpdateStundenentwurfStundenzahl()
     {
-      if (this is StundeViewModel)
-      {
-        var stunde = this as StundeViewModel;
-        if (stunde != null && stunde.StundeStundenentwurf != null)
-        {
-          stunde.StundeStundenentwurf.StundenentwurfStundenzahl = this.TerminStundenanzahl;
-        }
-      }
+      // TODO not needed
+      //if (this is StundeViewModel)
+      //{
+      //  var stunde = this as StundeViewModel;
+      //  if (stunde != null && stunde.StundeStundenentwurf != null)
+      //  {
+      //    stunde.StundeStundenentwurf.StundenentwurfStundenzahl = this.TerminStundenanzahl;
+      //  }
+      //}
     }
   }
 }

@@ -321,7 +321,7 @@
                 entwurf.Modul = aktuelleSequenz.SequenzReihe.ReiheModul.Model;
                 //App.UnitOfWork.Context.Stundenentwürfe.Add(entwurf);
                 entwurfViewModel = new StundenentwurfViewModel(entwurf);
-                App.MainViewModel.Stundenentwürfe.Add(entwurfViewModel);
+                App.MainViewModel.Stunden.Add(entwurfViewModel);
                 stunde.StundeStundenentwurf = entwurfViewModel;
               }
               else

@@ -7,6 +7,7 @@
   using System.Windows.Media;
 
   using SoftTeach.ViewModel.Datenbank;
+  using SoftTeach.ViewModel.Personen;
 
   /// <summary>
   /// Interaction logic for BetroffeneKlassenDialog.xaml
@@ -54,13 +55,13 @@
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-      int jahrgangsstufenCount = App.MainViewModel.Jahrgangsstufen.Count;
+      int jahrgangsstufenCount = App.MainViewModel.Klassenstufen.Count;
       this.Lerngruppengrid.Columns = jahrgangsstufenCount;
       for (int i = 0; i < jahrgangsstufenCount; i++)
       {
-        var jahrgangsstufe = App.MainViewModel.Jahrgangsstufen[i];
+        var jahrgangsstufe = App.MainViewModel.Klassenstufen[i];
         var jahrgangsGroup = new GroupBox();
-        var jahrgang = jahrgangsstufe.JahrgangsstufeBezeichnung;
+        var jahrgang = jahrgangsstufe;
         jahrgangsGroup.Header = jahrgang;
 
         var panel = new StackPanel();
@@ -86,33 +87,34 @@
 
         panel.Children.Add(separator);
 
-        foreach (var klassenstufe in jahrgangsstufe.Klassenstufen)
-        {
-          foreach (var klasse in klassenstufe.Klassen)
-          {
-            var chb = new CheckBox
-            {
-              Content = klasse.KlasseBezeichnung,
-              Tag = klasse
-            };
+        //TODO
+        //foreach (var klassenstufe in jahrgangsstufe.Klassenstufen)
+        //{
+        //  foreach (var klasse in klassenstufe.Klassen)
+        //  {
+        //    var chb = new CheckBox
+        //    {
+        //      Content = klasse.KlasseBezeichnung,
+        //      Tag = klasse
+        //    };
 
-            foreach (var ausgewählteKlasse in this.Klassen)
-            {
-              if (ausgewählteKlasse.KlasseBezeichnung == klasse.KlasseBezeichnung)
-              {
-                chb.IsChecked = true;
-                break;
-              }
-            }
+        //    foreach (var ausgewählteKlasse in this.Klassen)
+        //    {
+        //      if (ausgewählteKlasse.LerngruppeBezeichnung == klasse.KlasseBezeichnung)
+        //      {
+        //        chb.IsChecked = true;
+        //        break;
+        //      }
+        //    }
 
-            if (this.Klassen.Count == 0)
-            {
-              chb.IsChecked = true;
-            }
+        //    if (this.Klassen.Count == 0)
+        //    {
+        //      chb.IsChecked = true;
+        //    }
 
-            panel.Children.Add(chb);
-          }
-        }
+        //    panel.Children.Add(chb);
+        //  }
+        //}
 
         this.Lerngruppengrid.Children.Add(jahrgangsGroup);
       }

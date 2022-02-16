@@ -10,18 +10,13 @@
 namespace SoftTeach.Model.TeachyModel
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class PhaseNeu
+    public enum Sozialform : int
     {
-        public int Id { get; set; }
-        public int StundeId { get; set; }
-        public int Zeit { get; set; }
-        public Medium Medium { get; set; }
-        public Sozialform Sozialform { get; set; }
-        public string Inhalt { get; set; }
-        public int Reihenfolge { get; set; }
-    
-        public virtual StundeNeu Stunde { get; set; }
+        GA = 1,
+        PA = 2,
+        LV = 3,
+        UG = 4,
+        EA = 5
     }
 }

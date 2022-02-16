@@ -33,7 +33,7 @@
     /// <param name="schultermin">
     /// The underlying termin this ViewModel is to be based on
     /// </param>
-    public SchulterminViewModel(Schultermin schultermin)
+    public SchulterminViewModel(SchulterminNeu schultermin)
       : base(schultermin)
     {
       // Build data structures for betroffeneKlassen
@@ -93,14 +93,14 @@
     {
       get
       {
-        return ((Schultermin)this.Model).Datum;
+        return ((SchulterminNeu)this.Model).Datum;
       }
 
       set
       {
-        if (value == ((Schultermin)this.Model).Datum) return;
-        this.UndoablePropertyChanging(this, "SchulterminDatum", ((Schultermin)this.Model).Datum, value);
-        ((Schultermin)this.Model).Datum = value;
+        if (value == ((SchulterminNeu)this.Model).Datum) return;
+        this.UndoablePropertyChanging(this, "SchulterminDatum", ((SchulterminNeu)this.Model).Datum, value);
+        ((SchulterminNeu)this.Model).Datum = value;
         SchulterminWorkspaceViewModel.ZuletztVerwendetesDatum = value;
         this.RaisePropertyChanged("SchulterminDatum");
       }
@@ -114,14 +114,14 @@
       get
       {
         // We need to reflect any changes made in the model so we check the current value before returning
-        if (((Schultermin)this.Model).Schuljahr == null)
+        if (((SchulterminNeu)this.Model).Schuljahr == null)
         {
           return null;
         }
 
-        if (this.schuljahr == null || this.schuljahr.Model != ((Schultermin)this.Model).Schuljahr)
+        if (this.schuljahr == null || this.schuljahr.Model != ((SchulterminNeu)this.Model).Schuljahr)
         {
-          this.schuljahr = App.MainViewModel.Schuljahre.SingleOrDefault(d => d.Model == ((Schultermin)this.Model).Schuljahr);
+          this.schuljahr = App.MainViewModel.Schuljahre.SingleOrDefault(d => d.Model == ((SchulterminNeu)this.Model).Schuljahr);
         }
 
         return this.schuljahr;
@@ -132,7 +132,7 @@
         if (value.SchuljahrBezeichnung == this.schuljahr.SchuljahrBezeichnung) return;
         this.UndoablePropertyChanging(this, "SchulterminSchuljahr", this.schuljahr, value);
         this.schuljahr = value;
-        ((Schultermin)this.Model).Schuljahr = value.Model;
+        ((SchulterminNeu)this.Model).Schuljahr = value.Model;
         this.RaisePropertyChanged("SchulterminSchuljahr");
       }
     }
@@ -191,7 +191,7 @@
 
       foreach (var betroffeneKlasse in this.BetroffeneKlassen)
       {
-        dlg.Klassen.Add(betroffeneKlasse.BetroffeneKlasseKlasse);
+        dlg.Klassen.Add(betroffeneKlasse.BetroffeneKlasseLerngruppe);
       }
 
       if (dlg.ShowDialog().GetValueOrDefault(false))
@@ -204,7 +204,7 @@
           {
             var found =
               dlg.Klassen.Any(
-                o => bereitsGewählteKlasse.BetroffeneKlasseKlasse.KlasseBezeichnung == o.KlasseBezeichnung);
+                o => bereitsGewählteKlasse.BetroffeneKlasseLerngruppe.LerngruppeBezeichnung == o.LerngruppeBezeichnung);
 
             if (!found)
             {
@@ -222,13 +222,13 @@
           {
             // Check for already existing klassen
             var skip =
-              this.BetroffeneKlassen.Any(o => o.BetroffeneKlasseKlasse.KlasseBezeichnung == klasse.KlasseBezeichnung);
+              this.BetroffeneKlassen.Any(o => o.BetroffeneKlasseLerngruppe.LerngruppeBezeichnung == klasse.LerngruppeBezeichnung);
 
             if (!skip)
             {
-              var betroffeneKlasse = new BetroffeneKlasse();
-              betroffeneKlasse.Klasse = klasse.Model;
-              betroffeneKlasse.Termin = this.Model as Schultermin;
+              var betroffeneKlasse = new BetroffeneKlasseNeu();
+              betroffeneKlasse.Lerngruppe = klasse.Model;
+              betroffeneKlasse.Schultermin = this.Model as SchulterminNeu;
 
               var vm = new BetroffeneKlasseViewModel(betroffeneKlasse);
               //App.UnitOfWork.Context.BetroffeneKlassen.Add(betroffeneKlasse);

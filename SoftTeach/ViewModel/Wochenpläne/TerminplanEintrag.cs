@@ -344,7 +344,7 @@
             var klassenstring = string.Empty;
             foreach (var betroffeneKlasseViewModel in schultermin.BetroffeneKlassen)
             {
-              klassenstring += betroffeneKlasseViewModel.BetroffeneKlasseKlasse.KlasseBezeichnung + ",";
+              klassenstring += betroffeneKlasseViewModel.BetroffeneKlasseLerngruppe.LerngruppeBezeichnung + ",";
             }
 
             return klassenstring;
@@ -367,7 +367,65 @@
       {
         if (this.TerminViewModel != null)
         {
-          var color = this.TerminViewModel.TerminTermintyp.TermintypKalenderfarbe;
+          var color = Colors.Transparent;
+          switch (this.TerminViewModel.TerminTermintyp)
+          {
+            case Termintyp.Klausur:
+              color = Colors.Yellow;
+              break;
+            case Termintyp.TagDerOffenenTür:
+              color = Colors.Blue;
+              break;
+            case Termintyp.Wandertag:
+              color = Colors.Magenta;
+              break;
+            case Termintyp.Abitur:
+              color = Colors.Red;
+              break;
+            case Termintyp.MSA:
+              color = Colors.Red;
+              break;
+            case Termintyp.Unterricht:
+              color = Colors.LightBlue;
+              break;
+            case Termintyp.Vertretung:
+              color = Colors.LightGray;
+              break;
+            case Termintyp.Besprechung:
+              color = Colors.Orange;
+              break;
+            case Termintyp.Sondertermin:
+              color = Colors.Orange;
+              break;
+            case Termintyp.Ferien:
+              color = Colors.Green;
+              break;
+            case Termintyp.Kursfahrt:
+              color = Colors.Fuchsia;
+              break;
+            case Termintyp.Klassenfahrt:
+              color = Colors.Fuchsia;
+              break;
+            case Termintyp.Projekttag:
+              color = Colors.Orange;
+              break;
+            case Termintyp.Praktikum:
+              color = Colors.Orange;
+              break;
+            case Termintyp.Geburtstag:
+              color = Colors.SteelBlue;
+              break;
+            case Termintyp.Veranstaltung:
+              color = Colors.Maroon;
+              break;
+            case Termintyp.PSE:
+              color = Colors.Fuchsia;
+              break;
+            default:
+              color = Colors.Transparent;
+              break;
+          }
+
           color.A = 200;
           return new SolidColorBrush(color);
         }
@@ -506,7 +564,6 @@
         return;
       }
 
-
       using (new UndoBatch(App.MainViewModel, string.Format("Wochenplaneintrag {0} editiert.", this), false))
       {
         if (this.TerminViewModel is LerngruppenterminViewModel)
@@ -514,17 +571,8 @@
           var lerngruppentermin = this.TerminViewModel as LerngruppenterminViewModel;
           Selection.Instance.Fach =
             App.MainViewModel.Fächer.First(o => o.FachBezeichnung == lerngruppentermin.LerngruppenterminFach);
-          Selection.Instance.Klasse =
-            App.MainViewModel.Klassen.First(o => o.KlasseBezeichnung == lerngruppentermin.LerngruppenterminLerngruppe);
-          if (lerngruppentermin is StundeViewModel)
-          {
-            var stunde = lerngruppentermin as StundeViewModel;
-            if (stunde.StundeStundenentwurf != null && stunde.StundeStundenentwurf.StundenentwurfModul != null)
-            {
-              Selection.Instance.Modul = stunde.StundeStundenentwurf.StundenentwurfModul;
-            }
-          }
-
+          Selection.Instance.Lerngruppe =
+            App.MainViewModel.Lerngruppen.First(o => o.LerngruppeBezeichnung == lerngruppentermin.LerngruppenterminLerngruppe);
           lerngruppentermin.ViewLerngruppenterminCommand.Execute(null);
         }
         else if (this.TerminViewModel is SchulterminViewModel)
@@ -555,17 +603,7 @@
           var lerngruppentermin = this.TerminViewModel as LerngruppenterminViewModel;
           Selection.Instance.Fach =
             App.MainViewModel.Fächer.First(o => o.FachBezeichnung == lerngruppentermin.LerngruppenterminFach);
-          Selection.Instance.Klasse =
-            App.MainViewModel.Klassen.First(o => o.KlasseBezeichnung == lerngruppentermin.LerngruppenterminLerngruppe);
-          if (lerngruppentermin is StundeViewModel)
-          {
-            var stunde = lerngruppentermin as StundeViewModel;
-            if (stunde.StundeStundenentwurf != null && stunde.StundeStundenentwurf.StundenentwurfModul != null)
-            {
-              Selection.Instance.Modul = stunde.StundeStundenentwurf.StundenentwurfModul;
-            }
-          }
-
+          Selection.Instance.Lerngruppe = App.MainViewModel.Lerngruppen.First(o => o.Model.Id == lerngruppentermin.Model.LerngruppeId);
           lerngruppentermin.EditLerngruppenterminCommand.Execute(null);
         }
         else if (this.TerminViewModel is SchulterminViewModel)
@@ -595,18 +633,11 @@
       }
 
       var stunde = this.TerminViewModel as StundeViewModel;
-      stunde.StundeStundenentwurf.StundenentwurfDatum = stunde.LerngruppenterminDatum;
       Selection.Instance.Fach = App.MainViewModel.Fächer.First(o => o.FachBezeichnung == stunde.LerngruppenterminFach);
-      Selection.Instance.Klasse = App.MainViewModel.Klassen.First(o => o.KlasseBezeichnung == stunde.LerngruppenterminLerngruppe);
-      Selection.Instance.Stunde = stunde.Model as Stunde;
-      Selection.Instance.Stundenentwurf = stunde.StundeStundenentwurf;
+      Selection.Instance.Lerngruppe = App.MainViewModel.Lerngruppen.First(o => o.Model.Id == stunde.Model.LerngruppeId);
+      Selection.Instance.Stunde = stunde.Model as StundeNeu;
 
-      var schülerliste =
-        App.MainViewModel.Lerngruppen.FirstOrDefault(
-          o =>
-          o.LerngruppeFach.FachBezeichnung == stunde.LerngruppenterminFach
-          && o.LerngruppeSchuljahr.SchuljahrBezeichnung == stunde.LerngruppenterminSchuljahr
-          && o.LerngruppeKlasse.KlasseBezeichnung == stunde.LerngruppenterminLerngruppe);
+      var schülerliste = Selection.Instance.Lerngruppe;
 
       if (schülerliste == null)
       {
@@ -624,8 +655,8 @@
           //  notenPage.DataContext = viewModel;
           //  Configuration.Instance.NavigationService.Navigate(notenPage);
           //
-          var stunden = new ObservableCollection<Stunde>();
-          stunden.Add(stunde.Model as Stunde);
+          var stunden = new ObservableCollection<StundeNeu>();
+          stunden.Add(stunde.Model as StundeNeu);
           var viewModelReminder = new StundennotenReminderWorkspaceViewModel(stunden);
           var dlg = new MetroStundennotenReminderWindow { DataContext = viewModelReminder };
           dlg.ShowDialog();
@@ -663,12 +694,8 @@
       }
 
       var stunde = this.TerminViewModel as StundeViewModel;
-      var schülerliste =
-        App.MainViewModel.Lerngruppen.First(
-          o =>
-          o.LerngruppeFach.FachBezeichnung == stunde.LerngruppenterminFach
-          && o.LerngruppeSchuljahr.SchuljahrBezeichnung == stunde.LerngruppenterminSchuljahr
-          && o.LerngruppeKlasse.KlasseBezeichnung == stunde.LerngruppenterminLerngruppe);
+      var schülerliste = App.MainViewModel.Lerngruppen.First(o => o.Model.Id == stunde.Model.LerngruppeId);
+
       Selection.Instance.Lerngruppe = schülerliste;
 
       if (Configuration.Instance.IsMetroMode)
@@ -721,12 +748,8 @@
       }
 
       var stunde = this.TerminViewModel as StundeViewModel;
-      var schülerliste =
-        App.MainViewModel.Lerngruppen.First(
-          o =>
-          o.LerngruppeFach.FachBezeichnung == stunde.LerngruppenterminFach
-          && o.LerngruppeSchuljahr.SchuljahrBezeichnung == stunde.LerngruppenterminSchuljahr
-          && o.LerngruppeKlasse.KlasseBezeichnung == stunde.LerngruppenterminLerngruppe);
+      var schülerliste = App.MainViewModel.Lerngruppen.First(o => o.Model.Id == stunde.Model.LerngruppeId);
+
 
       if (Configuration.Instance.IsMetroMode)
       {

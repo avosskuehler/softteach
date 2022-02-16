@@ -5,6 +5,7 @@
   using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Helper;
+  using SoftTeach.ViewModel.Personen;
 
   /// <summary>
   /// ViewModel of an individual betroffeneKlasse
@@ -14,7 +15,7 @@
     /// <summary>
     /// The klasse currently assigned to this betroffeneKlasse
     /// </summary>
-    private LerngruppeViewModel klasse;
+    private LerngruppeViewModel lerngruppe;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="BetroffeneKlasseViewModel"/> Klasse. 
@@ -22,7 +23,7 @@
     /// <param name="betroffeneKlasse">
     /// The underlying betroffeneKlasse this ViewModel is to be based on
     /// </param>
-    public BetroffeneKlasseViewModel(BetroffeneKlasse betroffeneKlasse)
+    public BetroffeneKlasseViewModel(BetroffeneKlasseNeu betroffeneKlasse)
     {
       if (betroffeneKlasse == null)
       {
@@ -35,35 +36,35 @@
     /// <summary>
     /// Holt den underlying BetroffeneKlasse this ViewModel is based on
     /// </summary>
-    public BetroffeneKlasse Model { get; private set; }
+    public BetroffeneKlasseNeu Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die halbjahr currently assigned to this Termin
     /// </summary>
-    public LerngruppeViewModel BetroffeneKlasseKlasse
+    public LerngruppeViewModel BetroffeneKlasseLerngruppe
     {
       get
       {
         // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Klasse == null && this.klasse != null)
+        if (this.Model.Lerngruppe == null && this.lerngruppe != null)
         {
-          return this.klasse;
+          return this.lerngruppe;
         }
 
-        if (this.klasse == null || this.klasse.Model != this.Model.Klasse)
+        if (this.lerngruppe == null || this.lerngruppe.Model != this.Model.Lerngruppe)
         {
-          this.klasse = App.MainViewModel.Klassen.SingleOrDefault(d => d.Model == this.Model.Klasse);
+          this.lerngruppe = App.MainViewModel.Lerngruppen.SingleOrDefault(d => d.Model == this.Model.Lerngruppe);
         }
 
-        return this.klasse;
+        return this.lerngruppe;
       }
 
       set
       {
-        if (value.KlasseBezeichnung == this.klasse.KlasseBezeichnung) return;
-        this.UndoablePropertyChanging(this, "BetroffeneKlasseKlasse", this.klasse, value);
-        this.klasse = value;
-        this.Model.Klasse = value.Model;
+        if (value.LerngruppeBezeichnung == this.lerngruppe.LerngruppeBezeichnung) return;
+        this.UndoablePropertyChanging(this, "BetroffeneKlasseKlasse", this.lerngruppe, value);
+        this.lerngruppe = value;
+        this.Model.Lerngruppe = value.Model;
         this.RaisePropertyChanged("BetroffeneKlasseKlasse");
       }
     }
@@ -78,7 +79,7 @@
       var otherViewModel = obj as BetroffeneKlasseViewModel;
       if (otherViewModel != null)
       {
-        return StringLogicalComparer.Compare(this.Model.Klasse.Bezeichnung, otherViewModel.Model.Klasse.Bezeichnung);
+        return StringLogicalComparer.Compare(this.Model.Lerngruppe.Bezeichnung, otherViewModel.Model.Lerngruppe.Bezeichnung);
       }
 
       throw new ArgumentException("Object is not a BetroffeneKlasseViewModel");
@@ -90,7 +91,7 @@
     /// <returns>Ein <see cref="string"/> mit einer Kurzform des ViewModels.</returns>
     public override string ToString()
     {
-      return "BetroffeneKlasse: " + this.BetroffeneKlasseKlasse.KlasseBezeichnung;
+      return "BetroffeneKlasse: " + this.BetroffeneKlasseLerngruppe.LerngruppeBezeichnung;
     }
   }
 }

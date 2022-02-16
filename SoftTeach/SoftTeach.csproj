@@ -479,6 +479,9 @@
     <Compile Include="Model\TeachyModel\SitzplatzNeu.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\TeachyModel\Sozialform.cs">
+      <DependentUpon>TeachyModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\TeachyModel\StundeNeu.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
@@ -660,7 +663,6 @@
     <Compile Include="ViewModel\Sitzpläne\RaumWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Stundenentwürfe\DateiverweisViewModel.cs" />
     <Compile Include="ViewModel\Helper\SequencingService.cs" />
-    <Compile Include="ViewModel\Stundenentwürfe\StundenentwurfEintrag.cs" />
     <Compile Include="ViewModel\Stundenentwürfe\PhaseContainer.cs" />
     <Compile Include="ViewModel\Stundenpläne\StundenplanÄnderungUpdateType.cs" />
     <Compile Include="ViewModel\Termine\BetroffeneKlasseViewModel.cs" />
@@ -685,7 +687,6 @@
     <Compile Include="ViewModel\Termine\StundeViewModel.cs" />
     <Compile Include="ViewModel\Stundenentwürfe\PhaseViewModel.cs" />
     <Compile Include="ViewModel\Datenbank\ModulViewModel.cs" />
-    <Compile Include="ViewModel\Stundenentwürfe\StundenentwurfViewModel.cs" />
     <Compile Include="ViewModel\Datenbank\UnterrichtsstundeViewModel.cs" />
     <Compile Include="ViewModel\Datenbank\FachViewModel.cs" />
     <Compile Include="ViewModel\Helper\DelegateCommand.cs" />

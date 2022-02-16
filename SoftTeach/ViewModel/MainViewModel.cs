@@ -13,6 +13,7 @@
   using System.Windows.Media;
 
   using SoftTeach.ExceptionHandling;
+  using SoftTeach.Model.EntityFramework;
   using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
@@ -52,13 +53,11 @@
     private ArbeitWorkspaceViewModel arbeitWorkspace;
     private RaumWorkspaceViewModel raumWorkspace;
     private LerngruppeWorkspaceViewModel schülerlisteWorkspace;
-    private JahresplanWorkspaceViewModel jahresplanWorkspace;
     private SitzplanWorkspaceViewModel sitzplanWorkspace;
     private WochenplanWorkspaceViewModel wochenplanWorkspace;
     private TagesplanWorkspaceViewModel tagesplanWorkspace;
     private StundenentwurfWorkspaceViewModel stundenentwurfWorkspace;
-    private ObservableCollection<StundenentwurfViewModel> stundenentwürfe;
-    private ObservableCollection<JahresplanViewModel> jahrespläne;
+    private ObservableCollection<StundeViewModel> stunden;
     private ObservableCollection<CurriculumViewModel> curricula;
     private ObservableCollection<RaumViewModel> räume;
     private ObservableCollection<SitzplanViewModel> sitzpläne;
@@ -81,26 +80,15 @@
 
       // Build data structures to populate areas of the application surface
       this.Schuljahre = new ObservableCollection<SchuljahrViewModel>();
-      this.Schulwochen = new ObservableCollection<SchulwocheViewModel>();
-      this.Schultage = new ObservableCollection<SchultagViewModel>();
-      this.Halbjahre = new ObservableCollection<Halbjahr>();
-      this.Monatstypen = new ObservableCollection<MonatstypViewModel>();
-      this.Termintypen = new ObservableCollection<TermintypViewModel>();
-      this.Medien = new ObservableCollection<MediumViewModel>();
       this.Dateitypen = new ObservableCollection<DateitypViewModel>();
-      this.Sozialformen = new ObservableCollection<SozialformViewModel>();
       this.Unterrichtsstunden = new ObservableCollection<UnterrichtsstundeViewModel>();
-      this.Jahrgangsstufen = new ObservableCollection<JahrgangsstufeViewModel>();
       this.Klassenstufen = new ObservableCollection<int>();
-      this.Klassen = new ObservableCollection<Datenbank.LerngruppeViewModel>();
       this.Fächer = new ObservableCollection<FachViewModel>();
       this.Module = new ObservableCollection<ModulViewModel>();
       //this.Reihen = new ObservableCollection<ReiheViewModel>();
       this.Ferien = new ObservableCollection<FerienViewModel>();
       this.Fachstundenanzahl = new ObservableCollection<FachstundenanzahlViewModel>();
       this.Personen = new ObservableCollection<PersonViewModel>();
-      this.Tendenztypen = new ObservableCollection<TendenztypViewModel>();
-      this.Tendenzen = new ObservableCollection<TendenzViewModel>();
       this.Zensuren = new ObservableCollection<ZensurViewModel>();
       this.NotenWichtungen = new ObservableCollection<NotenWichtungViewModel>();
       //this.Sequenzen = new ObservableCollection<SequenzViewModel>();
@@ -136,14 +124,13 @@
 
       // The creation of the allJahrespläne includes the creation of the 
       // halbjahres/monats/tagesplan/stunde models
-      this.jahrespläne = new ObservableCollection<JahresplanViewModel>();
       //this.Halbjahrespläne = new ObservableCollection<HalbjahresplanViewModel>();
       //this.Monatspläne = new ObservableCollection<MonatsplanViewModel>();
       //this.Tagespläne = new ObservableCollection<TagesplanViewModel>();
 
       // The creation of the allStundenentwürfe includes the creation of
       // the phase and dateiverweis models
-      this.stundenentwürfe = new ObservableCollection<StundenentwurfViewModel>();
+      this.stunden = new ObservableCollection<StundeViewModel>();
       //this.Stundenentwürfe = new ObservableCollection<StundenentwurfViewModel>();
       //this.Phasen = new ObservableCollection<PhaseViewModel>();
       //this.Dateiverweise = new ObservableCollection<DateiverweisViewModel>();
@@ -168,7 +155,6 @@
     {
       if (e.PropertyName == "Schuljahr")
       {
-        LoadJahrespläne();
         LoadLerngruppen();
       }
     }
@@ -205,39 +191,9 @@
     public ObservableCollection<SchuljahrViewModel> Schuljahre { get; private set; }
 
     /// <summary>
-    /// Holt alle Halbjahre der Datenbank
-    /// </summary>
-    public ObservableCollection<Halbjahr> Halbjahre { get; private set; }
-
-    /// <summary>
-    /// Holt alle Monatstypen der Datenbank
-    /// </summary>
-    public ObservableCollection<MonatstypViewModel> Monatstypen { get; private set; }
-
-    /// <summary>
-    /// Holt alle Termintypen der Datenbank
-    /// </summary>
-    public ObservableCollection<TermintypViewModel> Termintypen { get; private set; }
-
-    /// <summary>
-    /// Holt alle Medien der Datenbank
-    /// </summary>
-    public ObservableCollection<MediumViewModel> Medien { get; private set; }
-
-    /// <summary>
-    /// Holt alle Sozialformen der Datenbank
-    /// </summary>
-    public ObservableCollection<SozialformViewModel> Sozialformen { get; private set; }
-
-    /// <summary>
     /// Holt alle Unterrichtsstunden der Datenbank
     /// </summary>
     public ObservableCollection<UnterrichtsstundeViewModel> Unterrichtsstunden { get; private set; }
-
-    /// <summary>
-    /// Holt alle Jahrgangsstufen der Datenbank
-    /// </summary>
-    public ObservableCollection<JahrgangsstufeViewModel> Jahrgangsstufen { get; private set; }
 
     /// <summary>
     /// Holt alle Klassenstufen der Datenbank
@@ -291,16 +247,6 @@
     public ObservableCollection<DateitypViewModel> Dateitypen { get; private set; }
 
     /// <summary>
-    /// Holt alle Schulwochen der Datenbank
-    /// </summary>
-    public ObservableCollection<SchulwocheViewModel> Schulwochen { get; private set; }
-
-    /// <summary>
-    /// Holt alle Schultage der Datenbank
-    /// </summary>
-    public ObservableCollection<SchultagViewModel> Schultage { get; private set; }
-
-    /// <summary>
     /// Holt alle Ferien der Datenbank
     /// </summary>
     public ObservableCollection<FerienViewModel> Ferien { get; private set; }
@@ -315,55 +261,20 @@
     /// </summary>
     public ObservableCollection<SchulterminViewModel> Schultermine { get; private set; }
 
-    ///// <summary>
-    ///// Holt alle  der Datenbank
-    ///// </summary>
-    //public ObservableCollection<LerngruppenterminViewModel> Lerngruppentermine { get; private set; }
-
-    ///// <summary>
-    ///// Holt alle Stunden der Datenbank
-    ///// </summary>
-    //public ObservableCollection<StundeViewModel> Stunden { get; private set; }
-
     /// <summary>
     /// Holt alle BetroffeneKlassen der Datenbank
     /// </summary>
     public ObservableCollection<BetroffeneKlasseViewModel> BetroffeneKlassen { get; private set; }
 
-    /// <summary>
-    /// Holt alle Jahrespläne der Datenbank
-    /// </summary>
-    public ObservableCollection<JahresplanViewModel> Jahrespläne
-    {
-      get
-      {
-        return this.jahrespläne;
-      }
-    }
-
-    ///// <summary>
-    ///// Holt alle Halbjahrespläne der Datenbank
-    ///// </summary>
-    //public ObservableCollection<HalbjahresplanViewModel> Halbjahrespläne { get; private set; }
-
-    ///// <summary>
-    ///// Holt alle Monatspläne der Datenbank
-    ///// </summary>
-    //public ObservableCollection<MonatsplanViewModel> Monatspläne { get; private set; }
-
-    ///// <summary>
-    ///// Holt alle Tagespläne der Datenbank
-    ///// </summary>
-    //public ObservableCollection<TagesplanViewModel> Tagespläne { get; private set; }
 
     /// <summary>
     /// Holt alle Stundenentwürfe der Datenbank
     /// </summary>
-    public ObservableCollection<StundenentwurfViewModel> Stundenentwürfe
+    public ObservableCollection<StundeViewModel> Stunden
     {
       get
       {
-        return this.stundenentwürfe;
+        return this.stunden;
       }
     }
 
@@ -407,16 +318,6 @@
     /// Holt alle Personen der Datenbank
     /// </summary>
     public ObservableCollection<PersonViewModel> Personen { get; private set; }
-
-    /// <summary>
-    /// Holt alle Tendenztypen der Datenbank
-    /// </summary>
-    public ObservableCollection<TendenztypViewModel> Tendenztypen { get; private set; }
-
-    /// <summary>
-    /// Holt alle Tendenzen der Datenbank
-    /// </summary>
-    public ObservableCollection<TendenzViewModel> Tendenzen { get; private set; }
 
     /// <summary>
     /// Holt alle Zensuren der Datenbank
@@ -553,22 +454,6 @@
     public CurriculumWorkspaceViewModel CurriculumWorkspace { get; private set; }
 
     /// <summary>
-    /// Holt den workspace for managing Jahrespläne
-    /// </summary>
-    public JahresplanWorkspaceViewModel JahresplanWorkspace
-    {
-      get
-      {
-        if (this.jahresplanWorkspace == null)
-        {
-          this.jahresplanWorkspace = new JahresplanWorkspaceViewModel();
-        }
-
-        return this.jahresplanWorkspace;
-      }
-    }
-
-    /// <summary>
     /// Holt den workspace for managing Wochenpläne
     /// </summary>
     public WochenplanWorkspaceViewModel WochenplanWorkspace
@@ -622,21 +507,6 @@
     public FachWorkspaceViewModel FachWorkspace { get; private set; }
 
     /// <summary>
-    /// Holt den workspace for managing Termintypen
-    /// </summary>
-    public TermintypWorkspaceViewModel TermintypWorkspace { get; private set; }
-
-    /// <summary>
-    /// Holt den workspace for managing Sozialformenn
-    /// </summary>
-    public SozialformWorkspaceViewModel SozialformWorkspace { get; private set; }
-
-    /// <summary>
-    /// Holt den workspace for managing Medien
-    /// </summary>
-    public MediumWorkspaceViewModel MediumWorkspace { get; private set; }
-
-    /// <summary>
     /// Holt den workspace for managing Dateitypen
     /// </summary>
     public DateitypWorkspaceViewModel DateitypWorkspace { get; private set; }
@@ -645,11 +515,6 @@
     /// Holt den workspace for managing Module
     /// </summary>
     public ModulWorkspaceViewModel ModulWorkspace { get; private set; }
-
-    /// <summary>
-    /// Holt den workspace for managing Jahrgangsstufe
-    /// </summary>
-    public JahrgangsstufeWorkspaceViewModel JahrgangsstufeWorkspace { get; private set; }
 
     /// <summary>
     /// Holt den workspace for managing Unterrichtsstunden
@@ -696,16 +561,6 @@
     /// Holt den workspace for managing NotenWichtung
     /// </summary>
     public NotenWichtungWorkspaceViewModel NotenWichtungWorkspace { get; private set; }
-
-    /// <summary>
-    /// Holt den workspace for managing Tendenztypen
-    /// </summary>
-    public TendenztypWorkspaceViewModel TendenztypWorkspace { get; private set; }
-
-    /// <summary>
-    /// Holt das Modul zur Bearbeitung von Tendenzen.
-    /// </summary>
-    public TendenzWorkspaceViewModel TendenzWorkspace { get; private set; }
 
     /// <summary>
     /// Holt das Modul zur Bearbeitung von Zensuren.
@@ -874,50 +729,12 @@
         Console.WriteLine("Elapsed Schuljahre {0}", watch.ElapsedMilliseconds);
         watch.Restart();
 
-        foreach (var halbschuljahr in context.Halbjahre)
-        {
-          this.Halbjahre.Add(new Halbjahr(halbschuljahr));
-        }
-        Console.WriteLine("Elapsed Halbjahre {0}", watch.ElapsedMilliseconds);
-        watch.Restart();
-
-        foreach (var monatstyp in context.Monatstypen)
-        {
-          this.Monatstypen.Add(new MonatstypViewModel(monatstyp));
-        }
-        Console.WriteLine("Elapsed Monatstypen {0}", watch.ElapsedMilliseconds);
-        watch.Restart();
-
-        foreach (var termintyp in context.Termintypen.OrderBy(o => o.Bezeichnung))
-        {
-          this.Termintypen.Add(new TermintypViewModel(termintyp));
-        }
-        //this.Termintypen.BubbleSort();
-        Console.WriteLine("Elapsed Termintypen {0}", watch.ElapsedMilliseconds);
-        watch.Restart();
-
-        foreach (var medium in context.Medien.OrderBy(o => o.Bezeichnung))
-        {
-          this.Medien.Add(new MediumViewModel(medium));
-        }
-        //this.Medien.BubbleSort();
-        Console.WriteLine("Elapsed Medien {0}", watch.ElapsedMilliseconds);
-        watch.Restart();
-
         foreach (var dateityp in context.Dateitypen.OrderBy(o => o.Bezeichnung))
         {
           this.Dateitypen.Add(new DateitypViewModel(dateityp));
         }
         //this.Dateitypen.BubbleSort();
         Console.WriteLine("Elapsed Dateitypen {0}", watch.ElapsedMilliseconds);
-        watch.Restart();
-
-        foreach (var sozialform in context.Sozialformen.OrderBy(o => o.Bezeichnung))
-        {
-          this.Sozialformen.Add(new SozialformViewModel(sozialform));
-        }
-        //this.Sozialformen.BubbleSort();
-        Console.WriteLine("Elapsed Sozialformen {0}", watch.ElapsedMilliseconds);
         watch.Restart();
 
         foreach (var unterrichtsstunde in context.Unterrichtsstunden)
@@ -977,21 +794,6 @@
         //}
         //this.Klassenstufen.BubbleSort();
 
-        foreach (var tendenztyp in context.Tendenztypen.OrderBy(o => o.Bezeichnung))
-        {
-          this.Tendenztypen.Add(new TendenztypViewModel(tendenztyp));
-        }
-        //this.Tendenztypen.BubbleSort();
-        Console.WriteLine("Elapsed Tendenztypen {0}", watch.ElapsedMilliseconds);
-        watch.Restart();
-
-        foreach (var tendenz in context.Tendenzen)
-        {
-          this.Tendenzen.Add(new TendenzViewModel(tendenz));
-        }
-        Console.WriteLine("Elapsed Tendenzen {0}", watch.ElapsedMilliseconds);
-        watch.Restart();
-
         foreach (var zensur in context.Zensuren)
         {
           this.Zensuren.Add(new ZensurViewModel(zensur));
@@ -1006,14 +808,6 @@
         Console.WriteLine("Elapsed NotenWichtungen {0}", watch.ElapsedMilliseconds);
         watch.Restart();
 
-        // Now we fill the aggregated entities
-        foreach (var jahrgangsstufe in context.Jahrgangsstufen)
-        {
-          this.Jahrgangsstufen.Add(new JahrgangsstufeViewModel(jahrgangsstufe));
-        }
-        Console.WriteLine("Elapsed Jahrgangsstufen {0}", watch.ElapsedMilliseconds);
-        watch.Restart();
-
         //LoadArbeiten();
         //Console.WriteLine("Elapsed Arbeiten {0}", watch.ElapsedMilliseconds);
         //watch.Restart();
@@ -1022,9 +816,9 @@
         Console.WriteLine("PopulateFromSettings {0}", watch.ElapsedMilliseconds);
         watch.Restart();
 
-        foreach (Schultermin termin in context.Termine.OfType<Schultermin>().Where(o => o.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr))
+        foreach (SchulterminNeu termin in context.Termine.OfType<SchulterminNeu>().Where(o => o.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr))
         {
-          this.Schultermine.Add(new SchulterminViewModel(termin as Schultermin));
+          this.Schultermine.Add(new SchulterminViewModel(termin as SchulterminNeu));
         }
         Console.WriteLine("Elapsed Schultermine {0}", watch.ElapsedMilliseconds);
         watch.Restart();
@@ -1036,7 +830,7 @@
         //Console.WriteLine("Elapsed BetroffeneKlasse {0}", watch.ElapsedMilliseconds);
 
         //foreach (Person person in context.Personen.Where(o => o.Schülereintrag.Any(a => a.Lerngruppe.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr)))
-        foreach (Person person in context.Personen)
+        foreach (PersonNeu person in context.Personen)
         {
           this.Personen.Add(new PersonViewModel(person));
         }
@@ -1071,11 +865,11 @@
         //Console.WriteLine("Elapsed Prozentbereiche {0}", watch.ElapsedMilliseconds);
 
 
-        foreach (var stundenentwurf in context.Stundenentwürfe.Where(o => o.Stunden.Any(a => a.Tagesplan.Monatsplan.Halbjahresplan.Jahresplan.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr)))
+        foreach (var stunde in context.Termine.OfType<StundeNeu>().Where(o => o.Lerngruppe.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr))
         {
-          this.Stundenentwürfe.Add(new StundenentwurfViewModel(stundenentwurf));
+          this.Stunden.Add(new StundeViewModel(stunde));
         }
-        Console.WriteLine("Elapsed Stundenentwürfe {0}", watch.ElapsedMilliseconds);
+        Console.WriteLine("Elapsed Stunden {0}", watch.ElapsedMilliseconds);
         watch.Restart();
 
         //foreach (var phase in context.Phasen)
@@ -1182,14 +976,10 @@
         this.SchulterminWorkspace = new SchulterminWorkspaceViewModel();
         //this.WochenplanWorkspace = new WochenplanWorkspaceViewModel();
         //this.TagesplanWorkspace = new TagesplanWorkspaceViewModel();
-        this.MediumWorkspace = new MediumWorkspaceViewModel();
         this.DateitypWorkspace = new DateitypWorkspaceViewModel();
         this.FachWorkspace = new FachWorkspaceViewModel();
         this.SchuljahrWorkspace = new SchuljahrWorkspaceViewModel();
-        this.TermintypWorkspace = new TermintypWorkspaceViewModel();
-        this.SozialformWorkspace = new SozialformWorkspaceViewModel();
         this.ModulWorkspace = new ModulWorkspaceViewModel();
-        this.JahrgangsstufeWorkspace = new JahrgangsstufeWorkspaceViewModel();
         this.UnterrichtsstundeWorkspace = new UnterrichtsstundeWorkspaceViewModel();
         this.FerienWorkspace = new FerienWorkspaceViewModel();
         this.FachstundenanzahlWorkspace = new FachstundenanzahlWorkspaceViewModel();
@@ -1197,8 +987,6 @@
         this.SchülereintragWorkspace = new SchülereintragWorkspaceViewModel();
         this.PersonenWorkspace = new PersonenWorkspaceViewModel();
         this.NotenWichtungWorkspace = new NotenWichtungWorkspaceViewModel();
-        this.TendenztypWorkspace = new TendenztypWorkspaceViewModel();
-        this.TendenzWorkspace = new TendenzWorkspaceViewModel();
         this.ZensurWorkspace = new ZensurWorkspaceViewModel();
         //this.ArbeitWorkspace = new ArbeitWorkspaceViewModel();
         this.BewertungsschemaWorkspace = new BewertungsschemaWorkspaceViewModel();
@@ -1218,14 +1006,9 @@
         // so dass undo/redo stack aktualisiert wird
         // wenn sich die collections ändern
         this.Schuljahre.CollectionChanged += this.SchuljahreCollectionChanged;
-        this.Halbjahre.CollectionChanged += this.HalbjahreCollectionChanged;
-        this.Monatstypen.CollectionChanged += this.MonatstypenCollectionChanged;
-        this.Termintypen.CollectionChanged += this.TermintypenCollectionChanged;
-        this.Medien.CollectionChanged += this.MedienCollectionChanged;
         this.Dateitypen.CollectionChanged += this.DateitypenCollectionChanged;
-        this.Sozialformen.CollectionChanged += this.SozialformenCollectionChanged;
         this.Unterrichtsstunden.CollectionChanged += this.UnterrichtsstundenCollectionChanged;
-        this.Klassen.CollectionChanged += this.KlassenCollectionChanged;
+        this.Lerngruppen.CollectionChanged += this.LerngruppenCollectionChanged;
         this.Fächer.CollectionChanged += this.FächerCollectionChanged;
         this.Module.CollectionChanged += this.ModuleCollectionChanged;
         //this.Reihen.CollectionChanged += this.ReihenCollectionChanged;
@@ -1233,8 +1016,6 @@
         this.Ferien.CollectionChanged += this.FerienCollectionChanged;
         this.Fachstundenanzahl.CollectionChanged += this.FachstundenanzahlCollectionChanged;
         this.Klassenstufen.CollectionChanged += this.KlassenstufenCollectionChanged;
-        this.Tendenztypen.CollectionChanged += this.TendenztypenCollectionChanged;
-        this.Tendenzen.CollectionChanged += this.TendenzenCollectionChanged;
         this.Zensuren.CollectionChanged += this.ZensurenCollectionChanged;
         this.NotenWichtungen.CollectionChanged += this.NotenWichtungenCollectionChanged;
         //this.arbeiten.CollectionChanged += this.ArbeitenCollectionChanged;
@@ -1259,8 +1040,7 @@
         //this.sitzpläne.CollectionChanged += this.SitzpläneCollectionChanged;
         //this.Sitzplaneinträge.CollectionChanged += this.SitzplaneinträgeCollectionChanged;
 
-        this.Jahrgangsstufen.CollectionChanged += this.JahrgangsstufenCollectionChanged;
-        this.Stundenentwürfe.CollectionChanged += this.StundenentwürfeCollectionChanged;
+        this.Stunden.CollectionChanged += this.StundenentwürfeCollectionChanged;
         //this.Phasen.CollectionChanged += this.PhasenCollectionChanged;
         //this.Dateiverweise.CollectionChanged += this.DateiverweiseCollectionChanged;
         this.Curricula.CollectionChanged += this.CurriculaCollectionChanged;
@@ -1268,8 +1048,6 @@
         //this.Halbjahrespläne.CollectionChanged += this.HalbjahrespläneCollectionChanged;
         //this.Monatspläne.CollectionChanged += this.MonatspläneCollectionChanged;
         //this.Tagespläne.CollectionChanged += this.TagespläneCollectionChanged;
-        this.Schulwochen.CollectionChanged += this.SchulwochenCollectionChanged;
-        this.Schultage.CollectionChanged += this.SchultageCollectionChanged;
         this.Stundenpläne.CollectionChanged += this.StundenpläneCollectionChanged;
         this.Stundenplaneinträge.CollectionChanged += this.StundenplaneinträgeCollectionChanged;
 
@@ -1282,35 +1060,6 @@
       {
         Log.HandleException(ex);
       }
-    }
-
-    public void LoadJahrespläne()
-    {
-      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
-      var collection = this.jahrespläne;
-      this.jahrespläne.CollectionChanged -= this.JahrespläneCollectionChanged;
-      foreach (var jahresplan in App.UnitOfWork.Context.Jahrespläne.Where(o => o.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr))
-      {
-        if (!collection.Any(o => o.Model.Id == jahresplan.Id))
-        {
-          collection.Add(new JahresplanViewModel(jahresplan));
-        }
-      }
-      this.jahrespläne.CollectionChanged += this.JahrespläneCollectionChanged;
-      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
-    }
-
-    public void LoadJahresplan(Jahresplan jahresplan)
-    {
-      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
-      var collection = this.jahrespläne;
-      this.jahrespläne.CollectionChanged -= this.JahrespläneCollectionChanged;
-      if (!collection.Any(o => o.Model.Id == jahresplan.Id))
-      {
-        collection.Add(new JahresplanViewModel(jahresplan));
-      }
-      this.jahrespläne.CollectionChanged += this.JahrespläneCollectionChanged;
-      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
     }
 
     public void LoadLerngruppen()
@@ -1332,25 +1081,12 @@
       App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
     }
 
-    public void LoadStundenentwurf(Stundenentwurf stundenentwurf)
-    {
-      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
-      var collection = this.stundenentwürfe;
-      this.stundenentwürfe.CollectionChanged -= this.StundenentwürfeCollectionChanged;
-      if (!collection.Any(o => o.Model.Id == stundenentwurf.Id))
-      {
-        collection.Add(new StundenentwurfViewModel(stundenentwurf));
-      }
-      this.jahrespläne.CollectionChanged += this.StundenentwürfeCollectionChanged;
-      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
-    }
-
     public void LoadArbeiten()
     {
       App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
       var collection = this.arbeiten;
       this.arbeiten.CollectionChanged -= this.ArbeitenCollectionChanged;
-      foreach (var arbeit in App.UnitOfWork.Context.Arbeiten.Where(o => o.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr))
+      foreach (var arbeit in App.UnitOfWork.Context.Arbeiten.Where(o => o.Lerngruppe.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr))
       {
         if (!collection.Any(o => o.Model.Id == arbeit.Id))
         {
@@ -1469,9 +1205,8 @@
           Directory.CreateDirectory(fachPath);
         }
 
-        var jahrgangsstufe = modulViewModel.ModulJahrgang.JahrgangsstufeBezeichnung;
-        jahrgangsstufe = jahrgangsstufe.Replace("/", "+");
-        var jahrgangsPath = Path.Combine(fachPath, jahrgangsstufe);
+        var jahrgangsstufe = modulViewModel.ModulJahrgang;
+        var jahrgangsPath = Path.Combine(fachPath, jahrgangsstufe.ToString());
         if (!Directory.Exists(jahrgangsPath))
         {
           Directory.CreateDirectory(jahrgangsPath);
@@ -1519,22 +1254,22 @@
     /// Gibt eine Collection mit den noch zu benotenden Stunden aus.
     /// </summary>
     /// <returns>ObservableCollection&lt;StundeViewModel&gt;.</returns>
-    private ObservableCollection<Stunde> HoleNochZuBenotendeStunden()
+    private ObservableCollection<StundeNeu> HoleNochZuBenotendeStunden()
     {
       var von = DateTime.Now.AddDays(-14);
       var bis = DateTime.Now;
       var nichtBenoteteStundenderLetzten14Tage =
-        App.UnitOfWork.Context.Termine.OfType<Stunde>().Where(
+        App.UnitOfWork.Context.Termine.OfType<StundeNeu>().Where(
           o =>
-          o.Tagesplan.Datum > von && o.Tagesplan.Datum <= bis && !o.IstBenotet
-          && (o.Tagesplan.Monatsplan.Halbjahresplan.Jahresplan.Fach.Bezeichnung == "Mathematik" || o.Tagesplan.Monatsplan.Halbjahresplan.Jahresplan.Fach.Bezeichnung == "Physik"));
+          o.Datum > von && o.Datum <= bis && !o.IstBenotet
+          && (o.Fach.Bezeichnung == "Mathematik" || o.Fach.Bezeichnung == "Physik"));
 
-      var nochZuBenotendeStunden = new ObservableCollection<Stunde>();
+      var nochZuBenotendeStunden = new ObservableCollection<StundeNeu>();
 
 
       foreach (var stundeViewModel in nichtBenoteteStundenderLetzten14Tage)
       {
-        if (stundeViewModel.Tagesplan.Datum.Date == bis.Date)
+        if (stundeViewModel.Datum.Date == bis.Date)
         {
           if (stundeViewModel.LetzteUnterrichtsstunde.Beginn > bis.TimeOfDay)
           {
@@ -1561,50 +1296,6 @@
     }
 
     /// <summary>
-    /// Tritt auf, wenn die HalbjahreCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void HalbjahreCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Halbjahre", this.Halbjahre, e, "Änderung der Halbjahre");
-    }
-
-    /// <summary>
-    /// Tritt auf, wenn die MonatstypenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void MonatstypenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Monatstypen", this.Monatstypen, e, "Änderung der Monatstypen");
-    }
-
-    /// <summary>
-    /// Tritt auf, wenn die TermintypenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void TermintypenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Termintypen", this.Termintypen, e, "Änderung der Termintypen");
-    }
-
-    /// <summary>
-    /// Tritt auf, wenn die MedienCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void MedienCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Medien", this.Medien, e, "Änderung der Medien");
-    }
-
-    /// <summary>
     /// Tritt auf, wenn die DateitypenCollection verändert wurde.
     /// Gibt die Änderungen an den Undostack weiter.
     /// </summary>
@@ -1616,17 +1307,6 @@
     }
 
     /// <summary>
-    /// Tritt auf, wenn die SozialformenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void SozialformenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Sozialformen", this.Sozialformen, e, "Änderung der Sozialformen");
-    }
-
-    /// <summary>
     /// Tritt auf, wenn die UnterrichtsstundenCollection verändert wurde.
     /// Gibt die Änderungen an den Undostack weiter.
     /// </summary>
@@ -1635,17 +1315,6 @@
     private void UnterrichtsstundenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
       this.UndoableCollectionChanged(this, "Unterrichtsstunden", this.Unterrichtsstunden, e, "Änderung der Unterrichtsstunden");
-    }
-
-    /// <summary>
-    /// Tritt auf, wenn die KlassenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void KlassenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Klassen", this.Klassen, e, "Änderung der Klassen");
     }
 
     /// <summary>
@@ -1723,28 +1392,6 @@
     private void KlassenstufenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
       this.UndoableCollectionChanged(this, "Klassenstufen", this.Klassenstufen, e, "Änderung der Klassenstufen");
-    }
-
-    /// <summary>
-    /// Tritt auf, wenn die TendenztypenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void TendenztypenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Tendenztypen", this.Tendenztypen, e, "Änderung der Tendenztypen");
-    }
-
-    /// <summary>
-    /// Tritt auf, wenn die TendenzenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void TendenzenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Tendenzen", this.Tendenzen, e, "Änderung der Tendenzen");
     }
 
     /// <summary>
@@ -1990,17 +1637,6 @@
     //}
 
     /// <summary>
-    /// Tritt auf, wenn die JahrgangsstufenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void JahrgangsstufenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Jahrgangsstufen", this.Jahrgangsstufen, e, "Änderung der Jahrgangsstufen");
-    }
-
-    /// <summary>
     /// Tritt auf, wenn die StundenentwürfeCollection verändert wurde.
     /// Gibt die Änderungen an den Undostack weiter.
     /// </summary>
@@ -2008,7 +1644,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void StundenentwürfeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Stundenentwürfe", this.stundenentwürfe, e, "Änderung der Stundenentwürfe");
+      this.UndoableCollectionChanged(this, "Stundenentwürfe", this.stunden, e, "Änderung der Stundenentwürfe");
     }
 
     /// <summary>
@@ -2022,18 +1658,7 @@
       this.UndoableCollectionChanged(this, "Curricula", this.curricula, e, "Änderung der Curricula");
     }
 
-    /// <summary>
-    /// Tritt auf, wenn die JahrespläneCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void JahrespläneCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Jahrespläne", this.jahrespläne, e, "Änderung der Jahrespläne");
-    }
-
-    ///// <summary>
+     ///// <summary>
     ///// Tritt auf, wenn die HalbjahrespläneCollection verändert wurde.
     ///// Gibt die Änderungen an den Undostack weiter.
     ///// </summary>
@@ -2065,28 +1690,6 @@
     //{
     //  this.UndoableCollectionChanged(this, "Tagespläne", this.Tagespläne, e, "Änderung der Tagespläne");
     //}
-
-    /// <summary>
-    /// Tritt auf, wenn die SchulwochenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void SchulwochenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Schulwochen", this.Schulwochen, e, "Änderung der Schulwochen");
-    }
-
-    /// <summary>
-    /// Tritt auf, wenn die SchultageCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void SchultageCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Schultage", this.Schultage, e, "Änderung der Schultage");
-    }
 
     /// <summary>
     /// Tritt auf, wenn die StundenpläneCollection verändert wurde.

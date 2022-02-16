@@ -21,7 +21,7 @@ namespace SoftTeach.View.Stundenpläne
   using System.Linq;
   using System.Windows;
   using System.Windows.Input;
-
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.UndoRedo;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Stundenpläne;
@@ -66,7 +66,7 @@ namespace SoftTeach.View.Stundenpläne
           App.MainViewModel.JahresplanWorkspace.AddJahresplan(
             this.StundenplanViewModel.StundenplanSchuljahr,
             stundenplaneintragViewModel.StundenplaneintragFach,
-            stundenplaneintragViewModel.StundenplaneintragKlasse,
+            stundenplaneintragViewModel.StundenplaneintragLerngruppe,
             this.StundenplanViewModel.StundenplanHalbjahr.HalbjahrBezeichnung == "Sommer");
         }
 

@@ -90,9 +90,9 @@
       using (new UndoBatch(App.MainViewModel, string.Format("Stundenplan ergänzt"), false))
       {
 
-        var stundenplan = new Stundenplan();
+        var stundenplan = new StundenplanNeu();
         stundenplan.Schuljahr = schuljahr.Model;
-        stundenplan.Halbjahr = halbschuljahr.Model;
+        stundenplan.Halbjahr = halbschuljahr;
         stundenplan.GültigAb = gültigAb;
         stundenplan.Bezeichnung = string.Format("Stundenplan für {0} {1}", Configuration.Instance.Lehrer.Titel, Configuration.Instance.Lehrer.Nachname);
         //App.UnitOfWork.Context.Stundenpläne.Add(stundenplan);

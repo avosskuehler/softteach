@@ -34,7 +34,7 @@
     /// <summary>
     /// Der Termintyp, dessen Termine nur dargestellt werden sollen.
     /// </summary>
-    private TermintypViewModel termintypFilter;
+    private Termintyp? termintypFilter;
 
 
     /// <summary>
@@ -145,7 +145,7 @@
     /// <summary>
     /// Holt oder setzt den Termintyp Filter
     /// </summary>
-    public TermintypViewModel TermintypFilter
+    public Termintyp? TermintypFilter
     {
       get
       {
@@ -192,190 +192,191 @@
     public static void UpdateJahrespläne()
     {
       App.SetCursor(Cursors.Wait);
-      var aktualisiertePläne = new List<JahresplanViewModel>();
+      // TODO
+      //var aktualisiertePläne = new List<JahresplanViewModel>();
 
-      foreach (var termin in ModifiedTermine)
-      {
-        var terminViewModel = termin.SchulterminViewModel;
-        var jahrespläne = App.MainViewModel.Jahrespläne;
+      //foreach (var termin in ModifiedTermine)
+      //{
+      //  var terminViewModel = termin.SchulterminViewModel;
+      //  var jahrespläne = App.MainViewModel.Jahrespläne;
 
-        TagesplanViewModel tagesplan;
-        IEnumerable<JahresplanViewModel> betroffeneJahrespläne;
-        if (termin.SchulterminUpdateType == SchulterminUpdateType.BetroffeneKlasseChanged)
-        {
-          var eventArgs = termin.Parameter as NotifyCollectionChangedEventArgs;
+      //  TagesplanViewModel tagesplan;
+      //  IEnumerable<JahresplanViewModel> betroffeneJahrespläne;
+      //  if (termin.SchulterminUpdateType == SchulterminUpdateType.BetroffeneKlasseChanged)
+      //  {
+      //    var eventArgs = termin.Parameter as NotifyCollectionChangedEventArgs;
 
-          switch (eventArgs.Action)
-          {
-            case NotifyCollectionChangedAction.Add:
-              betroffeneJahrespläne = jahrespläne.Where(
-               plan => (plan.JahresplanSchuljahr == terminViewModel.SchulterminSchuljahr
-                 && plan.JahresplanKlasse == ((BetroffeneKlasseViewModel)eventArgs.NewItems[0]).BetroffeneKlasseKlasse));
+      //    switch (eventArgs.Action)
+      //    {
+      //      case NotifyCollectionChangedAction.Add:
+      //        betroffeneJahrespläne = jahrespläne.Where(
+      //         plan => (plan.JahresplanSchuljahr == terminViewModel.SchulterminSchuljahr
+      //           && plan.JahresplanKlasse == ((BetroffeneKlasseViewModel)eventArgs.NewItems[0]).BetroffeneKlasseLerngruppe));
 
-              if (eventArgs.NewItems.Count > 1)
-              {
-                throw new ArgumentOutOfRangeException("More than one new item.");
-              }
+      //        if (eventArgs.NewItems.Count > 1)
+      //        {
+      //          throw new ArgumentOutOfRangeException("More than one new item.");
+      //        }
 
-              // Skip if there is nothing to do
-              if (!betroffeneJahrespläne.Any())
-              {
-                continue;
-              }
+      //        // Skip if there is nothing to do
+      //        if (!betroffeneJahrespläne.Any())
+      //        {
+      //          continue;
+      //        }
 
-              foreach (var jahresplanViewModel in betroffeneJahrespläne)
-              {
-                if (!aktualisiertePläne.Contains(jahresplanViewModel)) aktualisiertePläne.Add(jahresplanViewModel);
+      //        foreach (var jahresplanViewModel in betroffeneJahrespläne)
+      //        {
+      //          if (!aktualisiertePläne.Contains(jahresplanViewModel)) aktualisiertePläne.Add(jahresplanViewModel);
 
-                tagesplan = jahresplanViewModel.GetTagesplanByDate(terminViewModel.SchulterminDatum);
-                // Skip if there is nothing to do
-                if (tagesplan == null)
-                {
-                  continue;
-                }
+      //          tagesplan = jahresplanViewModel.GetTagesplanByDate(terminViewModel.SchulterminDatum);
+      //          // Skip if there is nothing to do
+      //          if (tagesplan == null)
+      //          {
+      //            continue;
+      //          }
 
-                if (tagesplan.Lerngruppentermine.Count == 0)
-                {
-                  AddTerminToTagesplan(tagesplan, terminViewModel);
-                }
-                else
-                {
-                  UpdateTerminInTagesplan(terminViewModel, tagesplan, terminViewModel.TerminBeschreibung);
-                }
-              }
+      //          if (tagesplan.Lerngruppentermine.Count == 0)
+      //          {
+      //            AddTerminToTagesplan(tagesplan, terminViewModel);
+      //          }
+      //          else
+      //          {
+      //            UpdateTerminInTagesplan(terminViewModel, tagesplan, terminViewModel.TerminBeschreibung);
+      //          }
+      //        }
 
-              break;
-            case NotifyCollectionChangedAction.Remove:
-              var betroffeneKlasse = eventArgs.OldItems[0] as BetroffeneKlasseViewModel;
-              betroffeneJahrespläne = jahrespläne.Where(
-               plan => (plan.JahresplanSchuljahr == terminViewModel.SchulterminSchuljahr
-                 && plan.JahresplanKlasse == betroffeneKlasse.BetroffeneKlasseKlasse));
+      //        break;
+      //      case NotifyCollectionChangedAction.Remove:
+      //        var betroffeneKlasse = eventArgs.OldItems[0] as BetroffeneKlasseViewModel;
+      //        betroffeneJahrespläne = jahrespläne.Where(
+      //         plan => (plan.JahresplanSchuljahr == terminViewModel.SchulterminSchuljahr
+      //           && plan.JahresplanKlasse == betroffeneKlasse.BetroffeneKlasseLerngruppe));
 
-              if (eventArgs.OldItems.Count > 1)
-              {
-                throw new ArgumentOutOfRangeException("More than one new item.");
-              }
+      //        if (eventArgs.OldItems.Count > 1)
+      //        {
+      //          throw new ArgumentOutOfRangeException("More than one new item.");
+      //        }
 
-              // Skip if there is nothing to do
-              if (!betroffeneJahrespläne.Any())
-              {
-                continue;
-              }
+      //        // Skip if there is nothing to do
+      //        if (!betroffeneJahrespläne.Any())
+      //        {
+      //          continue;
+      //        }
 
-              foreach (var jahresplanViewModel in betroffeneJahrespläne)
-              {
-                if (!aktualisiertePläne.Contains(jahresplanViewModel)) aktualisiertePläne.Add(jahresplanViewModel);
-                tagesplan = jahresplanViewModel.GetTagesplanByDate(terminViewModel.SchulterminDatum);
-                RemoveTerminFromTagesplan(terminViewModel, tagesplan);
-              }
+      //        foreach (var jahresplanViewModel in betroffeneJahrespläne)
+      //        {
+      //          if (!aktualisiertePläne.Contains(jahresplanViewModel)) aktualisiertePläne.Add(jahresplanViewModel);
+      //          tagesplan = jahresplanViewModel.GetTagesplanByDate(terminViewModel.SchulterminDatum);
+      //          RemoveTerminFromTagesplan(terminViewModel, tagesplan);
+      //        }
 
-              break;
-            case NotifyCollectionChangedAction.Replace:
-            case NotifyCollectionChangedAction.Move:
-            case NotifyCollectionChangedAction.Reset:
-              throw new NotImplementedException("The BetroffeneKlasse collection changed too much to adapt jahrespläne");
-          }
-        }
-        else
-        {
-          // Get only jahrespläne of correct year and with a klasse that is in the
-          // betroffene Klassen list of the termin
-          // Filter by betroffene Klasse
-          betroffeneJahrespläne = jahrespläne.Where(
-           plan => (plan.JahresplanSchuljahr == terminViewModel.SchulterminSchuljahr
-             && terminViewModel.BetroffeneKlassen.Any(betroffeneKlasse => betroffeneKlasse.Model.Klasse == plan.JahresplanKlasse.Model)));
+      //        break;
+      //      case NotifyCollectionChangedAction.Replace:
+      //      case NotifyCollectionChangedAction.Move:
+      //      case NotifyCollectionChangedAction.Reset:
+      //        throw new NotImplementedException("The BetroffeneKlasse collection changed too much to adapt jahrespläne");
+      //    }
+      //  }
+      //  else
+      //  {
+      //    // Get only jahrespläne of correct year and with a klasse that is in the
+      //    // betroffene Klassen list of the termin
+      //    // Filter by betroffene Klasse
+      //    betroffeneJahrespläne = jahrespläne.Where(
+      //     plan => (plan.JahresplanSchuljahr == terminViewModel.SchulterminSchuljahr
+      //       && terminViewModel.BetroffeneKlassen.Any(betroffeneKlasse => betroffeneKlasse.Model.Klasse == plan.JahresplanKlasse.Model)));
 
-          // Skip if there is nothing to do
-          if (!betroffeneJahrespläne.Any())
-          {
-            continue;
-          }
+      //    // Skip if there is nothing to do
+      //    if (!betroffeneJahrespläne.Any())
+      //    {
+      //      continue;
+      //    }
 
-          foreach (var jahresplanViewModel in betroffeneJahrespläne)
-          {
-            if (!aktualisiertePläne.Contains(jahresplanViewModel)) aktualisiertePläne.Add(jahresplanViewModel);
-            switch (termin.SchulterminUpdateType)
-            {
-              case SchulterminUpdateType.Added:
-                tagesplan = jahresplanViewModel.GetTagesplanByDate(terminViewModel.SchulterminDatum);
-                if (tagesplan == null)
-                {
-                  continue;
-                }
-                AddTerminToTagesplan(tagesplan, terminViewModel);
-                break;
-              case SchulterminUpdateType.Removed:
-                tagesplan = jahresplanViewModel.GetTagesplanByDate(terminViewModel.SchulterminDatum);
-                if (tagesplan == null)
-                {
-                  continue;
-                }
-                RemoveTerminFromTagesplan(terminViewModel, tagesplan);
-                break;
-              case SchulterminUpdateType.Changed:
-                tagesplan = jahresplanViewModel.GetTagesplanByDate(terminViewModel.SchulterminDatum);
-                if (tagesplan == null)
-                {
-                  continue;
-                }
-                if (tagesplan.Lerngruppentermine.Count == 0)
-                {
-                  AddTerminToTagesplan(tagesplan, terminViewModel);
-                }
-                else
-                {
-                  UpdateTerminInTagesplan(terminViewModel, tagesplan, terminViewModel.TerminBeschreibung);
-                }
-                break;
-              case SchulterminUpdateType.ChangedBeschreibung:
-                tagesplan = jahresplanViewModel.GetTagesplanByDate(terminViewModel.SchulterminDatum);
-                if (tagesplan == null)
-                {
-                  continue;
-                }
+      //    foreach (var jahresplanViewModel in betroffeneJahrespläne)
+      //    {
+      //      if (!aktualisiertePläne.Contains(jahresplanViewModel)) aktualisiertePläne.Add(jahresplanViewModel);
+      //      switch (termin.SchulterminUpdateType)
+      //      {
+      //        case SchulterminUpdateType.Added:
+      //          tagesplan = jahresplanViewModel.GetTagesplanByDate(terminViewModel.SchulterminDatum);
+      //          if (tagesplan == null)
+      //          {
+      //            continue;
+      //          }
+      //          AddTerminToTagesplan(tagesplan, terminViewModel);
+      //          break;
+      //        case SchulterminUpdateType.Removed:
+      //          tagesplan = jahresplanViewModel.GetTagesplanByDate(terminViewModel.SchulterminDatum);
+      //          if (tagesplan == null)
+      //          {
+      //            continue;
+      //          }
+      //          RemoveTerminFromTagesplan(terminViewModel, tagesplan);
+      //          break;
+      //        case SchulterminUpdateType.Changed:
+      //          tagesplan = jahresplanViewModel.GetTagesplanByDate(terminViewModel.SchulterminDatum);
+      //          if (tagesplan == null)
+      //          {
+      //            continue;
+      //          }
+      //          if (tagesplan.Lerngruppentermine.Count == 0)
+      //          {
+      //            AddTerminToTagesplan(tagesplan, terminViewModel);
+      //          }
+      //          else
+      //          {
+      //            UpdateTerminInTagesplan(terminViewModel, tagesplan, terminViewModel.TerminBeschreibung);
+      //          }
+      //          break;
+      //        case SchulterminUpdateType.ChangedBeschreibung:
+      //          tagesplan = jahresplanViewModel.GetTagesplanByDate(terminViewModel.SchulterminDatum);
+      //          if (tagesplan == null)
+      //          {
+      //            continue;
+      //          }
 
-                if (
-                  tagesplan.Lerngruppentermine.Any(
-                    o => o.TerminBeschreibung == terminViewModel.TerminBeschreibung))
-                {
-                  UpdateTerminInTagesplan(terminViewModel, tagesplan, (string)termin.Parameter);
-                }
-                else
-                {
-                  AddTerminToTagesplan(tagesplan, terminViewModel);
-                }
+      //          if (
+      //            tagesplan.Lerngruppentermine.Any(
+      //              o => o.TerminBeschreibung == terminViewModel.TerminBeschreibung))
+      //          {
+      //            UpdateTerminInTagesplan(terminViewModel, tagesplan, (string)termin.Parameter);
+      //          }
+      //          else
+      //          {
+      //            AddTerminToTagesplan(tagesplan, terminViewModel);
+      //          }
 
-                break;
-              case SchulterminUpdateType.ChangedWithNewDay:
-                var oldtagesplan = jahresplanViewModel.GetTagesplanByDate((DateTime)termin.Parameter);
-                if (oldtagesplan == null)
-                {
-                  continue;
-                }
-                RemoveTerminFromTagesplan(terminViewModel, oldtagesplan);
-                tagesplan = jahresplanViewModel.GetTagesplanByDate(terminViewModel.SchulterminDatum);
-                if (tagesplan == null)
-                {
-                  continue;
-                }
-                AddTerminToTagesplan(tagesplan, terminViewModel);
-                break;
-            }
-          }
-        }
-      }
+      //          break;
+      //        case SchulterminUpdateType.ChangedWithNewDay:
+      //          var oldtagesplan = jahresplanViewModel.GetTagesplanByDate((DateTime)termin.Parameter);
+      //          if (oldtagesplan == null)
+      //          {
+      //            continue;
+      //          }
+      //          RemoveTerminFromTagesplan(terminViewModel, oldtagesplan);
+      //          tagesplan = jahresplanViewModel.GetTagesplanByDate(terminViewModel.SchulterminDatum);
+      //          if (tagesplan == null)
+      //          {
+      //            continue;
+      //          }
+      //          AddTerminToTagesplan(tagesplan, terminViewModel);
+      //          break;
+      //      }
+      //    }
+      //  }
+      //}
 
-      // Empty list cause we have updated all termine
-      ModifiedTermine.Clear();
-      App.SetCursor(null);
+      //// Empty list cause we have updated all termine
+      //ModifiedTermine.Clear();
+      //App.SetCursor(null);
 
-      var message = "Die folgenden Jahrespläne wurden angepasst:\n";
-      foreach (var jahresplanViewModel in aktualisiertePläne)
-      {
-        message += jahresplanViewModel + "\n";
-      }
+      //var message = "Die folgenden Jahrespläne wurden angepasst:\n";
+      //foreach (var jahresplanViewModel in aktualisiertePläne)
+      //{
+      //  message += jahresplanViewModel + "\n";
+      //}
 
-      new InformationDialog("Jahrespläne aktualisiert", message, false).ShowDialog();
+      //new InformationDialog("Jahrespläne aktualisiert", message, false).ShowDialog();
     }
 
     /// <summary>
@@ -390,82 +391,82 @@
       this.CurrentTermin = null;
     }
 
-    private static void UpdateTerminInTagesplan(SchulterminViewModel terminViewModel, TagesplanViewModel tagesplan, string alteBeschreibung)
-    {
-      // if there is no lerngruppentermin with the new bezeichung try to use
-      // the old one
-      var searchText = terminViewModel.TerminBeschreibung;
-      if (tagesplan.Lerngruppentermine.All(vm => vm.TerminBeschreibung != searchText))
-      {
-        searchText = alteBeschreibung;
-      }
+    //private static void UpdateTerminInTagesplan(SchulterminViewModel terminViewModel, TagesplanViewModel tagesplan, string alteBeschreibung)
+    //{
+    //  // if there is no lerngruppentermin with the new bezeichung try to use
+    //  // the old one
+    //  var searchText = terminViewModel.TerminBeschreibung;
+    //  if (tagesplan.Lerngruppentermine.All(vm => vm.TerminBeschreibung != searchText))
+    //  {
+    //    searchText = alteBeschreibung;
+    //  }
 
-      var lerngruppenTerminViewModel = tagesplan.Lerngruppentermine.SingleOrDefault(
-        vm => vm.TerminBeschreibung == searchText);
-      if (lerngruppenTerminViewModel != null)
-      {
-        lerngruppenTerminViewModel.TerminBeschreibung = terminViewModel.TerminBeschreibung;
-        lerngruppenTerminViewModel.TerminErsteUnterrichtsstunde = terminViewModel.TerminErsteUnterrichtsstunde;
-        lerngruppenTerminViewModel.TerminLetzteUnterrichtsstunde = terminViewModel.TerminLetzteUnterrichtsstunde;
-        lerngruppenTerminViewModel.TerminTermintyp = terminViewModel.TerminTermintyp;
-        lerngruppenTerminViewModel.TerminOrt = terminViewModel.TerminOrt;
-      }
-      tagesplan.UpdateBeschreibung();
-    }
+    //  var lerngruppenTerminViewModel = tagesplan.Lerngruppentermine.SingleOrDefault(
+    //    vm => vm.TerminBeschreibung == searchText);
+    //  if (lerngruppenTerminViewModel != null)
+    //  {
+    //    lerngruppenTerminViewModel.TerminBeschreibung = terminViewModel.TerminBeschreibung;
+    //    lerngruppenTerminViewModel.TerminErsteUnterrichtsstunde = terminViewModel.TerminErsteUnterrichtsstunde;
+    //    lerngruppenTerminViewModel.TerminLetzteUnterrichtsstunde = terminViewModel.TerminLetzteUnterrichtsstunde;
+    //    lerngruppenTerminViewModel.TerminTermintyp = terminViewModel.TerminTermintyp;
+    //    lerngruppenTerminViewModel.TerminOrt = terminViewModel.TerminOrt;
+    //  }
+    //  tagesplan.UpdateBeschreibung();
+    //}
 
-    private static void RemoveTerminFromTagesplan(SchulterminViewModel terminViewModel, TagesplanViewModel tagesplan)
-    {
-      if (tagesplan == null) return;
-      if (tagesplan.Lerngruppentermine.All(vm => vm.TerminBeschreibung != terminViewModel.TerminBeschreibung))
-      {
-        // nothing to do
-        return;
-      }
+    //private static void RemoveTerminFromTagesplan(SchulterminViewModel terminViewModel, TagesplanViewModel tagesplan)
+    //{
+    //  if (tagesplan == null) return;
+    //  if (tagesplan.Lerngruppentermine.All(vm => vm.TerminBeschreibung != terminViewModel.TerminBeschreibung))
+    //  {
+    //    // nothing to do
+    //    return;
+    //  }
 
-      var lerngruppenTerminViewModel =
-        tagesplan.Lerngruppentermine.Single(
-        vm => vm.TerminBeschreibung == terminViewModel.TerminBeschreibung);
+    //  var lerngruppenTerminViewModel =
+    //    tagesplan.Lerngruppentermine.Single(
+    //    vm => vm.TerminBeschreibung == terminViewModel.TerminBeschreibung);
 
-      if (tagesplan.Lerngruppentermine.Contains(lerngruppenTerminViewModel))
-      {
-        tagesplan.DeleteLerngruppentermin(lerngruppenTerminViewModel);
-      }
+    //  if (tagesplan.Lerngruppentermine.Contains(lerngruppenTerminViewModel))
+    //  {
+    //    tagesplan.DeleteLerngruppentermin(lerngruppenTerminViewModel);
+    //  }
 
-      tagesplan.UpdateBeschreibung();
-    }
+    //  tagesplan.UpdateBeschreibung();
+    //}
 
-    private static void AddTerminToTagesplan(TagesplanViewModel tagesplan, SchulterminViewModel terminViewModel)
-    {
-      if (tagesplan == null)
-      {
-        return;
-      }
+    //private static void AddTerminToTagesplan(TagesplanViewModel tagesplan, SchulterminViewModel terminViewModel)
+    //{
+    //  if (tagesplan == null)
+    //  {
+    //    return;
+    //  }
 
-      if (tagesplan.Lerngruppentermine.Any(o => o.TerminBeschreibung == terminViewModel.TerminBeschreibung))
-      {
-        // already added by another method
-        return;
-      }
+    //  if (tagesplan.Lerngruppentermine.Any(o => o.TerminBeschreibung == terminViewModel.TerminBeschreibung))
+    //  {
+    //    // already added by another method
+    //    return;
+    //  }
 
-      var lerngruppenTermin = new Lerngruppentermin();
-      lerngruppenTermin.Beschreibung = terminViewModel.TerminBeschreibung;
-      lerngruppenTermin.ErsteUnterrichtsstunde = terminViewModel.TerminErsteUnterrichtsstunde.Model;
-      lerngruppenTermin.LetzteUnterrichtsstunde = terminViewModel.TerminLetzteUnterrichtsstunde.Model;
-      lerngruppenTermin.Termintyp = terminViewModel.TerminTermintyp.Model;
-      lerngruppenTermin.Ort = terminViewModel.TerminOrt;
-      lerngruppenTermin.Tagesplan = tagesplan.Model;
+    //  var lerngruppenTermin = new Lerngruppentermin();
+    //  lerngruppenTermin.Beschreibung = terminViewModel.TerminBeschreibung;
+    //  lerngruppenTermin.ErsteUnterrichtsstunde = terminViewModel.TerminErsteUnterrichtsstunde.Model;
+    //  lerngruppenTermin.LetzteUnterrichtsstunde = terminViewModel.TerminLetzteUnterrichtsstunde.Model;
+    //  lerngruppenTermin.Termintyp = terminViewModel.TerminTermintyp.Model;
+    //  lerngruppenTermin.Ort = terminViewModel.TerminOrt;
+    //  lerngruppenTermin.Tagesplan = tagesplan.Model;
 
-      var lerngruppenTerminViewModel = new LerngruppenterminViewModel(tagesplan, lerngruppenTermin);
+    //  var lerngruppenTerminViewModel = new LerngruppenterminViewModel(tagesplan, lerngruppenTermin);
 
-      if (!tagesplan.Lerngruppentermine.Contains(lerngruppenTerminViewModel))
-      {
-        //App.UnitOfWork.Context.Termine.Add(lerngruppenTermin);
-        //App.MainViewModel.Lerngruppentermine.Add(lerngruppenTerminViewModel);
-        tagesplan.Lerngruppentermine.Add(lerngruppenTerminViewModel);
-      }
+    //  if (!tagesplan.Lerngruppentermine.Contains(lerngruppenTerminViewModel))
+    //  {
+    //    //App.UnitOfWork.Context.Termine.Add(lerngruppenTermin);
+    //    //App.MainViewModel.Lerngruppentermine.Add(lerngruppenTerminViewModel);
+    //    tagesplan.Lerngruppentermine.Add(lerngruppenTerminViewModel);
+    //  }
 
-      tagesplan.UpdateBeschreibung();
-    }
+    //  tagesplan.UpdateBeschreibung();
+    //}
 
     /// <summary>
     /// Filtert die Terminliste nach Schuljahr und Termintyp
@@ -478,7 +479,7 @@
       if (this.schuljahrFilter != null && this.termintypFilter != null)
       {
         return schultermin.SchulterminSchuljahr.SchuljahrBezeichnung == this.schuljahrFilter.SchuljahrBezeichnung
-          && schultermin.TerminTermintyp.TermintypBezeichnung == this.termintypFilter.TermintypBezeichnung;
+          && schultermin.TerminTermintyp == this.termintypFilter;
       }
 
       if (this.schuljahrFilter != null)
@@ -488,7 +489,7 @@
 
       if (this.termintypFilter != null)
       {
-        return schultermin.TerminTermintyp.TermintypBezeichnung == this.termintypFilter.TermintypBezeichnung;
+        return schultermin.TerminTermintyp == this.termintypFilter;
       }
 
       return true;
@@ -512,7 +513,7 @@
     /// </summary>
     private void AddTermin()
     {
-      var termin = new Schultermin();
+      var termin = new SchulterminNeu();
       termin.Beschreibung = "Neuer Termin";
       termin.Datum = ZuletztVerwendetesDatum;
       termin.ErsteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[0].Model;
@@ -523,7 +524,7 @@
         termin.Schuljahr = Selection.Instance.Schuljahr.Model;
       }
 
-      termin.Termintyp = App.MainViewModel.Termintypen[0].Model;
+      termin.Termintyp = Termintyp.Besprechung;
       //App.UnitOfWork.Context.Termine.Add(termin);
       var vm = new SchulterminViewModel(termin);
 
@@ -546,21 +547,21 @@
 
       while (aktuellesDatum <= ende)
       {
-        var termin = new Schultermin();
+        var termin = new SchulterminNeu();
         termin.Beschreibung = this.CurrentTermin.TerminBeschreibung;
         termin.Datum = aktuellesDatum;
         termin.ErsteUnterrichtsstunde = this.CurrentTermin.TerminErsteUnterrichtsstunde.Model;
         termin.LetzteUnterrichtsstunde = this.CurrentTermin.TerminLetzteUnterrichtsstunde.Model;
         termin.Schuljahr = this.CurrentTermin.SchulterminSchuljahr.Model;
-        termin.Termintyp = this.CurrentTermin.TerminTermintyp.Model;
+        termin.Termintyp = this.CurrentTermin.TerminTermintyp;
         //App.UnitOfWork.Context.Termine.Add(termin);
 
         var vm = new SchulterminViewModel(termin);
         foreach (var betroffeneKlasseViewModel in this.CurrentTermin.BetroffeneKlassen)
         {
-          var betroffeneKlasse = new BetroffeneKlasse();
-          betroffeneKlasse.Klasse = betroffeneKlasseViewModel.BetroffeneKlasseKlasse.Model;
-          betroffeneKlasse.Termin = termin;
+          var betroffeneKlasse = new BetroffeneKlasseNeu();
+          betroffeneKlasse.Lerngruppe = betroffeneKlasseViewModel.BetroffeneKlasseLerngruppe.Model;
+          betroffeneKlasse.Schultermin = termin;
           var viemModelBetroffeneKlasse = new BetroffeneKlasseViewModel(betroffeneKlasse);
           vm.BetroffeneKlassen.Add(viemModelBetroffeneKlasse);
           App.MainViewModel.BetroffeneKlassen.Add(viemModelBetroffeneKlasse);

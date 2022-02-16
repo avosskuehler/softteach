@@ -352,7 +352,7 @@
       neuerEntwurf.Hausaufgaben = string.Empty;
       neuerEntwurf.Kopieren = false;
 
-      App.MainViewModel.Stundenentwürfe.Add(new StundenentwurfViewModel(neuerEntwurf));
+      App.MainViewModel.Stunden.Add(new StundenentwurfViewModel(neuerEntwurf));
 
       var neueStunde = new Stunde();
       neueStunde.Termintyp = App.MainViewModel.Termintypen.First(

@@ -26,7 +26,7 @@ namespace SoftTeach.Model.TeachyModel
         public Halbjahr Halbjahr { get; set; }
         public System.DateTime GültigAb { get; set; }
     
-        public virtual SchuljahrNeu Schuljahre { get; set; }
+        public virtual SchuljahrNeu Schuljahr { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StundenplaneintragNeu> Stundenplaneinträge { get; set; }
     }
