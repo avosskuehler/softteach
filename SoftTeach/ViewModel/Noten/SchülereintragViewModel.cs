@@ -2217,8 +2217,8 @@
       var notentendenz = new NotentendenzNeu();
       notentendenz.Bezeichnung = string.Empty;
       notentendenz.Datum = DateTime.Now;
-      notentendenz.Tendenz = App.MainViewModel.Tendenzen.First().Model;
-      notentendenz.Tendenztyp = App.MainViewModel.Tendenztypen.First().Model;
+      notentendenz.Tendenz = Tendenz.Null;
+      notentendenz.Tendenztyp = Tendenztyp.Leistung;
       notentendenz.Schülereintrag = this.Model;
       var vm = new NotentendenzViewModel(notentendenz);
 

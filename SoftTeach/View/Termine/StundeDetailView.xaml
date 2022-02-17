@@ -3,11 +3,28 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-  xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
+             xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome" 
+             xmlns:pb="clr-namespace:SoftTeach.ViewModel.Helper.PushBinding"
+             xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
+             xmlns:converter="clr-namespace:SoftTeach.Resources.Converter"
+             xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
              xmlns:StundenentwürfeView="clr-namespace:SoftTeach.View.Stundenentwürfe"
              xmlns:StundenentwürfeViewModel="clr-namespace:SoftTeach.ViewModel.Stundenentwürfe"
+             xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:SoftTeach="clr-namespace:SoftTeach" mc:Ignorable="d" 
              d:DesignHeight="350" d:DesignWidth="500">
+  <UserControl.Resources>
+    <CollectionViewSource x:Key="SortedPhasenViewSource" Source="{Binding Path=Phasen}" IsLiveSortingRequested="True" >
+      <CollectionViewSource.LiveSortingProperties>
+        <system:String>Reihenfolge</system:String>
+      </CollectionViewSource.LiveSortingProperties>
+      <CollectionViewSource.SortDescriptions>
+        <componentModel:SortDescription PropertyName="Reihenfolge" Direction="Ascending" />
+      </CollectionViewSource.SortDescriptions>
+    </CollectionViewSource>
+    <converter:IgnoreNewItemPlaceHolderConverter x:Key="IgnoreNewItemPlaceHolderConverter"/>
+  </UserControl.Resources>
   <Grid>
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="Auto"/>
@@ -80,30 +97,6 @@
             <Label VerticalAlignment="Center">lf.Nr.</Label>
             <Label VerticalAlignment="Center" Content="{Binding Path=StundeLaufendeStundennummer}"/>
           </StackPanel>
-          <Button Grid.Row="1" Command="{Binding Path=AddStundenentwurfCommand}" 
-                  ToolTip="Neuen Stundenentwurf erstellen"
-                  HorizontalAlignment="Left"
-                  Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-            <StackPanel Orientation="Horizontal" >
-              <Grid Margin="5,0,0,0">
-                <fa:IconBlock Style="{StaticResource Stundenentwurf16}"/>
-                <fa:IconBlock Style="{StaticResource AddOverlay16}"/>
-              </Grid>
-              <Label VerticalAlignment="Center" Padding="5,0,0,0">Stundenentwurf erstellen</Label>
-            </StackPanel>
-          </Button>
-          <Button Grid.Row="2" Command="{Binding Path=RemoveStundenentwurfCommand}" 
-                  ToolTip="Stundenentwurf entfernen"
-                  HorizontalAlignment="Left"
-                  Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
-            <StackPanel Orientation="Horizontal">
-              <Grid Margin="5,0,0,0">
-                <fa:IconBlock Style="{StaticResource Stundenentwurf16}"/>
-                <fa:IconBlock Style="{StaticResource RemoveOverlay16}"/>
-              </Grid>
-              <Label VerticalAlignment="Center" Padding="5,0,0,0">Stundenentwurf entfernen</Label>
-            </StackPanel>
-          </Button>
           <Button  Grid.Row="3" Command="{Binding Path=SearchStundenentwurfCommand}" 
                    ToolTip="Stundenentwurf suchen"
                    HorizontalAlignment="Left"
@@ -165,13 +158,171 @@
         </StackPanel>
       </HeaderedContentControl>
     </Grid>
-    <ContentControl Grid.Column="1" Content="{Binding Path=StundeStundenentwurf}">
-      <ContentControl.Resources>
-        <DataTemplate DataType="{x:Type StundenentwürfeViewModel:StundenentwurfViewModel}">
-          <StundenentwürfeView:StundenentwurfDetailView />
-        </DataTemplate>
-      </ContentControl.Resources>
-    </ContentControl>
+    <Grid Grid.Column="1">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <Grid Grid.Row="0" x:Name="TopGrid">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+          </Grid.ColumnDefinitions>
+          <Grid Grid.Column="0" Margin="5" >
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto"/>
+              <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBox Grid.Row="0" Style="{StaticResource Header1}" Text="{Binding Path=StundenentwurfStundenthema}">
+              <TextBox.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                  <GradientStop Color="White" Offset="0.664" />
+                  <GradientStop Color="#FFF8F8F8" Offset="0" />
+                </LinearGradientBrush>
+              </TextBox.Background>
+            </TextBox>
+            <ComboBox Grid.Row="1" Margin="0,6" Height="23" SelectedValuePath="." 
+                    SelectedItem="{Binding Path=StundenentwurfModul}" 
+                    ItemsSource="{Binding Path=ModulView}" 
+                    DisplayMemberPath="ModulBezeichnung"
+                    HorizontalAlignment="Stretch"
+                    Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"/>
+          </Grid>
+          <Grid Grid.Column="1" Margin="5">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto"/>
+              <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Vertical">
+              <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddDateiverweisCommand}">
+                <StackPanel Orientation="Horizontal" ToolTip="Datei hinzufügen">
+                  <Grid >
+                    <fa:IconBlock Style="{StaticResource Dateityp16}"/>
+                    <fa:IconBlock Style="{StaticResource AddOverlay16}"/>
+                  </Grid>
+                </StackPanel>
+              </Button>
+
+              <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=DeleteDateiverweisCommand}">
+                <StackPanel Orientation="Horizontal" ToolTip="Datei entfernen">
+                  <Grid >
+                    <fa:IconBlock Style="{StaticResource Dateityp16}"/>
+                    <fa:IconBlock Style="{StaticResource RemoveOverlay16}"/>
+                  </Grid>
+                </StackPanel>
+              </Button>
+            </StackPanel>
+            <ListView Grid.Column="1" 
+                 SelectedItem="{Binding Path=CurrentDateiverweis, Mode=TwoWay}" 
+                 ItemsSource="{Binding Path=Dateiverweise}"
+                        ItemContainerStyle="{StaticResource NoBorderListBoxItemStyle}"
+                 ItemTemplate="{StaticResource DateiverweiseListViewTile}"
+                  >
+              <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <WrapPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+              </ListView.ItemsPanel>
+            </ListView>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid  Grid.Row="1">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="3">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
+          <StackPanel Grid.Column="0" Orientation="Horizontal">
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=MovePhaseCommand}">
+              <StackPanel Orientation="Horizontal" ToolTip="Phase verschieben">
+                <Grid >
+                  <Image Source="/SoftTeach;component/Images/Phase16.png"/>
+                  <Image Source="/SoftTeach;component/Images/MoveOverlay16.png"/>
+                </Grid>
+                <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Phase in nächste Stunde verschieben.</Label>
+
+              </StackPanel>
+            </Button>
+          </StackPanel>
+          <Border Grid.Column="1" CornerRadius="5" Background="{Binding Path=StundentwurfMinutenCheckBrush}">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
+              <Label Padding="3">Verplante Minuten:</Label>
+              <Label Padding="3" Content="{Binding Path=StundenentwurfVerplanteMinutenVonAllen}"/>
+            </StackPanel>
+          </Border>
+        </Grid>
+        <!--CellStyle="{StaticResource CellDirectClickStyle}"-->
+        <controls:SDataGrid 
+            Grid.Row="1" 
+            SelectedItem="{Binding Path=CurrentPhase, Converter={StaticResource IgnoreNewItemPlaceHolderConverter}}" 
+            ItemsSource="{Binding Source={StaticResource SortedPhasenViewSource}}" 
+            DataGridCell.Selected="PhasenGrid_OnCellSelected"
+                  AutoGenerateColumns="False"
+                  HorizontalScrollBarVisibility="Disabled"
+                  x:Name="PhasenGrid"
+                  dd:DragDrop.IsDragSource="True" 
+                  dd:DragDrop.IsDropTarget="True"
+                  dd:DragDrop.DragAdornerTemplate="{StaticResource PhaseDragAdorner}"
+                  dd:DragDrop.DropHandler="{Binding}" 
+                  SelectionMode="Extended">
+          <pb:PushBindingManager.PushBindings>
+            <pb:PushBinding TargetProperty="SelectedItems" Path="SelectedPhasen"/>
+          </pb:PushBindingManager.PushBindings>
+          <DataGrid.InputBindings>
+            <KeyBinding Modifiers="Control" Key="C" Command="{Binding Path=CopyCommand}"/>
+            <KeyBinding Modifiers="Control" Key="V" Command="{Binding Path=PasteCommand}"/>
+          </DataGrid.InputBindings>
+          <DataGrid.Columns>
+            <DataGridTextColumn Header="Zeit" Binding="{Binding Path=PhaseZeit, UpdateSourceTrigger=PropertyChanged}"/>
+            <DataGridComboBoxColumn 
+                        Header="Medien" 
+                        ItemsSource="{Binding Source={StaticResource Medien}}"
+                        SelectedItemBinding="{Binding Path=PhaseMedium}" 
+                        DisplayMemberPath="MediumBezeichnung"
+                        EditingElementStyle="{StaticResource DatagridComboBoxElementStyle}"/>
+            <DataGridComboBoxColumn 
+                        Header="Sozialform" 
+                        SelectedItemBinding="{Binding Path=PhaseSozialform}" 
+                        DisplayMemberPath="SozialformBezeichnung"
+                        EditingElementStyle="{StaticResource DatagridComboBoxElementStyle}"
+                        ItemsSource="{Binding Source={StaticResource Sozialformen}}"/>
+            <DataGridTextColumn Header="Inhalt" Binding="{Binding Path=PhaseInhalt}" Width="*"
+                            ElementStyle="{StaticResource DatagridMultilineElementStyle}"
+                            EditingElementStyle="{StaticResource DatagridMultilineEditingElementStyle}"/>
+          </DataGrid.Columns>
+        </controls:SDataGrid>
+      </Grid>
+      <Grid Grid.Row="2" x:Name="BottomGrid">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <HeaderedContentControl Grid.Column="0" Margin="5" Header="Hausaufgaben">
+          <TextBox Height="45" Name="HausaufgabenTextBox" Text="{Binding Path=StundenentwurfHausaufgaben}"
+                   TextWrapping="Wrap"
+                   AcceptsReturn="True"/>
+        </HeaderedContentControl>
+        <HeaderedContentControl Grid.Column="1" Margin="5" Header="Termine/Ansagen">
+          <TextBox Height="45" Name="TermineTextBox" Text="{Binding Path=StundenentwurfAnsagen}"
+                   TextWrapping="Wrap"
+                   AcceptsReturn="True"/>
+        </HeaderedContentControl>
+        <HeaderedContentControl Grid.Column="2" Margin="5" Header="Sonstiges">
+          <StackPanel>
+            <CheckBox Content="Kopieren" Height="16" Name="KopierenCheckBox" IsChecked="{Binding Path=StundenentwurfKopieren}"/>
+            <CheckBox Content="Computer" Height="16" Name="ComputerCheckBox" IsChecked="{Binding Path=StundenentwurfComputer}"/>
+          </StackPanel>
+        </HeaderedContentControl>
+      </Grid>
+    </Grid>
 
   </Grid>
 </UserControl>

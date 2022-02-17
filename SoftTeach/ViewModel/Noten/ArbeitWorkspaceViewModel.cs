@@ -77,7 +77,7 @@
       {
 
         var arbeit = new ArbeitNeu();
-        arbeit.Lerngruppe = dlg.Klasse.Model;
+        arbeit.Lerngruppe = dlg.Lerngruppe.Model;
         arbeit.Fach = dlg.Fach.Model;
         arbeit.Bepunktungstyp = dlg.Bepunktungstyp;
         arbeit.Bewertungsschema = dlg.Bewertungsschema.Model;

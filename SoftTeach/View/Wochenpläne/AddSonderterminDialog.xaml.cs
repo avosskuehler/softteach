@@ -18,6 +18,7 @@
 namespace SoftTeach.View.Wochenpläne
 {
   using System.Windows;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.View.Termine;
   using SoftTeach.ViewModel.Datenbank;
 
@@ -37,7 +38,7 @@ namespace SoftTeach.View.Wochenpläne
       this.DataContext = this;
 
       // Select first Termintyp
-      this.TerminTermintyp = App.MainViewModel.Termintypen[0];
+      this.TerminTermintyp = Termintyp.Sondertermin;
       this.TerminBezeichnung.Focus();
     }
 
@@ -58,7 +59,7 @@ namespace SoftTeach.View.Wochenpläne
     /// <summary>
     /// Holt oder setzt die Termintyp
     /// </summary>
-    public TermintypViewModel TerminTermintyp { get; set; }
+    public Termintyp TerminTermintyp { get; set; }
 
     #endregion
 

@@ -56,7 +56,7 @@
     private SitzplanWorkspaceViewModel sitzplanWorkspace;
     private WochenplanWorkspaceViewModel wochenplanWorkspace;
     private TagesplanWorkspaceViewModel tagesplanWorkspace;
-    private StundenentwurfWorkspaceViewModel stundenentwurfWorkspace;
+    private StundenWorkspaceViewModel stundenentwurfWorkspace;
     private ObservableCollection<StundeViewModel> stunden;
     private ObservableCollection<CurriculumViewModel> curricula;
     private ObservableCollection<RaumViewModel> räume;
@@ -435,13 +435,13 @@
     /// <summary>
     /// Holt den workspace for managing stundenentwürfe
     /// </summary>
-    public StundenentwurfWorkspaceViewModel StundenentwurfWorkspace
+    public StundenWorkspaceViewModel StundenentwurfWorkspace
     {
       get
       {
         if (this.stundenentwurfWorkspace == null)
         {
-          this.stundenentwurfWorkspace = new StundenentwurfWorkspaceViewModel();
+          this.stundenentwurfWorkspace = new StundenWorkspaceViewModel();
         }
 
         return this.stundenentwurfWorkspace;

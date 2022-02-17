@@ -60,22 +60,23 @@ namespace SoftTeach.View.Stundenpläne
       this.Cursor = Cursors.Wait;
       using (new UndoBatch(App.MainViewModel, string.Format("Jahrespläne für Stundenplan neu angelegt"), false))
       {
-        foreach (var stundenplaneintragViewModel in this.StundenplanViewModel.Stundenplaneinträge)
-        {
-          // Create a new Jahresplan
-          App.MainViewModel.JahresplanWorkspace.AddJahresplan(
-            this.StundenplanViewModel.StundenplanSchuljahr,
-            stundenplaneintragViewModel.StundenplaneintragFach,
-            stundenplaneintragViewModel.StundenplaneintragLerngruppe,
-            this.StundenplanViewModel.StundenplanHalbjahr.HalbjahrBezeichnung == "Sommer");
-        }
+        // TODO
+        //foreach (var stundenplaneintragViewModel in this.StundenplanViewModel.Stundenplaneinträge)
+        //{
+        //  // Create a new Jahresplan
+        //  App.MainViewModel.JahresplanWorkspace.AddJahresplan(
+        //    this.StundenplanViewModel.StundenplanSchuljahr,
+        //    stundenplaneintragViewModel.StundenplaneintragFach,
+        //    stundenplaneintragViewModel.StundenplaneintragLerngruppe,
+        //    this.StundenplanViewModel.StundenplanHalbjahr.HalbjahrBezeichnung == "Sommer");
+        //}
 
-        // Create special jahresplan for vertretungsstunden etc.
-        App.MainViewModel.JahresplanWorkspace.AddJahresplan(
-          this.StundenplanViewModel.StundenplanSchuljahr,
-          App.MainViewModel.Fächer.Single(o => o.FachBezeichnung == "Vertretungsstunden"),
-          App.MainViewModel.Klassen.Single(o => o.KlasseBezeichnung == "Alle"),
-          this.StundenplanViewModel.StundenplanHalbjahr.HalbjahrBezeichnung == "Sommer");
+        //// Create special jahresplan for vertretungsstunden etc.
+        //App.MainViewModel.JahresplanWorkspace.AddJahresplan(
+        //  this.StundenplanViewModel.StundenplanSchuljahr,
+        //  App.MainViewModel.Fächer.Single(o => o.FachBezeichnung == "Vertretungsstunden"),
+        //  App.MainViewModel.Klassen.Single(o => o.KlasseBezeichnung == "Alle"),
+        //  this.StundenplanViewModel.StundenplanHalbjahr.HalbjahrBezeichnung == "Sommer");
       }
 
       this.Cursor = Cursors.Arrow;

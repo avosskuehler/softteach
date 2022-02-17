@@ -635,7 +635,7 @@
       var stunde = this.TerminViewModel as StundeViewModel;
       Selection.Instance.Fach = App.MainViewModel.Fächer.First(o => o.FachBezeichnung == stunde.LerngruppenterminFach);
       Selection.Instance.Lerngruppe = App.MainViewModel.Lerngruppen.First(o => o.Model.Id == stunde.Model.LerngruppeId);
-      Selection.Instance.Stunde = stunde.Model as StundeNeu;
+      Selection.Instance.Stunde = stunde.Model;
 
       var schülerliste = Selection.Instance.Lerngruppe;
 

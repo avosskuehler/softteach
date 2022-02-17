@@ -37,9 +37,9 @@
           <DataTemplate DataType="{x:Type wochenpläneViewModel:WochenplanWorkspaceViewModel}">
             <wochenplanView:WochenplanWorkspaceView />
           </DataTemplate>
-          <DataTemplate DataType="{x:Type jahrespläneViewModel:JahresplanWorkspaceViewModel}">
+          <!--<DataTemplate DataType="{x:Type jahrespläneViewModel:JahresplanWorkspaceViewModel}">
             <jahrespläneView:JahresplanWorkspaceView />
-          </DataTemplate>
+          </DataTemplate>-->
           <DataTemplate DataType="{x:Type curriculaViewModel:CurriculumWorkspaceViewModel}">
             <curriculaView:CurriculumWorkspaceView />
           </DataTemplate>
@@ -225,13 +225,13 @@
           <fluent:RibbonGroupBox.Icon>
             <fa:IconBlock Style="{StaticResource Klasse32}"/>
           </fluent:RibbonGroupBox.Icon>
-          <fluent:Button 
+          <!--<fluent:Button 
             Header="Jahrgangsstufen und Klassen" 
             Click="JahrgangsstufenButtonClick">
             <fluent:Button.LargeIcon>
               <fa:IconBlock Style="{StaticResource Klasse32}"/>
             </fluent:Button.LargeIcon>
-          </fluent:Button>
+          </fluent:Button>-->
           <fluent:Button 
             Header="Lerngruppen" 
             Click="LerngruppeButtonClick">
@@ -312,20 +312,6 @@
               </Grid>
             </fluent:Button.LargeIcon>
           </fluent:Button>
-          <fluent:Button Header="Tendenztypen" Click="TendenztypenButtonClick" ToolTip="Tendenztypen neu definieren">
-            <fluent:Button.LargeIcon>
-              <Grid>
-                <fa:IconBlock Style="{StaticResource Tendenztyp32}"/>
-              </Grid>
-            </fluent:Button.LargeIcon>
-          </fluent:Button>
-          <fluent:Button Header="Tendenzen" Click="TendenzenButtonClick" ToolTip="Tendenzen neu definieren">
-            <fluent:Button.LargeIcon>
-              <Grid>
-                <fa:IconBlock Style="{StaticResource Tendenz32}"/>
-              </Grid>
-            </fluent:Button.LargeIcon>
-          </fluent:Button>
           <fluent:Button Header="Zensuren" Click="ZensurenButtonClick" ToolTip="Zensuren neu definieren">
             <fluent:Button.LargeIcon>
               <Grid>
@@ -345,13 +331,13 @@
           <fluent:RibbonGroupBox.Icon>
             <fa:IconBlock Style="{StaticResource Note32}"/>
           </fluent:RibbonGroupBox.Icon>
-          <fluent:Button Header="Jahrespläne" Click="JahrespläneButtonClick">
+          <!--<fluent:Button Header="Jahrespläne" Click="JahrespläneButtonClick">
             <fluent:Button.LargeIcon>
               <Grid>
                 <fa:IconBlock Style="{StaticResource Jahresplan32}"/>
               </Grid>
             </fluent:Button.LargeIcon>
-          </fluent:Button>
+          </fluent:Button>-->
           <!--<RibbonButton x:Name="HalbjahresplanButton"
                                Label="Halbjahrespläne" 
                                Click="HalbjahresplanButtonClick"
@@ -372,13 +358,13 @@
           <fluent:RibbonGroupBox.Icon>
             <fa:IconBlock Style="{StaticResource Stundenentwurf32}"/>
           </fluent:RibbonGroupBox.Icon>
-          <fluent:Button 
+          <!--<fluent:Button 
             Header="Stundenentwürfe" 
             Click="StundenentwuerfeButtonClick" >
             <fluent:Button.LargeIcon>
               <fa:IconBlock Style="{StaticResource Stundenentwurf32}"/>
             </fluent:Button.LargeIcon>
-          </fluent:Button>
+          </fluent:Button>-->
           <fluent:Button 
             Header="Phasen"
             Click="PhasenButtonClick" >

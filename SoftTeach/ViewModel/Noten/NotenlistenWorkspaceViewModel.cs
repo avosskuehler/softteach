@@ -272,7 +272,7 @@
             "Hier werden Noten für die Klasse {2} im Fach {1} für das Schuljahr {0} gemacht.",
             this.CurrentLerngruppe.LerngruppeSchuljahr.SchuljahrBezeichnung,
             this.CurrentLerngruppe.LerngruppeFach.FachBezeichnung,
-            this.CurrentLerngruppe.LerngruppeKlasse.KlasseBezeichnung);
+            this.CurrentLerngruppe.LerngruppeBezeichnung);
         }
 
         return title;
@@ -341,7 +341,7 @@
       fixedPage.UpdateLayout();
 
       // print it out
-      var title = "Noten" + this.CurrentLerngruppe.LerngruppeKlasse.KlasseBezeichnung + this.CurrentLerngruppe.LerngruppeFach.FachBezeichnung;
+      var title = "Noten" + this.CurrentLerngruppe.LerngruppeBezeichnung + this.CurrentLerngruppe.LerngruppeFach.FachBezeichnung;
       pd.PrintVisual(fixedPage, title);
     }
 

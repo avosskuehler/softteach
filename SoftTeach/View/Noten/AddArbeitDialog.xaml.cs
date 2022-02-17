@@ -26,6 +26,7 @@ namespace SoftTeach.View.Noten
   using SoftTeach.Setting;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Noten;
+  using SoftTeach.ViewModel.Personen;
 
   /// <summary>
   /// Ein Dialog um nicht gemachte Arbeiten einzutragen.
@@ -39,7 +40,7 @@ namespace SoftTeach.View.Noten
     {
       this.InitializeComponent();
       this.DataContext = this;
-      this.Klasse = Selection.Instance.Klasse;
+      this.Lerngruppe = Selection.Instance.Lerngruppe;
       this.Schuljahr = Selection.Instance.Schuljahr;
       this.Halbjahr = Selection.Instance.Halbjahr;
       this.Fach = Selection.Instance.Fach;
@@ -53,7 +54,7 @@ namespace SoftTeach.View.Noten
     /// <summary>
     /// Holt oder setzt die Klasse für die Arbeit
     /// </summary>
-    public LerngruppeViewModel Klasse { get; set; }
+    public LerngruppeViewModel Lerngruppe { get; set; }
 
     /// <summary>
     /// Holt oder setzt den Schuljahr für die Arbeit
@@ -103,12 +104,12 @@ namespace SoftTeach.View.Noten
       // Doppelte Arbeiten zum selben Termin vermeiden.
       if (App.MainViewModel.Arbeiten.Any(
           o =>
-          o.ArbeitSchuljahr.SchuljahrBezeichnung == this.Schuljahr.SchuljahrBezeichnung
-          && o.ArbeitHalbjahr.HalbjahrIndex == this.Halbjahr.HalbjahrIndex
-          && o.ArbeitKlasse.KlasseBezeichnung == this.Klasse.KlasseBezeichnung
+          o.ArbeitLerngruppe.LerngruppeSchuljahr.SchuljahrBezeichnung == this.Schuljahr.SchuljahrBezeichnung
+          && o.ArbeitLerngruppe.LerngruppeHalbjahr == this.Halbjahr
+          && o.ArbeitLerngruppe.LerngruppeBezeichnung == this.Lerngruppe.LerngruppeBezeichnung
           && o.ArbeitFach.FachBezeichnung == this.Fach.FachBezeichnung && o.ArbeitDatum.Date == this.Datum.Date))
       {
-        var message = "Eine Arbeit der Klasse " + this.Klasse.KlasseBezeichnung + " im Fach "
+        var message = "Eine Arbeit der Klasse " + this.Lerngruppe.LerngruppeBezeichnung + " im Fach "
                       + this.Fach.FachBezeichnung + " ist am " + this.Datum.Date.ToShortDateString() + " bereits in der Datenbank angelegt.";
 
         var dlg = new InformationDialog("Arbeit schon angelegt.", message, false);

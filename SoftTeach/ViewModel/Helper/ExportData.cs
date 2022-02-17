@@ -90,12 +90,27 @@
             var nr = items[0];
             var nachname = items[1];
             var vorname = items[2];
-            var geschlecht = items[3] == "w";
+            Geschlecht geschlecht;
+            switch (items[3])
+            {
+              case "w":
+                geschlecht = Geschlecht.w;
+                break;
+              case "m":
+                geschlecht = Geschlecht.m;
+                break;
+              case "d":
+                geschlecht = Geschlecht.d;
+                break;
+              default:
+                geschlecht = Geschlecht.w;
+                break;
+            }
             var hatGeburtstag = DateTime.TryParse(items[4], out DateTime geburtstag);
 
             var existiert =
               App.MainViewModel.Personen.FirstOrDefault(
-                o => o.PersonIstWeiblich == geschlecht && o.Vorname == vorname && o.Nachname == nachname);
+                o => o.Geschlecht == geschlecht && o.Vorname == vorname && o.Nachname == nachname);
 
             if (existiert != null)
             {
@@ -112,7 +127,7 @@
             }
             else
             {
-              var person = new Person();
+              var person = new PersonNeu();
               person.Nachname = nachname;
               person.Vorname = vorname;
               person.Geschlecht = geschlecht;

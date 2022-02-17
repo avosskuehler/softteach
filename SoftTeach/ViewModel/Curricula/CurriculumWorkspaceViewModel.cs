@@ -126,7 +126,7 @@
         if (this.currentCurriculum != null)
         {
           Selection.Instance.Fach = this.currentCurriculum.CurriculumFach;
-          Selection.Instance.Klasse = App.MainViewModel.Klassen.First(o => o.Model.Klassenstufe == this.currentCurriculum.CurriculumKlassenstufe.Model);
+          Selection.Instance.Lerngruppe = App.MainViewModel.Lerngruppen.First(o => o.Model.Jahrgang == this.currentCurriculum.CurriculumJahrgang);
         }
 
         this.RaisePropertyChanged("CurrentCurriculum");
@@ -230,12 +230,12 @@
         var dlg = new AskForJahrFachStufeDialog();
         if (dlg.ShowDialog().GetValueOrDefault(false))
         {
-          var curriculum = new Curriculum();
+          var curriculum = new CurriculumNeu();
           curriculum.Bezeichnung = dlg.Bezeichnung;
           curriculum.Fach = dlg.Fach.Model;
-          curriculum.Klassenstufe = dlg.Klassenstufe.Model;
+          curriculum.Jahrgang = dlg.Jahrgang;
           curriculum.Schuljahr = dlg.Schuljahr.Model;
-          curriculum.Halbjahr = dlg.Halbjahr.Model;
+          curriculum.Halbjahr = dlg.Halbjahr;
           //App.UnitOfWork.Context.Curricula.Add(curriculum);
           var vm = new CurriculumViewModel(curriculum);
           App.MainViewModel.Curricula.Add(vm);
@@ -258,22 +258,22 @@
       {
         var dlg = new AskForJahrFachStufeDialog();
         dlg.Fach = this.CurrentCurriculum.CurriculumFach;
-        dlg.Klassenstufe = this.CurrentCurriculum.CurriculumKlassenstufe;
+        dlg.Jahrgang = this.CurrentCurriculum.CurriculumJahrgang;
         dlg.Halbjahr = this.CurrentCurriculum.CurriculumHalbjahr;
         dlg.Schuljahr = Selection.Instance.Schuljahr;
         if (dlg.ShowDialog().GetValueOrDefault(false))
         {
           // Create a clone of this curriculum for the adaption dialog
-          var curriculumClone = new Curriculum();
+          var curriculumClone = new CurriculumNeu();
           curriculumClone.Bezeichnung = dlg.Bezeichnung;
           curriculumClone.Fach = dlg.Fach.Model;
-          curriculumClone.Klassenstufe = dlg.Klassenstufe.Model;
+          curriculumClone.Jahrgang = dlg.Jahrgang;
           curriculumClone.Schuljahr = dlg.Schuljahr.Model;
-          curriculumClone.Halbjahr = dlg.Halbjahr.Model;
+          curriculumClone.Halbjahr = dlg.Halbjahr;
 
           foreach (var reihe in this.CurrentCurriculum.Model.Reihen)
           {
-            var reiheClone = new Reihe();
+            var reiheClone = new ReiheNeu();
             reiheClone.Reihenfolge = reihe.Reihenfolge;
             reiheClone.Modul = reihe.Modul;
             reiheClone.Stundenbedarf = reihe.Stundenbedarf;
@@ -283,7 +283,7 @@
 
             foreach (var sequenz in reihe.Sequenzen)
             {
-              var sequenzClone = new Sequenz();
+              var sequenzClone = new SequenzNeu();
               sequenzClone.Reihenfolge = sequenz.Reihenfolge;
               sequenzClone.Stundenbedarf = sequenz.Stundenbedarf;
               sequenzClone.Thema = sequenz.Thema;

@@ -31,7 +31,7 @@ namespace SoftTeach.View.Curricula
     public SchuljahrViewModel Schuljahr { get; set; }
     public Halbjahr Halbjahr { get; set; }
     public FachViewModel Fach { get; set; }
-    public int Klassenstufe { get; set; }
+    public int Jahrgang { get; set; }
     public string Bezeichnung { get; set; }
 
     #region Constructors and Destructors
@@ -46,7 +46,7 @@ namespace SoftTeach.View.Curricula
       this.Schuljahr = Selection.Instance.Schuljahr;
       this.Halbjahr = Selection.Instance.Halbjahr;
       this.Fach = App.MainViewModel.Fächer[0];
-      this.Klassenstufe = App.MainViewModel.Klassenstufen[0];
+      this.Jahrgang = App.MainViewModel.Klassenstufen[0];
       this.Bezeichnung = "Neue Bezeichnung";
     }
 

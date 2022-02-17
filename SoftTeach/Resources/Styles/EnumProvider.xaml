@@ -7,5 +7,15 @@
       <x:Type TypeName="Data:Bepunktungstyp"/>
     </ObjectDataProvider.MethodParameters>
   </ObjectDataProvider>
+  <ObjectDataProvider x:Key="Medien" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+    <ObjectDataProvider.MethodParameters>
+      <x:Type TypeName="Data:Medium"/>
+    </ObjectDataProvider.MethodParameters>
+  </ObjectDataProvider>
+  <ObjectDataProvider x:Key="Sozialformen" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+    <ObjectDataProvider.MethodParameters>
+      <x:Type TypeName="Data:Sozialform"/>
+    </ObjectDataProvider.MethodParameters>
+  </ObjectDataProvider>
 
 </ResourceDictionary>

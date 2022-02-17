@@ -822,7 +822,7 @@
       fixedPage.UpdateLayout();
 
       // print it out
-      var title = "Noten für " + this.ArbeitKlasse.KlasseBezeichnung;
+      var title = "Noten für " + this.ArbeitLerngruppe.LerngruppeBezeichnung;
       pd.PrintVisual(fixedPage, title);
     }
   }

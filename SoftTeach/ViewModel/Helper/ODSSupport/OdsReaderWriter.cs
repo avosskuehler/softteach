@@ -2,6 +2,8 @@
 {
   using Ionic.Zip;
   using SoftTeach.ViewModel.Jahrespläne;
+  using SoftTeach.ViewModel.Personen;
+  using SoftTeach.ViewModel.Termine;
   using System;
   using System.Data;
   using System.Globalization;
@@ -192,9 +194,9 @@
     /// <summary>
     /// Writes a Jahresplan into an .ods file.
     /// </summary>
-    /// <param name="jahresplan">The <see cref="JahresplanViewModel"/> with the Jahresplandata to export.</param>
+    /// <param name="lerngruppe">The <see cref="JahresplanViewModel"/> with the Jahresplandata to export.</param>
     /// <param name="outputFilePath">The name of the file to save to.</param>
-    public void WriteOdsFile(JahresplanViewModel jahresplan, string outputFilePath)
+    public void WriteOdsFile(LerngruppeViewModel lerngruppe, string outputFilePath)
     {
       ZipFile templateFile = this.GetZipFile(Assembly.GetExecutingAssembly().GetManifestResourceStream("SoftTeach.ViewModel.Helper.ODSSupport.template.ods"));
 
@@ -204,86 +206,84 @@
 
       XmlNode sheetsRootNode = this.GetSheetsRootNodeAndRemoveChildrens(contentXml, nmsManager);
 
-      foreach (var halbjahresplan in jahresplan.Halbjahrespläne)
+      // Tabelle anlegen
+      XmlDocument ownerDocument = sheetsRootNode.OwnerDocument;
+      XmlNode sheetNode = ownerDocument.CreateElement("table:table", this.GetNamespaceUri("table"));
+      XmlAttribute sheetName = ownerDocument.CreateAttribute("table:name", this.GetNamespaceUri("table"));
+      sheetName.Value = lerngruppe.LerngruppeHalbjahr.ToString();
+      sheetNode.Attributes.Append(sheetName);
+
+      // Spalten anlegen
+      XmlNode columnDefinition = ownerDocument.CreateElement("table:table-column", this.GetNamespaceUri("table"));
+      XmlAttribute columnsCount = ownerDocument.CreateAttribute("table:number-columns-repeated", this.GetNamespaceUri("table"));
+      columnsCount.Value = "5";
+      columnDefinition.Attributes.Append(columnsCount);
+      sheetNode.AppendChild(columnDefinition);
+
+      // Zeilen anlegen
+      foreach (var stunde in lerngruppe.Lerngruppentermine.OfType<StundeViewModel>().OrderBy(o => o.LerngruppenterminDatum))
       {
-        // Tabelle anlegen
-        XmlDocument ownerDocument = sheetsRootNode.OwnerDocument;
-        XmlNode sheetNode = ownerDocument.CreateElement("table:table", this.GetNamespaceUri("table"));
-        XmlAttribute sheetName = ownerDocument.CreateAttribute("table:name", this.GetNamespaceUri("table"));
-        sheetName.Value = halbjahresplan.HalbjahresplanHeader;
-        sheetNode.Attributes.Append(sheetName);
+        XmlNode rowNode = ownerDocument.CreateElement("table:table-row", this.GetNamespaceUri("table"));
 
-        // Spalten anlegen
-        XmlNode columnDefinition = ownerDocument.CreateElement("table:table-column", this.GetNamespaceUri("table"));
-        XmlAttribute columnsCount = ownerDocument.CreateAttribute("table:number-columns-repeated", this.GetNamespaceUri("table"));
-        columnsCount.Value = "5";
-        columnDefinition.Attributes.Append(columnsCount);
-        sheetNode.AppendChild(columnDefinition);
+        // Datum schreiben
+        XmlElement cellNode = ownerDocument.CreateElement("table:table-cell", this.GetNamespaceUri("table"));
+        XmlAttribute valueType = ownerDocument.CreateAttribute("office:value-type", this.GetNamespaceUri("office"));
+        valueType.Value = "string";
+        cellNode.Attributes.Append(valueType);
+        XmlElement cellValue = ownerDocument.CreateElement("text:p", this.GetNamespaceUri("text"));
+        cellValue.InnerText = stunde.LerngruppenterminDatumKurz;
+        cellNode.AppendChild(cellValue);
 
-        // Zeilen anlegen
-        foreach (var stunde in halbjahresplan.Stunden.OrderBy(o => o.LerngruppenterminDatum))
-        {
-          XmlNode rowNode = ownerDocument.CreateElement("table:table-row", this.GetNamespaceUri("table"));
+        rowNode.AppendChild(cellNode);
 
-          // Datum schreiben
-          XmlElement cellNode = ownerDocument.CreateElement("table:table-cell", this.GetNamespaceUri("table"));
-          XmlAttribute valueType = ownerDocument.CreateAttribute("office:value-type", this.GetNamespaceUri("office"));
-          valueType.Value = "string";
-          cellNode.Attributes.Append(valueType);
-          XmlElement cellValue = ownerDocument.CreateElement("text:p", this.GetNamespaceUri("text"));
-          cellValue.InnerText = stunde.LerngruppenterminDatumKurz;
-          cellNode.AppendChild(cellValue);
+        // Titel des Stundenentwurfs schreiben
+        cellNode = ownerDocument.CreateElement("table:table-cell", this.GetNamespaceUri("table"));
+        valueType = ownerDocument.CreateAttribute("office:value-type", this.GetNamespaceUri("office"));
+        valueType.Value = "string";
+        cellNode.Attributes.Append(valueType);
+        cellValue = ownerDocument.CreateElement("text:p", this.GetNamespaceUri("text"));
+        cellValue.InnerText = stunde.TerminBeschreibung;
+        cellNode.AppendChild(cellValue);
 
-          rowNode.AppendChild(cellNode);
+        rowNode.AppendChild(cellNode);
 
-          // Titel des Stundenentwurfs schreiben
-          cellNode = ownerDocument.CreateElement("table:table-cell", this.GetNamespaceUri("table"));
-          valueType = ownerDocument.CreateAttribute("office:value-type", this.GetNamespaceUri("office"));
-          valueType.Value = "string";
-          cellNode.Attributes.Append(valueType);
-          cellValue = ownerDocument.CreateElement("text:p", this.GetNamespaceUri("text"));
-          cellValue.InnerText = stunde.StundeStundenentwurf == null ? "Stunde ausgefallen" : stunde.StundeStundenentwurfTitel;
-          cellNode.AppendChild(cellValue);
+        // Modul des Stundenentwurfs schreiben
+        cellNode = ownerDocument.CreateElement("table:table-cell", this.GetNamespaceUri("table"));
+        valueType = ownerDocument.CreateAttribute("office:value-type", this.GetNamespaceUri("office"));
+        valueType.Value = "string";
+        cellNode.Attributes.Append(valueType);
+        cellValue = ownerDocument.CreateElement("text:p", this.GetNamespaceUri("text"));
+        cellValue.InnerText = stunde.StundeModul.ModulBezeichnung;
+        cellNode.AppendChild(cellValue);
 
-          rowNode.AppendChild(cellNode);
+        rowNode.AppendChild(cellNode);
 
-          // Modul des Stundenentwurfs schreiben
-          cellNode = ownerDocument.CreateElement("table:table-cell", this.GetNamespaceUri("table"));
-          valueType = ownerDocument.CreateAttribute("office:value-type", this.GetNamespaceUri("office"));
-          valueType.Value = "string";
-          cellNode.Attributes.Append(valueType);
-          cellValue = ownerDocument.CreateElement("text:p", this.GetNamespaceUri("text"));
-          cellValue.InnerText = stunde.StundeStundenentwurf == null ? "" : stunde.StundeStundenentwurf.StundenentwurfModul.ModulBezeichnung;
-          cellNode.AppendChild(cellValue);
+        // Phasen des Stundenentwurfs schreiben
+        cellNode = ownerDocument.CreateElement("table:table-cell", this.GetNamespaceUri("table"));
+        valueType = ownerDocument.CreateAttribute("office:value-type", this.GetNamespaceUri("office"));
+        valueType.Value = "string";
+        cellNode.Attributes.Append(valueType);
+        cellValue = ownerDocument.CreateElement("text:p", this.GetNamespaceUri("text"));
+        cellValue.InnerText = stunde.StundePhasenLangform;
+        cellNode.AppendChild(cellValue);
 
-          rowNode.AppendChild(cellNode);
+        rowNode.AppendChild(cellNode);
 
-          // Phasen des Stundenentwurfs schreiben
-          cellNode = ownerDocument.CreateElement("table:table-cell", this.GetNamespaceUri("table"));
-          valueType = ownerDocument.CreateAttribute("office:value-type", this.GetNamespaceUri("office"));
-          valueType.Value = "string";
-          cellNode.Attributes.Append(valueType);
-          cellValue = ownerDocument.CreateElement("text:p", this.GetNamespaceUri("text"));
-          cellValue.InnerText = stunde.StundeStundenentwurf == null ? "" : stunde.StundeStundenentwurf.StundenentwurfPhasenLangform;
-          cellNode.AppendChild(cellValue);
+        // ggf. Datein für den Stundenentwurf schreiben
+        cellNode = ownerDocument.CreateElement("table:table-cell", this.GetNamespaceUri("table"));
+        valueType = ownerDocument.CreateAttribute("office:value-type", this.GetNamespaceUri("office"));
+        valueType.Value = "string";
+        cellNode.Attributes.Append(valueType);
+        cellValue = ownerDocument.CreateElement("text:p", this.GetNamespaceUri("text"));
+        cellValue.InnerText = stunde.StundeDateiliste; 
+        cellNode.AppendChild(cellValue);
 
-          rowNode.AppendChild(cellNode);
+        rowNode.AppendChild(cellNode);
 
-          // ggf. Datein für den Stundenentwurf schreiben
-          cellNode = ownerDocument.CreateElement("table:table-cell", this.GetNamespaceUri("table"));
-          valueType = ownerDocument.CreateAttribute("office:value-type", this.GetNamespaceUri("office"));
-          valueType.Value = "string";
-          cellNode.Attributes.Append(valueType);
-          cellValue = ownerDocument.CreateElement("text:p", this.GetNamespaceUri("text"));
-          cellValue.InnerText = stunde.StundeStundenentwurf == null ? "" : stunde.StundeStundenentwurf.StundenentwurfDateiliste;          cellNode.AppendChild(cellValue);
-
-          rowNode.AppendChild(cellNode);
-
-          sheetNode.AppendChild(rowNode);
-        }
-
-        sheetsRootNode.AppendChild(sheetNode);
+        sheetNode.AppendChild(rowNode);
       }
+
+      sheetsRootNode.AppendChild(sheetNode);
 
       this.SaveContentXml(templateFile, contentXml);
 

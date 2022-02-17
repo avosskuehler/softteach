@@ -22,10 +22,10 @@ namespace SoftTeach.ViewModel.Curricula
 
       if (element != null && item != null)
       {
-        if (item is SchulwocheViewModel)
-        {
-          return element.FindResource("SchulwochenView") as DataTemplate;
-        }
+        //if (item is SchulwocheViewModel)
+        //{
+        //  return element.FindResource("SchulwochenView") as DataTemplate;
+        //}
         
         if (item is ReiheViewModel)
         {

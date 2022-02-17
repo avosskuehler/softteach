@@ -215,10 +215,10 @@
     /// </summary>
     private void PopulateStunden()
     {
-      foreach (StundeViewModel stundeViewModel in this.halbjahresplanTemplate.Model.Lerngruppentermine.OfType<Stunde.OrderBy(o => o.StundeLaufendeStundennummer))
-      {
-        this.UsedStundenDesHalbjahresplans.Add(stundeViewModel);
-      }
+      //foreach (StundeViewModel stundeViewModel in this.halbjahresplanTemplate.Model.Lerngruppentermine.OfType<Stunde.OrderBy(o => o.StundeLaufendeStundennummer))
+      //{
+      //  this.UsedStundenDesHalbjahresplans.Add(stundeViewModel);
+      //}
 
       // ResequenceList
       SequencingService.SetCollectionSequence(this.UsedStundenDesHalbjahresplans);
@@ -229,14 +229,14 @@
     /// </summary>
     private void PopulateTagespläne()
     {
-      // Tagespläne, die ergänzt werden sollen in Stundenplan laden
-      foreach (var monatsplanViewModel in this.currentHalbjahresplan.Monatspläne)
-      {
-        foreach (var tagesplanViewModel in monatsplanViewModel.Tagespläne)
-        {
-          this.StundenDerLerngruppe.Add(tagesplanViewModel);
-        }
-      }
+      //// Tagespläne, die ergänzt werden sollen in Stundenplan laden
+      //foreach (var monatsplanViewModel in this.currentHalbjahresplan.Monatspläne)
+      //{
+      //  foreach (var tagesplanViewModel in monatsplanViewModel.Tagespläne)
+      //  {
+      //    this.StundenDerLerngruppe.Add(tagesplanViewModel);
+      //  }
+      //}
     }
 
     /// <summary>
@@ -293,45 +293,45 @@
       var stundenZähler = 0;
       var aktuelleStunde = this.UsedStundenDesHalbjahresplans[stundeIndex];
 
-      foreach (TagesplanViewModel tagesplan in this.StundenDerLerngruppe)
-      {
-        if (aktuelleStunde == null)
-        {
-          break;
-        }
+      //foreach (TagesplanViewModel tagesplan in this.StundenDerLerngruppe)
+      //{
+      //  if (aktuelleStunde == null)
+      //  {
+      //    break;
+      //  }
 
-        foreach (var lerngruppentermin in tagesplan.Lerngruppentermine)
-        {
-          if (lerngruppentermin is StundeViewModel)
-          {
-            var stunde = lerngruppentermin as StundeViewModel;
+      //  foreach (var lerngruppentermin in tagesplan.Lerngruppentermine)
+      //  {
+      //    if (lerngruppentermin is StundeViewModel)
+      //    {
+      //      var stunde = lerngruppentermin as StundeViewModel;
 
-            // Wenn kein Entwurf vorhanden, oder leer
-            if (stunde.StundeStundenentwurf == null ||
-              stunde.StundeStundenentwurf.Phasen.Count == 0)
-            {
-              stunde.StundeStundenentwurf = (StundenentwurfViewModel)aktuelleStunde.StundeStundenentwurf.Clone();
-            }
+      //      // Wenn kein Entwurf vorhanden, oder leer
+      //      if (stunde.StundeStundenentwurf == null ||
+      //        stunde.StundeStundenentwurf.Phasen.Count == 0)
+      //      {
+      //        stunde.StundeStundenentwurf = (StundenentwurfViewModel)aktuelleStunde.StundeStundenentwurf.Clone();
+      //      }
 
-            stundenZähler += stunde.TerminStundenanzahl;
-            if (stundenZähler >= aktuelleStunde.TerminStundenanzahl)
-            {
-              stundenZähler = 0;
-              stundeIndex++;
+      //      stundenZähler += stunde.TerminStundenanzahl;
+      //      if (stundenZähler >= aktuelleStunde.TerminStundenanzahl)
+      //      {
+      //        stundenZähler = 0;
+      //        stundeIndex++;
 
-              if (this.UsedStundenDesHalbjahresplans.Count > stundeIndex)
-              {
-                aktuelleStunde = this.UsedStundenDesHalbjahresplans[stundeIndex];
-              }
-              else
-              {
-                aktuelleStunde = null;
-                break;
-              }
-            }
-          }
-        }
-      }
+      //        if (this.UsedStundenDesHalbjahresplans.Count > stundeIndex)
+      //        {
+      //          aktuelleStunde = this.UsedStundenDesHalbjahresplans[stundeIndex];
+      //        }
+      //        else
+      //        {
+      //          aktuelleStunde = null;
+      //          break;
+      //        }
+      //      }
+      //    }
+      //  }
+      //}
 
       InformationDialog.Show("Fertig", "Halbjahresplan wurde aktualisiert", false);
     }
@@ -340,27 +340,20 @@
     {
       var ersteStunde = this.TagespläneAndStundenCollection.OfType<StundeViewModel>().First();
 
-      var neuerEntwurf = new Stundenentwurf();
-      neuerEntwurf.Datum = DateTime.Now;
-      neuerEntwurf.Stundenthema = "Neue Stunde";
-      neuerEntwurf.Fach = ersteStunde.StundeStundenentwurf.StundenentwurfFach.Model;
-      neuerEntwurf.Jahrgangsstufe = ersteStunde.StundeStundenentwurf.StundenentwurfJahrgangsstufe.Model;
-      neuerEntwurf.Modul = ersteStunde.StundeStundenentwurf.StundenentwurfModul.Model;
-      neuerEntwurf.Stundenzahl = 1;
-      neuerEntwurf.Ansagen = string.Empty;
-      neuerEntwurf.Computer = false;
-      neuerEntwurf.Hausaufgaben = string.Empty;
-      neuerEntwurf.Kopieren = false;
-
-      App.MainViewModel.Stunden.Add(new StundenentwurfViewModel(neuerEntwurf));
-
-      var neueStunde = new Stunde();
-      neueStunde.Termintyp = App.MainViewModel.Termintypen.First(
-          termintyp => termintyp.TermintypBezeichnung == "Unterricht").Model;
+      var neueStunde = new StundeNeu();
+      neueStunde.Datum = DateTime.Now;
+      neueStunde.Beschreibung = "Neue Stunde";
+      neueStunde.Fach = ersteStunde.StundeFach.Model;
+      neueStunde.Jahrgang = ersteStunde.StundeJahrgang;
+      neueStunde.Modul = ersteStunde.StundeModul.Model;
+      neueStunde.Ansagen = string.Empty;
+      neueStunde.Computer = false;
+      neueStunde.Hausaufgaben = string.Empty;
+      neueStunde.Kopieren = false;
+      neueStunde.Termintyp = Termintyp.Unterricht;
       neueStunde.ErsteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden.FirstOrDefault(o => o.UnterrichtsstundeIndex == 1).Model;
       neueStunde.LetzteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden.FirstOrDefault(o => o.UnterrichtsstundeIndex == 1).Model;
-      neueStunde.Stundenentwurf = neuerEntwurf;
-      var vm = new StundeViewModel(ersteStunde.ParentTagesplan, neueStunde);
+      var vm = new StundeViewModel(neueStunde);
       this.AvailableStundenDesHalbjahresplans.Add(vm);
     }
   }

@@ -1521,7 +1521,7 @@
           <NavigationProperty Name="Schuljahr" Relationship="Self.FK_SchuljahrLerngruppe" FromRole="Lerngruppen" ToRole="Schuljahre" />
           <NavigationProperty Name="Schülereinträge" Relationship="TeachyModel.FK_LerngruppeSchülereintrag" FromRole="LerngruppeNeu" ToRole="Schülereinträge" />
           <Property Name="Bepunktungstyp" Type="TeachyModel.Bepunktungstyp" Nullable="false" />
-          <NavigationProperty Name="Sitzpläne" Relationship="TeachyModel.FK_LerngruppeSitzplan" FromRole="LerngruppeNeu" ToRole="SitzplanNeu" />
+          <NavigationProperty Name="Sitzpläne" Relationship="TeachyModel.FK_LerngruppeSitzplan" FromRole="LerngruppeNeu" ToRole="Sitzpläne" />
         </EntityType>
         <EntityType Name="ModulNeu">
           <Key>
@@ -1626,8 +1626,8 @@
           <Property Name="RaumId" Type="Int32" Nullable="false" />
           <Property Name="Grundriss" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
           <NavigationProperty Name="Raum" Relationship="Self.FK_RaumRaumplan" FromRole="Raumpläne" ToRole="Räume" />
-          <NavigationProperty Name="Sitzpläne" Relationship="Self.FK_RaumplanSitzplan" FromRole="Raumpläne" ToRole="Sitzpläne" />
           <NavigationProperty Name="Sitzplätze" Relationship="Self.FK_RaumplanSitzplatz" FromRole="Raumpläne" ToRole="Sitzplätze" />
+          <NavigationProperty Name="Sitzpläne" Relationship="TeachyModel.FK_RaumplanSitzplan" FromRole="RaumplanNeu" ToRole="Sitzpläne" />
         </EntityType>
         <EntityType Name="ReiheNeu">
           <Key>
@@ -1667,20 +1667,6 @@
           <Property Name="Thema" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Reihe" Relationship="Self.FK_ReiheSequenz" FromRole="Sequenzen" ToRole="Reihen" />
         </EntityType>
-        <EntityType Name="SitzplanNeu">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Bezeichnung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="RaumplanId" Type="Int32" Nullable="false" />
-          <Property Name="GültigAb" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Raumplan" Relationship="Self.FK_RaumplanSitzplan" FromRole="Sitzpläne" ToRole="Raumpläne" />
-          <NavigationProperty Name="Sitzplaneinträge" Relationship="Self.FK_SitzplanSitzplaneintrag" FromRole="Sitzpläne" ToRole="Sitzplaneinträge" />
-          <Property Name="SchülerlisteId" Type="Int32" Nullable="false" />
-          <Property Name="LerngruppeId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Lerngruppe" Relationship="TeachyModel.FK_LerngruppeSitzplan" FromRole="SitzplanNeu" ToRole="LerngruppeNeu" />
-        </EntityType>
         <EntityType Name="SitzplaneintragNeu">
           <Key>
             <PropertyRef Name="Id" />
@@ -1689,9 +1675,9 @@
           <Property Name="SitzplanId" Type="Int32" Nullable="false" />
           <Property Name="SitzplatzId" Type="Int32" Nullable="false" />
           <Property Name="SchülereintragId" Type="Int32" />
-          <NavigationProperty Name="Sitzplan" Relationship="Self.FK_SitzplanSitzplaneintrag" FromRole="Sitzplaneinträge" ToRole="Sitzpläne" />
           <NavigationProperty Name="Sitzplatz" Relationship="Self.FK_SitzplatzSitzplaneintrag" FromRole="Sitzplaneinträge" ToRole="Sitzplätze" />
           <NavigationProperty Name="Schülereintrag" Relationship="TeachyModel.FK_SchülereintragSitzplaneintrag" FromRole="SitzplaneintragNeu" ToRole="Schülereinträge" />
+          <NavigationProperty Name="Sitzplan" Relationship="TeachyModel.FK_SitzplanSitzplaneintrag" FromRole="SitzplaneintragNeu" ToRole="Sitzpläne" />
         </EntityType>
         <EntityType Name="SitzplatzNeu">
           <Key>
@@ -2226,20 +2212,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_RaumplanSitzplan">
-          <End Role="Raumpläne" Type="TeachyModel.RaumplanNeu" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Sitzpläne" Type="TeachyModel.SitzplanNeu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Raumpläne">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Sitzpläne">
-              <PropertyRef Name="RaumplanId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_RaumplanSitzplatz">
           <End Role="Raumpläne" Type="TeachyModel.RaumplanNeu" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -2291,20 +2263,6 @@
             </Principal>
             <Dependent Role="Stundenpläne">
               <PropertyRef Name="SchuljahrID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SitzplanSitzplaneintrag">
-          <End Role="Sitzpläne" Type="TeachyModel.SitzplanNeu" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Sitzplaneinträge" Type="TeachyModel.SitzplaneintragNeu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Sitzpläne">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Sitzplaneinträge">
-              <PropertyRef Name="SitzplanId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2383,7 +2341,6 @@
           <EntitySet Name="Reihen" EntityType="TeachyModel.ReiheNeu" />
           <EntitySet Name="Schuljahre" EntityType="TeachyModel.SchuljahrNeu" />
           <EntitySet Name="Sequenzen" EntityType="TeachyModel.SequenzNeu" />
-          <EntitySet Name="Sitzpläne" EntityType="TeachyModel.SitzplanNeu" />
           <EntitySet Name="Sitzplaneinträge" EntityType="TeachyModel.SitzplaneintragNeu" />
           <EntitySet Name="Sitzplätze" EntityType="TeachyModel.SitzplatzNeu" />
           <EntitySet Name="Stundenpläne" EntityType="TeachyModel.StundenplanNeu" />
@@ -2515,10 +2472,6 @@
             <End Role="Räume" EntitySet="Räume" />
             <End Role="Stundenplaneinträge" EntitySet="Stundenplaneinträge" />
           </AssociationSet>
-          <AssociationSet Name="FK_RaumplanSitzplan" Association="Self.FK_RaumplanSitzplan">
-            <End Role="Raumpläne" EntitySet="Raumpläne" />
-            <End Role="Sitzpläne" EntitySet="Sitzpläne" />
-          </AssociationSet>
           <AssociationSet Name="FK_RaumplanSitzplatz" Association="Self.FK_RaumplanSitzplatz">
             <End Role="Raumpläne" EntitySet="Raumpläne" />
             <End Role="Sitzplätze" EntitySet="Sitzplätze" />
@@ -2534,10 +2487,6 @@
           <AssociationSet Name="FK_SchuljahrStundenplan" Association="Self.FK_SchuljahrStundenplan">
             <End Role="Schuljahr" EntitySet="Schuljahre" />
             <End Role="Stundenpläne" EntitySet="Stundenpläne" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SitzplanSitzplaneintrag" Association="Self.FK_SitzplanSitzplaneintrag">
-            <End Role="Sitzpläne" EntitySet="Sitzpläne" />
-            <End Role="Sitzplaneinträge" EntitySet="Sitzplaneinträge" />
           </AssociationSet>
           <AssociationSet Name="FK_SitzplatzSitzplaneintrag" Association="Self.FK_SitzplatzSitzplaneintrag">
             <End Role="Sitzplätze" EntitySet="Sitzplätze" />
@@ -2585,9 +2534,18 @@
             <End Role="Schülereinträge" EntitySet="Schülereinträge" />
             <End Role="SitzplaneintragNeu" EntitySet="Sitzplaneinträge" />
           </AssociationSet>
+          <EntitySet Name="Sitzpläne" EntityType="TeachyModel.SitzplanNeu" />
           <AssociationSet Name="FK_LerngruppeSitzplan" Association="TeachyModel.FK_LerngruppeSitzplan">
             <End Role="LerngruppeNeu" EntitySet="Lerngruppen" />
-            <End Role="SitzplanNeu" EntitySet="Sitzpläne" />
+            <End Role="Sitzpläne" EntitySet="Sitzpläne" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RaumplanSitzplan" Association="TeachyModel.FK_RaumplanSitzplan">
+            <End Role="RaumplanNeu" EntitySet="Raumpläne" />
+            <End Role="Sitzpläne" EntitySet="Sitzpläne" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SitzplanSitzplaneintrag" Association="TeachyModel.FK_SitzplanSitzplaneintrag">
+            <End Role="Sitzpläne" EntitySet="Sitzpläne" />
+            <End Role="SitzplaneintragNeu" EntitySet="Sitzplaneinträge" />
           </AssociationSet>
           </EntityContainer>
         <EnumType Name="Bepunktungstyp">
@@ -2801,20 +2759,6 @@
           <Member Name="Winter" Value="1" />
           <Member Name="Sommer" Value="2" />
         </EnumType>
-        <Association Name="FK_LerngruppeSitzplan">
-          <End Type="TeachyModel.LerngruppeNeu" Role="LerngruppeNeu" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="TeachyModel.SitzplanNeu" Role="SitzplanNeu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="LerngruppeNeu">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SitzplanNeu">
-              <PropertyRef Name="LerngruppeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EnumType Name="Sozialform">
           <Member Name="GA" Value="1" />
           <Member Name="PA" Value="2" />
@@ -2822,6 +2766,61 @@
           <Member Name="UG" Value="4" />
           <Member Name="EA" Value="5" />
         </EnumType>
+        <EntityType Name="SitzplanNeu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Bezeichnung" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RaumplanId" Type="Int32" Nullable="false" />
+          <Property Name="LerngruppeId" Type="Int32" Nullable="false" />
+          <Property Name="GültigAb" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Lerngruppe" Relationship="TeachyModel.FK_LerngruppeSitzplan" FromRole="Sitzpläne" ToRole="LerngruppeNeu" />
+          <NavigationProperty Name="Raumplan" Relationship="TeachyModel.FK_RaumplanSitzplan" FromRole="Sitzpläne" ToRole="RaumplanNeu" />
+          <NavigationProperty Name="Sitzplaneinträge" Relationship="TeachyModel.FK_SitzplanSitzplaneintrag" FromRole="Sitzpläne" ToRole="SitzplaneintragNeu" />
+        </EntityType>
+        <Association Name="FK_LerngruppeSitzplan">
+          <End Type="TeachyModel.LerngruppeNeu" Role="LerngruppeNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TeachyModel.SitzplanNeu" Role="Sitzpläne" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LerngruppeNeu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sitzpläne">
+              <PropertyRef Name="LerngruppeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RaumplanSitzplan">
+          <End Type="TeachyModel.RaumplanNeu" Role="RaumplanNeu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TeachyModel.SitzplanNeu" Role="Sitzpläne" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RaumplanNeu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sitzpläne">
+              <PropertyRef Name="RaumplanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SitzplanSitzplaneintrag">
+          <End Type="TeachyModel.SitzplanNeu" Role="Sitzpläne" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TeachyModel.SitzplaneintragNeu" Role="SitzplaneintragNeu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sitzpläne">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SitzplaneintragNeu">
+              <PropertyRef Name="SitzplanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3097,17 +3096,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Sitzpläne">
-            <EntityTypeMapping TypeName="TeachyModel.SitzplanNeu">
-              <MappingFragment StoreEntitySet="Sitzpläne">
-                <ScalarProperty Name="LerngruppeId" ColumnName="LerngruppeId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
-                <ScalarProperty Name="RaumplanId" ColumnName="RaumplanId" />
-                <ScalarProperty Name="GültigAb" ColumnName="GültigAb" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Sitzplaneinträge">
             <EntityTypeMapping TypeName="TeachyModel.SitzplaneintragNeu">
               <MappingFragment StoreEntitySet="Sitzplaneinträge">
@@ -3245,6 +3233,17 @@
               <MappingFragment StoreEntitySet="Schülereinträge">
                 <ScalarProperty Name="PersonId" ColumnName="PersonId" />
                 <ScalarProperty Name="LerngruppeId" ColumnName="LerngruppeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sitzpläne">
+            <EntityTypeMapping TypeName="TeachyModel.SitzplanNeu">
+              <MappingFragment StoreEntitySet="Sitzpläne">
+                <ScalarProperty Name="GültigAb" ColumnName="GültigAb" />
+                <ScalarProperty Name="LerngruppeId" ColumnName="LerngruppeId" />
+                <ScalarProperty Name="RaumplanId" ColumnName="RaumplanId" />
+                <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -19,8 +19,8 @@ namespace SoftTeach.Model.TeachyModel
         public int SitzplatzId { get; set; }
         public Nullable<int> SchülereintragId { get; set; }
     
-        public virtual SitzplanNeu Sitzplan { get; set; }
         public virtual SitzplatzNeu Sitzplatz { get; set; }
         public virtual SchülereintragNeu Schülereintrag { get; set; }
+        public virtual SitzplanNeu Sitzplan { get; set; }
     }
 }

@@ -24,11 +24,10 @@
       phase.Inhalt = string.Empty;
       phase.Medium = Medium.Tafel;
       phase.Sozialform = Sozialform.UG;
-      phase.Stunde = Selection.Instance.Stunde.Model;
+      phase.Stunde = Selection.Instance.Stunde;
       this.Model = phase;
       //App.UnitOfWork.Context.Phasen.Add(phase);
       //App.MainViewModel.Phasen.Add(this);
-      Selection.Instance.Stunde.AttachPhaseChangedEvent(this);
       //Selection.Instance.Stundenentwurf.Phasen.Add(this);
     }
 

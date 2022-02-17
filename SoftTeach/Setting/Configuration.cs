@@ -69,7 +69,7 @@ namespace SoftTeach.Setting
     ///   Lehrername und Adresse
     /// </summary>
     public static readonly DependencyProperty LehrerProperty = DependencyProperty.Register(
-      "Lehrer", typeof(Person), typeof(Configuration), new FrameworkPropertyMetadata(OnPropertyChanged));
+      "Lehrer", typeof(PersonNeu), typeof(Configuration), new FrameworkPropertyMetadata(OnPropertyChanged));
 
     /// <summary>
     ///   Schulname und Adresse
@@ -97,7 +97,7 @@ namespace SoftTeach.Setting
     /// </summary>
     private Configuration()
     {
-      this.Lehrer = new Person();
+      this.Lehrer = new PersonNeu();
       this.Schule = new Schule();
       this.NotenProStunde = 5;
     }
@@ -207,11 +207,11 @@ namespace SoftTeach.Setting
     /// <summary>
     ///   Holt oder setzt die Lehrer der Konfiguration.
     /// </summary>
-    public Person Lehrer
+    public PersonNeu Lehrer
     {
       get
       {
-        return (Person)this.GetValue(LehrerProperty);
+        return (PersonNeu)this.GetValue(LehrerProperty);
       }
 
       set
@@ -320,8 +320,8 @@ namespace SoftTeach.Setting
 
       using (var fs = new FileStream(Path.Combine(path, "Lehrer.xml"), FileMode.OpenOrCreate))
       {
-        var dcsLehrer = new DataContractSerializer(typeof(Person));
-        Instance.Lehrer = (Person)dcsLehrer.ReadObject(fs);
+        var dcsLehrer = new DataContractSerializer(typeof(PersonNeu));
+        Instance.Lehrer = (PersonNeu)dcsLehrer.ReadObject(fs);
       }
     }
 
@@ -332,7 +332,7 @@ namespace SoftTeach.Setting
     {
       var path = GetLocalApplicationDataPath();
 
-      var dcsLehrer = new DataContractSerializer(typeof(Person));
+      var dcsLehrer = new DataContractSerializer(typeof(PersonNeu));
       using (var fs = new FileStream(Path.Combine(path, "Lehrer.xml"), FileMode.OpenOrCreate))
       {
         dcsLehrer.WriteObject(fs, Instance.Lehrer);

@@ -258,7 +258,7 @@
     {
       using (new UndoBatch(App.MainViewModel, string.Format("Ergebnis erstellt."), false))
       {
-        var ergebnis = new Ergebnis { Punktzahl = 0, Aufgabe = this.Model };
+        var ergebnis = new ErgebnisNeu { Punktzahl = 0, Aufgabe = this.Model };
         //App.UnitOfWork.Context.Ergebnisse.Add(ergebnis);
         var vm = new ErgebnisViewModel(ergebnis);
         vm.PropertyChanged += this.ErgebnisPropertyChanged;

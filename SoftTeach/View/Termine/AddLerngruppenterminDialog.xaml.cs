@@ -18,7 +18,7 @@
 namespace SoftTeach.View.Termine
 {
   using System.Windows;
-
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Datenbank;
 
   /// <summary>
@@ -35,9 +35,9 @@ namespace SoftTeach.View.Termine
     {
       this.InitializeComponent();
       this.DataContext = this;
-
+      
       // Select first Termintyp
-      this.TerminTermintyp = App.MainViewModel.Termintypen[0];
+      this.TerminTermintyp = Termintyp.Abitur;
       this.TerminErsteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[0];
       this.TerminLetzteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[6];
       this.TerminBezeichnung.Focus();
@@ -66,7 +66,7 @@ namespace SoftTeach.View.Termine
     /// <summary>
     /// Holt oder setzt die Termintyp
     /// </summary>
-    public TermintypViewModel TerminTermintyp { get; set; }
+    public Termintyp TerminTermintyp { get; set; }
 
     /// <summary>
     /// Holt oder setzt die erste Unterrichtsstunde

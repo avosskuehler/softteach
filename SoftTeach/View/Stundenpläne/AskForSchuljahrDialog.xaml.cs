@@ -22,6 +22,7 @@ namespace SoftTeach.View.Stundenpläne
   using System.Windows;
 
   using SoftTeach.ExceptionHandling;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.ViewModel.Datenbank;
 

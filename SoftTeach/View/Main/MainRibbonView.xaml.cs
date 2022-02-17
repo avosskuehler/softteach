@@ -194,96 +194,7 @@
 
     #endregion // Curricula
 
-    #region Planung
-
-    /// <summary>
-    /// Event handler for the Jahrespläne button in the ribbon section database, ribbon group Plänung.
-    /// Shows a workspace for Jahrespläne.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void JahrespläneButtonClick(object sender, RoutedEventArgs e)
-    {
-      var jahresplanView = new JahresplanWorkspaceDBView();
-      jahresplanView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Halbjahresplan button in the ribbon section database, ribbon group Plänung.
-    /// Shows a workspace for Halbjahresplan.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void HalbjahresplanButtonClick(object sender, RoutedEventArgs e)
-    {
-      var halbjahresplanView = new HalbjahresplanWorkspaceView();
-      halbjahresplanView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Monatsplan button in the ribbon section database, ribbon group Plänung.
-    /// Shows a workspace for Monatsplan.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void MonatsplanButtonClick(object sender, RoutedEventArgs e)
-    {
-      var monatsplanView = new MonatsplanWorkspaceView();
-      monatsplanView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Tagesplan button in the ribbon section database, ribbon group Plänung.
-    /// Shows a workspace for Tagesplan.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void TagesplanButtonClick(object sender, RoutedEventArgs e)
-    {
-      var tagesplanView = new TagesplanWorkspaceView();
-      tagesplanView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Schulwoche button in the ribbon section database, ribbon group Plänung.
-    /// Shows a workspace for Schulwoche.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void SchulwocheButtonClick(object sender, RoutedEventArgs e)
-    {
-      var schulwocheView = new SchulwocheWorkspaceView();
-      schulwocheView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Schultag button in the ribbon section database, ribbon group Plänung.
-    /// Shows a workspace for Schultag.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void SchultagButtonClick(object sender, RoutedEventArgs e)
-    {
-      var schultagView = new SchultagWorkspaceView();
-      schultagView.ShowDialog();
-    }
-
-    #endregion // Planung
-
     #region Stundenentwürfe
-
-    /// <summary>
-    /// Event handler for the Stundenentwuerfe button in the ribbon section database, ribbon group Stundenentwürfe.
-    /// Shows a workspace for Stundenentwuerfe.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void StundenentwuerfeButtonClick(object sender, RoutedEventArgs e)
-    {
-      var stundenentwurfView = new StundenentwurfWorkspaceDBView();
-      stundenentwurfView.DataContext = App.MainViewModel.StundenentwurfWorkspace;
-      stundenentwurfView.ShowDialog();
-    }
 
     /// <summary>
     /// Event handler for the Phasen button in the ribbon section database, ribbon group Stundenentwürfe.
@@ -307,30 +218,6 @@
     {
       var dateiverweisView = new DateiverweisWorkspaceView();
       dateiverweisView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Medien button in the ribbon section database, ribbon group Stundenentwürfe.
-    /// Shows a workspace for Medien.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void MedienButtonClick(object sender, RoutedEventArgs e)
-    {
-      var medienView = new MediumWorkspaceView { DataContext = App.MainViewModel.MediumWorkspace };
-      medienView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Sozialformen button in the ribbon section database, ribbon group Stundenentwürfe.
-    /// Shows a workspace for Sozialformen.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void SozialformenButtonClick(object sender, RoutedEventArgs e)
-    {
-      var sozialformenView = new SozialformWorkspaceView { DataContext = App.MainViewModel.SozialformWorkspace };
-      sozialformenView.ShowDialog();
     }
 
     /// <summary>
@@ -386,18 +273,6 @@
     }
 
     /// <summary>
-    /// Event handler for the Termintypen button in the ribbon section database, ribbon group Termine.
-    /// Shows a workspace for Termintypen.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void TermintypenButtonClick(object sender, RoutedEventArgs e)
-    {
-      var termintypenView = new TermintypenDBView { DataContext = App.MainViewModel.TermintypWorkspace };
-      termintypenView.ShowDialog();
-    }
-
-    /// <summary>
     /// Event handler for the Schuljahre button in the ribbon section database, ribbon group Termine.
     /// Shows a workspace for Schuljahre.
     /// </summary>
@@ -407,30 +282,6 @@
     {
       var schuljahrView = new SchuljahrWorkspaceView { DataContext = App.MainViewModel.SchuljahrWorkspace };
       schuljahrView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Halbjahr button in the ribbon section database, ribbon group Termine.
-    /// Shows a workspace for Halbjahre.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void HalbjahrButtonClick(object sender, RoutedEventArgs e)
-    {
-      var halbschuljahrView = new HalbjahrWorkspaceView();
-      halbschuljahrView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Monatstyp button in the ribbon section database, ribbon group Termine.
-    /// Shows a workspace for Monatstypen.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void MonatstypButtonClick(object sender, RoutedEventArgs e)
-    {
-      var monatstypView = new MonatstypWorkspaceView();
-      monatstypView.ShowDialog();
     }
 
     #endregion // Termine
@@ -516,18 +367,6 @@
       schülereintragView.ShowDialog();
     }
 
-    /// <summary>
-    /// Event handler for the Jahrgangsstufen button in the ribbon section database, ribbon group Personen.
-    /// Shows a workspace for Jahrgangsstufen, Klassenstufen and Klassen.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void JahrgangsstufenButtonClick(object sender, RoutedEventArgs e)
-    {
-      var jahrgangsstufenView = new JahrgangsstufeWorkspaceView { DataContext = App.MainViewModel.JahrgangsstufeWorkspace };
-      jahrgangsstufenView.ShowDialog();
-    }
-
     #endregion // Personen
 
     #region Noten
@@ -591,30 +430,6 @@
     {
       var notenWichtungView = new NotenWichtungenDBView { DataContext = App.MainViewModel.NotenWichtungWorkspace };
       notenWichtungView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Tendenztypen button in the ribbon section database, ribbon group Noten.
-    /// Shows a workspace for Tendenztypen.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void TendenztypenButtonClick(object sender, RoutedEventArgs e)
-    {
-      var tendenztypView = new TendenztypenDBView { DataContext = App.MainViewModel.TendenztypWorkspace };
-      tendenztypView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Tendenzen button in the ribbon section database, ribbon group Noten.
-    /// Shows a workspace for Tendenzen.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void TendenzenButtonClick(object sender, RoutedEventArgs e)
-    {
-      var tendenzenView = new TendenzenDBView { DataContext = App.MainViewModel.TendenzWorkspace };
-      tendenzenView.ShowDialog();
     }
 
     /// <summary>

@@ -22,6 +22,7 @@ namespace SoftTeach.View.Curricula
   using System.Windows;
 
   using SoftTeach.ExceptionHandling;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Jahrespläne;
 
@@ -43,21 +44,22 @@ namespace SoftTeach.View.Curricula
     {
       this.InitializeComponent();
       this.DataContext = this;
-      var filteredHalbjahrespläne = App.MainViewModel.Jahrespläne.SelectMany(a => a.Halbjahrespläne.Where(
-                o =>
-          o.HalbjahresplanFach == fachViewModel
-          && o.HalbjahresplanKlasse.Model.Klassenstufe == klassenstufeViewModel.Model
-          && o.HalbjahresplanHalbjahr == halbschuljahrViewModel));
-      this.FilteredHalbjahrespläne = new ObservableCollection<HalbjahresplanViewModel>();
-      foreach (var halbjahresplanViewModel in filteredHalbjahrespläne)
-      {
-        this.FilteredHalbjahrespläne.Add(halbjahresplanViewModel);
-      }
+      // TODO
+      //var filteredHalbjahrespläne = App.MainViewModel.Jahrespläne.SelectMany(a => a.Halbjahrespläne.Where(
+      //          o =>
+      //    o.HalbjahresplanFach == fachViewModel
+      //    && o.HalbjahresplanKlasse.Model.Klassenstufe == klassenstufeViewModel.Model
+      //    && o.HalbjahresplanHalbjahr == halbschuljahrViewModel));
+      //this.FilteredHalbjahrespläne = new ObservableCollection<HalbjahresplanViewModel>();
+      //foreach (var halbjahresplanViewModel in filteredHalbjahrespläne)
+      //{
+      //  this.FilteredHalbjahrespläne.Add(halbjahresplanViewModel);
+      //}
     }
 
-    public HalbjahresplanViewModel Halbjahresplan { get; set; }
+    public Halbjahr Halbjahr { get; set; }
 
-    public ObservableCollection<HalbjahresplanViewModel> FilteredHalbjahrespläne { get; private set; }
+    //public ObservableCollection<HalbjahresplanViewModel> FilteredHalbjahrespläne { get; private set; }
 
     /// <summary>
     /// Holt oder setzt den Titel des Dialogs.
@@ -88,19 +90,19 @@ namespace SoftTeach.View.Curricula
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-      if (!this.FilteredHalbjahrespläne.Any())
-      {
-        InformationDialog.Show(
-          "Nicht gefunden",
-          "Es wurde kein passender Halbjahresplan zur Anpassung gefunden. Bitte"
-          + " erstellen Sie zunächst einen für dieses Fach und diese Klassenstufe", false);
-        this.DialogResult = false;
-        this.Close();
-      }
-      else
-      {
-        this.Halbjahresplan = this.FilteredHalbjahrespläne[0];
-      }
+      //if (!this.FilteredHalbjahrespläne.Any())
+      //{
+      //  InformationDialog.Show(
+      //    "Nicht gefunden",
+      //    "Es wurde kein passender Halbjahresplan zur Anpassung gefunden. Bitte"
+      //    + " erstellen Sie zunächst einen für dieses Fach und diese Klassenstufe", false);
+      //  this.DialogResult = false;
+      //  this.Close();
+      //}
+      //else
+      //{
+      //  this.Halbjahresplan = this.FilteredHalbjahrespläne[0];
+      //}
     }
   }
 }

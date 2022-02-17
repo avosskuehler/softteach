@@ -29,7 +29,6 @@
         <EntityTypeShape EntityType="TeachyModel.ReiheNeu" Width="1.5" PointX="24.75" PointY="12.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TeachyModel.SchuljahrNeu" Width="1.5" PointX="8.25" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="TeachyModel.SequenzNeu" Width="1.5" PointX="26.5" PointY="12.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="TeachyModel.SitzplanNeu" Width="1.5" PointX="1.125" PointY="17" IsExpanded="true" />
         <EntityTypeShape EntityType="TeachyModel.SitzplaneintragNeu" Width="1.5" PointX="3.25" PointY="18.25" IsExpanded="true" />
         <EntityTypeShape EntityType="TeachyModel.SitzplatzNeu" Width="1.5" PointX="3.375" PointY="15" IsExpanded="true" />
         <EntityTypeShape EntityType="TeachyModel.StundenplanNeu" Width="1.5" PointX="8.125" PointY="15.375" IsExpanded="true" />
@@ -72,12 +71,10 @@
         <AssociationConnector Association="TeachyModel.FK_ZensurProzentbereich" ManuallyRouted="false" />
         <AssociationConnector Association="TeachyModel.FK_RaumRaumplan" ManuallyRouted="false" />
         <AssociationConnector Association="TeachyModel.FK_RaumStundenplaneintrag" ManuallyRouted="false" />
-        <AssociationConnector Association="TeachyModel.FK_RaumplanSitzplan" ManuallyRouted="false" />
         <AssociationConnector Association="TeachyModel.FK_RaumplanSitzplatz" ManuallyRouted="false" />
         <AssociationConnector Association="TeachyModel.FK_ReiheSequenz" ManuallyRouted="false" />
         <AssociationConnector Association="TeachyModel.FK_SchuljahrSchultermin" ManuallyRouted="false" />
         <AssociationConnector Association="TeachyModel.FK_SchuljahrStundenplan" ManuallyRouted="false" />
-        <AssociationConnector Association="TeachyModel.FK_SitzplanSitzplaneintrag" ManuallyRouted="false" />
         <AssociationConnector Association="TeachyModel.FK_SitzplatzSitzplaneintrag" ManuallyRouted="false" />
         <AssociationConnector Association="TeachyModel.FK_StundenplanStundenplaneintrag" ManuallyRouted="false" />
         <AssociationConnector Association="TeachyModel.FK_ErsteUnterrichtsstundeTermin" ManuallyRouted="false" />
@@ -94,7 +91,10 @@
         <AssociationConnector Association="TeachyModel.FK_SchülereintragNotentendenz" />
         <AssociationConnector Association="TeachyModel.FK_PersonSchülereintrag" />
         <AssociationConnector Association="TeachyModel.FK_SchülereintragSitzplaneintrag" />
+        <EntityTypeShape EntityType="TeachyModel.SitzplanNeu" Width="1.5" PointX="1.125" PointY="16.375" />
         <AssociationConnector Association="TeachyModel.FK_LerngruppeSitzplan" />
+        <AssociationConnector Association="TeachyModel.FK_RaumplanSitzplan" />
+        <AssociationConnector Association="TeachyModel.FK_SitzplanSitzplaneintrag" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -22,10 +22,10 @@ namespace SoftTeach.ViewModel.Jahrespläne
 
       if (element != null && item != null)
       {
-        if (item is TagesplanViewModel)
-        {
-          return element.FindResource("TagespläneView") as DataTemplate;
-        }
+        //if (item is TagesplanViewModel)
+        //{
+        //  return element.FindResource("TagespläneView") as DataTemplate;
+        //}
         
         if (item is StundeViewModel)
         {

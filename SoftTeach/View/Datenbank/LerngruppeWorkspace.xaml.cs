@@ -3,11 +3,11 @@
   using System.Windows;
 
   /// <summary>
-  /// Interaction logic for StundenentwurfWorkspaceDBView.xaml
+  /// Interaction logic for LerngruppeWorkspace.xaml
   /// </summary>
-  public partial class StundenentwurfWorkspaceDBView : Window
+  public partial class LerngruppeWorkspace : Window
   {
-    public StundenentwurfWorkspaceDBView()
+    public LerngruppeWorkspace()
     {
       this.InitializeComponent();
     }

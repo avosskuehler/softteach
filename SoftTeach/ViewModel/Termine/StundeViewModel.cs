@@ -867,7 +867,7 @@ namespace SoftTeach.ViewModel.Termine
         else
         {
           var dlg = new AddStundeDialog(this);
-          Selection.Instance.Stunde = this;
+          Selection.Instance.Stunde = this.Model;
           if (!(undo = !dlg.ShowDialog().GetValueOrDefault(false)))
           {
             this.TerminBeschreibung = dlg.StundeViewModel.TerminBeschreibung;
@@ -925,7 +925,7 @@ namespace SoftTeach.ViewModel.Termine
     /// </summary>
     private void SearchStunde()
     {
-      var dlg = new SearchStundenentwurfDialog(App.MainViewModel.StundenentwurfWorkspace);
+      var dlg = new SearchStundeDialog(App.MainViewModel.StundenentwurfWorkspace);
       if (dlg.ShowDialog().GetValueOrDefault(false))
       {
         // TODO
@@ -1422,9 +1422,9 @@ namespace SoftTeach.ViewModel.Termine
 
       var stundeViewModel = Selection.Instance.Stunde;
       var nächsteStunde = App.MainViewModel.Stunden
-        .Where(o => o.Model.LerngruppeId == stundeViewModel.Model.LerngruppeId)
+        .Where(o => o.Model.LerngruppeId == stundeViewModel.LerngruppeId)
         .OrderBy(o => o.LerngruppenterminDatum)
-        .FirstOrDefault(o => o.LerngruppenterminDatum > stundeViewModel.LerngruppenterminDatum);
+        .FirstOrDefault(o => o.LerngruppenterminDatum > stundeViewModel.Datum);
 
       using (new UndoBatch(App.MainViewModel, string.Format("Phase verschoben"), false))
       {

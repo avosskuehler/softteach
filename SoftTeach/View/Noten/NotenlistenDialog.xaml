@@ -40,8 +40,8 @@
     </Border>
     <ToolBarTray Grid.Row="1" IsLocked="True">
       <ToolBar>
-        <RadioButton Style="{StaticResource {x:Static ToolBar.RadioButtonStyleKey}}" Click="ZwischenstandClick" ToolTip="Zwischenstand anlegen" 
-                     IsChecked="{Binding Path=NotenTermintyp, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:NotenTermintyp.Zwischenstand}}">
+        <RadioButton Style="{StaticResource {x:Static ToolBar.RadioButtonStyleKey}}" Click="ZwischenstandClick" ToolTip="Zwischenstand anlegen" >
+          <!--IsChecked="{Binding Path=NotenTermintyp, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:NotenTermintyp.Zwischenstand}}">-->
           <StackPanel Orientation="Horizontal">
             <Grid>
               <Image Source="/SoftTeach;component/Images/Note32.png" />
@@ -50,8 +50,8 @@
             <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Zwischenstand anlegen</Label>
           </StackPanel>
         </RadioButton>
-        <RadioButton Style="{StaticResource {x:Static ToolBar.RadioButtonStyleKey}}" Click="HalbjahrClick"  ToolTip="Halbjahreszeugnis anlegen" 
-                     IsChecked="{Binding Path=NotenTermintyp, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:NotenTermintyp.Halbjahr}}">
+        <RadioButton Style="{StaticResource {x:Static ToolBar.RadioButtonStyleKey}}" Click="HalbjahrClick"  ToolTip="Halbjahreszeugnis anlegen" >
+          <!--IsChecked="{Binding Path=NotenTermintyp, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:NotenTermintyp.Halbjahr}}">-->
           <StackPanel Orientation="Horizontal">
             <Grid>
               <Image Source="/SoftTeach;component/Images/Halbjahre32.png" />
@@ -60,8 +60,8 @@
             <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Halbjahreszeugnis anlegen</Label>
           </StackPanel>
         </RadioButton>
-        <RadioButton Style="{StaticResource {x:Static ToolBar.RadioButtonStyleKey}}" Click="GanzjahrClick" ToolTip="Jahreszeugnis anlegen"
-                     IsChecked="{Binding Path=NotenTermintyp, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:NotenTermintyp.Ganzjahr}}">
+        <RadioButton Style="{StaticResource {x:Static ToolBar.RadioButtonStyleKey}}" Click="GanzjahrClick" ToolTip="Jahreszeugnis anlegen">
+          <!--IsChecked="{Binding Path=NotenTermintyp, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:NotenTermintyp.Ganzjahr}}">-->
           <StackPanel Orientation="Horizontal">
             <Grid>
               <Image Source="/SoftTeach;component/Images/Schuljahr32.png" />

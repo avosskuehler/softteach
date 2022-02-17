@@ -25,8 +25,8 @@
     {
       var notentendenz = new NotentendenzNeu();
       notentendenz.Datum = DateTime.Now;
-      notentendenz.Tendenztyp = App.MainViewModel.Tendenztypen.First().Model;
-      notentendenz.Tendenz = App.MainViewModel.Tendenzen.First().Model;
+      notentendenz.Tendenztyp = Tendenztyp.Leistung;
+      notentendenz.Tendenz = Tendenz.Null;
       this.Model = notentendenz;
     }
 

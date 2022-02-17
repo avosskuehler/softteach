@@ -413,11 +413,11 @@
     {
       get
       {
-        var unterrichtstyp = App.MainViewModel.Termintypen.First(o => o.TermintypBezeichnung == "Unterricht");
+        var unterrichtstyp = Termintyp.Unterricht;
         var fachstundenViewModel =
           App.MainViewModel.Fachstundenanzahl.First(
             o => o.FachstundenanzahlFach.FachBezeichnung == this.CurriculumFach.FachBezeichnung &&
-            o.FachstundenanzahlJahrgang.KlassenstufeBezeichnung == this.CurriculumKlassenstufe.KlassenstufeBezeichnung);
+            o.FachstundenanzahlJahrgang == this.CurriculumJahrgang);
         var fachstundenanzahl = fachstundenViewModel.FachstundenanzahlStundenzahl
                                 + fachstundenViewModel.FachstundenanzahlTeilungsstundenzahl;
 
@@ -521,12 +521,12 @@
         }
       }
 
-      if (targetItem is SchultagViewModel
-        || (targetItem is ReiheViewModel && sourceItem is SequenzViewModel)
-        || (targetItem is SequenzViewModel && sourceItem is ReiheViewModel))
-      {
-        dropInfo.Effects = DragDropEffects.None;
-      }
+      //if (targetItem is SchultagViewModel
+      //  || (targetItem is ReiheViewModel && sourceItem is SequenzViewModel)
+      //  || (targetItem is SequenzViewModel && sourceItem is ReiheViewModel))
+      //{
+      //  dropInfo.Effects = DragDropEffects.None;
+      //}
     }
 
     public void Drop(IDropInfo dropInfo)
@@ -682,7 +682,7 @@
         using (new UndoBatch(App.MainViewModel, string.Format("Neue Module anlegen"), false))
         {
           foreach (var modulViewModel in App.MainViewModel.Module.Where(o => o.ModulFach.FachBezeichnung == this.CurriculumFach.FachBezeichnung
-            && o.ModulJahrgang.JahrgangsstufeBezeichnung == this.CurriculumKlassenstufe.KlassenstufeJahrgangsstufe.JahrgangsstufeBezeichnung))
+            && o.ModulJahrgang == this.CurriculumJahrgang))
           {
             var reihe = new ReiheNeu();
             reihe.Stundenbedarf = modulViewModel.ModulStundenbedarf;
@@ -696,7 +696,7 @@
             foreach (var baustein in bausteine)
             {
               if (baustein == string.Empty) continue;
-              var sequenz = new Sequenz();
+              var sequenz = new SequenzNeu();
               sequenz.Reihenfolge = -1;
               sequenz.Reihe = reihe;
 
@@ -750,7 +750,7 @@
     /// </summary>
     private void AddReihe()
     {
-      var reihe = new Reihe { Stundenbedarf = 3, Thema = "Neues Thema", Curriculum = this.Model };
+      var reihe = new ReiheNeu { Stundenbedarf = 3, Thema = "Neues Thema", Curriculum = this.Model };
       var vm = new ReiheViewModel(reihe);
       //App.MainViewModel.Reihen.Add(vm);
       this.AvailableReihenDesCurriculums.Add(vm);
@@ -854,7 +854,7 @@
 
       var dlg = new AskForHalbjahresplanToAdaptDialog(
         this.CurriculumFach,
-        this.CurriculumKlassenstufe,
+        this.CurriculumJahrgang,
         this.CurriculumHalbjahr);
       if (dlg.ShowDialog().GetValueOrDefault(false))
       {
@@ -862,21 +862,21 @@
         using (new UndoBatch(App.MainViewModel, string.Format("Curriculum an Jahresplan angepasst"), false))
         {
           Selection.Instance.Fach = this.CurriculumFach;
-          Selection.Instance.Klasse = dlg.Halbjahresplan.HalbjahresplanKlasse;
-          Selection.Instance.Halbjahr = dlg.Halbjahresplan.HalbjahresplanHalbjahr;
+          //Selection.Instance.Lerngruppe = dlg.Halbjahresplan.HalbjahresplanKlasse;
+          //Selection.Instance.Halbjahr = dlg.Halbjahresplan.HalbjahresplanHalbjahr;
 
           // Create a clone of this curriculum for the adaption dialog
-          var curriculumClone = new Curriculum();
+          var curriculumClone = new CurriculumNeu();
           curriculumClone.Bezeichnung = this.CurriculumBezeichnung + " Kopie";
           curriculumClone.Fach = this.CurriculumFach.Model;
           curriculumClone.Schuljahr = this.CurriculumSchuljahr.Model;
-          curriculumClone.Halbjahr = this.CurriculumHalbjahr.Model;
-          curriculumClone.Klassenstufe = this.CurriculumKlassenstufe.Model;
+          curriculumClone.Halbjahr = this.CurriculumHalbjahr;
+          curriculumClone.Jahrgang = this.CurriculumJahrgang;
           //App.UnitOfWork.Context.Curricula.Add(curriculumClone);
 
           foreach (var reihe in this.Model.Reihen)
           {
-            var reiheClone = new Reihe();
+            var reiheClone = new ReiheNeu();
             reiheClone.Reihenfolge = reihe.Reihenfolge;
             reiheClone.Modul = reihe.Modul;
             reiheClone.Stundenbedarf = reihe.Stundenbedarf;
@@ -886,7 +886,7 @@
 
             foreach (var sequenz in reihe.Sequenzen)
             {
-              var sequenzClone = new Sequenz();
+              var sequenzClone = new SequenzNeu();
               sequenzClone.Reihenfolge = sequenz.Reihenfolge;
               sequenzClone.Stundenbedarf = sequenz.Stundenbedarf;
               sequenzClone.Thema = sequenz.Thema;
@@ -901,7 +901,7 @@
           //var curriculumCloneViewModel = new CurriculumViewModel(curriculumClone, true);
           var curriculumCloneViewModel = new CurriculumViewModel(curriculumClone);
           var curriculumZuweisenWorkspace = new CurriculumZuweisenWorkspaceViewModel(
-            curriculumCloneViewModel, dlg.Halbjahresplan);
+            curriculumCloneViewModel, dlg.Halbjahr);
           var dlgZuweisen = new CurriculumZuweisenDialog { DataContext = curriculumZuweisenWorkspace };
 
           if (dlgZuweisen.ShowDialog().GetValueOrDefault(false))

@@ -671,7 +671,7 @@
     <Compile Include="ViewModel\Termine\TerminViewModel.cs" />
     <Compile Include="ViewModel\Termine\SchulterminUpdateType.cs" />
     <Compile Include="ViewModel\Termine\SchulterminWorkspaceViewModel.cs" />
-    <Compile Include="ViewModel\Stundenentwürfe\StundenentwurfWorkspaceViewModel.cs" />
+    <Compile Include="ViewModel\Stundenentwürfe\StundenWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Helper\INotifyPropertyChangedExtended.cs" />
     <Compile Include="ViewModel\Helper\PropertyChangingEventArgs.cs" />
     <Compile Include="ViewModel\Helper\PropertyChangingEventHandler.cs" />
@@ -781,8 +781,8 @@
     <Compile Include="View\Sitzpläne\RaumWorkspace.xaml.cs">
       <DependentUpon>RaumWorkspace.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Datenbank\SchülerlisteWorkspace.xaml.cs">
-      <DependentUpon>SchülerlisteWorkspace.xaml</DependentUpon>
+    <Compile Include="View\Datenbank\LerngruppeWorkspace.xaml.cs">
+      <DependentUpon>LerngruppeWorkspace.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Datenbank\PersonenDBView.xaml.cs">
       <DependentUpon>PersonenDBView.xaml</DependentUpon>
@@ -793,12 +793,6 @@
     <Compile Include="View\Datenbank\StundenplanWorkspaceView.xaml.cs">
       <DependentUpon>StundenplanWorkspaceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Datenbank\MonatstypWorkspaceView.xaml.cs">
-      <DependentUpon>MonatstypWorkspaceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Datenbank\HalbjahrtypWorkspaceView.xaml.cs">
-      <DependentUpon>HalbjahrtypWorkspaceView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Datenbank\TerminWorkspaceView.xaml.cs">
       <DependentUpon>TerminWorkspaceView.xaml</DependentUpon>
     </Compile>
@@ -807,27 +801,6 @@
     </Compile>
     <Compile Include="View\Datenbank\PhaseWorkspaceView.xaml.cs">
       <DependentUpon>PhaseWorkspaceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Datenbank\StundenentwurfWorkspaceDBView.xaml.cs">
-      <DependentUpon>StundenentwurfWorkspaceDBView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Datenbank\SchultagWorkspaceView.xaml.cs">
-      <DependentUpon>SchultagWorkspaceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Datenbank\SchulwocheWorkspaceView.xaml.cs">
-      <DependentUpon>SchulwocheWorkspaceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Datenbank\TagesplanWorkspaceView.xaml.cs">
-      <DependentUpon>TagesplanWorkspaceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Datenbank\MonatsplanWorkspaceView.xaml.cs">
-      <DependentUpon>MonatsplanWorkspaceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Datenbank\HalbjahresplanWorkspaceView.xaml.cs">
-      <DependentUpon>HalbjahresplanWorkspaceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Datenbank\JahresplanWorkspaceDBView.xaml.cs">
-      <DependentUpon>JahresplanWorkspaceDBView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Datenbank\SequenzWorkspaceView.xaml.cs">
       <DependentUpon>SequenzWorkspaceView.xaml</DependentUpon>
@@ -841,26 +814,11 @@
     <Compile Include="View\Datenbank\ZensurenDBView.xaml.cs">
       <DependentUpon>ZensurenDBView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Datenbank\TendenzenDBView.xaml.cs">
-      <DependentUpon>TendenzenDBView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Datenbank\TendenztypenDBView.xaml.cs">
-      <DependentUpon>TendenztypenDBView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Datenbank\FachstundenanzahlWorkspaceView.xaml.cs">
       <DependentUpon>FachstundenanzahlWorkspaceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Datenbank\KlassenstufeDetailView.xaml.cs">
-      <DependentUpon>KlassenstufeDetailView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Datenbank\DateitypWorkspaceView.xaml.cs">
       <DependentUpon>DateitypWorkspaceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Datenbank\JahrgangsstufeWorkspaceView.xaml.cs">
-      <DependentUpon>JahrgangsstufeWorkspaceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Datenbank\JahrgangsstufeDetailView.xaml.cs">
-      <DependentUpon>JahrgangsstufeDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Main\LandingPage.xaml.cs">
       <DependentUpon>LandingPage.xaml</DependentUpon>
@@ -1002,8 +960,8 @@
     <Compile Include="View\Stundenentwürfe\AskForDateiDialog.xaml.cs">
       <DependentUpon>AskForDateiDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Stundenentwürfe\SearchStundenentwurfDialog.xaml.cs">
-      <DependentUpon>SearchStundenentwurfDialog.xaml</DependentUpon>
+    <Compile Include="View\Stundenentwürfe\SearchStundeDialog.xaml.cs">
+      <DependentUpon>SearchStundeDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Noten\NotenlisteDetailPrintView.xaml.cs">
       <DependentUpon>NotenlisteDetailPrintView.xaml</DependentUpon>
@@ -1095,32 +1053,14 @@
     <Compile Include="View\Datenbank\ModulWorkspaceView.xaml.cs">
       <DependentUpon>ModulWorkspaceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Datenbank\SozialformWorkspaceView.xaml.cs">
-      <DependentUpon>SozialformWorkspaceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Datenbank\MediumWorkspaceView.xaml.cs">
-      <DependentUpon>MediumWorkspaceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Datenbank\TermintypenDBView.xaml.cs">
-      <DependentUpon>TermintypenDBView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Datenbank\FachWorkspaceView.xaml.cs">
       <DependentUpon>FachWorkspaceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Datenbank\JahrtypWorkspaceView.xaml.cs">
-      <DependentUpon>JahrtypWorkspaceView.xaml</DependentUpon>
+    <Compile Include="View\Datenbank\SchuljahrWorkspaceView.xaml.cs">
+      <DependentUpon>SchuljahrWorkspaceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Jahrespläne\SingleJahresplanDetailView.xaml.cs">
       <DependentUpon>SingleJahresplanDetailView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Jahrespläne\HalbjahresplanDetailView.xaml.cs">
-      <DependentUpon>HalbjahresplanDetailView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Jahrespläne\JahresplanDetailView.xaml.cs">
-      <DependentUpon>JahresplanDetailView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Jahrespläne\JahresplanWorkspaceView.xaml.cs">
-      <DependentUpon>JahresplanWorkspaceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Main\MainRibbonView.xaml.cs">
       <DependentUpon>MainRibbonView.xaml</DependentUpon>
@@ -1130,9 +1070,6 @@
     </Compile>
     <Compile Include="View\Main\OptionsDialog.xaml.cs">
       <DependentUpon>OptionsDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Stundenentwürfe\StundenentwurfDetailView.xaml.cs">
-      <DependentUpon>StundenentwurfDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\Wochenpläne\TerminplanEintragEqualityComparer.cs" />
     <Compile Include="View\Wochenpläne\MetroTagesplanPage.xaml.cs">
@@ -1679,7 +1616,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Datenbank\SchülerlisteWorkspace.xaml">
+    <Page Include="View\Datenbank\LerngruppeWorkspace.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1695,14 +1632,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Datenbank\MonatstypWorkspaceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Datenbank\HalbjahrtypWorkspaceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="View\Datenbank\TerminWorkspaceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1712,34 +1641,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Datenbank\PhaseWorkspaceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Datenbank\StundenentwurfWorkspaceDBView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Datenbank\SchultagWorkspaceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Datenbank\SchulwocheWorkspaceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Datenbank\TagesplanWorkspaceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Datenbank\MonatsplanWorkspaceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Datenbank\HalbjahresplanWorkspaceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Datenbank\JahresplanWorkspaceDBView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1759,31 +1660,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Datenbank\TendenzenDBView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Datenbank\TendenztypenDBView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="View\Datenbank\FachstundenanzahlWorkspaceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Datenbank\KlassenstufeDetailView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="View\Datenbank\DateitypWorkspaceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Datenbank\JahrgangsstufeWorkspaceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Datenbank\JahrgangsstufeDetailView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1971,7 +1852,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Stundenentwürfe\SearchStundenentwurfDialog.xaml">
+    <Page Include="View\Stundenentwürfe\SearchStundeDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -2091,39 +1972,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Datenbank\SozialformWorkspaceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Datenbank\MediumWorkspaceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Datenbank\TermintypenDBView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="View\Datenbank\FachWorkspaceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Datenbank\JahrtypWorkspaceView.xaml">
+    <Page Include="View\Datenbank\SchuljahrWorkspaceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Jahrespläne\SingleJahresplanDetailView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Jahrespläne\HalbjahresplanDetailView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Jahrespläne\JahresplanDetailView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Jahrespläne\JahresplanWorkspaceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -2138,10 +1995,6 @@
     <Page Include="View\Main\OptionsDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Stundenentwürfe\StundenentwurfDetailView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Wochenpläne\MetroTagesplanPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -2267,12 +2120,12 @@
   <ItemGroup>
     <PublishFile Include="SoftTeach.pdb">
       <Visible>False</Visible>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
   </ItemGroup>
