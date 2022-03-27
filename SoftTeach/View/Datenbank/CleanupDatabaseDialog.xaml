@@ -11,15 +11,6 @@
         Width="600" 
         ResizeMode="NoResize" 
         WindowStyle="SingleBorderWindow">
-  <Window.Resources>
-    <ObjectDataProvider MethodName="GetValues"
-                          ObjectType="{x:Type sys:Enum}"
-                          x:Key="Bepunktungstypen">
-      <ObjectDataProvider.MethodParameters>
-        <x:Type TypeName="noten:Bepunktungstyp" />
-      </ObjectDataProvider.MethodParameters>
-    </ObjectDataProvider>
-  </Window.Resources>
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>

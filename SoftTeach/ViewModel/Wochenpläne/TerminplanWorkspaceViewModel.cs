@@ -333,7 +333,7 @@
 
       var vm = new StundeViewModel(stunde);
 
-      var stundeDlg = new AddStundeDialog(vm);
+      var stundeDlg = new EditStundeDialog(vm);
       var undo = false;
       using (new UndoBatch(App.MainViewModel, string.Format("Vertretungsstunde {0} angelegt.", vm), false))
       {
@@ -449,7 +449,7 @@
 
       var vertretungsjahresplan =
         App.MainViewModel.Lerngruppen.SingleOrDefault(
-          o => o.LerngruppeFach.FachBezeichnung == "Vertretungsstunden" && o.LerngruppeSchuljahr.SchuljahrJahr == jahresplanJahr && o.LerngruppeHalbjahr == halbjahr);
+          o => o.LerngruppeFach.FachBezeichnung == "Vertretungsstunden" && o.LerngruppeSchuljahr.SchuljahrJahr == jahresplanJahr);
 
       if (vertretungsjahresplan == null)
       {
@@ -457,27 +457,6 @@
         return null;
       }
 
-      //// Wenn der Halbjahresplan noch fehlt, dann anlegen
-      //if (halbjahresplanViewModel == null)
-      //{
-      //  if (halbjahr)
-      //  {
-      //    vertretungsjahresplan.AddSommerHalbjahresplan();
-      //    halbjahresplanViewModel = vertretungsjahresplan.CurrentJahresplanSommerhalbjahr;
-      //  }
-      //  else
-      //  {
-      //    vertretungsjahresplan.AddWinterHalbjahresplan();
-      //    halbjahresplanViewModel = vertretungsjahresplan.CurrentJahresplanWinterhalbjahr;
-      //  }
-      //}
-
-      //// Get correct month
-      //var month = halbjahresplanViewModel.Monatspläne.Single(o => o.MonatsplanMonatindex == date.Month);
-
-      //// Get correct day
-      //var tagesplanToAdd = month.Tagespläne.Single(o => o.TagesplanDatum == date);
-      //return tagesplanToAdd;
       return vertretungsjahresplan;
     }
 

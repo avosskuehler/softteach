@@ -96,7 +96,7 @@
             <DataGrid.Columns>
               <DataGridTextColumn 
                         Header="Lerngruppe" 
-                        Binding="{Binding Path=BetroffeneKlasseKlasse.KlasseBezeichnung}" 
+                        Binding="{Binding Path=BetroffeneKlasseKlasse.LerngruppeBezeichnung}" 
                         Width="*" IsReadOnly="True" />
               <!--<DataGridComboBoxColumn 
                         Header="Lerngruppe" 

@@ -12,6 +12,7 @@
     <ResourceDictionary Source="Styles\BackgroundStyles.xaml"/>
     <ResourceDictionary Source="Styles\DataTemplates.xaml"/>
     <ResourceDictionary Source="Styles\DocumentViewerStyle.xaml"/>
+    <ResourceDictionary Source="Styles\EnumProvider.xaml"/>
     <ResourceDictionary Source="Controls\TrayIcon.xaml"/>
   </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

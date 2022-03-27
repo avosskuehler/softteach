@@ -61,7 +61,7 @@
     /// <summary>
     /// Holt den underlying Termin this ViewModel is based on
     /// </summary>
-    public TerminNeu Model { get; private set; }
+    public TerminNeu Model { get; protected set; }
 
     /// <summary>
     /// Holt oder setzt den termintyp currently assigned to this Termin

@@ -23,9 +23,8 @@
         <TextBlock TextWrapping="Wrap">Für welches Schuljahr soll das Curriculum erstellt werden?</TextBlock>
         <StackPanel Orientation="Horizontal">
           <ComboBox Margin="3" TabIndex="1"
-                ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Halbjahre}" 
+                ItemsSource="{Binding Source={StaticResource Halbjahre}}" 
                 SelectedItem="{Binding Path=Halbjahr}"
-                DisplayMemberPath="HalbjahrBezeichnung"
                 Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" Width="100"
                   HorizontalAlignment="Left"/>
           <ComboBox Margin="3" TabIndex="1"

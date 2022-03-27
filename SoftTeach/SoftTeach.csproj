@@ -377,7 +377,7 @@
     <Compile Include="Model\TeachyModel\Bepunktungstyp.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\TeachyModel\BetroffeneKlasseNeu.cs">
+    <Compile Include="Model\TeachyModel\BetroffeneLerngruppeNeu.cs">
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\TeachyModel\BewertungsschemaNeu.cs">
@@ -609,6 +609,7 @@
     <Compile Include="ViewModel\Curricula\ZeitstrahlCollectionContainer.cs" />
     <Compile Include="ViewModel\Datenbank\AddSchuljahrDialogViewModel.cs" />
     <Compile Include="ViewModel\Helper\ODSSupport\OdsReaderWriter.cs" />
+    <Compile Include="ViewModel\Helper\TagGeändertEventArgs.cs" />
     <Compile Include="ViewModel\Helper\UiServices.cs" />
     <Compile Include="ViewModel\Noten\NotenlistenEintrag.cs" />
     <Compile Include="ViewModel\Noten\NotenlistenWorkspaceViewModel.cs" />
@@ -665,13 +666,13 @@
     <Compile Include="ViewModel\Helper\SequencingService.cs" />
     <Compile Include="ViewModel\Stundenentwürfe\PhaseContainer.cs" />
     <Compile Include="ViewModel\Stundenpläne\StundenplanÄnderungUpdateType.cs" />
-    <Compile Include="ViewModel\Termine\BetroffeneKlasseViewModel.cs" />
+    <Compile Include="ViewModel\Termine\BetroffeneLerngruppeViewModel.cs" />
     <Compile Include="ViewModel\Termine\SchulterminViewModel.cs" />
     <Compile Include="ViewModel\Termine\LerngruppenterminViewModel.cs" />
     <Compile Include="ViewModel\Termine\TerminViewModel.cs" />
     <Compile Include="ViewModel\Termine\SchulterminUpdateType.cs" />
     <Compile Include="ViewModel\Termine\SchulterminWorkspaceViewModel.cs" />
-    <Compile Include="ViewModel\Stundenentwürfe\StundenWorkspaceViewModel.cs" />
+    <Compile Include="ViewModel\Stundenentwürfe\SucheStundeWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Helper\INotifyPropertyChangedExtended.cs" />
     <Compile Include="ViewModel\Helper\PropertyChangingEventArgs.cs" />
     <Compile Include="ViewModel\Helper\PropertyChangingEventHandler.cs" />
@@ -694,6 +695,8 @@
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\Stundenpläne\StundenplanWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Termine\LerngruppenterminEqualityComparer.cs" />
+    <Compile Include="ViewModel\Jahrespläne\JahresplanViewModel.cs" />
+    <Compile Include="ViewModel\Jahrespläne\TagViewModel.cs" />
     <Compile Include="ViewModel\Wochenpläne\TerminplanEintragCollection.cs" />
     <Compile Include="ViewModel\Wochenpläne\GanztagstermineViewModel.cs" />
     <Compile Include="ViewModel\Wochenpläne\TerminplanEintrag.cs" />
@@ -724,20 +727,11 @@
     <Compile Include="View\Datenbank\CleanupDatabaseDialog.xaml.cs">
       <DependentUpon>CleanupDatabaseDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Datenbank\BetroffeneKlassenDBView.xaml.cs">
-      <DependentUpon>BetroffeneKlassenDBView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Datenbank\BewertungsschemaWorkspaceView.xaml.cs">
       <DependentUpon>BewertungsschemaWorkspaceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Datenbank\BewertungsschemaDetailView.xaml.cs">
       <DependentUpon>BewertungsschemaDetailView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Datenbank\HausaufgabenDBView.xaml.cs">
-      <DependentUpon>HausaufgabenDBView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Datenbank\NotenWichtungenDBView.xaml.cs">
-      <DependentUpon>NotenWichtungenDBView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Datenbank\SchülereintragWorkspace.xaml.cs">
       <DependentUpon>SchülereintragWorkspace.xaml</DependentUpon>
@@ -784,9 +778,6 @@
     <Compile Include="View\Datenbank\LerngruppeWorkspace.xaml.cs">
       <DependentUpon>LerngruppeWorkspace.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Datenbank\PersonenDBView.xaml.cs">
-      <DependentUpon>PersonenDBView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Datenbank\StundenplaneintragWorkspaceView.xaml.cs">
       <DependentUpon>StundenplaneintragWorkspaceView.xaml</DependentUpon>
     </Compile>
@@ -807,12 +798,6 @@
     </Compile>
     <Compile Include="View\Datenbank\ReiheWorkspaceView.xaml.cs">
       <DependentUpon>ReiheWorkspaceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Datenbank\CurriculumDBView.xaml.cs">
-      <DependentUpon>CurriculumDBView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Datenbank\ZensurenDBView.xaml.cs">
-      <DependentUpon>ZensurenDBView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Datenbank\FachstundenanzahlWorkspaceView.xaml.cs">
       <DependentUpon>FachstundenanzahlWorkspaceView.xaml</DependentUpon>
@@ -1026,11 +1011,8 @@
     <Compile Include="View\Termine\AddSchulterminDialog.xaml.cs">
       <DependentUpon>AddSchulterminDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Termine\AddStundeDialog.xaml.cs">
-      <DependentUpon>AddStundeDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Termine\StundeDetailView.xaml.cs">
-      <DependentUpon>StundeDetailView.xaml</DependentUpon>
+    <Compile Include="View\Termine\EditStundeDialog.xaml.cs">
+      <DependentUpon>EditStundeDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Termine\BetroffeneKlassenDialog.xaml.cs">
       <DependentUpon>BetroffeneKlassenDialog.xaml</DependentUpon>
@@ -1046,9 +1028,6 @@
     </Compile>
     <Compile Include="View\Datenbank\FerienWorkspaceView.xaml.cs">
       <DependentUpon>FerienWorkspaceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Datenbank\UnterrichtsstundenDBView.xaml.cs">
-      <DependentUpon>UnterrichtsstundenDBView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Datenbank\ModulWorkspaceView.xaml.cs">
       <DependentUpon>ModulWorkspaceView.xaml</DependentUpon>
@@ -1540,23 +1519,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Datenbank\BetroffeneKlassenDBView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="View\Datenbank\BewertungsschemaWorkspaceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Datenbank\BewertungsschemaDetailView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Datenbank\HausaufgabenDBView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Datenbank\NotenWichtungenDBView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1620,10 +1587,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Datenbank\PersonenDBView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="View\Datenbank\StundenplaneintragWorkspaceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1649,14 +1612,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Datenbank\ReiheWorkspaceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Datenbank\CurriculumDBView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Datenbank\ZensurenDBView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1936,11 +1891,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Termine\AddStundeDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Termine\StundeDetailView.xaml">
+    <Page Include="View\Termine\EditStundeDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1961,10 +1912,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Datenbank\FerienWorkspaceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Datenbank\UnterrichtsstundenDBView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -2120,12 +2067,12 @@
   <ItemGroup>
     <PublishFile Include="SoftTeach.pdb">
       <Visible>False</Visible>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
   </ItemGroup>

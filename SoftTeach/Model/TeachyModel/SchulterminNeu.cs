@@ -17,14 +17,14 @@ namespace SoftTeach.Model.TeachyModel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SchulterminNeu()
         {
-            this.BetroffeneKlassen = new HashSet<BetroffeneKlasseNeu>();
+            this.BetroffeneLerngruppen = new HashSet<BetroffeneLerngruppeNeu>();
         }
     
         public int SchuljahrId { get; set; }
         public System.DateTime Datum { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BetroffeneKlasseNeu> BetroffeneKlassen { get; set; }
         public virtual SchuljahrNeu Schuljahr { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BetroffeneLerngruppeNeu> BetroffeneLerngruppen { get; set; }
     }
 }

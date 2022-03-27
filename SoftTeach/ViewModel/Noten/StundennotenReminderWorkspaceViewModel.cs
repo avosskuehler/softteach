@@ -118,7 +118,7 @@
         this.currentStunde = value;
         if (value != null)
         {
-          Selection.Instance.Stunde = this.currentStunde;
+          //Selection.Instance.Stunde = this.currentStunde;
           this.RaisePropertyChanged("CurrentStunde");
         }
       }

@@ -352,7 +352,7 @@
           continue;
         }
 
-        termin.Beschreibung = string.Format("{0} {1} ({2})", person.Vorname, person.Nachname, alter);
+        termin.Beschreibung = string.Format("{0} {1} ({2})", person.PersonVorname, person.PersonNachname, alter);
         termin.Schuljahr = App.MainViewModel.Schuljahre.First(o => o.SchuljahrJahr == jahresplanJahr).Model;
 
         var geburtstagTerminViewModel = new SchulterminViewModel(termin);

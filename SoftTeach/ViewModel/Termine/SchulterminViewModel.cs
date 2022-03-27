@@ -23,9 +23,9 @@
     private SchuljahrViewModel schuljahr;
 
     /// <summary>
-    /// The betroffeneKlasse currently selected
+    /// The betroffeneLerngruppe currently selected
     /// </summary>
-    private BetroffeneKlasseViewModel currentBetroffeneKlasse;
+    private BetroffeneLerngruppeViewModel currentBetroffeneKlasse;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="SchulterminViewModel"/> Klasse. 
@@ -36,11 +36,11 @@
     public SchulterminViewModel(SchulterminNeu schultermin)
       : base(schultermin)
     {
-      // Build data structures for betroffeneKlassen
-      this.BetroffeneKlassen = new ObservableCollection<BetroffeneKlasseViewModel>();
-      foreach (var betroffeneKlasse in schultermin.BetroffeneKlassen)
+      // Build data structures for betroffeneLerngruppen
+      this.BetroffeneKlassen = new ObservableCollection<BetroffeneLerngruppeViewModel>();
+      foreach (var betroffeneLerngruppe in schultermin.BetroffeneLerngruppen)
       {
-        var vm = new BetroffeneKlasseViewModel(betroffeneKlasse);
+        var vm = new BetroffeneLerngruppeViewModel(betroffeneLerngruppe);
         App.MainViewModel.BetroffeneKlassen.Add(vm);
         this.BetroffeneKlassen.Add(vm);
       }
@@ -69,9 +69,9 @@
     //public override Schultermin Model { get; private set; }
 
     /// <summary>
-    /// Holt oder setzt die currently selected betroffeneKlasse
+    /// Holt oder setzt die currently selected betroffeneLerngruppe
     /// </summary>
-    public BetroffeneKlasseViewModel CurrentBetroffeneKlasse
+    public BetroffeneLerngruppeViewModel CurrentBetroffeneKlasse
     {
       get
       {
@@ -138,9 +138,9 @@
     }
 
     /// <summary>
-    /// Holt den betroffeneKlassen on file for this termin
+    /// Holt den betroffeneLerngruppen on file for this termin
     /// </summary>
-    public ObservableCollection<BetroffeneKlasseViewModel> BetroffeneKlassen { get; private set; }
+    public ObservableCollection<BetroffeneLerngruppeViewModel> BetroffeneKlassen { get; private set; }
 
     /// <summary>
     /// Gibt eine lesbare Repräsentation des ViewModels
@@ -183,15 +183,15 @@
     }
 
     /// <summary>
-    /// Handles addition a new betroffeneKlasse to this termin
+    /// Handles addition a new betroffeneLerngruppe to this termin
     /// </summary>
     private void AddBetroffeneKlasse()
     {
       var dlg = new BetroffeneKlassenDialog();
 
-      foreach (var betroffeneKlasse in this.BetroffeneKlassen)
+      foreach (var betroffeneLerngruppe in this.BetroffeneKlassen)
       {
-        dlg.Klassen.Add(betroffeneKlasse.BetroffeneKlasseLerngruppe);
+        dlg.Klassen.Add(betroffeneLerngruppe.BetroffeneLerngruppeLerngruppe);
       }
 
       if (dlg.ShowDialog().GetValueOrDefault(false))
@@ -199,12 +199,12 @@
         using (new UndoBatch(App.MainViewModel, string.Format("Betroffene Klassen des Termins {0} verändert.", this), false))
         {
           // Remove deselected Klassen
-          var klassenToRemove = new List<BetroffeneKlasseViewModel>();
+          var klassenToRemove = new List<BetroffeneLerngruppeViewModel>();
           foreach (var bereitsGewählteKlasse in this.BetroffeneKlassen)
           {
             var found =
               dlg.Klassen.Any(
-                o => bereitsGewählteKlasse.BetroffeneKlasseLerngruppe.LerngruppeBezeichnung == o.LerngruppeBezeichnung);
+                o => bereitsGewählteKlasse.BetroffeneLerngruppeLerngruppe.LerngruppeBezeichnung == o.LerngruppeBezeichnung);
 
             if (!found)
             {
@@ -213,25 +213,25 @@
             }
           }
 
-          foreach (var betroffeneKlasseViewModel in klassenToRemove)
+          foreach (var betroffeneLerngruppeViewModel in klassenToRemove)
           {
-            this.BetroffeneKlassen.RemoveTest(betroffeneKlasseViewModel);
+            this.BetroffeneKlassen.RemoveTest(betroffeneLerngruppeViewModel);
           }
 
           foreach (var klasse in dlg.Klassen)
           {
             // Check for already existing klassen
             var skip =
-              this.BetroffeneKlassen.Any(o => o.BetroffeneKlasseLerngruppe.LerngruppeBezeichnung == klasse.LerngruppeBezeichnung);
+              this.BetroffeneKlassen.Any(o => o.BetroffeneLerngruppeLerngruppe.LerngruppeBezeichnung == klasse.LerngruppeBezeichnung);
 
             if (!skip)
             {
-              var betroffeneKlasse = new BetroffeneKlasseNeu();
-              betroffeneKlasse.Lerngruppe = klasse.Model;
-              betroffeneKlasse.Schultermin = this.Model as SchulterminNeu;
+              var betroffeneLerngruppe = new BetroffeneLerngruppeNeu();
+              betroffeneLerngruppe.Lerngruppe = klasse.Model;
+              betroffeneLerngruppe.Schultermin = this.Model as SchulterminNeu;
 
-              var vm = new BetroffeneKlasseViewModel(betroffeneKlasse);
-              //App.UnitOfWork.Context.BetroffeneKlassen.Add(betroffeneKlasse);
+              var vm = new BetroffeneLerngruppeViewModel(betroffeneLerngruppe);
+              //App.UnitOfWork.Context.BetroffeneKlassen.Add(betroffeneLerngruppe);
               App.MainViewModel.BetroffeneKlassen.Add(vm);
               this.BetroffeneKlassen.Add(vm);
               this.CurrentBetroffeneKlasse = vm;
@@ -242,7 +242,7 @@
     }
 
     /// <summary>
-    /// Handles deletion of the current betroffeneKlasse
+    /// Handles deletion of the current betroffeneLerngruppe
     /// </summary>
     private void DeleteCurrentBetroffeneKlasse()
     {

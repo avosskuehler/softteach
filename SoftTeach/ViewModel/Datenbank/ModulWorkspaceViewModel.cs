@@ -101,7 +101,7 @@
     /// </summary>
     public int? JahrgangsstufeFilter
     {
-      get { return (int)this.GetValue(JahrgangsstufeFilterProperty); }
+      get { return (int?)this.GetValue(JahrgangsstufeFilterProperty); }
       set { this.SetValue(JahrgangsstufeFilterProperty, value); }
     }
 

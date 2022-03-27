@@ -55,11 +55,11 @@
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-      int jahrgangsstufenCount = App.MainViewModel.Klassenstufen.Count;
+      int jahrgangsstufenCount = App.MainViewModel.Jahrgänge.Count;
       this.Lerngruppengrid.Columns = jahrgangsstufenCount;
       for (int i = 0; i < jahrgangsstufenCount; i++)
       {
-        var jahrgangsstufe = App.MainViewModel.Klassenstufen[i];
+        var jahrgangsstufe = App.MainViewModel.Jahrgänge[i];
         var jahrgangsGroup = new GroupBox();
         var jahrgang = jahrgangsstufe;
         jahrgangsGroup.Header = jahrgang;

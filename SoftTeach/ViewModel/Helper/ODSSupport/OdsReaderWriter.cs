@@ -210,7 +210,7 @@
       XmlDocument ownerDocument = sheetsRootNode.OwnerDocument;
       XmlNode sheetNode = ownerDocument.CreateElement("table:table", this.GetNamespaceUri("table"));
       XmlAttribute sheetName = ownerDocument.CreateAttribute("table:name", this.GetNamespaceUri("table"));
-      sheetName.Value = lerngruppe.LerngruppeHalbjahr.ToString();
+      sheetName.Value = lerngruppe.LerngruppeSchuljahr.ToString();
       sheetNode.Attributes.Append(sheetName);
 
       // Spalten anlegen

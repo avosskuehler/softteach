@@ -40,10 +40,10 @@
           ws.Cells[row, 1] = "Vorname";
           ws.Cells[row, 2] = "Nachname";
           row++;
-          foreach (var person in schülerliste.Schülereinträge.OrderBy(o => o.SchülereintragPerson.Vorname))
+          foreach (var person in schülerliste.Schülereinträge.OrderBy(o => o.SchülereintragPerson.PersonVorname))
           {
-            ws.Cells[row, 1] = person.SchülereintragPerson.Vorname;
-            ws.Cells[row, 2] = person.SchülereintragPerson.Nachname;
+            ws.Cells[row, 1] = person.SchülereintragPerson.PersonVorname;
+            ws.Cells[row, 2] = person.SchülereintragPerson.PersonNachname;
             row++;
           }
         }
@@ -110,7 +110,7 @@
 
             var existiert =
               App.MainViewModel.Personen.FirstOrDefault(
-                o => o.Geschlecht == geschlecht && o.Vorname == vorname && o.Nachname == nachname);
+                o => o.PersonGeschlecht == geschlecht && o.PersonVorname == vorname && o.PersonNachname == nachname);
 
             if (existiert != null)
             {

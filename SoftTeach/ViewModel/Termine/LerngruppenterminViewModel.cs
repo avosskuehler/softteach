@@ -3,18 +3,25 @@
   using System;
   using System.Linq;
   using System.Windows.Media;
+  using SoftTeach.ExceptionHandling;
   using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Termine;
   using SoftTeach.ViewModel.Helper;
   using SoftTeach.ViewModel.Jahrespläne;
+  using SoftTeach.ViewModel.Personen;
 
   /// <summary>
   /// ViewModel of an individual lerngruppentermin
   /// </summary>
   public class LerngruppenterminViewModel : TerminViewModel
   {
+    /// <summary>
+    /// Die Lerngruppe des Termins
+    /// </summary>
+    private LerngruppeViewModel lerngruppe;
+
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="LerngruppenterminViewModel"/> Klasse. 
     /// </summary>
@@ -27,12 +34,8 @@
       this.ViewLerngruppenterminCommand = new DelegateCommand(this.ViewLerngruppentermin);
       this.EditLerngruppenterminCommand = new DelegateCommand(this.EditLerngruppentermin);
       this.RemoveLerngruppenterminCommand = new DelegateCommand(this.DeleteTermin);
+      this.Model = lerngruppentermin;
     }
-
-    /// <summary>
-    /// Holt den underlying Termin this ViewModel is based on
-    /// </summary>
-    public new LerngruppenterminNeu Model { get; private set; }
 
     /// <summary>
     /// Holt den Befehl zur Ansicht des aktuellen Lerngruppentermins
@@ -111,14 +114,14 @@
     {
       get
       {
-        return this.Model.Datum;
+        return ((LerngruppenterminNeu)this.Model).Datum;
       }
 
       set
       {
-        if (value == this.Model.Datum) return;
-        this.UndoablePropertyChanging(this, "LerngruppenterminDatum", this.Model.Datum, value);
-        this.Model.Datum = value;
+        if (value == ((LerngruppenterminNeu)this.Model).Datum) return;
+        this.UndoablePropertyChanging(this, "LerngruppenterminDatum", ((LerngruppenterminNeu)this.Model).Datum, value);
+        ((LerngruppenterminNeu)this.Model).Datum = value;
         this.RaisePropertyChanged("LerngruppenterminDatum");
       }
     }
@@ -149,22 +152,11 @@
     /// <summary>
     /// Holt a <see cref="string"/> with the schuljahr this lerngruppentermin belongs to
     /// </summary>
-    public string LerngruppenterminSchuljahr
+    public SchuljahrNeu LerngruppenterminSchuljahr
     {
       get
       {
-        return this.Model.Lerngruppe.Schuljahr.Bezeichnung;
-      }
-    }
-
-    /// <summary>
-    /// Holt a <see cref="string"/> with the halbjahr this lerngruppentermin belongs to
-    /// </summary>
-    public string LerngruppenterminHalbjahr
-    {
-      get
-      {
-        return this.Model.Lerngruppe.Halbjahr.ToString();
+        return ((LerngruppenterminNeu)this.Model).Lerngruppe.Schuljahr;
       }
     }
 
@@ -175,20 +167,56 @@
     {
       get
       {
-        return this.Model.Lerngruppe.Fach.Bezeichnung;
+        return ((LerngruppenterminNeu)this.Model).Lerngruppe.Fach.Bezeichnung;
       }
     }
 
     /// <summary>
-    /// Holt a <see cref="string"/> with the klasse this lerngruppentermin belongs to
+    /// Holt oder setzt die ErsteUnterrichtsstunde currently assigned to this Termin
     /// </summary>
-    public string LerngruppenterminLerngruppe
+    public LerngruppeViewModel LerngruppenterminLerngruppe
     {
       get
       {
-        return this.Model.Lerngruppe.Bezeichnung;
+        // We need to reflect any changes made in the model so we check the current value before returning
+        if (((LerngruppenterminNeu)this.Model).Lerngruppe == null)
+        {
+          return null;
+        }
+
+        if (this.lerngruppe == null || this.lerngruppe.Model != ((LerngruppenterminNeu)this.Model).Lerngruppe)
+        {
+          var lerngruppe = App.MainViewModel.Lerngruppen.SingleOrDefault(d => d.Model == ((LerngruppenterminNeu)this.Model).Lerngruppe);
+          if (lerngruppe == null)
+          {
+            var lerngruppeModel = App.UnitOfWork.Context.Lerngruppen.FirstOrDefault(o => o.Id == ((LerngruppenterminNeu)this.Model).LerngruppeId);
+            lerngruppe = new LerngruppeViewModel(lerngruppeModel);
+            App.MainViewModel.Lerngruppen.Add(lerngruppe);
+          }
+          if (lerngruppe == null)
+          {
+            InformationDialog.Show("Lerngruppe fehlt", "Zu diesem Termin fehlt die Lerngruppe.", false);
+          }
+
+          this.lerngruppe = lerngruppe;
+        }
+
+        return this.lerngruppe;
+      }
+
+      set
+      {
+        if (value == null)
+        {
+          return;
+        }
+        this.UndoablePropertyChanging(this, "LerngruppenterminLerngruppe", this.LerngruppenterminLerngruppe, value);
+        this.lerngruppe = value;
+        ((LerngruppenterminNeu)this.Model).Lerngruppe = value.Model;
+        this.RaisePropertyChanged("LerngruppenterminLerngruppe");
       }
     }
+
 
     /// <summary>
     /// Gibt eine lesbare Repräsentation des ViewModels
@@ -266,8 +294,8 @@
         App.MainViewModel.Lerngruppen.FirstOrDefault(
           o =>
           o.LerngruppeFach.FachBezeichnung == this.LerngruppenterminFach
-          && o.LerngruppeSchuljahr.SchuljahrBezeichnung == this.LerngruppenterminSchuljahr
-          && o.LerngruppeBezeichnung == this.LerngruppenterminLerngruppe);
+          && o.LerngruppeSchuljahr.SchuljahrJahr == this.LerngruppenterminSchuljahr.Jahr
+          && o.LerngruppeBezeichnung == this.LerngruppenterminLerngruppe.LerngruppeBezeichnung);
       Selection.Instance.Lerngruppe = schülerliste;
     }
   }

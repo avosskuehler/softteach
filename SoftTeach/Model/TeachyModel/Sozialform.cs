@@ -17,6 +17,7 @@ namespace SoftTeach.Model.TeachyModel
         PA = 2,
         LV = 3,
         UG = 4,
-        EA = 5
+        EA = 5,
+        NN = 0
     }
 }

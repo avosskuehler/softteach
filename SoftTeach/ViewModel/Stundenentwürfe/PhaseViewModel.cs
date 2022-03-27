@@ -24,7 +24,7 @@
       phase.Inhalt = string.Empty;
       phase.Medium = Medium.Tafel;
       phase.Sozialform = Sozialform.UG;
-      phase.Stunde = Selection.Instance.Stunde;
+      phase.Stunde = Selection.Instance.Stunde.Model as StundeNeu;
       this.Model = phase;
       //App.UnitOfWork.Context.Phasen.Add(phase);
       //App.MainViewModel.Phasen.Add(this);
@@ -143,6 +143,7 @@
         this.UndoablePropertyChanging(this, "PhaseZeit", this.Model.Zeit, value);
         this.Model.Zeit = value;
         this.RaisePropertyChanged("PhaseZeit");
+        Selection.Instance.Stunde.NotifyPhaseZeitChanged();
       }
     }
 

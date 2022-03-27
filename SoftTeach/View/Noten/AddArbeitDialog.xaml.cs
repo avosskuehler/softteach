@@ -105,7 +105,6 @@ namespace SoftTeach.View.Noten
       if (App.MainViewModel.Arbeiten.Any(
           o =>
           o.ArbeitLerngruppe.LerngruppeSchuljahr.SchuljahrBezeichnung == this.Schuljahr.SchuljahrBezeichnung
-          && o.ArbeitLerngruppe.LerngruppeHalbjahr == this.Halbjahr
           && o.ArbeitLerngruppe.LerngruppeBezeichnung == this.Lerngruppe.LerngruppeBezeichnung
           && o.ArbeitFach.FachBezeichnung == this.Fach.FachBezeichnung && o.ArbeitDatum.Date == this.Datum.Date))
       {

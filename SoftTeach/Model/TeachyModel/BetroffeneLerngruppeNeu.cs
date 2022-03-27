@@ -12,7 +12,7 @@ namespace SoftTeach.Model.TeachyModel
     using System;
     using System.Collections.Generic;
     
-    public partial class BetroffeneKlasseNeu
+    public partial class BetroffeneLerngruppeNeu
     {
         public int Id { get; set; }
         public int TerminId { get; set; }

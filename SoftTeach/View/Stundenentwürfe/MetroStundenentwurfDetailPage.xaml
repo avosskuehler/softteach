@@ -43,7 +43,7 @@
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="Auto"/>
       </Grid.ColumnDefinitions>
-      <TextBox Grid.Row="0" Grid.Column="0" Style="{StaticResource Header1}" Text="{Binding Path=StundeStundenentwurf.StundenentwurfStundenthema}">
+      <TextBox Grid.Row="0" Grid.Column="0" Style="{StaticResource Header1}" Text="{Binding Path=TerminBeschreibung}">
         <TextBox.Background>
           <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="White" Offset="0.664" />
@@ -52,13 +52,13 @@
         </TextBox.Background>
       </TextBox>
       <ComboBox Grid.Row="1" Grid.Column="0" SelectedValuePath="." 
-                    SelectedItem="{Binding Path=StundeStundenentwurf.StundenentwurfModul}" 
-                    ItemsSource="{Binding Path=StundeStundenentwurf.ModulView}" 
+                    SelectedItem="{Binding Path=StundeModul}" 
+                    ItemsSource="{Binding Path=ModulView}" 
                     DisplayMemberPath="ModulBezeichnung"
                     HorizontalAlignment="Stretch"
                     Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"/>
       <StackPanel Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Orientation="Horizontal">
-        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=StundeStundenentwurf.AddDateiverweisCommand}">
+        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddDateiverweisCommand}">
           <StackPanel Orientation="Horizontal" ToolTip="Datei hinzufügen">
             <Grid >
               <Image Source="/SoftTeach;component/Images/Dateityp32.png"/>
@@ -67,7 +67,7 @@
           </StackPanel>
         </Button>
 
-        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=StundeStundenentwurf.DeleteDateiverweisCommand}">
+        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=DeleteDateiverweisCommand}">
           <StackPanel Orientation="Horizontal" ToolTip="Datei entfernen">
             <Grid >
               <Image Source="/SoftTeach;component/Images/Dateityp32.png"/>
@@ -77,8 +77,8 @@
         </Button>
       </StackPanel>
       <ListView Grid.Row="0" Grid.Column="2" Grid.RowSpan="2"
-                SelectedItem="{Binding Path=StundeStundenentwurf.CurrentDateiverweis, Mode=TwoWay}" 
-                ItemsSource="{Binding Path=StundeStundenentwurf.Dateiverweise}"
+                SelectedItem="{Binding Path=CurrentDateiverweis, Mode=TwoWay}" 
+                ItemsSource="{Binding Path=Dateiverweise}"
                 ItemTemplate="{StaticResource DateiverweiseListViewTile}"
                 Background="Transparent" 
                 BorderBrush="Transparent" 
@@ -108,7 +108,7 @@
             <ColumnDefinition Width="Auto"/>
           </Grid.ColumnDefinitions>
           <Label Grid.Column="0">Phasen</Label>
-          <Button Grid.Column="1" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=StundeStundenentwurf.MovePhaseCommand}">
+          <Button Grid.Column="1" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=MovePhaseCommand}">
             <StackPanel Orientation="Horizontal" ToolTip="Phase verschieben">
               <Grid >
                 <Image Source="/SoftTeach;component/Images/Phase16.png"/>
@@ -119,13 +119,13 @@
             </StackPanel>
           </Button>
           <Label Grid.Column="2">Verplante Minuten:</Label>
-          <Label Grid.Column="3" Content="{Binding Path=StundeStundenentwurf.StundenentwurfVerplanteMinutenVonAllen}" Background="{Binding Path=StundeStundenentwurf.StundentwurfMinutenCheckBrush}"/>
+          <Label Grid.Column="3" Content="{Binding Path=StundeVerplanteMinutenVonAllen}" Background="{Binding Path=StundeMinutenCheckBrush}"/>
         </Grid>
       </Grid>
       <!--CellStyle="{StaticResource CellDirectClickStyle}"-->
       <DataGrid Grid.Row="1" 
-                SelectedItem="{Binding Path=StundeStundenentwurf.CurrentPhase, Converter={StaticResource IgnoreNewItemPlaceHolderConverter}}" 
-                ItemsSource="{Binding Path=StundeStundenentwurf.PhasenView}" 
+                SelectedItem="{Binding Path=CurrentPhase, Converter={StaticResource IgnoreNewItemPlaceHolderConverter}}" 
+                ItemsSource="{Binding Path=PhasenView}" 
                 AutoGenerateColumns="False"
                 HorizontalScrollBarVisibility="Disabled"
                 Name="PhasenGrid"
@@ -136,26 +136,25 @@
                 HeadersVisibility="None"
                 SelectionMode="Extended">
         <pb:PushBindingManager.PushBindings>
-          <pb:PushBinding TargetProperty="SelectedItems" Path="StundeStundenentwurf.SelectedPhasen"/>
+          <pb:PushBinding TargetProperty="SelectedItems" Path="SelectedPhasen"/>
         </pb:PushBindingManager.PushBindings>
         <DataGrid.InputBindings>
-          <KeyBinding Modifiers="Control" Key="C" Command="{Binding Path=StundeStundenentwurf.CopyCommand}"/>
-          <KeyBinding Modifiers="Control" Key="V" Command="{Binding Path=StundeStundenentwurf.PasteCommand}"/>
+          <KeyBinding Modifiers="Control" Key="C" Command="{Binding Path=CopyCommand}"/>
+          <KeyBinding Modifiers="Control" Key="V" Command="{Binding Path=PasteCommand}"/>
         </DataGrid.InputBindings>
         <DataGrid.Columns>
           <DataGridTextColumn Header="Zeit" Binding="{Binding Path=PhaseZeit, UpdateSourceTrigger=PropertyChanged}" CanUserSort="False"/>
           <DataGridComboBoxColumn 
                         Header="Medien" 
-                        ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Medien}"
+                        ItemsSource="{Binding Source={StaticResource Medien}}"
                         SelectedItemBinding="{Binding Path=PhaseMedium}" 
-                        DisplayMemberPath="MediumBezeichnung" CanUserSort="False" 
+                        CanUserSort="False" 
                         EditingElementStyle="{StaticResource DatagridComboBoxElementStyle}"/>
           <DataGridComboBoxColumn 
                         Header="Sozialform" 
                         SelectedItemBinding="{Binding Path=PhaseSozialform}" 
-                        DisplayMemberPath="SozialformBezeichnung"
                         EditingElementStyle="{StaticResource DatagridComboBoxElementStyle}"
-                        ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Sozialformen}" CanUserSort="False" />
+                        ItemsSource="{Binding Source={StaticResource Sozialformen}}" CanUserSort="False" />
           <DataGridTextColumn Header="Inhalt" Binding="{Binding Path=PhaseInhalt}" Width="*" CanUserSort="False"
                             ElementStyle="{StaticResource DatagridMultilineElementStyle}"
                             EditingElementStyle="{StaticResource DatagridMultilineEditingElementStyle}"/>
@@ -173,17 +172,17 @@
         <ColumnDefinition Width="Auto"/>
       </Grid.ColumnDefinitions>
       <Label Grid.Row="0" Grid.Column="0" Background="{StaticResource MetroHeaderBackground}">Hausaufgaben</Label>
-      <TextBox Grid.Row="1" Grid.Column="0" Name="HausaufgabenTextBox" Text="{Binding Path=StundeStundenentwurf.StundenentwurfHausaufgaben}"
+      <TextBox Grid.Row="1" Grid.Column="0" Name="HausaufgabenTextBox" Text="{Binding Path=StundeHausaufgaben}"
                    TextWrapping="Wrap"
                    AcceptsReturn="True"/>
       <Label Grid.Row="0" Grid.Column="1" Background="{StaticResource MetroHeaderBackground}">Termine/Ansagen</Label>
-      <TextBox  Grid.Row="1" Grid.Column="1" Name="TermineTextBox" Text="{Binding Path=StundeStundenentwurf.StundenentwurfAnsagen}"
+      <TextBox  Grid.Row="1" Grid.Column="1" Name="TermineTextBox" Text="{Binding Path=StundeAnsagen}"
                    TextWrapping="Wrap"
                    AcceptsReturn="True"/>
       <Label Grid.Row="0" Grid.Column="2" Background="{StaticResource MetroHeaderBackground}">Sonstiges</Label>
       <StackPanel Grid.Row="1" Grid.Column="2" Margin="3" >
-        <CheckBox Content="Kopieren" Height="32" Name="KopierenCheckBox" IsChecked="{Binding Path=StundeStundenentwurf.StundenentwurfKopieren}"/>
-        <CheckBox Content="Computer" Height="32" Name="ComputerCheckBox" IsChecked="{Binding Path=StundeStundenentwurf.StundenentwurfComputer}"/>
+        <CheckBox Content="Kopieren" Height="32" Name="KopierenCheckBox" IsChecked="{Binding Path=StundeKopieren}"/>
+        <CheckBox Content="Computer" Height="32" Name="ComputerCheckBox" IsChecked="{Binding Path=StundeComputer}"/>
       </StackPanel>
     </Grid>
   </Grid>

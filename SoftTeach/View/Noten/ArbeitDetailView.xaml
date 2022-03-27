@@ -94,9 +94,9 @@
                 HorizontalAlignment="Left"/>
         <Label Grid.Row="2" Grid.Column="2">Klasse</Label>
         <ComboBox Grid.Row="2" Grid.Column="3" Margin="3" Width="134"
-                ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Klassen}" 
-                SelectedItem="{Binding Path=ArbeitKlasse}"
-                DisplayMemberPath="KlasseBezeichnung"
+                ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Lerngruppen}" 
+                SelectedItem="{Binding Path=ArbeitLerngruppe}"
+                DisplayMemberPath="LerngruppeBezeichnung"
                   IsEnabled="False"
                 Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"
                 HorizontalAlignment="Left"/>

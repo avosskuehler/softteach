@@ -100,9 +100,9 @@
                                   Width="Auto" SortMemberPath="CurriculumSchuljahr.SchuljahrBezeichnung" IsReadOnly="True"/>
             <DataGridComboBoxColumn 
                         Header="Halbjahr" 
-                        ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Halbjahre}"
+                        ItemsSource="{Binding Source={StaticResource Halbjahre}}"
                         SelectedItemBinding="{Binding Path=CurriculumHalbjahr}" 
-                        DisplayMemberPath="HalbjahrBezeichnung" SortMemberPath="CurriculumHalbjahr.HalbjahrBezeichnung"
+                        SortMemberPath="CurriculumHalbjahr"
                         EditingElementStyle="{StaticResource DatagridComboBoxElementStyle}"/>
             <DataGridTextColumn Header="Klasse" Binding="{Binding Path=CurriculumKlassenstufe.KlassenstufeBezeichnung}"
                                   SortMemberPath="CurriculumKlassenstufe.KlassenstufeBezeichnung" Width="Auto" IsReadOnly="True"/>

@@ -642,13 +642,6 @@
     protected override sealed void PopulateTerminplan()
     {
       this.Terminplaneinträge.Clear();
-      //// use this instead of clear to enable undo
-      //var count = this.Wochenplaneinträge.Count;
-      //for (int i = 0; i < count; i++)
-      //{
-      //  this.Wochenplaneinträge.RemoveAt(this.Wochenplaneinträge.Count - 1);
-      //}
-
       var comparer = new TerminplanEintragEqualityComparer();
 
 
@@ -673,93 +666,24 @@
         }
       }
 
-      //// Get all jahrespläne for the selected week
-      //var jahrespläne =
-      //  App.MainViewModel.Jahrespläne.Where(
-      //    o => o.JahresplanSchuljahr.SchuljahrJahr == jahresplanJahr);
+      // Alle Lerngruppen auslesen
+      var lerngruppen = App.MainViewModel.Lerngruppen.Where(o => o.LerngruppeSchuljahr.SchuljahrJahr == jahresplanJahr);
+      foreach (var lerngruppe in lerngruppen)
+      {
+        var lerngruppenTermine = lerngruppe.Lerngruppentermine.Where(o => o.LerngruppenterminDatum >= this.WochenplanMontag && o.LerngruppenterminDatum < this.WochenplanMontag.AddDays(6));
+        foreach (var lerngruppentermin in lerngruppenTermine)
+        {
+          if (lerngruppentermin is StundeViewModel)
+          {
 
-      //foreach (var jahresplanViewModel in jahrespläne)
-      //{
-      //  //foreach (var halbjahrsplan in jahresplanViewModel.Halbjahrespläne)
-      //  //{
-
-      //  // Get correct Halbjahresplan
-      //  var halbjahrsplan = halbjahr
-      //                          ? jahresplanViewModel.CurrentJahresplanSommerhalbjahr
-      //                          : jahresplanViewModel.CurrentJahresplanWinterhalbjahr;
-
-      //  if (halbjahrsplan == null)
-      //  {
-      //    continue;
-      //  }
-
-      //  // Get correct month
-      //  var month = halbjahrsplan.Monatspläne.SingleOrDefault(o => o.MonatsplanMonatindex == this.WochenplanMontag.Month);
-      //  if (month == null)
-      //  {
-      //    continue;
-      //  }
-
-      //  // Get correct days
-      //  var daysInWeek =
-      //    month.Tagespläne.Where(
-      //      o => o.TagesplanDatum >= this.WochenplanMontag && o.TagesplanDatum < this.WochenplanMontag.AddDays(6));
-
-      //  foreach (var tagesplanViewModel in daysInWeek)
-      //  {
-      //    foreach (var lerngruppenterminViewModel in tagesplanViewModel.Lerngruppentermine)
-      //    {
-      //      var wochenplanEintrag = new TerminplanEintrag(this, lerngruppenterminViewModel);
-      //      if (!this.Terminplaneinträge.Contains(wochenplanEintrag, comparer))
-      //      {
-      //        this.Terminplaneinträge.Add(wochenplanEintrag);
-      //      }
-      //    }
-      //  }
-
-      //  // check if this week is at the end of month
-      //  // and add missing days if it is so
-      //  if (this.WochenplanMontag.Day + 6 > DateTime.DaysInMonth(this.WochenplanMontag.Year, this.WochenplanMontag.Month))
-      //  {
-      //    if (halbjahrsplan.Monatspläne.All(o => o.MonatsplanMonatindex != this.WochenplanMontag.Month + 1))
-      //    {
-      //      halbjahrsplan = halbjahr
-      //                            ? jahresplanViewModel.CurrentJahresplanWinterhalbjahr
-      //                            : jahresplanViewModel.CurrentJahresplanSommerhalbjahr;
-      //    }
-
-      //    if (halbjahrsplan == null)
-      //    {
-      //      continue;
-      //    }
-
-      //    // Get correct month
-      //    var nextMonth = halbjahrsplan.Monatspläne.SingleOrDefault(o => o.MonatsplanMonatindex == this.WochenplanMontag.Month + 1);
-      //    if (nextMonth == null)
-      //    {
-      //      // TODO
-      //      continue;
-      //    }
-
-      //    // Get correct days
-      //    var missingDaysInWeek =
-      //      nextMonth.Tagespläne.Where(o => o.TagesplanDatum < this.WochenplanMontag.AddDays(6));
-
-      //    foreach (var tagesplanViewModel in missingDaysInWeek)
-      //    {
-      //      foreach (var lerngruppenterminViewModel in tagesplanViewModel.Lerngruppentermine)
-      //      {
-      //        var wochenplanEintrag = new TerminplanEintrag(this, lerngruppenterminViewModel);
-
-      //        if (!this.Terminplaneinträge.Contains(wochenplanEintrag, comparer))
-      //        {
-      //          this.Terminplaneinträge.Add(wochenplanEintrag);
-      //        }
-      //      }
-      //    }
-      //  }
-      //}
-      ////}
+          }
+          var wochenplanEintrag = new TerminplanEintrag(this, lerngruppentermin);
+          if (!this.Terminplaneinträge.Contains(wochenplanEintrag, comparer))
+          {
+            this.Terminplaneinträge.Add(wochenplanEintrag);
+          }
+        }
+      }
 
       // Check for Ferien
       foreach (var ferien in App.MainViewModel.Ferien.Where(
@@ -813,7 +737,7 @@
         {
           continue;
         }
-        termin.Beschreibung = string.Format("{0} {1} ({2})", person.Vorname, person.Nachname, alter);
+        termin.Beschreibung = string.Format("{0} {1} ({2})", person.PersonVorname, person.PersonNachname, alter);
         var schuljahrViewModel = App.MainViewModel.Schuljahre.FirstOrDefault(o => o.SchuljahrJahr == jahresplanJahr);
         if (schuljahrViewModel != null)
         {

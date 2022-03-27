@@ -29,6 +29,8 @@ namespace SoftTeach.Model.TeachyModel
         Praktikum = 13,
         Geburtstag = 14,
         Veranstaltung = 15,
-        PSE = 16
+        PSE = 16,
+        Feiertag = 17,
+        Sportveranstaltung = 18
     }
 }

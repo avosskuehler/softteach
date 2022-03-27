@@ -49,7 +49,7 @@
       this.LerngruppenView.Filter = this.CustomFilter;
       this.LerngruppenView.SortDescriptions.Add(new SortDescription("LerngruppeSchuljahr", ListSortDirection.Ascending));
       this.LerngruppenView.SortDescriptions.Add(new SortDescription("LerngruppeFach", ListSortDirection.Ascending));
-      this.LerngruppenView.SortDescriptions.Add(new SortDescription("LerngruppeKlasse", ListSortDirection.Ascending));
+      this.LerngruppenView.SortDescriptions.Add(new SortDescription("LerngruppeBezeichnung", ListSortDirection.Ascending));
       this.LerngruppenView.Refresh();
 
       // Re-act to any changes from outside this ViewModel

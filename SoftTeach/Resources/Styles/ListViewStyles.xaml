@@ -166,7 +166,7 @@
           <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Column="0"
-                 Text="{Binding Path=StundeStundenentwurfTitel}" 
+                 Text="{Binding Path=TerminBeschreibung}" 
                  FontSize="11"
                  HorizontalAlignment="Left" 
                  TextWrapping="WrapWithOverflow"              
@@ -191,7 +191,7 @@
           <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Column="0"
-                 Text="{Binding Path=StundeStundenentwurfTitel}" 
+                 Text="{Binding Path=TerminBeschreibung}" 
                  FontSize="11"
                  HorizontalAlignment="Left" 
                  TextWrapping="WrapWithOverflow"              
@@ -541,14 +541,14 @@
         </Button>-->
       </StackPanel>
       <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2"
-                 Text="{Binding Path=StundeStundenentwurfTitel}" 
+                 Text="{Binding Path=TerminBeschreibung}" 
                  FontSize="10"
                  HorizontalAlignment="Left" 
                  TextWrapping="WrapWithOverflow"              
                  Margin="0" 
                  Padding="1" TextTrimming="CharacterEllipsis">
         <TextBlock.ToolTip>
-          <Label Content="{Binding Path=StundeStundenentwurfTitel}"/>
+          <Label Content="{Binding Path=TerminBeschreibung}"/>
         </TextBlock.ToolTip>
       </TextBlock>
       <TextBlock Grid.Column="2" Grid.Row="1"

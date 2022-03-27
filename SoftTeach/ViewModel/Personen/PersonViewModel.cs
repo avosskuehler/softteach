@@ -72,7 +72,7 @@
     /// <summary>
     /// Holt oder setzt die Vorname
     /// </summary>
-    public string Vorname
+    public string PersonVorname
     {
       get
       {
@@ -82,9 +82,9 @@
       set
       {
         if (value == this.Model.Vorname) return;
-        this.UndoablePropertyChanging(this, "Vorname", this.Model.Vorname, value);
+        this.UndoablePropertyChanging(this, "PersonVorname", this.Model.Vorname, value);
         this.Model.Vorname = value;
-        this.RaisePropertyChanged("Vorname");
+        this.RaisePropertyChanged("PersonVorname");
       }
     }
 
@@ -95,12 +95,12 @@
     {
       get
       {
-        var split = this.Vorname.Split(' ');
+        var split = this.PersonVorname.Split(' ');
         var split2 = split[0].Split('-');
         if (split2.Count() > 1)
         {
-          var posBindestrich = this.Vorname.IndexOf('-');
-          return this.Vorname.Substring(0, posBindestrich + 2);
+          var posBindestrich = this.PersonVorname.IndexOf('-');
+          return this.PersonVorname.Substring(0, posBindestrich + 2);
         }
 
         return split[0];
@@ -110,7 +110,7 @@
     /// <summary>
     /// Holt oder setzt die Nachname
     /// </summary>
-    public string Nachname
+    public string PersonNachname
     {
       get
       {
@@ -120,16 +120,16 @@
       set
       {
         if (value == this.Model.Nachname) return;
-        this.UndoablePropertyChanging(this, "Nachname", this.Model.Nachname, value);
+        this.UndoablePropertyChanging(this, "PersonNachname", this.Model.Nachname, value);
         this.Model.Nachname = value;
-        this.RaisePropertyChanged("Nachname");
+        this.RaisePropertyChanged("PersonNachname");
       }
     }
 
     /// <summary>
     /// Holt oder setzt das Geschlecht
     /// </summary>
-    public Geschlecht Geschlecht
+    public Geschlecht PersonGeschlecht
     {
       get
       {
@@ -139,9 +139,9 @@
       set
       {
         if (value == this.Model.Geschlecht) return;
-        this.UndoablePropertyChanging(this, "Geschlecht", this.Model.Geschlecht, value);
+        this.UndoablePropertyChanging(this, "PersonGeschlecht", this.Model.Geschlecht, value);
         this.Model.Geschlecht = value;
-        this.RaisePropertyChanged("Geschlecht");
+        this.RaisePropertyChanged("PersonGeschlecht");
       }
     }
 
@@ -499,9 +499,9 @@
           return string.Empty;
         }
 
-        info.Append(this.Vorname);
+        info.Append(this.PersonVorname);
         info.Append(" ");
-        info.Append(this.Nachname);
+        info.Append(this.PersonNachname);
         var dateTime = this.PersonGeburtstag;
         if (dateTime != null)
         {
@@ -536,9 +536,9 @@
           return string.Empty;
         }
 
-        info.Append(this.Vorname);
+        info.Append(this.PersonVorname);
         info.Append(" ");
-        info.Append(this.Nachname.Substring(0, 1));
+        info.Append(this.PersonNachname.Substring(0, 1));
         info.Append(".");
 
         return info.ToString();
@@ -591,7 +591,7 @@
       var otherPersonViewModel = obj as PersonViewModel;
       if (otherPersonViewModel != null)
       {
-        return StringLogicalComparer.Compare(this.Vorname, otherPersonViewModel.Vorname);
+        return StringLogicalComparer.Compare(this.PersonVorname, otherPersonViewModel.PersonVorname);
       }
 
       throw new ArgumentException("Object is not a PersonViewModel");

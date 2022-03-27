@@ -247,10 +247,10 @@
 
       //        break;
       //      case NotifyCollectionChangedAction.Remove:
-      //        var betroffeneKlasse = eventArgs.OldItems[0] as BetroffeneKlasseViewModel;
+      //        var betroffeneLerngruppe = eventArgs.OldItems[0] as BetroffeneKlasseViewModel;
       //        betroffeneJahrespläne = jahrespläne.Where(
       //         plan => (plan.JahresplanSchuljahr == terminViewModel.SchulterminSchuljahr
-      //           && plan.JahresplanKlasse == betroffeneKlasse.BetroffeneKlasseLerngruppe));
+      //           && plan.JahresplanKlasse == betroffeneLerngruppe.BetroffeneKlasseLerngruppe));
 
       //        if (eventArgs.OldItems.Count > 1)
       //        {
@@ -284,7 +284,7 @@
       //    // Filter by betroffene Klasse
       //    betroffeneJahrespläne = jahrespläne.Where(
       //     plan => (plan.JahresplanSchuljahr == terminViewModel.SchulterminSchuljahr
-      //       && terminViewModel.BetroffeneKlassen.Any(betroffeneKlasse => betroffeneKlasse.Model.Klasse == plan.JahresplanKlasse.Model)));
+      //       && terminViewModel.BetroffeneKlassen.Any(betroffeneLerngruppe => betroffeneLerngruppe.Model.Klasse == plan.JahresplanKlasse.Model)));
 
       //    // Skip if there is nothing to do
       //    if (!betroffeneJahrespläne.Any())
@@ -557,12 +557,12 @@
         //App.UnitOfWork.Context.Termine.Add(termin);
 
         var vm = new SchulterminViewModel(termin);
-        foreach (var betroffeneKlasseViewModel in this.CurrentTermin.BetroffeneKlassen)
+        foreach (var betroffeneLerngruppeViewModel in this.CurrentTermin.BetroffeneKlassen)
         {
-          var betroffeneKlasse = new BetroffeneKlasseNeu();
-          betroffeneKlasse.Lerngruppe = betroffeneKlasseViewModel.BetroffeneKlasseLerngruppe.Model;
-          betroffeneKlasse.Schultermin = termin;
-          var viemModelBetroffeneKlasse = new BetroffeneKlasseViewModel(betroffeneKlasse);
+          var betroffeneLerngruppe = new BetroffeneLerngruppeNeu();
+          betroffeneLerngruppe.Lerngruppe = betroffeneLerngruppeViewModel.BetroffeneLerngruppeLerngruppe.Model;
+          betroffeneLerngruppe.Schultermin = termin;
+          var viemModelBetroffeneKlasse = new BetroffeneLerngruppeViewModel(betroffeneLerngruppe);
           vm.BetroffeneKlassen.Add(viemModelBetroffeneKlasse);
           App.MainViewModel.BetroffeneKlassen.Add(viemModelBetroffeneKlasse);
         }

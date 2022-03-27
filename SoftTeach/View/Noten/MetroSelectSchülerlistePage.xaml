@@ -96,7 +96,7 @@
               <Border.Background>
                 <SolidColorBrush Color="{StaticResource ToggleButtonBackColor}"/>
               </Border.Background>
-              <TextBlock Style="{StaticResource MetroLabelStyle}" Text="{Binding Path=LerngruppeKlasse.KlasseBezeichnung}"/>
+              <TextBlock Style="{StaticResource MetroLabelStyle}" Text="{Binding Path=LerngruppeBezeichnung}"/>
             </Border>
           </StackPanel>
         </DataTemplate>

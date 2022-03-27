@@ -76,9 +76,9 @@ namespace SoftTeach.ViewModel.Termine
     public StundeViewModel(StundeNeu stunde)
       : base(stunde)
     {
+      this.Model = stunde;
+
       this.AddStundennotenCommand = new DelegateCommand(this.AddStundennoten);
-      //this.AddStundenentwurfCommand = new DelegateCommand(this.AddStundenentwurf);
-      //this.RemoveStundenentwurfCommand = new DelegateCommand(this.RemoveStundenentwurf);
       this.SearchStundeCommand = new DelegateCommand(this.SearchStunde);
       this.PreviewStundeCommand = new DelegateCommand(this.PreviewStunde);
       this.PrintStundeCommand = new DelegateCommand(this.PrintStunde);
@@ -91,7 +91,6 @@ namespace SoftTeach.ViewModel.Termine
       this.DeletePhaseCommand = new DelegateCommand(this.DeleteCurrentPhase, () => this.CurrentPhase != null);
       this.AddDateiverweisCommand = new DelegateCommand(this.AddDateiverweis);
       this.DeleteDateiverweisCommand = new DelegateCommand(this.DeleteCurrentDateiverweis, () => this.CurrentDateiverweis != null);
-      this.CreateDateiCommand = new DelegateCommand(this.CreateDatei);
       this.CopyCommand = new DelegateCommand(this.Copy);
       this.PasteCommand = new DelegateCommand(this.Paste);
 
@@ -100,8 +99,6 @@ namespace SoftTeach.ViewModel.Termine
       foreach (var phase in stunde.Phasen.OrderBy(o => o.Reihenfolge))
       {
         var vm = new PhaseViewModel(phase);
-        //App.MainViewModel.Phasen.Add(vm);
-        vm.PropertyChanged += this.PhasePropertyChanged;
         this.Phasen.Add(vm);
       }
 
@@ -114,7 +111,6 @@ namespace SoftTeach.ViewModel.Termine
       foreach (var dateiverweis in stunde.Dateiverweise)
       {
         var vm = new DateiverweisViewModel(dateiverweis);
-        //App.MainViewModel.Dateiverweise.Add(vm);
         this.Dateiverweise.Add(vm);
       }
 
@@ -125,11 +121,6 @@ namespace SoftTeach.ViewModel.Termine
       this.ModulView.SortDescriptions.Add(new SortDescription("ModulBezeichnung", ListSortDirection.Ascending));
       this.ModulView.Refresh();
     }
-
-    /// <summary>
-    /// Holt den underlying Termin this ViewModel is based on
-    /// </summary>
-    public new StundeNeu Model { get; private set; }
 
     /// <summary>
     /// Holt den Befehl, um vergessen Hausaufgaben anzulegen.
@@ -203,11 +194,6 @@ namespace SoftTeach.ViewModel.Termine
     public DelegateCommand DeleteDateiverweisCommand { get; private set; }
 
     /// <summary>
-    /// Holt den Befehl zur creating a new datei
-    /// </summary>
-    public DelegateCommand CreateDateiCommand { get; private set; }
-
-    /// <summary>
     /// Holt den Befehl zum Einfügen
     /// </summary>
     public DelegateCommand PasteCommand { get; private set; }
@@ -244,18 +230,18 @@ namespace SoftTeach.ViewModel.Termine
     {
       get
       {
-        return this.Model.IstBenotet;
+        return ((StundeNeu)this.Model).IstBenotet;
       }
 
       set
       {
-        if (value == this.Model.IstBenotet)
+        if (value == ((StundeNeu)this.Model).IstBenotet)
         {
           return;
         }
 
-        this.UndoablePropertyChanging(this, "StundeIstBenotet", this.Model.IstBenotet, value);
-        this.Model.IstBenotet = value;
+        this.UndoablePropertyChanging(this, "StundeIstBenotet", ((StundeNeu)this.Model).IstBenotet, value);
+        ((StundeNeu)this.Model).IstBenotet = value;
         this.RaisePropertyChanged("StundeIstBenotet");
       }
     }
@@ -304,14 +290,14 @@ namespace SoftTeach.ViewModel.Termine
     {
       get
       {
-        return this.Model.Ansagen;
+        return ((StundeNeu)this.Model).Ansagen;
       }
 
       set
       {
-        if (value == this.Model.Ansagen) return;
-        this.UndoablePropertyChanging(this, "StundeAnsagen", this.Model.Ansagen, value);
-        this.Model.Ansagen = value;
+        if (value == ((StundeNeu)this.Model).Ansagen) return;
+        this.UndoablePropertyChanging(this, "StundeAnsagen", ((StundeNeu)this.Model).Ansagen, value);
+        ((StundeNeu)this.Model).Ansagen = value;
         this.RaisePropertyChanged("StundeAnsagen");
       }
     }
@@ -323,14 +309,14 @@ namespace SoftTeach.ViewModel.Termine
     {
       get
       {
-        return this.Model.Computer;
+        return ((StundeNeu)this.Model).Computer;
       }
 
       set
       {
-        if (value == this.Model.Computer) return;
-        this.UndoablePropertyChanging(this, "StundeComputer", this.Model.Computer, value);
-        this.Model.Computer = value;
+        if (value == ((StundeNeu)this.Model).Computer) return;
+        this.UndoablePropertyChanging(this, "StundeComputer", ((StundeNeu)this.Model).Computer, value);
+        ((StundeNeu)this.Model).Computer = value;
         this.RaisePropertyChanged("StundeComputer");
       }
     }
@@ -343,14 +329,14 @@ namespace SoftTeach.ViewModel.Termine
       get
       {
         // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Fach == null)
+        if (((StundeNeu)this.Model).Fach == null)
         {
           return null;
         }
 
-        if (this.fach == null || this.fach.Model != this.Model.Fach)
+        if (this.fach == null || this.fach.Model != ((StundeNeu)this.Model).Fach)
         {
-          this.fach = App.MainViewModel.Fächer.SingleOrDefault(d => d.Model == this.Model.Fach);
+          this.fach = App.MainViewModel.Fächer.SingleOrDefault(d => d.Model == ((StundeNeu)this.Model).Fach);
         }
 
         return this.fach;
@@ -361,7 +347,7 @@ namespace SoftTeach.ViewModel.Termine
         if (value.FachBezeichnung == this.fach.FachBezeichnung) return;
         this.UndoablePropertyChanging(this, "StundeFach", this.fach, value);
         this.fach = value;
-        this.Model.Fach = value.Model;
+        ((StundeNeu)this.Model).Fach = value.Model;
         this.RaisePropertyChanged("StundeFach");
         this.ModulView.Refresh();
       }
@@ -374,14 +360,14 @@ namespace SoftTeach.ViewModel.Termine
     {
       get
       {
-        return this.Model.Hausaufgaben;
+        return ((StundeNeu)this.Model).Hausaufgaben;
       }
 
       set
       {
-        if (value == this.Model.Hausaufgaben) return;
-        this.UndoablePropertyChanging(this, "StundeHausaufgaben", this.Model.Hausaufgaben, value);
-        this.Model.Hausaufgaben = value;
+        if (value == ((StundeNeu)this.Model).Hausaufgaben) return;
+        this.UndoablePropertyChanging(this, "StundeHausaufgaben", ((StundeNeu)this.Model).Hausaufgaben, value);
+        ((StundeNeu)this.Model).Hausaufgaben = value;
         this.RaisePropertyChanged("StundeHausaufgaben");
       }
     }
@@ -393,14 +379,14 @@ namespace SoftTeach.ViewModel.Termine
     {
       get
       {
-        return this.Model.Jahrgang;
+        return ((StundeNeu)this.Model).Jahrgang;
       }
 
       set
       {
-        if (value == this.Model.Jahrgang) return;
-        this.UndoablePropertyChanging(this, "StundeJahrgang", this.Model.Jahrgang, value);
-        this.Model.Jahrgang = value;
+        if (value == ((StundeNeu)this.Model).Jahrgang) return;
+        this.UndoablePropertyChanging(this, "StundeJahrgang", ((StundeNeu)this.Model).Jahrgang, value);
+        ((StundeNeu)this.Model).Jahrgang = value;
         this.RaisePropertyChanged("StundeJahrgang");
       }
     }
@@ -412,14 +398,14 @@ namespace SoftTeach.ViewModel.Termine
     {
       get
       {
-        return this.Model.Kopieren;
+        return ((StundeNeu)this.Model).Kopieren;
       }
 
       set
       {
-        if (value == this.Model.Kopieren) return;
-        this.UndoablePropertyChanging(this, "StundeKopieren", this.Model.Kopieren, value);
-        this.Model.Kopieren = value;
+        if (value == ((StundeNeu)this.Model).Kopieren) return;
+        this.UndoablePropertyChanging(this, "StundeKopieren", ((StundeNeu)this.Model).Kopieren, value);
+        ((StundeNeu)this.Model).Kopieren = value;
         this.RaisePropertyChanged("StundeKopieren");
       }
     }
@@ -432,14 +418,14 @@ namespace SoftTeach.ViewModel.Termine
       get
       {
         // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Modul == null)
+        if (((StundeNeu)this.Model).Modul == null)
         {
           return null;
         }
 
-        if (this.modul == null || this.modul.Model != this.Model.Modul)
+        if (this.modul == null || this.modul.Model != ((StundeNeu)this.Model).Modul)
         {
-          this.modul = App.MainViewModel.Module.SingleOrDefault(d => d.Model == this.Model.Modul);
+          this.modul = App.MainViewModel.Module.SingleOrDefault(d => d.Model == ((StundeNeu)this.Model).Modul);
         }
 
         return this.modul;
@@ -451,7 +437,7 @@ namespace SoftTeach.ViewModel.Termine
         if (value.ModulBezeichnung == this.StundeModul.ModulBezeichnung) return;
         this.UndoablePropertyChanging(this, "StundeModul", this.modul, value);
         this.modul = value;
-        this.Model.Modul = value.Model;
+        ((StundeNeu)this.Model).Modul = value.Model;
         this.RaisePropertyChanged("StundeModul");
       }
     }
@@ -614,23 +600,6 @@ namespace SoftTeach.ViewModel.Termine
     }
 
     /// <summary>
-    /// Erstellt einen Dateiverweispfad für die Dateien, die zu dem gegebenen Stunden-
-    /// entwurf gehören.
-    /// </summary>
-    /// <param name="stunde">Der Stundenentwurf, zu dem der Datveiverweis gehört.</param>
-    /// <returns>Einen Pfad ohne Separator am Schluss.</returns>
-    public static string GetDateiverweispfad(StundeNeu stunde)
-    {
-      var fachString = stunde.Fach.Bezeichnung;
-      var jahrgangsstufeString = stunde.Jahrgang.ToString();
-      var modulString = stunde.Modul.Bezeichnung;
-      var pathToCopyTo = Path.Combine(Configuration.GetMyDocumentsPath(), fachString);
-      pathToCopyTo = Path.Combine(pathToCopyTo, jahrgangsstufeString);
-      pathToCopyTo = Path.Combine(pathToCopyTo, modulString);
-      return pathToCopyTo;
-    }
-
-    /// <summary>
     /// Holt die Modulkurzbezeichnung für die Stunde, wenn ein Stundenentwurf existiert,
     /// ansonsten leer.
     /// </summary>
@@ -656,37 +625,16 @@ namespace SoftTeach.ViewModel.Termine
     {
       get
       {
-        var stundeCounter = 1;
-        // TODO
-        //if (((Stunde)this.Model).Tagesplan == null)
-        //{
-        //  return stundeCounter;
-        //}
+        var stundenindex = 0;
+        var vorhergehendeTermine = ((StundeNeu)this.Model).Lerngruppe.Lerngruppentermine.OfType<StundeNeu>().Where(o => o.Halbjahr == ((StundeNeu)this.Model).Halbjahr && o.Datum < this.LerngruppenterminDatum);
+        foreach (var termin in vorhergehendeTermine)
+        {
+          var letzteStunde = termin.LetzteUnterrichtsstunde.Stundenindex;
+          var ersteStunde = termin.ErsteUnterrichtsstunde.Stundenindex;
+          stundenindex += letzteStunde - ersteStunde + 1;
+        }
 
-        //foreach (var monatsplan in ((Stunde)this.Model).Tagesplan.Monatsplan.Halbjahresplan.Monatspläne)
-        //{
-        //  foreach (var tagesplan in monatsplan.Tagespläne.OrderBy(o => o.Datum))
-        //  {
-        //    foreach (var lerngruppentermin in tagesplan.Lerngruppentermine)
-        //    {
-        //      if (lerngruppentermin is Stunde)
-        //      {
-        //        var stunde = lerngruppentermin as Stunde;
-        //        if (stunde.Id == this.Model.Id)
-        //        {
-        //          return stundeCounter;
-        //        }
-
-        //        var stundenzahl = stunde.LetzteUnterrichtsstunde.Stundenindex
-        //          - stunde.ErsteUnterrichtsstunde.Stundenindex + 1;
-
-        //        stundeCounter += stundenzahl;
-        //      }
-        //    }
-        //  }
-        //}
-
-        return stundeCounter;
+        return stundenindex + 1;
       }
     }
 
@@ -740,7 +688,7 @@ namespace SoftTeach.ViewModel.Termine
     /// <summary>
     /// Holt den Stundenthema of the Stundenentwurf assigned to this stunde
     /// </summary>
-    [DependsUpon("LerngruppenterminKlasse")]
+    [DependsUpon("LerngruppenterminLerngruppe")]
     [DependsUpon("LerngruppenterminFach")]
     [DependsUpon("LerngruppenterminDatum")]
     public string StundeMetroTitel
@@ -866,8 +814,8 @@ namespace SoftTeach.ViewModel.Termine
         }
         else
         {
-          var dlg = new AddStundeDialog(this);
-          Selection.Instance.Stunde = this.Model;
+          var dlg = new EditStundeDialog(this);
+          Selection.Instance.Stunde = this;
           if (!(undo = !dlg.ShowDialog().GetValueOrDefault(false)))
           {
             this.TerminBeschreibung = dlg.StundeViewModel.TerminBeschreibung;
@@ -926,20 +874,53 @@ namespace SoftTeach.ViewModel.Termine
     private void SearchStunde()
     {
       var dlg = new SearchStundeDialog(App.MainViewModel.StundenentwurfWorkspace);
+      App.MainViewModel.StundenentwurfWorkspace.ModulFilter = this.StundeModul;
+
       if (dlg.ShowDialog().GetValueOrDefault(false))
       {
-        // TODO
-        //if (this.StundeStundenentwurf != null &&
-        //  this.StundeStundenentwurf.StundenentwurfPhasenKurzform == string.Empty) App.MainViewModel.Stundenentwürfe.RemoveTest(this.StundeStundenentwurf);
-
         //// Das ausgewählte Modul verschwindet wenn man den Stundenentwurf neu setzt
         //// vermutlich durch das Combo
         //// Hack: zwischenspeichern und nachher wieder eintragen...
-        //var modulBackup = dlg.SelectedStundenentwurfViewModel.StundenentwurfModul;
-        //this.StundeStundenentwurf = dlg.SelectedStundenentwurfViewModel;
-        //this.StundeStundenentwurf.StundenentwurfModul = modulBackup;
-        //this.StundeStundenentwurf.StundenentwurfDatum = this.LerngruppenterminDatum;
-        //this.UpdateStundenentwurfStundenzahl();
+        var neueStunde = dlg.SelectedStundeViewModel;
+        //var modulBackup = neueStunde.StundeModul;
+        this.TerminBeschreibung = neueStunde.Beschreibung;
+        this.StundeAnsagen = neueStunde.Ansagen;
+        this.StundeComputer = neueStunde.Computer;
+        this.StundeFach = App.MainViewModel.Fächer.First(o => o.Model.Id == neueStunde.FachId);
+        this.StundeHausaufgaben = neueStunde.Hausaufgaben;
+        this.StundeKopieren = neueStunde.Kopieren;
+        this.StundeModul = App.MainViewModel.Module.First(o => o.Model.Id == neueStunde.ModulId);
+        this.Phasen.Clear();
+        foreach (var phase in this.Phasen.ToList())
+        {
+          this.Phasen.RemoveTest(phase);
+        }
+
+        foreach (var phase in neueStunde.Phasen)
+        {
+          var neuePhase = new PhaseNeu();
+          neuePhase.Inhalt = phase.Inhalt;
+          neuePhase.Medium = phase.Medium;
+          neuePhase.Reihenfolge = phase.Reihenfolge;
+          neuePhase.Sozialform = phase.Sozialform;
+          neuePhase.Stunde = ((StundeNeu)this.Model);
+          neuePhase.Zeit = phase.Zeit;
+          var vm = new PhaseViewModel(neuePhase);
+          this.Phasen.Add(vm);
+        }
+        //SequencingService.SetCollectionSequence(this.Phasen);
+
+        this.Dateiverweise.Clear();
+        foreach (var dateiverweis in neueStunde.Dateiverweise)
+        {
+          var neuerDateiverweis = new DateiverweisNeu();
+          neuerDateiverweis.Dateiname = dateiverweis.Dateiname;
+          neuerDateiverweis.Dateityp = dateiverweis.Dateityp;
+          neuerDateiverweis.Stunde = ((StundeNeu)this.Model);
+          this.Dateiverweise.Add(new DateiverweisViewModel(neuerDateiverweis));
+        }
+
+        this.UpdateStundenentwurfStundenzahl();
       }
     }
 
@@ -1106,9 +1087,9 @@ namespace SoftTeach.ViewModel.Termine
       var entwurfClone = new StundeNeu();
       using (new UndoBatch(App.MainViewModel, string.Format("Stunde geklont"), false))
       {
-        entwurfClone.Ansagen = this.Model.Ansagen;
-        entwurfClone.Computer = this.Model.Computer;
-        foreach (var dateiverweis in this.Model.Dateiverweise.ToList())
+        entwurfClone.Ansagen = ((StundeNeu)this.Model).Ansagen;
+        entwurfClone.Computer = ((StundeNeu)this.Model).Computer;
+        foreach (var dateiverweis in ((StundeNeu)this.Model).Dateiverweise.ToList())
         {
           var dateiverweisClone = new DateiverweisNeu();
           dateiverweisClone.Dateiname = dateiverweis.Dateiname;
@@ -1118,14 +1099,14 @@ namespace SoftTeach.ViewModel.Termine
           entwurfClone.Dateiverweise.Add(dateiverweis);
         }
 
-        entwurfClone.Datum = this.Model.Datum;
-        entwurfClone.Fach = this.Model.Fach;
-        entwurfClone.Hausaufgaben = this.Model.Hausaufgaben;
-        entwurfClone.Jahrgang = this.Model.Jahrgang;
-        entwurfClone.Kopieren = this.Model.Kopieren;
-        entwurfClone.Modul = this.Model.Modul;
-        entwurfClone.Beschreibung = this.Model.Beschreibung;
-        foreach (var phase in this.Model.Phasen.ToList())
+        entwurfClone.Datum = ((StundeNeu)this.Model).Datum;
+        entwurfClone.Fach = ((StundeNeu)this.Model).Fach;
+        entwurfClone.Hausaufgaben = ((StundeNeu)this.Model).Hausaufgaben;
+        entwurfClone.Jahrgang = ((StundeNeu)this.Model).Jahrgang;
+        entwurfClone.Kopieren = ((StundeNeu)this.Model).Kopieren;
+        entwurfClone.Modul = ((StundeNeu)this.Model).Modul;
+        entwurfClone.Beschreibung = ((StundeNeu)this.Model).Beschreibung;
+        foreach (var phase in ((StundeNeu)this.Model).Phasen.ToList())
         {
           var phaseClone = new PhaseNeu();
           phaseClone.Reihenfolge = phase.Reihenfolge;
@@ -1141,7 +1122,7 @@ namespace SoftTeach.ViewModel.Termine
       }
 
       var vm = new StundeViewModel(entwurfClone);
-      App.MainViewModel.Stunden.Add(vm);
+      //App.MainViewModel.Stunden.Add(vm);
       App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
 
       return vm;
@@ -1153,16 +1134,6 @@ namespace SoftTeach.ViewModel.Termine
     public void NotifyPhaseZeitChanged()
     {
       this.RaisePropertyChanged("StundeVerplanteMinuten");
-    }
-
-    /// <summary>
-    /// Registriert die gegebene Phase, so dass deren Zeitänderungen um Stundenentwurf
-    /// berücksichtigt werden können
-    /// </summary>
-    /// <param name="phaseViewModel">Die Phase, die kontrolliert werden soll.</param>
-    public void AttachPhaseChangedEvent(PhaseViewModel phaseViewModel)
-    {
-      phaseViewModel.PropertyChanged += this.PhasePropertyChanged;
     }
 
     /// <summary>
@@ -1325,20 +1296,25 @@ namespace SoftTeach.ViewModel.Termine
     {
       this.UndoableCollectionChanged(this, "Phasen", this.Phasen, e, true, "Änderung der Phasen");
 
-      if (e.Action == NotifyCollectionChangedAction.Remove)
-      {
-        foreach (var oldItem in e.OldItems)
-        {
-          var phaseViewModel = oldItem as PhaseViewModel;
-          if (phaseViewModel != null)
-          {
-            phaseViewModel.PropertyChanged -= this.PhasePropertyChanged;
-            //App.UnitOfWork.Context.Phasen.Remove(phaseViewModel.Model);
-            this.Phasen.RemoveTest(phaseViewModel);
-            //App.MainViewModel.Phasen.RemoveTest(phaseViewModel);
-          }
-        }
-      }
+      //if (e.Action == NotifyCollectionChangedAction.Remove)
+      //{
+      //  foreach (var oldItem in e.OldItems)
+      //  {
+      //    var phaseViewModel = oldItem as PhaseViewModel;
+      //    if (phaseViewModel != null)
+      //    {
+      //      this.Phasen.RemoveTest(phaseViewModel);
+      //    }
+      //  }
+      //}
+      ////else if (e.Action == NotifyCollectionChangedAction.Reset)
+      ////{
+      ////  foreach (var phase in this.Phasen)
+      ////  {
+      ////    phase.PropertyChanged -= this.PhasePropertyChanged;
+      ////    this.Phasen.RemoveTest(phase);
+      ////  }
+      ////}
 
       this.RaisePropertyChanged("StundenentwurfPhasenKurzform");
       this.NotifyPhaseZeitChanged();
@@ -1368,11 +1344,10 @@ namespace SoftTeach.ViewModel.Termine
         phase.Inhalt = string.Empty;
         phase.Medium = Medium.Tafel;
         phase.Sozialform = Sozialform.UG;
-        phase.Stunde = this.Model;
+        phase.Stunde = ((StundeNeu)this.Model);
         //App.UnitOfWork.Context.Phasen.Add(phase);
         var vm = new PhaseViewModel(phase);
 
-        vm.PropertyChanged += this.PhasePropertyChanged;
         this.Phasen.Add(vm);
         this.CurrentPhase = vm;
         this.NotifyPhaseZeitChanged();
@@ -1388,8 +1363,7 @@ namespace SoftTeach.ViewModel.Termine
     /// <param name="index"> The index. </param>
     private void AddPhase(PhaseViewModel vm, int index)
     {
-      vm.Model.Stunde = this.Model;
-      vm.PropertyChanged += this.PhasePropertyChanged;
+      vm.Model.Stunde = ((StundeNeu)this.Model);
       this.Phasen.Insert(index, vm);
       SequencingService.SetCollectionSequence(this.Phasen);
       this.CurrentPhase = vm;
@@ -1402,8 +1376,7 @@ namespace SoftTeach.ViewModel.Termine
     /// <param name="vm"> Das ViewModel der hinzuzufügenden Phase </param>
     public void AddPhase(PhaseViewModel vm)
     {
-      vm.Model.Stunde = this.Model;
-      vm.PropertyChanged += this.PhasePropertyChanged;
+      vm.Model.Stunde = ((StundeNeu)this.Model);
       this.Phasen.Add(vm);
       SequencingService.SetCollectionSequence(this.Phasen);
       this.CurrentPhase = vm;
@@ -1420,40 +1393,41 @@ namespace SoftTeach.ViewModel.Termine
         return;
       }
 
-      var stundeViewModel = Selection.Instance.Stunde;
-      var nächsteStunde = App.MainViewModel.Stunden
-        .Where(o => o.Model.LerngruppeId == stundeViewModel.LerngruppeId)
-        .OrderBy(o => o.LerngruppenterminDatum)
-        .FirstOrDefault(o => o.LerngruppenterminDatum > stundeViewModel.Datum);
+      // TODO
+      //var stundeViewModel = Selection.Instance.Stunde;
+      //var nächsteStunde = App.MainViewModel.Stunden
+      //  .Where(o => ((StundeNeu)o.Model).LerngruppeId == stundeViewModel.LerngruppeId)
+      //  .OrderBy(o => o.LerngruppenterminDatum)
+      //  .FirstOrDefault(o => o.LerngruppenterminDatum > stundeViewModel.Datum);
 
-      using (new UndoBatch(App.MainViewModel, string.Format("Phase verschoben"), false))
-      {
-        if (nächsteStunde != null)
-        {
-          var moveItems = new List<PhaseViewModel>(this.SelectedPhasen.Cast<PhaseViewModel>());
-          foreach (var phaseViewModel in moveItems)
-          {
-            var phaseClone = (PhaseViewModel)phaseViewModel.Clone();
-            nächsteStunde.AddPhase(phaseClone, 0);
-            this.DeletePhase(phaseViewModel);
-          }
-        }
-      }
+      //using (new UndoBatch(App.MainViewModel, string.Format("Phase verschoben"), false))
+      //{
+      //  if (nächsteStunde != null)
+      //  {
+      //    var moveItems = new List<PhaseViewModel>(this.SelectedPhasen.Cast<PhaseViewModel>());
+      //    foreach (var phaseViewModel in moveItems)
+      //    {
+      //      var phaseClone = (PhaseViewModel)phaseViewModel.Clone();
+      //      nächsteStunde.AddPhase(phaseClone, 0);
+      //      this.DeletePhase(phaseViewModel);
+      //    }
+      //  }
+      //}
     }
 
-    /// <summary>
-    /// Event handler für die PropertyChanged event der Phase.
-    /// Aktualisiert die Zeiten des Stundenentwurfs.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="PropertyChangedEventArgs"/> with the property</param>
-    private void PhasePropertyChanged(object sender, PropertyChangedEventArgs e)
-    {
-      if (e.PropertyName == "PhaseZeit")
-      {
-        this.NotifyPhaseZeitChanged();
-      }
-    }
+    ///// <summary>
+    ///// Event handler für die PropertyChanged event der Phase.
+    ///// Aktualisiert die Zeiten des Stundenentwurfs.
+    ///// </summary>
+    ///// <param name="sender">Source of the event</param>
+    ///// <param name="e">An <see cref="PropertyChangedEventArgs"/> with the property</param>
+    //private void PhasePropertyChanged(object sender, PropertyChangedEventArgs e)
+    //{
+    //  if (e.PropertyName == "PhaseZeit")
+    //  {
+    //    this.NotifyPhaseZeitChanged();
+    //  }
+    //}
 
     /// <summary>
     /// Handles deletion of the current phase
@@ -1471,9 +1445,6 @@ namespace SoftTeach.ViewModel.Termine
     {
       using (new UndoBatch(App.MainViewModel, string.Format("Phase {0} gelöscht.", phaseViewModel), false))
       {
-        phaseViewModel.PropertyChanged -= this.PhasePropertyChanged;
-        //App.UnitOfWork.Context.Phasen.Remove(phaseViewModel.Model);
-        //App.MainViewModel.Phasen.RemoveTest(phaseViewModel);
         var result = this.Phasen.RemoveTest(phaseViewModel);
       }
     }
@@ -1495,43 +1466,16 @@ namespace SoftTeach.ViewModel.Termine
       }
 
       var dateiverweis = new DateiverweisNeu();
-      var filename = this.CopyFileToBaseDirectory(dlg.DateinameMitPfad);
-      dateiverweis.Dateiname = filename;
+      dateiverweis.Dateiname = dlg.DateinameMitPfad;
       dateiverweis.Dateityp = dlg.Dateityp.Model;
-      dateiverweis.Stunde = this.Model;
+      dateiverweis.Stunde = ((StundeNeu)this.Model);
 
-      //App.UnitOfWork.Context.Dateiverweise.Add(dateiverweis);
       var vm = new DateiverweisViewModel(dateiverweis);
       using (new UndoBatch(App.MainViewModel, string.Format("Dateiverweis {0} erstellt.", vm), false))
       {
-        //App.MainViewModel.Dateiverweise.Add(vm);
         this.Dateiverweise.Add(vm);
         this.CurrentDateiverweis = vm;
       }
-    }
-
-    /// <summary>
-    /// Kopiert die Datei, die zum Stundenentwurf hinzugefügt werden soll
-    /// in das Lagerverzeichnis von SoftTeach, an die richtige Stelle.
-    /// </summary>
-    /// <param name="filenameWithPath">Der Dateiname mit Pfad der Datei.</param>
-    /// <returns>Das Zielverzeichnis der Datei</returns>
-    private string CopyFileToBaseDirectory(string filenameWithPath)
-    {
-      var pathToCopyTo = GetDateiverweispfad(this.Model);
-      var filenameWithoutPath = Path.GetFileName(filenameWithPath);
-      var destination = Path.Combine(pathToCopyTo, filenameWithoutPath);
-      if (!File.Exists(destination))
-      {
-        if (!Directory.Exists(pathToCopyTo))
-        {
-          Directory.CreateDirectory(pathToCopyTo);
-        }
-
-        File.Copy(filenameWithPath, destination, true);
-      }
-
-      return destination;
     }
 
     /// <summary>
@@ -1546,15 +1490,13 @@ namespace SoftTeach.ViewModel.Termine
 
       using (new UndoBatch(App.MainViewModel, string.Format("Dateiverweis {0} gelöscht.", this.CurrentDateiverweis), false))
       {
-        //App.UnitOfWork.Context.Dateiverweise.Remove(this.CurrentDateiverweis.Model);
-        //var success = App.MainViewModel.Dateiverweise.RemoveTest(this.CurrentDateiverweis);
         this.Dateiverweise.RemoveTest(this.CurrentDateiverweis);
         this.CurrentDateiverweis = null;
       }
     }
 
     /// <summary>
-    /// Handles creation of a new Datei
+    /// Kopiert die ausgewählten Phasen in die Zwischenablage
     /// </summary>
     private void Copy()
     {
@@ -1586,7 +1528,7 @@ namespace SoftTeach.ViewModel.Termine
     }
 
     /// <summary>
-    /// Handles creation of a new Datei
+    /// Fügt Phasen aus der Zwischenablage ein
     /// </summary>
     private void Paste()
     {
@@ -1614,12 +1556,8 @@ namespace SoftTeach.ViewModel.Termine
           phase.Inhalt = phaseContainer.Inhalt;
           phase.Medium = phaseContainer.Medium != null ? phaseContainer.Medium : Medium.Tafel;
           phase.Sozialform = phaseContainer.Sozialform != null ? phaseContainer.Sozialform : Sozialform.UG;
-          phase.Stunde = this.Model;
-          //App.UnitOfWork.Context.Phasen.Add(phase);
+          phase.Stunde = ((StundeNeu)this.Model);
           var vm = new PhaseViewModel(phase);
-
-          //App.MainViewModel.Phasen.Add(vm);
-          vm.PropertyChanged += this.PhasePropertyChanged;
           this.Phasen.Add(vm);
           SequencingService.SetCollectionSequence(this.Phasen);
           this.CurrentPhase = vm;
@@ -1627,14 +1565,6 @@ namespace SoftTeach.ViewModel.Termine
         }
       }
       //this.PhasenView.Refresh();
-    }
-
-    /// <summary>
-    /// Handles creation of a new Datei
-    /// </summary>
-    private void CreateDatei()
-    {
-      throw new NotImplementedException();
     }
 
     /// <summary>

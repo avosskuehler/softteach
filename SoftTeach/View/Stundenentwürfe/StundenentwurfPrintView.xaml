@@ -18,7 +18,7 @@
         <ColumnDefinition Width="Auto"/>
       </Grid.ColumnDefinitions>
       <StackPanel Grid.Row="0" Orientation="Horizontal">
-        <Label Style="{StaticResource StundenentwurfPrintHeaderLabelBold}" Content="{Binding Path=LerngruppenterminKlasse, Mode=OneWay}"/>
+        <Label Style="{StaticResource StundenentwurfPrintHeaderLabelBold}" Content="{Binding Path=LerngruppenterminLerngruppe, Mode=OneWay}"/>
         <Label Style="{StaticResource StundenentwurfPrintHeaderLabelBold}">-</Label>
         <Label Style="{StaticResource StundenentwurfPrintHeaderLabelBold}" Content="{Binding Path=LerngruppenterminFach, Mode=OneWay}"/>
         <Label Style="{StaticResource StundenentwurfPrintHeaderLabel}"></Label>
@@ -28,23 +28,23 @@
         <Label Style="{StaticResource StundenentwurfPrintHeaderLabel}" Padding="0,5,0,0">.Stunde</Label>
       </StackPanel>
       <StackPanel Grid.Column="1" Orientation="Horizontal">
-        <Image Visibility="{Binding Path=StundeStundenentwurf.StundenentwurfKopieren, Converter={StaticResource BoolVisibleConverter}}" Margin="5" Source="/SoftTeach;component/Images/Kopierer24.png"/>
-        <Image Visibility="{Binding Path=StundeStundenentwurf.StundenentwurfComputer, Converter={StaticResource BoolVisibleConverter}}" Margin="5" Source="/SoftTeach;component/Images/Laptop24.png"/>
+        <Image Visibility="{Binding Path=StundeKopieren, Converter={StaticResource BoolVisibleConverter}}" Margin="5" Source="/SoftTeach;component/Images/Kopierer24.png"/>
+        <Image Visibility="{Binding Path=StundeComputer, Converter={StaticResource BoolVisibleConverter}}" Margin="5" Source="/SoftTeach;component/Images/Laptop24.png"/>
       </StackPanel>
     </Grid>
     <Label Grid.Row="1" Style="{StaticResource StundenentwurfPrintThemaHeader}" Padding="5,0"
-           Content="{Binding Path=StundeStundenentwurf.StundenentwurfStundenthema}"/>
+           Content="{Binding Path=TerminBeschreibung}"/>
     <DataGrid Grid.Row="2" Name="PhasenTable" Margin="5"
               Style="{StaticResource DatagridPrintStyle}"
-              ItemsSource="{Binding Path=StundeStundenentwurf.Phasen}" 
+              ItemsSource="{Binding Path=Phasen}" 
               AutoGenerateColumns="False"
               RowDetailsVisibilityMode="Collapsed" 
               HorizontalScrollBarVisibility="Disabled" 
               VerticalScrollBarVisibility="Disabled">
       <DataGrid.Columns>
         <DataGridTextColumn Header="Zeit" Binding="{Binding Path=PhaseZeitraum}" Width="90"/>
-        <DataGridTextColumn Header="Medien" Binding="{Binding Path=PhaseMedium.MediumBezeichnung}" Width="90"/>
-        <DataGridTextColumn Header="Sozialform" Binding="{Binding Path=PhaseSozialform.SozialformBezeichnung}" Width="30"/>
+        <DataGridTextColumn Header="Medien" Binding="{Binding Path=PhaseMedium}" Width="90"/>
+        <DataGridTextColumn Header="Sozialform" Binding="{Binding Path=PhaseSozialform}" Width="30"/>
         <DataGridTextColumn Header="Inhalt" Binding="{Binding Path=PhaseInhalt}" Width="453" 
                             ElementStyle="{StaticResource DatagridMultilineElementStyle}"
                             EditingElementStyle="{StaticResource DatagridMultilineEditingElementStyle}"/>
@@ -58,13 +58,13 @@
       <StackPanel Grid.Column="0" Margin="5">
         <Label Style="{StaticResource StundenentwurfPrintDefault}" FontWeight="Bold" Padding="0,0,0,5">Hausaufgaben</Label>
         <TextBlock Style="{StaticResource StundenentwurfPrintDefault}" 
-                   Text="{Binding Path=StundeStundenentwurf.StundenentwurfHausaufgaben}"
+                   Text="{Binding Path=StundeHausaufgaben}"
                    TextWrapping="Wrap"/>
       </StackPanel>
       <StackPanel Grid.Column="1" Margin="5">
         <Label Style="{StaticResource StundenentwurfPrintDefault}" FontWeight="Bold" Padding="0,0,0,5">Termine/Ansagen</Label>
         <TextBlock Style="{StaticResource StundenentwurfPrintDefault}" 
-                   Text="{Binding Path=StundeStundenentwurf.StundenentwurfAnsagen}"
+                   Text="{Binding Path=StundeAnsagen}"
                    TextWrapping="Wrap"/>
       </StackPanel>
     </Grid>

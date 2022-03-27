@@ -4,7 +4,7 @@
   using System.IO;
   using System.Linq;
   using System.Windows.Media;
-
+  using SoftTeach.ExceptionHandling;
   using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Helper;
@@ -215,9 +215,11 @@
       // Wenn die Datei verschoben wurde, aber nicht zu finden ist, suche unter Standardverzeichnis
       if (!File.Exists(this.DateiverweisDateiname))
       {
-        var resolvedPfad = StundeViewModel.GetDateiverweispfad(this.Model.Stunde);
-        var newLocationTest = Path.Combine(resolvedPfad, this.DateiverweisDateinameOhnePfad);
-        if (File.Exists(newLocationTest)) this.DateiverweisDateiname = newLocationTest;
+        InformationDialog.Show("Datei nicht gefunden", string.Format("Die Datei wurde nicht am angegebenen Ort {0} gefunden", this.DateiverweisDateiname), false);
+        return;
+        //var resolvedPfad = StundeViewModel.GetDateiverweispfad(this.Model.Stunde);
+        //var newLocationTest = Path.Combine(resolvedPfad, this.DateiverweisDateinameOhnePfad);
+        //if (File.Exists(newLocationTest)) this.DateiverweisDateiname = newLocationTest;
       }
 
       App.OpenFile(this.DateiverweisDateiname);

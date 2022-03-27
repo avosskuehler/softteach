@@ -2076,10 +2076,10 @@
       var stunde = Selection.Instance.Stunde;
       if (stunde != null)
       {
-        note.Bezeichnung = stunde.Beschreibung;
-        note.Datum = stunde.Datum;
+        note.Bezeichnung = stunde.TerminBeschreibung;
+        note.Datum = stunde.LerngruppenterminDatum;
 
-        var alteNote = this.Noten.FirstOrDefault(o => o.NoteDatum == stunde.Datum & o.NoteNotentyp == notentyp);
+        var alteNote = this.Noten.FirstOrDefault(o => o.NoteDatum == stunde.LerngruppenterminDatum & o.NoteNotentyp == notentyp);
         if (alteNote != null)
         {
           var result = this.Noten.Remove(alteNote);

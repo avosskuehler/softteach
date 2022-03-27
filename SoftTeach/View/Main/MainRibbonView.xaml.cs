@@ -121,18 +121,6 @@
     #region Curricula
 
     /// <summary>
-    /// Event handler for the curriculum button in the ribbon section database, ribbon group Curricula.
-    /// Shows a workspace for the curriculum.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void CurriculumButtonClick(object sender, RoutedEventArgs e)
-    {
-      var curriculumView = new CurriculumDBView();
-      curriculumView.ShowDialog();
-    }
-
-    /// <summary>
     /// Event handler for the reihe button in the ribbon section database, ribbon group Curricula.
     /// Shows a workspace for the reihe.
     /// </summary>
@@ -249,18 +237,6 @@
     }
 
     /// <summary>
-    /// Event handler for the BetroffeneKlassen button in the ribbon section database, ribbon group Termine.
-    /// Shows a workspace for BetroffeneKlassen.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void BetroffeneKlassenButtonClick(object sender, RoutedEventArgs e)
-    {
-      var betroffeneKlasseView = new BetroffeneKlassenDBView();
-      betroffeneKlasseView.ShowDialog();
-    }
-
-    /// <summary>
     /// Event handler for the Ferien button in the ribbon section database, ribbon group Termine.
     /// Shows a workspace for Ferien.
     /// </summary>
@@ -312,36 +288,9 @@
       stundenplaneintragView.ShowDialog();
     }
 
-    /// <summary>
-    /// Event handler for the Unterrichtsstunden button in the ribbon section database, ribbon group Stundenplan.
-    /// Shows a workspace for Unterrichtsstunden.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void UnterrichtsstundenButtonClick(object sender, RoutedEventArgs e)
-    {
-      var unterrichtsstundenView = new UnterrichtsstundenDBView
-      {
-        DataContext = App.MainViewModel.UnterrichtsstundeWorkspace
-      };
-      unterrichtsstundenView.ShowDialog();
-    }
-
     #endregion // Stundenplan
 
     #region Personen
-
-    /// <summary>
-    /// Event handler for the Person button in the ribbon section database, ribbon group Personen.
-    /// Shows a database workspace for Personen.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void PersonDBButtonClick(object sender, RoutedEventArgs e)
-    {
-      var personenView = new PersonenDBView();
-      personenView.ShowDialog();
-    }
 
     /// <summary>
     /// Event handler for the Lerngruppe button in the ribbon section database, ribbon group Personen.
@@ -381,67 +330,6 @@
     {
       var schülereintragView = new SchülereintragWorkspace();
       schülereintragView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Notentendenzen button in the ribbon section database, ribbon group Noten.
-    /// Shows a workspace for Notentendenzen.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void NotentendenzenButtonClick(object sender, RoutedEventArgs e)
-    {
-
-    }
-
-    /// <summary>
-    /// Event handler for the Hausaufgaben button in the ribbon section database, ribbon group Noten.
-    /// Shows a workspace for Hausaufgaben.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void HausaufgabenButtonClick(object sender, RoutedEventArgs e)
-    {
-      var hausaufgabenView = new HausaufgabenDBView();
-      hausaufgabenView.ShowDialog();
-    }
-
-    private void ArbeitenButtonClick(object sender, RoutedEventArgs e)
-    {
-    }
-
-    private void AufgabenButtonClick(object sender, RoutedEventArgs e)
-    {
-
-    }
-
-    private void ErgebnisseButtonClick(object sender, RoutedEventArgs e)
-    {
-
-    }
-
-    /// <summary>
-    /// Event handler for the NotenWichtungen button in the ribbon section database, ribbon group Noten.
-    /// Shows a workspace for NotenWichtungen.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void NotenWichtungenButtonClick(object sender, RoutedEventArgs e)
-    {
-      var notenWichtungView = new NotenWichtungenDBView { DataContext = App.MainViewModel.NotenWichtungWorkspace };
-      notenWichtungView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Zensuren button in the ribbon section database, ribbon group Noten.
-    /// Shows a workspace for Zensuren.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void ZensurenButtonClick(object sender, RoutedEventArgs e)
-    {
-      var zensurenView = new ZensurenDBView { DataContext = App.MainViewModel.ZensurWorkspace };
-      zensurenView.ShowDialog();
     }
 
     /// <summary>

@@ -4,6 +4,7 @@
   using System.Windows;
 
   using SoftTeach.ExceptionHandling;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.ViewModel.Stundenentwürfe;
   using SoftTeach.ViewModel.Termine;
@@ -19,7 +20,7 @@
     /// <param name="stundenWorkspaceViewModel">
     /// The stundenentwurf workspace view model.
     /// </param>
-    public SearchStundeDialog(StundenWorkspaceViewModel stundenWorkspaceViewModel)
+    public SearchStundeDialog(SucheStundeWorkspaceViewModel stundenWorkspaceViewModel)
     {
       this.StundenWorkspaceViewModel = stundenWorkspaceViewModel;
       this.StundenWorkspaceViewModel.FachFilter = Selection.Instance.Fach;
@@ -33,12 +34,12 @@
     /// <summary>
     /// Gets StundeViewModel.
     /// </summary>
-    public StundenWorkspaceViewModel StundenWorkspaceViewModel { get; private set; }
+    public SucheStundeWorkspaceViewModel StundenWorkspaceViewModel { get; private set; }
 
     /// <summary>
     /// Gets StundeViewModel.
     /// </summary>
-    public StundeViewModel SelectedStundeViewModel
+    public StundeNeu SelectedStundeViewModel
     {
       get
       {
@@ -98,21 +99,7 @@
 
       this.Close();
     }
-
-    private void LinkClick(object sender, RoutedEventArgs e)
-    {
-      var entwuerfe = this.StundenWorkspaceViewModel.SelectedStunden;
-      if (entwuerfe.Count != 1)
-      {
-        var dlg = new InformationDialog("Mehrere Entwürfe ausgewählt.", "Bitte für den Verweis nur einen Stundenentwurf durch Anklicken auswählen. Wenn mehrere Entwürfe zusammengefasst werden sollen bitte auf Kopie klicken.", false);
-        dlg.ShowDialog();
-        return;
-      }
-
-      this.DialogResult = true;
-      this.Close();
-    }
-
+     
     /// <summary>
     /// Benutzer hat abbruch geklickt.
     /// </summary>

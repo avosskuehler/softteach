@@ -50,10 +50,10 @@
     /// </summary>
     public DelegateCommand DeleteSchuljahrCommand { get; private set; }
 
-    /// <summary>
-    /// Holt den Befehl zur adding the weeks and days to this schuljahr
-    /// </summary>
-    public DelegateCommand AddWeeksCommand { get; private set; }
+    ///// <summary>
+    ///// Holt den Befehl zur adding the weeks and days to this schuljahr
+    ///// </summary>
+    //public DelegateCommand AddWeeksCommand { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die schuljahr currently selected in this workspace
@@ -70,7 +70,7 @@
         this.currentSchuljahr = value;
         this.RaisePropertyChanged("CurrentSchuljahr");
         this.DeleteSchuljahrCommand.RaiseCanExecuteChanged();
-        this.AddWeeksCommand.RaiseCanExecuteChanged();
+        //this.AddWeeksCommand.RaiseCanExecuteChanged();
       }
     }
 

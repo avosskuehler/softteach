@@ -18,17 +18,16 @@ namespace SoftTeach.Model.TeachyModel
         public LerngruppeNeu()
         {
             this.Arbeiten = new HashSet<ArbeitNeu>();
-            this.BetroffeneKlassen = new HashSet<BetroffeneKlasseNeu>();
             this.Lerngruppentermine = new HashSet<LerngruppenterminNeu>();
             this.Stundenplaneinträge = new HashSet<StundenplaneintragNeu>();
             this.Schülereinträge = new HashSet<SchülereintragNeu>();
             this.Sitzpläne = new HashSet<SitzplanNeu>();
+            this.BetroffeneLerngruppen = new HashSet<BetroffeneLerngruppeNeu>();
         }
     
         public int Id { get; set; }
         public string Bezeichnung { get; set; }
         public int SchuljahrId { get; set; }
-        public Halbjahr Halbjahr { get; set; }
         public int FachId { get; set; }
         public int Jahrgang { get; set; }
         public int NotenWichtungId { get; set; }
@@ -36,18 +35,18 @@ namespace SoftTeach.Model.TeachyModel
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ArbeitNeu> Arbeiten { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BetroffeneKlasseNeu> BetroffeneKlassen { get; set; }
         public virtual FachNeu Fach { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LerngruppenterminNeu> Lerngruppentermine { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StundenplaneintragNeu> Stundenplaneinträge { get; set; }
         public virtual NotenWichtungNeu NotenWichtung { get; set; }
-        public virtual SchuljahrNeu Schuljahr { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SchülereintragNeu> Schülereinträge { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SitzplanNeu> Sitzpläne { get; set; }
+        public virtual SchuljahrNeu Schuljahr { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BetroffeneLerngruppeNeu> BetroffeneLerngruppen { get; set; }
     }
 }

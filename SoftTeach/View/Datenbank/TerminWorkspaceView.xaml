@@ -1,15 +1,15 @@
 ﻿<Window x:Class="SoftTeach.View.Datenbank.TerminWorkspaceView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-         xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
-            xmlns:resources="clr-namespace:SoftTeach.Resources" xmlns:softTeach="clr-namespace:SoftTeach"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
+        xmlns:softTeach="clr-namespace:SoftTeach"
         xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
         xmlns:controls="clr-namespace:SoftTeach.Resources.Controls" mc:Ignorable="d" 
         Title="Datenbank - Termine"
         Icon="/SoftTeach;component/Images/Database.ico"
-             d:DesignHeight="400" d:DesignWidth="800" WindowStyle="SingleBorderWindow">
+        d:DesignHeight="400" d:DesignWidth="800" WindowStyle="SingleBorderWindow">
   <Window.Resources>
   </Window.Resources>
   <Grid Background="{StaticResource MainBackgroundBrush}">
@@ -31,7 +31,7 @@ Termine ändern Sie im Termin Modul."/>
             <DataGridTextColumn Header="Datum" Binding="{Binding Path=SchulterminDatum, StringFormat={}{0:dd. MMMM yyyy},ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}"/>
             <DataGridTextColumn Header="von" Binding="{Binding Path=TerminErsteUnterrichtsstunde.UnterrichtsstundeBezeichnung}"/>
             <DataGridTextColumn Header="bis" Binding="{Binding Path=TerminLetzteUnterrichtsstunde.UnterrichtsstundeBezeichnung}"/>
-            <DataGridTextColumn Header="Termintyp" Binding="{Binding Path=TerminTermintyp.TermintypBezeichnung}"/>
+            <DataGridTextColumn Header="Termintyp" Binding="{Binding Path=TerminTermintyp}"/>
             <DataGridTextColumn Header="Beschreibung" Binding="{Binding Path=TerminBeschreibung}"/>
             <DataGridTextColumn Header="geprüft" Binding="{Binding Path=TerminIstGeprüft}"/>
             <DataGridTextColumn Header="Ort" Binding="{Binding Path=TerminOrt}"/>
@@ -42,12 +42,11 @@ Termine ändern Sie im Termin Modul."/>
         <DataGrid ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Lerngruppentermine}" AutoGenerateColumns="False"
                 IsReadOnly="True">
           <DataGrid.Columns>
-            <DataGridTextColumn Header="Halbjahr" Binding="{Binding Path=LerngruppenterminHalbjahr}"/>
             <DataGridTextColumn Header="Schuljahr" Binding="{Binding Path=LerngruppenterminSchuljahr}"/>
-            <DataGridTextColumn Header="Klasse" Binding="{Binding Path=LerngruppenterminKlasse}"/>
+            <DataGridTextColumn Header="Klasse" Binding="{Binding Path=LerngruppenterminLerngruppe}"/>
             <DataGridTextColumn Header="Fach" Binding="{Binding Path=LerngruppenterminFach}"/>
             <DataGridTextColumn Header="Datum" Binding="{Binding Path=LerngruppenterminDatum, StringFormat={}{0:dd. MMMM yyyy},ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}"/>
-            <DataGridTextColumn Header="Termintyp" Binding="{Binding Path=TerminTermintyp.TermintypBezeichnung}"/>
+            <DataGridTextColumn Header="Termintyp" Binding="{Binding Path=TerminTermintyp}"/>
             <DataGridTextColumn Header="Beschreibung" Binding="{Binding Path=TerminBeschreibung}"/>
             <DataGridTextColumn Header="von" Binding="{Binding Path=TerminErsteUnterrichtsstunde.UnterrichtsstundeBezeichnung}"/>
             <DataGridTextColumn Header="bis" Binding="{Binding Path=TerminLetzteUnterrichtsstunde.UnterrichtsstundeBezeichnung}"/>
@@ -60,15 +59,14 @@ Termine ändern Sie im Termin Modul."/>
         <DataGrid ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Stunden}" AutoGenerateColumns="False"
                 IsReadOnly="True">
           <DataGrid.Columns>
-            <DataGridTextColumn Header="Halbjahr" Binding="{Binding Path=LerngruppenterminHalbjahr}"/>
             <DataGridTextColumn Header="Schuljahr" Binding="{Binding Path=LerngruppenterminSchuljahr}"/>
-            <DataGridTextColumn Header="Klasse" Binding="{Binding Path=LerngruppenterminKlasse}"/>
+            <DataGridTextColumn Header="Klasse" Binding="{Binding Path=LerngruppenterminLerngruppe}"/>
             <DataGridTextColumn Header="Fach" Binding="{Binding Path=LerngruppenterminFach}"/>
-            <DataGridTextColumn Header="Termintyp" Binding="{Binding Path=TerminTermintyp.TermintypBezeichnung}"/>
+            <DataGridTextColumn Header="Termintyp" Binding="{Binding Path=TerminTermintyp}"/>
             <DataGridTextColumn Header="Datum" Binding="{Binding Path=LerngruppenterminDatum, StringFormat={}{0:dd. MMMM yyyy},ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}"/>
             <DataGridTextColumn Header="von" Binding="{Binding Path=TerminErsteUnterrichtsstunde.UnterrichtsstundeBezeichnung}"/>
             <DataGridTextColumn Header="bis" Binding="{Binding Path=TerminLetzteUnterrichtsstunde.UnterrichtsstundeBezeichnung}"/>
-            <DataGridTextColumn Header="Stundenentwurf" Binding="{Binding Path=StundeStundenentwurfTitel}"/>
+            <DataGridTextColumn Header="Stundenentwurf" Binding="{Binding Path=TerminBeschreibung}"/>
             <DataGridTextColumn Header="geprüft" Binding="{Binding Path=TerminIstGeprüft}"/>
             <DataGridTextColumn Header="Ort" Binding="{Binding Path=TerminOrt}"/>
           </DataGrid.Columns>

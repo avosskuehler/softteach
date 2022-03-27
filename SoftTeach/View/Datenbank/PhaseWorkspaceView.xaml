@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
           xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
-           xmlns:resources="clr-namespace:SoftTeach.Resources" xmlns:SoftTeach="clr-namespace:SoftTeach"
+xmlns:SoftTeach="clr-namespace:SoftTeach"
         xmlns:controls="clr-namespace:SoftTeach.Resources.Controls" mc:Ignorable="d" 
         Title="Datenbank - Phasen"
         Icon="/SoftTeach;component/Images/Database.ico"
@@ -27,8 +27,8 @@ Phasen ändern Sie im Stundenentwurfsmodul."/>
         <DataGrid.Columns>
           <DataGridTextColumn Header="Index" Binding="{Binding Path=Reihenfolge}"/>
           <DataGridTextColumn Header="Zeit" Binding="{Binding Path=PhaseZeit}"/>
-          <DataGridTextColumn Header="Medium" Binding="{Binding Path=PhaseMedium.MediumBezeichnung}"/>
-          <DataGridTextColumn Header="Sozialform" Binding="{Binding Path=PhaseSozialform.SozialformBezeichnung}"/>
+          <DataGridTextColumn Header="Medium" Binding="{Binding Path=PhaseMedium}"/>
+          <DataGridTextColumn Header="Sozialform" Binding="{Binding Path=PhaseSozialform}"/>
           <DataGridTextColumn Header="Inhalt" Binding="{Binding Path=PhaseInhalt}"  Width="*"/>
         </DataGrid.Columns>
       </DataGrid>

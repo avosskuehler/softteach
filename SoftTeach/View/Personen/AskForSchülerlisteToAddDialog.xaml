@@ -48,9 +48,9 @@
                 Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" Width="100"/>
       <Label Grid.Column="0" Grid.Row="1" Content="Klasse" VerticalAlignment="Center"/>
       <ComboBox Grid.Column="1" Grid.Row="1"  Margin="3" TabIndex="1"
-                ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Klassen}" 
-                SelectedItem="{Binding Path=Klasse}"
-                DisplayMemberPath="KlasseBezeichnung"
+                ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Lerngruppen}" 
+                SelectedItem="{Binding Path=Lerngruppe}"
+                DisplayMemberPath="LerngruppeBezeichnung"
                 Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" Width="100"/>
       <Label Grid.Column="0" Grid.Row="2" Content="Fach" VerticalAlignment="Center"/>
       <ComboBox Grid.Column="1" Grid.Row="2"  Margin="3" TabIndex="1"

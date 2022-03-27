@@ -20,7 +20,7 @@ namespace SoftTeach.Model.TeachyModel
             this.Curricula = new HashSet<CurriculumNeu>();
             this.Ferien = new HashSet<FerienNeu>();
             this.Lerngruppen = new HashSet<LerngruppeNeu>();
-            this.Schultermine = new HashSet<SchulterminNeu>();
+            this.Termine_Schultermin = new HashSet<SchulterminNeu>();
             this.Stundenpläne = new HashSet<StundenplanNeu>();
         }
     
@@ -35,7 +35,7 @@ namespace SoftTeach.Model.TeachyModel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LerngruppeNeu> Lerngruppen { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SchulterminNeu> Schultermine { get; set; }
+        public virtual ICollection<SchulterminNeu> Termine_Schultermin { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StundenplanNeu> Stundenpläne { get; set; }
     }

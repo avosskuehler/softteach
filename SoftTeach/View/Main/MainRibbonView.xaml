@@ -61,9 +61,9 @@
               <scm:SortDescription PropertyName="FachBezeichnung"/>
             </CollectionViewSource.SortDescriptions>
           </CollectionViewSource>
-          <CollectionViewSource Source="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Klassen}" x:Key="KlassenSorted">
+          <CollectionViewSource Source="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Lerngruppen}" x:Key="LerngruppenSorted">
             <CollectionViewSource.SortDescriptions>
-              <scm:SortDescription PropertyName="KlasseBezeichnung"/>
+              <scm:SortDescription PropertyName="LerngruppeBezeichnung"/>
             </CollectionViewSource.SortDescriptions>
           </CollectionViewSource>
           <CollectionViewSource Source="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Schuljahre}" x:Key="SchuljahreSorted">
@@ -177,8 +177,7 @@
           </fluent:RibbonGroupBox.Icon>
           <fluent:ComboBox  Width="110"
             SelectedValue="{Binding Source={x:Static setting:Selection.Instance}, Path=Halbjahr}"
-            DisplayMemberPath="HalbjahrBezeichnung" 
-            ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Halbjahre}" />
+            ItemsSource="{Binding Source={StaticResource Halbjahre}}" />
           <fluent:ComboBox 
             SelectedValue="{Binding Source={x:Static setting:Selection.Instance}, Path=Schuljahr}" 
             DisplayMemberPath="SchuljahrBezeichnung" 
@@ -193,9 +192,9 @@
             DisplayMemberPath="FachBezeichnung" 
             ItemsSource="{Binding Source={StaticResource FächerSorted}}" />
           <fluent:ComboBox 
-            SelectedValue="{Binding Source={x:Static setting:Selection.Instance}, Path=Klasse}" 
-            DisplayMemberPath="KlasseBezeichnung" 
-            ItemsSource="{Binding Source={StaticResource KlassenSorted}}" />
+            SelectedValue="{Binding Source={x:Static setting:Selection.Instance}, Path=Lerngruppe}" 
+            DisplayMemberPath="LerngruppeBezeichnung" 
+            ItemsSource="{Binding Source={StaticResource LerngruppenSorted}}" />
         </fluent:RibbonGroupBox>
         <fluent:RibbonGroupBox Header="Termine">
           <fluent:RibbonGroupBox.Icon>
@@ -305,20 +304,6 @@
           <fluent:RibbonGroupBox.Icon>
             <fa:IconBlock Style="{StaticResource Note32}"/>
           </fluent:RibbonGroupBox.Icon>
-          <fluent:Button Header="NotenWichtungen" Click="NotenWichtungenButtonClick" ToolTip="Notenwichtung neu definieren">
-            <fluent:Button.LargeIcon>
-              <Grid>
-                <fa:IconBlock Style="{StaticResource Notenwichtung32}"/>
-              </Grid>
-            </fluent:Button.LargeIcon>
-          </fluent:Button>
-          <fluent:Button Header="Zensuren" Click="ZensurenButtonClick" ToolTip="Zensuren neu definieren">
-            <fluent:Button.LargeIcon>
-              <Grid>
-                <Image Source="/SoftTeach;component/Images/Zensur32.png"/>
-              </Grid>
-            </fluent:Button.LargeIcon>
-          </fluent:Button>
           <fluent:Button Header="Bewertungsschemata" Click="BewertungsschemataButtonClick" ToolTip="Bewertungsschemata neu definieren">
             <fluent:Button.LargeIcon>
               <Grid>
@@ -688,7 +673,7 @@
         <ContentControl Margin="5" Content="{Binding Path=.WochenplanWorkspace}" />
       </TabItem>
       <TabItem Header="Jahrespläne">
-        <ContentControl Margin="5" Content="{Binding Path=.JahresplanWorkspace}" />
+        <ContentControl Margin="5" Content="{Binding Path=.LerngruppeWorkspace}" />
       </TabItem>
       <TabItem Header="Curricula" Selector.Selected="TabItemCurricula_Selected">
         <ContentControl Margin="5" Content="{Binding Path=.CurriculumWorkspace}" />

@@ -92,8 +92,16 @@
       this.Lerngruppentermine = new ObservableCollection<LerngruppenterminViewModel>();
       foreach (var lerngruppenTermin in lerngruppe.Lerngruppentermine)
       {
-        var vm = new LerngruppenterminViewModel(lerngruppenTermin);
-        this.Lerngruppentermine.Add(vm);
+        if (lerngruppenTermin is StundeNeu)
+        {
+          var vm = new StundeViewModel(lerngruppenTermin as StundeNeu);
+          this.Lerngruppentermine.Add(vm);
+        }
+        else
+        {
+          var vm = new LerngruppenterminViewModel(lerngruppenTermin);
+          this.Lerngruppentermine.Add(vm);
+        }
       }
 
       this.Schülereinträge.CollectionChanged += this.SchülereinträgeCollectionChanged;
@@ -344,25 +352,6 @@
     }
 
     /// <summary>
-    /// Holt oder setzt das Halbjahr dieser Lerngruppe.
-    /// </summary>
-    public Halbjahr LerngruppeHalbjahr
-    {
-      get
-      {
-        return this.Model.Halbjahr;
-      }
-
-      set
-      {
-        if (value == this.Model.Halbjahr) return;
-        this.UndoablePropertyChanging(this, "LerngruppeHalbjahr", this.Model.Halbjahr, value);
-        this.Model.Halbjahr = value;
-        this.RaisePropertyChanged("LerngruppeHalbjahr");
-      }
-    }
-
-    /// <summary>
     /// Holt oder setzt die Fach currently assigned to this Lerngruppe
     /// </summary>
     public FachViewModel LerngruppeFach
@@ -480,7 +469,7 @@
     /// <summary>
     /// Holt den short header for the list of pupils in this class
     /// </summary>
-    [DependsUpon("LerngruppeKlasse")]
+    [DependsUpon("LerngruppeBezeichnung")]
     [DependsUpon("LerngruppeFach")]
     [DependsUpon("LerngruppeSchuljahr")]
     public string LerngruppeKurzbezeichnung
@@ -496,7 +485,7 @@
     /// <summary>
     /// Holt die Überschrift für die Notenliste dieser Lerngruppe
     /// </summary>
-    [DependsUpon("LerngruppeKlasse")]
+    [DependsUpon("LerngruppeBezeichnung")]
     [DependsUpon("LerngruppeFach")]
     [DependsUpon("LerngruppeSchuljahr")]
     public string NotenlisteTitel
@@ -591,12 +580,11 @@
       var schülerlisteClone = new LerngruppeNeu();
       schülerlisteClone.Bezeichnung = this.LerngruppeBezeichnung;
       schülerlisteClone.Schuljahr = this.LerngruppeSchuljahr.Model;
-      schülerlisteClone.Halbjahr = this.LerngruppeHalbjahr;
       schülerlisteClone.Fach = this.LerngruppeFach.Model;
       schülerlisteClone.Jahrgang = this.LerngruppeJahrgang;
       schülerlisteClone.Bepunktungstyp = this.LerngruppeBepunktungstyp;
       schülerlisteClone.NotenWichtung = this.LerngruppeNotenWichtung.Model;
-      foreach (var schülereintragViewModel in this.Schülereinträge.OrderBy(o => o.SchülereintragPerson.Nachname))
+      foreach (var schülereintragViewModel in this.Schülereinträge.OrderBy(o => o.SchülereintragPerson.PersonNachname))
       {
         var schülereintragClone = new SchülereintragNeu();
         schülereintragClone.Person = schülereintragViewModel.Model.Person;
@@ -726,8 +714,8 @@
               if (
                 this.Schülereinträge.Any(
                   o =>
-                  o.SchülereintragPerson.Vorname == person.Vorname
-                  && o.SchülereintragPerson.Nachname == person.Nachname
+                  o.SchülereintragPerson.PersonVorname == person.PersonVorname
+                  && o.SchülereintragPerson.PersonNachname == person.PersonNachname
                   && o.SchülereintragPerson.PersonGeburtstag == person.PersonGeburtstag))
               {
                 continue;
@@ -794,8 +782,8 @@
           if (
             this.Schülereinträge.Any(
               o =>
-              o.SchülereintragPerson.Vorname == personViewModel.Vorname
-              && o.SchülereintragPerson.Nachname == personViewModel.Nachname
+              o.SchülereintragPerson.PersonVorname == personViewModel.PersonVorname
+              && o.SchülereintragPerson.PersonNachname == personViewModel.PersonNachname
               && o.SchülereintragPerson.PersonGeburtstag == personViewModel.PersonGeburtstag))
           {
             continue;
@@ -833,7 +821,7 @@
 
       if (this.TeilungsgruppenBeachten)
       {
-        var schülernachGruppen = this.Schülereinträge.OrderBy(o => o.SchülereintragPerson.Nachname).Chunk(this.Schülereinträge.Count / 2);
+        var schülernachGruppen = this.Schülereinträge.OrderBy(o => o.SchülereintragPerson.PersonNachname).Chunk(this.Schülereinträge.Count / 2);
 
         var gruppenNummer = 0;
         foreach (var schülergruppe in schülernachGruppen)

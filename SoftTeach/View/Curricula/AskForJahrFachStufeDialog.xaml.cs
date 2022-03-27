@@ -46,7 +46,7 @@ namespace SoftTeach.View.Curricula
       this.Schuljahr = Selection.Instance.Schuljahr;
       this.Halbjahr = Selection.Instance.Halbjahr;
       this.Fach = App.MainViewModel.Fächer[0];
-      this.Jahrgang = App.MainViewModel.Klassenstufen[0];
+      this.Jahrgang = App.MainViewModel.Jahrgänge[0];
       this.Bezeichnung = "Neue Bezeichnung";
     }
 

@@ -101,12 +101,9 @@
                         SelectedItemBinding="{Binding Path=LerngruppeFach}" 
                         DisplayMemberPath="FachKurzbezeichnung" SortMemberPath="LerngruppeFach.FachBezeichnung"
                         EditingElementStyle="{StaticResource DatagridComboBoxElementStyle}"/>
-            <DataGridComboBoxColumn 
-                        Header="Klasse" 
-                        ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Klassen}"
-                        SelectedItemBinding="{Binding Path=LerngruppeKlasse}" 
-                        DisplayMemberPath="KlasseBezeichnung" SortMemberPath="LerngruppeKlasse.KlasseBezeichnung"
-                        EditingElementStyle="{StaticResource DatagridComboBoxElementStyle}"/>
+            <DataGridTextColumn 
+                        Header="Lerngruppe" 
+                        Binding="{Binding Path=LerngruppeBezeichnung}"/>
           </DataGrid.Columns>
         </DataGrid>
       </Grid>

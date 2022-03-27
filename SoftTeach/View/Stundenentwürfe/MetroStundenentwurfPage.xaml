@@ -36,7 +36,7 @@
         <ColumnDefinition Width="Auto"/>
       </Grid.ColumnDefinitions>
       <StackPanel Grid.Row="0" Orientation="Horizontal">
-        <Label Style="{StaticResource MetroSubHeaderBold}" Content="{Binding Path=LerngruppenterminKlasse, Mode=OneWay}"/>
+        <Label Style="{StaticResource MetroSubHeaderBold}" Content="{Binding Path=LerngruppenterminLerngruppe, Mode=OneWay}"/>
         <Label Style="{StaticResource MetroSubHeaderBold}">-</Label>
         <Label Style="{StaticResource MetroSubHeaderBold}" Content="{Binding Path=LerngruppenterminFach, Mode=OneWay}"/>
         <Label Style="{StaticResource MetroSubHeader}"></Label>
@@ -57,8 +57,8 @@
             </Grid>
           </StackPanel>
         </Button>
-        <Image Visibility="{Binding Path=StundeStundenentwurf.StundenentwurfKopieren, Converter={StaticResource BoolVisibleConverter}}" Margin="5" Source="/SoftTeach;component/Images/Kopierer48.png"/>
-        <Image Visibility="{Binding Path=StundeStundenentwurf.StundenentwurfComputer, Converter={StaticResource BoolVisibleConverter}}" Margin="5" Source="/SoftTeach;component/Images/Laptop48.png"/>
+        <Image Visibility="{Binding Path=StundeKopieren, Converter={StaticResource BoolVisibleConverter}}" Margin="5" Source="/SoftTeach;component/Images/Kopierer48.png"/>
+        <Image Visibility="{Binding Path=StundeComputer, Converter={StaticResource BoolVisibleConverter}}" Margin="5" Source="/SoftTeach;component/Images/Laptop48.png"/>
       </StackPanel>
     </Grid>
     <Grid Grid.Row="2">
@@ -67,10 +67,10 @@
         <ColumnDefinition Width="*"/>
       </Grid.ColumnDefinitions>
       <Label Grid.Column="0" Style="{StaticResource MetroHeader}" Padding="5,0"
-           Content="{Binding Path=StundeStundenentwurf.StundenentwurfStundenthema}"/>
+           Content="{Binding Path=TerminBeschreibung}"/>
       <ListView Grid.Column="1"
-                SelectedItem="{Binding Path=StundeStundenentwurf.CurrentDateiverweis, Mode=TwoWay}" 
-                ItemsSource="{Binding Path=StundeStundenentwurf.Dateiverweise}"
+                SelectedItem="{Binding Path=CurrentDateiverweis, Mode=TwoWay}" 
+                ItemsSource="{Binding Path=Dateiverweise}"
                 ItemTemplate="{StaticResource DateiverweiseListViewTile}"
                 Background="Transparent" 
                 BorderBrush="Transparent" 
@@ -84,15 +84,15 @@
     </Grid>
     <DataGrid Grid.Row="3" Name="PhasenTable" Margin="5"
               Style="{StaticResource MetroDatagridPrintStyle}"
-              ItemsSource="{Binding Path=StundeStundenentwurf.Phasen}" 
+              ItemsSource="{Binding Path=Phasen}" 
               AutoGenerateColumns="False"
               RowDetailsVisibilityMode="Collapsed" 
               HorizontalScrollBarVisibility="Disabled" 
               VerticalScrollBarVisibility="Disabled">
       <DataGrid.Columns>
         <DataGridTextColumn Header="Zeit" Binding="{Binding Path=PhaseZeitraum}" Width="Auto"/>
-        <DataGridTextColumn Header="Medien" Binding="{Binding Path=PhaseMedium.MediumBezeichnung}" Width="Auto"/>
-        <DataGridTextColumn Header="Sozialform" Binding="{Binding Path=PhaseSozialform.SozialformBezeichnung}" Width="Auto"/>
+        <DataGridTextColumn Header="Medien" Binding="{Binding Path=PhaseMedium}" Width="Auto"/>
+        <DataGridTextColumn Header="Sozialform" Binding="{Binding Path=PhaseSozialform}" Width="Auto"/>
         <DataGridTextColumn Header="Inhalt" Binding="{Binding Path=PhaseInhalt}" Width="*"
                             ElementStyle="{StaticResource DatagridMultilineElementStyle}"
                             EditingElementStyle="{StaticResource DatagridMultilineEditingElementStyle}"/>
@@ -106,13 +106,13 @@
       <StackPanel Grid.Column="0" Margin="5">
         <Label Style="{StaticResource MetroLabelStyle}" FontWeight="Bold" Padding="0,0,0,5">Hausaufgaben</Label>
         <TextBlock Style="{StaticResource MetroLabelStyle}" 
-                   Text="{Binding Path=StundeStundenentwurf.StundenentwurfHausaufgaben}"
+                   Text="{Binding Path=StundeHausaufgaben}"
                    TextWrapping="Wrap"/>
       </StackPanel>
       <StackPanel Grid.Column="1" Margin="5">
         <Label Style="{StaticResource MetroLabelStyle}" FontWeight="Bold" Padding="0,0,0,5">Termine/Ansagen</Label>
         <TextBlock Style="{StaticResource MetroLabelStyle}" 
-                   Text="{Binding Path=StundeStundenentwurf.StundenentwurfAnsagen}"
+                   Text="{Binding Path=StundeAnsagen}"
                    TextWrapping="Wrap"/>
       </StackPanel>
     </Grid>

@@ -12,9 +12,9 @@
         WindowStyle="SingleBorderWindow"
         Background="{x:Static SystemColors.MenuBarBrush}">
   <Window.Resources>
-    <CollectionViewSource Source="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Klassen}" x:Key="KlassenSorted">
+    <CollectionViewSource Source="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Lerngruppen}" x:Key="LerngruppenSorted">
       <CollectionViewSource.SortDescriptions>
-        <scm:SortDescription PropertyName="KlasseBezeichnung" Direction="Ascending"/>
+        <scm:SortDescription PropertyName="LerngruppeBezeichnung" Direction="Ascending"/>
       </CollectionViewSource.SortDescriptions>
     </CollectionViewSource>
     <CollectionViewSource Source="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Fächer}" x:Key="FächerSorted">
@@ -62,9 +62,9 @@
                 Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" Width="230"/>
       <Label Grid.Row="2" Grid.Column="0" VerticalContentAlignment="Center">Lerngruppe</Label>
       <ComboBox Margin="3" Grid.Row="2" Grid.Column="1" TabIndex="2"
-                ItemsSource="{Binding Source={StaticResource KlassenSorted}}" 
-                SelectedItem="{Binding Path=StundenplaneintragKlasse}"
-                DisplayMemberPath="KlasseBezeichnung"
+                ItemsSource="{Binding Source={StaticResource LerngruppenSorted}}" 
+                SelectedItem="{Binding Path=StundenplaneintragLerngruppe}"
+                DisplayMemberPath="LerngruppeBezeichnung"
                 Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" Width="230"/>
       <Label Grid.Row="3" Grid.Column="0" VerticalContentAlignment="Center">Raum</Label>
       <ComboBox Margin="3" Grid.Row="3" Grid.Column="1" TabIndex="2"

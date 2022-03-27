@@ -20,7 +20,7 @@
   /// <summary>
   /// ViewModel for managing Stundenentwurf
   /// </summary>
-  public class StundenWorkspaceViewModel : ViewModelBase
+  public class SucheStundeWorkspaceViewModel : ViewModelBase
   {
     /// <summary>
     /// Das Fach, dessen Stundenentwürfe nur dargestellt werden sollen.
@@ -40,20 +40,24 @@
     /// <summary>
     /// The item currently selected
     /// </summary>
-    private StundeViewModel currentStunde;
+    private StundeNeu currentStunde;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="StundenWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="SucheStundeWorkspaceViewModel"/> Klasse. 
     /// </summary>
-    public StundenWorkspaceViewModel()
+    public SucheStundeWorkspaceViewModel()
     {
       this.DeleteStundeCommand = new DelegateCommand(this.DeleteSelectedStunde, () => this.CurrentStunde != null);
       this.RemoveFilterCommand = new DelegateCommand(this.RemoveFilter);
 
-      this.FilteredAndSortedStunden = new List<StundeViewModel>();
-      this.SelectedStunden = new List<StundeViewModel>();
+      this.StundenFürFachUndJahrgang = new List<StundeNeu>();
+      this.SelectedStunden = new List<StundeNeu>();
 
       this.PopulateStunden();
+
+      this.FilteredStunden = CollectionViewSource.GetDefaultView(this.StundenFürFachUndJahrgang);
+      this.FilteredStunden.GroupDescriptions.Add(new PropertyGroupDescription("Lerngruppe.Schuljahr.Jahr"));
+      this.FilteredStunden.Filter = this.FilterStunden;
 
       // Init display of subset of modules
       this.FilteredModule = CollectionViewSource.GetDefaultView(App.MainViewModel.Module);
@@ -65,7 +69,7 @@
     private void PopulateStunden()
     {
       UiServices.SetBusyState();
-      this.FilteredAndSortedStunden.Clear();
+      this.StundenFürFachUndJahrgang.Clear();
 
       if (this.FachFilter == null)
       {
@@ -100,13 +104,16 @@
       //  Selection.Instance.Halbjahr = App.MainViewModel.Halbjahre[1];
       //}
 
-      //foreach (var stundenentwurf in App.UnitOfWork.Context.Stundenentwürfe.Where(o => o.FachId == this.FachFilter.Model.Id && o.JahrgangsstufeId == this.JahrgangsstufeFilter.Model.Id))
-      //{
-      //  if (!App.MainViewModel.Stunden.Any(o => o.Model.Id == stundenentwurf.Id))
-      //  {
-      //    App.MainViewModel.LoadStundenentwurf(stundenentwurf);
-      //  }
-      //}
+      var stundenNachFilter = App.UnitOfWork.Context.Termine.OfType<StundeNeu>().Where(o => o.FachId == this.fachFilter.Model.Id && o.Jahrgang == this.jahrgangFilter);
+
+      //App.MainViewModel.LoadStunden(stundenNachFilter);
+
+      foreach (var stunde in stundenNachFilter)
+      {
+        //this.StundenFürFachUndJahrgang.Add(App.MainViewModel.Stunden.First(o => o.Model.Id == stunde.Id));
+        this.StundenFürFachUndJahrgang.Add(stunde);
+      }
+
 
       //foreach (var jahresplanViewModel in pläne)
       //{
@@ -165,12 +172,17 @@
     /// <summary>
     /// Holt oder setzt die gefilterten und sortierten Stundenentwürfe
     /// </summary>
-    public List<StundeViewModel> FilteredAndSortedStunden { get; set; }
+    public List<StundeNeu> StundenFürFachUndJahrgang { get; set; }
 
     /// <summary>
     /// Holt oder setzt die gefilterten Module
     /// </summary>
     public ICollectionView FilteredModule { get; set; }
+
+    /// <summary>
+    /// Holt oder setzt die gefilterten Module
+    /// </summary>
+    public ICollectionView FilteredStunden { get; set; }
 
     /// <summary>
     /// Holt oder setzt die fach filter for the stundenentwurf list.
@@ -224,7 +236,7 @@
       {
         this.modulFilter = value;
         this.RaisePropertyChanged("ModulFilter");
-        this.PopulateStunden();
+        this.FilteredStunden.Refresh();
       }
     }
 
@@ -241,7 +253,7 @@
     /// <summary>
     /// Holt oder setzt den ausgewählten Stunde
     /// </summary>
-    public StundeViewModel CurrentStunde
+    public StundeNeu CurrentStunde
     {
       get
       {
@@ -310,6 +322,33 @@
       this.JahrgangFilter = null;
       this.ModulFilter = null;
     }
+
+    /// <summary>
+    /// The filter predicate that filters the person table view only showing schüler
+    /// </summary>
+    /// <param name="de">The <see cref="PersonViewModel"/> that should be filtered</param>
+    /// <returns>True if the given object should remain in the list.</returns>
+    private bool FilterStunden(object de)
+    {
+      var stundeViewModel = de as StundeNeu;
+      if (stundeViewModel == null)
+      {
+        return false;
+      }
+
+      if (this.ModulFilter != null)
+      {
+        if (stundeViewModel.ModulId == this.ModulFilter.Model.Id)
+        {
+          return true;
+        }
+
+        return false;
+      }
+
+      return true;
+    }
+
 
     /// <summary>
     /// The filter predicate that filters the person table view only showing schüler

@@ -44,7 +44,7 @@ namespace SoftTeach.Setting
     private LerngruppeViewModel lerngruppe;
     private SchuljahrViewModel schuljahr;
     private ModulViewModel modul;
-    private StundeNeu stunde;
+    private StundeViewModel stunde;
     private SchülereintragViewModel schülereintrag;
     private ArbeitViewModel arbeit;
     private BewertungsschemaViewModel bewertungsschema;
@@ -162,7 +162,7 @@ namespace SoftTeach.Setting
     /// <summary>
     /// Holt oder setzt die Stunde
     /// </summary>
-    public StundeNeu Stunde
+    public StundeViewModel Stunde
     {
       get
       {

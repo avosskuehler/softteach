@@ -326,7 +326,7 @@
               return "Vertretung";
             }
 
-            return stunde.LerngruppenterminLerngruppe + "-" + stunde.LerngruppenterminFach;
+            return stunde.LerngruppenterminLerngruppe.LerngruppeBezeichnung + "-" + stunde.LerngruppenterminFach;
           }
 
           if (this.TerminViewModel is LerngruppenterminViewModel)
@@ -342,9 +342,9 @@
           {
             var schultermin = this.TerminViewModel as SchulterminViewModel;
             var klassenstring = string.Empty;
-            foreach (var betroffeneKlasseViewModel in schultermin.BetroffeneKlassen)
+            foreach (var betroffeneLerngruppeViewModel in schultermin.BetroffeneKlassen)
             {
-              klassenstring += betroffeneKlasseViewModel.BetroffeneKlasseLerngruppe.LerngruppeBezeichnung + ",";
+              klassenstring += betroffeneLerngruppeViewModel.BetroffeneLerngruppeLerngruppe.LerngruppeBezeichnung + ",";
             }
 
             return klassenstring;
@@ -525,7 +525,7 @@
     /// <param name="e">An <see cref="PropertyChangedEventArgs"/> with the events data</param>
     private void TerminViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-      if (e.PropertyName == "StundeStundenentwurf" || e.PropertyName == "TerminBeschreibung")
+      if (e.PropertyName == "TerminBeschreibung")
       {
         this.Parent.UpdateProperties(this.wochentagIndex, this.ErsteUnterrichtsstundeIndex, this.Stundenanzahl);
         this.RaisePropertyChanged("TerminplaneintragThema");
@@ -572,7 +572,7 @@
           Selection.Instance.Fach =
             App.MainViewModel.Fächer.First(o => o.FachBezeichnung == lerngruppentermin.LerngruppenterminFach);
           Selection.Instance.Lerngruppe =
-            App.MainViewModel.Lerngruppen.First(o => o.LerngruppeBezeichnung == lerngruppentermin.LerngruppenterminLerngruppe);
+            App.MainViewModel.Lerngruppen.First(o => o.LerngruppeBezeichnung == lerngruppentermin.LerngruppenterminLerngruppe.LerngruppeBezeichnung);
           lerngruppentermin.ViewLerngruppenterminCommand.Execute(null);
         }
         else if (this.TerminViewModel is SchulterminViewModel)
@@ -603,7 +603,7 @@
           var lerngruppentermin = this.TerminViewModel as LerngruppenterminViewModel;
           Selection.Instance.Fach =
             App.MainViewModel.Fächer.First(o => o.FachBezeichnung == lerngruppentermin.LerngruppenterminFach);
-          Selection.Instance.Lerngruppe = App.MainViewModel.Lerngruppen.First(o => o.Model.Id == lerngruppentermin.Model.LerngruppeId);
+          Selection.Instance.Lerngruppe = App.MainViewModel.Lerngruppen.First(o => o.Model.Id == ((StundeNeu)lerngruppentermin.Model).LerngruppeId);
           lerngruppentermin.EditLerngruppenterminCommand.Execute(null);
         }
         else if (this.TerminViewModel is SchulterminViewModel)
@@ -634,8 +634,8 @@
 
       var stunde = this.TerminViewModel as StundeViewModel;
       Selection.Instance.Fach = App.MainViewModel.Fächer.First(o => o.FachBezeichnung == stunde.LerngruppenterminFach);
-      Selection.Instance.Lerngruppe = App.MainViewModel.Lerngruppen.First(o => o.Model.Id == stunde.Model.LerngruppeId);
-      Selection.Instance.Stunde = stunde.Model;
+      Selection.Instance.Lerngruppe = App.MainViewModel.Lerngruppen.First(o => o.Model.Id == ((StundeNeu)stunde.Model).LerngruppeId);
+      Selection.Instance.Stunde = stunde;
 
       var schülerliste = Selection.Instance.Lerngruppe;
 
@@ -694,7 +694,7 @@
       }
 
       var stunde = this.TerminViewModel as StundeViewModel;
-      var schülerliste = App.MainViewModel.Lerngruppen.First(o => o.Model.Id == stunde.Model.LerngruppeId);
+      var schülerliste = App.MainViewModel.Lerngruppen.First(o => o.Model.Id == ((StundeNeu)stunde.Model).LerngruppeId);
 
       Selection.Instance.Lerngruppe = schülerliste;
 
@@ -748,7 +748,7 @@
       }
 
       var stunde = this.TerminViewModel as StundeViewModel;
-      var schülerliste = App.MainViewModel.Lerngruppen.First(o => o.Model.Id == stunde.Model.LerngruppeId);
+      var schülerliste = App.MainViewModel.Lerngruppen.First(o => o.Model.Id == ((StundeNeu)stunde.Model).LerngruppeId);
 
 
       if (Configuration.Instance.IsMetroMode)
