@@ -177,6 +177,29 @@ namespace SoftTeach.ViewModel.Jahrespläne
     }
 
     /// <summary>
+    /// Holt den Monat zum Tag
+    /// </summary>
+    [DependsUpon("Datum")]
+    public int Monat
+    {
+      get
+      {
+        return this.Datum.Month;
+      }
+    }
+
+    /// <summary>
+    /// Holt den ersten Lerngruppentermin des Tages
+    /// </summary>
+    public LerngruppenterminViewModel ErsterLerngruppentermin
+    {
+      get
+      {
+        return this.Lerngruppentermine.FirstOrDefault();
+      }
+    }
+
+    /// <summary>
     /// Versucht aus den Notizen einen neuen Termineintrag zu machen.
     /// </summary>
     private void AddNewTermin()

@@ -542,13 +542,16 @@
     <Compile Include="Resources\Controls\GridTools.cs" />
     <Compile Include="Resources\Controls\IListItemConverter.cs" />
     <Compile Include="Resources\Controls\ImageTools.cs" />
+    <Compile Include="Resources\Controls\Kalender.cs" />
     <Compile Include="Resources\Controls\MetroMessageDialog.xaml.cs">
       <DependentUpon>MetroMessageDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Resources\Controls\MultiSelectorBehaviours.cs" />
     <Compile Include="Resources\Controls\SDataGrid.cs" />
     <Compile Include="Resources\Controls\TwoListSynchronizer.cs" />
+    <Compile Include="Resources\Converter\DateConverter.cs" />
     <Compile Include="Resources\Converter\DateTimeConvertFormat.cs" />
+    <Compile Include="Resources\Converter\DayBorderColorConverter.cs" />
     <Compile Include="Resources\Converter\StundePhasenKurzConverter.cs" />
     <Compile Include="Resources\Converter\StundeStundenzahlConverter.cs" />
     <Compile Include="Resources\Converter\NachnameConverter.cs" />
@@ -613,6 +616,7 @@
     <Compile Include="ViewModel\Helper\ODSSupport\OdsReaderWriter.cs" />
     <Compile Include="ViewModel\Helper\TagGeändertEventArgs.cs" />
     <Compile Include="ViewModel\Helper\UiServices.cs" />
+    <Compile Include="ViewModel\Jahrespläne\JahresplanWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Noten\NotenlistenEintrag.cs" />
     <Compile Include="ViewModel\Noten\NotenlistenWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Noten\StundennotenReminderWorkspaceViewModel.cs" />
@@ -738,6 +742,9 @@
     <Compile Include="View\Datenbank\SchülereintragWorkspace.xaml.cs">
       <DependentUpon>SchülereintragWorkspace.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Jahrespläne\JahresplanWorkspaceView.xaml.cs">
+      <DependentUpon>JahresplanWorkspaceView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Noten\AddSonstigeNoteDialog.xaml.cs">
       <DependentUpon>AddSonstigeNoteDialog.xaml</DependentUpon>
     </Compile>
@@ -780,9 +787,6 @@
     <Compile Include="View\Datenbank\LerngruppeWorkspace.xaml.cs">
       <DependentUpon>LerngruppeWorkspace.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Datenbank\StundenplaneintragWorkspaceView.xaml.cs">
-      <DependentUpon>StundenplaneintragWorkspaceView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Datenbank\StundenplanWorkspaceView.xaml.cs">
       <DependentUpon>StundenplanWorkspaceView.xaml</DependentUpon>
     </Compile>
@@ -791,9 +795,6 @@
     </Compile>
     <Compile Include="View\Datenbank\DateiverweisWorkspaceView.xaml.cs">
       <DependentUpon>DateiverweisWorkspaceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Datenbank\PhaseWorkspaceView.xaml.cs">
-      <DependentUpon>PhaseWorkspaceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Datenbank\SequenzWorkspaceView.xaml.cs">
       <DependentUpon>SequenzWorkspaceView.xaml</DependentUpon>
@@ -1040,8 +1041,8 @@
     <Compile Include="View\Datenbank\SchuljahrWorkspaceView.xaml.cs">
       <DependentUpon>SchuljahrWorkspaceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Jahrespläne\SingleJahresplanDetailView.xaml.cs">
-      <DependentUpon>SingleJahresplanDetailView.xaml</DependentUpon>
+    <Compile Include="View\Jahrespläne\JahresplanDetailView.xaml.cs">
+      <DependentUpon>JahresplanDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Main\MainRibbonView.xaml.cs">
       <DependentUpon>MainRibbonView.xaml</DependentUpon>
@@ -1481,6 +1482,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Resources\Styles\ScrollViewerStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\Styles\TextStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1530,6 +1535,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Datenbank\SchülereintragWorkspace.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Jahrespläne\JahresplanWorkspaceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1589,10 +1598,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Datenbank\StundenplaneintragWorkspaceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="View\Datenbank\StundenplanWorkspaceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1602,10 +1607,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Datenbank\DateiverweisWorkspaceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Datenbank\PhaseWorkspaceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1929,7 +1930,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Jahrespläne\SingleJahresplanDetailView.xaml">
+    <Page Include="View\Jahrespläne\JahresplanDetailView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -2069,12 +2070,12 @@
   <ItemGroup>
     <PublishFile Include="SoftTeach.pdb">
       <Visible>False</Visible>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
   </ItemGroup>

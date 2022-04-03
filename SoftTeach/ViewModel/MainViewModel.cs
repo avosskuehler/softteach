@@ -52,7 +52,8 @@
     private ImageSource inactiveIcon;
     private ArbeitWorkspaceViewModel arbeitWorkspace;
     private RaumWorkspaceViewModel raumWorkspace;
-    private LerngruppeWorkspaceViewModel schülerlisteWorkspace;
+    private LerngruppeWorkspaceViewModel lerngruppeWorkspace;
+    private JahresplanWorkspaceViewModel jahresplanWorkspace;
     private SitzplanWorkspaceViewModel sitzplanWorkspace;
     private WochenplanWorkspaceViewModel wochenplanWorkspace;
     private TagesplanWorkspaceViewModel tagesplanWorkspace;
@@ -124,6 +125,7 @@
 
       // The creation of the allJahrespläne includes the creation of the 
       // halbjahres/monats/tagesplan/stunde models
+      this.Jahrespläne = new ObservableCollection<JahresplanViewModel>();
       //this.Halbjahrespläne = new ObservableCollection<HalbjahresplanViewModel>();
       //this.Monatspläne = new ObservableCollection<MonatsplanViewModel>();
       //this.Tagespläne = new ObservableCollection<TagesplanViewModel>();
@@ -376,6 +378,12 @@
       }
     }
 
+    /// <summary>
+    /// Holt alle Jahrespläne der Datenbank
+    /// </summary>
+    public ObservableCollection<JahresplanViewModel> Jahrespläne { get; private set; }
+
+
     ///// <summary>
     ///// Holt alle Raumpläne der Datenbank
     ///// </summary>
@@ -538,12 +546,28 @@
     {
       get
       {
-        if (this.schülerlisteWorkspace == null)
+        if (this.lerngruppeWorkspace == null)
         {
-          this.schülerlisteWorkspace = new LerngruppeWorkspaceViewModel();
+          this.lerngruppeWorkspace = new LerngruppeWorkspaceViewModel();
         }
 
-        return this.schülerlisteWorkspace;
+        return this.lerngruppeWorkspace;
+      }
+    }
+
+    /// <summary>
+    /// Holt den workspace for managing Lerngruppen
+    /// </summary>
+    public JahresplanWorkspaceViewModel JahresplanWorkspace
+    {
+      get
+      {
+        if (this.jahresplanWorkspace == null)
+        {
+          this.jahresplanWorkspace = new JahresplanWorkspaceViewModel();
+        }
+
+        return this.jahresplanWorkspace;
       }
     }
 
@@ -2094,7 +2118,10 @@
       {
         if (!collection.Any(o => o.Model.Id == schülerliste.Id))
         {
-          collection.Add(new LerngruppeViewModel(schülerliste));
+          var vm = new LerngruppeViewModel(schülerliste);
+          collection.Add(vm);
+          var jahresplan = new JahresplanViewModel(vm);
+          this.Jahrespläne.Add(jahresplan);
         }
       }
 

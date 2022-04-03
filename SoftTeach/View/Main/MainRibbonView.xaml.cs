@@ -29,7 +29,6 @@
     public MainRibbonView()
     {
       this.DataContext = App.MainViewModel;
-      var wochenplan = App.MainViewModel.WochenplanWorkspace;
       this.InitializeComponent();
     }
 
@@ -184,19 +183,7 @@
 
     #region Stundenentwürfe
 
-    /// <summary>
-    /// Event handler for the Phasen button in the ribbon section database, ribbon group Stundenentwürfe.
-    /// Shows a workspace for Phasen.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void PhasenButtonClick(object sender, RoutedEventArgs e)
-    {
-      var phaseView = new PhaseWorkspaceView();
-      phaseView.ShowDialog();
-    }
-
-    /// <summary>
+     /// <summary>
     /// Event handler for the Dateiverweis button in the ribbon section database, ribbon group Stundenentwürfe.
     /// Shows a workspace for Dateiverweise.
     /// </summary>
@@ -274,18 +261,6 @@
     {
       var stundenpläneView = new Datenbank.StundenplanWorkspaceView();
       stundenpläneView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Stundenplaneintrag button in the ribbon section database, ribbon group Stundenplan.
-    /// Shows a workspace for Stundenplaneintrag.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void StundenplaneintragButtonClick(object sender, RoutedEventArgs e)
-    {
-      var stundenplaneintragView = new StundenplaneintragWorkspaceView();
-      stundenplaneintragView.ShowDialog();
     }
 
     #endregion // Stundenplan

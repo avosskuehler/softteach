@@ -37,9 +37,9 @@
           <DataTemplate DataType="{x:Type wochenpläneViewModel:WochenplanWorkspaceViewModel}">
             <wochenplanView:WochenplanWorkspaceView />
           </DataTemplate>
-          <!--<DataTemplate DataType="{x:Type jahrespläneViewModel:JahresplanWorkspaceViewModel}">
+          <DataTemplate DataType="{x:Type jahrespläneViewModel:JahresplanWorkspaceViewModel}">
             <jahrespläneView:JahresplanWorkspaceView />
-          </DataTemplate>-->
+          </DataTemplate>
           <DataTemplate DataType="{x:Type curriculaViewModel:CurriculumWorkspaceViewModel}">
             <curriculaView:CurriculumWorkspaceView />
           </DataTemplate>
@@ -208,7 +208,7 @@
             </fluent:Button.LargeIcon>
           </fluent:Button>
         </fluent:RibbonGroupBox>
-        <fluent:RibbonGroupBox Header="Personen">
+        <fluent:RibbonGroupBox Header="Lerngruppen">
           <fluent:RibbonGroupBox.Icon>
             <fa:IconBlock Style="{StaticResource Person32}"/>
           </fluent:RibbonGroupBox.Icon>
@@ -219,18 +219,6 @@
               <fa:IconBlock Style="{StaticResource Person32}"/>
             </fluent:Button.LargeIcon>
           </fluent:Button>
-        </fluent:RibbonGroupBox>
-        <fluent:RibbonGroupBox Header="Klassen">
-          <fluent:RibbonGroupBox.Icon>
-            <fa:IconBlock Style="{StaticResource Klasse32}"/>
-          </fluent:RibbonGroupBox.Icon>
-          <!--<fluent:Button 
-            Header="Jahrgangsstufen und Klassen" 
-            Click="JahrgangsstufenButtonClick">
-            <fluent:Button.LargeIcon>
-              <fa:IconBlock Style="{StaticResource Klasse32}"/>
-            </fluent:Button.LargeIcon>
-          </fluent:Button>-->
           <fluent:Button 
             Header="Lerngruppen" 
             Click="LerngruppeButtonClick">
@@ -241,7 +229,31 @@
               </Grid>
             </fluent:Button.LargeIcon>
           </fluent:Button>
+          <fluent:Button 
+            Header="Arbeiten" 
+            Click="ArbeitAnlegenButtonClick"
+            ToolTip="Arbeit im laufenden Halbjahr anlegen">
+            <fluent:Button.LargeIcon>
+              <Grid>
+                <fa:IconBlock Style="{StaticResource Arbeit32}"/>
+              </Grid>
+            </fluent:Button.LargeIcon>
+          </fluent:Button>
         </fluent:RibbonGroupBox>
+        <!--<fluent:RibbonGroupBox Header="Klassen">
+          <fluent:RibbonGroupBox.Icon>
+            <fa:IconBlock Style="{StaticResource Klasse32}"/>
+          </fluent:RibbonGroupBox.Icon>
+          -->
+        <!--<fluent:Button 
+            Header="Jahrgangsstufen und Klassen" 
+            Click="JahrgangsstufenButtonClick">
+            <fluent:Button.LargeIcon>
+              <fa:IconBlock Style="{StaticResource Klasse32}"/>
+            </fluent:Button.LargeIcon>
+          </fluent:Button>-->
+        <!--
+        </fluent:RibbonGroupBox>-->
         <fluent:RibbonGroupBox Header="Stundenplan">
           <fluent:RibbonGroupBox.Icon>
             <fa:IconBlock Style="{StaticResource Stundenplan32}"/>
@@ -258,27 +270,12 @@
             </fluent:Button.LargeIcon>
           </fluent:Button>
           <fluent:Button 
-            Header="Stundenplanänderung" 
+            Header="Stundenplan- änderung" 
             Click="StundenplanÄnderungButtonClick">
             <fluent:Button.LargeIcon>
               <Grid>
                 <fa:IconBlock Style="{StaticResource Stundenplan32}"/>
                 <fa:IconBlock Style="{StaticResource EditOverlay32}"/>
-              </Grid>
-            </fluent:Button.LargeIcon>
-          </fluent:Button>
-        </fluent:RibbonGroupBox>
-        <fluent:RibbonGroupBox Header="Noten">
-          <fluent:RibbonGroupBox.Icon>
-            <fa:IconBlock Style="{StaticResource Arbeit32}"/>
-          </fluent:RibbonGroupBox.Icon>
-          <fluent:Button 
-            Header="Arbeiten" 
-            Click="ArbeitAnlegenButtonClick"
-            ToolTip="Arbeit im laufenden Halbjahr anlegen">
-            <fluent:Button.LargeIcon>
-              <Grid>
-                <fa:IconBlock Style="{StaticResource Arbeit32}"/>
               </Grid>
             </fluent:Button.LargeIcon>
           </fluent:Button>
@@ -312,18 +309,19 @@
             </fluent:Button.LargeIcon>
           </fluent:Button>
         </fluent:RibbonGroupBox>
-        <fluent:RibbonGroupBox Header="Planung">
+        <!--<fluent:RibbonGroupBox Header="Planung">
           <fluent:RibbonGroupBox.Icon>
             <fa:IconBlock Style="{StaticResource Note32}"/>
           </fluent:RibbonGroupBox.Icon>
-          <!--<fluent:Button Header="Jahrespläne" Click="JahrespläneButtonClick">
+          -->
+        <!--<fluent:Button Header="Jahrespläne" Click="JahrespläneButtonClick">
             <fluent:Button.LargeIcon>
               <Grid>
                 <fa:IconBlock Style="{StaticResource Jahresplan32}"/>
               </Grid>
             </fluent:Button.LargeIcon>
           </fluent:Button>-->
-          <!--<RibbonButton x:Name="HalbjahresplanButton"
+        <!--<RibbonButton x:Name="HalbjahresplanButton"
                                Label="Halbjahrespläne" 
                                Click="HalbjahresplanButtonClick"
                                LargeImageSource="/SoftTeach;component/Images/Halbjahresplan32.png"
@@ -338,7 +336,8 @@
                                Click="TagesplanButtonClick"
                                LargeImageSource="/SoftTeach;component/Images/Tagesplan32.png"
                                SmallImageSource="/SoftTeach;component/Images/Tagesplan16.png"/>-->
-        </fluent:RibbonGroupBox>
+        <!--
+        </fluent:RibbonGroupBox>-->
         <fluent:RibbonGroupBox Header="Stundenentwürfe">
           <fluent:RibbonGroupBox.Icon>
             <fa:IconBlock Style="{StaticResource Stundenentwurf32}"/>
@@ -357,13 +356,6 @@
               <fa:IconBlock Style="{StaticResource Stundenentwurf32}"/>
             </fluent:Button.LargeIcon>
           </fluent:Button>-->
-          <fluent:Button 
-            Header="Phasen"
-            Click="PhasenButtonClick" >
-            <fluent:Button.LargeIcon>
-              <fa:IconBlock Style="{StaticResource Phase32}"/>
-            </fluent:Button.LargeIcon>
-          </fluent:Button>
           <fluent:Button  
             Header="Dateiverweis" 
             Click="DateiverweisButtonClick">
@@ -672,16 +664,16 @@
     </Expander>
     <TabControl Grid.Row="2" Margin="5">
       <TabItem Header="Wochenplan">
-        <ContentControl Margin="5" Content="{Binding Path=.WochenplanWorkspace}" />
+        <ContentControl Margin="5" Content="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=WochenplanWorkspace}" />
       </TabItem>
       <TabItem Header="Jahrespläne">
-        <ContentControl Margin="5" Content="{Binding Path=.LerngruppeWorkspace}" />
+        <ContentControl Margin="5" Content="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=JahresplanWorkspace}" />
       </TabItem>
       <TabItem Header="Curricula" Selector.Selected="TabItemCurricula_Selected">
-        <ContentControl Margin="5" Content="{Binding Path=.CurriculumWorkspace}" />
+        <ContentControl Margin="5" Content="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=CurriculumWorkspace}" />
       </TabItem>
       <TabItem Header="Noten">
-        <ContentControl Margin="5" Content="{Binding Path=.SchülereintragWorkspace}" />
+        <ContentControl Margin="5" Content="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=SchülereintragWorkspace}" />
       </TabItem>
       <!--<TabItem Header="Sitzpläne">
         <ContentControl Margin="5" Content="{Binding Path=.SitzplanWorkspace}" />
