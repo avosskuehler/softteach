@@ -40,7 +40,6 @@ namespace SoftTeach.Model.TeachyModel
         public virtual ICollection<LerngruppenterminNeu> Lerngruppentermine { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StundenplaneintragNeu> Stundenplaneinträge { get; set; }
-        public virtual NotenWichtungNeu NotenWichtung { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SchülereintragNeu> Schülereinträge { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -48,5 +47,6 @@ namespace SoftTeach.Model.TeachyModel
         public virtual SchuljahrNeu Schuljahr { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BetroffeneLerngruppeNeu> BetroffeneLerngruppen { get; set; }
+        public virtual NotenWichtungNeu NotenWichtung { get; set; }
     }
 }

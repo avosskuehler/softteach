@@ -89,6 +89,8 @@
         this.Schülereinträge.Add(vm);
       }
 
+      this.Schülereinträge.CollectionChanged += this.SchülereinträgeCollectionChanged;
+
       this.Lerngruppentermine = new ObservableCollection<LerngruppenterminViewModel>();
       foreach (var lerngruppenTermin in lerngruppe.Lerngruppentermine)
       {
@@ -104,7 +106,7 @@
         }
       }
 
-      this.Schülereinträge.CollectionChanged += this.SchülereinträgeCollectionChanged;
+      this.Lerngruppentermine.CollectionChanged += this.Lerngruppentermine_CollectionChanged; ;
 
       this.SchülereinträgeView = CollectionViewSource.GetDefaultView(this.Schülereinträge);
       this.UpdateSort();
@@ -1050,6 +1052,17 @@
     {
       this.UndoableCollectionChanged(this, "Schülereinträge", this.Schülereinträge, e, true, "Änderung der Schülereinträge");
       this.RaisePropertyChanged("Schülerzahl");
+    }
+
+    /// <summary>
+    /// Tritt auf, wenn die Lerngruppentermine Collection verändert wurde.
+    /// Gibt die Änderungen an den Undostack weiter.
+    /// </summary>
+    /// <param name="sender">Die auslösende Collection</param>
+    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    private void Lerngruppentermine_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+      this.UndoableCollectionChanged(this, "Lerngruppentermine", this.Schülereinträge, e, true, "Änderung der Lerngruppentermine");
     }
   }
 }

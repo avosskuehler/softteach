@@ -316,6 +316,32 @@
   <Style x:Key="NextcloudOverlay48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource NextcloudOverlay16}">
     <Setter Property="FontSize" Value="24"/>
   </Style>
+  
+  <Style x:Key="MoveForwardOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="ArrowAltRight"/>
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="MoveForwardOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource MoveForwardOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+
+  <Style x:Key="MoveForwardOverlay48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource MoveForwardOverlay16}">
+    <Setter Property="FontSize" Value="24"/>
+  </Style>
+  
+  <Style x:Key="MoveBackwardOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="ArrowAltLeft"/>
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="MoveBackwardOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource MoveBackwardOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+
+  <Style x:Key="MoveBackwardOverlay48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource MoveBackwardOverlay16}">
+    <Setter Property="FontSize" Value="24"/>
+  </Style>
 
   <Style x:Key="ListeOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
     <Setter Property="Icon" Value="List"/>

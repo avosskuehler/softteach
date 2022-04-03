@@ -320,16 +320,22 @@
       }
 
       var stunde = new StundeNeu();
-      stunde.ErsteUnterrichtsstunde =
-        App.MainViewModel.Unterrichtsstunden.First(
-          o => o.UnterrichtsstundeIndex == WochenplanSelection.Instance.ErsteUnterrichtsstundeIndex).Model;
-      stunde.LetzteUnterrichtsstunde =
-        App.MainViewModel.Unterrichtsstunden.First(
-          o => o.UnterrichtsstundeIndex == WochenplanSelection.Instance.LetzteUnterrichtsstundeIndex).Model;
+      var ersteStunde = App.MainViewModel.Unterrichtsstunden.FirstOrDefault(o => o.UnterrichtsstundeIndex == WochenplanSelection.Instance.ErsteUnterrichtsstundeIndex).Model;
+      if (ersteStunde == null)
+      {
+        return;
+      }
+      stunde.ErsteUnterrichtsstunde = ersteStunde;
+      var letzteStunde = App.MainViewModel.Unterrichtsstunden.FirstOrDefault(o => o.UnterrichtsstundeIndex == WochenplanSelection.Instance.LetzteUnterrichtsstundeIndex).Model;
+      if (letzteStunde == null)
+      {
+        return;
+      }
+      stunde.LetzteUnterrichtsstunde = letzteStunde;
+
       stunde.Lerngruppe = vertretungsLerngruppe.Model;
       stunde.Termintyp = Termintyp.Vertretung;
-      // TODO
-      //stunde.Datum = WochenplanSelection.Instance.WochentagIndex;
+      stunde.Datum = this.wochenplanMontag.AddDays(WochenplanSelection.Instance.WochentagIndex - 1);
 
       var vm = new StundeViewModel(stunde);
 
@@ -407,6 +413,7 @@
         lerngruppentermin.Lerngruppe = vertretungslerngruppe.Model;
         lerngruppentermin.Termintyp = termintyp;
         lerngruppentermin.Ort = dlg.TerminOrt;
+        lerngruppentermin.Datum = this.wochenplanMontag.AddDays(WochenplanSelection.Instance.WochentagIndex - 1);
 
         var vm = new LerngruppenterminViewModel(lerngruppentermin);
         using (new UndoBatch(App.MainViewModel, string.Format("Sondertermin {0} angelegt.", vm), false))

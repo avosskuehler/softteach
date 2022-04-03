@@ -5,6 +5,7 @@
   using System.ComponentModel;
   using System.Linq;
   using System.Windows;
+  using System.Windows.Data;
   using SoftTeach.ExceptionHandling;
   using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
@@ -13,37 +14,17 @@
   /// <summary>
   /// ViewModel for managing Datenbank
   /// </summary>
-  public class ModulWorkspaceViewModel : DependencyObject
+  public class ModulWorkspaceViewModel : ViewModelBase
   {
     /// <summary>
-    /// The <see cref="DependencyProperty"/> for the <see cref="ShownModule"/>.
-    /// Is needed to get updates on the tables once the filter combos are selected.
+    /// Das Fach, dessen Module nur dargestellt werden sollen.
     /// </summary>
-    public static readonly DependencyProperty ShownModuleProperty = DependencyProperty.Register(
-      "ShownModule",
-      typeof(ObservableCollection<ModulViewModel>),
-      typeof(ModulWorkspaceViewModel),
-      new UIPropertyMetadata(null));
+    private FachViewModel fachFilter;
 
     /// <summary>
-    /// The <see cref="DependencyProperty"/> for the <see cref="FachFilter"/>.
-    /// Is needed to get updates on the filter combos once the filters are reset.
+    /// Der Jahrgang, dessen Module nur dargestellt werden sollen.
     /// </summary>
-    public static readonly DependencyProperty FachFilterProperty = DependencyProperty.Register(
-      "FachFilter",
-      typeof(FachViewModel),
-      typeof(ModulWorkspaceViewModel),
-      new UIPropertyMetadata(OnPropertyChanged));
-
-    /// <summary>
-    /// The <see cref="DependencyProperty"/> for the <see cref="JahrgangsstufeFilter"/>.
-    /// Is needed to get updates on the filter combos once the filters are reset.
-    /// </summary>
-    public static readonly DependencyProperty JahrgangsstufeFilterProperty = DependencyProperty.Register(
-      "JahrgangsstufeFilter",
-      typeof(int?),
-      typeof(ModulWorkspaceViewModel),
-      new UIPropertyMetadata(OnPropertyChanged));
+    private int? jahrgangFilter;
 
     /// <summary>
     /// The Modul currently selected
@@ -60,87 +41,52 @@
       this.RemoveFilterCommand = new DelegateCommand(this.RemoveFilter);
 
       // Init display of subset of modules
-      this.ShownModule = new ObservableCollection<ModulViewModel>();
-      this.FilterModules();
-      this.CurrentModul = App.MainViewModel.Module.Count > 0 ? App.MainViewModel.Module[0] : null;
-
-      // Re-act to any changes from outside this ViewModel
-      App.MainViewModel.Module.CollectionChanged += (sender, e) =>
-      {
-        if (e.OldItems != null && e.OldItems.Contains(this.CurrentModul))
-        {
-          this.CurrentModul = null;
-        }
-      };
-
-      Selection.Instance.PropertyChanged += this.SelectionPropertyChanged;
+      this.FilteredModule = CollectionViewSource.GetDefaultView(App.MainViewModel.Module);
+      this.FilteredModule.SortDescriptions.Add(new SortDescription("ModulFach", ListSortDirection.Ascending));
+      this.FilteredModule.SortDescriptions.Add(new SortDescription("ModulJahrgang", ListSortDirection.Ascending));
+      this.FilteredModule.SortDescriptions.Add(new SortDescription("ModulBezeichnung", ListSortDirection.Ascending));
+      this.FilteredModule.Filter = this.FilterModules;
     }
 
-
     /// <summary>
-    /// Holt oder setzt die Shown module dependency property which is a subset of
-    /// AllModule to display filtered views of the long list of modules
+    /// Holt oder setzt die gefilterten Module
     /// </summary>
-    public ObservableCollection<ModulViewModel> ShownModule
-    {
-      get { return (ObservableCollection<ModulViewModel>)this.GetValue(ShownModuleProperty); }
-      set { this.SetValue(ShownModuleProperty, value); }
-    }
+    public ICollectionView FilteredModule { get; set; }
 
     /// <summary>
-    /// Holt oder setzt die fach filter for the module list.
+    /// Holt oder setzt die fach filter for the stundenentwurf list.
     /// </summary>
     public FachViewModel FachFilter
     {
-      get { return (FachViewModel)this.GetValue(FachFilterProperty); }
-      set { this.SetValue(FachFilterProperty, value); }
-    }
-
-    /// <summary>
-    /// Holt oder setzt die jahrgangsstufe filter for the module list.
-    /// </summary>
-    public int? JahrgangsstufeFilter
-    {
-      get { return (int?)this.GetValue(JahrgangsstufeFilterProperty); }
-      set { this.SetValue(JahrgangsstufeFilterProperty, value); }
-    }
-
-    /// <summary>
-    /// Raises the <see cref="ViewModelBase.PropertyChanged"/> event.
-    /// </summary>
-    /// <param name="obj">The source of the event. This.</param>
-    /// <param name="args">The <see cref="DependencyPropertyChangedEventArgs"/> with 
-    /// the event data.</param>
-    private static void OnPropertyChanged(
-      DependencyObject obj,
-      DependencyPropertyChangedEventArgs args)
-    {
-      (obj as ModulWorkspaceViewModel).OnPropertyChanged(args);
-    }
-
-    /// <summary>
-    /// Raises the <see cref="ViewModelBase.PropertyChanged"/> event.
-    /// </summary>
-    /// <param name="args">The <see cref="DependencyPropertyChangedEventArgs"/> with 
-    /// the event data.</param>
-    protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs args)
-    {
-      if (args.Property.Name == "FachFilter" || args.Property.Name == "JahrgangsstufeFilter")
+      get
       {
-        this.FilterModules();
+        return this.fachFilter;
+      }
+
+      set
+      {
+        this.fachFilter = value;
+        this.RaisePropertyChanged("FachFilter");
+        this.FilteredModule.Refresh();
       }
     }
 
-     /// <summary>
-    /// Updates the filter combos when selection has changed.
+    /// <summary>
+    /// Holt oder setzt die jahrgangsstufe filter for the stundenentwurf list.
     /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">The <see cref="PropertyChangedEventArgs"/> event arguments.</param>
-    private void SelectionPropertyChanged(object sender, PropertyChangedEventArgs e)
+    public int? JahrgangFilter
     {
-      this.FachFilter = Selection.Instance.Fach;
-      //this.JahrgangsstufeFilter = Selection.Instance.Jahrgangsstufe;
-      this.FilterModules();
+      get
+      {
+        return this.jahrgangFilter;
+      }
+
+      set
+      {
+        this.jahrgangFilter = value;
+        this.RaisePropertyChanged("JahrgangFilter");
+        this.FilteredModule.Refresh();
+      }
     }
 
     /// <summary>
@@ -158,7 +104,7 @@
     /// </summary>
     public DelegateCommand RemoveFilterCommand { get; private set; }
 
- /// <summary>
+    /// <summary>
     /// Holt oder setzt die modul currently selected in this workspace
     /// </summary>
     public ModulViewModel CurrentModul
@@ -191,13 +137,11 @@
       }
 
       modul.Fach = this.FachFilter != null ? this.FachFilter.Model : Selection.Instance.Fach.Model;
-      modul.Jahrgang = this.JahrgangsstufeFilter != null ? this.JahrgangsstufeFilter.Value : Selection.Instance.Lerngruppe.LerngruppeJahrgang;
+      modul.Jahrgang = this.JahrgangFilter != null ? this.JahrgangFilter.Value : Selection.Instance.Lerngruppe.LerngruppeJahrgang;
 
-      // App.UnitOfWork.GetRepository<Modul>().Add(modul);
       var vm = new ModulViewModel(modul);
 
       App.MainViewModel.Module.Add(vm);
-      this.ShownModule.Add(vm);
       this.CurrentModul = vm;
     }
 
@@ -206,9 +150,7 @@
     /// </summary>
     private void DeleteCurrentModul()
     {
-      // App.UnitOfWork.GetRepository<Modul>().RemoveTest(this.CurrentModul.Model);
       var toDelete = this.CurrentModul;
-      this.ShownModule.RemoveTest(this.CurrentModul);
       App.MainViewModel.Module.RemoveTest(toDelete);
       this.CurrentModul = null;
     }
@@ -219,46 +161,40 @@
     private void RemoveFilter()
     {
       this.FachFilter = null;
-      this.JahrgangsstufeFilter = null;
-      this.FilterModules();
+      this.JahrgangFilter = null;
+      this.FilteredModule.Refresh();
     }
 
     /// <summary>
-    /// This method filters all modules by given fach and jahrgangsstufe
-    /// given by the comboboxes.
+    /// The filter predicate that filters the person table view only showing schüler
     /// </summary>
-    private void FilterModules()
+    /// <param name="de">The <see cref="PersonViewModel"/> that should be filtered</param>
+    /// <returns>True if the given object should remain in the list.</returns>
+    private bool FilterModules(object de)
     {
-      // Clear sublist of modules
-      this.ShownModule.Clear();
-
-      IEnumerable<ModulViewModel> filteredModules = null;
-      if (this.FachFilter != null && this.JahrgangsstufeFilter != null)
+      var modulViewModel = de as ModulViewModel;
+      if (modulViewModel == null)
       {
-        // Filter Modules of complete list
-        filteredModules = App.MainViewModel.Module.Where(
-          modul => modul.ModulFach == this.FachFilter &&
-            modul.ModulJahrgang == this.JahrgangsstufeFilter);
-      }
-      else if (this.FachFilter != null)
-      {
-        // Filter Modules of complete list
-        filteredModules = App.MainViewModel.Module.Where(modul => modul.ModulFach == this.FachFilter);
-      }
-      else if (this.JahrgangsstufeFilter != null)
-      {
-        // Filter Modules of complete list
-        filteredModules = App.MainViewModel.Module.Where(modul => modul.ModulJahrgang == this.JahrgangsstufeFilter);
+        return false;
       }
 
-      // Add Module
-      foreach (var module in App.MainViewModel.Module)
+      if (this.FachFilter != null)
       {
-        if (filteredModules == null || filteredModules.Contains(module))
+        if (modulViewModel.ModulFach != this.FachFilter)
         {
-          this.ShownModule.Add(module);
+          return false;
         }
       }
+
+      if (this.JahrgangFilter != null)
+      {
+        if (modulViewModel.ModulJahrgang != this.JahrgangFilter)
+        {
+          return false;
+        }
+      }
+
+      return true;
     }
   }
 }

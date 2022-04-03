@@ -20,7 +20,6 @@
         <EntityTypeShape EntityType="TeachyModel.ModulNeu" Width="1.5" PointX="22.875" PointY="12.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TeachyModel.NoteNeu" Width="1.5" PointX="11" PointY="22.25" IsExpanded="true" />
         <EntityTypeShape EntityType="TeachyModel.NotentendenzNeu" Width="1.5" PointX="12.75" PointY="26" IsExpanded="true" />
-        <EntityTypeShape EntityType="TeachyModel.NotenWichtungNeu" Width="1.5" PointX="2.75" PointY="27" IsExpanded="true" />
         <EntityTypeShape EntityType="TeachyModel.PhaseNeu" Width="1.5" PointX="23" PointY="6.375" IsExpanded="true" />
         <EntityTypeShape EntityType="TeachyModel.ProzentbereichNeu" Width="1.5" PointX="16.5" PointY="20.625" IsExpanded="true" />
         <EntityTypeShape EntityType="TeachyModel.RaumNeu" Width="1.5" PointX="3.5" PointY="12.75" IsExpanded="true" />
@@ -56,7 +55,6 @@
         </AssociationConnector>
         <AssociationConnector Association="TeachyModel.FK_LerngruppeLerngruppentermin" ManuallyRouted="false" />
         <AssociationConnector Association="TeachyModel.FK_LerngruppeStundenplaneintrag" ManuallyRouted="false" />
-        <AssociationConnector Association="TeachyModel.FK_NotenWichtungenLerngruppe" ManuallyRouted="false" />
         <AssociationConnector Association="TeachyModel.FK_ModulReihe" ManuallyRouted="false" />
         <AssociationConnector Association="TeachyModel.FK_ModulStunde" ManuallyRouted="false" />
         <AssociationConnector Association="TeachyModel.FK_ZensurNoten" ManuallyRouted="false" />
@@ -92,9 +90,11 @@
         <AssociationConnector Association="TeachyModel.FK_SchuljahrLerngruppe" />
         <AssociationConnector Association="TeachyModel.FK_SchuljahrSchultermin" />
         <AssociationConnector Association="TeachyModel.FK_SchuljahrStundenplan" />
-        <EntityTypeShape EntityType="TeachyModel.BetroffeneLerngruppeNeu" Width="2.5" PointX="15" PointY="0.5" />
+        <EntityTypeShape EntityType="TeachyModel.BetroffeneLerngruppeNeu" Width="1.5" PointX="14.75" PointY="0.5" />
         <AssociationConnector Association="TeachyModel.FK_LerngruppeBetroffeneLerngruppe" />
         <AssociationConnector Association="TeachyModel.FK_TerminBetroffeneLerngruppe" />
+        <EntityTypeShape EntityType="TeachyModel.NotenWichtungNeu" Width="1.5" PointX="2.75" PointY="27" />
+        <AssociationConnector Association="TeachyModel.FK_NotenWichtungenLerngruppe" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -10,7 +10,7 @@
 
   public class TempTeachyEntities : TeachyModel.TeachyEntities
   {
-    protected override void OnModelCreating(DbModelBuilder modelBuilder)
+    public void OnModelCreating(DbModelBuilder modelBuilder)
     {
       modelBuilder.Entity<ArbeitNeu>()
         .Property(a => a.Id)

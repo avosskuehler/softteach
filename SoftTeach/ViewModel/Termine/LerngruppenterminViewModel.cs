@@ -232,8 +232,15 @@
     /// </summary>
     protected override void DeleteTermin()
     {
-      //TODO
-      //this.ParentTagesplan.DeleteLerngruppentermin(this);
+      if (this is LerngruppenterminViewModel)
+      {
+        var lgt = this.Model as LerngruppenterminNeu;
+        var lg = App.MainViewModel.Lerngruppen.FirstOrDefault(o => o.Model.Id == lgt.LerngruppeId);
+        if (lg != null)
+        {
+          lg.Lerngruppentermine.RemoveTest(this);
+        }
+      }
     }
 
     /// <summary>
@@ -241,21 +248,26 @@
     /// </summary>
     protected virtual void ViewLerngruppentermin()
     {
-      var dlg = new AddLerngruppenterminDialog
+      using (new UndoBatch(App.MainViewModel, string.Format("Lerngruppentermin {0} editieren", this), false))
       {
-        Terminbezeichnung = this.TerminBeschreibung,
-        TerminTermintyp = this.TerminTermintyp,
-        TerminErsteUnterrichtsstunde = this.TerminErsteUnterrichtsstunde,
-        TerminLetzteUnterrichtsstunde = this.TerminLetzteUnterrichtsstunde
-      };
+        var dlg = new AddLerngruppenterminDialog
+        {
+          Terminbezeichnung = this.TerminBeschreibung,
+          TerminTermintyp = this.TerminTermintyp,
+          TerminOrt = this.TerminOrt,
+          TerminErsteUnterrichtsstunde = this.TerminErsteUnterrichtsstunde,
+          TerminLetzteUnterrichtsstunde = this.TerminLetzteUnterrichtsstunde
+        };
 
-      if (dlg.ShowDialog().GetValueOrDefault(false))
-      {
-        this.TerminBeschreibung = dlg.Terminbezeichnung;
-        this.TerminTermintyp = dlg.TerminTermintyp;
-        this.TerminErsteUnterrichtsstunde = dlg.TerminErsteUnterrichtsstunde;
-        this.TerminLetzteUnterrichtsstunde = dlg.TerminLetzteUnterrichtsstunde;
-        //this.ParentTagesplan.UpdateBeschreibung();
+        if (dlg.ShowDialog().GetValueOrDefault(false))
+        {
+          this.TerminBeschreibung = dlg.Terminbezeichnung;
+          this.TerminTermintyp = dlg.TerminTermintyp;
+          this.TerminErsteUnterrichtsstunde = dlg.TerminErsteUnterrichtsstunde;
+          this.TerminLetzteUnterrichtsstunde = dlg.TerminLetzteUnterrichtsstunde;
+          this.TerminOrt = dlg.TerminOrt;
+          //this.ParentTagesplan.UpdateBeschreibung();
+        }
       }
     }
 
@@ -270,6 +282,7 @@
         {
           Terminbezeichnung = this.TerminBeschreibung,
           TerminTermintyp = this.TerminTermintyp,
+          TerminOrt = this.TerminOrt,
           TerminErsteUnterrichtsstunde = this.TerminErsteUnterrichtsstunde,
           TerminLetzteUnterrichtsstunde = this.TerminLetzteUnterrichtsstunde
         };
@@ -280,6 +293,7 @@
           this.TerminTermintyp = dlg.TerminTermintyp;
           this.TerminErsteUnterrichtsstunde = dlg.TerminErsteUnterrichtsstunde;
           this.TerminLetzteUnterrichtsstunde = dlg.TerminLetzteUnterrichtsstunde;
+          this.TerminOrt = dlg.TerminOrt;
           //this.ParentTagesplan.UpdateBeschreibung();
         }
       }

@@ -40,7 +40,7 @@ namespace SoftTeach.View.Termine
       this.TerminTermintyp = Termintyp.Abitur;
       this.TerminErsteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[0];
       this.TerminLetzteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[6];
-      this.TerminBezeichnung.Focus();
+      this.TerminOrtTextBox.Focus();
     }
 
     #endregion
@@ -54,12 +54,28 @@ namespace SoftTeach.View.Termine
     {
       get
       {
-        return this.TerminBezeichnung.Text;
+        return this.TerminBezeichnungTextBox.Text;
       }
 
       set
       {
-        this.TerminBezeichnung.Text = value;
+        this.TerminBezeichnungTextBox.Text = value;
+      }
+    }
+
+    /// <summary>
+    /// Holt oder setzt die Terminbezeichnng
+    /// </summary>
+    public string TerminOrt
+    {
+      get
+      {
+        return this.TerminOrtTextBox.Text;
+      }
+
+      set
+      {
+        this.TerminOrtTextBox.Text = value;
       }
     }
 

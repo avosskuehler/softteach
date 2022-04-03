@@ -253,13 +253,23 @@
                 <ColumnDefinition Width="Auto"/>
               </Grid.ColumnDefinitions>
               <StackPanel Grid.Column="0" Orientation="Horizontal">
-                <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=MovePhaseCommand}">
+                <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=MovePhaseForwardCommand}">
                   <StackPanel Orientation="Horizontal" ToolTip="Phase verschieben">
                     <Grid >
-                      <Image Source="/SoftTeach;component/Images/Phase16.png"/>
-                      <Image Source="/SoftTeach;component/Images/MoveOverlay16.png"/>
+                      <fa:IconBlock Style="{StaticResource Phase16}"/>
+                      <fa:IconBlock Style="{StaticResource MoveForwardOverlay16}"/>
                     </Grid>
                     <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Phase in nächste Stunde verschieben.</Label>
+
+                  </StackPanel>
+                </Button>
+                <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=MovePhaseBackwardCommand}">
+                  <StackPanel Orientation="Horizontal" ToolTip="Phase verschieben">
+                    <Grid >
+                      <fa:IconBlock Style="{StaticResource Phase16}"/>
+                      <fa:IconBlock Style="{StaticResource MoveBackwardOverlay16}"/>
+                    </Grid>
+                    <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Phase in vorhergehende Stunde verschieben.</Label>
 
                   </StackPanel>
                 </Button>

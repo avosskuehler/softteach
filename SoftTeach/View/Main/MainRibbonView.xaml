@@ -183,7 +183,7 @@
             DisplayMemberPath="SchuljahrBezeichnung" 
             ItemsSource="{Binding Source={StaticResource SchuljahreSorted}}" />
         </fluent:RibbonGroupBox>
-        <fluent:RibbonGroupBox Header="Lerngruppe">
+        <!--<fluent:RibbonGroupBox Header="Lerngruppe">
           <fluent:RibbonGroupBox.Icon>
             <fa:IconBlock Style="{StaticResource Fach32}"/>
           </fluent:RibbonGroupBox.Icon>
@@ -195,7 +195,7 @@
             SelectedValue="{Binding Source={x:Static setting:Selection.Instance}, Path=Lerngruppe}" 
             DisplayMemberPath="LerngruppeBezeichnung" 
             ItemsSource="{Binding Source={StaticResource LerngruppenSorted}}" />
-        </fluent:RibbonGroupBox>
+        </fluent:RibbonGroupBox>-->
         <fluent:RibbonGroupBox Header="Termine">
           <fluent:RibbonGroupBox.Icon>
             <fa:IconBlock Style="{StaticResource Termin32}"/>
@@ -343,6 +343,13 @@
           <fluent:RibbonGroupBox.Icon>
             <fa:IconBlock Style="{StaticResource Stundenentwurf32}"/>
           </fluent:RibbonGroupBox.Icon>
+          <fluent:Button 
+            Header="Module" 
+            Click="ModuleButtonClick" >
+            <fluent:Button.LargeIcon>
+              <fa:IconBlock Style="{StaticResource Modul32}"/>
+            </fluent:Button.LargeIcon>
+          </fluent:Button>
           <!--<fluent:Button 
             Header="Stundenentwürfe" 
             Click="StundenentwuerfeButtonClick" >
@@ -405,14 +412,9 @@
                                Click="FachstundenButtonClick"
                                LargeImageSource="/SoftTeach;component/Images/Unterrichtsstunde32.png"
                                SmallImageSource="/SoftTeach;component/Images/Unterrichtsstunde16.png"/>
-            <RibbonButton x:Name="ModuleButton"
-                               Label="Module" 
-                               Click="ModuleButtonClick" 
-                               LargeImageSource="/SoftTeach;component/Images/Modul32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Modul16.png"/>
           </RibbonControlGroup>
         </RibbonGroup>-->
-        <!--<RibbonControlGroup >
+      <!--<RibbonControlGroup >
           <RibbonButton x:Name="SchulwocheButton"
                                Label="Schulwochen" 
                                Click="SchulwocheButtonClick"

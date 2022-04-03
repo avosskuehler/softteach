@@ -12,4 +12,6 @@
   <converter:WrapPanelWidthConverter x:Key="WrapPanelWidthConverter" />
   <converter:SitzplatzAngleConverter x:Key="SitzplatzAngleConverter" />
   <converter:EnumBooleanConverter x:Key="EnumBooleanConverter" />
+  <converter:StundeStundenzahlConverter x:Key="StundeStundenzahlConverter" />
+  <converter:StundePhasenKurzConverter x:Key="StundePhasenKurzConverter" />
 </ResourceDictionary>

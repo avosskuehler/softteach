@@ -87,7 +87,8 @@ namespace SoftTeach.ViewModel.Termine
       this.EditStundeCommand = new DelegateCommand(this.EditStunde);
 
       this.AddPhaseCommand = new DelegateCommand(this.AddPhase);
-      this.MovePhaseCommand = new DelegateCommand(this.MovePhase, () => this.CurrentPhase != null);
+      this.MovePhaseForwardCommand = new DelegateCommand(this.MovePhaseForward, () => this.CurrentPhase != null);
+      this.MovePhaseBackwardCommand = new DelegateCommand(this.MovePhaseBackward, () => this.CurrentPhase != null);
       this.DeletePhaseCommand = new DelegateCommand(this.DeleteCurrentPhase, () => this.CurrentPhase != null);
       this.AddDateiverweisCommand = new DelegateCommand(this.AddDateiverweis);
       this.DeleteDateiverweisCommand = new DelegateCommand(this.DeleteCurrentDateiverweis, () => this.CurrentDateiverweis != null);
@@ -176,7 +177,12 @@ namespace SoftTeach.ViewModel.Termine
     /// <summary>
     /// Holt den Befehl die phasen in die nächste Stunde zu verschieben.
     /// </summary>
-    public DelegateCommand MovePhaseCommand { get; private set; }
+    public DelegateCommand MovePhaseForwardCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl die phasen in die vorangegangene Stunde zu verschieben.
+    /// </summary>
+    public DelegateCommand MovePhaseBackwardCommand { get; private set; }
 
     /// <summary>
     /// Holt den Befehl zur deleting the current phase
@@ -261,7 +267,8 @@ namespace SoftTeach.ViewModel.Termine
         this.currentPhase = value;
         this.RaisePropertyChanged("CurrentPhase");
         this.DeletePhaseCommand.RaiseCanExecuteChanged();
-        this.MovePhaseCommand.RaiseCanExecuteChanged();
+        this.MovePhaseForwardCommand.RaiseCanExecuteChanged();
+        this.MovePhaseBackwardCommand.RaiseCanExecuteChanged();
       }
     }
 
@@ -1386,34 +1393,63 @@ namespace SoftTeach.ViewModel.Termine
     /// <summary>
     /// Schiebt die gewählte(n) Phase(n) in die nächste Stunde.
     /// </summary>
-    private void MovePhase()
+    private void MovePhaseForward()
     {
       if (this.SelectedPhasen == null)
       {
         return;
       }
 
-      // TODO
-      //var stundeViewModel = Selection.Instance.Stunde;
-      //var nächsteStunde = App.MainViewModel.Stunden
-      //  .Where(o => ((StundeNeu)o.Model).LerngruppeId == stundeViewModel.LerngruppeId)
-      //  .OrderBy(o => o.LerngruppenterminDatum)
-      //  .FirstOrDefault(o => o.LerngruppenterminDatum > stundeViewModel.Datum);
+      var lg = App.MainViewModel.Lerngruppen.FirstOrDefault(o => o.Model.Id == ((StundeNeu)this.Model).LerngruppeId);
+      var nächsteStunde = lg.Lerngruppentermine.OfType<StundeViewModel>()
+        .OrderBy(o => o.LerngruppenterminDatum)
+        .FirstOrDefault(o => o.LerngruppenterminDatum > this.LerngruppenterminDatum);
 
-      //using (new UndoBatch(App.MainViewModel, string.Format("Phase verschoben"), false))
-      //{
-      //  if (nächsteStunde != null)
-      //  {
-      //    var moveItems = new List<PhaseViewModel>(this.SelectedPhasen.Cast<PhaseViewModel>());
-      //    foreach (var phaseViewModel in moveItems)
-      //    {
-      //      var phaseClone = (PhaseViewModel)phaseViewModel.Clone();
-      //      nächsteStunde.AddPhase(phaseClone, 0);
-      //      this.DeletePhase(phaseViewModel);
-      //    }
-      //  }
-      //}
+      using (new UndoBatch(App.MainViewModel, string.Format("Phase verschoben"), false))
+      {
+        if (nächsteStunde != null)
+        {
+          var moveItems = new List<PhaseViewModel>(this.SelectedPhasen.Cast<PhaseViewModel>());
+          foreach (var phaseViewModel in moveItems)
+          {
+            var phaseClone = (PhaseViewModel)phaseViewModel.Clone();
+            nächsteStunde.AddPhase(phaseClone, 0);
+            this.DeletePhase(phaseViewModel);
+          }
+        }
+      }
     }
+
+    /// <summary>
+    /// Schiebt die gewählte(n) Phase(n) in die vorangegangene Stunde.
+    /// </summary>
+    private void MovePhaseBackward()
+    {
+      if (this.SelectedPhasen == null)
+      {
+        return;
+      }
+
+      var lg = App.MainViewModel.Lerngruppen.FirstOrDefault(o => o.Model.Id == ((StundeNeu)this.Model).LerngruppeId);
+      var nächsteStunde = lg.Lerngruppentermine.OfType<StundeViewModel>()
+        .OrderBy(o => o.LerngruppenterminDatum)
+        .LastOrDefault(o => o.LerngruppenterminDatum < this.LerngruppenterminDatum);
+
+      using (new UndoBatch(App.MainViewModel, string.Format("Phase verschoben"), false))
+      {
+        if (nächsteStunde != null)
+        {
+          var moveItems = new List<PhaseViewModel>(this.SelectedPhasen.Cast<PhaseViewModel>());
+          foreach (var phaseViewModel in moveItems)
+          {
+            var phaseClone = (PhaseViewModel)phaseViewModel.Clone();
+            nächsteStunde.AddPhase(phaseClone, 0);
+            this.DeletePhase(phaseViewModel);
+          }
+        }
+      }
+    }
+
 
     ///// <summary>
     ///// Event handler für die PropertyChanged event der Phase.

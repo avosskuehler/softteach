@@ -34,11 +34,11 @@
         <Rectangle x:Name="PhasenRahmen" Grid.Column="2" Grid.RowSpan="2" Fill="White" Stroke="Transparent"/>-->
         <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="3" Text="{Binding Path=Modul.Bezeichnung, Mode=OneWay}"/>
         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
-          <!--<TextBlock Margin="3" Text="{Binding Path=StundeStundenzahl, Mode=OneWay}"/>-->
+          <TextBlock Margin="3" Text="{Binding Mode=OneWay, Converter={StaticResource StundeStundenzahlConverter}}"/>
           <TextBlock Margin="0,3" >h</TextBlock>
         </StackPanel>
           <TextBlock Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding Path=Beschreibung, Mode=OneWay}"/>
-        <!--<TextBlock Margin="3" Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Text="{Binding Path=StundePhasenKurzform, Mode=OneWay}"/>-->
+        <TextBlock Margin="3" Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Text="{Binding Mode=OneWay, Converter={StaticResource StundePhasenKurzConverter}}"/>
       </Grid>
       <!--</Border>-->
       <!--<DataTemplate.Triggers>

@@ -22,6 +22,11 @@
       <x:Type TypeName="Data:Halbjahr"/>
     </ObjectDataProvider.MethodParameters>
   </ObjectDataProvider>
+  <ObjectDataProvider x:Key="Termintypen" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+    <ObjectDataProvider.MethodParameters>
+      <x:Type TypeName="Data:Termintyp"/>
+    </ObjectDataProvider.MethodParameters>
+  </ObjectDataProvider>
 
 
 </ResourceDictionary>

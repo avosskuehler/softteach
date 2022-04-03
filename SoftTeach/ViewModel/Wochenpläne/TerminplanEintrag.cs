@@ -334,7 +334,7 @@
             var lerngruppentermin = this.TerminViewModel as LerngruppenterminViewModel;
             if (lerngruppentermin.LerngruppenterminFach == "Vertretungsstunden")
             {
-              return "Termin";
+              return lerngruppentermin.TerminTermintyp.ToString();
             }
           }
 
@@ -603,7 +603,7 @@
           var lerngruppentermin = this.TerminViewModel as LerngruppenterminViewModel;
           Selection.Instance.Fach =
             App.MainViewModel.Fächer.First(o => o.FachBezeichnung == lerngruppentermin.LerngruppenterminFach);
-          Selection.Instance.Lerngruppe = App.MainViewModel.Lerngruppen.First(o => o.Model.Id == ((StundeNeu)lerngruppentermin.Model).LerngruppeId);
+          Selection.Instance.Lerngruppe = App.MainViewModel.Lerngruppen.First(o => o.Model.Id == lerngruppentermin.LerngruppenterminLerngruppe.Model.Id);
           lerngruppentermin.EditLerngruppenterminCommand.Execute(null);
         }
         else if (this.TerminViewModel is SchulterminViewModel)

@@ -40,7 +40,6 @@ namespace SoftTeach.Model.TeachyModel
         public virtual DbSet<ModulNeu> Module { get; set; }
         public virtual DbSet<NoteNeu> Noten { get; set; }
         public virtual DbSet<NotentendenzNeu> Notentendenzen { get; set; }
-        public virtual DbSet<NotenWichtungNeu> NotenWichtungen { get; set; }
         public virtual DbSet<PhaseNeu> Phasen { get; set; }
         public virtual DbSet<ProzentbereichNeu> Prozentbereiche { get; set; }
         public virtual DbSet<RaumNeu> Räume { get; set; }
@@ -59,5 +58,6 @@ namespace SoftTeach.Model.TeachyModel
         public virtual DbSet<SitzplanNeu> Sitzpläne { get; set; }
         public virtual DbSet<SchuljahrNeu> Schuljahre { get; set; }
         public virtual DbSet<BetroffeneLerngruppeNeu> BetroffeneLerngruppen { get; set; }
+        public virtual DbSet<NotenWichtungNeu> NotenWichtungen { get; set; }
     }
 }

@@ -40,7 +40,7 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*" MinWidth="100"/>
           </Grid.ColumnDefinitions>
-          <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"  Content="{Binding Path=TerminTermintyp.TermintypBezeichnung}"/>
+          <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"  Content="{Binding Path=TerminTermintyp}"/>
           <Label Grid.Row="1" Grid.Column="0">Ort</Label>
           <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=TerminOrt}"/>
         </Grid>
