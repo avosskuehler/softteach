@@ -205,6 +205,14 @@
     }
 
     /// <summary>
+    /// Holt oder setzt die im Jahresplan dargestellt Lerngruppe
+    /// </summary>
+    public string Bezeichnung
+    {
+      get => string.Format("Jahresplan für {0} {1} im Schuljahr {2}", this.Lerngruppe.LerngruppeBezeichnung, this.Fach.FachKurzbezeichnung, this.Schuljahr.SchuljahrBezeichnung);
+    }
+
+    /// <summary>
     /// Holt oder setzt die Bezeichnung des aktuellen Kalendermonats
     /// </summary>
     [DependsUpon("AktuellesDatum")]
@@ -251,6 +259,13 @@
           tag.IstFerien = true;
         }
 
+        var ferien2 = App.MainViewModel.Ferien.Where(o =>
+          o.Model.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr).Any(o => o.FerienErsterFerientag <= d.Date && o.FerienLetzterFerientag >= d.Date);
+        if (ferien2)
+        {
+          tag.IstFerien = true;
+        }
+
         var feiertag = App.MainViewModel.Schultermine.Where(o =>
           o.SchulterminSchuljahr.SchuljahrJahr == Selection.Instance.Schuljahr.SchuljahrJahr
           && o.TerminTermintyp == Termintyp.Feiertag).Any(o => o.SchulterminDatum.Date == d.Date);
@@ -262,7 +277,7 @@
         tag.PropertyChanged += this.Day_Changed;
         tag.IstHeute = d == DateTime.Today;
 
-        if (box <= 183)
+        if (box <= 184)
         {
           this.TageHJ1.Add(tag);
         }

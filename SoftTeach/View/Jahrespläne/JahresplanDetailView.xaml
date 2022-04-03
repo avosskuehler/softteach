@@ -5,7 +5,8 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
   xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
-  xmlns:cal="clr-namespace:SoftTeach.Resources.Controls"
+  xmlns:cal="clr-namespace:SoftTeach.Resources.Controls" 
+  xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" xmlns:System="clr-namespace:System;assembly=mscorlib"
   mc:Ignorable="d" 
   d:DesignHeight="300" d:DesignWidth="300">
   <UserControl.Resources>
@@ -98,6 +99,160 @@
             </Setter>
           </Style>
 
+          <DataTemplate x:Key="TooltipLineTemplate">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="17"/>
+                <ColumnDefinition Width="17"/>
+              </Grid.ColumnDefinitions>
+              <Label Background="{Binding Path=LerngruppenterminFarbe}" VerticalAlignment="Center" 
+                   Padding="0" FontSize="10" Grid.Column="0" 
+                   Content="{Binding Path=TerminStundenbereich}"/>
+              <Label Padding="10,0,0,0" VerticalAlignment="Center" FontSize="10" 
+                   Grid.Column="1" Content="{Binding Path=TerminBeschreibung}"/>
+              <Button Grid.Column="2" Command="{Binding Path=EditLerngruppenterminCommand}">
+                <Image Source="/SoftTeach;component/Images/Edit16.png"/>
+              </Button>
+              <Button Grid.Column="3" Command="{Binding Path=RemoveLerngruppenterminCommand}">
+                <Image Source="/SoftTeach;component/Images/Remove16.png"/>
+              </Button>
+            </Grid>
+          </DataTemplate>
+
+          <ControlTemplate x:Key="TagesplanTemplate">
+            <Grid Background="{Binding Path=TagKalenderfarbe}">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+              </Grid.RowDefinitions>
+              <Label Name="LabelBeschreibung" Padding="3,0" Margin="0" VerticalAlignment="Center" FontSize="12" Content="{Binding Path=TagBeschreibung}">
+                <Label.Triggers>
+                  <EventTrigger RoutedEvent="UIElement.MouseLeftButtonDown">
+                    <BeginStoryboard>
+                      <Storyboard>
+                        <BooleanAnimationUsingKeyFrames Storyboard.TargetName="DetailPopup" Storyboard.TargetProperty="(Popup.IsOpen)">
+                          <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="True"/>
+                        </BooleanAnimationUsingKeyFrames>
+                      </Storyboard>
+                    </BeginStoryboard>
+                  </EventTrigger>
+                </Label.Triggers>
+              </Label>
+              <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" x:Name="Buttons" Visibility="Hidden">
+                <StackPanel Orientation="Horizontal" Visibility="Hidden" x:Name="EditButtons">
+                  <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=EditLerngruppenterminCommand}" ToolTip="Stunde ändern">
+                    <Grid>
+                      <Image Source="/SoftTeach;component/Images/Edit16.png"/>
+                    </Grid>
+                  </Button>
+                  <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=LöscheLerngruppenterminCommand}" ToolTip="Termin/Stunde löschen">
+                    <Grid>
+                      <Image Source="/SoftTeach;component/Images/Remove16.png"/>
+                    </Grid>
+                  </Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                  <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddStundeCommand}" ToolTip="Stunde anlegen">
+                    <Grid>
+                      <Image Source="/SoftTeach;component/Images/Stundenentwurf16.png"/>
+                      <Image Source="/SoftTeach;component/Images/AddOverlay16.png"/>
+                    </Grid>
+                  </Button>
+                  <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddLerngruppenterminCommand}" ToolTip="Lerngruppentermin anlegen">
+                    <Grid>
+                      <Image Source="/SoftTeach;component/Images/Lerngruppentermin16.png"/>
+                      <Image Source="/SoftTeach;component/Images/AddOverlay16.png"/>
+                    </Grid>
+                  </Button>
+                </StackPanel>
+              </StackPanel>
+              <Popup 
+        x:Name="DetailPopup"
+        PopupAnimation="Fade" 
+        Placement="Center" 
+        HorizontalOffset="80"
+        AllowsTransparency="True" 
+        StaysOpen="True">
+                <Popup.Resources>
+                  <CollectionViewSource Source="{Binding Path=Lerngruppentermine}" x:Key="LerngruppentermineSorted">
+                    <CollectionViewSource.SortDescriptions>
+                      <scm:SortDescription PropertyName="TerminErsteUnterrichtsstunde"/>
+                    </CollectionViewSource.SortDescriptions>
+                  </CollectionViewSource>
+                </Popup.Resources>
+                <Popup.Child>
+                  <ListBox x:Name="TerminList" ItemsSource="{Binding Source={StaticResource LerngruppentermineSorted}}"
+                                 ItemTemplate="{StaticResource TooltipLineTemplate}">
+                    <ListBox.Triggers>
+                      <EventTrigger RoutedEvent="UIElement.MouseLeftButtonDown">
+                        <BeginStoryboard>
+                          <Storyboard>
+                            <BooleanAnimationUsingKeyFrames Storyboard.TargetName="DetailPopup" Storyboard.TargetProperty="(Popup.IsOpen)">
+                              <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="False"/>
+                            </BooleanAnimationUsingKeyFrames>
+                          </Storyboard>
+                        </BeginStoryboard>
+                      </EventTrigger>
+                      <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                        <BeginStoryboard>
+                          <Storyboard>
+                            <BooleanAnimationUsingKeyFrames Storyboard.TargetName="DetailPopup" Storyboard.TargetProperty="(Popup.IsOpen)">
+                              <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="False"/>
+                            </BooleanAnimationUsingKeyFrames>
+                          </Storyboard>
+                        </BeginStoryboard>
+                      </EventTrigger>
+                    </ListBox.Triggers>
+                  </ListBox>
+                </Popup.Child>
+              </Popup>
+            </Grid>
+            <ControlTemplate.Triggers>
+              <DataTrigger Binding="{Binding Path=KeineLerngruppentermine}">
+                <DataTrigger.Value>
+                  <System:Boolean>true</System:Boolean>
+                </DataTrigger.Value>
+                <Setter TargetName="TerminList" Property="Visibility" Value="Hidden"/>
+                <Setter TargetName="EditButtons" Property="Visibility" Value="Hidden"/>
+              </DataTrigger>
+              <DataTrigger Binding="{Binding Path=KeineLerngruppentermine}">
+                <DataTrigger.Value>
+                  <System:Boolean>false</System:Boolean>
+                </DataTrigger.Value>
+                <Setter TargetName="TerminList" Property="Visibility" Value="Visible"/>
+                <Setter TargetName="EditButtons" Property="Visibility" Value="Visible"/>
+              </DataTrigger>
+              <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                <BeginStoryboard>
+                  <Storyboard>
+                    <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="Buttons" Storyboard.TargetProperty="(UIElement.Visibility)">
+                      <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                        <DiscreteObjectKeyFrame.Value>
+                          <Visibility>Visible</Visibility>
+                        </DiscreteObjectKeyFrame.Value>
+                      </DiscreteObjectKeyFrame>
+                    </ObjectAnimationUsingKeyFrames>
+                  </Storyboard>
+                </BeginStoryboard>
+              </EventTrigger>
+              <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                <BeginStoryboard>
+                  <Storyboard>
+                    <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="Buttons" Storyboard.TargetProperty="(UIElement.Visibility)">
+                      <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                        <DiscreteObjectKeyFrame.Value>
+                          <Visibility>Hidden</Visibility>
+                        </DiscreteObjectKeyFrame.Value>
+                      </DiscreteObjectKeyFrame>
+                    </ObjectAnimationUsingKeyFrames>
+                  </Storyboard>
+                </BeginStoryboard>
+              </EventTrigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+
+
         </ResourceDictionary>
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
@@ -110,10 +265,8 @@
     <Grid Grid.Row="0">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto"/>
-        <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="*"/>
       </Grid.ColumnDefinitions>
-      <Label Grid.Column="1" FontSize="20" Padding="6,0" Foreground="Black" Content="{Binding MonatsBezeichnung}"/>
       <StackPanel Grid.Column="0" Orientation="Horizontal">
         <Button Style="{Binding Source={StaticResource {x:Static ToolBar.ButtonStyleKey}}}" Command="{Binding MonatZurückCommand}">
           <fa:IconBlock Icon="AngleLeft" Foreground="Black"></fa:IconBlock>
@@ -122,6 +275,7 @@
           <fa:IconBlock Icon="AngleRight" Foreground="Black"></fa:IconBlock>
         </Button>
       </StackPanel>
+      <Label Grid.Column="1" FontSize="20" Padding="6,0" Foreground="Black" Content="{Binding Bezeichnung}"/>
     </Grid>
     <Border Grid.Row="1">
       <TabControl TabStripPlacement="Left">
@@ -147,7 +301,7 @@
               </ItemsControl>
             </Border>
 
-            <Border Grid.Row="1" BorderBrush="Black" BorderThickness="0,0,1,1">
+            <Border Grid.Row="1" BorderBrush="Black" BorderThickness="0">
               <ListBox 
                 Name="TageListBox"
                 ItemsSource="{Binding TageHJ1View}" 
@@ -167,7 +321,7 @@
                 <ListBox.ItemTemplate>
                   <DataTemplate>
                     <!--Box-->
-                    <Border BorderBrush="Black" BorderThickness="1,1,0,0" Padding="0">
+                    <Border BorderBrush="Black" BorderThickness="0" Padding="0">
                       <Border Name="InnerBorder" BorderBrush="{Binding Path=Notizen, Converter={StaticResource DayBorderColorConverter}}" BorderThickness="0">
                         <Border.Style>
                           <Style TargetType="{x:Type Border}">
@@ -210,13 +364,14 @@
                             <ColumnDefinition Width="*"/>
                           </Grid.ColumnDefinitions>
                           <!--Tagesdatum-->
-                          <TextBlock Grid.Column="0" TextAlignment="Left" Text="{Binding Datum, Converter={StaticResource DateConverter}, ConverterParameter=NRDAY}" FontSize="12" Margin="1" VerticalAlignment="Top"/>
-                          <Grid Grid.Column="1" Background="{Binding Path=ErsterLerngruppentermin.LerngruppenterminFarbe}" Height="25" Margin="0">
-                            <!--<Grid.InputBindings>
+                          <TextBlock Grid.Column="0" TextAlignment="Left" Text="{Binding Datum, Converter={StaticResource DateConverter}, ConverterParameter=NRDAY}" FontSize="12" Margin="1" VerticalAlignment="Center"/>
+                          <ContentControl Grid.Column="1" Template="{StaticResource TagesplanTemplate}"/>
+                          <!--<Grid Grid.Column="1" Background="{Binding Path=ErsterLerngruppentermin.LerngruppenterminFarbe}" Height="25" Margin="0">
+                            --><!--<Grid.InputBindings>
                                           <MouseBinding Command="{Binding Path=ÄndereAufgabeCommand}" MouseAction="LeftDoubleClick"/>
-                                        </Grid.InputBindings>-->
+                                        </Grid.InputBindings>--><!--
                             <Label FontSize="11" Padding="3,0" Content="{Binding Path=ErsterLerngruppentermin.TerminBeschreibung}" VerticalAlignment="Top"/>
-                          </Grid>
+                          </Grid>-->
                           <!--<ScrollViewer Grid.Column="1" Template="{DynamicResource CustomScrollViewerControlTemplate}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                             <ListBox 
                               x:Name="LerngruppentermineListBox" 
@@ -240,6 +395,107 @@
                               </ListBox.ItemTemplate>
                             </ListBox>
                           </ScrollViewer>-->
+                        </Grid>
+                      </Border>
+                    </Border>
+                  </DataTemplate>
+                </ListBox.ItemTemplate>
+                <ListBox.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <UniformGrid Rows="31"/>
+                  </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+              </ListBox>
+            </Border>
+          </Grid>
+        </TabItem>
+        <TabItem Header="Sommer">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto"/>
+              <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0">
+              <ItemsControl ItemsSource="{Binding MonateHJ2}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <TextBlock TextAlignment="Center" Text="{Binding}" FontSize="20" Foreground="WhiteSmoke" Background="#FF5E5E5E">
+                    </TextBlock>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <UniformGrid Columns="6" />
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+              </ItemsControl>
+            </Border>
+
+            <Border Grid.Row="1" BorderBrush="Black" BorderThickness="0">
+              <ListBox 
+                Name="TageHJ2ListBox"
+                ItemsSource="{Binding TageHJ2View}" 
+                SelectedItem="{Binding AktuellerTag}"
+                Template="{StaticResource TemplateSimplePresenter}"
+                ItemContainerStyle="{StaticResource ItemContainerStyleOpacityStorySelectOnFocus}"
+                Background="Transparent">
+                <ListBox.GroupStyle>
+                  <GroupStyle ContainerStyle="{StaticResource FachGroupHeaderStyle}">
+                    <GroupStyle.Panel>
+                      <ItemsPanelTemplate>
+                        <UniformGrid Columns="6"/>
+                      </ItemsPanelTemplate>
+                    </GroupStyle.Panel>
+                  </GroupStyle>
+                </ListBox.GroupStyle>
+                <ListBox.ItemTemplate>
+                  <DataTemplate>
+                    <!--Box-->
+                    <Border BorderBrush="Black" BorderThickness="0" Padding="0">
+                      <Border Name="InnerBorder" BorderBrush="{Binding Path=Notizen, Converter={StaticResource DayBorderColorConverter}}" BorderThickness="0">
+                        <Border.Style>
+                          <Style TargetType="{x:Type Border}">
+                            <Style.Triggers>
+                              <!--Ist Heute triggert andere Farbe-->
+                              <DataTrigger Binding="{Binding IstWochenende}" Value="true">
+                                <Setter Property="Border.Background">
+                                  <Setter.Value>
+                                    <SolidColorBrush Color="#FF999999"/>
+                                  </Setter.Value>
+                                </Setter>
+                              </DataTrigger>
+                              <DataTrigger Binding="{Binding IstFerien}" Value="true">
+                                <Setter Property="Border.Background">
+                                  <Setter.Value>
+                                    <SolidColorBrush Color="#FF82CC80"/>
+                                  </Setter.Value>
+                                </Setter>
+                              </DataTrigger>
+                              <DataTrigger Binding="{Binding IstFeiertag}" Value="true">
+                                <Setter Property="Border.Background">
+                                  <Setter.Value>
+                                    <SolidColorBrush Color="#FF5FAF61"/>
+                                  </Setter.Value>
+                                </Setter>
+                              </DataTrigger>
+                              <DataTrigger Binding="{Binding IstHeute}" Value="true">
+                                <Setter Property="Border.Background">
+                                  <Setter.Value>
+                                    <SolidColorBrush Color="#FF1EA6C8"/>
+                                  </Setter.Value>
+                                </Setter>
+                              </DataTrigger>
+                            </Style.Triggers>
+                          </Style>
+                        </Border.Style>
+                        <Grid>
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="*"/>
+                          </Grid.ColumnDefinitions>
+                          <!--Tagesdatum-->
+                          <TextBlock Grid.Column="0" TextAlignment="Left" Text="{Binding Datum, Converter={StaticResource DateConverter}, ConverterParameter=NRDAY}" FontSize="12" Margin="1" VerticalAlignment="Center"/>
+                          <ContentControl Grid.Column="1" Template="{StaticResource TagesplanTemplate}"/>
                         </Grid>
                       </Border>
                     </Border>

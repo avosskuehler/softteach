@@ -10,6 +10,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace SoftTeach.ViewModel.Jahrespläne
 {
@@ -34,14 +36,26 @@ namespace SoftTeach.ViewModel.Jahrespläne
     /// </summary>
     public TagViewModel()
     {
-      this.AddNewTerminCommand = new DelegateCommand(this.AddNewTermin);
+      this.AddLerngruppenterminCommand = new DelegateCommand(this.AddLerngruppentermin);
+      this.EditLerngruppenterminCommand = new DelegateCommand(this.EditLerngruppentermin);
       this.LöscheLerngruppenterminCommand = new DelegateCommand(this.LöscheLerngruppentermin);
+      this.AddStundeCommand = new DelegateCommand(this.AddStunde);
     }
 
     /// <summary>
     /// Holt den Befehl aus Notizen einen neuen Termin zu machen
     /// </summary>
-    public DelegateCommand AddNewTerminCommand { get; private set; }
+    public DelegateCommand AddLerngruppenterminCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl aus Notizen einen neuen Termin zu machen
+    /// </summary>
+    public DelegateCommand EditLerngruppenterminCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl aus Notizen einen neuen Termin zu machen
+    /// </summary>
+    public DelegateCommand AddStundeCommand { get; private set; }
 
     /// <summary>
     /// Holt den Befehl aus Notizen einen neuen Termin zu machen
@@ -199,10 +213,65 @@ namespace SoftTeach.ViewModel.Jahrespläne
       }
     }
 
+    public ContextMenu TagContextMenu
+    {
+      get
+      {
+        return null;
+      }
+    }
+
+    public SolidColorBrush TagKalenderfarbe
+    {
+      get
+      {
+        if (this.Lerngruppentermine.Any())
+        {
+          return this.Lerngruppentermine.First().LerngruppenterminFarbe;
+        }
+
+        return Brushes.Transparent;
+      }
+    }
+
+    public string TagBeschreibung
+    {
+      get
+      {
+        if (this.Lerngruppentermine.Any())
+        {
+          return this.Lerngruppentermine.First().TerminBeschreibung;
+        }
+
+        return string.Empty;
+      }
+    }
+
+    public bool KeineLerngruppentermine
+    {
+      get
+      {
+        if (this.Lerngruppentermine.Any())
+        {
+          return false;
+        }
+
+        return true;
+      }
+    }
+
     /// <summary>
-    /// Versucht aus den Notizen einen neuen Termineintrag zu machen.
+    /// Erstellt eine neue Stunde für diesen Tag und die Lerngruppe
     /// </summary>
-    private void AddNewTermin()
+    private void AddStunde()
+    {
+      var firstLerngruppenTermin = this.Lerngruppentermine.FirstOrDefault();
+    }
+
+    /// <summary>
+    /// Erstellt einen neuen Lerngruppentermin für diesen Tag und die Lerngruppe
+    /// </summary>
+    private void AddLerngruppentermin()
     {
       //var newTermin = new Termin
       //{
@@ -242,6 +311,14 @@ namespace SoftTeach.ViewModel.Jahrespläne
       //App.UnitOfWork.SaveChanges();
       //this.Notizen = string.Empty;
     }
+    private void EditLerngruppentermin()
+    {
+      var firstLerngruppenTermin = this.Lerngruppentermine.FirstOrDefault();
+      if (firstLerngruppenTermin != null)
+      {
+        firstLerngruppenTermin.EditLerngruppenterminCommand.Execute(null);
+      }
+    }
 
     /// <summary>
     /// Entfernt die gegebene Lerngruppentermin aus der Liste und der Datenbank
@@ -249,10 +326,14 @@ namespace SoftTeach.ViewModel.Jahrespläne
     /// <param name="aufgabeViewModel">Die Lerngruppentermin die gelöscht werden soll.</param>
     private void LöscheLerngruppentermin()
     {
-      if (this.CurrentLerngruppentermin != null)
+      //if (this.CurrentLerngruppentermin != null)
+      //{
+      var firstLerngruppenTermin = this.Lerngruppentermine.FirstOrDefault();
+      if (firstLerngruppenTermin != null)
       {
         this.LöscheLerngruppentermin(this.CurrentLerngruppentermin);
       }
+      //}
     }
 
     /// <summary>
