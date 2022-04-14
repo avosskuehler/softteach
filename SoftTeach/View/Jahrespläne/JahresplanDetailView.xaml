@@ -27,7 +27,7 @@
               <ItemsPresenter/>
             </Border>
           </ControlTemplate>
-          
+
           <!--StandardListBox Item ControlTemplate wie im Original-->
           <ControlTemplate x:Key="SelectableListBoxBasicItem" TargetType="{x:Type ListBoxItem}">
             <Grid Background="{TemplateBinding Background}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -89,169 +89,212 @@
             </Style.Triggers>
           </Style>
 
+          <ControlTemplate x:Key="ListBoxItemTermin" TargetType="{x:Type ListBoxItem}">
+            <Border x:Name="Border" Padding="0" SnapsToDevicePixels="true" Background="Transparent">
+              <ContentPresenter />
+            </Border>
+          </ControlTemplate>
+
+          <Style x:Key="ItemContainerStyleTermin" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Template" Value="{StaticResource ListBoxItemTermin}"/>
+            <Style.Triggers>
+              <Trigger Property="IsKeyboardFocusWithin" Value="true">
+                <Setter Property="IsSelected" Value="true" />
+              </Trigger>
+            </Style.Triggers>
+          </Style>
+
           <Style x:Key="FachGroupHeaderStyle" TargetType="{x:Type GroupItem}">
             <Setter Property="Template">
               <Setter.Value>
                 <ControlTemplate TargetType="{x:Type GroupItem}">
-                    <ItemsPresenter/>
+                  <ItemsPresenter/>
                 </ControlTemplate>
               </Setter.Value>
             </Setter>
           </Style>
 
-          <DataTemplate x:Key="TooltipLineTemplate">
-            <Grid>
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="20"/>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="17"/>
-                <ColumnDefinition Width="17"/>
-              </Grid.ColumnDefinitions>
-              <Label Background="{Binding Path=LerngruppenterminFarbe}" VerticalAlignment="Center" 
-                   Padding="0" FontSize="10" Grid.Column="0" 
-                   Content="{Binding Path=TerminStundenbereich}"/>
-              <Label Padding="10,0,0,0" VerticalAlignment="Center" FontSize="10" 
-                   Grid.Column="1" Content="{Binding Path=TerminBeschreibung}"/>
-              <Button Grid.Column="2" Command="{Binding Path=EditLerngruppenterminCommand}">
-                <Image Source="/SoftTeach;component/Images/Edit16.png"/>
-              </Button>
-              <Button Grid.Column="3" Command="{Binding Path=RemoveLerngruppenterminCommand}">
-                <Image Source="/SoftTeach;component/Images/Remove16.png"/>
-              </Button>
-            </Grid>
-          </DataTemplate>
+          <DataTemplate x:Key="HalbjahrDataTemplate">
+            <!--Box-->
+            <Border BorderBrush="Black" BorderThickness="0" Padding="0">
+              <Grid>
+                <FrameworkElement x:Name="dummy" Visibility="Collapsed"/>
+                <Border Name="InnerBorder" BorderThickness="0">
+                  <Border.Style>
+                    <Style TargetType="{x:Type Border}">
+                      <Style.Triggers>
+                        <!--Ist Heute triggert andere Farbe-->
+                        <DataTrigger Binding="{Binding IstWochenende}" Value="true">
+                          <Setter Property="Border.Background">
+                            <Setter.Value>
+                              <SolidColorBrush Color="#FF999999"/>
+                            </Setter.Value>
+                          </Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IstFerien}" Value="true">
+                          <Setter Property="Border.Background">
+                            <Setter.Value>
+                              <SolidColorBrush Color="#FF82CC80"/>
+                            </Setter.Value>
+                          </Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IstFeiertag}" Value="true">
+                          <Setter Property="Border.Background">
+                            <Setter.Value>
+                              <SolidColorBrush Color="#FF5FAF61"/>
+                            </Setter.Value>
+                          </Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IstHeute}" Value="true">
+                          <Setter Property="Border.Background">
+                            <Setter.Value>
+                              <SolidColorBrush Color="#FF1EA6C8"/>
+                            </Setter.Value>
+                          </Setter>
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </Border.Style>
+                  <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="40"/>
+                      <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <!--Tagesdatum-->
+                    <TextBlock Grid.Column="0" TextAlignment="Left" Text="{Binding Datum, Converter={StaticResource DateConverter}, ConverterParameter=NRDAY}" FontSize="12" Margin="1" VerticalAlignment="Center"/>
+                    <Grid Background="{Binding Path=TagKalenderfarbe}" Grid.Column="1">
+                      <Grid.Resources>
+                        <CollectionViewSource Source="{Binding Path=Lerngruppentermine}" x:Key="LerngruppentermineSorted">
+                          <CollectionViewSource.SortDescriptions>
+                            <scm:SortDescription PropertyName="TerminErsteUnterrichtsstunde"/>
+                          </CollectionViewSource.SortDescriptions>
+                        </CollectionViewSource>
+                      </Grid.Resources>
+                      <ListBox 
+                              x:Name="LerngruppentermineListBox" 
+                              ItemsSource="{Binding Source={StaticResource LerngruppentermineSorted}}" 
+                              SelectedItem="{Binding Path=CurrentLerngruppentermin}"
+                              HorizontalContentAlignment="Stretch"
+                              Template="{StaticResource TemplateSimplePresenter}"
+                              Background="Transparent">
+                        <ListBox.ItemContainerStyle>
+                          <Style TargetType="{x:Type ListBoxItem}">
+                            <Setter Property="Template">
+                              <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                  <ContentPresenter />
+                                </ControlTemplate>
+                              </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                              <Trigger Property="IsKeyboardFocusWithin" Value="true">
+                                <Setter Property="IsSelected" Value="true" />
+                              </Trigger>
+                            </Style.Triggers>
+                          </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemsPanel>
+                          <ItemsPanelTemplate>
+                            <UniformGrid Columns="{Binding Lerngruppentermine.Count}" />
+                          </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                          <DataTemplate>
+                            <Grid ToolTip="{Binding Path=TerminStundenbereich}">
+                              <Label Name="LabelBeschreibung" Padding="3,0" Margin="0" VerticalAlignment="Center" FontSize="12" Content="{Binding Path=TerminBeschreibung}"/>
+                              <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Visibility="Hidden" x:Name="EditButtons">
+                                <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=DataContext.EditLerngruppenterminCommand, Source={x:Reference dummy}}" ToolTip="Stunde ändern">
+                                  <Grid>
+                                    <fa:IconBlock Style="{StaticResource Edit16}"/>
+                                  </Grid>
+                                </Button>
+                                <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=DataContext.LöscheLerngruppenterminCommand, Source={x:Reference dummy}}" ToolTip="Termin/Stunde löschen">
+                                  <Grid>
+                                    <fa:IconBlock Style="{StaticResource Remove16}"/>
+                                  </Grid>
+                                </Button>
+                              </StackPanel>
+                              <Grid.Triggers>
+                                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                  <BeginStoryboard>
+                                    <Storyboard>
+                                      <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="EditButtons" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                        <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                          <DiscreteObjectKeyFrame.Value>
+                                            <Visibility>Visible</Visibility>
+                                          </DiscreteObjectKeyFrame.Value>
+                                        </DiscreteObjectKeyFrame>
+                                      </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                  </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                  <BeginStoryboard>
+                                    <Storyboard>
+                                      <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="EditButtons" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                        <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                          <DiscreteObjectKeyFrame.Value>
+                                            <Visibility>Hidden</Visibility>
+                                          </DiscreteObjectKeyFrame.Value>
+                                        </DiscreteObjectKeyFrame>
+                                      </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                  </BeginStoryboard>
+                                </EventTrigger>
+                              </Grid.Triggers>
+                            </Grid>
 
-          <ControlTemplate x:Key="TagesplanTemplate">
-            <Grid Background="{Binding Path=TagKalenderfarbe}">
-              <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-              </Grid.RowDefinitions>
-              <Label Name="LabelBeschreibung" Padding="3,0" Margin="0" VerticalAlignment="Center" FontSize="12" Content="{Binding Path=TagBeschreibung}">
-                <Label.Triggers>
-                  <EventTrigger RoutedEvent="UIElement.MouseLeftButtonDown">
-                    <BeginStoryboard>
-                      <Storyboard>
-                        <BooleanAnimationUsingKeyFrames Storyboard.TargetName="DetailPopup" Storyboard.TargetProperty="(Popup.IsOpen)">
-                          <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="True"/>
-                        </BooleanAnimationUsingKeyFrames>
-                      </Storyboard>
-                    </BeginStoryboard>
-                  </EventTrigger>
-                </Label.Triggers>
-              </Label>
-              <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" x:Name="Buttons" Visibility="Hidden">
-                <StackPanel Orientation="Horizontal" Visibility="Hidden" x:Name="EditButtons">
-                  <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=EditLerngruppenterminCommand}" ToolTip="Stunde ändern">
-                    <Grid>
-                      <Image Source="/SoftTeach;component/Images/Edit16.png"/>
+                          </DataTemplate>
+                        </ListBox.ItemTemplate>
+                      </ListBox>
                     </Grid>
-                  </Button>
-                  <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=LöscheLerngruppenterminCommand}" ToolTip="Termin/Stunde löschen">
-                    <Grid>
-                      <Image Source="/SoftTeach;component/Images/Remove16.png"/>
-                    </Grid>
-                  </Button>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                  <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddStundeCommand}" ToolTip="Stunde anlegen">
-                    <Grid>
-                      <Image Source="/SoftTeach;component/Images/Stundenentwurf16.png"/>
-                      <Image Source="/SoftTeach;component/Images/AddOverlay16.png"/>
-                    </Grid>
-                  </Button>
-                  <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddLerngruppenterminCommand}" ToolTip="Lerngruppentermin anlegen">
-                    <Grid>
-                      <Image Source="/SoftTeach;component/Images/Lerngruppentermin16.png"/>
-                      <Image Source="/SoftTeach;component/Images/AddOverlay16.png"/>
-                    </Grid>
-                  </Button>
-                </StackPanel>
-              </StackPanel>
-              <Popup 
-        x:Name="DetailPopup"
-        PopupAnimation="Fade" 
-        Placement="Center" 
-        HorizontalOffset="80"
-        AllowsTransparency="True" 
-        StaysOpen="True">
-                <Popup.Resources>
-                  <CollectionViewSource Source="{Binding Path=Lerngruppentermine}" x:Key="LerngruppentermineSorted">
-                    <CollectionViewSource.SortDescriptions>
-                      <scm:SortDescription PropertyName="TerminErsteUnterrichtsstunde"/>
-                    </CollectionViewSource.SortDescriptions>
-                  </CollectionViewSource>
-                </Popup.Resources>
-                <Popup.Child>
-                  <ListBox x:Name="TerminList" ItemsSource="{Binding Source={StaticResource LerngruppentermineSorted}}"
-                                 ItemTemplate="{StaticResource TooltipLineTemplate}">
-                    <ListBox.Triggers>
-                      <EventTrigger RoutedEvent="UIElement.MouseLeftButtonDown">
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" Visibility="Hidden" x:Name="Buttons" Background="White">
+                      <Button Margin="0" Padding="1" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddStundeCommand}" ToolTip="Stunde anlegen">
+                        <Grid>
+                          <fa:IconBlock Style="{StaticResource Stundenentwurf16}"/>
+                          <fa:IconBlock Style="{StaticResource AddOverlay16}"/>
+                        </Grid>
+                      </Button>
+                      <Button Margin="0" Padding="1" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddLerngruppenterminCommand}" ToolTip="Lerngruppentermin anlegen">
+                        <Grid>
+                          <fa:IconBlock Style="{StaticResource Lerngruppe16}"/>
+                          <fa:IconBlock Style="{StaticResource AddOverlay16}"/>
+                        </Grid>
+                      </Button>
+                    </StackPanel>
+                    <Grid.Triggers>
+                      <EventTrigger RoutedEvent="UIElement.MouseEnter">
                         <BeginStoryboard>
                           <Storyboard>
-                            <BooleanAnimationUsingKeyFrames Storyboard.TargetName="DetailPopup" Storyboard.TargetProperty="(Popup.IsOpen)">
-                              <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="False"/>
-                            </BooleanAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="Buttons" Storyboard.TargetProperty="(UIElement.Visibility)">
+                              <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                <DiscreteObjectKeyFrame.Value>
+                                  <Visibility>Visible</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                              </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
                           </Storyboard>
                         </BeginStoryboard>
                       </EventTrigger>
                       <EventTrigger RoutedEvent="UIElement.MouseLeave">
                         <BeginStoryboard>
                           <Storyboard>
-                            <BooleanAnimationUsingKeyFrames Storyboard.TargetName="DetailPopup" Storyboard.TargetProperty="(Popup.IsOpen)">
-                              <DiscreteBooleanKeyFrame KeyTime="00:00:00" Value="False"/>
-                            </BooleanAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="Buttons" Storyboard.TargetProperty="(UIElement.Visibility)">
+                              <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                <DiscreteObjectKeyFrame.Value>
+                                  <Visibility>Hidden</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                              </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
                           </Storyboard>
                         </BeginStoryboard>
                       </EventTrigger>
-                    </ListBox.Triggers>
-                  </ListBox>
-                </Popup.Child>
-              </Popup>
-            </Grid>
-            <ControlTemplate.Triggers>
-              <DataTrigger Binding="{Binding Path=KeineLerngruppentermine}">
-                <DataTrigger.Value>
-                  <System:Boolean>true</System:Boolean>
-                </DataTrigger.Value>
-                <Setter TargetName="TerminList" Property="Visibility" Value="Hidden"/>
-                <Setter TargetName="EditButtons" Property="Visibility" Value="Hidden"/>
-              </DataTrigger>
-              <DataTrigger Binding="{Binding Path=KeineLerngruppentermine}">
-                <DataTrigger.Value>
-                  <System:Boolean>false</System:Boolean>
-                </DataTrigger.Value>
-                <Setter TargetName="TerminList" Property="Visibility" Value="Visible"/>
-                <Setter TargetName="EditButtons" Property="Visibility" Value="Visible"/>
-              </DataTrigger>
-              <EventTrigger RoutedEvent="UIElement.MouseEnter">
-                <BeginStoryboard>
-                  <Storyboard>
-                    <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="Buttons" Storyboard.TargetProperty="(UIElement.Visibility)">
-                      <DiscreteObjectKeyFrame KeyTime="00:00:00">
-                        <DiscreteObjectKeyFrame.Value>
-                          <Visibility>Visible</Visibility>
-                        </DiscreteObjectKeyFrame.Value>
-                      </DiscreteObjectKeyFrame>
-                    </ObjectAnimationUsingKeyFrames>
-                  </Storyboard>
-                </BeginStoryboard>
-              </EventTrigger>
-              <EventTrigger RoutedEvent="UIElement.MouseLeave">
-                <BeginStoryboard>
-                  <Storyboard>
-                    <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="Buttons" Storyboard.TargetProperty="(UIElement.Visibility)">
-                      <DiscreteObjectKeyFrame KeyTime="00:00:00">
-                        <DiscreteObjectKeyFrame.Value>
-                          <Visibility>Hidden</Visibility>
-                        </DiscreteObjectKeyFrame.Value>
-                      </DiscreteObjectKeyFrame>
-                    </ObjectAnimationUsingKeyFrames>
-                  </Storyboard>
-                </BeginStoryboard>
-              </EventTrigger>
-            </ControlTemplate.Triggers>
-          </ControlTemplate>
-
+                    </Grid.Triggers>
+                  </Grid>
+                </Border>
+              </Grid>
+            </Border>
+          </DataTemplate>
 
         </ResourceDictionary>
       </ResourceDictionary.MergedDictionaries>
@@ -268,17 +311,45 @@
         <ColumnDefinition Width="*"/>
       </Grid.ColumnDefinitions>
       <StackPanel Grid.Column="0" Orientation="Horizontal">
-        <Button Style="{Binding Source={StaticResource {x:Static ToolBar.ButtonStyleKey}}}" Command="{Binding MonatZurückCommand}">
-          <fa:IconBlock Icon="AngleLeft" Foreground="Black"></fa:IconBlock>
+        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=PullStundenCommand}" ToolTip="Stunden aus Stundenplan importieren">
+          <StackPanel Orientation="Horizontal">
+            <Grid>
+              <fa:IconBlock Style="{StaticResource Stundenentwurf16}"/>
+              <fa:IconBlock Style="{StaticResource ImportOverlay16}"/>
+            </Grid>
+          </StackPanel>
         </Button>
-        <Button Style="{Binding Source={StaticResource {x:Static ToolBar.ButtonStyleKey}}}" Command="{Binding MonatVorCommand}">
-          <fa:IconBlock Icon="AngleRight" Foreground="Black"></fa:IconBlock>
+        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=RemoveStundenCommand}" ToolTip="Alle Stunden aus Jahresplan löschen">
+          <StackPanel Orientation="Horizontal">
+            <Grid>
+              <fa:IconBlock Style="{StaticResource Stundenentwurf16}"/>
+              <fa:IconBlock Style="{StaticResource RemoveOverlay16}"/>
+            </Grid>
+          </StackPanel>
+        </Button>
+        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=GetStundenFromOtherJahresplanCommand}" ToolTip="Stunden aus anderem Jahresplan importieren.">
+          <StackPanel Orientation="Horizontal">
+            <Grid>
+              <fa:IconBlock Style="{StaticResource Jahresplan16}"/>
+              <fa:IconBlock Style="{StaticResource ImportOverlay16}"/>
+            </Grid>
+          </StackPanel>
+        </Button>
+        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=StundenAlsOdsExportierenCommand}" ToolTip="Stundenplanung des Jahresplans als ODS exportieren.">
+          <StackPanel Orientation="Horizontal">
+            <Grid>
+              <fa:IconBlock Style="{StaticResource Jahresplan16}"/>
+              <fa:IconBlock Style="{StaticResource ExcelOverlay16}"/>
+            </Grid>
+          </StackPanel>
         </Button>
       </StackPanel>
       <Label Grid.Column="1" FontSize="20" Padding="6,0" Foreground="Black" Content="{Binding Bezeichnung}"/>
     </Grid>
     <Border Grid.Row="1">
-      <TabControl TabStripPlacement="Left">
+      <TabControl TabStripPlacement="Left" SelectedIndex="{Binding HalbjahrIndex}">
         <TabItem Header="Winter">
           <Grid>
             <Grid.RowDefinitions>
@@ -308,7 +379,8 @@
                 SelectedItem="{Binding AktuellerTag}"
                 Template="{StaticResource TemplateSimplePresenter}"
                 ItemContainerStyle="{StaticResource ItemContainerStyleOpacityStorySelectOnFocus}"
-                Background="Transparent">
+                Background="Transparent"
+                ItemTemplate="{StaticResource HalbjahrDataTemplate}">
                 <ListBox.GroupStyle>
                   <GroupStyle ContainerStyle="{StaticResource FachGroupHeaderStyle}">
                     <GroupStyle.Panel>
@@ -318,88 +390,6 @@
                     </GroupStyle.Panel>
                   </GroupStyle>
                 </ListBox.GroupStyle>
-                <ListBox.ItemTemplate>
-                  <DataTemplate>
-                    <!--Box-->
-                    <Border BorderBrush="Black" BorderThickness="0" Padding="0">
-                      <Border Name="InnerBorder" BorderBrush="{Binding Path=Notizen, Converter={StaticResource DayBorderColorConverter}}" BorderThickness="0">
-                        <Border.Style>
-                          <Style TargetType="{x:Type Border}">
-                            <Style.Triggers>
-                              <!--Ist Heute triggert andere Farbe-->
-                              <DataTrigger Binding="{Binding IstWochenende}" Value="true">
-                                <Setter Property="Border.Background">
-                                  <Setter.Value>
-                                    <SolidColorBrush Color="#FF999999"/>
-                                  </Setter.Value>
-                                </Setter>
-                              </DataTrigger>
-                              <DataTrigger Binding="{Binding IstFerien}" Value="true">
-                                <Setter Property="Border.Background">
-                                  <Setter.Value>
-                                    <SolidColorBrush Color="#FF82CC80"/>
-                                  </Setter.Value>
-                                </Setter>
-                              </DataTrigger>
-                              <DataTrigger Binding="{Binding IstFeiertag}" Value="true">
-                                <Setter Property="Border.Background">
-                                  <Setter.Value>
-                                    <SolidColorBrush Color="#FF5FAF61"/>
-                                  </Setter.Value>
-                                </Setter>
-                              </DataTrigger>
-                              <DataTrigger Binding="{Binding IstHeute}" Value="true">
-                                <Setter Property="Border.Background">
-                                  <Setter.Value>
-                                    <SolidColorBrush Color="#FF1EA6C8"/>
-                                  </Setter.Value>
-                                </Setter>
-                              </DataTrigger>
-                            </Style.Triggers>
-                          </Style>
-                        </Border.Style>
-                        <Grid>
-                          <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="40"/>
-                            <ColumnDefinition Width="*"/>
-                          </Grid.ColumnDefinitions>
-                          <!--Tagesdatum-->
-                          <TextBlock Grid.Column="0" TextAlignment="Left" Text="{Binding Datum, Converter={StaticResource DateConverter}, ConverterParameter=NRDAY}" FontSize="12" Margin="1" VerticalAlignment="Center"/>
-                          <ContentControl Grid.Column="1" Template="{StaticResource TagesplanTemplate}"/>
-                          <!--<Grid Grid.Column="1" Background="{Binding Path=ErsterLerngruppentermin.LerngruppenterminFarbe}" Height="25" Margin="0">
-                            --><!--<Grid.InputBindings>
-                                          <MouseBinding Command="{Binding Path=ÄndereAufgabeCommand}" MouseAction="LeftDoubleClick"/>
-                                        </Grid.InputBindings>--><!--
-                            <Label FontSize="11" Padding="3,0" Content="{Binding Path=ErsterLerngruppentermin.TerminBeschreibung}" VerticalAlignment="Top"/>
-                          </Grid>-->
-                          <!--<ScrollViewer Grid.Column="1" Template="{DynamicResource CustomScrollViewerControlTemplate}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                            <ListBox 
-                              x:Name="LerngruppentermineListBox" 
-                              ItemsSource="{Binding Path=Lerngruppentermine}" 
-                              SelectedItem="{Binding Path=CurrentLerngruppentermin}"
-                              HorizontalContentAlignment="Stretch"
-                              Template="{StaticResource TemplateSimplePresenter}"
-                              ItemContainerStyle="{StaticResource ItemContainerStyleOpacityStorySelectOnFocus}"
-                              Background="Transparent">
-                              <ListBox.InputBindings>
-                                <KeyBinding Key="Delete" Command="{Binding LöscheLerngruppenterminCommand}"/>
-                              </ListBox.InputBindings>
-                              <ListBox.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                  <StackPanel Orientation="Vertical" />
-                                </ItemsPanelTemplate>
-                              </ListBox.ItemsPanel>
-                              <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                </DataTemplate>
-                              </ListBox.ItemTemplate>
-                            </ListBox>
-                          </ScrollViewer>-->
-                        </Grid>
-                      </Border>
-                    </Border>
-                  </DataTemplate>
-                </ListBox.ItemTemplate>
                 <ListBox.ItemsPanel>
                   <ItemsPanelTemplate>
                     <UniformGrid Rows="31"/>
@@ -438,7 +428,8 @@
                 SelectedItem="{Binding AktuellerTag}"
                 Template="{StaticResource TemplateSimplePresenter}"
                 ItemContainerStyle="{StaticResource ItemContainerStyleOpacityStorySelectOnFocus}"
-                Background="Transparent">
+                Background="Transparent"
+                ItemTemplate="{StaticResource HalbjahrDataTemplate}">
                 <ListBox.GroupStyle>
                   <GroupStyle ContainerStyle="{StaticResource FachGroupHeaderStyle}">
                     <GroupStyle.Panel>
@@ -448,59 +439,6 @@
                     </GroupStyle.Panel>
                   </GroupStyle>
                 </ListBox.GroupStyle>
-                <ListBox.ItemTemplate>
-                  <DataTemplate>
-                    <!--Box-->
-                    <Border BorderBrush="Black" BorderThickness="0" Padding="0">
-                      <Border Name="InnerBorder" BorderBrush="{Binding Path=Notizen, Converter={StaticResource DayBorderColorConverter}}" BorderThickness="0">
-                        <Border.Style>
-                          <Style TargetType="{x:Type Border}">
-                            <Style.Triggers>
-                              <!--Ist Heute triggert andere Farbe-->
-                              <DataTrigger Binding="{Binding IstWochenende}" Value="true">
-                                <Setter Property="Border.Background">
-                                  <Setter.Value>
-                                    <SolidColorBrush Color="#FF999999"/>
-                                  </Setter.Value>
-                                </Setter>
-                              </DataTrigger>
-                              <DataTrigger Binding="{Binding IstFerien}" Value="true">
-                                <Setter Property="Border.Background">
-                                  <Setter.Value>
-                                    <SolidColorBrush Color="#FF82CC80"/>
-                                  </Setter.Value>
-                                </Setter>
-                              </DataTrigger>
-                              <DataTrigger Binding="{Binding IstFeiertag}" Value="true">
-                                <Setter Property="Border.Background">
-                                  <Setter.Value>
-                                    <SolidColorBrush Color="#FF5FAF61"/>
-                                  </Setter.Value>
-                                </Setter>
-                              </DataTrigger>
-                              <DataTrigger Binding="{Binding IstHeute}" Value="true">
-                                <Setter Property="Border.Background">
-                                  <Setter.Value>
-                                    <SolidColorBrush Color="#FF1EA6C8"/>
-                                  </Setter.Value>
-                                </Setter>
-                              </DataTrigger>
-                            </Style.Triggers>
-                          </Style>
-                        </Border.Style>
-                        <Grid>
-                          <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="40"/>
-                            <ColumnDefinition Width="*"/>
-                          </Grid.ColumnDefinitions>
-                          <!--Tagesdatum-->
-                          <TextBlock Grid.Column="0" TextAlignment="Left" Text="{Binding Datum, Converter={StaticResource DateConverter}, ConverterParameter=NRDAY}" FontSize="12" Margin="1" VerticalAlignment="Center"/>
-                          <ContentControl Grid.Column="1" Template="{StaticResource TagesplanTemplate}"/>
-                        </Grid>
-                      </Border>
-                    </Border>
-                  </DataTemplate>
-                </ListBox.ItemTemplate>
                 <ListBox.ItemsPanel>
                   <ItemsPanelTemplate>
                     <UniformGrid Rows="31"/>

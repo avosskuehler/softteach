@@ -14,6 +14,5 @@
   <converter:EnumBooleanConverter x:Key="EnumBooleanConverter" />
   <converter:StundeStundenzahlConverter x:Key="StundeStundenzahlConverter" />
   <converter:StundePhasenKurzConverter x:Key="StundePhasenKurzConverter" />
-  <converter:DayBorderColorConverter x:Key="DayBorderColorConverter" />
   <converter:DateConverter x:Key="DateConverter" />
 </ResourceDictionary>

@@ -551,7 +551,6 @@
     <Compile Include="Resources\Controls\TwoListSynchronizer.cs" />
     <Compile Include="Resources\Converter\DateConverter.cs" />
     <Compile Include="Resources\Converter\DateTimeConvertFormat.cs" />
-    <Compile Include="Resources\Converter\DayBorderColorConverter.cs" />
     <Compile Include="Resources\Converter\StundePhasenKurzConverter.cs" />
     <Compile Include="Resources\Converter\StundeStundenzahlConverter.cs" />
     <Compile Include="Resources\Converter\NachnameConverter.cs" />

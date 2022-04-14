@@ -1,7 +1,11 @@
 ﻿using SoftTeach;
+using SoftTeach.Model.TeachyModel;
+using SoftTeach.UndoRedo;
+using SoftTeach.View.Termine;
 using SoftTeach.ViewModel;
 using SoftTeach.ViewModel.Helper;
 using SoftTeach.ViewModel.Jahrespläne;
+using SoftTeach.ViewModel.Personen;
 using SoftTeach.ViewModel.Termine;
 using SoftTeach.ViewModel.Wochenpläne;
 using System;
@@ -21,6 +25,7 @@ namespace SoftTeach.ViewModel.Jahrespläne
     /// Die momentan ausgewählte Lerngruppentermin des Tages
     /// </summary>
     private LerngruppenterminViewModel currentLerngruppentermin;
+    private LerngruppeViewModel lerngruppe;
 
     private DateTime datum;
     private string notizen;
@@ -34,12 +39,13 @@ namespace SoftTeach.ViewModel.Jahrespläne
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="JahresplanViewModel"/> Klasse. 
     /// </summary>
-    public TagViewModel()
+    public TagViewModel(LerngruppeViewModel lerngruppe)
     {
+      this.lerngruppe = lerngruppe;
+      this.AddStundeCommand = new DelegateCommand(this.AddStunde);
       this.AddLerngruppenterminCommand = new DelegateCommand(this.AddLerngruppentermin);
       this.EditLerngruppenterminCommand = new DelegateCommand(this.EditLerngruppentermin);
       this.LöscheLerngruppenterminCommand = new DelegateCommand(this.LöscheLerngruppentermin);
-      this.AddStundeCommand = new DelegateCommand(this.AddStunde);
     }
 
     /// <summary>
@@ -265,7 +271,30 @@ namespace SoftTeach.ViewModel.Jahrespläne
     /// </summary>
     private void AddStunde()
     {
-      var firstLerngruppenTermin = this.Lerngruppentermine.FirstOrDefault();
+      var stunde = new StundeNeu();
+      stunde.ErsteUnterrichtsstunde =
+        App.MainViewModel.Unterrichtsstunden.First(unterrichtsstunde => unterrichtsstunde.UnterrichtsstundeBezeichnung == "1").Model;
+      stunde.LetzteUnterrichtsstunde =
+        App.MainViewModel.Unterrichtsstunden.First(unterrichtsstunde => unterrichtsstunde.UnterrichtsstundeBezeichnung == "2").Model;
+      stunde.Datum = this.Datum;
+      stunde.Termintyp = Termintyp.Unterricht;
+      stunde.Hausaufgaben = string.Empty;
+      stunde.Ansagen = string.Empty;
+      stunde.Lerngruppe = lerngruppe.Model;
+      stunde.Fach = lerngruppe.LerngruppeFach.Model;
+
+      var vm = new StundeViewModel(stunde);
+      var stundeDlg = new EditStundeDialog(vm);
+      if (stundeDlg.ShowDialog().GetValueOrDefault(false))
+      {
+        using (new UndoBatch(App.MainViewModel, string.Format("Stunde {0} angelegt.", vm), false))
+        {
+          this.Lerngruppentermine.Add(vm);
+          lerngruppe.Lerngruppentermine.Add(vm);
+          this.CurrentLerngruppentermin = vm;
+          this.UpdateView();
+        }
+      }
     }
 
     /// <summary>
@@ -273,50 +302,37 @@ namespace SoftTeach.ViewModel.Jahrespläne
     /// </summary>
     private void AddLerngruppentermin()
     {
-      //var newTermin = new Termin
-      //{
-      //  Schuljahr = Selection.Instance.Schuljahr.Model,
-      //  Datum = this.Datum
-      //};
-      //var ggfUhrzeit = this.Notizen.Split(' ').FirstOrDefault();
-      //if (int.TryParse(ggfUhrzeit, out int stunde))
-      //{
-      //  if (stunde > 24 || stunde < 0)
-      //  {
-      //    newTermin.Titel = this.Notizen;
-      //  }
-      //  else
-      //  {
-      //    newTermin.Zeit = new TimeSpan(stunde, 0, 0);
-      //    newTermin.Titel = this.Notizen.Replace(ggfUhrzeit, string.Empty);
-      //  }
-      //}
-      //else if (TimeSpan.TryParse(ggfUhrzeit, out TimeSpan uhrzeit))
-      //{
-      //  newTermin.Zeit = uhrzeit;
-      //  newTermin.Titel = this.Notizen.Replace(ggfUhrzeit, string.Empty);
-      //}
-      //else
-      //{
-      //  newTermin.Titel = this.Notizen;
-      //}
-      //newTermin.Benutzer = App.MainViewModel.CurrentBenutzer.Model;
-      //newTermin.Termintyp = App.MainViewModel.TermintypenCollection.First(o => o.Bezeichnung == "Sonstiges").Model;
+      var dlg = new AddLerngruppenterminDialog();
+      if (dlg.ShowDialog().GetValueOrDefault(false))
+      {
+        using (new UndoBatch(App.MainViewModel, string.Format("Lernguppentermin {0} angelegt.", dlg.Terminbezeichnung), false))
+        {
+          var ersteStunde = dlg.TerminErsteUnterrichtsstunde;
+          var letzteStunde = dlg.TerminLetzteUnterrichtsstunde;
 
-      //App.UnitOfWork.Context.Termine.Add(newTermin);
-      //var vm = new TerminViewModel(newTermin);
-      //App.MainViewModel.TermineCollection.Add(vm);
-      //this.Termine.Add(vm);
-      //this.RaisePropertyChanged("Termine");
-      //App.UnitOfWork.SaveChanges();
-      //this.Notizen = string.Empty;
+          var lerngruppentermin = new LerngruppenterminNeu();
+          lerngruppentermin.Beschreibung = dlg.Terminbezeichnung;
+          lerngruppentermin.Termintyp = dlg.TerminTermintyp;
+          lerngruppentermin.ErsteUnterrichtsstunde = ersteStunde.Model;
+          lerngruppentermin.LetzteUnterrichtsstunde = letzteStunde.Model;
+          lerngruppentermin.Lerngruppe = this.lerngruppe.Model;
+          lerngruppentermin.Datum = this.Datum;
+
+          var vm = new LerngruppenterminViewModel(lerngruppentermin);
+
+          this.Lerngruppentermine.Add(vm);
+          lerngruppe.Lerngruppentermine.Add(vm);
+          this.CurrentLerngruppentermin = vm;
+          this.UpdateView();
+        }
+      }
     }
+
     private void EditLerngruppentermin()
     {
-      var firstLerngruppenTermin = this.Lerngruppentermine.FirstOrDefault();
-      if (firstLerngruppenTermin != null)
+      if (this.currentLerngruppentermin != null)
       {
-        firstLerngruppenTermin.EditLerngruppenterminCommand.Execute(null);
+        this.currentLerngruppentermin.EditLerngruppenterminCommand.Execute(null);
       }
     }
 
@@ -326,26 +342,21 @@ namespace SoftTeach.ViewModel.Jahrespläne
     /// <param name="aufgabeViewModel">Die Lerngruppentermin die gelöscht werden soll.</param>
     private void LöscheLerngruppentermin()
     {
-      //if (this.CurrentLerngruppentermin != null)
-      //{
-      var firstLerngruppenTermin = this.Lerngruppentermine.FirstOrDefault();
-      if (firstLerngruppenTermin != null)
+      if (this.currentLerngruppentermin != null)
       {
-        this.LöscheLerngruppentermin(this.CurrentLerngruppentermin);
+        this.LöscheLerngruppentermin(currentLerngruppentermin);
       }
-      //}
     }
 
     /// <summary>
-    /// Entfernt die gegebene Lerngruppentermin aus der Liste und der Datenbank
+    /// Entfernt den gegebenen Lerngruppentermin aus der Liste und der Datenbank
     /// </summary>
     /// <param name="lerngruppentermin">Die Lerngruppentermin die gelöscht werden soll.</param>
     public void LöscheLerngruppentermin(LerngruppenterminViewModel lerngruppentermin)
     {
       var success = App.UnitOfWork.Context.Termine.Remove(lerngruppentermin.Model);
       var result = this.Lerngruppentermine.Remove(lerngruppentermin);
-      this.RaisePropertyChanged("Lerngruppentermine");
-      App.UnitOfWork.SaveChanges();
+      this.UpdateView();
     }
 
     /// <summary>
@@ -369,8 +380,13 @@ namespace SoftTeach.ViewModel.Jahrespläne
     /// <returns>A <see cref="string" /> that represents this instance.</returns>
     public override string ToString()
     {
-      return "Tag";
+      return this.datum.ToShortDateString();
     }
 
+    public void UpdateView()
+    {
+      this.RaisePropertyChanged("TagBeschreibung");
+      this.RaisePropertyChanged("TagKalenderfarbe");
+    }
   }
 }

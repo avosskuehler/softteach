@@ -111,7 +111,7 @@
           return null;
         }
 
-        if (this.jahrgang == null || this.fach.Model != this.Model.Fach)
+        if (this.fach == null || this.fach.Model != this.Model.Fach)
         {
           this.fach = App.MainViewModel.Fächer.SingleOrDefault(d => d.Model == this.Model.Fach);
         }

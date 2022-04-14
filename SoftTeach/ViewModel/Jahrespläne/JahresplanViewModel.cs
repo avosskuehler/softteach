@@ -1,14 +1,20 @@
 ﻿namespace SoftTeach.ViewModel.Jahrespläne
 {
   using Helper;
+  using Microsoft.Win32;
   using Resources.Controls;
   using Setting;
   using SoftTeach;
+  using SoftTeach.ExceptionHandling;
   using SoftTeach.Model.TeachyModel;
+  using SoftTeach.UndoRedo;
+  using SoftTeach.View.Curricula;
   using SoftTeach.ViewModel;
   using SoftTeach.ViewModel.Datenbank;
+  using SoftTeach.ViewModel.Helper.ODSSupport;
   using SoftTeach.ViewModel.Jahrespläne;
   using SoftTeach.ViewModel.Personen;
+  using SoftTeach.ViewModel.Termine;
   using SoftTeach.ViewModel.Wochenpläne;
   using System;
   using System.Collections.ObjectModel;
@@ -28,6 +34,8 @@
 
     private TagViewModel aktuellerTag;
 
+    private int halbjahrIndex;
+
     private LerngruppeViewModel lerngruppe;
 
     /// <summary>
@@ -42,6 +50,10 @@
     {
       this.MonatZurückCommand = new DelegateCommand(this.MonatZurück);
       this.MonatVorCommand = new DelegateCommand(this.MonatVor);
+      this.PullStundenCommand = new DelegateCommand(this.PullStunden);
+      this.RemoveStundenCommand = new DelegateCommand(this.RemoveStunden);
+      this.GetStundenFromOtherJahresplanCommand = new DelegateCommand(this.GetStundenFromOtherJahresplan);
+      this.StundenAlsOdsExportierenCommand = new DelegateCommand(this.StundenAlsOdsExportieren);
 
       this.AktuellesDatum = DateTime.Today;
 
@@ -80,6 +92,26 @@
     /// Holt den Befehl den Kalender einen Monat später anzuzeigen
     /// </summary>
     public DelegateCommand MonatVorCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl zur getting the stunden for this jahresplan from a stundenplan
+    /// </summary>
+    public DelegateCommand PullStundenCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl alle Stunden aus dem Halbjahresplan zu löschen
+    /// </summary>
+    public DelegateCommand RemoveStundenCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl um die Stunden aus einem alten Halbjahresplan zu holen
+    /// </summary>
+    public DelegateCommand GetStundenFromOtherJahresplanCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl um die Stunden als ODS zu exportieren
+    /// </summary>
+    public DelegateCommand StundenAlsOdsExportierenCommand { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Liste mit den Tagen für den Kalender im ersten Halbjahr
@@ -138,6 +170,38 @@
         if (value == this.currentDate) return;
         this.currentDate = value;
         this.RaisePropertyChanged("AktuellesDatum");
+      }
+    }
+
+    /// <summary>
+    /// Holt oder setzt den Halbjahrindex
+    /// </summary>
+    public int HalbjahrIndex
+    {
+      get => this.halbjahrIndex;
+
+      set
+      {
+        if (value == this.halbjahrIndex) return;
+        this.halbjahrIndex = value;
+        this.RaisePropertyChanged("HalbjahrIndex");
+      }
+    }
+
+    /// <summary>
+    /// Holt das ausgewählte Halbjahr des Jahresplans
+    /// </summary>
+    [DependsUpon("HalbjahrIndex")]
+    public Halbjahr Halbjahr
+    {
+      get
+      {
+        if (this.HalbjahrIndex == 0)
+        {
+          return Halbjahr.Winter;
+        }
+
+        return Halbjahr.Sommer;
       }
     }
 
@@ -244,7 +308,7 @@
       // Erstelle das ganze Jahr
       for (int box = 1; box <= 365; box++)
       {
-        TagViewModel tag = new TagViewModel { Datum = d, Enabled = true, IstWochenende = d.DayOfWeek == DayOfWeek.Saturday || d.DayOfWeek == DayOfWeek.Sunday };
+        TagViewModel tag = new TagViewModel(this.lerngruppe) { Datum = d, Enabled = true, IstWochenende = d.DayOfWeek == DayOfWeek.Saturday || d.DayOfWeek == DayOfWeek.Sunday };
 
         var lerngruppentermine = this.lerngruppe.Lerngruppentermine.Where(o =>
           o.LerngruppenterminSchuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr
@@ -359,6 +423,175 @@
     }
 
     /// <summary>
+    /// Erstellt vordefinierte Stunden an den Tagen, an denen laut Stundenplan
+    /// Unterricht stattfindet.
+    /// </summary>
+    public void PullStunden()
+    {
+      var stundenpläne = App.MainViewModel.Stundenpläne.Where(
+        o => o.StundenplanSchuljahr.Model == this.Schuljahr.Model
+        && o.StundenplanHalbjahr == this.Halbjahr).ToList();
+
+      if (!stundenpläne.Any())
+      {
+        var dlg = new InformationDialog(
+          "Stundenplan fehlt", "Ein Stundenplan ist für das aktuelle" + " Halbjahr noch nicht angelegt", false);
+        dlg.ShowDialog();
+        return;
+      }
+
+      // sort by gültigab date
+      stundenpläne.Sort();
+
+      using (new UndoBatch(App.MainViewModel, string.Format("Stunden im Jahresplan {0} angelegt.", this.Bezeichnung), false))
+      {
+        App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+        for (int i = 0; i < stundenpläne.Count; i++)
+        {
+          var stundenplanViewModel = stundenpläne[i];
+          var stundenplaneinträge =
+            stundenplanViewModel.Stundenplaneinträge.Where(o => o.StundenplaneintragLerngruppe == this.Lerngruppe && o.StundenplaneintragFach == this.Fach);
+
+          if (!stundenplaneinträge.Any())
+          {
+            var dlg = new InformationDialog(
+              "Im Stundenplan nicht gefunden",
+              string.Format(
+                "Im Stundenplan gültig ab {0} wurde für diese Klasse und das Fach kein Eintrag gefunden.",
+                stundenplanViewModel.StundenplanGültigAb.ToShortDateString()),
+              false);
+            dlg.ShowDialog();
+            continue;
+          }
+
+          var gültigAb = stundenplanViewModel.StundenplanGültigAb;
+          var gültigBis = stundenpläne.Count > i + 1 ? stundenpläne[i + 1].StundenplanGültigAb : gültigAb.AddYears(1);
+
+          ObservableCollection<TagViewModel> tagedesHalbjahres = this.HalbjahrIndex == 0 ? this.TageHJ1 : this.TageHJ2;
+
+          foreach (var tagesplanViewModel in tagedesHalbjahres)
+          {
+            foreach (var stundenplaneintragViewModel in stundenplaneinträge)
+            {
+              if (tagesplanViewModel.Datum >= gültigAb && tagesplanViewModel.Datum <= gültigBis)
+              {
+                if ((int)tagesplanViewModel.Datum.DayOfWeek == stundenplaneintragViewModel.StundenplaneintragWochentagIndex)
+                {
+                  // Ferien, Feiertage und Wochenende aussparen
+                  if (tagesplanViewModel.IstFerien || tagesplanViewModel.IstFeiertag || tagesplanViewModel.IstWochenende)
+                  {
+                    continue;
+                  }
+
+                  // Wenn schon eine passende Stunde existiert, ignorieren
+                  if (tagesplanViewModel.Lerngruppentermine.Any(o =>
+                    o.TerminErsteUnterrichtsstunde.UnterrichtsstundeIndex <= stundenplaneintragViewModel.StundenplaneintragErsteUnterrichtsstundeIndex &&
+                    o.TerminLetzteUnterrichtsstunde.UnterrichtsstundeIndex >= stundenplaneintragViewModel.StundenplaneintragLetzteUnterrichtsstundeIndex))
+                  {
+                    continue;
+                  }
+
+                  // Now we found the day on which a stunde is found in the stundenplan
+                  // and no other stunden already placed
+                  // So create a stunde
+                  var stunde = new StundeNeu();
+                  stunde.ErsteUnterrichtsstunde =
+                    App.MainViewModel.Unterrichtsstunden[
+                      stundenplaneintragViewModel.StundenplaneintragErsteUnterrichtsstundeIndex - 1].Model;
+                  stunde.LetzteUnterrichtsstunde =
+                    App.MainViewModel.Unterrichtsstunden[
+                      stundenplaneintragViewModel.StundenplaneintragLetzteUnterrichtsstundeIndex - 1].Model;
+                  stunde.Datum = tagesplanViewModel.Datum;
+                  stunde.Termintyp = Model.TeachyModel.Termintyp.Unterricht;
+                  stunde.Lerngruppe = this.Lerngruppe.Model;
+                  stunde.Hausaufgaben = string.Empty;
+                  stunde.Ansagen = string.Empty;
+                  stunde.Fach = this.Fach.Model;
+                  stunde.Halbjahr = this.Halbjahr;
+                  if (stundenplaneintragViewModel.StundenplaneintragRaum != null)
+                  {
+                    stunde.Ort = stundenplaneintragViewModel.StundenplaneintragRaum.RaumBezeichnung;
+                  }
+
+                  var vm = new StundeViewModel(stunde);
+                  tagesplanViewModel.Lerngruppentermine.Add(vm);
+                  lerngruppe.Lerngruppentermine.Add(vm);
+                }
+              }
+            }
+
+            tagesplanViewModel.UpdateView();
+          }
+        }
+
+        App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
+      }
+    }
+
+    /// <summary>
+    /// Löscht alle leeren Stunden aus dem Jahresplan
+    /// </summary>
+    private void RemoveStunden()
+    {
+      using (new UndoBatch(App.MainViewModel, string.Format("Stunden im Jahresplan {0} gelöscht.", this.Bezeichnung), false))
+      {
+        App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+
+        ObservableCollection<TagViewModel> tagedesHalbjahres = this.HalbjahrIndex == 0 ? this.TageHJ1 : this.TageHJ2;
+
+        foreach (var tagesplanViewModel in tagedesHalbjahres)
+        {
+          var stunden = tagesplanViewModel.Lerngruppentermine.Where(o => o is StundeViewModel).ToList();
+          foreach (var lerngruppenterminViewModel in stunden)
+          {
+            var stunde = lerngruppenterminViewModel as StundeViewModel;
+            if (stunde.StundePhasenKurzform == string.Empty)
+            {
+              lerngruppe.Lerngruppentermine.RemoveTest(lerngruppenterminViewModel);
+              tagesplanViewModel.Lerngruppentermine.RemoveTest(lerngruppenterminViewModel);
+              //App.MainViewModel.Stunden.RemoveTest(lerngruppenterminViewModel as StundeViewModel);
+            }
+          }
+
+          tagesplanViewModel.UpdateView();
+        }
+
+        App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
+      }
+    }
+
+    /// <summary>
+    /// Holt die Stundenentwürfe aus einem anderen Jahresplan.
+    /// </summary>
+    private void GetStundenFromOtherJahresplan()
+    {
+      using (new UndoBatch(App.MainViewModel, string.Format("Stunden in Jahresplan {0} importiert.", this.Bezeichnung), false))
+      {
+        var dlg = new AskForHalbjahresplanToAdaptDialog(this.Fach, this.Jahrgang, this.Halbjahr);
+        dlg.Title = "Aus welchem Halbjahresplan sollen die Stunden übertragen werden?";
+        if (dlg.ShowDialog().GetValueOrDefault(false))
+        {
+          //var halbjahresplanZuweisenWorkspace = new HalbjahresplanZuweisenWorkspaceViewModel(
+          //  dlg.Halbjahresplan, this.CurrentHalbjahresplan);
+          //var dlgZuweisen = new JahresplanZuweisenDialog { DataContext = halbjahresplanZuweisenWorkspace };
+          //dlgZuweisen.ShowDialog();
+        }
+      }
+    }
+
+    private void StundenAlsOdsExportieren()
+    {
+      var fileDialog = new SaveFileDialog
+      {
+        Filter = "ODS files (*.ods)|*.ods|All files (*.*)|*.*",
+      };
+      if (fileDialog.ShowDialog() == true)
+      {
+        new OdsReaderWriter().WriteOdsFile(this.Lerngruppe, fileDialog.FileName);
+      }
+    }
+
+    /// <summary>
     /// Filtert die Wahlfachangebote nach Schuljahr
     /// </summary>
     private void TageViewSource_Filter(object sender, FilterEventArgs e)
@@ -371,6 +604,5 @@
 
       e.Accepted = true;
     }
-
   }
 }

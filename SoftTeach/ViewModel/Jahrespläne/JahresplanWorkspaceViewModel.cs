@@ -5,7 +5,7 @@
   using System.ComponentModel;
   using System.Linq;
   using System.Windows.Data;
-
+  using SoftTeach.ExceptionHandling;
   using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
@@ -115,8 +115,21 @@
         this.currentJahresplan = value;
         if (this.currentJahresplan != null)
         {
+          // FIND
           Selection.Instance.Fach = this.currentJahresplan.Fach;
-          Selection.Instance.Lerngruppe = App.MainViewModel.Lerngruppen.First(o => o.Model.Jahrgang == this.currentJahresplan.Jahrgang);
+          var lerngruppe = App.UnitOfWork.Context.Lerngruppen.FirstOrDefault(o => o.SchuljahrId == this.currentJahresplan.Schuljahr.Model.Id && o.FachId == this.currentJahresplan.Fach.Model.Id && o.Jahrgang == this.currentJahresplan.Jahrgang);
+          if (lerngruppe == null)
+          {
+            InformationDialog.Show("Fehler", "Lerngruppe nicht gefunden", false);
+            return;
+          }
+
+          if (!App.MainViewModel.Lerngruppen.Any(o => o.Model.Id == lerngruppe.Id))
+          {
+            App.MainViewModel.Lerngruppen.Add(new Personen.LerngruppeViewModel(lerngruppe));
+          }
+
+          Selection.Instance.Lerngruppe = App.MainViewModel.Lerngruppen.First(o => o.Model.Id == lerngruppe.Id);
           this.currentJahresplan.KalenderNeuLaden();
         }
 

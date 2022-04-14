@@ -35,11 +35,11 @@ namespace SoftTeach.View.Curricula
     /// Initialisiert eine neue Instanz der <see cref="AskForHalbjahresplanToAdaptDialog"/> Klasse. 
     /// </summary>
     /// <param name="fachViewModel"> The fach View Model.  </param>
-    /// <param name="klassenstufeViewModel"> The klassenstufe View Model.  </param>
+    /// <param name="jahrgang">Der Jahrgang</param>
     /// <param name="halbschuljahrViewModel"> The halbschuljahr View Model. </param>
     public AskForHalbjahresplanToAdaptDialog(
       FachViewModel fachViewModel,
-      int klassenstufeViewModel,
+      int jahrgang,
       Halbjahr halbschuljahrViewModel)
     {
       this.InitializeComponent();

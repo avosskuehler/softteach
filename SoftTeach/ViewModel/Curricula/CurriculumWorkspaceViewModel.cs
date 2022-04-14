@@ -126,7 +126,7 @@
         if (this.currentCurriculum != null)
         {
           Selection.Instance.Fach = this.currentCurriculum.CurriculumFach;
-          Selection.Instance.Lerngruppe = App.MainViewModel.Lerngruppen.First(o => o.Model.Jahrgang == this.currentCurriculum.CurriculumJahrgang);
+          //Selection.Instance.Lerngruppe = App.MainViewModel.Lerngruppen.First(o => o.Model.Jahrgang == this.currentCurriculum.CurriculumJahrgang);
         }
 
         this.RaisePropertyChanged("CurrentCurriculum");
