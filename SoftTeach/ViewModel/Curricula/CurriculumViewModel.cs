@@ -852,10 +852,7 @@
     {
       var undoAll = false;
 
-      var dlg = new AskForHalbjahresplanToAdaptDialog(
-        this.CurriculumFach,
-        this.CurriculumJahrgang,
-        this.CurriculumHalbjahr);
+      var dlg = new AskForLerngruppeToAdaptDialog(this.CurriculumFach, this.CurriculumJahrgang);
       if (dlg.ShowDialog().GetValueOrDefault(false))
       {
         App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
@@ -900,8 +897,7 @@
 
           //var curriculumCloneViewModel = new CurriculumViewModel(curriculumClone, true);
           var curriculumCloneViewModel = new CurriculumViewModel(curriculumClone);
-          var curriculumZuweisenWorkspace = new CurriculumZuweisenWorkspaceViewModel(
-            curriculumCloneViewModel, dlg.Halbjahr);
+          var curriculumZuweisenWorkspace = new CurriculumZuweisenWorkspaceViewModel(curriculumCloneViewModel, this.CurriculumHalbjahr);
           var dlgZuweisen = new CurriculumZuweisenDialog { DataContext = curriculumZuweisenWorkspace };
 
           if (dlgZuweisen.ShowDialog().GetValueOrDefault(false))

@@ -107,7 +107,7 @@
         return -1;
       }
 
-      return string.Compare(this.Model.Bezeichnung, compareSchuljahr.SchuljahrBezeichnung, StringComparison.Ordinal);
+      return this.Model.Jahr.CompareTo(compareSchuljahr.SchuljahrJahr);
     }
   }
 }

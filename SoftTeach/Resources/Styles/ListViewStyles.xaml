@@ -8,6 +8,7 @@
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="..\Controls\NumericUpDown.xaml"/>
     <ResourceDictionary Source="..\Controls\HausaufgabeButton.xaml"/>
+    <ResourceDictionary Source="Farben.xaml"/>
     <ResourceDictionary Source="TextStyles.xaml"/>
   </ResourceDictionary.MergedDictionaries>
 
@@ -160,7 +161,7 @@
 
   <DataTemplate x:Key="StundeDragAdorner">
     <Border Background="Silver" BorderBrush="Gray" BorderThickness="1" CornerRadius="2" Margin="1">
-      <Grid Width="{Binding Path=StundeBreite}" Background="{StaticResource StundeBackgroundBrush}" Margin="3" Height="40">
+      <Grid Width="{Binding Path=StundeBreite}" Background="{Binding Path=LerngruppenterminFarbe}" Margin="3" Height="40">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*"/>
           <ColumnDefinition Width="Auto"/>
@@ -182,7 +183,7 @@
 
   <DataTemplate x:Key="StundenGroupView">
     <Border CornerRadius="5">
-      <Grid Width="{Binding Path=StundeDetailBreite}" Background="{StaticResource StundeBackgroundBrush}" Margin="3" Height="40">
+      <Grid Width="{Binding Path=StundeDetailBreite}" Background="{Binding Path=LerngruppenterminFarbe}" Margin="3" Height="40">
         <Grid.InputBindings>
           <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding Path=EditStundeCommand}"/>
         </Grid.InputBindings>
@@ -516,48 +517,6 @@
 
   </DataTemplate>
 
-  <DataTemplate x:Key="StundenTagesplanView">
-    <Grid Width="{Binding Path=StundeBreite}" Background="{StaticResource StundeBackgroundBrush}" Margin="0" Height="30">
-      <Grid.InputBindings>
-        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding Path=EditStundeCommand}"/>
-      </Grid.InputBindings>
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="1"/>
-        <ColumnDefinition Width="*"/>
-        <ColumnDefinition Width="Auto"/>
-      </Grid.ColumnDefinitions>
-      <Grid.RowDefinitions>
-        <RowDefinition Height="15"/>
-        <RowDefinition Height="15"/>
-      </Grid.RowDefinitions>
-      <Rectangle Fill="Gray" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"/>
-      <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Visibility="Visible" 
-                  HorizontalAlignment="Left" x:Name="EditButtons" Margin="2,0,0,0">
-        <!--<Button Width="12" Height="12" Command="{Binding Path=LengthenSequenzCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-          <Image Source="/SoftTeach;component/Images/Plus7.png"/>
-        </Button>
-        <Button  Width="12" Height="12" Command="{Binding Path=ShortenSequenzCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-          <Image Source="/SoftTeach;component/Images/Minus7.png"/>
-        </Button>-->
-      </StackPanel>
-      <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2"
-                 Text="{Binding Path=TerminBeschreibung}" 
-                 FontSize="10"
-                 HorizontalAlignment="Left" 
-                 TextWrapping="WrapWithOverflow"              
-                 Margin="0" 
-                 Padding="1" TextTrimming="CharacterEllipsis">
-        <TextBlock.ToolTip>
-          <Label Content="{Binding Path=TerminBeschreibung}"/>
-        </TextBlock.ToolTip>
-      </TextBlock>
-      <TextBlock Grid.Column="2" Grid.Row="1"
-                 Text="{Binding Path=StundeStundenbedarfString}" 
-                 FontSize="10" HorizontalAlignment="Right" Margin="0" 
-                 Padding="1"/>
-    </Grid>
-
-  </DataTemplate>
 
   <Style x:Key="NotenGroupHeaderStyle" TargetType="{x:Type GroupItem}">
     <Setter Property="Template">

@@ -9,6 +9,7 @@
   using SoftTeach.Model.TeachyModel;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Curricula;
+  using SoftTeach.View.Jahrespläne;
   using SoftTeach.ViewModel;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Helper.ODSSupport;
@@ -65,7 +66,6 @@
       this.TageHJ1ViewSource = new CollectionViewSource() { Source = this.TageHJ1 };
       using (this.TageHJ1ViewSource.DeferRefresh())
       {
-        this.TageHJ1ViewSource.Filter += this.TageViewSource_Filter;
         this.TageHJ1ViewSource.SortDescriptions.Add(new SortDescription("Datum", ListSortDirection.Ascending));
         this.TageHJ1ViewSource.GroupDescriptions.Add(new PropertyGroupDescription("Monat"));
       }
@@ -74,13 +74,14 @@
       this.TageHJ2ViewSource = new CollectionViewSource() { Source = this.TageHJ2 };
       using (this.TageHJ2ViewSource.DeferRefresh())
       {
-        this.TageHJ2ViewSource.Filter += this.TageViewSource_Filter;
         this.TageHJ2ViewSource.SortDescriptions.Add(new SortDescription("Datum", ListSortDirection.Ascending));
         this.TageHJ2ViewSource.GroupDescriptions.Add(new PropertyGroupDescription("Monat"));
       }
 
       this.currentDate = DateTime.Now;
       this.lerngruppe = lerngruppe;
+
+      this.KalenderErstellen();
     }
 
     /// <summary>
@@ -282,16 +283,16 @@
     [DependsUpon("AktuellesDatum")]
     public string MonatsBezeichnung => this.AktuellesDatum.ToString("MMMM yyyy");
 
-    /// <summary>
-    /// Erstellt den Kalender neu und lädt dabei die Lerngruppentermine
-    /// </summary>
-    public void KalenderNeuLaden()
-    {
-      if (!this.TageHJ1.Any())
-      {
-        this.KalenderErstellen();
-      }
-    }
+    ///// <summary>
+    ///// Erstellt den Kalender neu und lädt dabei die Lerngruppentermine
+    ///// </summary>
+    //public void KalenderNeuLaden()
+    //{
+    //  if (!this.TageHJ1.Any())
+    //  {
+    //    this.KalenderErstellen();
+    //  }
+    //}
 
     private void KalenderErstellen()
     {
@@ -311,12 +312,12 @@
         TagViewModel tag = new TagViewModel(this.lerngruppe) { Datum = d, Enabled = true, IstWochenende = d.DayOfWeek == DayOfWeek.Saturday || d.DayOfWeek == DayOfWeek.Sunday };
 
         var lerngruppentermine = this.lerngruppe.Lerngruppentermine.Where(o =>
-          o.LerngruppenterminSchuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr
+          o.LerngruppenterminSchuljahr.Jahr == this.Schuljahr.SchuljahrJahr
           && o.LerngruppenterminDatum == d.Date).ToObservableCollection();
         tag.Lerngruppentermine = lerngruppentermine;
 
         var ferien = App.MainViewModel.Schultermine.Where(o =>
-          o.SchulterminSchuljahr.SchuljahrJahr == Selection.Instance.Schuljahr.SchuljahrJahr
+          o.SchulterminSchuljahr.SchuljahrJahr == this.Schuljahr.SchuljahrJahr
           && o.TerminTermintyp == Termintyp.Ferien).Any(o => o.SchulterminDatum.Date == d.Date);
         if (ferien)
         {
@@ -324,46 +325,35 @@
         }
 
         var ferien2 = App.MainViewModel.Ferien.Where(o =>
-          o.Model.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr).Any(o => o.FerienErsterFerientag <= d.Date && o.FerienLetzterFerientag >= d.Date);
+          o.Model.Schuljahr.Jahr == this.Schuljahr.SchuljahrJahr).Any(o => o.FerienErsterFerientag <= d.Date && o.FerienLetzterFerientag >= d.Date);
         if (ferien2)
         {
           tag.IstFerien = true;
         }
 
         var feiertag = App.MainViewModel.Schultermine.Where(o =>
-          o.SchulterminSchuljahr.SchuljahrJahr == Selection.Instance.Schuljahr.SchuljahrJahr
+          o.SchulterminSchuljahr.SchuljahrJahr == this.Schuljahr.SchuljahrJahr
           && o.TerminTermintyp == Termintyp.Feiertag).Any(o => o.SchulterminDatum.Date == d.Date);
         if (feiertag)
         {
           tag.IstFeiertag = true;
         }
 
-        tag.PropertyChanged += this.Day_Changed;
         tag.IstHeute = d == DateTime.Today;
 
         if (box <= 184)
         {
+          tag.Halbjahr = Halbjahr.Winter;
           this.TageHJ1.Add(tag);
         }
         else
         {
+          tag.Halbjahr = Halbjahr.Sommer;
           this.TageHJ2.Add(tag);
         }
+
         d = d.AddDays(1);
       }
-    }
-
-    private void Day_Changed(object sender, PropertyChangedEventArgs e)
-    {
-      if (e.PropertyName != "Notizen") return;
-      if (TagGeändert == null) return;
-
-      TagGeändert(this, new TagGeändertEventArgs(sender as TagViewModel));
-    }
-
-    private static int DayOfWeekNumber(DayOfWeek dow)
-    {
-      return Convert.ToInt32(dow.ToString("D"));
     }
 
     /// <summary>
@@ -372,7 +362,7 @@
     /// <returns>A <see cref="string" /> that represents this instance.</returns>
     public override string ToString()
     {
-      return "Kalender";
+      return "Jahresplan für" + this.Lerngruppe.LerngruppeKurzbezeichnung;
     }
 
     /// <summary>
@@ -506,6 +496,7 @@
                   stunde.Lerngruppe = this.Lerngruppe.Model;
                   stunde.Hausaufgaben = string.Empty;
                   stunde.Ansagen = string.Empty;
+                  stunde.Jahrgang = this.Jahrgang;
                   stunde.Fach = this.Fach.Model;
                   stunde.Halbjahr = this.Halbjahr;
                   if (stundenplaneintragViewModel.StundenplaneintragRaum != null)
@@ -549,7 +540,6 @@
             {
               lerngruppe.Lerngruppentermine.RemoveTest(lerngruppenterminViewModel);
               tagesplanViewModel.Lerngruppentermine.RemoveTest(lerngruppenterminViewModel);
-              //App.MainViewModel.Stunden.RemoveTest(lerngruppenterminViewModel as StundeViewModel);
             }
           }
 
@@ -565,16 +555,17 @@
     /// </summary>
     private void GetStundenFromOtherJahresplan()
     {
-      using (new UndoBatch(App.MainViewModel, string.Format("Stunden in Jahresplan {0} importiert.", this.Bezeichnung), false))
+      var dlg = new AskForLerngruppeToAdaptDialog(this.Fach, this.Jahrgang);
+      dlg.Title = "Aus welcher Lerngruppe sollen die Stunden übertragen werden?";
+      if (dlg.ShowDialog().GetValueOrDefault(false))
       {
-        var dlg = new AskForHalbjahresplanToAdaptDialog(this.Fach, this.Jahrgang, this.Halbjahr);
-        dlg.Title = "Aus welchem Halbjahresplan sollen die Stunden übertragen werden?";
-        if (dlg.ShowDialog().GetValueOrDefault(false))
+        using (new UndoBatch(App.MainViewModel, string.Format("Stunden in Jahresplan {0} importiert.", this.Bezeichnung), false))
         {
-          //var halbjahresplanZuweisenWorkspace = new HalbjahresplanZuweisenWorkspaceViewModel(
-          //  dlg.Halbjahresplan, this.CurrentHalbjahresplan);
-          //var dlgZuweisen = new JahresplanZuweisenDialog { DataContext = halbjahresplanZuweisenWorkspace };
-          //dlgZuweisen.ShowDialog();
+          var vm = App.MainViewModel.LoadLerngruppe(dlg.SelectedLerngruppe);
+
+          var halbjahresplanZuweisenWorkspace = new JahresplanZuweisenWorkspaceViewModel(vm, this.lerngruppe, this.Halbjahr);
+          var dlgZuweisen = new JahresplanZuweisenDialog { DataContext = halbjahresplanZuweisenWorkspace };
+          dlgZuweisen.ShowDialog();
         }
       }
     }
@@ -589,20 +580,6 @@
       {
         new OdsReaderWriter().WriteOdsFile(this.Lerngruppe, fileDialog.FileName);
       }
-    }
-
-    /// <summary>
-    /// Filtert die Wahlfachangebote nach Schuljahr
-    /// </summary>
-    private void TageViewSource_Filter(object sender, FilterEventArgs e)
-    {
-      if (!(e.Item is TagViewModel tag))
-      {
-        e.Accepted = false;
-        return;
-      }
-
-      e.Accepted = true;
     }
   }
 }

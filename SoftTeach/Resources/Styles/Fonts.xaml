@@ -355,6 +355,19 @@
   <Style x:Key="ListeOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource ListeOverlay16}">
     <Setter Property="FontSize" Value="16"/>
   </Style>
+  
+  <Style x:Key="CopyOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="Clone"/>
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="CopyOverlay24" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource CopyOverlay16}">
+    <Setter Property="FontSize" Value="12"/>
+  </Style>
+
+  <Style x:Key="CopyOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource CopyOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
 
 
   <Style x:Key="SizeSmall" TargetType="{x:Type fa:IconBlock}">
@@ -730,15 +743,15 @@
   </Style>
 
   <Style x:Key="Curriculum16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
-    <Setter Property="Icon" Value="PuzzlePiece"/>
+    <Setter Property="Icon" Value="Books"/>
   </Style>
 
   <Style x:Key="Curriculum32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
-    <Setter Property="Icon" Value="PuzzlePiece"/>
+    <Setter Property="Icon" Value="Books"/>
   </Style>
 
   <Style x:Key="Curriculum48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
-    <Setter Property="Icon" Value="PuzzlePiece"/>
+    <Setter Property="Icon" Value="Books"/>
   </Style>
 
   <Style x:Key="Jahresplan16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
@@ -888,6 +901,18 @@
 
   <Style x:Key="Lerngruppe48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
     <Setter Property="Icon" Value="Users"/>
+  </Style>
+  
+  <Style x:Key="Ferien16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="IslandTropical"/>
+  </Style>
+
+  <Style x:Key="Ferien32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="IslandTropical"/>
+  </Style>
+
+  <Style x:Key="Ferien48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="IslandTropical"/>
   </Style>
 
 </ResourceDictionary>

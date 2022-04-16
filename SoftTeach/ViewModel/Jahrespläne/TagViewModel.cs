@@ -26,6 +26,7 @@ namespace SoftTeach.ViewModel.Jahrespläne
     /// </summary>
     private LerngruppenterminViewModel currentLerngruppentermin;
     private LerngruppeViewModel lerngruppe;
+    private Halbjahr halbjahr;
 
     private DateTime datum;
     private string notizen;
@@ -209,6 +210,19 @@ namespace SoftTeach.ViewModel.Jahrespläne
     }
 
     /// <summary>
+    /// Holt oder setzt das Halbjahr zum Tag
+    /// </summary>
+    public Halbjahr Halbjahr
+    {
+      get => this.halbjahr;
+      set
+      {
+        this.halbjahr = value;
+        this.RaisePropertyChanged("Halbjahr");
+      }
+    }
+
+    /// <summary>
     /// Holt den ersten Lerngruppentermin des Tages
     /// </summary>
     public LerngruppenterminViewModel ErsterLerngruppentermin
@@ -281,6 +295,9 @@ namespace SoftTeach.ViewModel.Jahrespläne
       stunde.Hausaufgaben = string.Empty;
       stunde.Ansagen = string.Empty;
       stunde.Lerngruppe = lerngruppe.Model;
+      stunde.Halbjahr = this.Halbjahr;
+      stunde.Jahrgang = lerngruppe.LerngruppeJahrgang;
+        
       stunde.Fach = lerngruppe.LerngruppeFach.Model;
 
       var vm = new StundeViewModel(stunde);
@@ -344,19 +361,11 @@ namespace SoftTeach.ViewModel.Jahrespläne
     {
       if (this.currentLerngruppentermin != null)
       {
-        this.LöscheLerngruppentermin(currentLerngruppentermin);
+        this.lerngruppe.Lerngruppentermine.RemoveTest(this.currentLerngruppentermin);
+        var result = this.Lerngruppentermine.Remove(this.currentLerngruppentermin);
+        this.currentLerngruppentermin = null;
+        this.UpdateView();
       }
-    }
-
-    /// <summary>
-    /// Entfernt den gegebenen Lerngruppentermin aus der Liste und der Datenbank
-    /// </summary>
-    /// <param name="lerngruppentermin">Die Lerngruppentermin die gelöscht werden soll.</param>
-    public void LöscheLerngruppentermin(LerngruppenterminViewModel lerngruppentermin)
-    {
-      var success = App.UnitOfWork.Context.Termine.Remove(lerngruppentermin.Model);
-      var result = this.Lerngruppentermine.Remove(lerngruppentermin);
-      this.UpdateView();
     }
 
     /// <summary>

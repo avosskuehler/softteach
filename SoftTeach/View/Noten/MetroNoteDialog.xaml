@@ -14,13 +14,6 @@
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/SoftTeach;component/Resources/MetroResources.xaml"/>
-        <ResourceDictionary >
-          <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="Notentypen">
-            <ObjectDataProvider.MethodParameters>
-              <x:Type TypeName="noten:Notentyp" />
-            </ObjectDataProvider.MethodParameters>
-          </ObjectDataProvider>
-        </ResourceDictionary>
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </dialogs:BaseMetroDialog.Resources>
@@ -76,7 +69,7 @@
 				Width="Auto"
 				IsSnapToTickEnabled="True"/>
       </Grid>
-      <Button Width="100" FontSize="20" Margin="10" Content="Fertig" Style="{DynamicResource AccentedSquareButtonStyle}" Click="FertigButtonOnClick"/>
+      <Button Width="100" FontSize="20" Margin="10" Content="Fertig" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Click="FertigButtonOnClick"/>
     </StackPanel>
   </Grid>
 </dialogs:BaseMetroDialog>

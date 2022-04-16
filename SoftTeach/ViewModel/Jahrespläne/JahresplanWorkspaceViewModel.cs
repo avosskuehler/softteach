@@ -12,6 +12,7 @@
   using SoftTeach.View.Jahrespläne;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Helper;
+  using SoftTeach.ViewModel.Personen;
 
   /// <summary>
   /// ViewModel for managing Jahresplan
@@ -19,17 +20,22 @@
   public class JahresplanWorkspaceViewModel : ViewModelBase
   {
     /// <summary>
-    /// The Jahresplan currently selected
+    /// Die ausgewählte Lerngruppe für den Jahresplan
+    /// </summary>
+    private LerngruppeNeu currentLerngruppe;
+
+    /// <summary>
+    /// Der Jahresplan der ausgewählten Lerngruppe
     /// </summary>
     private JahresplanViewModel currentJahresplan;
 
     /// <summary>
-    /// Das Fach, dessen Stundenentwürfe nur dargestellt werden sollen.
+    /// Das Fach, für das die Jahrespläne nur dargestellt werden sollen.
     /// </summary>
     private FachViewModel fachFilter;
 
     /// <summary>
-    /// Die Jahrgangsstufe, deren Stundenentwürfe nur dargestellt werden sollen.
+    /// Das Schuljahr, dessen Jahrespläne nur dargestellt werden sollen.
     /// </summary>
     private SchuljahrViewModel schuljahrFilter;
 
@@ -40,25 +46,31 @@
     {
       this.AddJahresplanCommand = new DelegateCommand(this.AddJahresplan);
       //this.CopyJahresplanCommand = new DelegateCommand(this.CopyCurrentJahresplan, () => this.CurrentJahresplan != null);
-      this.DeleteJahresplanCommand = new DelegateCommand(this.DeleteCurrentJahresplan, () => this.CurrentJahresplan != null);
+      this.DeleteJahresplanCommand = new DelegateCommand(this.DeleteCurrentJahresplan, () => this.CurrentLerngruppe != null);
       this.ResetSchuljahrFilterCommand = new DelegateCommand(() => this.SchuljahrFilter = null, () => this.SchuljahrFilter != null);
       this.ResetFachFilterCommand = new DelegateCommand(() => this.FachFilter = null, () => this.FachFilter != null);
 
-      this.CurrentJahresplan = App.MainViewModel.Jahrespläne.Count > 0 ? App.MainViewModel.Jahrespläne[0] : null;
-      this.JahrespläneViewSource = new CollectionViewSource() { Source = App.MainViewModel.Jahrespläne };
-      using (this.JahrespläneViewSource.DeferRefresh())
+      this.CurrentLerngruppe = App.UnitOfWork.Context.Lerngruppen.Count() > 0 ? App.UnitOfWork.Context.Lerngruppen.First() : null;
+      var lerngruppenImContext = new List<LerngruppeNeu>();
+      foreach (var lerngruppe in App.UnitOfWork.Context.Lerngruppen)
       {
-        this.JahrespläneViewSource.Filter += this.JahrespläneViewSource_Filter;
-        this.JahrespläneViewSource.SortDescriptions.Add(new SortDescription("Fach", ListSortDirection.Ascending));
-        this.JahrespläneViewSource.SortDescriptions.Add(new SortDescription("Schuljahr", ListSortDirection.Ascending));
-        this.JahrespläneViewSource.SortDescriptions.Add(new SortDescription("Jahrgang", ListSortDirection.Ascending));
+        lerngruppenImContext.Add(lerngruppe);
+      }
+
+      this.LerngruppenViewSource = new CollectionViewSource() { Source = lerngruppenImContext };
+      using (this.LerngruppenViewSource.DeferRefresh())
+      {
+        this.LerngruppenViewSource.Filter += this.LerngruppenViewSource_Filter;
+        this.LerngruppenViewSource.SortDescriptions.Add(new SortDescription("Fach.Bezeichnung", ListSortDirection.Ascending));
+        this.LerngruppenViewSource.SortDescriptions.Add(new SortDescription("Schuljahr.Jahr", ListSortDirection.Ascending));
+        this.LerngruppenViewSource.SortDescriptions.Add(new SortDescription("Jahrgang", ListSortDirection.Ascending));
       }
 
       this.SelectedJahrespläne = new List<JahresplanViewModel>();
 
       Selection.Instance.PropertyChanged += this.SelectionPropertyChanged;
+      this.SchuljahrFilter = Selection.Instance.Schuljahr;
     }
-
 
     /// <summary>
     /// Holt den Befehl zur adding a new Jahresplan
@@ -88,12 +100,12 @@
     /// <summary>
     /// Holt oder setzt die JahrespläneViewSource
     /// </summary>
-    public CollectionViewSource JahrespläneViewSource { get; set; }
+    public CollectionViewSource LerngruppenViewSource { get; set; }
 
     /// <summary>
-    /// Holt oder setzt ein gefiltertes View der Jahrespläne
+    /// Holt oder setzt ein gefiltertes View der Lerngruppen
     /// </summary>
-    public ICollectionView JahrespläneView => this.JahrespläneViewSource.View;
+    public ICollectionView LerngruppenView => this.LerngruppenViewSource.View;
 
     /// <summary>
     /// Holt die markierten Jahrespläne im Workspace
@@ -102,6 +114,49 @@
 
     /// <summary>
     /// Holt oder setzt die jahresplan currently selected in this workspace
+    /// </summary>
+    public LerngruppeNeu CurrentLerngruppe
+    {
+      get
+      {
+        return this.currentLerngruppe;
+      }
+
+      set
+      {
+        this.currentLerngruppe = value;
+        if (this.currentLerngruppe != null)
+        {
+          // FIND
+          //Selection.Instance.Fach = this.currentLerngruppe.Fach;
+          var lerngruppe = App.UnitOfWork.Context.Lerngruppen.FirstOrDefault(o => o.SchuljahrId == this.currentLerngruppe.SchuljahrId && o.FachId == this.currentLerngruppe.FachId && o.Jahrgang == this.currentLerngruppe.Jahrgang);
+          if (lerngruppe == null)
+          {
+            InformationDialog.Show("Fehler", "Lerngruppe nicht gefunden", false);
+            return;
+          }
+
+          var vm = App.MainViewModel.LoadLerngruppe(lerngruppe);
+
+          Selection.Instance.Lerngruppe = vm;
+
+          var jahresplan = App.MainViewModel.Jahrespläne.FirstOrDefault(o => o.Lerngruppe.Model.Id == vm.Model.Id);
+          if (jahresplan == null)
+          {
+            jahresplan = new JahresplanViewModel(vm);
+            App.MainViewModel.Jahrespläne.Add(jahresplan);
+          }
+
+          this.CurrentJahresplan = jahresplan;
+        }
+
+        this.RaisePropertyChanged("CurrentLerngruppe");
+        this.DeleteJahresplanCommand.RaiseCanExecuteChanged();
+      }
+    }
+
+    /// <summary>
+    /// Holt oder setzt aktuell darzustellenden Jahresplan
     /// </summary>
     public JahresplanViewModel CurrentJahresplan
     {
@@ -113,28 +168,7 @@
       set
       {
         this.currentJahresplan = value;
-        if (this.currentJahresplan != null)
-        {
-          // FIND
-          Selection.Instance.Fach = this.currentJahresplan.Fach;
-          var lerngruppe = App.UnitOfWork.Context.Lerngruppen.FirstOrDefault(o => o.SchuljahrId == this.currentJahresplan.Schuljahr.Model.Id && o.FachId == this.currentJahresplan.Fach.Model.Id && o.Jahrgang == this.currentJahresplan.Jahrgang);
-          if (lerngruppe == null)
-          {
-            InformationDialog.Show("Fehler", "Lerngruppe nicht gefunden", false);
-            return;
-          }
-
-          if (!App.MainViewModel.Lerngruppen.Any(o => o.Model.Id == lerngruppe.Id))
-          {
-            App.MainViewModel.Lerngruppen.Add(new Personen.LerngruppeViewModel(lerngruppe));
-          }
-
-          Selection.Instance.Lerngruppe = App.MainViewModel.Lerngruppen.First(o => o.Model.Id == lerngruppe.Id);
-          this.currentJahresplan.KalenderNeuLaden();
-        }
-
         this.RaisePropertyChanged("CurrentJahresplan");
-        this.DeleteJahresplanCommand.RaiseCanExecuteChanged();
       }
     }
 
@@ -152,7 +186,7 @@
       {
         this.fachFilter = value;
         this.RaisePropertyChanged("FachFilter");
-        this.JahrespläneView.Refresh();
+        this.LerngruppenView.Refresh();
         this.ResetFachFilterCommand.RaiseCanExecuteChanged();
       }
     }
@@ -171,43 +205,40 @@
       {
         this.schuljahrFilter = value;
         this.RaisePropertyChanged("SchuljahrFilter");
-        this.JahrespläneView.Refresh();
+        this.LerngruppenView.Refresh();
         this.ResetSchuljahrFilterCommand.RaiseCanExecuteChanged();
       }
     }
 
     /// <summary>
-    /// Filtert die Terminliste nach Schuljahr und Termintyp
+    /// Filtert die Lerngruppen nach Schuljahr und Termintyp
     /// </summary>
-    /// <param name="item">Das TerminViewModel, das gefiltert werden soll</param>
+    /// <param name="item">Die Lerngruppe, das gefiltert werden soll</param>
     /// <returns>True, wenn das Objekt in der Liste bleiben soll.</returns>
-    private void JahrespläneViewSource_Filter(object sender, FilterEventArgs e)
+    private void LerngruppenViewSource_Filter(object sender, FilterEventArgs e)
     {
-      var jahresplanViewModel = e.Item as JahresplanViewModel;
-      if (jahresplanViewModel == null)
+      var lerngruppeViewModel = e.Item as LerngruppeNeu;
+      if (lerngruppeViewModel == null)
       {
         e.Accepted = false;
         return;
       }
 
-      if (this.schuljahrFilter != null && this.fachFilter != null)
+      if (this.fachFilter != null)
       {
-        e.Accepted = jahresplanViewModel.Schuljahr.SchuljahrBezeichnung == this.schuljahrFilter.SchuljahrBezeichnung
-          && jahresplanViewModel.Fach.FachBezeichnung == this.fachFilter.FachBezeichnung;
+        if (lerngruppeViewModel.Fach.Bezeichnung != this.fachFilter.FachBezeichnung) e.Accepted = false;
         return;
       }
+
 
       if (this.schuljahrFilter != null)
       {
-        e.Accepted = jahresplanViewModel.Schuljahr.SchuljahrBezeichnung == this.schuljahrFilter.SchuljahrBezeichnung;
+        if (lerngruppeViewModel.Schuljahr.Bezeichnung != this.schuljahrFilter.SchuljahrBezeichnung) e.Accepted = false;
         return;
       }
 
-      if (this.fachFilter != null)
-      {
-        e.Accepted = jahresplanViewModel.Fach.FachBezeichnung == this.fachFilter.FachBezeichnung;
-        return;
-      }
+      e.Accepted = true;
+      return;
     }
 
     /// <summary>
@@ -220,7 +251,7 @@
       if (e.PropertyName == "Schuljahr")
       {
         this.SchuljahrFilter = Selection.Instance.Schuljahr;
-        this.JahrespläneView.Refresh();
+        this.LerngruppenView.Refresh();
       }
     }
 

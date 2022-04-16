@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:resources="clr-namespace:SoftTeach.Resources"
+             xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:converter="clr-namespace:SoftTeach.Resources.Converter"
              mc:Ignorable="d" 
@@ -81,28 +81,26 @@
         <RowDefinition Height="*"/>
       </Grid.RowDefinitions>
       <Label Style="{StaticResource Header1}" Grid.Row="0" Margin="0,5,0,0" Content="{Binding Path=SchülereintragÜberschrift}"/>
-      <ToolBarTray Grid.Row="1" Orientation="Horizontal" IsLocked="True">
-        <ToolBar Band="1" BandIndex="1">
-          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddNotentendenzCommand}" ToolTip="Notentendenz anlegen" >
-            <StackPanel Orientation="Horizontal">
-              <Grid>
-                <Image Source="/SoftTeach;component/Images/Notentendenz32.png" />
-                <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
-              </Grid>
-              <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Notentendenz anlegen</Label>
-            </StackPanel>
-          </Button>
-          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddNoteCommand}" ToolTip="Note anlegen" >
-            <StackPanel Orientation="Horizontal">
-              <Grid>
-                <Image Source="/SoftTeach;component/Images/Note32.png" />
-                <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
-              </Grid>
-              <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Note anlegen</Label>
-            </StackPanel>
-          </Button>
-        </ToolBar>
-      </ToolBarTray>
+      <StackPanel Grid.Row="1" Orientation="Horizontal">
+        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddNotentendenzCommand}" ToolTip="Notentendenz anlegen" >
+          <StackPanel Orientation="Horizontal">
+            <Grid>
+              <Image Source="/SoftTeach;component/Images/Notentendenz32.png" />
+              <fa:IconBlock Style="{StaticResource AddOverlay16}"/>
+            </Grid>
+            <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Notentendenz anlegen</Label>
+          </StackPanel>
+        </Button>
+        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddNoteCommand}" ToolTip="Note anlegen" >
+          <StackPanel Orientation="Horizontal">
+            <Grid>
+              <fa:IconBlock Style="{StaticResource Note32}"/>
+              <fa:IconBlock Style="{StaticResource AddOverlay32}"/>
+            </Grid>
+            <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Note anlegen</Label>
+          </StackPanel>
+        </Button>
+      </StackPanel>
       <Grid Grid.Row="2">
         <Grid.RowDefinitions>
           <RowDefinition Height="*"/>
@@ -113,7 +111,7 @@
           <ColumnDefinition/>
           <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Grid Grid.Row="0" Grid.Column="0" Background="#99FFFFFF" Margin="0,3,3,3">
+        <Grid Grid.Row="0" Grid.Column="0" Margin="0,3,3,3">
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -235,7 +233,7 @@
           </ListBox>
         </Grid>
 
-        <Grid Grid.Row="0" Grid.Column="1"  Background="#99FFFFFF" Margin="0,3">
+        <Grid Grid.Row="0" Grid.Column="1"  Margin="0,3">
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -306,7 +304,7 @@
           </ListBox>
         </Grid>
 
-        <Grid Grid.Row="1" Grid.Column="0" Background="#99FFFFFF" Margin="0,0,3,0">
+        <Grid Grid.Row="1" Grid.Column="0" Margin="0,0,3,0">
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -334,7 +332,7 @@
           </ListBox>
         </Grid>
 
-        <Grid Grid.Row="1" Grid.Column="1"  Background="#99FFFFFF" Margin="0">
+        <Grid Grid.Row="1" Grid.Column="1"  Margin="0">
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -362,7 +360,7 @@
           </ListBox>
         </Grid>
 
-        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Background="#99FFFFFF" Margin="0,3">
+        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,3">
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>

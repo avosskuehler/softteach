@@ -1,6 +1,7 @@
 ﻿namespace SoftTeach.ViewModel.Termine
 {
   using System;
+  using System.Globalization;
   using System.Linq;
   using System.Windows.Media;
   using SoftTeach.ExceptionHandling;
@@ -127,6 +128,19 @@
     }
 
     /// <summary>
+    /// Holt das Datum des Monats des Lerngruppentermins
+    /// </summary>
+    [DependsUpon("LerngruppenterminDatum")]
+    public string LerngruppenterminMonat
+    {
+      get
+      {
+        return this.LerngruppenterminDatum.ToString("MMM", new CultureInfo("de-DE"));
+      }
+    }
+
+
+    /// <summary>
     /// Holt a <see cref="DateTime"/> with the date this lerngruppentermin belongs to
     /// </summary>
     [ViewModelBase.DependsUponAttribute("LerngruppenterminDatum")]
@@ -161,6 +175,17 @@
     }
 
     /// <summary>
+    /// Holt das Halbjahr des Lerngruppentermins
+    /// </summary>
+    public Halbjahr LerngruppenterminHalbjahr
+    {
+      get
+      {
+        return ((LerngruppenterminNeu)this.Model).Halbjahr;
+      }
+    }
+
+    /// <summary>
     /// Holt a <see cref="string"/> with the fach this lerngruppentermin belongs to
     /// </summary>
     public string LerngruppenterminFach
@@ -178,27 +203,17 @@
     {
       get
       {
-        // We need to reflect any changes made in the model so we check the current value before returning
-        if (((LerngruppenterminNeu)this.Model).Lerngruppe == null)
+        var lg = ((LerngruppenterminNeu)this.Model).Lerngruppe;
+        if (lg == null)
         {
+          InformationDialog.Show("Lerngruppe fehlt", "Zu diesem Termin fehlt die Lerngruppe.", false);
           return null;
         }
 
-        if (this.lerngruppe == null || this.lerngruppe.Model != ((LerngruppenterminNeu)this.Model).Lerngruppe)
+        if (this.lerngruppe == null || this.lerngruppe.Model != lg)
         {
-          var lerngruppe = App.MainViewModel.Lerngruppen.SingleOrDefault(d => d.Model == ((LerngruppenterminNeu)this.Model).Lerngruppe);
-          if (lerngruppe == null)
-          {
-            var lerngruppeModel = App.UnitOfWork.Context.Lerngruppen.FirstOrDefault(o => o.Id == ((LerngruppenterminNeu)this.Model).LerngruppeId);
-            lerngruppe = new LerngruppeViewModel(lerngruppeModel);
-            App.MainViewModel.Lerngruppen.Add(lerngruppe);
-          }
-          if (lerngruppe == null)
-          {
-            InformationDialog.Show("Lerngruppe fehlt", "Zu diesem Termin fehlt die Lerngruppe.", false);
-          }
-
-          this.lerngruppe = lerngruppe;
+          var vm = App.MainViewModel.LoadLerngruppe(lg);
+          this.lerngruppe = vm;
         }
 
         return this.lerngruppe;

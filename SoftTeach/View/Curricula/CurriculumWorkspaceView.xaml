@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:pb="clr-namespace:SoftTeach.ViewModel.Helper.PushBinding"
+             xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
+            xmlns:pb="clr-namespace:SoftTeach.ViewModel.Helper.PushBinding"
              xmlns:curriculumView="clr-namespace:SoftTeach.View.Curricula"
              xmlns:curricula="clr-namespace:SoftTeach.ViewModel.Curricula"
              xmlns:softTeach="clr-namespace:SoftTeach"
@@ -25,8 +26,8 @@
           <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddCurriculumCommand}" ToolTip="Neuen Curriculum erstellen">
             <StackPanel Orientation="Horizontal">
               <Grid>
-                <Image Source="/SoftTeach;component/Images/Curriculum32.png"/>
-                <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
+                <fa:IconBlock Style="{StaticResource Curriculum32}"/>
+                <fa:IconBlock Style="{StaticResource AddOverlay32}"/>
               </Grid>
               <!--<Label Padding="5,0,0,0" VerticalContentAlignment="Center">Neues Curriculum erstellen</Label>-->
             </StackPanel>
@@ -34,8 +35,8 @@
           <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=DeleteCurriculumCommand}" ToolTip="Curriculum löschen" >
             <StackPanel Orientation="Horizontal">
               <Grid>
-                <Image Source="/SoftTeach;component/Images/Curriculum32.png" />
-                <Image Source="/SoftTeach;component/Images/RemoveOverlay32.png"/>
+                <fa:IconBlock Style="{StaticResource Curriculum32}"/>
+                <fa:IconBlock Style="{StaticResource RemoveOverlay32}"/>
               </Grid>
               <!--<Label Padding="5,0,0,0" VerticalContentAlignment="Center">Dieses Curriculum löschen</Label>-->
             </StackPanel>
@@ -43,8 +44,8 @@
           <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=CopyCurriculumCommand}" ToolTip="Curriculum kopieren" >
             <StackPanel Orientation="Horizontal">
               <Grid>
-                <Image Source="/SoftTeach;component/Images/Curriculum32.png" />
-                <Image Source="/SoftTeach;component/Images/CopyOverlay32.png"/>
+                <fa:IconBlock Style="{StaticResource Curriculum32}"/>
+                <fa:IconBlock Style="{StaticResource CopyOverlay32}"/>
               </Grid>
             </StackPanel>
           </Button>
@@ -104,8 +105,7 @@
                         SelectedItemBinding="{Binding Path=CurriculumHalbjahr}" 
                         SortMemberPath="CurriculumHalbjahr"
                         EditingElementStyle="{StaticResource DatagridComboBoxElementStyle}"/>
-            <DataGridTextColumn Header="Klasse" Binding="{Binding Path=CurriculumKlassenstufe.KlassenstufeBezeichnung}"
-                                  SortMemberPath="CurriculumKlassenstufe.KlassenstufeBezeichnung" Width="Auto" IsReadOnly="True"/>
+            <DataGridTextColumn Header="Klasse" Binding="{Binding Path=CurriculumJahrgang}" Width="Auto" IsReadOnly="True"/>
             <DataGridTextColumn Header="Bezeichnung" Binding="{Binding Path=CurriculumBezeichnung}" 
                                   SortMemberPath="CurriculumBezeichnung" Width="*"/>
           </DataGrid.Columns>

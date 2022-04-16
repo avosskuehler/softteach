@@ -63,7 +63,7 @@
     private ObservableCollection<RaumViewModel> räume;
     private ObservableCollection<SitzplanViewModel> sitzpläne;
     private ObservableCollection<ArbeitViewModel> arbeiten;
-    private ObservableCollection<Personen.LerngruppeViewModel> schülerlisten;
+    private ObservableCollection<Personen.LerngruppeViewModel> lerngruppen;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="MainViewModel"/> Klasse. 
@@ -110,7 +110,7 @@
 
       // The creation of the Lerngruppen includes the creation of
       // the schülereintrag, noten, notentendenzen, hausaufgaben models
-      this.schülerlisten = new ObservableCollection<Personen.LerngruppeViewModel>();
+      this.lerngruppen = new ObservableCollection<Personen.LerngruppeViewModel>();
       //this.Schülereinträge = new ObservableCollection<SchülereintragViewModel>();
       //this.Noten = new ObservableCollection<NoteViewModel>();
       //this.Notentendenzen = new ObservableCollection<NotentendenzViewModel>();
@@ -209,7 +209,7 @@
     {
       get
       {
-        return this.schülerlisten;
+        return this.lerngruppen;
       }
     }
 
@@ -752,6 +752,8 @@
         {
           this.Schuljahre.Add(new SchuljahrViewModel(schuljahr));
         }
+
+        // Erstes Öffnen des Contexts dauert ca. 1,5s, hat nichts mit Schuljahren zu tun
         Console.WriteLine("Elapsed Schuljahre {0}", watch.ElapsedMilliseconds);
         watch.Restart();
 
@@ -1033,7 +1035,7 @@
         this.Schuljahre.CollectionChanged += this.SchuljahreCollectionChanged;
         this.Dateitypen.CollectionChanged += this.DateitypenCollectionChanged;
         this.Unterrichtsstunden.CollectionChanged += this.UnterrichtsstundenCollectionChanged;
-        this.Lerngruppen.CollectionChanged += this.LerngruppenCollectionChanged;
+        //this.Lerngruppen.CollectionChanged += this.LerngruppenCollectionChanged;
         this.Fächer.CollectionChanged += this.FächerCollectionChanged;
         this.Module.CollectionChanged += this.ModuleCollectionChanged;
         //this.Reihen.CollectionChanged += this.ReihenCollectionChanged;
@@ -2111,23 +2113,41 @@
     public void LoadLerngruppen()
     {
       App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
-      var collection = this.schülerlisten;
-      this.schülerlisten.CollectionChanged -= this.LerngruppenCollectionChanged;
-      //foreach (var schülerliste in App.UnitOfWork.Context.Lerngruppen)
+      var collection = this.lerngruppen;
+      this.lerngruppen.CollectionChanged -= this.LerngruppenCollectionChanged;
+
       foreach (var schülerliste in App.UnitOfWork.Context.Lerngruppen.Where(o => o.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr))
       {
         if (!collection.Any(o => o.Model.Id == schülerliste.Id))
         {
           var vm = new LerngruppeViewModel(schülerliste);
           collection.Add(vm);
-          var jahresplan = new JahresplanViewModel(vm);
-          this.Jahrespläne.Add(jahresplan);
         }
       }
 
-      this.schülerlisten.CollectionChanged += this.LerngruppenCollectionChanged;
+      this.lerngruppen.CollectionChanged += this.LerngruppenCollectionChanged;
 
       App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
+    }
+
+    public LerngruppeViewModel LoadLerngruppe(LerngruppeNeu lg)
+    {
+      var collection = this.lerngruppen;
+
+      LerngruppeViewModel vm = collection.FirstOrDefault(o => o.Model.Id == lg.Id);
+
+      if (vm == null)
+      {
+        App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+        this.lerngruppen.CollectionChanged -= this.LerngruppenCollectionChanged;
+        vm = new LerngruppeViewModel(lg);
+        collection.Add(vm);
+        this.lerngruppen.CollectionChanged += this.LerngruppenCollectionChanged;
+        App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
+      }
+
+
+      return vm;
     }
 
     public void LoadArbeiten()

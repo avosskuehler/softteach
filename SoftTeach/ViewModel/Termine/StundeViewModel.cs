@@ -441,7 +441,7 @@ namespace SoftTeach.ViewModel.Termine
       set
       {
         if (value == null) return;
-        if (value.ModulBezeichnung == this.StundeModul.ModulBezeichnung) return;
+        if (value == this.StundeModul) return;
         this.UndoablePropertyChanging(this, "StundeModul", this.modul, value);
         this.modul = value;
         ((StundeNeu)this.Model).Modul = value.Model;
@@ -1302,26 +1302,6 @@ namespace SoftTeach.ViewModel.Termine
     private void PhasenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
       this.UndoableCollectionChanged(this, "Phasen", this.Phasen, e, true, "Änderung der Phasen");
-
-      //if (e.Action == NotifyCollectionChangedAction.Remove)
-      //{
-      //  foreach (var oldItem in e.OldItems)
-      //  {
-      //    var phaseViewModel = oldItem as PhaseViewModel;
-      //    if (phaseViewModel != null)
-      //    {
-      //      this.Phasen.RemoveTest(phaseViewModel);
-      //    }
-      //  }
-      //}
-      ////else if (e.Action == NotifyCollectionChangedAction.Reset)
-      ////{
-      ////  foreach (var phase in this.Phasen)
-      ////  {
-      ////    phase.PropertyChanged -= this.PhasePropertyChanged;
-      ////    this.Phasen.RemoveTest(phase);
-      ////  }
-      ////}
 
       this.RaisePropertyChanged("StundenentwurfPhasenKurzform");
       this.NotifyPhaseZeitChanged();

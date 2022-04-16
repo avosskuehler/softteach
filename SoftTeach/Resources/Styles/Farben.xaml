@@ -18,7 +18,9 @@
 
   <SolidColorBrush x:Key="ReiheBackgroundBrush" Color="#996495ED"/>
   <SolidColorBrush x:Key="SequenzBackgroundBrush" Color="#99F0DDFF"/>
-  <SolidColorBrush x:Key="StundeBackgroundBrush" Color="#996422ED"/>
+  <SolidColorBrush x:Key="FerienBackgroundBrush" Color="MediumAquamarine"/>
+  <SolidColorBrush x:Key="StundeSourceBackgroundBrush" Color="#996422ED"/>
+  <SolidColorBrush x:Key="StundeTargetBackgroundBrush" Color="#99009900"/>
   <SolidColorBrush x:Key="PhaseBackgroundBrush" Color="#99DDDDDD"/>
   <SolidColorBrush x:Key="MetroHeaderBackground" Color="SteelBlue"/>
 

@@ -60,7 +60,7 @@
           </ItemsPanelTemplate>
         </ListBox.ItemsPanel>
       </ListBox>
-      <Button Width="100" FontSize="20" Margin="10" Content="Fertig" Style="{DynamicResource AccentedSquareButtonStyle}" Click="FertigButtonOnClick"/>
+      <Button Width="100" FontSize="20" Margin="10" Content="Fertig" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Click="FertigButtonOnClick"/>
     </StackPanel>
   </Grid>
 </dialogs:BaseMetroDialog>

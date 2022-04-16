@@ -33,7 +33,7 @@
       <Value Profile="(Default)">80</Value>
     </Setting>
     <Setting Name="Stundenbreite" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">20</Value>
+      <Value Profile="(Default)">40</Value>
     </Setting>
   </Settings>
 </SettingsFile>

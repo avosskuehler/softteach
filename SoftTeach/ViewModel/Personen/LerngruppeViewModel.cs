@@ -5,6 +5,7 @@
   using System.Collections.ObjectModel;
   using System.Collections.Specialized;
   using System.ComponentModel;
+  using System.Diagnostics;
   using System.Linq;
   using System.Windows;
   using System.Windows.Controls;
@@ -65,6 +66,9 @@
     /// </param>
     public LerngruppeViewModel(LerngruppeNeu lerngruppe)
     {
+      //var watch = new Stopwatch();
+      //watch.Start();
+
       if (lerngruppe == null)
       {
         throw new ArgumentNullException("lerngruppe");
@@ -89,6 +93,9 @@
         this.Schülereinträge.Add(vm);
       }
 
+      //Console.WriteLine("Elapsed Schülereinträge {0}", watch.ElapsedMilliseconds);
+      //watch.Restart();
+
       this.Schülereinträge.CollectionChanged += this.SchülereinträgeCollectionChanged;
 
       this.Lerngruppentermine = new ObservableCollection<LerngruppenterminViewModel>();
@@ -106,10 +113,16 @@
         }
       }
 
+      //Console.WriteLine("Elapsed Lerngruppentermine {0}", watch.ElapsedMilliseconds);
+      //watch.Restart();
+
       this.Lerngruppentermine.CollectionChanged += this.Lerngruppentermine_CollectionChanged; ;
 
       this.SchülereinträgeView = CollectionViewSource.GetDefaultView(this.Schülereinträge);
       this.UpdateSort();
+
+      //Console.WriteLine("Elapsed UpdateSort {0}", watch.ElapsedMilliseconds);
+      //watch.Restart();
 
       this.SchülereinträgeGemischt = this.Schülereinträge.ToList();
 
@@ -143,6 +156,9 @@
           this.LerngruppeNotenWichtung = App.MainViewModel.NotenWichtungen.FirstOrDefault();
         }
       };
+
+      //Console.WriteLine("Elapsed NotenWichtungen {0}", watch.ElapsedMilliseconds);
+      //watch.Restart();
     }
 
     /// <summary>
@@ -568,7 +584,7 @@
     /// <returns>Ein <see cref="string"/> mit einer Kurzform des ViewModels.</returns>
     public override string ToString()
     {
-      return "Lerngruppe: " + this.LerngruppeKurzbezeichnung;
+      return this.LerngruppeKurzbezeichnung;
     }
 
     /// <summary>

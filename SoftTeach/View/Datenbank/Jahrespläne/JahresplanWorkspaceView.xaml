@@ -79,19 +79,16 @@
         </GroupBox>
         <DataGrid 
           Grid.Row="2" Margin="5" 
-          SelectedItem="{Binding Path=CurrentJahresplan, Mode=TwoWay}" 
-          ItemsSource="{Binding Path=JahrespläneView}" 
+          SelectedItem="{Binding Path=CurrentLerngruppe, Mode=TwoWay}" 
+          ItemsSource="{Binding Path=LerngruppenView}" 
           AutoGenerateColumns="False"
           SelectionMode="Extended">
-          <pb:PushBindingManager.PushBindings>
-            <pb:PushBinding TargetProperty="SelectedItems" Path="SelectedJahrespläne"/>
-          </pb:PushBindingManager.PushBindings>
           <DataGrid.Columns>
-            <DataGridTextColumn Header="Schuljahr" Binding="{Binding Path=Schuljahr.SchuljahrKurzbezeichnung}"
-                                  Width="Auto" SortMemberPath="Schuljahr.SchuljahrBezeichnung" IsReadOnly="True"/>
-            <DataGridTextColumn Header="Fach" Binding="{Binding Path=Fach.FachKurzbezeichnung}" Width="Auto"
-                                  SortMemberPath="Fach.FachBezeichnung" IsReadOnly="True"/>
-            <DataGridTextColumn Header="Lerngruppe" Binding="{Binding Path=Lerngruppe.LerngruppeBezeichnung}" SortMemberPath="Lerngruppe.LerngruppeBezeichnung" 
+            <DataGridTextColumn Header="Schuljahr" Binding="{Binding Path=Schuljahr.Bezeichnung}"
+                                  Width="Auto" SortMemberPath="Schuljahr.Bezeichnung" IsReadOnly="True"/>
+            <DataGridTextColumn Header="Fach" Binding="{Binding Path=Fach.Bezeichnung}" Width="Auto"
+                                  SortMemberPath="Fach.Bezeichnung" IsReadOnly="True"/>
+            <DataGridTextColumn Header="Bezeichnung" Binding="{Binding Path=Bezeichnung}" SortMemberPath="Bezeichnung" 
                                   IsReadOnly="True" Width="*"/>
           </DataGrid.Columns>
         </DataGrid>

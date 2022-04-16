@@ -162,7 +162,7 @@
                     </Grid.ColumnDefinitions>
                     <!--Tagesdatum-->
                     <TextBlock Grid.Column="0" TextAlignment="Left" Text="{Binding Datum, Converter={StaticResource DateConverter}, ConverterParameter=NRDAY}" FontSize="12" Margin="1" VerticalAlignment="Center"/>
-                    <Grid Background="{Binding Path=TagKalenderfarbe}" Grid.Column="1">
+                    <Grid Grid.Column="1">
                       <Grid.Resources>
                         <CollectionViewSource Source="{Binding Path=Lerngruppentermine}" x:Key="LerngruppentermineSorted">
                           <CollectionViewSource.SortDescriptions>
@@ -200,7 +200,7 @@
                         </ListBox.ItemsPanel>
                         <ListBox.ItemTemplate>
                           <DataTemplate>
-                            <Grid ToolTip="{Binding Path=TerminStundenbereich}">
+                            <Grid ToolTip="{Binding Path=TerminStundenbereich}" Background="{Binding Path=LerngruppenterminFarbe}" >
                               <Label Name="LabelBeschreibung" Padding="3,0" Margin="0" VerticalAlignment="Center" FontSize="12" Content="{Binding Path=TerminBeschreibung}"/>
                               <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Visibility="Hidden" x:Name="EditButtons">
                                 <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=DataContext.EditLerngruppenterminCommand, Source={x:Reference dummy}}" ToolTip="Stunde ändern">
@@ -319,7 +319,7 @@
             </Grid>
           </StackPanel>
         </Button>
-        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=RemoveStundenCommand}" ToolTip="Alle Stunden aus Jahresplan löschen">
+        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=RemoveStundenCommand}" ToolTip="Alle leeren Stunden aus Jahresplan löschen">
           <StackPanel Orientation="Horizontal">
             <Grid>
               <fa:IconBlock Style="{StaticResource Stundenentwurf16}"/>
