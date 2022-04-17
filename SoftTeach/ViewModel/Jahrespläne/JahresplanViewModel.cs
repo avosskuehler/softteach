@@ -49,6 +49,8 @@
     /// </summary>
     public JahresplanViewModel(LerngruppeViewModel lerngruppe)
     {
+      this.AddStundeCommand = new DelegateCommand(this.AddStunde);
+      this.AddLerngruppenterminCommand = new DelegateCommand(this.AddLerngruppentermin);
       this.MonatZurückCommand = new DelegateCommand(this.MonatZurück);
       this.MonatVorCommand = new DelegateCommand(this.MonatVor);
       this.PullStundenCommand = new DelegateCommand(this.PullStunden);
@@ -83,6 +85,16 @@
 
       this.KalenderErstellen();
     }
+
+    /// <summary>
+    /// Holt den Befehl aus Notizen einen neuen Termin zu machen
+    /// </summary>
+    public DelegateCommand AddStundeCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl aus Notizen einen neuen Termin zu machen
+    /// </summary>
+    public DelegateCommand AddLerngruppenterminCommand { get; private set; }
 
     /// <summary>
     /// Holt den Befehl den Kalender einen Monat früher anzuzeigen
@@ -579,6 +591,22 @@
       if (fileDialog.ShowDialog() == true)
       {
         new OdsReaderWriter().WriteOdsFile(this.Lerngruppe, fileDialog.FileName);
+      }
+    }
+
+    private void AddStunde()
+    {
+      if (this.AktuellerTag != null)
+      {
+        this.AktuellerTag.AddStunde();
+      }
+    }
+
+    private void AddLerngruppentermin()
+    {
+      if (this.AktuellerTag != null)
+      {
+        this.AktuellerTag.AddLerngruppentermin();
       }
     }
   }

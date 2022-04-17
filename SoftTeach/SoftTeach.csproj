@@ -743,7 +743,7 @@
     <Compile Include="View\Datenbank\SchülereintragWorkspace.xaml.cs">
       <DependentUpon>SchülereintragWorkspace.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Datenbank\Jahrespläne\JahresplanWorkspaceView.xaml.cs">
+    <Compile Include="View\Jahrespläne\JahresplanWorkspaceView.xaml.cs">
       <DependentUpon>JahresplanWorkspaceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Noten\AddSonstigeNoteDialog.xaml.cs">
@@ -880,7 +880,7 @@
     <Compile Include="View\Datenbank\AddSchuljahrDialog.xaml.cs">
       <DependentUpon>AddSchuljahrDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Datenbank\Jahrespläne\JahresplanZuweisenDialog.xaml.cs">
+    <Compile Include="View\Jahrespläne\JahresplanZuweisenDialog.xaml.cs">
       <DependentUpon>JahresplanZuweisenDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Main\AskForSavingChangesDialog.xaml.cs">
@@ -1042,13 +1042,13 @@
     <Compile Include="View\Datenbank\SchuljahrWorkspaceView.xaml.cs">
       <DependentUpon>SchuljahrWorkspaceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Datenbank\Jahrespläne\JahresplanDetailView.xaml.cs">
+    <Compile Include="View\Jahrespläne\JahresplanDetailView.xaml.cs">
       <DependentUpon>JahresplanDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Main\MainRibbonView.xaml.cs">
       <DependentUpon>MainRibbonView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Datenbank\Jahrespläne\MonatsplanDetailView.xaml.cs">
+    <Compile Include="View\Jahrespläne\MonatsplanDetailView.xaml.cs">
       <DependentUpon>MonatsplanDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Main\OptionsDialog.xaml.cs">
@@ -1539,7 +1539,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Datenbank\Jahrespläne\JahresplanWorkspaceView.xaml">
+    <Page Include="View\Jahrespläne\JahresplanWorkspaceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1719,7 +1719,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Datenbank\Jahrespläne\JahresplanZuweisenDialog.xaml">
+    <Page Include="View\Jahrespläne\JahresplanZuweisenDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1931,7 +1931,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Datenbank\Jahrespläne\JahresplanDetailView.xaml">
+    <Page Include="View\Jahrespläne\JahresplanDetailView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1939,7 +1939,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Datenbank\Jahrespläne\MonatsplanDetailView.xaml">
+    <Page Include="View\Jahrespläne\MonatsplanDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

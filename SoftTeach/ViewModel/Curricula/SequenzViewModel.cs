@@ -153,10 +153,17 @@
       get
       {
         var fachstundenanzahl =
-  App.MainViewModel.Fachstundenanzahl.First(
+  App.MainViewModel.Fachstundenanzahl.FirstOrDefault(
     o =>
     o.FachstundenanzahlFach.FachBezeichnung == Selection.Instance.Fach.FachBezeichnung
     && o.FachstundenanzahlJahrgang == Selection.Instance.Lerngruppe.LerngruppeJahrgang);
+
+        if (fachstundenanzahl == null)
+        {
+          Console.WriteLine("Keine Fachstundenanzahl gefunden für {0} {1}", Selection.Instance.Fach.FachBezeichnung, Selection.Instance.Lerngruppe.LerngruppeJahrgang);
+          return 40;
+        }
+
         var wochenstunden = fachstundenanzahl.FachstundenanzahlStundenzahl
                             + fachstundenanzahl.FachstundenanzahlTeilungsstundenzahl;
         return (int)(this.SequenzStundenbedarf / (float)wochenstunden * Properties.Settings.Default.Wochenbreite);

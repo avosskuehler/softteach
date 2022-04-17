@@ -1,4 +1,5 @@
 ﻿using SoftTeach;
+using SoftTeach.ExceptionHandling;
 using SoftTeach.Model.TeachyModel;
 using SoftTeach.UndoRedo;
 using SoftTeach.View.Termine;
@@ -43,8 +44,6 @@ namespace SoftTeach.ViewModel.Jahrespläne
     public TagViewModel(LerngruppeViewModel lerngruppe)
     {
       this.lerngruppe = lerngruppe;
-      this.AddStundeCommand = new DelegateCommand(this.AddStunde);
-      this.AddLerngruppenterminCommand = new DelegateCommand(this.AddLerngruppentermin);
       this.EditLerngruppenterminCommand = new DelegateCommand(this.EditLerngruppentermin);
       this.LöscheLerngruppenterminCommand = new DelegateCommand(this.LöscheLerngruppentermin);
     }
@@ -52,17 +51,7 @@ namespace SoftTeach.ViewModel.Jahrespläne
     /// <summary>
     /// Holt den Befehl aus Notizen einen neuen Termin zu machen
     /// </summary>
-    public DelegateCommand AddLerngruppenterminCommand { get; private set; }
-
-    /// <summary>
-    /// Holt den Befehl aus Notizen einen neuen Termin zu machen
-    /// </summary>
     public DelegateCommand EditLerngruppenterminCommand { get; private set; }
-
-    /// <summary>
-    /// Holt den Befehl aus Notizen einen neuen Termin zu machen
-    /// </summary>
-    public DelegateCommand AddStundeCommand { get; private set; }
 
     /// <summary>
     /// Holt den Befehl aus Notizen einen neuen Termin zu machen
@@ -283,7 +272,7 @@ namespace SoftTeach.ViewModel.Jahrespläne
     /// <summary>
     /// Erstellt eine neue Stunde für diesen Tag und die Lerngruppe
     /// </summary>
-    private void AddStunde()
+    public void AddStunde()
     {
       var stunde = new StundeNeu();
       stunde.ErsteUnterrichtsstunde =
@@ -297,7 +286,7 @@ namespace SoftTeach.ViewModel.Jahrespläne
       stunde.Lerngruppe = lerngruppe.Model;
       stunde.Halbjahr = this.Halbjahr;
       stunde.Jahrgang = lerngruppe.LerngruppeJahrgang;
-        
+
       stunde.Fach = lerngruppe.LerngruppeFach.Model;
 
       var vm = new StundeViewModel(stunde);
@@ -317,7 +306,7 @@ namespace SoftTeach.ViewModel.Jahrespläne
     /// <summary>
     /// Erstellt einen neuen Lerngruppentermin für diesen Tag und die Lerngruppe
     /// </summary>
-    private void AddLerngruppentermin()
+    public void AddLerngruppentermin()
     {
       var dlg = new AddLerngruppenterminDialog();
       if (dlg.ShowDialog().GetValueOrDefault(false))
@@ -361,10 +350,14 @@ namespace SoftTeach.ViewModel.Jahrespläne
     {
       if (this.currentLerngruppentermin != null)
       {
-        this.lerngruppe.Lerngruppentermine.RemoveTest(this.currentLerngruppentermin);
-        var result = this.Lerngruppentermine.Remove(this.currentLerngruppentermin);
-        this.currentLerngruppentermin = null;
-        this.UpdateView();
+        var result = InformationDialog.Show("Stunde löschen?", "Soll die Stunde wirklich gelöscht werden?", true);
+        if (result.GetValueOrDefault(false))
+        {
+          this.lerngruppe.Lerngruppentermine.RemoveTest(this.currentLerngruppentermin);
+          this.Lerngruppentermine.Remove(this.currentLerngruppentermin);
+          this.currentLerngruppentermin = null;
+          this.UpdateView();
+        }
       }
     }
 

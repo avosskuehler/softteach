@@ -23,12 +23,12 @@
     /// <returns>A converted value. If the method returns null, the valid null value is used.</returns>
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-      if (!(value is float))
+      if (!(value is double))
       {
         throw new InvalidOperationException("The source must be a float");
       }
 
-      var valueToConvert = (float)value;
+      var valueToConvert = (double)value;
       var percentage = valueToConvert * 100;
       return percentage.ToString("N1") + " %";
     }

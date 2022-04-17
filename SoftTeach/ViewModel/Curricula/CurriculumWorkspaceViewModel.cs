@@ -52,11 +52,12 @@
         this.CurriculaViewSource.SortDescriptions.Add(new SortDescription("CurriculumFach", ListSortDirection.Ascending));
         this.CurriculaViewSource.SortDescriptions.Add(new SortDescription("CurriculumSchuljahr", ListSortDirection.Ascending));
         this.CurriculaViewSource.SortDescriptions.Add(new SortDescription("CurriculumHalbjahr", ListSortDirection.Ascending));
-        this.CurriculaViewSource.SortDescriptions.Add(new SortDescription("CurriculumKlassenstufe", ListSortDirection.Ascending));
+        this.CurriculaViewSource.SortDescriptions.Add(new SortDescription("CurriculumJahrgang", ListSortDirection.Ascending));
       }
 
       this.SelectedCurricula = new List<CurriculumViewModel>();
-
+      this.SchuljahrFilter = Selection.Instance.Schuljahr;
+      
       // Re-act to any changes from outside this ViewModel
       App.MainViewModel.Curricula.CollectionChanged += (sender, e) =>
       {

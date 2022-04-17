@@ -82,11 +82,11 @@
                 <ScaleTransform x:Name="transform" />
               </Setter.Value>
             </Setter>
-            <Style.Triggers>
+            <!--<Style.Triggers>
               <Trigger Property="IsKeyboardFocusWithin" Value="true">
                 <Setter Property="IsSelected" Value="true" />
               </Trigger>
-            </Style.Triggers>
+            </Style.Triggers>-->
           </Style>
 
           <ControlTemplate x:Key="ListBoxItemTermin" TargetType="{x:Type ListBoxItem}">
@@ -118,7 +118,6 @@
             <!--Box-->
             <Border BorderBrush="Black" BorderThickness="0" Padding="0">
               <Grid>
-                <FrameworkElement x:Name="dummy" Visibility="Collapsed"/>
                 <Border Name="InnerBorder" BorderThickness="0">
                   <Border.Style>
                     <Style TargetType="{x:Type Border}">
@@ -170,13 +169,16 @@
                           </CollectionViewSource.SortDescriptions>
                         </CollectionViewSource>
                       </Grid.Resources>
+                      <FrameworkElement x:Name="dummy" Visibility="Collapsed"/>
                       <ListBox 
-                              x:Name="LerngruppentermineListBox" 
-                              ItemsSource="{Binding Source={StaticResource LerngruppentermineSorted}}" 
-                              SelectedItem="{Binding Path=CurrentLerngruppentermin}"
-                              HorizontalContentAlignment="Stretch"
-                              Template="{StaticResource TemplateSimplePresenter}"
-                              Background="Transparent">
+                        x:Name="LerngruppentermineListBox" 
+                        ItemsSource="{Binding Source={StaticResource LerngruppentermineSorted}}" 
+                        SelectedItem="{Binding Path=CurrentLerngruppentermin}"
+                        HorizontalContentAlignment="Stretch"
+                        Template="{StaticResource TemplateSimplePresenter}"
+                        Background="Transparent"
+                        VirtualizingPanel.IsVirtualizing="true" 
+                        VirtualizingPanel.VirtualizationMode="Recycling">
                         <ListBox.ItemContainerStyle>
                           <Style TargetType="{x:Type ListBoxItem}">
                             <Setter Property="Template">
@@ -201,8 +203,12 @@
                         <ListBox.ItemTemplate>
                           <DataTemplate>
                             <Grid ToolTip="{Binding Path=TerminStundenbereich}" Background="{Binding Path=LerngruppenterminFarbe}" >
+                              <Grid.InputBindings>
+                                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding Path=EditLerngruppenterminCommand}"/>
+                                <MouseBinding MouseAction="RightClick" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid, AncestorLevel=2}, Path=DataContext.LöscheLerngruppenterminCommand}"/>
+                              </Grid.InputBindings>
                               <Label Name="LabelBeschreibung" Padding="3,0" Margin="0" VerticalAlignment="Center" FontSize="12" Content="{Binding Path=TerminBeschreibung}"/>
-                              <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Visibility="Hidden" x:Name="EditButtons">
+                              <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Visibility="Hidden" x:Name="EditButtons">
                                 <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=DataContext.EditLerngruppenterminCommand, Source={x:Reference dummy}}" ToolTip="Stunde ändern">
                                   <Grid>
                                     <fa:IconBlock Style="{StaticResource Edit16}"/>
@@ -241,14 +247,14 @@
                                     </Storyboard>
                                   </BeginStoryboard>
                                 </EventTrigger>
-                              </Grid.Triggers>
+                              </Grid.Triggers>-->
                             </Grid>
 
                           </DataTemplate>
                         </ListBox.ItemTemplate>
                       </ListBox>
                     </Grid>
-                    <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" Visibility="Hidden" x:Name="Buttons" Background="White">
+                    <!--<StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" Visibility="Hidden" x:Name="Buttons" Background="White">
                       <Button Margin="0" Padding="1" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddStundeCommand}" ToolTip="Stunde anlegen">
                         <Grid>
                           <fa:IconBlock Style="{StaticResource Stundenentwurf16}"/>
@@ -261,8 +267,8 @@
                           <fa:IconBlock Style="{StaticResource AddOverlay16}"/>
                         </Grid>
                       </Button>
-                    </StackPanel>
-                    <Grid.Triggers>
+                    </StackPanel>-->
+                    <!--<Grid.Triggers>
                       <EventTrigger RoutedEvent="UIElement.MouseEnter">
                         <BeginStoryboard>
                           <Storyboard>
@@ -289,7 +295,7 @@
                           </Storyboard>
                         </BeginStoryboard>
                       </EventTrigger>
-                    </Grid.Triggers>
+                    </Grid.Triggers>-->
                   </Grid>
                 </Border>
               </Grid>
@@ -345,6 +351,20 @@
             </Grid>
           </StackPanel>
         </Button>
+        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddStundeCommand}" ToolTip="Stunde anlegen">
+          <Grid>
+            <fa:IconBlock Style="{StaticResource Stundenentwurf16}"/>
+            <fa:IconBlock Style="{StaticResource AddOverlay16}"/>
+          </Grid>
+        </Button>
+        <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddLerngruppenterminCommand}" ToolTip="Lerngruppentermin anlegen">
+          <Grid>
+            <fa:IconBlock Style="{StaticResource Lerngruppe16}"/>
+            <fa:IconBlock Style="{StaticResource AddOverlay16}"/>
+          </Grid>
+        </Button>
+
       </StackPanel>
       <Label Grid.Column="1" FontSize="20" Padding="6,0" Foreground="Black" Content="{Binding Bezeichnung}"/>
     </Grid>
@@ -380,7 +400,9 @@
                 Template="{StaticResource TemplateSimplePresenter}"
                 ItemContainerStyle="{StaticResource ItemContainerStyleOpacityStorySelectOnFocus}"
                 Background="Transparent"
-                ItemTemplate="{StaticResource HalbjahrDataTemplate}">
+                ItemTemplate="{StaticResource HalbjahrDataTemplate}"
+                VirtualizingPanel.IsVirtualizing="true" 
+                VirtualizingPanel.VirtualizationMode="Recycling">
                 <ListBox.GroupStyle>
                   <GroupStyle ContainerStyle="{StaticResource FachGroupHeaderStyle}">
                     <GroupStyle.Panel>
@@ -429,7 +451,9 @@
                 Template="{StaticResource TemplateSimplePresenter}"
                 ItemContainerStyle="{StaticResource ItemContainerStyleOpacityStorySelectOnFocus}"
                 Background="Transparent"
-                ItemTemplate="{StaticResource HalbjahrDataTemplate}">
+                ItemTemplate="{StaticResource HalbjahrDataTemplate}"
+                VirtualizingPanel.IsVirtualizing="true" 
+                VirtualizingPanel.VirtualizationMode="Recycling">
                 <ListBox.GroupStyle>
                   <GroupStyle ContainerStyle="{StaticResource FachGroupHeaderStyle}">
                     <GroupStyle.Panel>
