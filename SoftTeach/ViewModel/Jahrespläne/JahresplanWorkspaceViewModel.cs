@@ -128,7 +128,6 @@
         if (this.currentLerngruppe != null)
         {
           // FIND
-          //Selection.Instance.Fach = this.currentLerngruppe.Fach;
           var lerngruppe = App.UnitOfWork.Context.Lerngruppen.FirstOrDefault(o => o.SchuljahrId == this.currentLerngruppe.SchuljahrId && o.FachId == this.currentLerngruppe.FachId && o.Jahrgang == this.currentLerngruppe.Jahrgang);
           if (lerngruppe == null)
           {
@@ -139,6 +138,7 @@
           var vm = App.MainViewModel.LoadLerngruppe(lerngruppe);
 
           Selection.Instance.Lerngruppe = vm;
+          Selection.Instance.Fach = vm.LerngruppeFach;
 
           var jahresplan = App.MainViewModel.Jahrespläne.FirstOrDefault(o => o.Lerngruppe.Model.Id == vm.Model.Id);
           if (jahresplan == null)

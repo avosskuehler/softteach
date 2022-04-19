@@ -14,8 +14,13 @@
       <RowDefinition/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader Grid.Row="0" Title="Bitte geben Sie einen Namen für das neue Curriculum an."
-                                      Icon="/SoftTeach;component/Images/Curriculum32.png"/>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Bitte geben Sie einen Namen für das neue Curriculum an.">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Curriculum48}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
     <Grid Grid.Row="1" Margin="10">
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto"/>

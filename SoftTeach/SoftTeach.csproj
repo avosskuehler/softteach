@@ -719,6 +719,9 @@
     <Compile Include="View\Curricula\AskForLerngruppeToAdaptDialog.xaml.cs">
       <DependentUpon>AskForLerngruppeToAdaptDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Curricula\ReiheDialog.xaml.cs">
+      <DependentUpon>ReiheDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Curricula\SequenzDialog.xaml.cs">
       <DependentUpon>SequenzDialog.xaml</DependentUpon>
     </Compile>
@@ -1047,9 +1050,6 @@
     </Compile>
     <Compile Include="View\Main\MainRibbonView.xaml.cs">
       <DependentUpon>MainRibbonView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Jahrespläne\MonatsplanDetailView.xaml.cs">
-      <DependentUpon>MonatsplanDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Main\OptionsDialog.xaml.cs">
       <DependentUpon>OptionsDialog.xaml</DependentUpon>
@@ -1507,6 +1507,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\Curricula\ReiheDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Curricula\SequenzDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1936,10 +1940,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Main\MainRibbonView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Jahrespläne\MonatsplanDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

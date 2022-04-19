@@ -19,6 +19,16 @@
       </DataTrigger>
     </Style.Triggers>
   </Style>
+  
+  <Style TargetType="{x:Type ListBoxItem}">
+    <Setter Property="HorizontalContentAlignment" Value="Left" />
+    <Setter Property="VerticalContentAlignment" Value="Top" />
+  </Style>
+
+  <Style x:Key="ItemContainerDefaultStyle" TargetType="{x:Type ListBoxItem}">
+      <Setter Property="HorizontalContentAlignment" Value="Left"/>
+      <Setter Property="VerticalContentAlignment" Value="Top"/>
+  </Style>
 
   <!--MouseEnter="SurroundBorderMouseEnter" 
           MouseLeave="SurroundBorderMouseLeave"
@@ -207,11 +217,11 @@
   </DataTemplate>
 
   <DataTemplate x:Key="SequenzenGroupView">
-    <Border CornerRadius="5">
-      <Grid Width="{Binding Path=SequenzDetailBreite}" Background="{StaticResource SequenzBackgroundBrush}" Margin="3" Height="40">
-        <Grid.InputBindings>
-          <MouseBinding MouseAction="RightClick" Command="{Binding Path=EditSequenzCommand}"/>
-        </Grid.InputBindings>
+    <Border Margin="0,3" Background="{StaticResource SequenzBackgroundBrush}">
+      <Border.InputBindings>
+        <MouseBinding MouseAction="RightClick" Command="{Binding Path=EditSequenzCommand}"/>
+      </Border.InputBindings>
+      <Grid Height="40" Width="200">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*"/>
           <ColumnDefinition Width="Auto"/>
@@ -312,24 +322,7 @@
   </Style>
 
   <converter:InverseBooleanToVisibilityConverter x:Key="BoolVisibleConverterInverse2" />
-
-  <DataTemplate x:Key="TagespläneView">
-    <Grid Width="{Binding Path=TagesplanBreite}" Background="{Binding Path=TagesplanKalenderfarbe}" Margin="0" Height="40">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="1"/>
-        <ColumnDefinition Width="*"/>
-      </Grid.ColumnDefinitions>
-      <Rectangle Fill="Gray" Grid.Column="0" Visibility="{Binding Path=KeineLerngruppentermine, Converter={StaticResource BoolVisibleConverterInverse2}}"/>
-      <TextBlock Grid.Column="1" 
-                 Text="{Binding Path=TagesplanBeschreibung}" 
-                 FontSize="8"
-                 HorizontalAlignment="Left" 
-                 TextWrapping="WrapWithOverflow"              
-                 Margin="0" 
-                 Padding="3"/>
-    </Grid>
-  </DataTemplate>
-
+ 
   <DataTemplate x:Key="SchulwochenView">
     <Border CornerRadius="5" BorderBrush="Gray" BorderThickness="0">
       <Grid Width="{Binding Path=SchulwocheBreite}" Margin="0" Height="30">
@@ -352,6 +345,48 @@
                  Padding="3"/>
       </Grid>
     </Border>
+  </DataTemplate>
+
+  <DataTemplate x:Key="ReihenCurriculumView">
+    <Grid Width="{Binding Path=ReiheStundenbreite}" Background="{StaticResource ReiheBackgroundBrush}" Margin="0" Height="30">
+      <Grid.InputBindings>
+        <MouseBinding MouseAction="RightClick" Command="{Binding Path=EditReiheCommand}"/>
+      </Grid.InputBindings>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="1"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="15"/>
+        <RowDefinition Height="15"/>
+      </Grid.RowDefinitions>
+      <Rectangle Fill="Gray" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"/>
+      <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Visibility="Visible" 
+                  HorizontalAlignment="Left" x:Name="EditButtons" Margin="2,0,0,0">
+        <Button Width="12" Height="12" Command="{Binding Path=LengthenReiheCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+          <Image Source="/SoftTeach;component/Images/Plus7.png"/>
+        </Button>
+        <Button  Width="12" Height="12" Command="{Binding Path=ShortenReiheCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+          <Image Source="/SoftTeach;component/Images/Minus7.png"/>
+        </Button>
+      </StackPanel>
+      <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2"
+                 Text="{Binding Path=ReiheThema}" 
+                 FontSize="10"
+                 HorizontalAlignment="Left" 
+                 TextWrapping="WrapWithOverflow"              
+                 Margin="0" 
+                 Padding="1" TextTrimming="CharacterEllipsis">
+        <TextBlock.ToolTip>
+          <Label Content="{Binding Path=ReiheThema}"/>
+        </TextBlock.ToolTip>
+      </TextBlock>
+      <TextBlock Grid.Column="2" Grid.Row="1"
+                 Text="{Binding Path=ReiheStundenbedarfString}" 
+                 FontSize="10" HorizontalAlignment="Right" Margin="0" 
+                 Padding="1"/>
+    </Grid>
   </DataTemplate>
 
   <DataTemplate x:Key="ReihenNarrowView">
@@ -410,8 +445,11 @@
   </DataTemplate>
 
   <DataTemplate x:Key="ReihenGroupView">
-    <Border CornerRadius="5" Margin="3" Background="{StaticResource ReiheBackgroundBrush}">
-      <Grid Margin="1" Height="40" Width="200">
+    <Border Margin="0,3" Background="{StaticResource ReiheBackgroundBrush}">
+      <Grid Height="40" Width="200">
+        <Grid.InputBindings>
+          <MouseBinding MouseAction="RightClick" Command="{Binding Path=EditReiheCommand}"/>
+        </Grid.InputBindings>
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*"/>
           <ColumnDefinition Width="Auto"/>
@@ -474,7 +512,7 @@
 
   </DataTemplate>
 
-  <DataTemplate x:Key="SequenzenTagesplanView">
+  <DataTemplate x:Key="SequenzenCurriculumView">
     <Grid Width="{Binding Path=SequenzStundenbreite}" Background="{StaticResource SequenzBackgroundBrush}" Margin="0" Height="30">
       <Grid.InputBindings>
         <MouseBinding MouseAction="RightClick" Command="{Binding Path=EditSequenzCommand}"/>
@@ -511,6 +549,65 @@
       </TextBlock>
       <TextBlock Grid.Column="2" Grid.Row="1"
                  Text="{Binding Path=SequenzStundenbedarfString}" 
+                 FontSize="10" HorizontalAlignment="Right" Margin="0" 
+                 Padding="1"/>
+    </Grid>
+  </DataTemplate>
+  
+  <DataTemplate x:Key="FerienViewModelTagesplanView">
+    <Grid Width="80" Background="{Binding LerngruppenterminFarbe}" Margin="0" Height="30">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="1"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="15"/>
+        <RowDefinition Height="15"/>
+      </Grid.RowDefinitions>
+      <Rectangle Fill="Gray" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"/>
+      <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2"
+                 Text="{Binding Path=TerminBeschreibung}" 
+                 FontSize="10"
+                 HorizontalAlignment="Left" 
+                 TextWrapping="WrapWithOverflow"              
+                 Margin="0" 
+                 Padding="1" TextTrimming="CharacterEllipsis">
+        <TextBlock.ToolTip>
+          <Label Content="{Binding Path=TerminBeschreibung}"/>
+        </TextBlock.ToolTip>
+      </TextBlock>
+    </Grid>
+  </DataTemplate>
+  
+  <DataTemplate x:Key="StundenViewModelTagesplanView">
+    <Grid Width="{Binding Path=StundeBreite}" Background="{Binding Path=LerngruppenterminFarbe}" Margin="0" Height="30">
+      <Grid.InputBindings>
+        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding Path=EditStundeCommand}"/>
+      </Grid.InputBindings>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="1"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="15"/>
+        <RowDefinition Height="15"/>
+      </Grid.RowDefinitions>
+      <Rectangle Fill="Gray" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"/>
+      <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2"
+                 Text="{Binding Path=TerminBeschreibung}" 
+                 FontSize="10"
+                 HorizontalAlignment="Left" 
+                 TextWrapping="WrapWithOverflow"              
+                 Margin="0" 
+                 Padding="1" TextTrimming="CharacterEllipsis">
+        <TextBlock.ToolTip>
+          <Label Content="{Binding Path=TerminBeschreibung}"/>
+        </TextBlock.ToolTip>
+      </TextBlock>
+      <TextBlock Grid.Column="2" Grid.Row="1"
+                 Text="{Binding Path=StundeStundenbedarfString}" 
                  FontSize="10" HorizontalAlignment="Right" Margin="0" 
                  Padding="1"/>
     </Grid>
@@ -630,7 +727,7 @@
       </Grid>
     </Border>
   </DataTemplate>
-  
+
   <DataTemplate x:Key="NotenstandDetailView">
     <Border Style="{StaticResource NotenBorderStyle}" Background="{StaticResource StandBrush}">
       <Grid>

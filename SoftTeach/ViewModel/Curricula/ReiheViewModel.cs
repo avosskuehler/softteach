@@ -66,6 +66,7 @@
       this.AvailableSequenzen.CollectionChanged += this.AvailableSequenzenCollectionChanged;
 
       this.AddSequenzCommand = new DelegateCommand(this.AddSequenz);
+      this.EditReiheCommand = new DelegateCommand(this.EditReihe);
       this.DeleteSequenzCommand = new DelegateCommand(this.DeleteCurrentSequenz, () => this.CurrentSequenz != null);
       this.LengthenReiheCommand = new DelegateCommand(this.LengthenReihe);
       this.ShortenReiheCommand = new DelegateCommand(this.ShortenReihe);
@@ -80,6 +81,11 @@
     /// Holt den Befehl zur adding a new sequenz
     /// </summary>
     public DelegateCommand AddSequenzCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl zur Bearbeitung der Sequenz
+    /// </summary>
+    public DelegateCommand EditReiheCommand { get; private set; }
 
     /// <summary>
     /// Holt den Befehl zur deleting the current sequenz
@@ -197,6 +203,29 @@
     }
 
     /// <summary>
+    /// Dummy, um Binding-Fehlermeldungen beim Zuweisen von Curricula zu Stunden zu vermeiden
+    /// </summary>
+    public string LerngruppenterminMonat
+    {
+      get
+      {
+        return string.Empty;
+      }
+    }
+
+    /// <summary>
+    /// Dummy, um Binding-Fehlermeldungen beim Zuweisen von Curricula zu Stunden zu vermeiden
+    /// </summary>
+    public DateTime LerngruppenterminDatum
+    {
+      get
+      {
+        return new DateTime(2020, 1, 1);
+      }
+    }
+
+
+    /// <summary>
     /// Holt oder setzt die Reihenfolge der Reihe
     /// </summary>
     public override int Reihenfolge
@@ -239,8 +268,11 @@
         this.UndoablePropertyChanging(this, "ReiheStundenbedarf", this.Model.Stundenbedarf, value);
         this.Model.Stundenbedarf = value;
         this.RaisePropertyChanged("ReiheStundenbedarf");
-        var vm = App.MainViewModel.Curricula.First(o => o.Model == this.Model.Curriculum);
-        vm.UpdateUsedStunden();
+        var vm = App.MainViewModel.Curricula.FirstOrDefault(o => o.Model == this.Model.Curriculum);
+        if (vm != null)
+        {
+          vm.UpdateUsedStunden();
+        }
       }
     }
 
@@ -278,6 +310,18 @@
         var wochenstunden = fachstundenanzahl.FachstundenanzahlStundenzahl
                             + fachstundenanzahl.FachstundenanzahlTeilungsstundenzahl;
         return (int)(this.Model.Stundenbedarf / (float)wochenstunden * Properties.Settings.Default.Wochenbreite);
+      }
+    }
+
+    /// <summary>
+    /// Holt die Breite der Reihe für die Curriculumsanpassung
+    /// </summary>
+    [DependsUpon("ReiheStundenbedarf")]
+    public int ReiheStundenbreite
+    {
+      get
+      {
+        return this.ReiheStundenbedarf * Properties.Settings.Default.Stundenbreite;
       }
     }
 
@@ -364,6 +408,15 @@
       {
         this.ReiheStundenbedarf--;
       }
+    }
+
+    /// <summary>
+    /// Mit dieser Methode wird die aktuelle Reihe bearbeitet.
+    /// </summary>
+    private void EditReihe()
+    {
+      var dlg = new ReiheDialog { Reihe = this };
+      dlg.ShowDialog();
     }
 
     /// <summary>

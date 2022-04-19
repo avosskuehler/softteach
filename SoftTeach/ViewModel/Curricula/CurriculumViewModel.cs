@@ -750,7 +750,8 @@
     /// </summary>
     private void AddReihe()
     {
-      var reihe = new ReiheNeu { Stundenbedarf = 3, Thema = "Neues Thema", Curriculum = this.Model };
+      var modul = App.MainViewModel.Module.FirstOrDefault(o => o.ModulFach == this.fach && o.ModulJahrgang == this.CurriculumJahrgang);
+      var reihe = new ReiheNeu { Stundenbedarf = 3, Thema = "Neues Thema", Curriculum = this.Model, Modul = modul.Model };
       var vm = new ReiheViewModel(reihe);
       //App.MainViewModel.Reihen.Add(vm);
       this.AvailableReihenDesCurriculums.Add(vm);
@@ -859,8 +860,19 @@
         using (new UndoBatch(App.MainViewModel, string.Format("Curriculum an Jahresplan angepasst"), false))
         {
           Selection.Instance.Fach = this.CurriculumFach;
-          //Selection.Instance.Lerngruppe = dlg.Halbjahresplan.HalbjahresplanKlasse;
-          //Selection.Instance.Halbjahr = dlg.Halbjahresplan.HalbjahresplanHalbjahr;
+
+          var lerngruppe = App.UnitOfWork.Context.Lerngruppen.FirstOrDefault(o => o.SchuljahrId == dlg.SelectedLerngruppe.SchuljahrId && o.FachId == dlg.SelectedLerngruppe.FachId && o.Jahrgang == dlg.SelectedLerngruppe.Jahrgang);
+          if (lerngruppe == null)
+          {
+            InformationDialog.Show("Fehler", "Lerngruppe nicht gefunden", false);
+            return;
+          }
+
+          var vm = App.MainViewModel.LoadLerngruppe(lerngruppe);
+
+          Selection.Instance.Lerngruppe = vm;
+          Selection.Instance.Fach = vm.LerngruppeFach;
+          Selection.Instance.Halbjahr = this.CurriculumHalbjahr;
 
           // Create a clone of this curriculum for the adaption dialog
           var curriculumClone = new CurriculumNeu();
@@ -895,16 +907,13 @@
             curriculumClone.Reihen.Add(reiheClone);
           }
 
-          //var curriculumCloneViewModel = new CurriculumViewModel(curriculumClone, true);
           var curriculumCloneViewModel = new CurriculumViewModel(curriculumClone);
-          var curriculumZuweisenWorkspace = new CurriculumZuweisenWorkspaceViewModel(curriculumCloneViewModel, this.CurriculumHalbjahr);
+          var curriculumZuweisenWorkspace = new CurriculumZuweisenWorkspaceViewModel(curriculumCloneViewModel, vm, this.CurriculumHalbjahr);
           var dlgZuweisen = new CurriculumZuweisenDialog { DataContext = curriculumZuweisenWorkspace };
 
           if (dlgZuweisen.ShowDialog().GetValueOrDefault(false))
           {
-            if (
-              InformationDialog.Show("Änderungen speichern ?", "Wollen Sie das geänderte Curriculum speichern?", true)
-                               .GetValueOrDefault(false))
+            if (InformationDialog.Show("Änderungen speichern ?", "Wollen Sie das geänderte Curriculum speichern?", true).GetValueOrDefault(false))
             {
               var dlgName = new AskForCurriculumNameDialog();
               dlgName.ShowDialog();

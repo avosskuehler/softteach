@@ -915,4 +915,50 @@
     <Setter Property="Icon" Value="IslandTropical"/>
   </Style>
 
+  <Style x:Key="Sequenz16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Map"/>
+  </Style>
+
+  <Style x:Key="Sequenz32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Map"/>
+  </Style>
+
+  <Style x:Key="Sequenz48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Map"/>
+  </Style>
+
+  <Style x:Key="Plus12" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="FontSize" Value="12"/>
+    <Setter Property="Icon" Value="Plus"/>
+  </Style>
+
+  <Style x:Key="Plus16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Plus"/>
+  </Style>
+
+  <Style x:Key="Plus32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Plus"/>
+  </Style>
+
+  <Style x:Key="Plus48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Plus"/>
+  </Style>
+
+  <Style x:Key="Minus12" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="FontSize" Value="12"/>
+    <Setter Property="Icon" Value="Minus"/>
+  </Style>
+  
+  <Style x:Key="Minus16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Minus"/>
+  </Style>
+
+  <Style x:Key="Minus32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Minus"/>
+  </Style>
+
+  <Style x:Key="Minus48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Minus"/>
+  </Style>
+
 </ResourceDictionary>

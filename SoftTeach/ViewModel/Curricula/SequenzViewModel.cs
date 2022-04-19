@@ -148,7 +148,7 @@
     /// Holt den stundenbedarf als breite
     /// </summary>
     [DependsUpon("SequenzStundenbedarf")]
-    public int SequenzBreite
+    public float SequenzBreite
     {
       get
       {
@@ -166,7 +166,7 @@
 
         var wochenstunden = fachstundenanzahl.FachstundenanzahlStundenzahl
                             + fachstundenanzahl.FachstundenanzahlTeilungsstundenzahl;
-        return (int)(this.SequenzStundenbedarf / (float)wochenstunden * Properties.Settings.Default.Wochenbreite);
+        return (float)(this.SequenzStundenbedarf / (float)wochenstunden * Properties.Settings.Default.Wochenbreite);
       }
     }
 
@@ -174,7 +174,7 @@
     /// Holt den stundenbedarf als breite
     /// </summary>
     [DependsUpon("SequenzStundenbedarf")]
-    public int SequenzDetailBreite
+    public float SequenzDetailBreite
     {
       get
       {
@@ -183,7 +183,7 @@
     }
 
     /// <summary>
-    /// Holt die Breite der Sequenz für den Tagesplanvergleich
+    /// Holt die Breite der Sequenz für die Curriculumsanpassung
     /// </summary>
     [DependsUpon("SequenzStundenbedarf")]
     public int SequenzStundenbreite
@@ -238,6 +238,28 @@
       get
       {
         return this.SequenzThema;
+      }
+    }
+
+    /// <summary>
+    /// Dummy, um Binding-Fehlermeldungen beim Zuweisen von Curricula zu Stunden zu vermeiden
+    /// </summary>
+    public string LerngruppenterminMonat
+    {
+      get
+      {
+        return string.Empty;
+      }
+    }
+
+    /// <summary>
+    /// Dummy, um Binding-Fehlermeldungen beim Zuweisen von Curricula zu Stunden zu vermeiden
+    /// </summary>
+    public DateTime LerngruppenterminDatum
+    {
+      get
+      {
+        return new DateTime(2020, 1, 1);
       }
     }
 

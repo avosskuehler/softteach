@@ -14,6 +14,7 @@
   using SoftTeach.UndoRedo;
   using SoftTeach.ViewModel.Helper;
   using SoftTeach.ViewModel.Jahrespläne;
+  using SoftTeach.ViewModel.Personen;
   using SoftTeach.ViewModel.Stundenentwürfe;
   using SoftTeach.ViewModel.Termine;
 
@@ -23,14 +24,24 @@
   public class CurriculumZuweisenWorkspaceViewModel : ViewModelBase, IDropTarget
   {
     /// <summary>
-    /// The Curriculum currently selected
+    /// Das Curriculum mit der Vorlage
     /// </summary>
-    private readonly CurriculumViewModel currentCurriculum;
+    private readonly CurriculumViewModel curriculumSource;
 
-    ///// <summary>
-    ///// The Curriculum currently selected
-    ///// </summary>
+    /// <summary>
+    /// Die Lerngruppe, die bearbeitet werden soll
+    /// </summary>
+    private readonly LerngruppeViewModel lerngruppeTarget;
+
+    /// <summary>
+    /// Das Halbjahr, für das die Übertragung stattfinden soll
+    /// </summary>
     private readonly Halbjahr currentHalbjahr;
+
+    /// <summary>
+    /// Gibt an, ob die Ferien mit angezeigt werden sollen.
+    /// </summary>
+    private bool showFerien;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="CurriculumZuweisenWorkspaceViewModel"/> Klasse. 
@@ -40,29 +51,32 @@
     /// that is later removed, cause the changes in this dialog should not be persistant
     /// to any saved curriculum.
     /// </param>
-    /// <param name="halbjahr">
-    /// The HalbjahresplanViewModelwhich 
-    /// contains the available stunden to be planned.
-    /// </param>
-    public CurriculumZuweisenWorkspaceViewModel(CurriculumViewModel curriculumViewModel, Halbjahr halbjahr)
+    /// <param name="lerngruppeTarget">Die Lerngruppe, die angepasst werden soll.</param>
+    /// <param name="halbjahr">Das Halbjahr für das die Übertragung stattfinden soll</param>
+    public CurriculumZuweisenWorkspaceViewModel(CurriculumViewModel curriculumViewModel, LerngruppeViewModel lerngruppeTarget, Halbjahr halbjahr)
     {
-      this.currentCurriculum = curriculumViewModel;
+      this.curriculumSource = curriculumViewModel;
+      this.lerngruppeTarget = lerngruppeTarget;
       this.currentHalbjahr = halbjahr;
-      //this.TagespläneDesHalbjahresplans = new ObservableCollection<TagesplanViewModel>();
-      this.PopulateTagespläne();
+
+      this.StundenDerLerngruppe = new ObservableCollection<StundeViewModel>();
+      this.PopulateStunden();
       this.UsedSequenzenDesCurriculums = new ObservableCollection<SequenzViewModel>();
       this.AvailableSequenzenDesCurriculums = new ObservableCollection<SequenzViewModel>();
       this.PopulateSequenzen();
-      this.TagespläneAndSequenzenCollection = new ObservableCollection<ViewModelBase>();
+      this.StundenAndSequenzenCollection = new ObservableCollection<ViewModelBase>();
       this.PopulateBoth();
 
-      // Listen for changes
-      //this.TagespläneDesHalbjahresplans.CollectionChanged += this.TagespläneDesHalbjahresplansCollectionChanged;
-      this.UsedSequenzenDesCurriculums.CollectionChanged += this.UsedSequenzenDesCurriculumsCollectionChanged;
-      this.AvailableSequenzenDesCurriculums.CollectionChanged += this.AvailableSequenzenDesCurriculumsCollectionChanged;
-      this.TagespläneAndSequenzenCollection.CollectionChanged += this.TagespläneAndSequenzenCollectionCollectionChanged;
+      //// Listen for changes
+      //this.StundenDerLerngruppe.CollectionChanged += this.StundenDerLerngruppeCollectionChanged;
+      //this.UsedSequenzenDesCurriculums.CollectionChanged += this.UsedSequenzenDesCurriculumsCollectionChanged;
+      //this.AvailableSequenzenDesCurriculums.CollectionChanged += this.AvailableSequenzenDesCurriculumsCollectionChanged;
+      //this.StundenAndSequenzenCollection.CollectionChanged += this.TagespläneAndSequenzenCollectionCollectionChanged;
 
       this.UpdateHalbjahresplanWithCurriculumCommand = new DelegateCommand(this.UpdateHalbjahresplanWithCurriculum);
+
+      // Ergänze Ferien
+      this.ShowFerien = true;
     }
 
     /// <summary>
@@ -70,10 +84,10 @@
     /// </summary>
     public DelegateCommand UpdateHalbjahresplanWithCurriculumCommand { get; private set; }
 
-    ///// <summary>
-    ///// Holt die TagespläneDesHalbjahresplans
-    ///// </summary>
-    //public ObservableCollection<TagesplanViewModel> TagespläneDesHalbjahresplans { get; private set; }
+    /// <summary>
+    /// Holt die TagespläneDesHalbjahresplans
+    /// </summary>
+    public ObservableCollection<StundeViewModel> StundenDerLerngruppe { get; private set; }
 
     /// <summary>
     /// Holt die UsedSequenzenDesCurriculums
@@ -88,50 +102,115 @@
     /// <summary>
     /// Holt die TagespläneAndSequenzenCollection
     /// </summary>
-    public ObservableCollection<ViewModelBase> TagespläneAndSequenzenCollection { get; private set; }
+    public ObservableCollection<ViewModelBase> StundenAndSequenzenCollection { get; private set; }
 
     ///// <summary>
-    ///// Tritt auf, wenn die TagespläneDesJahresplansCollection verändert wurde.
+    ///// Tritt auf, wenn die StundenDerLerngruppeCollectionChanged verändert wurde.
     ///// Gibt die Änderungen an den Undostack weiter.
     ///// </summary>
     ///// <param name="sender">Die auslösende Collection</param>
     ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    //private void TagespläneDesHalbjahresplansCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //private void StundenDerLerngruppeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     //{
-    //  this.UndoableCollectionChanged(this, "TagespläneDesHalbjahresplans", this.TagespläneDesHalbjahresplans, e, true, "Änderung der TagespläneDesHalbjahresplans");
+    //  this.UndoableCollectionChanged(this, "StundenDerLerngruppe", this.StundenDerLerngruppe, e, true, "Änderung der StundenDerLerngruppe");
     //}
 
-    /// <summary>
-    /// Tritt auf, wenn die UsedSequenzenDesCurriculumsCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void UsedSequenzenDesCurriculumsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    ///// <summary>
+    ///// Tritt auf, wenn die UsedSequenzenDesCurriculumsCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void UsedSequenzenDesCurriculumsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "UsedSequenzenDesCurriculums", this.UsedSequenzenDesCurriculums, e, true, "Änderung der UsedSequenzenDesCurriculums");
+    //}
+
+    ///// <summary>
+    ///// Tritt auf, wenn die AvailableSequenzenDesCurriculumsCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void AvailableSequenzenDesCurriculumsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "AvailableSequenzenDesCurriculums", this.AvailableSequenzenDesCurriculums, e, true, "Änderung der AvailableSequenzenDesCurriculums");
+    //}
+
+    ///// <summary>
+    ///// Tritt auf, wenn die TagespläneAndSequenzenCollectionCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void TagespläneAndSequenzenCollectionCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "TagespläneAndSequenzenCollection", this.StundenAndSequenzenCollection, e, true, "Änderung der TagespläneAndSequenzenCollection");
+    //}
+
+    public bool ShowFerien
     {
-      this.UndoableCollectionChanged(this, "UsedSequenzenDesCurriculums", this.UsedSequenzenDesCurriculums, e, true, "Änderung der UsedSequenzenDesCurriculums");
+      get => showFerien;
+      set
+      {
+        showFerien = value;
+        if (showFerien)
+        {
+          AddFerien(lerngruppeTarget);
+        }
+        else
+        {
+          RemoveFerien();
+        }
+
+        this.RaisePropertyChanged("ShowFerien");
+      }
     }
 
     /// <summary>
-    /// Tritt auf, wenn die AvailableSequenzenDesCurriculumsCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
+    /// Ergänzt die Ferien als Lerngruppentermine für die Übersicht
     /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void AvailableSequenzenDesCurriculumsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    /// <param name="lerngruppe">Lerngruppe, für die die Ferien ergänzt werden sollen</param>
+    private void AddFerien(LerngruppeViewModel lerngruppe)
     {
-      this.UndoableCollectionChanged(this, "AvailableSequenzenDesCurriculums", this.AvailableSequenzenDesCurriculums, e, true, "Änderung der AvailableSequenzenDesCurriculums");
+      var ferienSource = App.MainViewModel.Ferien.Where(o => o.Model.Schuljahr.Jahr == lerngruppe.LerngruppeSchuljahr.SchuljahrJahr);
+      foreach (var ferienzeit in ferienSource)
+      {
+        var lgt = new StundeNeu();
+        if (ferienzeit.FerienErsterFerientag.Month > 7 || ferienzeit.FerienErsterFerientag.Month == 1)
+        {
+          lgt.Halbjahr = Halbjahr.Winter;
+        }
+        else
+        {
+          lgt.Halbjahr = Halbjahr.Sommer;
+        }
+
+        if (lgt.Halbjahr != this.currentHalbjahr)
+        {
+          continue;
+        }
+
+        lgt.ErsteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden.First().Model;
+        lgt.LetzteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden.Last().Model;
+        lgt.Beschreibung = ferienzeit.FerienBezeichnung;
+        lgt.Datum = ferienzeit.FerienErsterFerientag;
+        lgt.Termintyp = Termintyp.Ferien;
+        lgt.Lerngruppe = lerngruppe.Model;
+        this.StundenAndSequenzenCollection.Add(new StundeViewModel(lgt));
+      }
     }
 
     /// <summary>
-    /// Tritt auf, wenn die TagespläneAndSequenzenCollectionCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
+    /// Löscht die Ferien aus der Übersicht
     /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void TagespläneAndSequenzenCollectionCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    private void RemoveFerien()
     {
-      this.UndoableCollectionChanged(this, "TagespläneAndSequenzenCollection", this.TagespläneAndSequenzenCollection, e, true, "Änderung der TagespläneAndSequenzenCollection");
+      var ferienTermine = this.StundenAndSequenzenCollection.OfType<StundeViewModel>().Where(o => o.TerminTermintyp == Termintyp.Ferien).ToList();
+      foreach (var ferien in ferienTermine)
+      {
+        this.StundenAndSequenzenCollection.Remove(ferien);
+      }
     }
 
     /// <summary>
@@ -139,7 +218,7 @@
     /// </summary>
     private void PopulateSequenzen()
     {
-      foreach (SequenzViewModel sequenzViewModel in this.currentCurriculum.ReihenSequenzen.Where(o => o is SequenzViewModel).OrderBy(o => o.Reihenfolge))
+      foreach (SequenzViewModel sequenzViewModel in this.curriculumSource.ReihenSequenzen.Where(o => o is SequenzViewModel).OrderBy(o => o.Reihenfolge))
       {
         this.UsedSequenzenDesCurriculums.Add(sequenzViewModel);
       }
@@ -147,7 +226,7 @@
       // ResequenceList
       SequencingService.SetCollectionSequence(this.UsedSequenzenDesCurriculums);
 
-      foreach (ReiheViewModel reiheViewModel in this.currentCurriculum.ReihenSequenzen.Where(o => o is ReiheViewModel).OrderBy(o => o.Reihenfolge))
+      foreach (ReiheViewModel reiheViewModel in this.curriculumSource.ReihenSequenzen.Where(o => o is ReiheViewModel).OrderBy(o => o.Reihenfolge))
       {
         foreach (var sequenzViewModel in reiheViewModel.AvailableSequenzen.OrderBy(o => o.Reihenfolge))
         {
@@ -157,52 +236,53 @@
     }
 
     /// <summary>
-    /// Füllt die Halbjahresübersicht mit Tagesplänen
+    /// Füllt die Halbjahresübersicht mit den verfügbaren Stunden der Lerngruppe
     /// </summary>
-    private void PopulateTagespläne()
+    private void PopulateStunden()
     {
-      //// Verfügbare Stunden aus Stundenplan in Jahresplan importieren
-      ////this.currentHalbjahresplan.PullStunden();
-      //foreach (var monatsplanViewModel in this.currentHalbjahr.Monatspläne)
-      //{
-      //  foreach (var tagesplanViewModel in monatsplanViewModel.Tagespläne)
-      //  {
-      //    this.TagespläneDesHalbjahresplans.Add(tagesplanViewModel);
-      //  }
-      //}
+      // Verfügbare Stunden aus Lerngruppe importieren
+      foreach (var stundeViewModel in this.lerngruppeTarget.Lerngruppentermine.OfType<StundeViewModel>().Where(o => o.LerngruppenterminHalbjahr == this.currentHalbjahr))
+      {
+        this.StundenDerLerngruppe.Add(stundeViewModel);
+      }
     }
 
     /// <summary>
-    /// Füllt die Übersichtstabelle mit Tagesplänen und Sequenzen.
+    /// Füllt die Übersichtstabelle mit Stunden und Sequenzen.
     /// </summary>
     private void PopulateBoth()
     {
-      //this.TagespläneAndSequenzenCollection.Clear();
-      //foreach (var tagesplan in this.TagespläneDesHalbjahresplans)
-      //{
-      //  this.TagespläneAndSequenzenCollection.Add(tagesplan);
-      //}
+      this.StundenAndSequenzenCollection.Clear();
+      foreach (var stunde in this.StundenDerLerngruppe)
+      {
+        this.StundenAndSequenzenCollection.Add(stunde);
+      }
 
-      //foreach (var usedSequenzDesCurriculums in this.UsedSequenzenDesCurriculums)
-      //{
-      //  this.TagespläneAndSequenzenCollection.Add(usedSequenzDesCurriculums);
-      //}
+      foreach (var usedReiheDesCurriculums in this.curriculumSource.UsedReihenDesCurriculums.OrderBy(o => o.Reihenfolge))
+      {
+        this.StundenAndSequenzenCollection.Add(usedReiheDesCurriculums);
+      }
+
+      foreach (var usedSequenzDesCurriculums in this.UsedSequenzenDesCurriculums)
+      {
+        this.StundenAndSequenzenCollection.Add(usedSequenzDesCurriculums);
+      }
     }
 
     public void DragOver(IDropInfo dropInfo)
     {
-      //var sourceItem = dropInfo.Data as SequenzViewModel;
-      //var targetItem = dropInfo.TargetItem as TagesplanViewModel;
-      //if (sourceItem != null)
-      //{
-      //  dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
-      //  dropInfo.Effects = DragDropEffects.Move;
-      //}
+      var sourceItem = dropInfo.Data as SequenzViewModel;
+      var targetItem = dropInfo.TargetItem as StundeViewModel;
+      if (sourceItem != null)
+      {
+        dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
+        dropInfo.Effects = DragDropEffects.Move;
+      }
 
-      //if (targetItem != null)
-      //{
-      //  dropInfo.Effects = DragDropEffects.None;
-      //}
+      if (targetItem != null)
+      {
+        dropInfo.Effects = DragDropEffects.None;
+      }
     }
 
     public void Drop(IDropInfo dropInfo)
@@ -222,7 +302,7 @@
         }
         else if (targetListBox.Name == "CurriculumItemsListBox")
         {
-          var newIndex = dropInfo.InsertIndex;// -this.TagespläneDesHalbjahresplans.Count;
+          var newIndex = dropInfo.InsertIndex - this.StundenDerLerngruppe.Count;
           if (newIndex < 0)
           {
             newIndex = this.UsedSequenzenDesCurriculums.Count;
@@ -267,16 +347,16 @@
     /// </summary>
     private void UpdateTagespläneAndSequenzenCollection()
     {
-      var sequenzenInCollection = this.TagespläneAndSequenzenCollection.OfType<SequenzViewModel>().Count();
-      var tagespläneInCollection = this.TagespläneAndSequenzenCollection.Count - sequenzenInCollection;
+      var sequenzenInCollection = this.StundenAndSequenzenCollection.OfType<SequenzViewModel>().Count();
+      var tagespläneInCollection = this.StundenAndSequenzenCollection.Count - sequenzenInCollection;
       for (int i = tagespläneInCollection; i < sequenzenInCollection + tagespläneInCollection; i++)
       {
-        this.TagespläneAndSequenzenCollection.RemoveAt(this.TagespläneAndSequenzenCollection.Count - 1);
+        this.StundenAndSequenzenCollection.RemoveAt(this.StundenAndSequenzenCollection.Count - 1);
       }
 
       foreach (var usedSequenzDesCurriculums in this.UsedSequenzenDesCurriculums)
       {
-        this.TagespläneAndSequenzenCollection.Add(usedSequenzDesCurriculums);
+        this.StundenAndSequenzenCollection.Add(usedSequenzDesCurriculums);
       }
     }
 
@@ -288,97 +368,63 @@
       var sequenzIndex = 0;
       var stundenZähler = 0;
       var aktuelleSequenz = this.UsedSequenzenDesCurriculums[sequenzIndex];
-      
+      this.ShowFerien = false;
+
       using (new UndoBatch(App.MainViewModel, string.Format("Stundenentwürfe aus Curriculum angepasst."), false))
       {
-        //foreach (TagesplanViewModel tagesplan in this.TagespläneDesHalbjahresplans)
-        //{
-        //  if (aktuelleSequenz == null)
-        //  {
-        //    break;
-        //  }
+        foreach (StundeViewModel stunde in this.StundenDerLerngruppe)
+        {
+          if (aktuelleSequenz == null)
+          {
+            break;
+          }
 
-        //  foreach (var lerngruppentermin in tagesplan.Lerngruppentermine)
-        //  {
-        //    if (lerngruppentermin is StundeViewModel)
-        //    {
-        //      var stunde = lerngruppentermin as StundeViewModel;
-        //      StundenentwurfViewModel entwurfViewModel = null;
+          stunde.StundeAnsagen = string.Empty;
+          stunde.StundeComputer = false;
+          stunde.StundeHausaufgaben = string.Empty;
+          stunde.StundeKopieren = false;
+          stunde.TerminBeschreibung = aktuelleSequenz.SequenzThema;
+          stunde.StundeModul = aktuelleSequenz.SequenzReihe.ReiheModul;
 
-        //      if (stunde.StundeStundenentwurf == null)
-        //      {
-        //        var entwurf = new Stundenentwurf();
-        //        entwurf.Datum = DateTime.Now;
-        //        entwurf.Fach = tagesplan.Model.Monatsplan.Halbjahresplan.Jahresplan.Fach;
-        //        entwurf.Jahrgangsstufe =
-        //          tagesplan.Model.Monatsplan.Halbjahresplan.Jahresplan.Klasse.Klassenstufe.Jahrgangsstufe;
-        //        entwurf.Stundenzahl = stunde.TerminStundenanzahl;
-        //        entwurf.Ansagen = string.Empty;
-        //        entwurf.Computer = false;
-        //        entwurf.Hausaufgaben = string.Empty;
-        //        entwurf.Kopieren = false;
-        //        entwurf.Stundenthema = aktuelleSequenz.SequenzThema;
-        //        entwurf.Modul = aktuelleSequenz.SequenzReihe.ReiheModul.Model;
-        //        //App.UnitOfWork.Context.Stundenentwürfe.Add(entwurf);
-        //        entwurfViewModel = new StundenentwurfViewModel(entwurf);
-        //        App.MainViewModel.Stunden.Add(entwurfViewModel);
-        //        stunde.StundeStundenentwurf = entwurfViewModel;
-        //      }
-        //      else
-        //      {
-        //        // if entwurf is empty update also
-        //        if (stunde.StundeStundenentwurf.Phasen.Count == 0)
-        //        {
-        //          entwurfViewModel = stunde.StundeStundenentwurf;
-        //          entwurfViewModel.StundenentwurfDatum = DateTime.Now;
-        //          entwurfViewModel.StundenentwurfStundenthema = aktuelleSequenz.SequenzThema;
-        //          entwurfViewModel.StundenentwurfModul = aktuelleSequenz.SequenzReihe.ReiheModul;
-        //        }
-        //      }
+          stundenZähler += stunde.TerminStundenanzahl;
+          if (stundenZähler == aktuelleSequenz.SequenzStundenbedarf)
+          {
+            stundenZähler = 0;
+            sequenzIndex++;
 
-        //      stundenZähler += stunde.TerminStundenanzahl;
-        //      if (stundenZähler == aktuelleSequenz.SequenzStundenbedarf)
-        //      {
-        //        stundenZähler = 0;
-        //        sequenzIndex++;
+            if (this.UsedSequenzenDesCurriculums.Count > sequenzIndex)
+            {
+              aktuelleSequenz = this.UsedSequenzenDesCurriculums[sequenzIndex];
+            }
+            else
+            {
+              aktuelleSequenz = null;
+              break;
+            }
+          }
+          else if (stundenZähler > aktuelleSequenz.SequenzStundenbedarf)
+          {
+            sequenzIndex++;
 
-        //        if (this.UsedSequenzenDesCurriculums.Count > sequenzIndex)
-        //        {
-        //          aktuelleSequenz = this.UsedSequenzenDesCurriculums[sequenzIndex];
-        //        }
-        //        else
-        //        {
-        //          aktuelleSequenz = null;
-        //          break;
-        //        }
-        //      }
-        //      else if (stundenZähler > aktuelleSequenz.SequenzStundenbedarf)
-        //      {
-        //        sequenzIndex++;
-
-        //        SequenzViewModel nächsteSequenz;
-        //        if (this.UsedSequenzenDesCurriculums.Count > sequenzIndex)
-        //        {
-        //          nächsteSequenz = this.UsedSequenzenDesCurriculums[sequenzIndex];
-        //          if (nächsteSequenz.SequenzStundenbedarf + aktuelleSequenz.SequenzStundenbedarf == stundenZähler)
-        //          {
-        //            entwurfViewModel.StundenentwurfStundenthema += "+ " + nächsteSequenz.SequenzThema;
-        //            sequenzIndex++;
-        //            aktuelleSequenz = this.UsedSequenzenDesCurriculums[sequenzIndex];
-        //          }
-        //          stundenZähler = 0;
-        //        }
-        //        else
-        //        {
-        //          nächsteSequenz = null;
-        //          break;
-        //        }
-        //      }
-        //    }
-        //  }
-
-        //  tagesplan.UpdateBeschreibung();
-        //}
+            SequenzViewModel nächsteSequenz;
+            if (this.UsedSequenzenDesCurriculums.Count > sequenzIndex)
+            {
+              nächsteSequenz = this.UsedSequenzenDesCurriculums[sequenzIndex];
+              if (nächsteSequenz.SequenzStundenbedarf + aktuelleSequenz.SequenzStundenbedarf == stundenZähler)
+              {
+                stunde.TerminBeschreibung += "+ " + nächsteSequenz.SequenzThema;
+                sequenzIndex++;
+                aktuelleSequenz = this.UsedSequenzenDesCurriculums[sequenzIndex];
+              }
+              stundenZähler = 0;
+            }
+            else
+            {
+              nächsteSequenz = null;
+              break;
+            }
+          }
+        }
       }
       InformationDialog.Show("Fertig", "Jahresplan wurde aktualisiert", false);
     }
