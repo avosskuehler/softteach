@@ -23,16 +23,16 @@
       </StackPanel>
       <Border Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Style="{StaticResource DisplayStyle}" HorizontalAlignment="Right" VerticalAlignment="Top">
         <StackPanel Orientation="Horizontal" Height="48">
-          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=ViewTerminplaneintragCommand}">
+          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=ViewTerminplaneintragCommand}" ToolTip="Verlaufsplan ansehen.">
             <fa:IconBlock Style="{StaticResource Ansehen48}"/>
           </Button>
-          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=EditTerminplaneintragCommand}">
+          <!--<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=EditTerminplaneintragCommand}">
             <fa:IconBlock Style="{StaticResource Edit48}"/>
-          </Button>
-          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=RemoveTerminplaneintragCommand}">
+          </Button>-->
+          <!--<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=RemoveTerminplaneintragCommand}">
             <fa:IconBlock Style="{StaticResource Schließen48}"/>
-          </Button>
-          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddNotenCommand}">
+          </Button>-->
+          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddNotenCommand}" ToolTip="Stundennoten eintragen.">
             <fa:IconBlock Style="{StaticResource Note48}"/>
           </Button>
           <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddHausaufgabenCommand}" ToolTip="Nicht gemachte Hausaufgaben eintragen.">

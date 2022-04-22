@@ -29,10 +29,10 @@
     /// </summary>
     private SitzplatzViewModel sitzplatz;
 
-    /// <summary>
-    /// Der Schülereintrag der zu diesem Sitzplaneintrag gehört
-    /// </summary>
-    private SchülereintragNeu schülereintrag;
+    ///// <summary>
+    ///// Der Schülereintrag der zu diesem Sitzplaneintrag gehört
+    ///// </summary>
+    //private SchülereintragNeu schülereintrag;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="SitzplaneintragViewModel"/> Klasse. 
@@ -152,10 +152,10 @@
         //  if (value.SchülereintragÜberschrift == this.schülereintrag.SchülereintragÜberschrift) return;
         //}
 
-        if (this.schülereintrag == value) return;
+        //if (this.schülereintrag == value) return;
 
-        this.UndoablePropertyChanging(this, "SitzplaneintragSchülereintrag", this.schülereintrag, value);
-        this.schülereintrag = value;
+        //this.UndoablePropertyChanging(this, "SitzplaneintragSchülereintrag", this.schülereintrag, value);
+        //this.schülereintrag = value;
         this.Model.Schülereintrag = value != null ? value : null;
         this.RaisePropertyChanged("SitzplaneintragSchülereintrag");
       }

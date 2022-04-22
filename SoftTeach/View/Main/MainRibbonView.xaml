@@ -46,9 +46,6 @@
           <DataTemplate DataType="{x:Type notenViewModel:SchülereintragWorkspaceViewModel}">
             <notenView:SchülereintragWorkspaceView />
           </DataTemplate>
-          <DataTemplate DataType="{x:Type sitzplanViewModel:SitzplanWorkspaceViewModel}">
-            <sitzplanView:SitzplanWorkspaceView />
-          </DataTemplate>
           <HierarchicalDataTemplate DataType="{x:Type undoRedo:ChangeSet}"
                                 ItemsSource="{Binding Path=Changes}">
             <TextBlock Text="{Binding Path=Description}"/>
@@ -285,12 +282,12 @@
             <fa:IconBlock Style="{StaticResource Sitzplan32}"/>
           </fluent:RibbonGroupBox.Icon>
           <fluent:Button 
-            Header="Räume" 
+            Header="Räume" Width="50"
             Click="RäumeButtonClick"
             ToolTip="Räume neu definieren">
             <fluent:Button.LargeIcon>
               <Grid>
-                <fa:IconBlock Style="{StaticResource Sitzplan32}"/>
+                <fa:IconBlock Style="{StaticResource Raum32}"/>
               </Grid>
             </fluent:Button.LargeIcon>
           </fluent:Button>
@@ -673,9 +670,6 @@
       <TabItem Header="Noten">
         <ContentControl Margin="5" Content="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=SchülereintragWorkspace}" />
       </TabItem>
-      <!--<TabItem Header="Sitzpläne">
-        <ContentControl Margin="5" Content="{Binding Path=.SitzplanWorkspace}" />
-      </TabItem>-->
     </TabControl>
   </Grid>
 </fluent:RibbonWindow>

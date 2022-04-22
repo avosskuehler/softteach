@@ -28,9 +28,9 @@
   /// </summary>
   public class LerngruppeViewModel : ViewModelBase, IComparable, ICloneable, IDropTarget
   {
-    private ICollectionView gruppenView;
+    //private ICollectionView gruppenView;
 
-    private ICollectionView metroGruppenView;
+    //private ICollectionView metroGruppenView;
 
     /// <summary>
     /// The schüler currently selected
@@ -57,6 +57,10 @@
     private int gruppenanzahl;
 
     private DateTime notenDatum;
+    private bool? mädchenJungeGemischt;
+    private bool teilungsgruppenBeachten;
+    private bool nurTeilungsgruppeA;
+    private bool nurTeilungsgruppeB;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="LerngruppeViewModel"/> Klasse. 
@@ -80,7 +84,6 @@
       this.DeleteSchülereintragCommand = new DelegateCommand(this.DeleteCurrentSchülereintrag, () => this.CurrentSchülereintrag != null);
       this.ExportLerngruppeCommand = new DelegateCommand(this.ExportLerngruppe);
       this.ImportSchülerCommand = new DelegateCommand(this.ImportSchüler);
-      this.GruppenEinteilenCommand = new DelegateCommand(this.GruppenEinteilen);
       this.GruppenNeuEinteilenCommand = new DelegateCommand(this.GruppenNeuEinteilen);
       this.GruppenAusdruckenCommand = new DelegateCommand(this.GruppenAusdrucken);
 
@@ -126,25 +129,15 @@
 
       this.SchülereinträgeGemischt = this.Schülereinträge.ToList();
 
-      this.metroGruppenView = CollectionViewSource.GetDefaultView(this.SchülereinträgeGemischt);
-      if (this.metroGruppenView.GroupDescriptions.Count == 0)
+      this.GruppenViewSource = new CollectionViewSource() { Source = this.SchülereinträgeGemischt };
+      using (this.GruppenViewSource.DeferRefresh())
       {
-        this.metroGruppenView.GroupDescriptions.Add(new PropertyGroupDescription("SchülereintragSortByGruppennummerProperty"));
+        this.GruppenViewSource.Filter += this.GruppenViewSource_Filter;
+        this.GruppenViewSource.GroupDescriptions.Add(new PropertyGroupDescription("SchülereintragSortByGruppennummerProperty"));
+        this.GruppenViewSource.SortDescriptions.Add(new SortDescription("SchülereintragSortByGruppennummerProperty", ListSortDirection.Ascending));
+        this.GruppenViewSource.SortDescriptions.Add(new SortDescription("SchülereintragSortByVornameProperty", ListSortDirection.Ascending));
+        this.GruppenViewSource.SortDescriptions.Add(new SortDescription("SchülereintragSortByNachnameProperty", ListSortDirection.Ascending));
       }
-
-      if (this.metroGruppenView.SortDescriptions.Count == 0)
-      {
-        this.metroGruppenView.SortDescriptions.Add(new SortDescription("SchülereintragSortByGruppennummerProperty", ListSortDirection.Ascending));
-        this.metroGruppenView.SortDescriptions.Add(new SortDescription("SchülereintragSortByVornameProperty", ListSortDirection.Ascending));
-      }
-
-      this.metroGruppenView.Filter = item =>
-      {
-        var schülereintragViewModel = item as SchülereintragViewModel;
-        if (schülereintragViewModel == null) return false;
-
-        return !schülereintragViewModel.IstKrank;
-      };
 
       this.Gruppenmitgliederanzahl = 4;
       this.Gruppenanzahl = 8;
@@ -157,6 +150,7 @@
         }
       };
 
+      this.nurTeilungsgruppeA = true;
       //Console.WriteLine("Elapsed NotenWichtungen {0}", watch.ElapsedMilliseconds);
       //watch.Restart();
     }
@@ -182,12 +176,6 @@
     public DelegateCommand ExportLerngruppeCommand { get; private set; }
 
     /// <summary>
-    /// Holt den Befehl einen Dialog aufzurufen, indem
-    /// die Schüler der Lerngruppe in Gruppen eingeteilt werden.
-    /// </summary>
-    public DelegateCommand GruppenEinteilenCommand { get; private set; }
-
-    /// <summary>
     /// Holt den Befehl die Schüler der Lerngruppe in Gruppen einzuteilen.
     /// </summary>
     public DelegateCommand GruppenNeuEinteilenCommand { get; private set; }
@@ -208,14 +196,14 @@
     public ObservableCollection<SchülereintragViewModel> Schülereinträge { get; private set; }
 
     /// <summary>
-    /// Holt die Lerngruppentermine for this Lerngruppe
-    /// </summary>
-    public ObservableCollection<LerngruppenterminViewModel> Lerngruppentermine { get; private set; }
-
-    /// <summary>
     /// Holt die schülereinträge for this schülerliste
     /// </summary>
     public List<SchülereintragViewModel> SchülereinträgeGemischt { get; private set; }
+
+    /// <summary>
+    /// Holt die Lerngruppentermine for this Lerngruppe
+    /// </summary>
+    public ObservableCollection<LerngruppenterminViewModel> Lerngruppentermine { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Schülereinträge
@@ -223,43 +211,14 @@
     public ICollectionView SchülereinträgeView { get; set; }
 
     /// <summary>
-    /// Holt oder setzt die gemischten Gruppen
+    /// Holt oder setzt die JahrespläneViewSource
     /// </summary>
-    public ICollectionView GruppenView
-    {
-      get
-      {
-        var gruppen = this.Schülereinträge.Split(this.gruppenanzahl);
-        var gruppenWithTitle = new Dictionary<string, IEnumerable<SchülereintragViewModel>>();
-        var i = 1;
-        foreach (var gruppe in gruppen)
-        {
-          gruppenWithTitle.Add("Gruppe " + i, gruppe);
-          i++;
-        }
-
-        this.gruppenView = CollectionViewSource.GetDefaultView(gruppenWithTitle);
-        if (this.gruppenView.SortDescriptions.Count == 0)
-        {
-          this.gruppenView.SortDescriptions.Add(new SortDescription("Key", ListSortDirection.Ascending));
-        }
-
-        this.gruppenView.Refresh();
-        return this.gruppenView;
-      }
-    }
+    public CollectionViewSource GruppenViewSource { get; set; }
 
     /// <summary>
-    /// Holt oder setzt die gemischten Gruppen
+    /// Holt oder setzt ein gefiltertes View der Lerngruppen
     /// </summary>
-    public ICollectionView MetroGruppenView
-    {
-      get
-      {
-        this.metroGruppenView.Refresh();
-        return this.metroGruppenView;
-      }
-    }
+    public ICollectionView GruppenView => this.GruppenViewSource.View;
 
     /// <summary>
     /// Holt oder setzt die maximale Anzahl der Gruppenmitglieder
@@ -273,8 +232,10 @@
 
       set
       {
+        if (this.gruppenmitgliederanzahl == value) { return; }
         this.gruppenmitgliederanzahl = value;
-        var anzahlAller = this.Schülereinträge.Count(o => !o.IstKrank);
+        var anzahlAller = this.SchülereinträgeGemischt.Count;
+        //var anzahlAller = this.Schülereinträge.Count(o => !o.IstKrank);
         this.gruppenanzahl = (int)Math.Round(anzahlAller / (float)this.gruppenmitgliederanzahl, 0);
         this.RaisePropertyChanged("Gruppenmitgliederanzahl");
         this.RaisePropertyChanged("Gruppenanzahl");
@@ -293,8 +254,9 @@
 
       set
       {
+        if (this.gruppenanzahl == value) { return; }
         this.gruppenanzahl = value;
-        var anzahlAller = this.Schülereinträge.Count(o => !o.IstKrank);
+        var anzahlAller = this.SchülereinträgeGemischt.Count;
         this.gruppenmitgliederanzahl = (int)Math.Round(anzahlAller / (float)this.gruppenanzahl, 0);
         this.RaisePropertyChanged("Gruppenanzahl");
         this.RaisePropertyChanged("Gruppenmitgliederanzahl");
@@ -527,12 +489,72 @@
     /// <summary>
     /// Holt oder setzt einen Wert, der angibt, ob in den Gruppen Jungen und Mädchen möglichst getrennt sein sollen.
     /// </summary>
-    public bool? MädchenJungeGemischt { get; set; }
+    public bool? MädchenJungeGemischt
+    {
+      get => mädchenJungeGemischt;
+      set
+      {
+        mädchenJungeGemischt = value;
+        this.RaisePropertyChanged("MädchenJungeGemischt");
+        this.GruppenNeuEinteilen();
+      }
+    }
 
     /// <summary>
     /// Holt oder setzt einen Wert, der angibt, ob bei der Gruppeneinteilung die Teilungsgruppen beachtet werden sollen.
     /// </summary>
-    public bool TeilungsgruppenBeachten { get; set; }
+    public bool TeilungsgruppenBeachten
+    {
+      get => teilungsgruppenBeachten;
+      set
+      {
+        if (teilungsgruppenBeachten == value)
+        {
+          return;
+        }
+
+        teilungsgruppenBeachten = value;
+        this.RaisePropertyChanged("TeilungsgruppenBeachten");
+        this.GruppenNeuEinteilen();
+      }
+    }
+
+    /// <summary>
+    /// Holt oder setzt einen Wert, der angibt, ob bei der Gruppeneinteilung nur die Teilungsgruppe A berücksichtigt wird.
+    /// </summary>
+    public bool NurTeilungsgruppeA
+    {
+      get => nurTeilungsgruppeA;
+      set
+      {
+        if (nurTeilungsgruppeA == value)
+        {
+          return;
+        }
+
+        nurTeilungsgruppeA = value;
+        this.RaisePropertyChanged("NurTeilungsgruppeA");
+        this.GruppenNeuEinteilen();
+      }
+    }
+
+    /// <summary>
+    /// Holt oder setzt einen Wert, der angibt, ob bei der Gruppeneinteilung nur die Teilungsgruppe B berücksichtigt wird.
+    /// </summary>
+    public bool NurTeilungsgruppeB
+    {
+      get => nurTeilungsgruppeB;
+      set
+      {
+        if (nurTeilungsgruppeB == value)
+        {
+          return;
+        }
+
+        nurTeilungsgruppeB = value;
+        this.RaisePropertyChanged("NurTeilungsgruppeB");
+      }
+    }
 
     /// <summary>
     /// Gets or sets the noten datum.
@@ -648,10 +670,14 @@
           dropInfo.Effects = DragDropEffects.None;
         }
       }
-      else if (targetItem == null)
+      else if (dropInfo.TargetGroup != null)
       {
         dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
         dropInfo.Effects = DragDropEffects.Move;
+      }
+      else if (targetItem == null)
+      {
+        dropInfo.Effects = DragDropEffects.None;
       }
     }
 
@@ -676,28 +702,45 @@
         else if (targetItem == null)
         {
           var source = sourceItem as SchülereintragViewModel;
-          var sourceGruppenNummer = source.SchülereintragPerson.Gruppennummer;
-          var up = dropInfo.DropPosition.X - dropInfo.DragInfo.DragStartPosition.X > 0;
-          if (!up && dropInfo.DropPosition.Y > dropInfo.DragInfo.DragStartPosition.Y + 100)
-          {
-            up = true;
-          }
 
-          var newGruppennummer = up ? sourceGruppenNummer + 1 : sourceGruppenNummer - 1;
-          if (newGruppennummer > this.gruppenanzahl)
+          if (dropInfo.TargetGroup != null)
           {
-            newGruppennummer = 1;
+            // Wenn Ziel eine Gruppe, dann Gruppennummer übernehmen
+            var zielMitglied = dropInfo.TargetGroup.Items.FirstOrDefault();
+            if (zielMitglied != null)
+            {
+              var vm = zielMitglied as SchülereintragViewModel;
+              var neueGruppennummer = vm.SchülereintragPerson.Gruppennummer;
+              source.SchülereintragPerson.Gruppennummer = neueGruppennummer;
+            }
           }
-
-          if (newGruppennummer < 1)
+          else
           {
-            newGruppennummer = this.gruppenanzahl;
-          }
+            // Wenn Ziel nirgendwo Richtung nehmen und um eins weiter links oder rechts unterbringen
+            var sourceGruppenNummer = source.SchülereintragPerson.Gruppennummer;
+            var up = dropInfo.DropPosition.X - dropInfo.DragInfo.DragStartPosition.X > 0;
+            if (!up && dropInfo.DropPosition.Y > dropInfo.DragInfo.DragStartPosition.Y + 100)
+            {
+              up = true;
+            }
 
-          source.SchülereintragPerson.Gruppennummer = newGruppennummer;
+            var newGruppennummer = up ? sourceGruppenNummer + 1 : sourceGruppenNummer - 1;
+            if (newGruppennummer > this.gruppenanzahl)
+            {
+              newGruppennummer = 1;
+            }
+
+            if (newGruppennummer < 1)
+            {
+              newGruppennummer = this.gruppenanzahl;
+            }
+
+            source.SchülereintragPerson.Gruppennummer = newGruppennummer;
+          }
         }
 
-        this.RaisePropertyChanged("MetroGruppenView");
+        this.GruppenView.Refresh();
+        //this.RaisePropertyChanged("GruppenView");
       }
     }
 
@@ -821,182 +864,91 @@
     }
 
     /// <summary>
-    /// Öffnet einen Dialog mit dem Gruppen eingeteilt werden können
-    /// </summary>
-    private void GruppenEinteilen()
-    {
-      var dlg = new GruppenErstellenDialog(this);
-      dlg.ShowDialog();
-    }
-
-    /// <summary>
     /// Mischt die Gruppen nach den gegebenen Parametern neu
     /// </summary>
     private void GruppenNeuEinteilen()
     {
       // Reset Gruppennummern
-      this.Schülereinträge.Each(o => o.SchülereintragPerson.Gruppennummer = 0);
+      this.Schülereinträge.Each(o => o.SchülereintragPerson.Gruppennummer = -1);
+
+      // Zunächst alle Schüler für Gruppenbildung auswählen
+      IEnumerable<SchülereintragViewModel> schülerFürGruppenbildung = this.Schülereinträge;
 
       if (this.TeilungsgruppenBeachten)
       {
-        var schülernachGruppen = this.Schülereinträge.OrderBy(o => o.SchülereintragPerson.PersonNachname).Chunk(this.Schülereinträge.Count / 2);
+        var mitte = this.Schülereinträge.Count % 2 == 0 ? this.Schülereinträge.Count / 2 : this.Schülereinträge.Count / 2;
 
-        var gruppenNummer = 0;
-        foreach (var schülergruppe in schülernachGruppen)
+        if (this.NurTeilungsgruppeA)
         {
-          if (this.MädchenJungeGemischt.HasValue)
-          {
-            // Mische die Schüler nach Jungen und Mädchen getrennt
-            var mädchen = schülergruppe.Where(o => !o.IstKrank && o.SchülereintragPerson.PersonIstWeiblich).Shuffle().ToList();
-            var jungen = schülergruppe.Where(o => !o.IstKrank && !o.SchülereintragPerson.PersonIstWeiblich).Shuffle().ToList();
-            if (this.MädchenJungeGemischt.Value)
-            {
-              var gruppenMädchen = mädchen.Split(this.gruppenanzahl / 2);
-              var gruppenJungen = jungen.Split(this.gruppenanzahl / 2);
-
-              // Mädchen auf Gruppen verteilen
-              foreach (var gruppe in gruppenMädchen)
-              {
-                gruppenNummer++;
-                foreach (var schülereintragViewModel in gruppe)
-                {
-                  schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
-                }
-              }
-
-              // Jungen auf Gruppen verteilen
-              //gruppenNummer = this.gruppenanzahl / 2;
-              foreach (var gruppe in gruppenJungen)
-              {
-                foreach (var schülereintragViewModel in gruppe)
-                {
-                  schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
-                }
-
-                gruppenNummer--;
-              }
-
-              gruppenNummer = this.gruppenanzahl / 2;
-            }
-            else
-            {
-              var anzahlMädchen = mädchen.Count;
-              var anzahlJungen = jungen.Count;
-              var gesamtZahl = anzahlMädchen + anzahlJungen;
-
-              var gruppenMädchen = mädchen.Split((int)Math.Round(this.gruppenanzahl * anzahlMädchen / (float)gesamtZahl));
-              var gruppenJungen = jungen.Split((int)Math.Round(this.gruppenanzahl * anzahlJungen / (float)gesamtZahl));
-
-              foreach (var gruppe in gruppenMädchen)
-              {
-                gruppenNummer++;
-                foreach (var schülereintragViewModel in gruppe)
-                {
-                  schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
-                }
-              }
-
-              foreach (var gruppe in gruppenJungen)
-              {
-                gruppenNummer++;
-                foreach (var schülereintragViewModel in gruppe)
-                {
-                  schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
-                }
-              }
-            }
-          }
-          else
-          {
-            // Mische die Schüler beliebig
-            this.SchülereinträgeGemischt = this.Schülereinträge.Where(o => !o.IstKrank).Shuffle().ToList();
-
-            var gruppen = this.SchülereinträgeGemischt.Split(this.gruppenanzahl);
-
-            foreach (var gruppe in gruppen)
-            {
-              gruppenNummer++;
-              foreach (var schülereintragViewModel in gruppe)
-              {
-                schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
-              }
-            }
-          }
-        }
-      }
-      else
-      {
-        if (this.MädchenJungeGemischt.HasValue)
-        {
-          // Mische die Schüler nach Jungen und Mädchen getrennt
-          var mädchen = this.Schülereinträge.Where(o => !o.IstKrank && o.SchülereintragPerson.PersonIstWeiblich).Shuffle().ToList();
-          var jungen = this.Schülereinträge.Where(o => !o.IstKrank && !o.SchülereintragPerson.PersonIstWeiblich).Shuffle().ToList();
-          if (this.MädchenJungeGemischt.Value)
-          {
-            var gruppenMädchen = mädchen.Split(this.gruppenanzahl);
-            var gruppenJungen = jungen.Split(this.gruppenanzahl);
-
-            // Mädchen auf Gruppen verteilen
-            var gruppenNummer = 0;
-            foreach (var gruppe in gruppenMädchen)
-            {
-              gruppenNummer++;
-              foreach (var schülereintragViewModel in gruppe)
-              {
-                schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
-              }
-            }
-
-            // Jungen auf Gruppen verteilen
-            gruppenNummer = this.gruppenanzahl;
-            foreach (var gruppe in gruppenJungen)
-            {
-              foreach (var schülereintragViewModel in gruppe)
-              {
-                schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
-              }
-
-              gruppenNummer--;
-            }
-          }
-          else
-          {
-            var anzahlMädchen = mädchen.Count;
-            var anzahlJungen = jungen.Count;
-            var gesamtZahl = anzahlMädchen + anzahlJungen;
-
-            var gruppenMädchen = mädchen.Split((int)Math.Round(this.gruppenanzahl * anzahlMädchen / (float)gesamtZahl));
-            var gruppenJungen = jungen.Split((int)Math.Round(this.gruppenanzahl * anzahlJungen / (float)gesamtZahl));
-
-            var gruppenNummer = 0;
-            foreach (var gruppe in gruppenMädchen)
-            {
-              gruppenNummer++;
-              foreach (var schülereintragViewModel in gruppe)
-              {
-                schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
-              }
-            }
-
-            foreach (var gruppe in gruppenJungen)
-            {
-              gruppenNummer++;
-              foreach (var schülereintragViewModel in gruppe)
-              {
-                schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
-              }
-            }
-          }
+          schülerFürGruppenbildung = schülerFürGruppenbildung.OrderBy(o => o.SchülereintragPerson.PersonNachname).Take(mitte);
         }
         else
         {
-          // Mische die Schüler beliebig
-          this.SchülereinträgeGemischt = this.Schülereinträge.Where(o => !o.IstKrank).Shuffle().ToList();
+          schülerFürGruppenbildung = schülerFürGruppenbildung.OrderBy(o => o.SchülereintragPerson.PersonNachname).Skip(mitte);
+        }
+      }
 
-          var gruppen = this.SchülereinträgeGemischt.Split(this.gruppenanzahl);
-          var gruppenNummer = 0;
+      // Kranke vor Gruppenbildung, aber nach Teilungsgruppensplit aussortieren
+      schülerFürGruppenbildung = schülerFürGruppenbildung.Where(o => !o.IstKrank);
+      this.SchülereinträgeGemischt = schülerFürGruppenbildung.ToList();
 
-          foreach (var gruppe in gruppen)
+      var gruppenNummer = 0;
+      if (this.MädchenJungeGemischt.HasValue)
+      {
+        // Mische die Schüler nach Jungen und Mädchen getrennt
+        var mädchen = schülerFürGruppenbildung.Where(o => o.SchülereintragPerson.PersonIstWeiblich).ToList();
+        mädchen.Shuffle2();
+        var jungen = schülerFürGruppenbildung.Where(o => !o.SchülereintragPerson.PersonIstWeiblich).ToList();
+        jungen.Shuffle2();
+
+        if (this.MädchenJungeGemischt.Value)
+        {
+          var gruppenMädchen = mädchen.Split(this.gruppenanzahl);
+          var gruppenJungen = jungen.Split(this.gruppenanzahl);
+
+          // Mädchen auf Gruppen verteilen
+          foreach (var gruppe in gruppenMädchen)
+          {
+            gruppenNummer++;
+            foreach (var schülereintragViewModel in gruppe)
+            {
+              schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
+            }
+          }
+
+          // Jungen auf Gruppen verteilen
+          gruppenNummer = this.gruppenanzahl;
+          foreach (var gruppe in gruppenJungen)
+          {
+            foreach (var schülereintragViewModel in gruppe)
+            {
+              schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
+            }
+
+            gruppenNummer--;
+          }
+
+          //gruppenNummer = this.gruppenanzahl / 2;
+        }
+        else
+        {
+          var anzahlMädchen = mädchen.Count;
+          var anzahlJungen = jungen.Count;
+          var gesamtZahl = anzahlMädchen + anzahlJungen;
+
+          var gruppenMädchen = mädchen.Split((int)Math.Round(this.gruppenanzahl * anzahlMädchen / (float)gesamtZahl));
+          var gruppenJungen = jungen.Split((int)Math.Round(this.gruppenanzahl * anzahlJungen / (float)gesamtZahl));
+
+          foreach (var gruppe in gruppenMädchen)
+          {
+            gruppenNummer++;
+            foreach (var schülereintragViewModel in gruppe)
+            {
+              schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
+            }
+          }
+
+          foreach (var gruppe in gruppenJungen)
           {
             gruppenNummer++;
             foreach (var schülereintragViewModel in gruppe)
@@ -1006,9 +958,26 @@
           }
         }
       }
+      else
+      {
+        // Mische die Schüler beliebig
+        this.SchülereinträgeGemischt = schülerFürGruppenbildung.ToList();
+        this.SchülereinträgeGemischt.Shuffle2();
 
-      this.RaisePropertyChanged("GruppenView");
-      this.RaisePropertyChanged("MetroGruppenView");
+        var gruppen = this.SchülereinträgeGemischt.Split(this.gruppenanzahl);
+
+        foreach (var gruppe in gruppen)
+        {
+          gruppenNummer++;
+          foreach (var schülereintragViewModel in gruppe)
+          {
+            schülereintragViewModel.SchülereintragPerson.Gruppennummer = gruppenNummer;
+          }
+        }
+      }
+
+      this.GruppenView.Refresh();
+      //this.RaisePropertyChanged("GruppenView");
     }
 
     /// <summary>
@@ -1034,18 +1003,9 @@
         Height = document.DocumentPaginator.PageSize.Height
       };
 
-      if (Configuration.Instance.IsMetroMode)
-      {
-        // create the print output usercontrol
-        var content = new MetroGruppenPrintView { DataContext = this, Width = fixedPage.Width, Height = fixedPage.Height };
-        fixedPage.Children.Add(content);
-      }
-      else
-      {
-        // create the print output usercontrol
-        var content = new GruppenPrintView { DataContext = this, Width = fixedPage.Width, Height = fixedPage.Height };
-        fixedPage.Children.Add(content);
-      }
+      // create the print output usercontrol
+      var content = new MetroGruppenPrintView { DataContext = this, Width = fixedPage.Width, Height = fixedPage.Height };
+      fixedPage.Children.Add(content);
 
       // Update the layout of our FixedPage
       var size = document.DocumentPaginator.PageSize;
@@ -1079,6 +1039,30 @@
     private void Lerngruppentermine_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
       this.UndoableCollectionChanged(this, "Lerngruppentermine", this.Schülereinträge, e, true, "Änderung der Lerngruppentermine");
+    }
+
+    /// <summary>
+    /// Filtert die Lerngruppen nach Schuljahr und Termintyp
+    /// </summary>
+    /// <param name="item">Die Lerngruppe, das gefiltert werden soll</param>
+    /// <returns>True, wenn das Objekt in der Liste bleiben soll.</returns>
+    private void GruppenViewSource_Filter(object sender, FilterEventArgs e)
+    {
+      var schülereintragViewModel = e.Item as SchülereintragViewModel;
+      if (schülereintragViewModel == null)
+      {
+        e.Accepted = false;
+        return;
+      }
+
+      if (schülereintragViewModel.SchülereintragPerson != null && schülereintragViewModel.SchülereintragPerson.Gruppennummer == -1)
+      {
+        e.Accepted = false;
+        return;
+      }
+
+      e.Accepted = true;
+      return;
     }
   }
 }

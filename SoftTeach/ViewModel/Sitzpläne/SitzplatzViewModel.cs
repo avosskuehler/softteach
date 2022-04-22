@@ -3,18 +3,21 @@
   using System;
   using System.Windows;
   using System.Windows.Controls;
+  using System.Windows.Documents;
   using System.Windows.Media;
   using System.Windows.Shapes;
 
   using SoftTeach.Model.TeachyModel;
+  using SoftTeach.Resources.Controls;
+  using SoftTeach.View.Sitzpläne;
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
   /// ViewModel of an individual sitzplatz
   /// </summary>
-  public class SitzplatzViewModel : ViewModelBase, IComparable
+  public class SitzplatzViewModel : ViewModelBase, IComparable, ISequencedObject
   {
-    private Rectangle shape;
+    private SitzplatzShape shape;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="SitzplatzViewModel"/> Klasse. 
@@ -140,6 +143,26 @@
     }
 
     /// <summary>
+    /// Holt oder setzt die laufende Nummer des Sitzplatzes.
+    /// </summary>
+    public int Reihenfolge
+    {
+      get
+      {
+        return this.Model.Reihenfolge;
+      }
+
+      set
+      {
+        if (value == this.Model.Reihenfolge) return;
+        this.UndoablePropertyChanging(this, "Reihenfolge", this.Model.Reihenfolge, value);
+        this.Model.Reihenfolge = value;
+        this.shape.Reihenfolge = value;
+        this.RaisePropertyChanged("Reihenfolge");
+      }
+    }
+
+    /// <summary>
     /// Holt das Umfassungrechteck für den Sitzplatz.
     /// </summary>
     public Rect Bounds
@@ -157,7 +180,7 @@
     [DependsUpon("SitzplatzLinksObenY")]
     [DependsUpon("SitzplatzHöhe")]
     [DependsUpon("SitzplatzBreite")]
-    public Rectangle Shape
+    public SitzplatzShape Shape
     {
       get
       {
@@ -214,15 +237,12 @@
     {
       if (this.shape == null)
       {
-        this.shape = new Rectangle();
-        var fillColor = new SolidColorBrush(Colors.DarkSeaGreen) { Opacity = 0.5 };
-        this.shape.Fill = fillColor;
+        this.shape = new SitzplatzShape();
         this.shape.Width = this.SitzplatzBreite;
         this.shape.Height = this.SitzplatzHöhe;
-        this.shape.RenderTransformOrigin = new Point(0.5, 0.5);
         this.shape.RenderTransform = new RotateTransform(this.SitzplatzDrehwinkel);
-        this.shape.Tag = this;
-        //this.shape.Child = new Label() { Content = "Platz" };
+        this.shape.Sitzplatz = this;
+        this.shape.Reihenfolge = this.Model.Reihenfolge;
         Canvas.SetTop(this.shape, this.SitzplatzLinksObenY);
         Canvas.SetLeft(this.shape, this.SitzplatzLinksObenX);
       }

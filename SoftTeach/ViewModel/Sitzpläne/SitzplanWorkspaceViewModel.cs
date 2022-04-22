@@ -40,6 +40,7 @@
       this.DeleteSitzplanCommand = new DelegateCommand(this.DeleteCurrentSitzplan, () => this.CurrentSitzplan != null);
       this.SitzplanBearbeitenCommand = new DelegateCommand(this.SitzplanBearbeiten, () => this.CurrentSitzplan != null);
 
+      App.MainViewModel.LoadSitzpläne();
       var numberOfSitzpläne = App.MainViewModel.Sitzpläne.Count;
       //this.CurrentSitzplan = numberOfSitzpläne > 0 ? App.MainViewModel.Sitzpläne[numberOfSitzpläne - 1] : null;
       this.SitzpläneViewSource = new CollectionViewSource() { Source = App.MainViewModel.Sitzpläne };

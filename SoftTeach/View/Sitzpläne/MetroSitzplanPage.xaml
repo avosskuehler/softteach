@@ -19,9 +19,9 @@
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/SoftTeach;component/Resources/MetroResources.xaml"/>
-        <ResourceDictionary>
+        <!--<ResourceDictionary>
           <RotateTransform x:Key="SitzplanDrehungRotateTransform" Angle="{Binding Path=SitzplanDrehung}"></RotateTransform>
-        </ResourceDictionary>
+        </ResourceDictionary>-->
         <ResourceDictionary >
           <CollectionViewSource x:Key="SortedAvailableSchülereinträgeViewSource" Source="{Binding AvailableSchülereinträge}">
             <CollectionViewSource.SortDescriptions>
@@ -51,9 +51,9 @@
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="*"/>
-        <ColumnDefinition Width="Auto"/>
-        <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="Auto"/>
@@ -68,27 +68,27 @@
 				HorizontalAlignment="Left"
 				SelectedDate="{Binding SitzplanGültigAb, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
       <CheckBox Grid.Column="4" IsChecked="{Binding NurTeilungsgruppen}" FontSize="18" Margin="6">nur Teilungsgruppen</CheckBox>
-      <StackPanel Grid.Column="4" HorizontalAlignment="Right" Visibility="{Binding NurTeilungsgruppen, Converter={StaticResource BoolVisibleConverter}}">
-        <RadioButton Grid.Column="4" IsChecked="{Binding NurTeilungsgruppeA}" FontSize="18">Gruppe A</RadioButton>
-        <RadioButton Grid.Column="4" IsChecked="{Binding NurTeilungsgruppeB}" FontSize="18">Gruppe B</RadioButton>
+      <StackPanel Grid.Column="5" HorizontalAlignment="Left" Visibility="{Binding NurTeilungsgruppen, Converter={StaticResource BoolVisibleConverter}}">
+        <RadioButton IsChecked="{Binding NurTeilungsgruppeA}" Background="Transparent" FontSize="18">Gruppe A</RadioButton>
+        <RadioButton IsChecked="{Binding NurTeilungsgruppeB}" Background="Transparent" FontSize="18">Gruppe B</RadioButton>
       </StackPanel>
-      <CheckBox  Grid.Column="5" IsThreeState="True" IsChecked="{Binding SitzplanMädchenJungeNebeneinander}" FontSize="18" Margin="6">w/m</CheckBox>
-      <Button Grid.Column="6" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+      <CheckBox  Grid.Column="6" IsThreeState="True" IsChecked="{Binding SitzplanMädchenJungeNebeneinander}" FontSize="18" Margin="6">w/m</CheckBox>
+      <Button Grid.Column="7" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                     Command="{Binding Path=SitzplanNeuEinteilenCommand}" 
                     ToolTip="Sitzplan neu einteilen.">
         <fa:IconBlock Style="{StaticResource Würfel48}" VerticalAlignment="Center"/>
       </Button>
-      <Button Grid.Column="7" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+      <Button Grid.Column="8" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                     Command="{Binding Path=SitzplanLeerenCommand}" 
                     ToolTip="Sitzplan leeren.">
         <fa:IconBlock Style="{StaticResource Schließen48}" VerticalAlignment="Center"/>
       </Button>
-      <Button Grid.Column="8" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+      <Button Grid.Column="9" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                     Command="{Binding Path=SitzplanAusdruckenCommand}" 
                     ToolTip="Sitzplan ausdrucken.">
         <fa:IconBlock Style="{StaticResource Drucken48}" VerticalAlignment="Center"/>
       </Button>
-      <controls:NumericUpDown Grid.Column="9" FontSize="12" Value="{Binding SitzplanDrehung}" Interval="90" Maximum="360" Minimum="0" />
+      <controls:NumericUpDown Grid.Column="10" FontSize="12" Value="{Binding SitzplanDrehung}" Interval="90" Maximum="360" Minimum="0" />
     </Grid>
 
     <ListBox 
@@ -121,6 +121,7 @@
     </ListBox>
 
     <Image Grid.Column="0" Grid.Row="3" Source="{Binding SitzplanRaumplan.RaumplanImage}" Stretch="None"/>
+    <FrameworkElement x:Name="dummy" Visibility="Collapsed"/>
     <ListBox Grid.Column="0" Grid.Row="3" ItemsSource="{Binding Sitzplaneinträge}" 
              Background="Transparent"
                  BorderThickness="0"
@@ -159,11 +160,12 @@
                        VerticalAlignment="Center"
                        FontSize="12">
               <TextBlock.RenderTransform>
-                <RotateTransform>
+                <RotateTransform Angle="{Binding Path=DataContext.SitzplanDrehung, Source={x:Reference dummy}}"></RotateTransform>
+                <!--<RotateTransform>
                   <RotateTransform.Angle>
                     <Binding Source="{StaticResource SitzplanDrehungRotateTransform}" Path="Angle"/>
                   </RotateTransform.Angle>
-                </RotateTransform>
+                </RotateTransform>-->
                 <!--<RotateTransform>
                   <RotateTransform.Angle>
                     <MultiBinding Converter="{StaticResource SitzplatzAngleConverter}">

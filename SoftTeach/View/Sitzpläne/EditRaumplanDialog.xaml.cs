@@ -24,7 +24,7 @@ namespace SoftTeach.View.Sitzpläne
   using System.Windows.Controls;
   using System.Windows.Input;
   using System.Windows.Media;
-
+  using SoftTeach.Resources.Controls;
   using SoftTeach.ViewModel.Sitzpläne;
   using Point = System.Windows.Point;
   using Rectangle = System.Windows.Shapes.Rectangle;
@@ -204,6 +204,20 @@ namespace SoftTeach.View.Sitzpläne
         return;
       }
 
+      if (e.Key == Key.Add && !this.isDragging)
+      {
+        this.currentSitzplatz.Reihenfolge++;
+        e.Handled = true;
+      }
+      if (e.Key == Key.Subtract && !this.isDragging)
+      {
+        if (this.currentSitzplatz.Reihenfolge > 1)
+        {
+          this.currentSitzplatz.Reihenfolge--;
+        }
+        e.Handled = true;
+      }
+
       if ((Keyboard.Modifiers & ModifierKeys.Alt) > 0)
       {
         // Drehen
@@ -369,13 +383,13 @@ namespace SoftTeach.View.Sitzpläne
         return null;
       }
 
-      var rect = result.VisualHit as Rectangle;
+      var rect = result.VisualHit as SitzplatzShape;
       if (rect == null)
       {
         return null;
       }
 
-      var viewModel = rect.Tag as SitzplatzViewModel;
+      var viewModel = rect.Sitzplatz as SitzplatzViewModel;
       return viewModel;
     }
 

@@ -810,27 +810,15 @@ namespace SoftTeach.ViewModel.Termine
       bool undo = false;
       using (new UndoBatch(App.MainViewModel, string.Format("Stunde {0} editieren", this), false))
       {
-        if (Configuration.Instance.IsMetroMode)
+        var dlg = new EditStundeDialog(this);
+        Selection.Instance.Stunde = this;
+        if (!(undo = !dlg.ShowDialog().GetValueOrDefault(false)))
         {
-          var stundePage = new MetroStundenentwurfDetailPage();
-
-          // Set correct times
-          this.UpdateStundenentwurfPhasenzeitraum();
-          stundePage.DataContext = this;
-          Configuration.Instance.NavigationService.Navigate(stundePage);
-        }
-        else
-        {
-          var dlg = new EditStundeDialog(this);
-          Selection.Instance.Stunde = this;
-          if (!(undo = !dlg.ShowDialog().GetValueOrDefault(false)))
-          {
-            this.TerminBeschreibung = dlg.StundeViewModel.TerminBeschreibung;
-            this.TerminTermintyp = dlg.StundeViewModel.TerminTermintyp;
-            this.TerminErsteUnterrichtsstunde = dlg.StundeViewModel.TerminErsteUnterrichtsstunde;
-            this.TerminLetzteUnterrichtsstunde = dlg.StundeViewModel.TerminLetzteUnterrichtsstunde;
-            this.TerminTermintyp = dlg.StundeViewModel.TerminTermintyp;
-          }
+          this.TerminBeschreibung = dlg.StundeViewModel.TerminBeschreibung;
+          this.TerminTermintyp = dlg.StundeViewModel.TerminTermintyp;
+          this.TerminErsteUnterrichtsstunde = dlg.StundeViewModel.TerminErsteUnterrichtsstunde;
+          this.TerminLetzteUnterrichtsstunde = dlg.StundeViewModel.TerminLetzteUnterrichtsstunde;
+          this.TerminTermintyp = dlg.StundeViewModel.TerminTermintyp;
         }
       }
 

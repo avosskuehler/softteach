@@ -7,7 +7,7 @@
       xmlns:wochenpläneViewModel="clr-namespace:SoftTeach.ViewModel.Wochenpläne"
       xmlns:wochenpläne="clr-namespace:SoftTeach.View.Wochenpläne"
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
+      d:DesignHeight="597.754" d:DesignWidth="895.508"
 	    Title="Wochenplan"
       DataContext="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=WochenplanWorkspace}"
       FontSize="16">

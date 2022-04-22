@@ -3,6 +3,7 @@
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
                       xmlns:notenView="clr-namespace:SoftTeach.View.Noten"
                       xmlns:notenViewModel="clr-namespace:SoftTeach.ViewModel.Noten"
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
@@ -83,14 +84,14 @@
         </Grid.ColumnDefinitions>
         <StackPanel Orientation="Horizontal" Grid.Column="0">
           <Label Foreground="White" Style="{StaticResource MetroLabelStyle}">Stundennoten für</Label>
-          <Label Foreground="White" Style="{StaticResource MetroLabelStyle}" Content="{Binding Path=CurrentStunde.Stundenentwurf.Stundenthema}"/>
+          <Label Foreground="White" Style="{StaticResource MetroLabelStyle}" Content="{Binding Path=CurrentStunde.Beschreibung}"/>
           <Label Foreground="White" Style="{StaticResource MetroLabelStyle}">vom</Label>
-          <Label Foreground="White" Style="{StaticResource MetroLabelStyle}" Content="{Binding Path=CurrentStunde.Stundenentwurf.Datum, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=DatumKurz}"/>
+          <Label Foreground="White" Style="{StaticResource MetroLabelStyle}" Content="{Binding Path=CurrentStunde.Datum, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=DatumKurz}"/>
         </StackPanel>
         <Button Grid.Column="3" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=NoteneintragErledigtCommand}" ToolTip="Noteneintrag erledigt." Margin="5">
           <StackPanel Orientation="Horizontal">
             <Grid>
-              <Image Source="/SoftTeach;component/Images/Erledigt48.png"/>
+              <fa:IconBlock Style="{StaticResource Ok48}"/>
             </Grid>
           </StackPanel>
         </Button>

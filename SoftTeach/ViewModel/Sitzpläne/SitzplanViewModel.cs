@@ -1,6 +1,7 @@
 ﻿namespace SoftTeach.ViewModel.Sitzpläne
 {
   using System;
+  using System.Collections.Generic;
   using System.Collections.ObjectModel;
   using System.Collections.Specialized;
   using System.Linq;
@@ -37,6 +38,9 @@
     private SitzplaneintragViewModel currentSitzplaneintrag;
 
     private double sitzplanDrehung;
+    private bool nurTeilungsgruppen;
+    private bool nurTeilungsgruppeA;
+    private bool nurTeilungsgruppeB;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="SitzplanViewModel"/> Klasse. 
@@ -109,6 +113,8 @@
           this.AvailableSchülereinträge.Add(schülereintrag);
         }
       }
+
+      this.NurTeilungsgruppeA = true;
     }
 
     /// <summary>
@@ -309,8 +315,6 @@
     /// </summary>
     public bool? SitzplanMädchenJungeNebeneinander { get; set; }
 
-    private bool nurTeilungsgruppen;
-
     /// <summary>
     /// Holt oder setzt einen Wert, der angibt, ob beim Sitzplan Teilungsgruppen berücksichtigt werden sollen.
     /// </summary>
@@ -332,12 +336,38 @@
     /// <summary>
     /// Holt oder setzt einen Wert, der angibt, ob beim Sitzplan nur die Teilungsgruppe A berücksichtigt wird.
     /// </summary>
-    public bool NurTeilungsgruppeA { get; set; }
+    public bool NurTeilungsgruppeA
+    {
+      get => nurTeilungsgruppeA;
+      set
+      {
+        if (nurTeilungsgruppeA == value)
+        {
+          return;
+        }
+
+        nurTeilungsgruppeA = value;
+        this.RaisePropertyChanged("NurTeilungsgruppeA");
+      }
+    }
 
     /// <summary>
     /// Holt oder setzt einen Wert, der angibt, ob beim Sitzplan nur die Teilungsgruppe B berücksichtigt wird.
     /// </summary>
-    public bool NurTeilungsgruppeB { get; set; }
+    public bool NurTeilungsgruppeB
+    {
+      get => nurTeilungsgruppeB;
+      set
+      {
+        if (nurTeilungsgruppeB == value)
+        {
+          return;
+        }
+
+        nurTeilungsgruppeB = value;
+        this.RaisePropertyChanged("NurTeilungsgruppeB");
+      }
+    }
 
     /// <summary>
     /// Gibt eine lesbare Repräsentation des ViewModels
@@ -443,34 +473,38 @@
     /// </summary>
     public void SitzplanNeuEinteilen()
     {
-      if (this.AvailableSchülereinträge.Count == 0)
+      //if (this.AvailableSchülereinträge.Count == 0)
       {
         this.SitzplanLeeren();
       }
 
+      IEnumerable<SchülereintragNeu> schülereinträgeZurVerwendung = this.AvailableSchülereinträge.OrderBy(o => o.Person.Nachname);
+
       if (this.NurTeilungsgruppen)
       {
-        var schülernachGruppen = this.AvailableSchülereinträge.OrderBy(o => o.Person.Nachname).Chunk(this.AvailableSchülereinträge.Count / 2);
+        var schülernachGruppen = schülereinträgeZurVerwendung.Chunk(this.AvailableSchülereinträge.Count / 2);
         if (this.NurTeilungsgruppeA)
         {
-          this.AvailableSchülereinträge = schülernachGruppen.First().ToObservableCollection();
+          schülereinträgeZurVerwendung = schülernachGruppen.First();
         }
         else if (this.NurTeilungsgruppeB)
         {
-          this.AvailableSchülereinträge = schülernachGruppen.Last().ToObservableCollection();
+          schülereinträgeZurVerwendung = schülernachGruppen.Last();
         }
       }
 
       if (this.SitzplanMädchenJungeNebeneinander.HasValue)
       {
-        var mädchen = this.AvailableSchülereinträge.Where(o => o.Person.Geschlecht == Geschlecht.w).Shuffle().ToList();
-        var jungen = this.AvailableSchülereinträge.Where(o => o.Person.Geschlecht != Geschlecht.w).Shuffle().ToList();
+        var mädchen = schülereinträgeZurVerwendung.Where(o => o.Person.Geschlecht == Geschlecht.w).ToList();
+        mädchen.Shuffle2();
+        var jungen = schülereinträgeZurVerwendung.Where(o => o.Person.Geschlecht != Geschlecht.w).ToList();
+        jungen.Shuffle2();
 
         var größereGruppe = mädchen.Count >= jungen.Count ? mädchen : jungen;
         var kleinereGruppe = mädchen.Count >= jungen.Count ? jungen : mädchen;
         var gleichviel = (int)Math.Min(mädchen.Count, jungen.Count);
         var restlicheSchülerZahl = mädchen.Count + jungen.Count;
-        var restlicheSitzplätze = this.Sitzplaneinträge.Where(o => o.SitzplaneintragSchülereintrag == null).ToList();
+        var restlicheSitzplätze = this.Sitzplaneinträge.Where(o => o.SitzplaneintragSchülereintrag == null).OrderBy(o => o.SitzplaneintragSitzplatz.Reihenfolge).ToList();
 
         if (this.SitzplanMädchenJungeNebeneinander.Value)
         {
@@ -488,7 +522,7 @@
             }
           }
 
-          for (int i = gleichviel * 2 + 1; i < restlicheSchülerZahl; i++)
+          for (int i = gleichviel * 2; i < restlicheSchülerZahl; i++)
           {
             if (restlicheSitzplätze.Count > i)
             {
@@ -508,7 +542,7 @@
           {
             if (restlicheSitzplätze.Count > i)
             {
-              var useGrößereGruppe = (i / 2) % 2 == 0;
+              var useGrößereGruppe = i % 2 == 0;
               var schülereintrag = useGrößereGruppe ? größereGruppe[i / 2 + i % 2] : kleinereGruppe[i / 2 + i % 2 - 1];
               restlicheSitzplätze[i].SitzplaneintragSchülereintrag = schülereintrag;
               if (this.AvailableSchülereinträge.Contains(schülereintrag))
@@ -519,7 +553,7 @@
             }
           }
 
-          for (int i = gleichviel * 2 + 1; i < restlicheSchülerZahl; i++)
+          for (int i = gleichviel * 2; i < restlicheSchülerZahl; i++)
           {
             if (restlicheSitzplätze.Count > i)
             {
@@ -537,8 +571,11 @@
       }
       else
       {
-        var restlicheSchüler = this.AvailableSchülereinträge.Shuffle().ToList();
-        var restlicheSitzplätze = this.Sitzplaneinträge.Where(o => o.SitzplaneintragSchülereintrag == null).Shuffle().ToList();
+        var restlicheSchüler = schülereinträgeZurVerwendung.ToList();
+        restlicheSchüler.Shuffle2();
+
+        var restlicheSitzplätze = this.Sitzplaneinträge.Where(o => o.SitzplaneintragSchülereintrag == null).OrderBy(o => o.SitzplaneintragSitzplatz.Reihenfolge).ToList();
+
         for (int i = 0; i < restlicheSchüler.Count(); i++)
         {
           if (restlicheSitzplätze.Count > i)
@@ -561,27 +598,27 @@
       {
         if (sitzplaneintragViewModel.SitzplaneintragSchülereintrag != null)
         {
-          //if (this.UsedSchülereinträge.Contains(sitzplaneintragViewModel.SitzplaneintragSchülereintrag))
-          //{
-          //  this.UsedSchülereinträge.RemoveTest(sitzplaneintragViewModel.SitzplaneintragSchülereintrag);
-          //  //this.AvailableSchülereinträge.Add(sitzplaneintragViewModel.SitzplaneintragSchülereintrag);
-          //}
+          if (this.UsedSchülereinträge.Contains(sitzplaneintragViewModel.SitzplaneintragSchülereintrag))
+          {
+            this.UsedSchülereinträge.RemoveTest(sitzplaneintragViewModel.SitzplaneintragSchülereintrag);
+            this.AvailableSchülereinträge.Add(sitzplaneintragViewModel.SitzplaneintragSchülereintrag);
+          }
 
           sitzplaneintragViewModel.SitzplaneintragSchülereintrag = null;
         }
       }
 
-      this.UsedSchülereinträge.Clear();
+      //this.UsedSchülereinträge.Clear();
 
-      foreach (var schülereintrag in this.Model.Lerngruppe.Schülereinträge.OrderBy(o => o.Person.Vorname))
-      {
-        var schülerId = schülereintrag.Id;
-        //var vm = App.MainViewModel.Schülereinträge.First(o => o.Model.Id == schülerId);
-        if (!this.Sitzplaneinträge.Any(o => o.SitzplaneintragSchülereintrag != null && o.SitzplaneintragSchülereintrag == schülereintrag))
-        {
-          this.AvailableSchülereinträge.Add(schülereintrag);
-        }
-      }
+      //foreach (var schülereintrag in this.Model.Lerngruppe.Schülereinträge.OrderBy(o => o.Person.Vorname))
+      //{
+      //  var schülerId = schülereintrag.Id;
+      //  //var vm = App.MainViewModel.Schülereinträge.First(o => o.Model.Id == schülerId);
+      //  if (!this.Sitzplaneinträge.Any(o => o.SitzplaneintragSchülereintrag != null && o.SitzplaneintragSchülereintrag == schülereintrag))
+      //  {
+      //    this.AvailableSchülereinträge.Add(schülereintrag);
+      //  }
+      //}
 
     }
 

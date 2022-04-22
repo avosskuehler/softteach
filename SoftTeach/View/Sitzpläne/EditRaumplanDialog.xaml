@@ -22,8 +22,13 @@
       <RowDefinition Height="*" MinHeight="500"/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader Grid.Row="0" Title="Bitte bearbeiten Sie den Raumplan. Sitzplätze werden mit der Maus eingezeichnet. Taste 'Strg' kopiert."
-                                      Icon="/SoftTeach;component/Images/Raumplan32.png"/>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Bitte bearbeiten Sie den Raumplan. Sitzplätze werden mit der Maus eingezeichnet. Taste 'Strg' kopiert.">
+      <controls:SmallDialogHeader.IconContent>
+      <Grid>
+        <fa:IconBlock Style="{StaticResource Raum48}" Foreground="{DynamicResource Iconfarbe}"/>
+      </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
 
     <StackPanel Grid.Row="1" Orientation="Horizontal"  Background="{x:Static SystemColors.MenuBarBrush}">
       <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Raumplan.OpenImageFileCommand}" 
@@ -31,7 +36,7 @@
         <StackPanel Orientation="Horizontal">
           <Grid>
             <Image Source="/SoftTeach;component/Images/Raumplan32.png"/>
-            <Image Source="/SoftTeach;component/Images/FolderOpen16.png" Width="16" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+            <fa:IconBlock Style="{StaticResource ImportOverlay32}"/>
           </Grid>
           <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Neuen Grundriss laden (800x500px, 96dpi)</Label>
         </StackPanel>

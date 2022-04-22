@@ -264,6 +264,26 @@
         }
       }
 
+      // Alle Lerngruppen auslesen
+      var lerngruppen = App.MainViewModel.Lerngruppen.Where(o => o.LerngruppeSchuljahr.SchuljahrJahr == jahresplanJahr);
+      foreach (var lerngruppe in lerngruppen)
+      {
+        var lerngruppenTermine = lerngruppe.Lerngruppentermine.Where(o => o.LerngruppenterminDatum == this.tagesplanDatum);
+        foreach (var lerngruppentermin in lerngruppenTermine)
+        {
+          if (lerngruppentermin is StundeViewModel)
+          {
+
+          }
+          var wochenplanEintrag = new TerminplanEintrag(this, lerngruppentermin);
+          if (!this.Terminplaneinträge.Contains(wochenplanEintrag, comparer))
+          {
+            this.Terminplaneinträge.Add(wochenplanEintrag);
+          }
+        }
+      }
+
+
       //// Get all jahrespläne for the selected week
       //var jahrespläne = App.MainViewModel.Jahrespläne.Where(o => o.JahresplanSchuljahr.SchuljahrJahr == jahresplanJahr);
 

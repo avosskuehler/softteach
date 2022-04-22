@@ -309,6 +309,7 @@
           <Property Name="Breite" Type="float" Nullable="false" />
           <Property Name="Höhe" Type="float" Nullable="false" />
           <Property Name="Drehwinkel" Type="float" Nullable="false" />
+          <Property Name="Reihenfolge" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Stundenpläne">
           <Key>
@@ -1653,6 +1654,7 @@
           <Property Name="Drehwinkel" Type="Double" Nullable="false" />
           <NavigationProperty Name="Raumplan" Relationship="Self.FK_RaumplanSitzplatz" FromRole="Sitzplätze" ToRole="Raumpläne" />
           <NavigationProperty Name="Sitzplaneinträge" Relationship="Self.FK_SitzplatzSitzplaneintrag" FromRole="Sitzplätze" ToRole="Sitzplaneinträge" />
+          <Property Name="Reihenfolge" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="StundenplanNeu">
           <Key>
@@ -3078,6 +3080,7 @@
           <EntitySetMapping Name="Sitzplätze">
             <EntityTypeMapping TypeName="TeachyModel.SitzplatzNeu">
               <MappingFragment StoreEntitySet="Sitzplätze">
+                <ScalarProperty Name="Reihenfolge" ColumnName="Reihenfolge" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="RaumplanId" ColumnName="RaumplanId" />
                 <ScalarProperty Name="LinksObenX" ColumnName="LinksObenX" />

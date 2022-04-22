@@ -18,7 +18,7 @@
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
     <ListBox Grid.Column="0" Grid.Row="0"
-                 ItemsSource="{Binding Path=MetroGruppenView}"             
+                 ItemsSource="{Binding Path=GruppenView}"             
                  BorderThickness="0"
                  Name="GruppenListBox"
                  ItemTemplate="{StaticResource MetroPrintSchülereintragGruppenView}"

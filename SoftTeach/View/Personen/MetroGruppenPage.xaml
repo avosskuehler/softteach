@@ -65,6 +65,7 @@
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="*"/>
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="Auto"/>
@@ -85,12 +86,16 @@
                               Margin="10,0"/>
       <CheckBox Style="{StaticResource MetroLabelStyle}" Margin="0,0,10,0" Grid.Column="4" IsThreeState="True" IsChecked="{Binding MädchenJungeGemischt}" VerticalAlignment="Center" VerticalContentAlignment="Center">w/m</CheckBox>
       <CheckBox Style="{StaticResource MetroLabelStyle}" Grid.Column="5" IsThreeState="False" IsChecked="{Binding TeilungsgruppenBeachten}" VerticalAlignment="Center" VerticalContentAlignment="Center">Teilungsgruppen</CheckBox>
-      <Button Grid.Column="6" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+      <StackPanel Grid.Column="6" HorizontalAlignment="Left" Margin="6,0" Visibility="{Binding TeilungsgruppenBeachten, Converter={StaticResource BoolVisibleConverter}}">
+        <RadioButton IsChecked="{Binding NurTeilungsgruppeA}" FontSize="18">Gruppe A</RadioButton>
+        <RadioButton IsChecked="{Binding NurTeilungsgruppeB}" FontSize="18">Gruppe B</RadioButton>
+      </StackPanel>
+      <Button Grid.Column="7" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                     Command="{Binding Path=GruppenNeuEinteilenCommand}" 
                     ToolTip="Gruppen neu einteilen.">
         <fa:IconBlock Style="{StaticResource Würfel48}" VerticalAlignment="Center"/>
       </Button>
-      <Button Grid.Column="7" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+      <Button Grid.Column="8" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                     Command="{Binding Path=GruppenAusdruckenCommand}" 
                     ToolTip="Gruppen ausdrucken.">
         <fa:IconBlock Style="{StaticResource Drucken48}" VerticalAlignment="Center"/>
@@ -110,11 +115,11 @@
         </ItemsPanelTemplate>
       </ListBox.ItemsPanel>
     </ListBox>
-    <ListBox Grid.Row="3" ItemsSource="{Binding MetroGruppenView}" 
+    <ListBox Grid.Row="3" ItemsSource="{Binding GruppenView}" 
                  BorderThickness="0"
                  dd:DragDrop.IsDragSource="True" 
                  dd:DragDrop.IsDropTarget="True"
-                 dd:DragDrop.DragAdornerTemplate="{StaticResource SchülereintragDragAdorner}"
+                 dd:DragDrop.DragAdornerTemplate="{StaticResource SchülereintragViewModelDragAdorner}"
                  dd:DragDrop.DropHandler="{Binding}"
                  ItemContainerStyle="{StaticResource MahApps.Styles.ListBoxItem}"
                  Name="GruppenListBox">

@@ -27,6 +27,7 @@ namespace SoftTeach.Model.TeachyModel
         public double Breite { get; set; }
         public double Höhe { get; set; }
         public double Drehwinkel { get; set; }
+        public int Reihenfolge { get; set; }
     
         public virtual RaumplanNeu Raumplan { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

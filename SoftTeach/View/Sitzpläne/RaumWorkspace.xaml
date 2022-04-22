@@ -1,37 +1,90 @@
-﻿<Window x:Class="SoftTeach.View.Sitzpläne.RaumWorkspace"
-        xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:resources="clr-namespace:SoftTeach.Resources" xmlns:softTeach="clr-namespace:SoftTeach"
-        xmlns:personen2="clr-namespace:SoftTeach.View.Personen" xmlns:personen="clr-namespace:SoftTeach.ViewModel.Personen"
-        xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
-        xmlns:sitzpläne="clr-namespace:SoftTeach.ViewModel.Sitzpläne"
-        xmlns:sitzpläne1="clr-namespace:SoftTeach.View.Sitzpläne"
-        mc:Ignorable="d" 
-        Title="Datenbank - Räume"
-        Icon="/SoftTeach;component/Images/Database.ico"
-             d:DesignHeight="400" d:DesignWidth="800" WindowStyle="SingleBorderWindow">
+﻿<Window 
+  x:Class="SoftTeach.View.Sitzpläne.RaumWorkspace"
+  xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+  xmlns:softTeach="clr-namespace:SoftTeach"
+  xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
+  xmlns:sitzpläne="clr-namespace:SoftTeach.ViewModel.Sitzpläne"
+  xmlns:sitzpläneView="clr-namespace:SoftTeach.View.Sitzpläne"
+  mc:Ignorable="d" 
+  Title="Räume und Sitzpläne"
+  d:DesignHeight="400" d:DesignWidth="800" WindowStyle="SingleBorderWindow">
   <Window.Resources>
-    <DataTemplate DataType="{x:Type sitzpläne:RaumWorkspaceViewModel}">
-      <sitzpläne1:RaumWorkspaceView />
-    </DataTemplate>
   </Window.Resources>
-  <Grid Background="{StaticResource MainBackgroundBrush}">
+  <Grid>
     <Grid.RowDefinitions>
-      <RowDefinition Height="48"/>
+      <RowDefinition Height="Auto"/>
       <RowDefinition/>
       <RowDefinition Height="32"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader Grid.Row="0" Title="Das ist der Inhalt der Räume-Tabelle.">
+    <controls:SmallDialogHeader Grid.Row="0" Title="Hier werden Räume und Sitzpläne verwaltet.">
       <controls:SmallDialogHeader.IconContent>
-        <Grid>
+        <StackPanel Orientation="Horizontal">
           <fa:IconBlock Style="{StaticResource Raum48}" Foreground="{DynamicResource Iconfarbe}"/>
-        </Grid>
+          <fa:IconBlock Style="{StaticResource Sitzplan48}" Foreground="{DynamicResource Iconfarbe}"/>
+        </StackPanel>
       </controls:SmallDialogHeader.IconContent>
     </controls:SmallDialogHeader>
-    <ContentControl Grid.Row="1" Margin="5" Content="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=RaumWorkspace}"/>
+    <Grid Grid.Row="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="250"/>
+        <ColumnDefinition/>
+      </Grid.ColumnDefinitions>
+      <Grid Grid.Column="0">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+          </Grid.RowDefinitions>
+          <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddRaumCommand}" 
+                    ToolTip="Neuen Raum erstellen">
+              <StackPanel Orientation="Horizontal">
+                <Grid>
+                  <fa:IconBlock Style="{StaticResource Raum32}"/>
+                  <fa:IconBlock Style="{StaticResource AddOverlay32}"/>
+                </Grid>
+              </StackPanel>
+            </Button>
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                    Command="{Binding Path=DeleteRaumCommand}" 
+                    ToolTip="Aktuellen Raum löschen.">
+              <StackPanel Orientation="Horizontal">
+                <Grid>
+                  <fa:IconBlock Style="{StaticResource Raum32}"/>
+                  <fa:IconBlock Style="{StaticResource RemoveOverlay32}"/>
+                </Grid>
+              </StackPanel>
+            </Button>
+          </StackPanel>
+          <DataGrid Grid.Row="1"  Margin="5" SelectedItem="{Binding Path=CurrentRaum, Mode=TwoWay}" 
+                    IsReadOnly="True"
+                    ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Räume}" AutoGenerateColumns="False" >
+            <DataGrid.Columns>
+              <DataGridTextColumn Header="Raumbezeichnung" Binding="{Binding Path=RaumBezeichnung}" Width="Auto"
+                                  SortMemberPath="RaumBezeichnung" IsReadOnly="True"/>
+
+            </DataGrid.Columns>
+          </DataGrid>
+        </Grid>
+      </Grid>
+      <Grid Grid.Column="1">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ContentControl Grid.Row="1" Content="{Binding Path=CurrentRaum}">
+          <ContentControl.Resources>
+            <DataTemplate DataType="{x:Type sitzpläne:RaumViewModel}">
+              <sitzpläneView:RaumDetailView />
+            </DataTemplate>
+          </ContentControl.Resources>
+        </ContentControl>
+      </Grid>
+    </Grid>
     <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
       <Button Name="OK" Width="80" Margin="3" IsDefault="True" Click="OKClick">OK</Button>
     </StackPanel>

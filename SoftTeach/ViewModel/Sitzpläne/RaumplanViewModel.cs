@@ -5,12 +5,14 @@
   using System.Collections.Specialized;
   using System.IO;
   using System.Linq;
+  using System.Windows.Controls;
   using System.Windows.Media;
   using System.Windows.Media.Imaging;
   using System.Windows.Shapes;
   using Microsoft.Win32;
   using SoftTeach.ExceptionHandling;
   using SoftTeach.Model.TeachyModel;
+  using SoftTeach.Resources.Controls;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Sitzpläne;
   using SoftTeach.ViewModel.Helper;
@@ -55,11 +57,18 @@
 
       // Build data structures for phasen
       this.Sitzplätze = new ObservableCollection<SitzplatzViewModel>();
+
       foreach (var sitzplatz in raumplan.Sitzplätze)
       {
         var vm = new SitzplatzViewModel(sitzplatz);
         //App.MainViewModel.Sitzplätze.Add(vm);
         this.Sitzplätze.Add(vm);
+      }
+
+      // Alte Version hatte keine Sitzplatzkennzeichnungen
+      if (raumplan.Sitzplätze.All(o => o.Reihenfolge == 0))
+      {
+        SequencingService.SetCollectionSequence(this.Sitzplätze);
       }
 
       this.Sitzplätze.CollectionChanged += this.SitzplätzeCollectionChanged;
@@ -280,7 +289,7 @@
     /// <param name="left"> The left. </param>
     /// <param name="top"> The top. </param>
     /// <param name="shape"> The shape. </param>
-    public void AddSitzplatz(double left, double top, Rectangle shape)
+    public void AddSitzplatz(double left, double top, SitzplatzShape shape)
     {
       this.AddSitzplatz(left, top, shape.Width, shape.Height, ((RotateTransform)shape.RenderTransform).Angle);
     }
