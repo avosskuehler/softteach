@@ -204,6 +204,18 @@
     }
 
     /// <summary>
+    /// Holt einen String, der angibt, ob diese Person ein Schüler ist.
+    /// </summary>
+    [DependsUpon("PersonIstLehrer")]
+    public string PersonStatus
+    {
+      get
+      {
+        return this.PersonIstLehrer ? "Lehrer" : "Schüler";
+      }
+    }
+
+    /// <summary>
     /// Holt oder setzt die Geburtstag
     /// </summary>
     public DateTime? PersonGeburtstag

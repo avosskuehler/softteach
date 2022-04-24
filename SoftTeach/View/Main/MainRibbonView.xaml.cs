@@ -183,7 +183,7 @@
 
     #region Stundenentwürfe
 
-     /// <summary>
+    /// <summary>
     /// Event handler for the Dateiverweis button in the ribbon section database, ribbon group Stundenentwürfe.
     /// Shows a workspace for Dateiverweise.
     /// </summary>
@@ -257,10 +257,37 @@
     /// </summary>
     /// <param name="sender">Source of the event</param>
     /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void StundenpläneButtonClick(object sender, RoutedEventArgs e)
+    private void StundenplanButtonClick(object sender, RoutedEventArgs e)
     {
-      var stundenpläneView = new Datenbank.StundenplanWorkspaceView();
+      var stundenpläneView = new ShowStundenplanDialog();
       stundenpläneView.ShowDialog();
+    }
+
+    private void NeuerStundenplanButtonClick(object sender, RoutedEventArgs e)
+    {
+      var dlg = new AskForSchuljahr();
+      if (dlg.ShowDialog().GetValueOrDefault(false))
+      {
+        bool undo;
+        using (new UndoBatch(App.MainViewModel, string.Format("Stundenplan angelegt."), false))
+        {
+          // Neuen Stundenplan anlegen
+          App.MainViewModel.StundenplanWorkspace.AddStundenplan(dlg.Schuljahr, dlg.Halbjahr, dlg.GültigAb);
+          var stundenplanView = new EditStundenplanDialog(App.MainViewModel.StundenplanWorkspace.CurrentStundenplan);
+          undo = !stundenplanView.ShowDialog().GetValueOrDefault(false);
+        }
+
+        if (undo)
+        {
+          App.MainViewModel.ExecuteUndoCommand();
+        }
+      }
+    }
+
+    private void StundenplanÄnderungButtonClick(object sender, RoutedEventArgs e)
+    {
+      var aktuellerStundenplan = App.MainViewModel.StundenplanWorkspace.GetAktuellenStundenplan();
+      App.MainViewModel.StundenplanWorkspace.AddStundenplanÄnderung(aktuellerStundenplan);
     }
 
     #endregion // Stundenplan
@@ -279,33 +306,33 @@
       schülerlisteView.ShowDialog();
     }
 
-    /// <summary>
-    /// Event handler for the Schülereintrag button in the ribbon section database, ribbon group Personen.
-    /// Shows a workspace for Schülereinträge.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void SchülereintragButtonClick(object sender, RoutedEventArgs e)
-    {
-      var schülereintragView = new SchülereintragWorkspace();
-      schülereintragView.ShowDialog();
-    }
+    ///// <summary>
+    ///// Event handler for the Schülereintrag button in the ribbon section database, ribbon group Personen.
+    ///// Shows a workspace for Schülereinträge.
+    ///// </summary>
+    ///// <param name="sender">Source of the event</param>
+    ///// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
+    //private void SchülereintragButtonClick(object sender, RoutedEventArgs e)
+    //{
+    //  var schülereintragView = new SchülereintragWorkspace();
+    //  schülereintragView.ShowDialog();
+    //}
 
     #endregion // Personen
 
     #region Noten
 
-    /// <summary>
-    /// Event handler for the Noten button in the ribbon section database, ribbon group Noten.
-    /// Shows a workspace for Noten (which are Schülereinträge).
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void NotenButtonClick(object sender, RoutedEventArgs e)
-    {
-      var schülereintragView = new SchülereintragWorkspace();
-      schülereintragView.ShowDialog();
-    }
+    ///// <summary>
+    ///// Event handler for the Noten button in the ribbon section database, ribbon group Noten.
+    ///// Shows a workspace for Noten (which are Schülereinträge).
+    ///// </summary>
+    ///// <param name="sender">Source of the event</param>
+    ///// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
+    //private void NotenButtonClick(object sender, RoutedEventArgs e)
+    //{
+    //  var schülereintragView = new SchülereintragWorkspace();
+    //  schülereintragView.ShowDialog();
+    //}
 
     /// <summary>
     /// Event handler for the Bewertungsschemata button in the ribbon section database, ribbon group Noten.
@@ -360,7 +387,7 @@
       bool undo;
       using (new UndoBatch(App.MainViewModel, string.Format("Schultermine verändert"), false))
       {
-        var schultermineView = new AddSchulterminDialog();
+        var schultermineView = new SchulterminDialog();
         undo = !schultermineView.ShowDialog().GetValueOrDefault(false);
       }
 
@@ -382,39 +409,6 @@
       }
     }
 
-    private void NeuerStundenplanButtonClick(object sender, RoutedEventArgs e)
-    {
-      App.MainViewModel.LoadRäume();
-      var dlg = new AskForSchuljahr();
-      if (dlg.ShowDialog().GetValueOrDefault(false))
-      {
-        bool undo;
-        using (new UndoBatch(App.MainViewModel, string.Format("Stundenplan angelegt."), false))
-        {
-          var stundenplanView = new AddStundenplanDialog(dlg.Schuljahr, dlg.Halbjahr, dlg.GültigAb);
-          undo = !stundenplanView.ShowDialog().GetValueOrDefault(false);
-        }
-
-        if (undo)
-        {
-          App.MainViewModel.ExecuteUndoCommand();
-        }
-      }
-    }
-
-    private void StundenplanZeigenButtonClick(object sender, RoutedEventArgs e)
-    {
-      App.MainViewModel.LoadRäume();
-      var stundenplanView = new ShowStundenplanDialog();
-      stundenplanView.ShowDialog();
-    }
-
-    private void StundenplanÄnderungButtonClick(object sender, RoutedEventArgs e)
-    {
-      App.MainViewModel.LoadRäume();
-      var aktuellerStundenplan = App.MainViewModel.StundenplanWorkspace.GetAktuellenStundenplan();
-      App.MainViewModel.StundenplanWorkspace.AddStundenplanÄnderung(aktuellerStundenplan);
-    }
 
     #endregion // Ribbon
 
@@ -503,5 +497,21 @@
     {
       App.MainViewModel.LoadCurricula();
     }
+
+    private void TermintypenButtonClick(object sender, RoutedEventArgs e)
+    {
+
+    }
+
+    private void SozialformenButtonClick(object sender, RoutedEventArgs e)
+    {
+
+    }
+
+    private void MedienButtonClick(object sender, RoutedEventArgs e)
+    {
+
+    }
+
   }
 }

@@ -27,6 +27,11 @@
       <x:Type TypeName="Data:Termintyp"/>
     </ObjectDataProvider.MethodParameters>
   </ObjectDataProvider>
+  <ObjectDataProvider x:Key="Geschlecht" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+    <ObjectDataProvider.MethodParameters>
+      <x:Type TypeName="Data:Geschlecht"/>
+    </ObjectDataProvider.MethodParameters>
+  </ObjectDataProvider>
 
 
 </ResourceDictionary>

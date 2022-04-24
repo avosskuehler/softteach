@@ -121,7 +121,7 @@
       this.Schultermine = new ObservableCollection<SchulterminViewModel>();
       //this.Lerngruppentermine = new ObservableCollection<LerngruppenterminViewModel>();
       //this.Stunden = new ObservableCollection<StundeViewModel>();
-      this.BetroffeneKlassen = new ObservableCollection<BetroffeneLerngruppeViewModel>();
+      //this.BetroffeneKlassen = new ObservableCollection<BetroffeneLerngruppeViewModel>();
 
       // The creation of the allJahrespläne includes the creation of the 
       // halbjahres/monats/tagesplan/stunde models
@@ -144,7 +144,7 @@
       // The creation of the alleStundenpläne includes the creation of
       // the Stundenplaneinträge models
       this.Stundenpläne = new ObservableCollection<StundenplanViewModel>();
-      this.Stundenplaneinträge = new ObservableCollection<StundenplaneintragViewModel>();
+      //this.Stundenplaneinträge = new ObservableCollection<StundenplaneintragViewModel>();
 
       this.SaveCommand = new DelegateCommand(this.SaveChanges);
       this.ShowOptionsCommand = new DelegateCommand(this.ShowOptions);
@@ -263,10 +263,10 @@
     /// </summary>
     public ObservableCollection<SchulterminViewModel> Schultermine { get; private set; }
 
-    /// <summary>
-    /// Holt alle BetroffeneKlassen der Datenbank
-    /// </summary>
-    public ObservableCollection<BetroffeneLerngruppeViewModel> BetroffeneKlassen { get; private set; }
+    ///// <summary>
+    ///// Holt alle BetroffeneKlassen der Datenbank
+    ///// </summary>
+    //public ObservableCollection<BetroffeneLerngruppeViewModel> BetroffeneKlassen { get; private set; }
 
 
     ///// <summary>
@@ -311,10 +311,10 @@
     /// </summary>
     public ObservableCollection<StundenplanViewModel> Stundenpläne { get; private set; }
 
-    /// <summary>
-    /// Holt alle Stundenplaneinträge der Datenbank
-    /// </summary>
-    public ObservableCollection<StundenplaneintragViewModel> Stundenplaneinträge { get; private set; }
+    ///// <summary>
+    ///// Holt alle Stundenplaneinträge der Datenbank
+    ///// </summary>
+    //public ObservableCollection<StundenplaneintragViewModel> Stundenplaneinträge { get; private set; }
 
     /// <summary>
     /// Holt alle Personen der Datenbank
@@ -627,7 +627,6 @@
         return this.raumWorkspace;
       }
     }
-
 
     /// <summary>
     /// Holt das Modul zur Bearbeitung von Sitzplänen.
@@ -1050,7 +1049,7 @@
         this.Schultermine.CollectionChanged += this.SchultermineCollectionChanged;
         //this.Stunden.CollectionChanged += this.StundenCollectionChanged;
         //this.Lerngruppentermine.CollectionChanged += this.LerngruppentermineCollectionChanged;
-        this.BetroffeneKlassen.CollectionChanged += this.BetroffeneKlassenCollectionChanged;
+        //this.BetroffeneKlassen.CollectionChanged += this.BetroffeneKlassenCollectionChanged;
         this.Personen.CollectionChanged += this.PersonenCollectionChanged;
         //this.schülerlisten.CollectionChanged += this.LerngruppenCollectionChanged;
         //this.Schülereinträge.CollectionChanged += this.SchülereinträgeCollectionChanged;
@@ -1075,7 +1074,7 @@
         //this.Monatspläne.CollectionChanged += this.MonatspläneCollectionChanged;
         //this.Tagespläne.CollectionChanged += this.TagespläneCollectionChanged;
         this.Stundenpläne.CollectionChanged += this.StundenpläneCollectionChanged;
-        this.Stundenplaneinträge.CollectionChanged += this.StundenplaneinträgeCollectionChanged;
+        //this.Stundenplaneinträge.CollectionChanged += this.StundenplaneinträgeCollectionChanged;
 
         context.Configuration.AutoDetectChangesEnabled = true;
         ChangeFactory.Current.IsTracking = true;
@@ -2548,27 +2547,27 @@
     //  this.UndoableCollectionChanged(this, "Stunden", this.Stunden, e, "Änderung der Stunden");
     //}
 
-    /// <summary>
-    /// Tritt auf, wenn die LerngruppentermineCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void LerngruppentermineCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      //this.UndoableCollectionChanged(this, "Lerngruppentermine", this.Lerngruppentermine, e, "Änderung der Lerngruppentermine");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die LerngruppentermineCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void LerngruppentermineCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  //this.UndoableCollectionChanged(this, "Lerngruppentermine", this.Lerngruppentermine, e, "Änderung der Lerngruppentermine");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die BetroffeneKlassenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void BetroffeneKlassenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "BetroffeneKlassen", this.BetroffeneKlassen, e, "Änderung der BetroffeneKlassen");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die BetroffeneKlassenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void BetroffeneKlassenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "BetroffeneKlassen", this.BetroffeneKlassen, e, "Änderung der BetroffeneKlassen");
+    //}
 
     /// <summary>
     /// Tritt auf, wenn die PersonenCollection verändert wurde.
@@ -2779,16 +2778,16 @@
       this.UndoableCollectionChanged(this, "Stundenpläne", this.Stundenpläne, e, "Änderung der Stundenpläne");
     }
 
-    /// <summary>
-    /// Tritt auf, wenn die StundenplaneinträgeCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void StundenplaneinträgeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      this.UndoableCollectionChanged(this, "Stundenplaneinträge", this.Stundenplaneinträge, e, "Änderung der Stundenplaneinträge");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die StundenplaneinträgeCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void StundenplaneinträgeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  this.UndoableCollectionChanged(this, "Stundenplaneinträge", this.Stundenplaneinträge, e, "Änderung der Stundenplaneinträge");
+    //}
 
     #endregion
   }

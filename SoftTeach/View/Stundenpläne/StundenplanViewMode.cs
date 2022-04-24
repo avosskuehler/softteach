@@ -18,6 +18,12 @@ namespace SoftTeach.View.Stundenpläne
     /// The default view, with disabled edit and disabled drag drop,
     /// just view
     /// </summary>
+    None = 0,
+
+    /// <summary>
+    /// The default view, with disabled edit and disabled drag drop,
+    /// just view
+    /// </summary>
     Default = 1,
 
     /// <summary>

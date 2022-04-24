@@ -14,8 +14,14 @@
       <RowDefinition/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader Grid.Row="0" Title="Lerngruppentermin anlegen..."
-                                      Icon="/SoftTeach;component/Images/Lerngruppentermin32.png"/>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Lerngruppentermin anlegen...">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Lerngruppe48}" Foreground="{DynamicResource Iconfarbe}"/>
+          <fa:IconBlock Style="{StaticResource TerminOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
     <StackPanel Grid.Row="1" Margin="10">
       <TextBlock TextWrapping="Wrap">Bitte geben Sie eine Bezeichnung für den Termin ein, z.B. Wandertag, Cooper-Test etc.
       Bitte beachten Sie, dass dieser Termin nur für diese Lerngruppe gilt. Wenn Sie einen für mehrere Lerngruppen geltenden 

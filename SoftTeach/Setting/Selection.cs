@@ -137,6 +137,7 @@ namespace SoftTeach.Setting
 
       set
       {
+        if (this.schuljahr == value) return;
         this.schuljahr = value;
         this.OnPropertyChanged("Schuljahr");
       }

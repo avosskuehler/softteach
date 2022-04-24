@@ -14,17 +14,22 @@
       <RowDefinition/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader Grid.Row="0" Title="Für welches Schuljahr soll der Stundenplan gelten?"
-                                      Icon="/SoftTeach;component/Images/Stundenplan32.png"/>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Für welches Schuljahr soll der Stundenplan gelten?">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Schuljahr32}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
     <StackPanel Grid.Row="1" Margin="10">
       <TextBlock TextWrapping="Wrap">Bitte geben Sie Schuljahr und Halbjahr an, für das der neue Stundenplan gültig sein soll.</TextBlock>
       <StackPanel Orientation="Horizontal">
         <ComboBox Width="100" Margin="10"  Name="HalbjahrCombo" 
                   Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"
-                  ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Halbjahre}" SelectedValue="SchuljahrBezeichnung" SelectedValuePath="." DisplayMemberPath="HalbjahrBezeichnung"/>
+                  ItemsSource="{Binding Source={StaticResource Halbjahre}}"/>
         <ComboBox Width="100" Margin="10"  Name="SchuljahrCombo" 
                   Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"
-                  ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Schuljahre}" SelectedValue="SchuljahrBezeichnung" SelectedValuePath="." DisplayMemberPath="SchuljahrBezeichnung"/>
+                  ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Schuljahre}" SelectedValuePath="." DisplayMemberPath="SchuljahrBezeichnung"/>
       </StackPanel>
       <TextBlock TextWrapping="Wrap">Bitte geben Sie das Datum an, ab dem der neue Stundenplan gültig sein soll. 
         <LineBreak/>

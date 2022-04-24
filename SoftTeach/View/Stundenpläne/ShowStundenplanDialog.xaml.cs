@@ -24,18 +24,14 @@ namespace SoftTeach.View.Stundenpläne
   /// </summary>
   public partial class ShowStundenplanDialog
   {
-    #region Constructors and Destructors
-
     /// <summary>
     /// Initializes a new instance of the <see cref="ShowStundenplanDialog"/> class.
     /// </summary>
     public ShowStundenplanDialog()
     {
       this.InitializeComponent();
-      this.DataContext = App.MainViewModel;
+      this.DataContext = App.MainViewModel.StundenplanWorkspace;
     }
-
-    #endregion
 
     private void OkClick(object sender, RoutedEventArgs e)
     {

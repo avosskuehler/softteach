@@ -306,7 +306,7 @@
     //  }
     //}
 
-    private void KalenderErstellen()
+    public void KalenderErstellen()
     {
       this.TageHJ1.Clear();
       this.TageHJ2.Clear();

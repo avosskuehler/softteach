@@ -48,7 +48,6 @@ namespace SoftTeach.Model.TeachyModel
         public virtual DbSet<SequenzNeu> Sequenzen { get; set; }
         public virtual DbSet<SitzplaneintragNeu> Sitzplaneinträge { get; set; }
         public virtual DbSet<SitzplatzNeu> Sitzplätze { get; set; }
-        public virtual DbSet<StundenplanNeu> Stundenpläne { get; set; }
         public virtual DbSet<StundenplaneintragNeu> Stundenplaneinträge { get; set; }
         public virtual DbSet<TerminNeu> Termine { get; set; }
         public virtual DbSet<UnterrichtsstundeNeu> Unterrichtsstunden { get; set; }
@@ -59,5 +58,6 @@ namespace SoftTeach.Model.TeachyModel
         public virtual DbSet<SchuljahrNeu> Schuljahre { get; set; }
         public virtual DbSet<BetroffeneLerngruppeNeu> BetroffeneLerngruppen { get; set; }
         public virtual DbSet<NotenWichtungNeu> NotenWichtungen { get; set; }
+        public virtual DbSet<StundenplanNeu> Stundenpläne { get; set; }
     }
 }

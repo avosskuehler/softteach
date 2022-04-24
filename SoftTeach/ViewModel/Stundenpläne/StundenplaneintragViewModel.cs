@@ -181,10 +181,10 @@
           if (value.LerngruppeBezeichnung == this.lerngruppe.LerngruppeBezeichnung) return;
         }
 
-        this.UndoablePropertyChanging(this, "StundenplaneintragKlasse", this.lerngruppe, value);
+        this.UndoablePropertyChanging(this, "StundenplaneintragLerngruppe", this.lerngruppe, value);
         this.lerngruppe = value;
         this.Model.Lerngruppe = value.Model;
-        this.RaisePropertyChanged("StundenplaneintragKlasse");
+        this.RaisePropertyChanged("StundenplaneintragLerngruppe");
       }
     }
 

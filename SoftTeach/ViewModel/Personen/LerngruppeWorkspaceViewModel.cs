@@ -60,6 +60,8 @@
           this.CurrentLerngruppe = null;
         }
       };
+
+      this.SchuljahrFilter = Selection.Instance.Schuljahr;
     }
 
     /// <summary>
@@ -109,10 +111,8 @@
         this.RaisePropertyChanged("CurrentLerngruppe");
         this.DeleteLerngruppeCommand.RaiseCanExecuteChanged();
         this.MoveLerngruppeCommand.RaiseCanExecuteChanged();
-        if (this.currentLerngruppe != null)
+        if (this.currentLerngruppe != null && Configuration.Instance.IsMetroMode)
         {
-          this.currentLerngruppe.UpdateSort();
-
           switch (Configuration.Instance.NavigateTarget)
           {
             case NavigateTarget.Noten:
@@ -234,6 +234,7 @@
       neueLerngruppe.Schuljahr = dlg.Schuljahr.Model;
       neueLerngruppe.Fach = dlg.Fach.Model;
       neueLerngruppe.NotenWichtung = dlg.NotenWichtung.Model;
+      neueLerngruppe.Bepunktungstyp = dlg.Bepunktungstyp;
       var vm = new LerngruppeViewModel(neueLerngruppe);
       using (new UndoBatch(App.MainViewModel, string.Format("Neue Lerngruppe {0} angelegt.", vm), false))
       {

@@ -198,6 +198,13 @@
             <fa:IconBlock Style="{StaticResource Termin32}"/>
           </fluent:RibbonGroupBox.Icon>
           <fluent:Button 
+            Header="Schuljahre" 
+            Click="SchuljahreButtonClick">
+            <fluent:Button.LargeIcon>
+              <fa:IconBlock Style="{StaticResource Schuljahr32}"/>
+            </fluent:Button.LargeIcon>
+          </fluent:Button>
+          <fluent:Button 
             Header="Schultermine" 
             Click="SchultermineButtonClick">
             <fluent:Button.LargeIcon>
@@ -256,6 +263,17 @@
             <fa:IconBlock Style="{StaticResource Stundenplan32}"/>
           </fluent:RibbonGroupBox.Icon>
           <fluent:Button 
+            Header="Übersicht" 
+            Click="StundenplanButtonClick"
+            ToolTip="Stundenplan für neues Halbjahr">
+            <fluent:Button.LargeIcon>
+              <Grid>
+                <fa:IconBlock Style="{StaticResource Stundenplan32}"/>
+                <fa:IconBlock Style="{StaticResource SearchOverlay32}"/>
+              </Grid>
+            </fluent:Button.LargeIcon>
+          </fluent:Button>
+          <fluent:Button 
             Header="Neues Halbjahr" 
             Click="NeuerStundenplanButtonClick"
             ToolTip="Stundenplan für neues Halbjahr">
@@ -277,6 +295,20 @@
             </fluent:Button.LargeIcon>
           </fluent:Button>
         </fluent:RibbonGroupBox>
+      </fluent:RibbonTabItem>
+      <fluent:RibbonTabItem x:Name="DatenbankTab" Header="Einstellungen">
+        <fluent:RibbonGroupBox Header="Notengebung">
+          <fluent:RibbonGroupBox.Icon>
+            <fa:IconBlock Style="{StaticResource Note32}"/>
+          </fluent:RibbonGroupBox.Icon>
+          <fluent:Button Header="Bewertungsschemata" Click="BewertungsschemataButtonClick" ToolTip="Bewertungsschemata neu definieren">
+            <fluent:Button.LargeIcon>
+              <Grid>
+                <fa:IconBlock Style="{StaticResource Bewertungsschema32}"/>
+              </Grid>
+            </fluent:Button.LargeIcon>
+          </fluent:Button>
+        </fluent:RibbonGroupBox>
         <fluent:RibbonGroupBox Header="Sitzpläne">
           <fluent:RibbonGroupBox.Icon>
             <fa:IconBlock Style="{StaticResource Sitzplan32}"/>
@@ -292,49 +324,6 @@
             </fluent:Button.LargeIcon>
           </fluent:Button>
         </fluent:RibbonGroupBox>
-      </fluent:RibbonTabItem>
-      <fluent:RibbonTabItem x:Name="DatenbankTab" Header="Datenbank">
-        <fluent:RibbonGroupBox Header="Notengebung">
-          <fluent:RibbonGroupBox.Icon>
-            <fa:IconBlock Style="{StaticResource Note32}"/>
-          </fluent:RibbonGroupBox.Icon>
-          <fluent:Button Header="Bewertungsschemata" Click="BewertungsschemataButtonClick" ToolTip="Bewertungsschemata neu definieren">
-            <fluent:Button.LargeIcon>
-              <Grid>
-                <fa:IconBlock Style="{StaticResource Bewertungsschema32}"/>
-              </Grid>
-            </fluent:Button.LargeIcon>
-          </fluent:Button>
-        </fluent:RibbonGroupBox>
-        <!--<fluent:RibbonGroupBox Header="Planung">
-          <fluent:RibbonGroupBox.Icon>
-            <fa:IconBlock Style="{StaticResource Note32}"/>
-          </fluent:RibbonGroupBox.Icon>
-          -->
-        <!--<fluent:Button Header="Jahrespläne" Click="JahrespläneButtonClick">
-            <fluent:Button.LargeIcon>
-              <Grid>
-                <fa:IconBlock Style="{StaticResource Jahresplan32}"/>
-              </Grid>
-            </fluent:Button.LargeIcon>
-          </fluent:Button>-->
-        <!--<RibbonButton x:Name="HalbjahresplanButton"
-                               Label="Halbjahrespläne" 
-                               Click="HalbjahresplanButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Halbjahresplan32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Halbjahresplan16.png"/>
-          <RibbonButton x:Name="MonatsplanButton"
-                               Label="Monatspläne" 
-                               Click="MonatsplanButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Monatsplan32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Monatsplan16.png"/>
-          <RibbonButton x:Name="TagesplanButton"
-                               Label="Tagespläne" 
-                               Click="TagesplanButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Tagesplan32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Tagesplan16.png"/>-->
-        <!--
-        </fluent:RibbonGroupBox>-->
         <fluent:RibbonGroupBox Header="Stundenentwürfe">
           <fluent:RibbonGroupBox.Icon>
             <fa:IconBlock Style="{StaticResource Stundenentwurf32}"/>
@@ -346,13 +335,6 @@
               <fa:IconBlock Style="{StaticResource Modul32}"/>
             </fluent:Button.LargeIcon>
           </fluent:Button>
-          <!--<fluent:Button 
-            Header="Stundenentwürfe" 
-            Click="StundenentwuerfeButtonClick" >
-            <fluent:Button.LargeIcon>
-              <fa:IconBlock Style="{StaticResource Stundenentwurf32}"/>
-            </fluent:Button.LargeIcon>
-          </fluent:Button>-->
           <fluent:Button  
             Header="Dateiverweis" 
             Click="DateiverweisButtonClick">
@@ -360,6 +342,76 @@
               <Grid>
                 <fa:IconBlock Style="{StaticResource Datei32}"/>
                 <fa:IconBlock Style="{StaticResource VerweisOverlay32}"/>
+              </Grid>
+            </fluent:Button.LargeIcon>
+          </fluent:Button>
+        </fluent:RibbonGroupBox>
+        <fluent:RibbonGroupBox Header="Fächer">
+          <fluent:RibbonGroupBox.Icon>
+            <fa:IconBlock Style="{StaticResource Fach32}"/>
+          </fluent:RibbonGroupBox.Icon>
+          <fluent:Button 
+            Header="Fächer" Width="50"
+            Click="FächerButtonClick"
+            ToolTip="Fächer festlegen">
+            <fluent:Button.LargeIcon>
+              <Grid>
+                <fa:IconBlock Style="{StaticResource Fach32}"/>
+              </Grid>
+            </fluent:Button.LargeIcon>
+          </fluent:Button>
+          <fluent:Button 
+            Header="Fachstunden" Width="50"
+            Click="FachstundenButtonClick"
+            ToolTip="Fachstunden festlegen">
+            <fluent:Button.LargeIcon>
+              <Grid>
+                <fa:IconBlock Style="{StaticResource Fachstunden32}"/>
+              </Grid>
+            </fluent:Button.LargeIcon>
+          </fluent:Button>
+        </fluent:RibbonGroupBox>
+        <fluent:RibbonGroupBox Header="Einstellungen">
+          <fluent:RibbonGroupBox.Icon>
+            <fa:IconBlock Style="{StaticResource Medien32}"/>
+          </fluent:RibbonGroupBox.Icon>
+          <fluent:Button 
+            Header="Medien" Width="50"
+            Click="MedienButtonClick"
+            ToolTip="Medien festlegen">
+            <fluent:Button.LargeIcon>
+              <Grid>
+                <fa:IconBlock Style="{StaticResource Medien32}"/>
+              </Grid>
+            </fluent:Button.LargeIcon>
+          </fluent:Button>
+          <fluent:Button 
+            Header="Sozialformen" Width="50"
+            Click="SozialformenButtonClick"
+            ToolTip="Sozialformen festlegen">
+            <fluent:Button.LargeIcon>
+              <Grid>
+                <fa:IconBlock Style="{StaticResource Sozialformen32}"/>
+              </Grid>
+            </fluent:Button.LargeIcon>
+          </fluent:Button>
+          <fluent:Button 
+            Header="Dateitypen" Width="50"
+            Click="DateitypenButtonClick"
+            ToolTip="Dateitypen festlegen">
+            <fluent:Button.LargeIcon>
+              <Grid>
+                <fa:IconBlock Style="{StaticResource Dateityp32}"/>
+              </Grid>
+            </fluent:Button.LargeIcon>
+          </fluent:Button>
+          <fluent:Button 
+            Header="Termintypen" Width="50"
+            Click="TermintypenButtonClick"
+            ToolTip="Termintypen festlegen">
+            <fluent:Button.LargeIcon>
+              <Grid>
+                <fa:IconBlock Style="{StaticResource Termintypen32}"/>
               </Grid>
             </fluent:Button.LargeIcon>
           </fluent:Button>
@@ -390,96 +442,9 @@
                                SmallImageSource="/SoftTeach;component/Images/Sequenz16.png"/>
           </RibbonControlGroup>
           <RibbonSeparator/>
-          <RibbonControlGroup>
-            <RibbonButton x:Name="FächerButton"
-                               Label="Fächer" 
-                               Click="FächerButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Fach32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Fach16.png"/>
-            <RibbonButton x:Name="FachstundenButton"
-                               Label="Fachstunden" 
-                               Click="FachstundenButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Unterrichtsstunde32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Unterrichtsstunde16.png"/>
-          </RibbonControlGroup>
         </RibbonGroup>-->
-      <!--<RibbonControlGroup >
-          <RibbonButton x:Name="SchulwocheButton"
-                               Label="Schulwochen" 
-                               Click="SchulwocheButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Schulwoche32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Schulwoche16.png"/>
-          <RibbonButton x:Name="SchultagButton"
-                               Label="Schultage" 
-                               Click="SchultagButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Schultag32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Schultag16.png"/>
-        </RibbonControlGroup>-->
-      <!--         <RibbonSeparator></RibbonSeparator>
+       <!--         <RibbonSeparator></RibbonSeparator>
           <RibbonControlGroup>
-            <RibbonButton x:Name="MedienButton"
-                               Label="Medien" 
-                               Click="MedienButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Medium32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Medium16.png"/>
-            <RibbonButton x:Name="SozialformenButton"
-                               Label="Sozialformen" 
-                               Click="SozialformenButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Sozialform32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Sozialform16.png"/>
-            <RibbonButton x:Name="DateitypenButton"
-                               Label="Dateitypen" 
-                               Click="DateitypenButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Dateityp32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Dateityp16.png"/>
-          </RibbonControlGroup>
-        </RibbonGroup>
-        <RibbonGroup x:Name="DatenbankTermineGroup" Header="Termine"
-                            LargeImageSource="/SoftTeach;component/Images/Schultermin32.png"
-                            SmallImageSource="/SoftTeach;component/Images/Schultermin16.png">
-          <RibbonGroup.GroupSizeDefinitions>
-            <RibbonGroupSizeDefinition IsCollapsed="True"/>
-          </RibbonGroup.GroupSizeDefinitions>
-          <RibbonControlGroup>
-            <RibbonButton x:Name="TerminButton"
-                               Label="Termin" 
-                               Click="TerminButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Schultermin32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Schultermin16.png"/>
-            <RibbonButton x:Name="BetroffeneKlassenButton"
-                               Label="BetroffeneKlassen" 
-                               Click="BetroffeneKlassenButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Klasse32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Klasse16.png"/>
-            <RibbonButton x:Name="FerienButton"
-                               Label="Ferien" 
-                               Click="FerienButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Ferien32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Ferien16.png"/>
-          </RibbonControlGroup>
-          <RibbonSeparator></RibbonSeparator>
-          <RibbonControlGroup>
-            <RibbonButton x:Name="TermintypenButton"
-                               Label="Termintypen" 
-                               Click="TermintypenButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Termintyp32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Termintyp16.png"/>
-            <RibbonButton x:Name="SchuljahreButton"
-                               Label="Schuljahre" 
-                               Click="SchuljahreButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Schuljahr32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Schuljahr16.png"/>
-            <RibbonButton x:Name="HalbjahrButton"
-                               Label="Halbjahre" 
-                               Click="HalbjahrButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Halbjahre32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Halbjahre16.png"/>
-            <RibbonButton x:Name="MonatstypButton"
-                               Label="Monatstypen" 
-                               Click="MonatstypButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Monatsplan32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Monatsplan16.png"/>
-          </RibbonControlGroup>
         </RibbonGroup>
         <RibbonGroup x:Name="DatenbankStundenplanGroup" Header="Stundenpläne"
                             LargeImageSource="/SoftTeach;component/Images/Stundenplan32.png"
@@ -508,13 +473,6 @@
                                SmallImageSource="/SoftTeach;component/Images/StundenplanZeigen16.png"/>
           </RibbonControlGroup>
           <RibbonSeparator/>
-          <RibbonControlGroup>
-            <RibbonButton x:Name="UnterrichtsstundenButton"
-                               Label="Unterrichtsstunden" 
-                               Click="UnterrichtsstundenButtonClick" 
-                               LargeImageSource="/SoftTeach;component/Images/Unterrichtsstunde32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Unterrichtsstunde16.png"/>
-          </RibbonControlGroup>
         </RibbonGroup>
         <RibbonGroup x:Name="DatenbankPersonenGroup" Header="Personen"
                             LargeImageSource="/SoftTeach;component/Images/Person32.png"
@@ -588,16 +546,7 @@
                                Click="ErgebnisseButtonClick"
                                LargeImageSource="/SoftTeach;component/Images/Ergebnis32.png"
                                SmallImageSource="/SoftTeach;component/Images/Ergebnis16.png"/>
-          </RibbonControlGroup>
-          <RibbonSeparator/>
-          <RibbonSeparator/>
-          <RibbonControlGroup>
-            <RibbonButton x:Name="RäumeButton"
-                               Label="Räume" 
-                               Click="RäumeDBButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Raum32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Raum16.png"/>
-          </RibbonControlGroup>
+
         </RibbonGroup>
       </RibbonTab>-->
       <fluent:RibbonTabItem x:Name="ToolsTab" Header="Tools">

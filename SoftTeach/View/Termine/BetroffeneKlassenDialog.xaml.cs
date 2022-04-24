@@ -1,9 +1,11 @@
 ﻿namespace SoftTeach.View.Termine
 {
+  using System.Collections.Generic;
   using System.Collections.ObjectModel;
+  using System.ComponentModel;
   using System.Windows;
   using System.Windows.Controls;
-
+  using System.Windows.Data;
   using System.Windows.Media;
 
   using SoftTeach.ViewModel.Datenbank;
@@ -17,28 +19,72 @@
     /// <summary>
     /// Initializes a new instance of the <see cref="BetroffeneKlassenDialog"/> class.
     /// </summary>
-    public BetroffeneKlassenDialog()
+    public BetroffeneKlassenDialog(SchuljahrViewModel schuljahr)
     {
       this.InitializeComponent();
-      this.Klassen = new ObservableCollection<LerngruppeViewModel>();
+      this.DataContext = this;
+      this.Schuljahr = schuljahr;
+      App.MainViewModel.LoadLerngruppen();
+
+      this.Lerngruppen = new List<LerngruppenVorlage>();
+      foreach (var lerngruppe in App.MainViewModel.Lerngruppen)
+      {
+        this.Lerngruppen.Add(new LerngruppenVorlage(lerngruppe.Model));
+      }
+
+      this.LerngruppenViewSource = new CollectionViewSource() { Source = this.Lerngruppen };
+      using (this.LerngruppenViewSource.DeferRefresh())
+      {
+        this.LerngruppenViewSource.Filter += this.LerngruppenViewSource_Filter;
+        this.LerngruppenViewSource.SortDescriptions.Add(new SortDescription("LerngruppeFach.FachBezeichnung", System.ComponentModel.ListSortDirection.Ascending));
+        this.LerngruppenViewSource.SortDescriptions.Add(new SortDescription("LerngruppeSchuljahr.SchuljahrJahr", ListSortDirection.Ascending));
+        this.LerngruppenViewSource.SortDescriptions.Add(new SortDescription("LerngruppeJahrgang", ListSortDirection.Ascending));
+      }
     }
 
     /// <summary>
-    /// Holt oder setzt die collection of selected <see cref="Klassen"/>
+    /// Holt oder setzt die JahrespläneViewSource
     /// </summary>
-    public ObservableCollection<LerngruppeViewModel> Klassen { get; set; }
+    public List<LerngruppenVorlage> Lerngruppen { get; set; }
 
     /// <summary>
-    /// Der event handler für den OK und Ja Button. Setzt DialogResult=true
-    /// und beendet den Dialog.
+    /// Holt oder setzt die JahrespläneViewSource
     /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An empty <see cref="RoutedEventArgs"/></param>
-    private void SaveButtonClick(object sender, RoutedEventArgs e)
+    public CollectionViewSource LerngruppenViewSource { get; set; }
+
+    /// <summary>
+    /// Holt oder setzt ein gefiltertes View der Lerngruppen
+    /// </summary>
+    public ICollectionView LerngruppenView => this.LerngruppenViewSource.View;
+
+
+    public SchuljahrViewModel Schuljahr { get; set; }
+
+    /// <summary>
+    /// Filtert die Lerngruppen nach Schuljahr und Termintyp
+    /// </summary>
+    /// <param name="item">Die Lerngruppe, das gefiltert werden soll</param>
+    /// <returns>True, wenn das Objekt in der Liste bleiben soll.</returns>
+    private void LerngruppenViewSource_Filter(object sender, FilterEventArgs e)
     {
-      this.DialogResult = true;
-      this.SetKlassenCollection();
-      this.Close();
+      var lerngruppeViewModel = e.Item as LerngruppenVorlage;
+      if (lerngruppeViewModel == null)
+      {
+        e.Accepted = false;
+        return;
+      }
+
+      if (this.Schuljahr != null)
+      {
+        if (lerngruppeViewModel.LerngruppeSchuljahr.SchuljahrBezeichnung != this.Schuljahr.SchuljahrBezeichnung)
+        {
+          e.Accepted = false;
+          return;
+        }
+      }
+
+      e.Accepted = true;
+      return;
     }
 
     /// <summary>
@@ -53,120 +99,21 @@
       this.Close();
     }
 
-    private void Window_Loaded(object sender, RoutedEventArgs e)
+    private void AusgewählteButtonClick(object sender, RoutedEventArgs e)
     {
-      int jahrgangsstufenCount = App.MainViewModel.Jahrgänge.Count;
-      this.Lerngruppengrid.Columns = jahrgangsstufenCount;
-      for (int i = 0; i < jahrgangsstufenCount; i++)
-      {
-        var jahrgangsstufe = App.MainViewModel.Jahrgänge[i];
-        var jahrgangsGroup = new GroupBox();
-        var jahrgang = jahrgangsstufe;
-        jahrgangsGroup.Header = jahrgang;
-
-        var panel = new StackPanel();
-        jahrgangsGroup.Content = panel;
-
-        var alleCheckBox = new CheckBox();
-        if (this.Klassen.Count == 0)
-        {
-          alleCheckBox.IsChecked = true;
-        }
-
-        alleCheckBox.Content = "Alle";
-        alleCheckBox.Checked += this.CheckBoxChecked;
-        alleCheckBox.Unchecked += this.CheckBoxUnchecked;
-        panel.Children.Add(alleCheckBox);
-        var separator = new Border()
-          {
-            Height = 4,
-            Margin = new Thickness(0, 0, 0, 2),
-            BorderBrush = Brushes.DarkGray,
-            BorderThickness = new Thickness(0, 0, 0, 2)
-          };
-
-        panel.Children.Add(separator);
-
-        //TODO
-        //foreach (var klassenstufe in jahrgangsstufe.Klassenstufen)
-        //{
-        //  foreach (var klasse in klassenstufe.Klassen)
-        //  {
-        //    var chb = new CheckBox
-        //    {
-        //      Content = klasse.KlasseBezeichnung,
-        //      Tag = klasse
-        //    };
-
-        //    foreach (var ausgewählteKlasse in this.Klassen)
-        //    {
-        //      if (ausgewählteKlasse.LerngruppeBezeichnung == klasse.KlasseBezeichnung)
-        //      {
-        //        chb.IsChecked = true;
-        //        break;
-        //      }
-        //    }
-
-        //    if (this.Klassen.Count == 0)
-        //    {
-        //      chb.IsChecked = true;
-        //    }
-
-        //    panel.Children.Add(chb);
-        //  }
-        //}
-
-        this.Lerngruppengrid.Children.Add(jahrgangsGroup);
-      }
+      this.DialogResult = true;
+      this.Close();
     }
 
-    private void CheckBoxChecked(object sender, RoutedEventArgs e)
+    private void AlleButtonClick(object sender, RoutedEventArgs e)
     {
-      var senderCheckBox = sender as CheckBox;
-      var parent = senderCheckBox.Parent as StackPanel;
-      foreach (var box in parent.Children)
+      foreach (var lg in this.Lerngruppen)
       {
-        var checkBox = box as CheckBox;
-        if (checkBox != null && box != senderCheckBox)
-        {
-          checkBox.IsChecked = true;
-        }
+        lg.IstBetroffen = true;
       }
-    }
 
-    private void CheckBoxUnchecked(object sender, RoutedEventArgs e)
-    {
-      var senderCheckBox = sender as CheckBox;
-      var parent = senderCheckBox.Parent as StackPanel;
-      foreach (var box in parent.Children)
-      {
-        var checkBox = box as CheckBox;
-        if (checkBox != null && box != senderCheckBox)
-        {
-          checkBox.IsChecked = false;
-        }
-      }
-    }
-
-    /// <summary>
-    /// Creates the collection of klassen the dialogs checkboxes are selected.
-    /// </summary>
-    private void SetKlassenCollection()
-    {
-      this.Klassen.Clear();
-      foreach (var children in this.Lerngruppengrid.Children)
-      {
-        var groupBox = children as GroupBox;
-        var panel = groupBox.Content as StackPanel;
-        foreach (var child in panel.Children)
-        {
-          var checkbox = child as CheckBox;
-          if (checkbox != null && checkbox.Tag != null && checkbox.IsChecked.GetValueOrDefault())
-          {
-            this.Klassen.Add(checkbox.Tag as LerngruppeViewModel);
-          }
-        }
-      }
+      this.DialogResult = true;
+      this.Close();
     }
   }
 }

@@ -114,7 +114,7 @@
     [DependsUpon("IsShowingSchüler")]
     public string PersonenÜberschrift
     {
-      get { return this.IsShowingSchüler ? "Lerngruppe" : "Lehrerliste"; }
+      get { return this.IsShowingSchüler ? "Schülerliste" : "Lehrerliste"; }
     }
 
     /// <summary>

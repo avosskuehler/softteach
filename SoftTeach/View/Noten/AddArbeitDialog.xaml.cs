@@ -18,9 +18,10 @@
 namespace SoftTeach.View.Noten
 {
   using System;
+  using System.ComponentModel;
   using System.Linq;
   using System.Windows;
-
+  using System.Windows.Data;
   using SoftTeach.ExceptionHandling;
   using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
@@ -33,83 +34,31 @@ namespace SoftTeach.View.Noten
   /// </summary>
   public partial class AddArbeitDialog
   {
+    private SchuljahrViewModel schuljahr;
+
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="AddArbeitDialog"/> Klasse. 
     /// </summary>
     public AddArbeitDialog()
     {
       this.InitializeComponent();
-      this.DataContext = this;
-      this.Lerngruppe = Selection.Instance.Lerngruppe;
-      this.Schuljahr = Selection.Instance.Schuljahr;
-      this.Halbjahr = Selection.Instance.Halbjahr;
-      this.Fach = Selection.Instance.Fach;
-      this.Bepunktungstyp = Bepunktungstyp.NoteMitTendenz;
-      this.Bewertungsschema = App.MainViewModel.Bewertungsschemata[0];
-      this.Bezeichnung = "Neue Arbeit";
-      this.Datum = DateTime.Now;
-      this.IstKlausur = true;
     }
-
-    /// <summary>
-    /// Holt oder setzt die Klasse für die Arbeit
-    /// </summary>
-    public LerngruppeViewModel Lerngruppe { get; set; }
-
-    /// <summary>
-    /// Holt oder setzt den Schuljahr für die Arbeit
-    /// </summary>
-    public SchuljahrViewModel Schuljahr { get; set; }
-
-    /// <summary>
-    /// Holt oder setzt den Halbjahr für die Arbeit
-    /// </summary>
-    public Halbjahr Halbjahr { get; set; }
-
-    /// <summary>
-    /// Holt oder setzt das Fach für die Arbeit
-    /// </summary>
-    public FachViewModel Fach { get; set; }
-
-    /// <summary>
-    /// Holt oder setzt den Bepunktungstyp für die Arbeit
-    /// </summary>
-    public Bepunktungstyp Bepunktungstyp { get; set; }
-
-    /// <summary>
-    /// Holt oder setzt das Bewertungsschema für die Arbeit
-    /// </summary>
-    public BewertungsschemaViewModel Bewertungsschema { get; set; }
-
-    /// <summary>
-    /// Holt oder setzt die Bezeichnung der Arbeit
-    /// </summary>
-    public string Bezeichnung { get; set; }
-
-    /// <summary>
-    /// Holt oder setzt das Datum für die Arbeit
-    /// </summary>
-    public DateTime Datum { get; set; }
-
-    /// <summary>
-    /// Holt oder setzt einen Wert, der angibt, ob die Arbeit eine Klausur ist.
-    /// </summary>
-    public bool IstKlausur { get; set; }
 
     /// <summary> The ok click. </summary>
     /// <param name="sender"> The sender. </param>
     /// <param name="e"> The e. </param>
     private void OkClick(object sender, RoutedEventArgs e)
     {
+      var workspace = this.DataContext as AddArbeitWorkspaceViewModel;
+
       // Doppelte Arbeiten zum selben Termin vermeiden.
       if (App.MainViewModel.Arbeiten.Any(
           o =>
-          o.ArbeitLerngruppe.LerngruppeSchuljahr.SchuljahrBezeichnung == this.Schuljahr.SchuljahrBezeichnung
-          && o.ArbeitLerngruppe.LerngruppeBezeichnung == this.Lerngruppe.LerngruppeBezeichnung
-          && o.ArbeitFach.FachBezeichnung == this.Fach.FachBezeichnung && o.ArbeitDatum.Date == this.Datum.Date))
+          o.ArbeitLerngruppe.LerngruppeSchuljahr.SchuljahrBezeichnung == workspace.Lerngruppe.LerngruppeSchuljahr.SchuljahrBezeichnung
+          && o.ArbeitLerngruppe.LerngruppeBezeichnung == workspace.Lerngruppe.LerngruppeBezeichnung
+          && o.ArbeitFach.FachBezeichnung == workspace.Lerngruppe.LerngruppeFach.FachBezeichnung && o.ArbeitDatum.Date == workspace.Datum.Date))
       {
-        var message = "Eine Arbeit der Klasse " + this.Lerngruppe.LerngruppeBezeichnung + " im Fach "
-                      + this.Fach.FachBezeichnung + " ist am " + this.Datum.Date.ToShortDateString() + " bereits in der Datenbank angelegt.";
+        var message = "Eine Arbeit der Lerngruppe " + workspace.Lerngruppe.LerngruppeKurzbezeichnung + " ist am " + workspace.Datum.Date.ToShortDateString() + " bereits in der Datenbank angelegt.";
 
         var dlg = new InformationDialog("Arbeit schon angelegt.", message, false);
         dlg.ShowDialog();

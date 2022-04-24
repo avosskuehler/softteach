@@ -193,4 +193,59 @@
     </Style.Triggers>
   </Style>
 
+  <Style x:Key="DefaultViewColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
+    <!--<Setter Property="BorderBrush" Value="LightGray"/>-->
+    <Setter Property="SnapsToDevicePixels" Value="True"/>
+    <Setter Property="BorderThickness" Value="0,0,1,1"/>
+    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    <!--<Setter Property="Background" Value="White"/>
+    <Setter Property="Foreground" Value="Black"/>-->
+    <!--<Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+          <Grid Background="{TemplateBinding Background}">
+            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>-->
+  </Style>
+
+  <Style x:Key="DefaultViewRowHeaderStyle" TargetType="{x:Type DataGridRowHeader}">
+    <!--<Setter Property="BorderBrush" Value="LightGray"/>-->
+    <Setter Property="SnapsToDevicePixels" Value="True"/>
+    <!--<Setter Property="BorderThickness" Value="1"/>-->
+    <!--<Setter Property="Background" Value="White"/>
+    <Setter Property="Foreground" Value="Black"/>-->
+  </Style>
+
+  <Style x:Key="DefaultViewCellStyle" TargetType="{x:Type DataGridCell}">
+    <Setter Property="BorderBrush" Value="LightGray"/>
+    <Setter Property="SnapsToDevicePixels" Value="True"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <!--<Setter Property="Background" Value="White"/>
+    <Setter Property="Foreground" Value="Black" />-->
+    <Setter Property="VerticalAlignment" Value="Stretch" />
+    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+  </Style>
+
+
+  <Style TargetType="{x:Type DataGrid}" x:Key="DefaultViewDataGridStyle">
+    <Setter Property="BorderBrush" Value="LightGray"/>
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="SnapsToDevicePixels" Value="True"/>
+    <Setter Property="Background" Value="White"/>
+    <Setter Property="HorizontalGridLinesBrush" Value="LightGray" />
+    <Setter Property="VerticalGridLinesBrush" Value="LightGray" />
+    <Setter Property="ColumnHeaderStyle" Value="{StaticResource DefaultViewColumnHeaderStyle}"/>
+    <Setter Property="RowHeaderStyle" Value="{StaticResource DefaultViewRowHeaderStyle}"/>
+    <Setter Property="CellStyle" Value="{StaticResource DefaultViewCellStyle}"/>
+    <Setter Property="HeadersVisibility" Value="Column"/>
+    <Setter Property="RowDetailsVisibilityMode" Value="Visible" />
+    <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
+    <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+    <Setter Property="AutoGenerateColumns" Value="False"/>
+
+  </Style>
+
 </ResourceDictionary>

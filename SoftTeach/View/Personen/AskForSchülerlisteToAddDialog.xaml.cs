@@ -37,11 +37,12 @@ namespace SoftTeach.View.Personen
     {
       this.InitializeComponent();
       this.DataContext = this;
-      this.Halbjahr = Selection.Instance.Halbjahr;
       this.Schuljahr = Selection.Instance.Schuljahr;
       this.Jahrgang = Selection.Instance.Jahrgang;
       this.Fach = Selection.Instance.Fach;
       this.NotenWichtung = App.MainViewModel.NotenWichtungen.FirstOrDefault();
+      this.Bepunktungstyp = Bepunktungstyp.NoteMitTendenz;
+      this.Bezeichnung = "neue Lerngruppe";
     }
 
     #endregion
@@ -50,11 +51,6 @@ namespace SoftTeach.View.Personen
     /// Holt oder setzt das Schuljahr für die Lerngruppe
     /// </summary>
     public SchuljahrViewModel Schuljahr { get; set; }
-
-    /// <summary>
-    /// Holt oder setzt das Halbjahr für die Lerngruppe
-    /// </summary>
-    public Halbjahr Halbjahr { get; set; }
 
     /// <summary>
     /// Holt oder setzt die Bezeichnung für die Lerngruppe
@@ -75,6 +71,11 @@ namespace SoftTeach.View.Personen
     /// Holt oder setzt die NotenWichtung für die Lerngruppe
     /// </summary>
     public NotenWichtungViewModel NotenWichtung { get; set; }
+
+    /// <summary>
+    /// Holt oder setzt den Bepunktungstyp für die Lerngruppe
+    /// </summary>
+    public Bepunktungstyp Bepunktungstyp { get; set; }
 
     private void OkClick(object sender, RoutedEventArgs e)
     {

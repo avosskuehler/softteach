@@ -10,7 +10,7 @@ namespace SoftTeach.Model.TeachyModel
   {
     public override string ToString()
     {
-      return string.Format("{0} - {1} {2}", this.Schuljahr.Bezeichnung, this.Bezeichnung, this.Fach.Bezeichnung);
+      return string.Format("{0} - {1} {2}", this.Schuljahr != null ? this.Schuljahr.Bezeichnung : "Jahr unbekannt", this.Bezeichnung, this.Fach != null ? this.Fach.Bezeichnung : "Fach unbekannt");
     }
   }
 }

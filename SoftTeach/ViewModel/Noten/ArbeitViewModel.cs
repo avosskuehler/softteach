@@ -70,11 +70,6 @@
     private SchuljahrViewModel schuljahr;
 
     /// <summary>
-    /// The schuljahr currently assigned to this arbeit
-    /// </summary>
-    private Halbjahr halbschuljahr;
-
-    /// <summary>
     /// The klasse currently assigned to this arbeit
     /// </summary>
     private LerngruppeViewModel lerngruppe;

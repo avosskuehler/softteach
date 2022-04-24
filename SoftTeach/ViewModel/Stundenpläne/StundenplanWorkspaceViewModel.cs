@@ -38,6 +38,8 @@
           this.CurrentStundenplan = null;
         }
       };
+
+      App.MainViewModel.LoadRäume();
     }
 
     /// <summary>
@@ -70,9 +72,10 @@
         this.currentStundenplan = value;
         if (value != null)
         {
-          this.currentStundenplan.ViewMode = StundenplanViewMode.Edit;
+          UiServices.SetBusyState();
+          this.currentStundenplan.ViewMode = StundenplanViewMode.Default;
+          Selection.Instance.Schuljahr = this.currentStundenplan.StundenplanSchuljahr;
         }
-
         this.RaisePropertyChanged("CurrentStundenplan");
         this.DeleteStundenplanCommand.RaiseCanExecuteChanged();
         this.EditStundenplanCommand.RaiseCanExecuteChanged();
@@ -135,7 +138,7 @@
         var stundenplan = (StundenplanViewModel)stundenplanViewModel.Clone();
         stundenplan.StundenplanGültigAb = dateDialog.GültigAb;
 
-        var dlg = new AddStundenplanÄnderungDialog(stundenplan);
+        var dlg = new EditStundenplanDialog(stundenplan);
         if (!(undo = !dlg.ShowDialog().GetValueOrDefault(false)))
         {
           //App.UnitOfWork.Context.Stundenpläne.Add(stundenplan.Model);

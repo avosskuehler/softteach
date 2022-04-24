@@ -10,7 +10,7 @@ namespace SoftTeach.Model.TeachyModel
   {
     public override string ToString()
     {
-      return string.Format("{0} {1}", this.Person.Vorname, this.Person.Nachname);
+      return string.Format("{0} {1}", this.Person != null ? this.Person.Vorname : "VN", this.Person != null ? this.Person.Nachname : "NN");
     }
   }
 }

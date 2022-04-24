@@ -14,8 +14,13 @@
       <RowDefinition/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader Grid.Row="0" Title="Jahrespläne erstellen?"
-                                      Icon="/SoftTeach;component/Images/Jahresplan32.png"/>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Jahrespläne erstellen?">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Jahresplan32}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
     <StackPanel Grid.Row="1" Margin="10">
       <TextBlock TextWrapping="Wrap">Sollen für die Lerngruppen des neuen Stundenplans die Jahrespläne
         angelegt werden?

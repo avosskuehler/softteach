@@ -121,8 +121,11 @@
 
       this.Lerngruppentermine.CollectionChanged += this.Lerngruppentermine_CollectionChanged; ;
 
-      this.SchülereinträgeView = CollectionViewSource.GetDefaultView(this.Schülereinträge);
-      this.UpdateSort();
+      this.SchülereinträgeViewSource = new CollectionViewSource() { Source = this.Schülereinträge };
+      using (this.SchülereinträgeViewSource.DeferRefresh())
+      {
+        this.SchülereinträgeViewSource.SortDescriptions.Add(new SortDescription("SchülereintragSortByNachnameProperty", ListSortDirection.Ascending));
+      }
 
       //Console.WriteLine("Elapsed UpdateSort {0}", watch.ElapsedMilliseconds);
       //watch.Restart();
@@ -206,9 +209,14 @@
     public ObservableCollection<LerngruppenterminViewModel> Lerngruppentermine { get; private set; }
 
     /// <summary>
-    /// Holt oder setzt die Schülereinträge
+    /// Holt oder setzt die SchülereinträgeViewSource
     /// </summary>
-    public ICollectionView SchülereinträgeView { get; set; }
+    public CollectionViewSource SchülereinträgeViewSource { get; set; }
+
+    /// <summary>
+    /// Holt ein gefiltertes View der Schülereinträge
+    /// </summary>
+    public ICollectionView SchülereinträgeView => this.SchülereinträgeViewSource.View;
 
     /// <summary>
     /// Holt oder setzt die JahrespläneViewSource
@@ -434,6 +442,7 @@
     /// <summary>
     /// Holt den header for the list of pupils in this class
     /// </summary>
+    [DependsUpon("LerngruppeBezeichnung")]
     [DependsUpon("LerngruppeFach")]
     [DependsUpon("LerngruppeSchuljahr")]
     public string LerngruppeÜberschrift
@@ -636,16 +645,6 @@
       App.MainViewModel.Lerngruppen.Add(vm);
 
       return vm;
-    }
-
-    /// <summary>
-    /// Updates the sort.
-    /// </summary>
-    public void UpdateSort()
-    {
-      this.SchülereinträgeView.SortDescriptions.Clear();
-      this.SchülereinträgeView.SortDescriptions.Add(new SortDescription("SchülereintragSortByNachnameProperty", ListSortDirection.Ascending));
-      this.SchülereinträgeView.Refresh();
     }
 
     /// <summary>

@@ -369,6 +369,19 @@
     <Setter Property="FontSize" Value="16"/>
   </Style>
 
+  <Style x:Key="TerminOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="Clock"/>
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="TerminOverlay24" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource TerminOverlay16}">
+    <Setter Property="FontSize" Value="12"/>
+  </Style>
+
+  <Style x:Key="TerminOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource TerminOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+
 
   <Style x:Key="SizeSmall" TargetType="{x:Type fa:IconBlock}">
     <Setter Property="Foreground" Value="{DynamicResource Iconfarbe}"/>
@@ -478,18 +491,6 @@
     <Setter Property="Icon" Value="MusicAlt"/>
   </Style>
   
-  <Style x:Key="Schuljahr16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
-    <Setter Property="Icon" Value="Calendar"/>
-  </Style>
-
-  <Style x:Key="Schuljahr32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
-    <Setter Property="Icon" Value="Calendar"/>
-  </Style>
-
-  <Style x:Key="Schuljahr48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
-    <Setter Property="Icon" Value="Calendar"/>
-  </Style>
-
   <Style x:Key="Fach16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
     <Setter Property="Icon" Value="FolderOpen"/>
   </Style>
@@ -960,5 +961,66 @@
   <Style x:Key="Minus48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
     <Setter Property="Icon" Value="Minus"/>
   </Style>
+  
+  <Style x:Key="Schuljahr16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="CalendarStar"/>
+  </Style>
+
+  <Style x:Key="Schuljahr32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="CalendarStar"/>
+  </Style>
+
+  <Style x:Key="Schuljahr48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="CalendarStar"/>
+  </Style>
+  
+  <Style x:Key="Fachstunden16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Abacus"/>
+  </Style>
+
+  <Style x:Key="Fachstunden32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Abacus"/>
+  </Style>
+
+  <Style x:Key="Fachstunden48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Abacus"/>
+  </Style>
+  
+  <Style x:Key="Medien16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="PhotoVideo"/>
+  </Style>
+
+  <Style x:Key="Medien32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="PhotoVideo"/>
+  </Style>
+
+  <Style x:Key="Medien48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="PhotoVideo"/>
+  </Style>
+
+  <Style x:Key="Sozialformen16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="UserChart"/>
+  </Style>
+
+  <Style x:Key="Sozialformen32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="UserChart"/>
+  </Style>
+
+  <Style x:Key="Sozialformen48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="UserChart"/>
+  </Style> 
+  
+  <Style x:Key="Termintypen16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Chalkboard"/>
+  </Style>
+
+  <Style x:Key="Termintypen32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Chalkboard"/>
+  </Style>
+
+  <Style x:Key="Termintypen48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Chalkboard"/>
+  </Style>
+
 
 </ResourceDictionary>

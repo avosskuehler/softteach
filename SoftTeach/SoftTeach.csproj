@@ -620,6 +620,7 @@
     <Compile Include="ViewModel\Helper\TagGeändertEventArgs.cs" />
     <Compile Include="ViewModel\Helper\UiServices.cs" />
     <Compile Include="ViewModel\Jahrespläne\JahresplanWorkspaceViewModel.cs" />
+    <Compile Include="ViewModel\Noten\AddArbeitWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Noten\NotenlistenEintrag.cs" />
     <Compile Include="ViewModel\Noten\NotenlistenWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Noten\StundennotenReminderWorkspaceViewModel.cs" />
@@ -745,9 +746,6 @@
     <Compile Include="View\Datenbank\BewertungsschemaDetailView.xaml.cs">
       <DependentUpon>BewertungsschemaDetailView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Datenbank\SchülereintragWorkspace.xaml.cs">
-      <DependentUpon>SchülereintragWorkspace.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Jahrespläne\JahresplanWorkspaceView.xaml.cs">
       <DependentUpon>JahresplanWorkspaceView.xaml</DependentUpon>
     </Compile>
@@ -756,9 +754,6 @@
     </Compile>
     <Compile Include="View\Noten\MetroNoteEintragenFlyout.xaml.cs">
       <DependentUpon>MetroNoteEintragenFlyout.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Noten\MetroKlassenlisteNoteneintragDetailView.xaml.cs">
-      <DependentUpon>MetroKlassenlisteNoteneintragDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Noten\MetroStundennotenReminderWindow.xaml.cs">
       <DependentUpon>MetroStundennotenReminderWindow.xaml</DependentUpon>
@@ -784,11 +779,8 @@
     <Compile Include="View\Sitzpläne\RaumWorkspace.xaml.cs">
       <DependentUpon>RaumWorkspace.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Datenbank\LerngruppeWorkspace.xaml.cs">
+    <Compile Include="View\Personen\LerngruppeWorkspace.xaml.cs">
       <DependentUpon>LerngruppeWorkspace.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Datenbank\StundenplanWorkspaceView.xaml.cs">
-      <DependentUpon>StundenplanWorkspaceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Datenbank\TerminWorkspaceView.xaml.cs">
       <DependentUpon>TerminWorkspaceView.xaml</DependentUpon>
@@ -902,32 +894,14 @@
     <Compile Include="View\Noten\SchülereintragDetailView.xaml.cs">
       <DependentUpon>SchülereintragDetailView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Noten\ArbeitWorkspaceView.xaml.cs">
-      <DependentUpon>ArbeitWorkspaceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Noten\ArbeitDetailView.xaml.cs">
-      <DependentUpon>ArbeitDetailView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Personen\AskForSchülerlisteToAddDialog.xaml.cs">
       <DependentUpon>AskForSchülerlisteToAddDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Personen\PersonDetailView.xaml.cs">
-      <DependentUpon>PersonDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Personen\PersonenWorkspace.xaml.cs">
       <DependentUpon>PersonenWorkspace.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Personen\PersonenWorkspaceView.xaml.cs">
-      <DependentUpon>PersonenWorkspaceView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Personen\SelectSchülerDialog.xaml.cs">
       <DependentUpon>SelectSchülerDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Personen\SchülerlisteDetailView.xaml.cs">
-      <DependentUpon>SchülerlisteDetailView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Personen\SchülerlisteWorkspaceView.xaml.cs">
-      <DependentUpon>SchülerlisteWorkspaceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Stundenentwürfe\AskForDateiDialog.xaml.cs">
       <DependentUpon>AskForDateiDialog.xaml</DependentUpon>
@@ -950,17 +924,14 @@
     <Compile Include="View\Stundenpläne\AskForGültigAbDialog.xaml.cs">
       <DependentUpon>AskForGültigAbDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Stundenpläne\AddStundenplanDialog.xaml.cs">
-      <DependentUpon>AddStundenplanDialog.xaml</DependentUpon>
+    <Compile Include="View\Stundenpläne\EditStundenplanDialog.xaml.cs">
+      <DependentUpon>EditStundenplanDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Stundenpläne\AskForJahresplanCreateDialog.xaml.cs">
       <DependentUpon>AskForJahresplanCreateDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Stundenpläne\AskForSchuljahrDialog.xaml.cs">
       <DependentUpon>AskForSchuljahrDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Stundenpläne\AddStundenplanÄnderungDialog.xaml.cs">
-      <DependentUpon>AddStundenplanÄnderungDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Stundenpläne\StundenplanViewMode.cs" />
     <Compile Include="View\Stundenpläne\ShowStundenplanDialog.xaml.cs">
@@ -980,23 +951,15 @@
     <Compile Include="View\Stundenpläne\StundenplanDetailView.xaml.cs">
       <DependentUpon>StundenplanDetailView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Stundenpläne\StundenplanWorkspaceView.xaml.cs">
-      <DependentUpon>StundenplanWorkspaceView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Termine\AskForStundeneigenschaftenDialog.xaml.cs">
       <DependentUpon>AskForStundeneigenschaftenDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Termine\AskForTerminSpanDialog.xaml.cs">
       <DependentUpon>AskForTerminSpanDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Termine\MetroStundeShortView.xaml.cs">
-      <DependentUpon>MetroStundeShortView.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="View\Termine\LerngruppenVorlage.cs" />
     <Compile Include="View\Wochenpläne\AddSonderterminDialog.xaml.cs">
       <DependentUpon>AddSonderterminDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Termine\AddSchulterminDialog.xaml.cs">
-      <DependentUpon>AddSchulterminDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Termine\EditStundeDialog.xaml.cs">
       <DependentUpon>EditStundeDialog.xaml</DependentUpon>
@@ -1004,14 +967,11 @@
     <Compile Include="View\Termine\BetroffeneKlassenDialog.xaml.cs">
       <DependentUpon>BetroffeneKlassenDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Termine\EditSchulterminDialog.xaml.cs">
-      <DependentUpon>EditSchulterminDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Termine\SchulterminDetailView.xaml.cs">
       <DependentUpon>SchulterminDetailView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Termine\SchulterminWorkspaceView.xaml.cs">
-      <DependentUpon>SchulterminWorkspaceView.xaml</DependentUpon>
+    <Compile Include="View\Termine\SchulterminDialog.xaml.cs">
+      <DependentUpon>SchulterminDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Datenbank\FerienWorkspaceView.xaml.cs">
       <DependentUpon>FerienWorkspaceView.xaml</DependentUpon>
@@ -1519,10 +1479,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Datenbank\SchülereintragWorkspace.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="View\Jahrespläne\JahresplanWorkspaceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1532,10 +1488,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Noten\MetroNoteEintragenFlyout.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Noten\MetroKlassenlisteNoteneintragDetailView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1571,11 +1523,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Datenbank\LerngruppeWorkspace.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Datenbank\StundenplanWorkspaceView.xaml">
+    <Page Include="View\Personen\LerngruppeWorkspace.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1727,19 +1675,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Noten\ArbeitWorkspaceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Noten\ArbeitDetailView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="View\Personen\AskForSchülerlisteToAddDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Personen\PersonDetailView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1747,19 +1683,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Personen\PersonenWorkspaceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="View\Personen\SelectSchülerDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Personen\SchülerlisteDetailView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Personen\SchülerlisteWorkspaceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1791,7 +1715,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Stundenpläne\AddStundenplanDialog.xaml">
+    <Page Include="View\Stundenpläne\EditStundenplanDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1800,10 +1724,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Stundenpläne\AskForSchuljahrDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Stundenpläne\AddStundenplanÄnderungDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1827,10 +1747,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Stundenpläne\StundenplanWorkspaceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="View\Termine\AskForStundeneigenschaftenDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1839,15 +1755,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Termine\MetroStundeShortView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="View\Wochenpläne\AddSonderterminDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Termine\AddSchulterminDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1859,15 +1767,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Termine\EditSchulterminDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="View\Termine\SchulterminDetailView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Termine\SchulterminWorkspaceView.xaml">
+    <Page Include="View\Termine\SchulterminDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

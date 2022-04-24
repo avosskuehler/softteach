@@ -28,12 +28,6 @@
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/SoftTeach;component/Resources/MetroResources.xaml"/>
         <ResourceDictionary >
-          <DataTemplate DataType="{x:Type notenViewModel:SchülereintragViewModel}" x:Key="NotenTemplate">
-            <notenView:MetroKlassenlisteNoteneintragDetailView />
-          </DataTemplate>
-          <DataTemplate DataType="{x:Type termineViewModel:StundeViewModel}" x:Key="StundenTemplate">
-            <termineView:MetroStundeShortView />
-          </DataTemplate>
           <CollectionViewSource x:Key="SortedSchülereinträge" Source="{Binding Path=CurrentSchülereinträge}">
             <CollectionViewSource.SortDescriptions>
               <componentModel:SortDescription PropertyName="SchülereintragSortByVornameProperty" Direction="Ascending" />
@@ -58,11 +52,28 @@
                  ItemsSource="{Binding Path=StundenView}"             
                  BorderThickness="0"
                  Name="StundenListBox"
-                 ItemTemplate="{StaticResource StundenTemplate}"
              SelectedItem="{Binding Path=CurrentStunde}" SelectionChanged="StundenListBox_OnSelectionChanged"
-             
              Height="100">
-       <ListBox.ItemsPanel>
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto"/>
+              <ColumnDefinition Width="*"/>
+              <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition/>
+              <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Content="{Binding Path=Stundenentwurf.Stundenthema}"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="{Binding Path=Stundenentwurf.Fach.Bezeichnung}"/>
+            <Label Grid.Row="1" Grid.Column="1" Content="{Binding Path=Tagesplan.Monatsplan.Halbjahresplan.Jahresplan.Klasse.Bezeichnung}"/>
+            <Label Grid.Row="1" Grid.Column="2" Content="{Binding Path=Stundenentwurf.Datum, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=DatumKurz}"/>
+          </Grid>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+      <ListBox.ItemsPanel>
         <ItemsPanelTemplate>
           <StackPanel Orientation="Horizontal"/>
         </ItemsPanelTemplate>
@@ -102,10 +113,28 @@
              BorderThickness="0"
              Name="NotenListBox"
              SelectedItem="{Binding Path=CurrentSchülereintrag}"
-             SelectionChanged="NotenListBox_OnSelectionChanged"
-             ItemTemplate="{StaticResource NotenTemplate}"
-             >
+             SelectionChanged="NotenListBox_OnSelectionChanged">
       <!--ItemContainerStyle="{StaticResource UnselectableListBoxItem}">-->
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <Grid>
+            <Grid.Background>
+              <SolidColorBrush Color="{Binding NotengebungsHintergrund}" Opacity="0.6"/>
+            </Grid.Background>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="40"/>
+              <ColumnDefinition Width="220"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto"/>
+              <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Height="50" Source="{Binding Path=SchülereintragPerson.PersonBild}" Margin="0"/>
+            <Label Grid.Row="0" Grid.Column="1" Style="{StaticResource NotengebungVornameLabelStyle}" Content="{Binding Path=SchülereintragPerson.PersonVorname}"/>
+            <Label Grid.Row="1" Grid.Column="1" Content="{Binding Path=SchülereintragPerson.PersonNachname}"/>
+          </Grid>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
       <ListBox.ItemsPanel>
         <ItemsPanelTemplate>
           <WrapPanel Height="{Binding ElementName=NotenListBox, Path=ActualHeight, Converter={StaticResource WrapPanelWidthConverter}}" Orientation="Vertical"/>

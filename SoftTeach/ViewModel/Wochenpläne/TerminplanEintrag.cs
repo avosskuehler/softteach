@@ -342,7 +342,7 @@
           {
             var schultermin = this.TerminViewModel as SchulterminViewModel;
             var klassenstring = string.Empty;
-            foreach (var betroffeneLerngruppeViewModel in schultermin.BetroffeneKlassen)
+            foreach (var betroffeneLerngruppeViewModel in schultermin.BetroffeneLerngruppen)
             {
               klassenstring += betroffeneLerngruppeViewModel.BetroffeneLerngruppeLerngruppe.LerngruppeBezeichnung + ",";
             }

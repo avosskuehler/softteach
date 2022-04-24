@@ -61,12 +61,13 @@
       foreach (var stundenplaneintrag in stundenplan.Stundenplaneinträge)
       {
         var vm = new StundenplaneintragViewModel(this, stundenplaneintrag);
-        App.MainViewModel.Stundenplaneinträge.Add(vm);
+        //App.MainViewModel.Stundenplaneinträge.Add(vm);
         this.Stundenplaneinträge.Add(vm);
       }
 
       this.Stundenplaneinträge.CollectionChanged += this.StundenplaneinträgeCollectionChanged;
       this.CreateContextMenu();
+      this.ViewMode = StundenplanViewMode.None;
     }
 
     /// <summary>
@@ -89,6 +90,69 @@
     /// for this stundenplan.
     /// </summary>
     public StundenplanViewMode ViewMode { get; set; }
+
+    [DependsUpon("ViewMode")]
+    public bool IsInDefaultMode
+    {
+      get
+      {
+        return this.ViewMode.HasFlag(StundenplanViewMode.Default);
+      }
+      set
+      {
+        if (value)
+        {
+          this.ViewMode |= StundenplanViewMode.Default;
+        }
+        else
+        {
+          this.ViewMode &= ~StundenplanViewMode.Default;
+        }
+        this.RaisePropertyChanged("IsInDefaultMode");
+      }
+    }
+
+    [DependsUpon("ViewMode")]
+    public bool IsInEditMode
+    {
+      get
+      {
+        return this.ViewMode.HasFlag(StundenplanViewMode.Edit);
+      }
+      set
+      {
+        if (value)
+        {
+          this.ViewMode |= StundenplanViewMode.Edit;
+        }
+        else
+        {
+          this.ViewMode &= ~StundenplanViewMode.Edit;
+        }
+        this.RaisePropertyChanged("IsInEditMode");
+      }
+    }
+
+    [DependsUpon("ViewMode")]
+    public bool IsInDragDropMode
+    {
+      get
+      {
+        return this.ViewMode.HasFlag(StundenplanViewMode.DragDrop);
+      }
+      set
+      {
+        if (value)
+        {
+          this.ViewMode |= StundenplanViewMode.DragDrop;
+        }
+        else
+        {
+          this.ViewMode &= ~StundenplanViewMode.DragDrop;
+        }
+        this.RaisePropertyChanged("IsInDragDropMode");
+      }
+    }
 
     /// <summary>
     /// Holt oder setzt die list of changes during edit of this stundenplan
@@ -877,7 +941,7 @@
       var vm = new StundenplaneintragViewModel(this, stundenplaneintrag);
       using (new UndoBatch(App.MainViewModel, string.Format("Neuer Stundenplaneintrag {0} angelegt.", vm), false))
       {
-        App.MainViewModel.Stundenplaneinträge.Add(vm);
+        //App.MainViewModel.Stundenplaneinträge.Add(vm);
         this.Stundenplaneinträge.Add(vm);
         this.CurrentStundenplaneintrag = vm;
         this.UpdateProperties(vm);
@@ -946,7 +1010,7 @@
       using (new UndoBatch(App.MainViewModel, string.Format("Stundenplaneintrag {0} gelöscht.", stundenplaneintragViewModel), false))
       {
         //App.UnitOfWork.Context.Stundenplaneinträge.Remove(stundenplaneintragViewModel.Model);
-        bool success = App.MainViewModel.Stundenplaneinträge.RemoveTest(stundenplaneintragViewModel);
+        //bool success = App.MainViewModel.Stundenplaneinträge.RemoveTest(stundenplaneintragViewModel);
         this.Stundenplaneinträge.RemoveTest(stundenplaneintragViewModel);
         this.CurrentStundenplaneintrag = null;
       }
@@ -992,15 +1056,15 @@
           clone.Raum = stundenplanEintrag.StundenplaneintragRaum.Model;
           clone.WochentagIndex = stundenplanEintrag.StundenplaneintragWochentagIndex;
           clone.Stundenplan = stundenplan;
-          App.UnitOfWork.Context.Stundenplaneinträge.Add(clone);
+          //App.UnitOfWork.Context.Stundenplaneinträge.Add(clone);
           var stundenplanEintragViewModel = new StundenplaneintragViewModel(stundenplanViewModel, clone);
-          App.MainViewModel.Stundenplaneinträge.Add(stundenplanEintragViewModel);
+          //App.MainViewModel.Stundenplaneinträge.Add(stundenplanEintragViewModel);
           stundenplanViewModel.Stundenplaneinträge.Add(stundenplanEintragViewModel);
         }
 
         //App.UnitOfWork.Context.Stundenpläne.Add(stundenplan);
 
-        App.MainViewModel.Stundenpläne.Add(stundenplanViewModel);
+        //App.MainViewModel.Stundenpläne.Add(stundenplanViewModel);
       }
 
       return stundenplanViewModel;
@@ -1114,7 +1178,7 @@
         if (!(undo = !dlg.ShowDialog().GetValueOrDefault(false)))
         {
           //App.UnitOfWork.Context.Stundenplaneinträge.Add(stundenplaneintrag);
-          App.MainViewModel.Stundenplaneinträge.Add(vm);
+          //App.MainViewModel.Stundenplaneinträge.Add(vm);
           this.Stundenplaneinträge.Add(vm);
           this.CurrentStundenplaneintrag = vm;
           this.UpdateProperties(vm);

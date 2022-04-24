@@ -1,32 +1,377 @@
-﻿<Window x:Class="SoftTeach.View.Noten.ArbeitWorkspace"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
-        xmlns:softTeach="clr-namespace:SoftTeach"
-        xmlns:controls="clr-namespace:SoftTeach.Resources.Controls" 
-        xmlns:notenViewModel="clr-namespace:SoftTeach.ViewModel.Noten"
-        xmlns:noten="clr-namespace:SoftTeach.View.Noten"
-        mc:Ignorable="d" 
-        Title="Arbeiten erstellen und ändern"
-        Icon="/SoftTeach;component/Images/Arbeit32.png"
-             d:DesignHeight="400" d:DesignWidth="800" WindowStyle="SingleBorderWindow">
-  <Window.Resources>
-    <DataTemplate DataType="{x:Type notenViewModel:ArbeitWorkspaceViewModel}">
-      <noten:ArbeitWorkspaceView />
-    </DataTemplate>
-  </Window.Resources>
-  <Grid Background="{StaticResource MainBackgroundBrush}">
+﻿<Window 
+  x:Class="SoftTeach.View.Noten.ArbeitWorkspace"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
+  xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+  xmlns:softTeach="clr-namespace:SoftTeach"
+  xmlns:controls="clr-namespace:SoftTeach.Resources.Controls" 
+  xmlns:notenViewModel="clr-namespace:SoftTeach.ViewModel.Noten"
+  xmlns:noten="clr-namespace:SoftTeach.View.Noten" xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+  mc:Ignorable="d" 
+  Title="Arbeiten erstellen und ändern"
+  d:DesignHeight="400" d:DesignWidth="800">
+  <Grid>
     <Grid.RowDefinitions>
-      <RowDefinition Height="48"/>
+      <RowDefinition Height="Auto"/>
       <RowDefinition/>
-      <RowDefinition Height="32"/>
+      <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader  Icon="/SoftTeach;component/Images/Arbeit32.png" 
-                              Grid.Row="0" 
-                              Title="Ergänzen, ändern oder löschen Sie hier Arbeiten oder Tests. Die Noten tauchen dann automatisch auch in der Notenzusammenstellung jedes einzelnen Schülers auf."/>
-    <ContentControl Grid.Row="1" Content="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=ArbeitWorkspace}"/>
+    <controls:SmallDialogHeader 
+      Grid.Row="0" Title="Ergänzen, ändern oder löschen Sie hier Arbeiten oder Tests. Die Noten tauchen dann automatisch auch in der Notenzusammenstellung jedes einzelnen Schülers auf.">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Arbeit48}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
+    <Grid Grid.Row="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="250"/>
+        <ColumnDefinition/>
+      </Grid.ColumnDefinitions>
+      <Grid Grid.Column="0">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddArbeitCommand}" 
+                    ToolTip="Neue Arbeit erstellen">
+            <StackPanel Orientation="Horizontal">
+              <Grid>
+                <fa:IconBlock Style="{StaticResource Arbeit32}" Foreground="{DynamicResource Iconfarbe}"/>
+                <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+              </Grid>
+            </StackPanel>
+          </Button>
+          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                    Command="{Binding Path=DeleteArbeitCommand}" 
+                    ToolTip="Aktuelle Arbeit löschen.">
+            <StackPanel Orientation="Horizontal">
+              <Grid>
+                <fa:IconBlock Style="{StaticResource Arbeit32}" Foreground="{DynamicResource Iconfarbe}"/>
+                <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+              </Grid>
+            </StackPanel>
+          </Button>
+        </StackPanel>
+        <Grid Grid.Row="1" Background="{x:Static SystemColors.MenuBarBrush}">
+          <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="11.958"/>
+            <ColumnDefinition Width="48.042"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
+          <Label Grid.Row="0" Grid.Column="0" Margin="3" Padding="3" VerticalAlignment="Center" Grid.ColumnSpan="2">Schuljahr</Label>
+          <ComboBox Grid.Row="0" Grid.Column="2" ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Schuljahre}"
+                              SelectedValue="{Binding Path=SchuljahrFilter}" 
+                              SelectedValuePath="." 
+                              DisplayMemberPath="SchuljahrBezeichnung"
+                        Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"
+                      HorizontalAlignment="Stretch" Margin="1"/>
+          <Button Grid.Row="0" Grid.Column="3" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                Command="{Binding Path=ResetSchuljahrFilterCommand}">
+            <fa:IconBlock Style="{StaticResource Remove16}" Foreground="{DynamicResource Iconfarbe}"/>
+          </Button>
+          <Label Grid.Row="1" Grid.Column="0" Padding="3" Margin="3" VerticalAlignment="Center" Grid.ColumnSpan="2">Fach</Label>
+          <ComboBox Grid.Row="1" Grid.Column="2" MinWidth="100" ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Fächer}"
+                              SelectedValue="{Binding Path=FachFilter}" 
+                              SelectedValuePath="." 
+                              DisplayMemberPath="FachBezeichnung"
+                        Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"
+                                          HorizontalAlignment="Stretch" Margin="1"/>
+          <Button Grid.Row="1" Grid.Column="3" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                Command="{Binding Path=ResetFachFilterCommand}">
+            <fa:IconBlock Style="{StaticResource Remove16}" Foreground="{DynamicResource Iconfarbe}"/>
+          </Button>
+        </Grid>
+        <DataGrid 
+              Grid.Row="2" 
+              SelectedItem="{Binding Path=CurrentArbeit, Mode=TwoWay}"
+              ItemsSource="{Binding Path=ArbeitenView}" 
+              AutoGenerateColumns="False" 
+              IsReadOnly="True"
+              Style="{StaticResource DefaultViewDataGridStyle}">
+          <DataGrid.Columns>
+            <DataGridTextColumn Header="Lerngruppe" Binding="{Binding Path=ArbeitLerngruppe.LerngruppeBezeichnung}"/>
+            <DataGridTextColumn Header="Fach" Binding="{Binding Path=ArbeitFach.FachBezeichnung}" />
+            <DataGridTextColumn Header="Nr" Binding="{Binding Path=ArbeitLfdNr}" />
+            <DataGridTextColumn Header="Bezeichnung" Binding="{Binding Path=ArbeitBezeichnung}" />
+          </DataGrid.Columns>
+        </DataGrid>
+      </Grid>
+      <Grid x:Name="LayoutRoot" Grid.Column="1" Margin="5" DataContext="{Binding Path=CurrentArbeit}">
+        <Grid.Resources>
+          <CollectionViewSource Source="{Binding Path=Schülereinträge}" x:Key="SchülerSorted">
+            <CollectionViewSource.SortDescriptions>
+              <scm:SortDescription PropertyName="SchülereintragPerson.PersonVorname" Direction="Ascending"/>
+            </CollectionViewSource.SortDescriptions>
+          </CollectionViewSource>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label FontSize="16">Arbeit</Label>
+        <Grid Grid.Row="1" Background="{x:Static SystemColors.MenuBarBrush}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="140"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="140"/>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="126"/>
+            <ColumnDefinition Width="*"/>
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <Label Grid.Row="0" Grid.Column="0">Bezeichnung</Label>
+          <TextBox  Grid.Row="0" Grid.Column="1" Margin="3" Text="{Binding Path=ArbeitBezeichnung}"/>
+          <Label Grid.Row="0" Grid.Column="2">Datum</Label>
+          <DatePicker Grid.Row="0" Grid.Column="3"  Margin="3" IsEnabled="False" SelectedDate="{Binding Path=ArbeitDatum}"/>
+          <Label Grid.Row="1" Grid.Column="0">Schuljahr</Label>
+          <ComboBox 
+              Grid.Row="1" Grid.Column="1" Margin="3"
+                ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Schuljahre}" 
+                SelectedItem="{Binding Path=ArbeitLerngruppe.LerngruppeSchuljahr}"
+                DisplayMemberPath="SchuljahrBezeichnung"
+              IsEnabled="False"
+              Width="134" HorizontalAlignment="Center"
+              Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"/>
+          <StackPanel  Grid.Row="1" Grid.Column="2" Orientation="Horizontal">
+            <Label>LfdNr.</Label>
+            <TextBox Text="{Binding Path=ArbeitLfdNr}" Width="20" PreviewTextInput="TextboxInputValidation"/>
+          </StackPanel>
+          <CheckBox  Grid.Row="1" Grid.Column="3" Margin="3" TabIndex="1" Content="Klassenarbeit"
+                    IsChecked="{Binding Path=ArbeitIstKlausur}"/>
+          <Label  Grid.Row="2" Grid.Column="0">Fach</Label>
+          <ComboBox  Grid.Row="2" Grid.Column="1" Margin="3" Width="134"
+                ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Fächer}" 
+                SelectedItem="{Binding Path=ArbeitFach}"
+                DisplayMemberPath="FachBezeichnung"
+                   IsEnabled="False"
+                Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"
+                HorizontalAlignment="Left"/>
+          <Label Grid.Row="2" Grid.Column="2">Klasse</Label>
+          <ComboBox Grid.Row="2" Grid.Column="3" Margin="3" Width="134"
+                ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Lerngruppen}" 
+                SelectedItem="{Binding Path=ArbeitLerngruppe}"
+                DisplayMemberPath="LerngruppeBezeichnung"
+                  IsEnabled="False"
+                Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"
+                HorizontalAlignment="Left"/>
+          <Label  Grid.Row="3" Grid.Column="0">Bewertungsschema</Label>
+          <ComboBox  Grid.Row="3" Grid.Column="1" Margin="3" Width="134"
+                ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Bewertungsschemata}" 
+                SelectedItem="{Binding Path=ArbeitBewertungsschema}"
+                DisplayMemberPath="BewertungsschemaBezeichnung"
+                Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"
+                HorizontalAlignment="Left"/>
+          <Label  Grid.Row="3" Grid.Column="2">Bepunktungstyp</Label>
+          <ComboBox  Grid.Row="3" Grid.Column="3" Margin="3" TabIndex="1" Name="ComboBepunktungstyp"
+                ItemsSource="{Binding Source={StaticResource Bepunktungstypen}}" 
+                SelectedItem="{Binding Path=ArbeitBepunktungstyp}"
+                Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" Width="134"
+                  HorizontalAlignment="Left"/>
+          <Grid Grid.Row="1" Grid.Column="5" Grid.RowSpan="2" Background="WhiteSmoke">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="20"/>
+              <ColumnDefinition Width="1"/>
+              <ColumnDefinition Width="20"/>
+              <ColumnDefinition Width="1"/>
+              <ColumnDefinition Width="20"/>
+              <ColumnDefinition Width="1"/>
+              <ColumnDefinition Width="20"/>
+              <ColumnDefinition Width="1"/>
+              <ColumnDefinition Width="20"/>
+              <ColumnDefinition Width="1"/>
+              <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="25"/>
+              <RowDefinition Height="1"/>
+              <RowDefinition Height="25"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource NotenschnittStyle}">1</Label>
+            <Border Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" BorderBrush="DarkGray" BorderThickness="1"/>
+            <Label Grid.Row="0" Grid.Column="2" Style="{StaticResource NotenschnittStyle}">2</Label>
+            <Border Grid.Row="0" Grid.Column="3" Grid.RowSpan="3" BorderBrush="DarkGray" BorderThickness="1"/>
+            <Label Grid.Row="0" Grid.Column="4" Style="{StaticResource NotenschnittStyle}">3</Label>
+            <Border Grid.Row="0" Grid.Column="5" Grid.RowSpan="3" BorderBrush="DarkGray" BorderThickness="1"/>
+            <Label Grid.Row="0" Grid.Column="6" Style="{StaticResource NotenschnittStyle}">4</Label>
+            <Border Grid.Row="0" Grid.Column="7" Grid.RowSpan="3" BorderBrush="DarkGray" BorderThickness="1"/>
+            <Label Grid.Row="0" Grid.Column="8" Style="{StaticResource NotenschnittStyle}">5</Label>
+            <Border Grid.Row="0" Grid.Column="9" Grid.RowSpan="3" BorderBrush="DarkGray" BorderThickness="1"/>
+            <Label Grid.Row="0" Grid.Column="10" Style="{StaticResource NotenschnittStyle}">6</Label>
+            <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="11" BorderBrush="DarkGray" BorderThickness="1"/>
+            <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource NotenschnittStyle}" Content="{Binding Path=ArbeitAnzahlNoten1}"/>
+            <Label Grid.Row="2" Grid.Column="2" Style="{StaticResource NotenschnittStyle}" Content="{Binding Path=ArbeitAnzahlNoten2}"/>
+            <Label Grid.Row="2" Grid.Column="4" Style="{StaticResource NotenschnittStyle}" Content="{Binding Path=ArbeitAnzahlNoten3}"/>
+            <Label Grid.Row="2" Grid.Column="6" Style="{StaticResource NotenschnittStyle}" Content="{Binding Path=ArbeitAnzahlNoten4}"/>
+            <Label Grid.Row="2" Grid.Column="8" Style="{StaticResource NotenschnittStyle}" Content="{Binding Path=ArbeitAnzahlNoten5}"/>
+            <Label Grid.Row="2" Grid.Column="10" Style="{StaticResource NotenschnittStyle}" Content="{Binding Path=ArbeitAnzahlNoten6}"/>
+          </Grid>
+          <Label Grid.Row="0" Grid.Column="5">Notenspiegel</Label>
+          <Label Grid.Row="3" Grid.Column="5" Content="{Binding Path=ArbeitNotendurchschnittString}"/>
+        </Grid>
+        <Grid Grid.Row="2" Margin="3">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
+          <StackPanel Grid.Column="0" Orientation="Horizontal">
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
+                      Command="{Binding Path=AddAufgabeCommand}">
+              <StackPanel Orientation="Horizontal" ToolTip="Aufgabe hinzufügen">
+                <Grid >
+                  <fa:IconBlock Style="{StaticResource Aufgabe16}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource AddOverlay16}" Foreground="{DynamicResource Iconfarbe}"/>
+                </Grid>
+                <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Aufgabe hinzufügen</Label>
+              </StackPanel>
+            </Button>
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
+                      Command="{Binding Path=EditAufgabeCommand}">
+              <StackPanel Orientation="Horizontal" ToolTip="Aufgabe bearbeiten">
+                <Grid >
+                  <fa:IconBlock Style="{StaticResource Aufgabe16}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource EditOverlay16}" Foreground="{DynamicResource Iconfarbe}"/>
+                </Grid>
+                <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Aufgabe bearbeiten</Label>
+              </StackPanel>
+            </Button>
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
+                      Command="{Binding Path=DeleteAufgabeCommand}">
+              <StackPanel Orientation="Horizontal" ToolTip="Aufgabe entfernen">
+                <Grid >
+                  <fa:IconBlock Style="{StaticResource Aufgabe16}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource RemoveOverlay16}" Foreground="{DynamicResource Iconfarbe}"/>
+                </Grid>
+                <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Aufgabe entfernen</Label>
+              </StackPanel>
+            </Button>
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
+                      Command="{Binding Path=PrintNotenlisteCommand}">
+              <StackPanel Orientation="Horizontal" ToolTip="Notenliste drucken">
+                <Grid >
+                  <fa:IconBlock Style="{StaticResource Note16}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource PrintOverlay16}" Foreground="{DynamicResource Iconfarbe}"/>
+                </Grid>
+                <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Notenliste drucken</Label>
+              </StackPanel>
+            </Button>
+          </StackPanel>
+          <Border Grid.Column="1" CornerRadius="5">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
+              <Label Padding="3">Gesamtpunktzahl:</Label>
+              <Label Padding="3" Content="{Binding Path=ArbeitGesamtpunktzahl}"/>
+            </StackPanel>
+          </Border>
+        </Grid>
+        <DataGrid Grid.Row="3" Name="NotenGrid"
+                  SelectedItem="{Binding Path=CurrentSchülereintrag}" 
+                  ItemsSource="{Binding Source={StaticResource SchülerSorted}}" 
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  Style="{StaticResource DefaultViewDataGridStyle}">
+          <DataGrid.Columns>
+            <DataGridTextColumn Binding="{Binding SchülereintragPerson.PersonVorname}" Header="Vorname" IsReadOnly="True"/>
+            <DataGridTextColumn Binding="{Binding SchülereintragPerson.PersonNachname}" Header="Nachname" IsReadOnly="True"/>
+            <DataGridTemplateColumn Width="*">
+              <DataGridTemplateColumn.HeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                  <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                  <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                  <Setter Property="Margin" Value="0" />
+                  <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                      <DataTemplate>
+                        <ItemsControl ItemsSource="{Binding DataContext.Aufgaben, ElementName=LayoutRoot}">
+                          <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                              <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                          </ItemsControl.ItemsPanel>
+                          <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                              <Border Width="70">
+                                <TextBlock Text="{Binding Path=AufgabeColumnHeader}" HorizontalAlignment="Center">
+                                  <TextBlock.InputBindings>
+                                    <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding Path=EditAufgabeCommand}"/>
+                                  </TextBlock.InputBindings>
+                                </TextBlock>
+                              </Border>
+                            </DataTemplate>
+                          </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                      </DataTemplate>
+                    </Setter.Value>
+                  </Setter>
+                </Style>
+              </DataGridTemplateColumn.HeaderStyle>
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <ItemsControl ItemsSource="{Binding CurrentArbeitErgebnisse}">
+                    <ItemsControl.ItemsPanel>
+                      <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                      </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate>
+                        <Border Width="70">
+                          <TextBlock Text="{Binding Path=ErgebnisPunktzahl}" TextAlignment="Center"/>
+                        </Border>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+              <DataGridTemplateColumn.CellEditingTemplate>
+                <DataTemplate>
+                  <ItemsControl ItemsSource="{Binding CurrentArbeitErgebnisse}">
+                    <ItemsControl.ItemsPanel>
+                      <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                      </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate>
+                        <Border Width="70">
+                          <TextBox Text="{Binding Path=ErgebnisPunktzahl}" TextAlignment="Center"/>
+                        </Border>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                </DataTemplate>
+              </DataGridTemplateColumn.CellEditingTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTextColumn Binding="{Binding CurrentArbeitPunktsumme}" Header="Summe" IsReadOnly="True"/>
+            <DataGridTextColumn Binding="{Binding CurrentArbeitNote}" Header="Note" IsReadOnly="True"/>
+          </DataGrid.Columns>
+
+
+          <!--global:DataGridColumnsBehavior.BindableColumns="{Binding AufgabenColumns}"-->
+          <!--Tag="{Binding Path=AufgabenColumns, NotifyOnTargetUpdated=True}" TargetUpdated="OnTargetUpdated" Unloaded="NotenGrid_Unloaded">-->
+          <!--Style="{StaticResource AufgabeDataGridStyle}"-->
+          <!--ColumnHeaderStyle="{StaticResource AufgabenColumnHeaderStyle}">-->
+        </DataGrid>
+      </Grid>
+    </Grid>
     <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
       <Button Name="OK" Width="80" Margin="3" IsDefault="True" Click="OKClick">Ok</Button>
       <Label/>

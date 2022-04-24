@@ -1,4 +1,4 @@
-﻿namespace SoftTeach.View.Datenbank
+﻿namespace SoftTeach.View.Personen
 {
   using System.Windows;
 
@@ -10,6 +10,7 @@
     public LerngruppeWorkspace()
     {
       this.InitializeComponent();
+      this.DataContext = App.MainViewModel.LerngruppeWorkspace;
     }
 
     private void OKClick(object sender, RoutedEventArgs e)
