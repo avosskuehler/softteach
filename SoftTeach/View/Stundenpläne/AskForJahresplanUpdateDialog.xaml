@@ -4,7 +4,7 @@
         xmlns:resources="clr-namespace:SoftTeach.Resources" xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
         xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
         Title="Frage ..." 
-        Height="200" 
+        Height="250" 
         Width="300" 
         ResizeMode="NoResize" 
         WindowStyle="SingleBorderWindow">

@@ -132,11 +132,12 @@
     }
 
     public static void Register(this INotifyPropertyChanged model, string propertyName, Action whenChanged)
-    {model.PropertyChanged += (sender, args) =>
-      {
-        if (args.PropertyName == propertyName)
-          whenChanged();
-      };
+    {
+      model.PropertyChanged += (sender, args) =>
+       {
+         if (args.PropertyName == propertyName)
+           whenChanged();
+       };
     }
 
     public static void BubbleSort(this IList o)
@@ -181,5 +182,12 @@
       // Will return null if not found
       return obj as TItemContainer;
     }
+
+    public static DateTime StartOfWeek(this DateTime dt)
+    {
+      int diff = (7 + (dt.DayOfWeek - DayOfWeek.Sunday)) % 7;
+      return dt.AddDays(-1 * diff).Date;
+    }
+
   }
 }

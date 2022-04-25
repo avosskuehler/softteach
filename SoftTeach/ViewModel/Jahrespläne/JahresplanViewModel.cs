@@ -452,7 +452,7 @@
         {
           var stundenplanViewModel = stundenpläne[i];
           var stundenplaneinträge =
-            stundenplanViewModel.Stundenplaneinträge.Where(o => o.StundenplaneintragLerngruppe == this.Lerngruppe && o.StundenplaneintragFach == this.Fach);
+            stundenplanViewModel.Stundenplaneinträge.Where(o => o.StundenplaneintragLerngruppe == this.Lerngruppe);
 
           if (!stundenplaneinträge.Any())
           {

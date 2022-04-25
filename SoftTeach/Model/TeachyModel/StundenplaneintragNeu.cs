@@ -19,11 +19,9 @@ namespace SoftTeach.Model.TeachyModel
         public int ErsteUnterrichtsstundeIndex { get; set; }
         public int LetzteUnterrichtsstundeIndex { get; set; }
         public int WochentagIndex { get; set; }
-        public int FachId { get; set; }
         public int LerngruppeID { get; set; }
         public int RaumId { get; set; }
     
-        public virtual FachNeu Fach { get; set; }
         public virtual LerngruppeNeu Lerngruppe { get; set; }
         public virtual RaumNeu Raum { get; set; }
         public virtual StundenplanNeu Stundenplan { get; set; }

@@ -318,8 +318,18 @@
           bool success = App.MainViewModel.Arbeiten.RemoveTest(arbeitViewModel);
         }
 
+        foreach (var schülereintrag in this.CurrentLerngruppe.Schülereinträge.ToList())
+        {
+          this.CurrentLerngruppe.Schülereinträge.Remove(schülereintrag);
+        }
+
         // Jetzt die Lerngruppe löschen
         App.MainViewModel.Lerngruppen.RemoveTest(this.CurrentLerngruppe);
+        var jahresplan = App.MainViewModel.Jahrespläne.FirstOrDefault(o => o.Lerngruppe.Model.Id == this.CurrentLerngruppe.Model.Id);
+        if (jahresplan != null)
+        {
+          App.MainViewModel.Jahrespläne.Remove(jahresplan);
+        }
         this.CurrentLerngruppe = null;
       }
     }

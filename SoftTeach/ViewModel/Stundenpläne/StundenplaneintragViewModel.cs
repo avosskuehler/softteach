@@ -188,41 +188,41 @@
       }
     }
 
-    /// <summary>
-    /// Holt oder setzt die fach currently assigned to this Stundenentwurf
-    /// </summary>
-    public FachViewModel StundenplaneintragFach
-    {
-      get
-      {
-        // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Fach == null)
-        {
-          return null;
-        }
+    ///// <summary>
+    ///// Holt oder setzt die fach currently assigned to this Stundenentwurf
+    ///// </summary>
+    //public FachViewModel StundenplaneintragFach
+    //{
+    //  get
+    //  {
+    //    // We need to reflect any changes made in the model so we check the current value before returning
+    //    if (this.Model.Fach == null)
+    //    {
+    //      return null;
+    //    }
 
-        if (this.fach == null || this.fach.Model != this.Model.Fach)
-        {
-          this.fach = App.MainViewModel.Fächer.SingleOrDefault(d => d.Model == this.Model.Fach);
-        }
+    //    if (this.fach == null || this.fach.Model != this.Model.Fach)
+    //    {
+    //      this.fach = App.MainViewModel.Fächer.SingleOrDefault(d => d.Model == this.Model.Fach);
+    //    }
 
-        return this.fach;
-      }
+    //    return this.fach;
+    //  }
 
-      set
-      {
-        if (value == null) return;
-        if (this.fach != null)
-        {
-          if (value.FachBezeichnung == this.fach.FachBezeichnung) return;
-        }
+    //  set
+    //  {
+    //    if (value == null) return;
+    //    if (this.fach != null)
+    //    {
+    //      if (value.FachBezeichnung == this.fach.FachBezeichnung) return;
+    //    }
 
-        this.UndoablePropertyChanging(this, "StundenplaneintragFach", this.fach, value);
-        this.fach = value;
-        this.Model.Fach = value.Model;
-        this.RaisePropertyChanged("StundenplaneintragFach");
-      }
-    }
+    //    this.UndoablePropertyChanging(this, "StundenplaneintragFach", this.fach, value);
+    //    this.fach = value;
+    //    this.Model.Fach = value.Model;
+    //    this.RaisePropertyChanged("StundenplaneintragFach");
+    //  }
+    //}
 
     /// <summary>
     /// Holt oder setzt die ErsteUnterrichtsstundeIndex
@@ -301,19 +301,19 @@
     }
 
     /// <summary>
-    /// Holt den Stundenanzahl of this Stundenplaneintrag
+    /// Holt die Hintergrundfarbe für diesen Stundenplaneintrag
     /// </summary>
-    [DependsUpon("StundenplaneintragFach")]
+    [DependsUpon("StundenplaneintragLerngruppe")]
     public SolidColorBrush StundenplaneintragBackground
     {
       get
       {
-        if (this.StundenplaneintragFach == null)
+        if (this.StundenplaneintragLerngruppe == null || this.StundenplaneintragLerngruppe.LerngruppeFach == null)
         {
           return Brushes.Transparent;
         }
 
-        var newColor = this.StundenplaneintragFach.FachFarbe;
+        var newColor = this.StundenplaneintragLerngruppe.LerngruppeFach.FachFarbe;
         return new SolidColorBrush(newColor);
       }
     }

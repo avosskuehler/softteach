@@ -1037,7 +1037,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void Lerngruppentermine_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Lerngruppentermine", this.Schülereinträge, e, true, "Änderung der Lerngruppentermine");
+      this.UndoableCollectionChanged(this, "Lerngruppentermine", this.Lerngruppentermine, e, true, "Änderung der Lerngruppentermine");
     }
 
     /// <summary>

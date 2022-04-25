@@ -17,7 +17,10 @@
 
 namespace SoftTeach.View.Stundenpläne
 {
+  using SoftTeach.ViewModel.Personen;
   using SoftTeach.ViewModel.Stundenpläne;
+  using System.Collections.Generic;
+  using System.Linq;
   using System.Windows;
 
   /// <summary>
@@ -25,9 +28,6 @@ namespace SoftTeach.View.Stundenpläne
   /// </summary>
   public partial class AddStundenplaneintragDialog
   {
-    public StundenplaneintragViewModel StundenplaneintragViewModel { get; private set; }
-
-    #region Constructors and Destructors
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AddStundenplaneintragDialog"/> class.
@@ -35,19 +35,14 @@ namespace SoftTeach.View.Stundenpläne
     public AddStundenplaneintragDialog(StundenplaneintragViewModel stundenplaneintragViewModel)
     {
       this.InitializeComponent();
-      this.DataContext = stundenplaneintragViewModel;
+      this.DataContext = this;
       this.StundenplaneintragViewModel = stundenplaneintragViewModel;
+      this.Lerngruppen = App.MainViewModel.Lerngruppen.Where(o => o.LerngruppeSchuljahr.SchuljahrJahr == stundenplaneintragViewModel.Model.Stundenplan.Schuljahr.Jahr).ToList();
     }
 
-    #endregion
+    public List<LerngruppeViewModel> Lerngruppen { get; set; }
 
-    #region Public Properties
-
-    #endregion
-
-    #region Methods
-
-    #endregion
+    public StundenplaneintragViewModel StundenplaneintragViewModel { get; private set; }
 
     private void OkClick(object sender, RoutedEventArgs e)
     {

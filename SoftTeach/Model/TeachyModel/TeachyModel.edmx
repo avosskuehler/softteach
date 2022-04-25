@@ -330,7 +330,6 @@
           <Property Name="ErsteUnterrichtsstundeIndex" Type="int" Nullable="false" />
           <Property Name="LetzteUnterrichtsstundeIndex" Type="int" Nullable="false" />
           <Property Name="WochentagIndex" Type="int" Nullable="false" />
-          <Property Name="FachId" Type="int" Nullable="false" />
           <Property Name="LerngruppeID" Type="int" Nullable="false" />
           <Property Name="RaumId" Type="int" Nullable="false" />
         </EntityType>
@@ -582,20 +581,6 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Termine_Stunde">
-              <PropertyRef Name="FachId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FachStundenplaneintrag">
-          <End Role="Fächer" Type="Self.Fächer" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Stundenplaneinträge" Type="Self.Stundenplaneinträge" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Fächer">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Stundenplaneinträge">
               <PropertyRef Name="FachId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1202,10 +1187,6 @@
             <End Role="Fächer" EntitySet="Fächer" />
             <End Role="Termine_Stunde" EntitySet="Termine_Stunde" />
           </AssociationSet>
-          <AssociationSet Name="FK_FachStundenplaneintrag" Association="Self.FK_FachStundenplaneintrag">
-            <End Role="Fächer" EntitySet="Fächer" />
-            <End Role="Stundenplaneinträge" EntitySet="Stundenplaneinträge" />
-          </AssociationSet>
           <AssociationSet Name="FK_LerngruppeArbeit" Association="Self.FK_LerngruppeArbeit">
             <End Role="Lerngruppen" EntitySet="Lerngruppen" />
             <End Role="Arbeiten" EntitySet="Arbeiten" />
@@ -1457,7 +1438,6 @@
           <NavigationProperty Name="Lerngruppen" Relationship="Self.FK_FachLerngruppe" FromRole="Fächer" ToRole="Lerngruppen" />
           <NavigationProperty Name="Module" Relationship="Self.FK_FachModul" FromRole="Fächer" ToRole="Module" />
           <NavigationProperty Name="Stunden" Relationship="Self.FK_FachStunde" FromRole="Fächer" ToRole="Stunden" />
-          <NavigationProperty Name="Stundenplaneinträge" Relationship="Self.FK_FachStundenplaneintrag" FromRole="Fächer" ToRole="Stundenplaneinträge" />
         </EntityType>
         <EntityType Name="FachstundenanzahlNeu">
           <Key>
@@ -1665,10 +1645,8 @@
           <Property Name="ErsteUnterrichtsstundeIndex" Type="Int32" Nullable="false" />
           <Property Name="LetzteUnterrichtsstundeIndex" Type="Int32" Nullable="false" />
           <Property Name="WochentagIndex" Type="Int32" Nullable="false" />
-          <Property Name="FachId" Type="Int32" Nullable="false" />
           <Property Name="LerngruppeID" Type="Int32" Nullable="false" />
           <Property Name="RaumId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Fach" Relationship="Self.FK_FachStundenplaneintrag" FromRole="Stundenplaneinträge" ToRole="Fächer" />
           <NavigationProperty Name="Lerngruppe" Relationship="Self.FK_LerngruppeStundenplaneintrag" FromRole="Stundenplaneinträge" ToRole="Lerngruppen" />
           <NavigationProperty Name="Raum" Relationship="Self.FK_RaumStundenplaneintrag" FromRole="Stundenplaneinträge" ToRole="Räume" />
           <NavigationProperty Name="Stundenplan" Relationship="TeachyModel.FK_StundenplanStundenplaneintrag" FromRole="StundenplaneintragNeu" ToRole="Stundenplan" />
@@ -1938,20 +1916,6 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Stunden">
-              <PropertyRef Name="FachId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FachStundenplaneintrag">
-          <End Role="Fächer" Type="TeachyModel.FachNeu" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Stundenplaneinträge" Type="TeachyModel.StundenplaneintragNeu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Fächer">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Stundenplaneinträge">
               <PropertyRef Name="FachId" />
             </Dependent>
           </ReferentialConstraint>
@@ -2233,10 +2197,6 @@
           <AssociationSet Name="FK_FachStunde" Association="Self.FK_FachStunde">
             <End Role="Fächer" EntitySet="Fächer" />
             <End Role="Stunden" EntitySet="Termine" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FachStundenplaneintrag" Association="Self.FK_FachStundenplaneintrag">
-            <End Role="Fächer" EntitySet="Fächer" />
-            <End Role="Stundenplaneinträge" EntitySet="Stundenplaneinträge" />
           </AssociationSet>
           <AssociationSet Name="FK_LerngruppeLerngruppentermin" Association="Self.FK_LerngruppeLerngruppentermin">
             <End Role="Lerngruppen" EntitySet="Lerngruppen" />
@@ -3101,7 +3061,6 @@
                 <ScalarProperty Name="ErsteUnterrichtsstundeIndex" ColumnName="ErsteUnterrichtsstundeIndex" />
                 <ScalarProperty Name="LetzteUnterrichtsstundeIndex" ColumnName="LetzteUnterrichtsstundeIndex" />
                 <ScalarProperty Name="WochentagIndex" ColumnName="WochentagIndex" />
-                <ScalarProperty Name="FachId" ColumnName="FachId" />
                 <ScalarProperty Name="LerngruppeID" ColumnName="LerngruppeID" />
                 <ScalarProperty Name="RaumId" ColumnName="RaumId" />
               </MappingFragment>

@@ -26,7 +26,7 @@
     {
       this.AddStundenplanCommand = new DelegateCommand(this.AddStundenplan);
       this.DeleteStundenplanCommand = new DelegateCommand(this.DeleteCurrentStundenplan, () => this.CurrentStundenplan != null);
-      this.EditStundenplanCommand = new DelegateCommand(this.AddStundenplanÄnderung, () => this.CurrentStundenplan != null);
+      this.EditStundenplanCommand = new DelegateCommand(this.EditStundenplan, () => this.CurrentStundenplan != null);
 
       this.CurrentStundenplan = App.MainViewModel.Stundenpläne.FirstOrDefault(o => o.StundenplanSchuljahr.SchuljahrJahr == Selection.Instance.Schuljahr.SchuljahrJahr);
 
@@ -176,9 +176,26 @@
     /// <summary>
     /// Fügt eine Stundenplanänderung hinzu.
     /// </summary>
-    private void AddStundenplanÄnderung()
+    private void EditStundenplan()
     {
-      this.AddStundenplanÄnderung(this.CurrentStundenplan);
+      bool undo;
+      using (new UndoBatch(App.MainViewModel, string.Format("Stundenplan {0} verändert.", this.CurrentStundenplan), false))
+      {
+        // Empty old changes
+        this.CurrentStundenplan.ÄnderungsListe.Clear();
+
+        var dlg = new EditStundenplanDialog(this.CurrentStundenplan);
+        if (!(undo = !dlg.ShowDialog().GetValueOrDefault(false)))
+        {
+        }
+
+        this.CurrentStundenplan.ViewMode = StundenplanViewMode.Edit;
+      }
+
+      if (undo)
+      {
+        App.MainViewModel.ExecuteUndoCommand();
+      }
     }
   }
 }

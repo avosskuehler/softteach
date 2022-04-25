@@ -18,12 +18,15 @@
 namespace SoftTeach.View.Stundenpläne
 {
   using System;
+  using System.Collections.Generic;
   using System.Linq;
   using System.Windows;
   using System.Windows.Input;
   using SoftTeach.Model.TeachyModel;
   using SoftTeach.UndoRedo;
   using SoftTeach.ViewModel.Datenbank;
+  using SoftTeach.ViewModel.Helper;
+  using SoftTeach.ViewModel.Personen;
   using SoftTeach.ViewModel.Stundenpläne;
   using SoftTeach.ViewModel.Termine;
 
@@ -48,38 +51,10 @@ namespace SoftTeach.View.Stundenpläne
     /// </summary>
     public StundenplanViewModel StundenplanViewModel { get; private set; }
 
-    ///// <summary>
-    ///// Diese Methode erstellt Jahrespläne für alle im Stundenplan eingetragenen Fächer und Klassen
-    ///// </summary>
-    //private void CreateJahrespläne()
-    //{
-    //  this.Cursor = Cursors.Wait;
-    //  using (new UndoBatch(App.MainViewModel, string.Format("Jahrespläne für Stundenplan neu angelegt"), false))
-    //  {
-    //    // TODO
-    //    //foreach (var stundenplaneintragViewModel in this.StundenplanViewModel.Stundenplaneinträge)
-    //    //{
-    //    //  // Create a new Jahresplan
-    //    //  App.MainViewModel.JahresplanWorkspace.AddJahresplan(
-    //    //    this.StundenplanViewModel.StundenplanSchuljahr,
-    //    //    stundenplaneintragViewModel.StundenplaneintragFach,
-    //    //    stundenplaneintragViewModel.StundenplaneintragLerngruppe,
-    //    //    this.StundenplanViewModel.StundenplanHalbjahr.HalbjahrBezeichnung == "Sommer");
-    //    //}
-
-    //    //// Create special jahresplan for vertretungsstunden etc.
-    //    //App.MainViewModel.JahresplanWorkspace.AddJahresplan(
-    //    //  this.StundenplanViewModel.StundenplanSchuljahr,
-    //    //  App.MainViewModel.Fächer.Single(o => o.FachBezeichnung == "Vertretungsstunden"),
-    //    //  App.MainViewModel.Klassen.Single(o => o.KlasseBezeichnung == "Alle"),
-    //    //  this.StundenplanViewModel.StundenplanHalbjahr.HalbjahrBezeichnung == "Sommer");
-    //  }
-
-    //  this.Cursor = Cursors.Arrow;
-    //}
-
     private void UpdateJahrespläne()
     {
+      var geänderteLerngruppen = new List<LerngruppeViewModel>();
+
       foreach (var änderung in this.StundenplanViewModel.ÄnderungsListe)
       {
         var lerngruppeToChange = App.MainViewModel.Lerngruppen.FirstOrDefault(o => o == änderung.ModifiedEntry.StundenplaneintragLerngruppe);
@@ -89,26 +64,44 @@ namespace SoftTeach.View.Stundenpläne
           continue;
         }
 
+        if (!geänderteLerngruppen.Contains(lerngruppeToChange))
+        {
+          geänderteLerngruppen.Add(lerngruppeToChange);
+        }
+
         // Eine neue Unterrichtsstunde wurde ergänzt, also für alle Wochen.
         if (änderung.UpdateType == StundenplanÄnderungUpdateType.Added)
         {
-          var stunde = new StundeNeu();
-          stunde.ErsteUnterrichtsstunde =
-            App.MainViewModel.Unterrichtsstunden[änderung.ModifiedEntry.StundenplaneintragErsteUnterrichtsstundeIndex - 1].Model;
-          stunde.LetzteUnterrichtsstunde =
-            App.MainViewModel.Unterrichtsstunden[änderung.ModifiedEntry.StundenplaneintragLetzteUnterrichtsstundeIndex - 1].Model;
-          stunde.Datum = tagesplanViewModel.Datum;
-          stunde.Termintyp = Model.TeachyModel.Termintyp.Unterricht;
-          stunde.Lerngruppe = änderung.ModifiedEntry.StundenplaneintragLerngruppe.Model;
-          stunde.Hausaufgaben = string.Empty;
-          stunde.Ansagen = string.Empty;
-          stunde.Jahrgang = änderung.ModifiedEntry.StundenplaneintragLerngruppe.LerngruppeJahrgang;
-          stunde.Fach = änderung.ModifiedEntry.StundenplaneintragLerngruppe.LerngruppeFach.Model;
-          stunde.Halbjahr = this.StundenplanViewModel.StundenplanHalbjahr;
-          stunde.Ort = änderung.ModifiedEntry.StundenplaneintragRaum.RaumBezeichnung;
+          var endeMonat = this.StundenplanViewModel.StundenplanHalbjahr == Halbjahr.Winter ? 2 : 8;
+          var endeSchuljahr = new DateTime(this.StundenplanViewModel.StundenplanHalbjahr == Halbjahr.Winter ? this.StundenplanViewModel.StundenplanSchuljahr.SchuljahrJahr : this.StundenplanViewModel.StundenplanSchuljahr.SchuljahrJahr + 1, endeMonat, 1);
+          var startdatum = änderung.ModifiedEntry.Model.Stundenplan.GültigAb.StartOfWeek();
+          startdatum = startdatum.AddDays(änderung.ModifiedEntry.StundenplaneintragWochentagIndex);
+          while (startdatum < endeSchuljahr)
+          {
+            var stunde = new StundeNeu();
+            stunde.ErsteUnterrichtsstunde =
+              App.MainViewModel.Unterrichtsstunden[änderung.ModifiedEntry.StundenplaneintragErsteUnterrichtsstundeIndex - 1].Model;
+            stunde.LetzteUnterrichtsstunde =
+              App.MainViewModel.Unterrichtsstunden[änderung.ModifiedEntry.StundenplaneintragLetzteUnterrichtsstundeIndex - 1].Model;
 
-          var vm = new StundeViewModel(stunde);
-          lerngruppeToChange.Lerngruppentermine.Add(vm);
+            stunde.Datum = startdatum;
+            stunde.Termintyp = Model.TeachyModel.Termintyp.Unterricht;
+            stunde.Lerngruppe = änderung.ModifiedEntry.StundenplaneintragLerngruppe.Model;
+            stunde.Hausaufgaben = string.Empty;
+            stunde.Ansagen = string.Empty;
+            stunde.Jahrgang = änderung.ModifiedEntry.StundenplaneintragLerngruppe.LerngruppeJahrgang;
+            stunde.Fach = änderung.ModifiedEntry.StundenplaneintragLerngruppe.LerngruppeFach.Model;
+            stunde.Halbjahr = this.StundenplanViewModel.StundenplanHalbjahr;
+            stunde.Ort = änderung.ModifiedEntry.StundenplaneintragRaum.RaumBezeichnung;
+
+            var vm = new StundeViewModel(stunde);
+            if (!lerngruppeToChange.Lerngruppentermine.Any(o => o.LerngruppenterminDatum == startdatum && o.TerminErsteUnterrichtsstunde.UnterrichtsstundeIndex == änderung.ModifiedEntry.StundenplaneintragErsteUnterrichtsstundeIndex)
+              && !App.MainViewModel.Ferien.Any(o => o.FerienSchuljahr == this.StundenplanViewModel.StundenplanSchuljahr && o.FerienErsterFerientag < startdatum && o.FerienLetzterFerientag > startdatum))
+            {
+              lerngruppeToChange.Lerngruppentermine.Add(vm);
+            }
+            startdatum = startdatum.AddDays(7);
+          }
           continue;
         }
 
@@ -176,6 +169,15 @@ namespace SoftTeach.View.Stundenpläne
 
               break;
           }
+        }
+      }
+
+      foreach (var lg in geänderteLerngruppen)
+      {
+        var jahresplan = App.MainViewModel.Jahrespläne.FirstOrDefault(o => o.Lerngruppe == lg);
+        if (jahresplan != null)
+        {
+          jahresplan.KalenderErstellen();
         }
       }
     }

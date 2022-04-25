@@ -50,8 +50,6 @@
         <AssociationConnector Association="TeachyModel.FK_FachLerngruppe" ManuallyRouted="false" />
         <AssociationConnector Association="TeachyModel.FK_FachModul" ManuallyRouted="false" />
         <AssociationConnector Association="TeachyModel.FK_FachStunde" ManuallyRouted="false" />
-        <AssociationConnector Association="TeachyModel.FK_FachStundenplaneintrag" ManuallyRouted="false" >
-        </AssociationConnector>
         <AssociationConnector Association="TeachyModel.FK_LerngruppeLerngruppentermin" ManuallyRouted="false" />
         <AssociationConnector Association="TeachyModel.FK_LerngruppeStundenplaneintrag" ManuallyRouted="false" />
         <AssociationConnector Association="TeachyModel.FK_ModulReihe" ManuallyRouted="false" />

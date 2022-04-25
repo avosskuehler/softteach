@@ -2088,7 +2088,6 @@
           var newStundenplaneintrag = new StundenplaneintragNeu();
           newStundenplaneintrag.Id = stundenplaneintrag.Id;
           newStundenplaneintrag.ErsteUnterrichtsstundeIndex = stundenplaneintrag.ErsteUnterrichtsstundeIndex;
-          newStundenplaneintrag.FachId = stundenplaneintrag.FachId;
           newStundenplaneintrag.Lerngruppe = newContext.Lerngruppen.First(o =>
             o.SchuljahrId == stundenplaneintrag.Stundenplan.JahrtypId
             && o.FachId == stundenplaneintrag.FachId

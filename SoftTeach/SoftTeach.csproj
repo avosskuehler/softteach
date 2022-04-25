@@ -927,9 +927,6 @@
     <Compile Include="View\Stundenpläne\EditStundenplanDialog.xaml.cs">
       <DependentUpon>EditStundenplanDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Stundenpläne\AskForJahresplanCreateDialog.xaml.cs">
-      <DependentUpon>AskForJahresplanCreateDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Stundenpläne\AskForSchuljahrDialog.xaml.cs">
       <DependentUpon>AskForSchuljahrDialog.xaml</DependentUpon>
     </Compile>
@@ -1716,10 +1713,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Stundenpläne\EditStundenplanDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Stundenpläne\AskForJahresplanCreateDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

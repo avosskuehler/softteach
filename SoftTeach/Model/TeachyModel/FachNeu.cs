@@ -23,7 +23,6 @@ namespace SoftTeach.Model.TeachyModel
             this.Lerngruppen = new HashSet<LerngruppeNeu>();
             this.Module = new HashSet<ModulNeu>();
             this.Stunden = new HashSet<StundeNeu>();
-            this.Stundenplaneinträge = new HashSet<StundenplaneintragNeu>();
         }
     
         public int Id { get; set; }
@@ -42,7 +41,5 @@ namespace SoftTeach.Model.TeachyModel
         public virtual ICollection<ModulNeu> Module { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StundeNeu> Stunden { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StundenplaneintragNeu> Stundenplaneinträge { get; set; }
     }
 }

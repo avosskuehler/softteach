@@ -89,7 +89,7 @@
           <RowDefinition Height="Auto" MinHeight="20"/>
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Grid.Column="0" Padding="1" VerticalAlignment="Center" Content="{Binding Path=StundenplaneintragLerngruppe.LerngruppeBezeichnung}"/>
-        <Label Grid.Row="0" Grid.Column="1" Padding="1" VerticalAlignment="Center" Content="{Binding Path=StundenplaneintragFach.FachBezeichnung}"/>
+        <Label Grid.Row="0" Grid.Column="1" Padding="1" VerticalAlignment="Center" Content="{Binding Path=StundenplaneintragLerngruppe.LerngruppeFach.FachBezeichnung}"/>
         <Border Grid.Row="0" Grid.Column="2" Style="{StaticResource DisplayStyle}">
           <StackPanel Orientation="Horizontal" Visibility="Hidden" HorizontalAlignment="Right" x:Name="EditButtons">
             <Button  Command="{Binding Path=EditStundenplaneintragCommand}">

@@ -12,16 +12,16 @@
         WindowStyle="SingleBorderWindow"
         Background="{x:Static SystemColors.MenuBarBrush}">
   <Window.Resources>
-    <CollectionViewSource Source="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Lerngruppen}" x:Key="LerngruppenSorted">
+    <CollectionViewSource Source="{Binding Path=Lerngruppen}" x:Key="LerngruppenSorted">
       <CollectionViewSource.SortDescriptions>
-        <scm:SortDescription PropertyName="LerngruppeBezeichnung" Direction="Ascending"/>
+        <scm:SortDescription PropertyName="LerngruppeKurzbezeichnung" Direction="Ascending"/>
       </CollectionViewSource.SortDescriptions>
     </CollectionViewSource>
-    <CollectionViewSource Source="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Fächer}" x:Key="FächerSorted">
+    <!--<CollectionViewSource Source="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Fächer}" x:Key="FächerSorted">
       <CollectionViewSource.SortDescriptions>
         <scm:SortDescription PropertyName="FachBezeichnung" Direction="Ascending"/>
       </CollectionViewSource.SortDescriptions>
-    </CollectionViewSource>
+    </CollectionViewSource>-->
     <CollectionViewSource Source="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Räume}" x:Key="RäumeSorted">
       <CollectionViewSource.SortDescriptions>
         <scm:SortDescription PropertyName="RaumBezeichnung" Direction="Ascending"/>
@@ -53,31 +53,25 @@
         <RowDefinition Height="Auto"/>
         <RowDefinition Height="Auto"/>
       </Grid.RowDefinitions>
-      <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextWrapping="Wrap">Bitte geben Sie Fach, Lerngruppe und Raum an.</TextBlock>
-      <Label Grid.Row="1" Grid.Column="0" VerticalContentAlignment="Center">Fach</Label>
-      <ComboBox Margin="3" Grid.Row="1" Grid.Column="1" TabIndex="1"
-                ItemsSource="{Binding Source={StaticResource FächerSorted}}" 
-                SelectedItem="{Binding Path=StundenplaneintragFach}"
-                DisplayMemberPath="FachBezeichnung"
-                Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" Width="230"/>
+      <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextWrapping="Wrap">Bitte geben Sie Lerngruppe und Raum an.</TextBlock>
       <Label Grid.Row="2" Grid.Column="0" VerticalContentAlignment="Center">Lerngruppe</Label>
       <ComboBox Margin="3" Grid.Row="2" Grid.Column="1" TabIndex="2"
                 ItemsSource="{Binding Source={StaticResource LerngruppenSorted}}" 
-                SelectedItem="{Binding Path=StundenplaneintragLerngruppe}"
-                DisplayMemberPath="LerngruppeBezeichnung"
+                SelectedItem="{Binding Path=StundenplaneintragViewModel.StundenplaneintragLerngruppe}"
+                DisplayMemberPath="LerngruppeKurzbezeichnung"
                 Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" Width="230"/>
       <Label Grid.Row="3" Grid.Column="0" VerticalContentAlignment="Center">Raum</Label>
       <ComboBox Margin="3" Grid.Row="3" Grid.Column="1" TabIndex="2"
                 ItemsSource="{Binding Source={StaticResource RäumeSorted}}" 
-                SelectedItem="{Binding Path=StundenplaneintragRaum}"
+                SelectedItem="{Binding Path=StundenplaneintragViewModel.StundenplaneintragRaum}"
                 DisplayMemberPath="RaumBezeichnung"
                 Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" Width="230"/>
 
       <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" Margin="0,5" Width="230">
         <Label VerticalContentAlignment="Center" >Von</Label>
-        <Label VerticalContentAlignment="Center" Margin="3" Content="{Binding Path=StundenplaneintragErsteUnterrichtsstundeIndex}"/>
+        <Label VerticalContentAlignment="Center" Margin="3" Content="{Binding Path=StundenplaneintragViewModel.StundenplaneintragErsteUnterrichtsstundeIndex}"/>
         <Label VerticalContentAlignment="Center" >bis</Label>
-        <Label VerticalContentAlignment="Center" Margin="3" Content="{Binding Path=StundenplaneintragLetzteUnterrichtsstundeIndex}"/>
+        <Label VerticalContentAlignment="Center" Margin="3" Content="{Binding Path=StundenplaneintragViewModel.StundenplaneintragLetzteUnterrichtsstundeIndex}"/>
         <Label VerticalContentAlignment="Center" >Stunde</Label>
       </StackPanel>
     </Grid>
