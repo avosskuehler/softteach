@@ -41,7 +41,7 @@ namespace SoftTeach.View.Stundenpläne
     public EditStundenplanDialog(StundenplanViewModel stundenplan)
     {
       this.StundenplanViewModel = stundenplan;
-      this.StundenplanViewModel.ViewMode = StundenplanViewMode.Default | StundenplanViewMode.Edit;
+      this.StundenplanViewModel.ViewMode = StundenplanViewMode.Default | StundenplanViewMode.Edit | StundenplanViewMode.DragDrop;
       this.InitializeComponent();
       this.DataContext = this.StundenplanViewModel;
     }
@@ -138,7 +138,7 @@ namespace SoftTeach.View.Stundenpläne
           // Hier müsste es die Stunde der Lerngruppe sein, die durch die Änderung betroffen ist
           var indexOld = änderung.OldWochentagIndex;
           var indexNew = änderung.ModifiedEntry.StundenplaneintragWochentagIndex;
-          var dayMove = indexOld - indexNew;
+          var dayMove = indexNew- indexOld;
 
           // Now care for the changetype
           switch (änderung.UpdateType)

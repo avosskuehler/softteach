@@ -1,72 +1,76 @@
-﻿<Window x:Class="SoftTeach.View.Datenbank.FachWorkspaceView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-         xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
-            xmlns:resources="clr-namespace:SoftTeach.Resources" xmlns:SoftTeach="clr-namespace:SoftTeach"
-        xmlns:controls="clr-namespace:SoftTeach.Resources.Controls" mc:Ignorable="d" 
-        Title="Datenbank - Fächer"
-        Icon="/SoftTeach;component/Images/Database.ico"
-             d:DesignHeight="400" d:DesignWidth="800" WindowStyle="SingleBorderWindow">
+﻿<Window 
+  x:Class="SoftTeach.View.Datenbank.FachWorkspaceView"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+  xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
+  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+  xmlns:SoftTeach="clr-namespace:SoftTeach"
+  xmlns:controls="clr-namespace:SoftTeach.Resources.Controls" mc:Ignorable="d" 
+  Title="Fächer"
+  d:DesignHeight="400" d:DesignWidth="800">
   <Window.Resources>
+    <ResourceDictionary Source="/SoftTeach;component/Resources/MetroResources.xaml"/>
   </Window.Resources>
-  <Grid Background="{StaticResource MainBackgroundBrush}">
+  <Grid>
     <Grid.RowDefinitions>
-      <RowDefinition Height="48"/>
-      <RowDefinition Height="48"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
       <RowDefinition/>
-      <RowDefinition Height="32"/>
+      <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader  Icon="/SoftTeach;component/Images/Fach32.png" 
-                              Grid.Row="0" 
-                              Title="Ergänzen oder entfernen Sie hier Fächer."/>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Ergänzen oder entfernen Sie hier Fächer.">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Fach32}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
     <Border Grid.Row="1" Name="DescriptionArea">
       <StackPanel Orientation="Horizontal" Margin="5">
-        <Button Width="150" Height="32" Name="AddButton" Command="{Binding Path=AddFachCommand}">
+        <Button Name="AddButton" Command="{Binding Path=AddFachCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
           <StackPanel Orientation="Horizontal">
             <Grid>
-              <Image Source="/SoftTeach;component/Images/Fach32.png"/>
-              <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
+              <fa:IconBlock Style="{StaticResource Fach32}" Foreground="{DynamicResource Iconfarbe}"/>
+              <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
             </Grid>
             <Label Content="Fach hinzufügen"/>
           </StackPanel>
         </Button>
         <Label></Label>
-        <Button Width="150" Height="32" Name="RemoveButton" Command="{Binding Path=DeleteFachCommand}">
+        <Button Name="RemoveButton" Command="{Binding Path=DeleteFachCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
           <StackPanel Orientation="Horizontal">
             <Grid>
-              <Image Source="/SoftTeach;component/Images/Fach32.png"/>
-              <Image Source="/SoftTeach;component/Images/RemoveOverlay32.png"/>
+              <fa:IconBlock Style="{StaticResource Fach32}" Foreground="{DynamicResource Iconfarbe}"/>
+              <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
             </Grid>
             <Label Content="Fach entfernen"/>
           </StackPanel>
         </Button>
       </StackPanel>
     </Border>
-    <GroupBox Grid.Row="2" Header="Tabelle der Fächer" Padding="3" Margin="5">
-      <DataGrid SelectedItem="{Binding Path=CurrentFach, Mode=TwoWay}" ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Fächer}" AutoGenerateColumns="False">
-        <DataGrid.Columns>
-          <DataGridTextColumn Header="Bezeichnung" Binding="{Binding Path=FachBezeichnung}"/>
-          <DataGridTemplateColumn Header="Farbe" Width="*" >
-            <DataGridTemplateColumn.CellTemplate>
-              <DataTemplate>
-                <TextBlock Text="{Binding FachFarbe}"/>
-              </DataTemplate>
-            </DataGridTemplateColumn.CellTemplate>
-            <DataGridTemplateColumn.CellEditingTemplate>
-              <DataTemplate>
-                <TextBox Text="{Binding FachFarbe}"/>
-              </DataTemplate>
-            </DataGridTemplateColumn.CellEditingTemplate>
-          </DataGridTemplateColumn>
+    <DataGrid 
+      Grid.Row="2" 
+      SelectedItem="{Binding Path=CurrentFach, Mode=TwoWay}" 
+      ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Fächer}" 
+      AutoGenerateColumns="False"
+      Style="{StaticResource DefaultViewDataGridStyle}">
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="Bezeichnung" Binding="{Binding Path=FachBezeichnung}"/>
+        <DataGridTemplateColumn Header="Farbe" Width="*" >
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <mah:ColorPicker SelectedColor="{Binding FachFarbe}" SelectedColorTemplate="{StaticResource MahApps.Templates.ColorPickerContent.ColorAndName}" />
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
 
 
-        </DataGrid.Columns>
-      </DataGrid>
-    </GroupBox>
+      </DataGrid.Columns>
+    </DataGrid>
     <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
-      <Button Name="OK" Width="80" Margin="3" IsDefault="True" Click="OKClick">OK</Button>
+      <Button Name="OK" Width="80" Margin="3" IsDefault="True" Click="OKClick" Style="{DynamicResource MahApps.Styles.Button.Flat}">OK</Button>
       <!--<Button Name="Abbrechen"  Width="80" Margin="3" IsCancel="True">Abbrechen</Button>-->
     </StackPanel>
   </Grid>

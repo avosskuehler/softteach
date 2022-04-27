@@ -420,6 +420,7 @@
       <DependentUpon>TeachyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\TeachyModel\LerngruppenterminP.cs" />
+    <Compile Include="Model\TeachyModel\DateiverweisP.cs" />
     <Compile Include="Model\TeachyModel\SchülereintragP.cs" />
     <Compile Include="Model\TeachyModel\LerngruppeP.cs" />
     <Compile Include="Model\TeachyModel\Medium.cs">

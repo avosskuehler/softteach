@@ -375,7 +375,7 @@
           <fluent:RibbonGroupBox.Icon>
             <fa:IconBlock Style="{StaticResource Medien32}"/>
           </fluent:RibbonGroupBox.Icon>
-          <fluent:Button 
+          <!--<fluent:Button 
             Header="Medien" Width="50"
             Click="MedienButtonClick"
             ToolTip="Medien festlegen">
@@ -384,8 +384,8 @@
                 <fa:IconBlock Style="{StaticResource Medien32}"/>
               </Grid>
             </fluent:Button.LargeIcon>
-          </fluent:Button>
-          <fluent:Button 
+          </fluent:Button>-->
+          <!--<fluent:Button 
             Header="Sozialformen" Width="50"
             Click="SozialformenButtonClick"
             ToolTip="Sozialformen festlegen">
@@ -394,7 +394,7 @@
                 <fa:IconBlock Style="{StaticResource Sozialformen32}"/>
               </Grid>
             </fluent:Button.LargeIcon>
-          </fluent:Button>
+          </fluent:Button>-->
           <fluent:Button 
             Header="Dateitypen" Width="50"
             Click="DateitypenButtonClick"
@@ -405,7 +405,7 @@
               </Grid>
             </fluent:Button.LargeIcon>
           </fluent:Button>
-          <fluent:Button 
+          <!--<fluent:Button 
             Header="Termintypen" Width="50"
             Click="TermintypenButtonClick"
             ToolTip="Termintypen festlegen">
@@ -414,7 +414,7 @@
                 <fa:IconBlock Style="{StaticResource Termintypen32}"/>
               </Grid>
             </fluent:Button.LargeIcon>
-          </fluent:Button>
+          </fluent:Button>-->
         </fluent:RibbonGroupBox>
       </fluent:RibbonTabItem>
 

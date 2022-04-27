@@ -170,7 +170,23 @@
     /// </summary>
     private void AddStundenplan()
     {
-      this.AddStundenplan(Selection.Instance.Schuljahr, Selection.Instance.Halbjahr, DateTime.Now);
+      var dlg = new AskForSchuljahr();
+      if (dlg.ShowDialog().GetValueOrDefault(false))
+      {
+        bool undo;
+        using (new UndoBatch(App.MainViewModel, string.Format("Stundenplan angelegt."), false))
+        {
+          // Neuen Stundenplan anlegen
+          App.MainViewModel.StundenplanWorkspace.AddStundenplan(dlg.Schuljahr, dlg.Halbjahr, dlg.GültigAb);
+          var stundenplanView = new EditStundenplanDialog(App.MainViewModel.StundenplanWorkspace.CurrentStundenplan);
+          undo = !stundenplanView.ShowDialog().GetValueOrDefault(false);
+        }
+
+        if (undo)
+        {
+          App.MainViewModel.ExecuteUndoCommand();
+        }
+      }
     }
 
     /// <summary>
@@ -188,8 +204,6 @@
         if (!(undo = !dlg.ShowDialog().GetValueOrDefault(false)))
         {
         }
-
-        this.CurrentStundenplan.ViewMode = StundenplanViewMode.Edit;
       }
 
       if (undo)

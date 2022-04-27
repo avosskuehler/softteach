@@ -12,12 +12,12 @@
              d:DesignHeight="400" d:DesignWidth="800" WindowStyle="SingleBorderWindow">
   <Window.Resources>
   </Window.Resources>
-  <Grid Background="{StaticResource MainBackgroundBrush}">
+  <Grid>
     <Grid.RowDefinitions>
-      <RowDefinition Height="48"/>
-      <RowDefinition Height="48"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
       <RowDefinition/>
-      <RowDefinition Height="32"/>
+      <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
     <controls:SmallDialogHeader Grid.Row="0" Title="Ergänzen oder entfernen Sie hier Module.">
       <controls:SmallDialogHeader.IconContent>
@@ -28,7 +28,7 @@
     </controls:SmallDialogHeader>
     <Border Grid.Row="1" Name="DescriptionArea">
       <StackPanel Orientation="Horizontal" Margin="5">
-        <Button Width="150" Name="AddButton" Command="{Binding Path=AddModulCommand}">
+        <Button Width="150" Name="AddButton" Command="{Binding Path=AddModulCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
           <StackPanel Orientation="Horizontal">
             <Grid>
               <fa:IconBlock Style="{StaticResource Modul32}" Foreground="{DynamicResource Iconfarbe}"/>
@@ -38,7 +38,7 @@
           </StackPanel>
         </Button>
         <Label></Label>
-        <Button Width="150" Name="RemoveButton" Command="{Binding Path=DeleteModulCommand}">
+        <Button Width="150" Name="RemoveButton" Command="{Binding Path=DeleteModulCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
           <StackPanel Orientation="Horizontal">
             <Grid>
               <fa:IconBlock Style="{StaticResource Modul32}" Foreground="{DynamicResource Iconfarbe}"/>
@@ -49,46 +49,42 @@
         </Button>
       </StackPanel>
     </Border>
-    <GroupBox Grid.Row="2" Header="Tabelle der Module" Padding="3" Margin="5">
-      <Grid>
-        <Grid.RowDefinitions>
-          <RowDefinition Height="Auto"/>
-          <RowDefinition/>
-        </Grid.RowDefinitions>
-        <ToolBarPanel Grid.Row="0">
-          <ToolBar>
-            <Label Padding="0" Margin="3"  VerticalContentAlignment="Center">Filtern nach: Fach</Label>
-            <ComboBox MinWidth="100" ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Fächer}"
+    <Grid Grid.Row="2" >
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition/>
+      </Grid.RowDefinitions>
+      <StackPanel Orientation="Horizontal">
+        <Label Padding="0" Margin="3"  VerticalContentAlignment="Center">Filtern nach: Fach</Label>
+        <ComboBox MinWidth="100" ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Fächer}" Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"
                               SelectedValue="{Binding Path=FachFilter}" 
                               SelectedValuePath="." 
                               DisplayMemberPath="FachBezeichnung"/>
-            <Label Padding="0" Margin="3" VerticalContentAlignment="Center">und Jahrgangsstufe</Label>
-            <ComboBox MinWidth="100" ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Jahrgänge}"
+        <Label Padding="0" Margin="3" VerticalContentAlignment="Center">und Jahrgangsstufe</Label>
+        <ComboBox MinWidth="100" ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Jahrgänge}" Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"
                               SelectedValue="{Binding Path=JahrgangFilter}"/>
-            <Separator Margin="10,0,10,0" ></Separator>
-            <Button Width="Auto" Name="RemoveFilterButton" Command="{Binding Path=RemoveFilterCommand}">
-              Filter zurücksetzen.
-            </Button>
-          </ToolBar>
-        </ToolBarPanel>
-        <DataGrid Grid.Row="1" SelectedItem="{Binding Path=CurrentModul, Mode=TwoWay}" ItemsSource="{Binding Path= FilteredModule}"  AutoGenerateColumns="False">
-          <DataGrid.Columns>
-            <DataGridComboBoxColumn 
+        <Separator Margin="10,0,10,0" ></Separator>
+        <Button Width="Auto" Name="RemoveFilterButton" Command="{Binding Path=RemoveFilterCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+          Filter zurücksetzen.
+        </Button>
+      </StackPanel>
+      <DataGrid Grid.Row="1" SelectedItem="{Binding Path=CurrentModul, Mode=TwoWay}" ItemsSource="{Binding Path= FilteredModule}"  AutoGenerateColumns="False">
+        <DataGrid.Columns>
+          <DataGridComboBoxColumn 
                         Header="Jahrgang" 
                         ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Jahrgänge}"
                         SelectedItemBinding="{Binding Path=ModulJahrgang}"/>
-            <DataGridComboBoxColumn 
+          <DataGridComboBoxColumn 
                         Header="Fach" 
                         ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Fächer}"
                         SelectedItemBinding="{Binding Path=ModulFach}" 
                         DisplayMemberPath="FachBezeichnung"/>
-            <DataGridTextColumn Header="Bezeichnung" Binding="{Binding Path=ModulBezeichnung}"/>
-            <DataGridTextColumn Header="Bausteine" Binding="{Binding Path=ModulBausteine}"  Width="*" />
-            <DataGridTextColumn Header="Stundenbedarf" Binding="{Binding Path=ModulStundenbedarf}"/>
-          </DataGrid.Columns>
-        </DataGrid>
-      </Grid>
-    </GroupBox>
+          <DataGridTextColumn Header="Bezeichnung" Binding="{Binding Path=ModulBezeichnung}"/>
+          <DataGridTextColumn Header="Bausteine" Binding="{Binding Path=ModulBausteine}"  Width="*" />
+          <DataGridTextColumn Header="Stundenbedarf" Binding="{Binding Path=ModulStundenbedarf}"/>
+        </DataGrid.Columns>
+      </DataGrid>
+    </Grid>
     <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
       <Button Name="OK" Width="80" Margin="3" IsDefault="True" Click="OKClick">OK</Button>
     </StackPanel>

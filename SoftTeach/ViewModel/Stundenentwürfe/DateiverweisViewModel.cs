@@ -79,6 +79,18 @@
     }
 
     /// <summary>
+    /// Holt den Dateiname of this dateiverweis without path.
+    /// </summary>
+    [DependsUpon("DateiverweisDateiname")]
+    public string DateiverweisPfad
+    {
+      get
+      {
+        return Path.GetDirectoryName(this.Model.Dateiname);
+      }
+    }
+
+    /// <summary>
     /// Holt den Bild for this dateiverweis
     /// </summary>
     [DependsUpon("DateiverweisDateityp")]
