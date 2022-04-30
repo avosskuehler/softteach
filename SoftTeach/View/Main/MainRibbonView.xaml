@@ -211,6 +211,13 @@
               <fa:IconBlock Style="{StaticResource Termin32}"/>
             </fluent:Button.LargeIcon>
           </fluent:Button>
+          <fluent:Button 
+            Header="Ferien" 
+            Click="FerienButtonClick">
+            <fluent:Button.LargeIcon>
+              <fa:IconBlock Style="{StaticResource Ferien32}"/>
+            </fluent:Button.LargeIcon>
+          </fluent:Button>
         </fluent:RibbonGroupBox>
         <fluent:RibbonGroupBox Header="Lerngruppen">
           <fluent:RibbonGroupBox.Icon>

@@ -33,8 +33,8 @@
     <InstallUrl>\\vk2\softteach\</InstallUrl>
     <ProductName>SoftTeach</ProductName>
     <PublisherName>VK</PublisherName>
-    <ApplicationRevision>32</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationVersion>2.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -617,6 +617,7 @@
     <Compile Include="ViewModel\Curricula\CurriculumWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Curricula\ZeitstrahlCollectionContainer.cs" />
     <Compile Include="ViewModel\Datenbank\AddSchuljahrDialogViewModel.cs" />
+    <Compile Include="ViewModel\Datenbank\DateiverweisWorkspaceViewModel.cs" />
     <Compile Include="ViewModel\Helper\ODSSupport\OdsReaderWriter.cs" />
     <Compile Include="ViewModel\Helper\TagGeändertEventArgs.cs" />
     <Compile Include="ViewModel\Helper\UiServices.cs" />

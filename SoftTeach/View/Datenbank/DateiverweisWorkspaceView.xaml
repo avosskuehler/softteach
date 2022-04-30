@@ -4,23 +4,16 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
   xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
+  xmlns:pb="clr-namespace:SoftTeach.ViewModel.Helper.PushBinding"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
   xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
   xmlns:controls="clr-namespace:SoftTeach.Resources.Controls" mc:Ignorable="d" 
   Title="Dateiverweise"
-  d:DesignHeight="400" d:DesignWidth="800" WindowStyle="SingleBorderWindow">
-  <Window.Resources>
-    <CollectionViewSource Source="{Binding Path=Dateiverweise}" x:Key="DateiverweiseSorted">
-      <CollectionViewSource.SortDescriptions>
-        <scm:SortDescription PropertyName="Stunde.Lerngruppe.Schuljahr.Jahr"/>
-        <scm:SortDescription PropertyName="Stunde.Fach.Bezeichnung"/>
-        <scm:SortDescription PropertyName="Stunde.Modul.Bezeichnung"/>
-        <scm:SortDescription PropertyName="DateinameOhnePfad"/>
-      </CollectionViewSource.SortDescriptions>
-    </CollectionViewSource>
-  </Window.Resources>
+  d:DesignHeight="400" d:DesignWidth="800">
+
   <Grid>
     <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="*"/>
       <RowDefinition Height="Auto"/>
@@ -29,19 +22,47 @@
       <controls:SmallDialogHeader.IconContent>
         <Grid>
           <fa:IconBlock Style="{StaticResource Datei32}" Foreground="{DynamicResource Iconfarbe}"/>
+          <fa:IconBlock Style="{StaticResource VerweisOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
         </Grid>
       </controls:SmallDialogHeader.IconContent>
     </controls:SmallDialogHeader>
+    <Border Grid.Row="1">
+      <StackPanel Orientation="Horizontal" Margin="5">
+        <Button Name="AddButton" Command="{Binding Path=RepariereDateiverweiseCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+          <StackPanel Orientation="Horizontal">
+            <Grid>
+              <fa:IconBlock Style="{StaticResource Datei32}" Foreground="{DynamicResource Iconfarbe}"/>
+              <fa:IconBlock Style="{StaticResource SearchOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+            </Grid>
+            <Label Content="Dateien finden"/>
+          </StackPanel>
+        </Button>
+        <Button Name="RemoveButton" Command="{Binding Path=EntferneDateiverweisCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+          <StackPanel Orientation="Horizontal">
+            <Grid>
+              <fa:IconBlock Style="{StaticResource Datei32}" Foreground="{DynamicResource Iconfarbe}"/>
+              <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+            </Grid>
+            <Label Content="Dateiverweis entfernen"/>
+          </StackPanel>
+        </Button>
+      </StackPanel>
+    </Border>
     <DataGrid 
-      Grid.Row="1" 
+      Grid.Row="2" 
       EnableRowVirtualization="True" 
       EnableColumnVirtualization="True"
       VirtualizingStackPanel.VirtualizationMode="Standard"
       VirtualizingStackPanel.IsVirtualizing="True"                  
-      ItemsSource="{Binding Source={StaticResource DateiverweiseSorted}}" 
+      ItemsSource="{Binding Path=DateiverweiseView}" 
+      SelectedItem="{Binding Path=CurrentDateiverweis}"
       AutoGenerateColumns="False"
+      SelectionMode="Extended"
       IsReadOnly="True"
       Style="{StaticResource DefaultViewDataGridStyle}">
+      <pb:PushBindingManager.PushBindings>
+        <pb:PushBinding TargetProperty="SelectedItems" Path="SelectedDateiverweise"/>
+      </pb:PushBindingManager.PushBindings>
       <DataGrid.Columns>
         <DataGridTextColumn Header="Jahr" Binding="{Binding Path=Stunde.Lerngruppe.Schuljahr.Jahr}"/>
         <DataGridTextColumn Header="Datei" Binding="{Binding Path=DateinameOhnePfad}"/>
@@ -52,7 +73,7 @@
         <DataGridTextColumn Header="Pfad" Binding="{Binding Path=Pfad}"/>
       </DataGrid.Columns>
     </DataGrid>
-    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+    <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
       <Button Name="OK" Width="80" Margin="3" IsDefault="True" Click="OKClick">OK</Button>
     </StackPanel>
   </Grid>
