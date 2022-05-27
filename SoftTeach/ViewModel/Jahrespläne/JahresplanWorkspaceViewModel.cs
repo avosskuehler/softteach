@@ -233,6 +233,12 @@
 
       if (this.schuljahrFilter != null)
       {
+        if (lerngruppeViewModel.Schuljahr == null)
+        {
+          e.Accepted = true;
+          return;
+        }
+
         if (lerngruppeViewModel.Schuljahr.Bezeichnung != this.schuljahrFilter.SchuljahrBezeichnung) e.Accepted = false;
         return;
       }

@@ -1,10 +1,12 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome">
-  <FontFamily x:Key="FontAwesomeLight">/SoftTeach;component/Fonts/FontAwesome5Pro-Light-300.otf#Font Awesome 5 Pro Light</FontFamily>
-  <FontFamily x:Key="FontAwesomeRegular">/SoftTeach;component/Fonts/FontAwesome5Pro-Regular-400.otf#Font Awesome 5 Pro Regular</FontFamily>
-  <FontFamily x:Key="FontAwesomeSolid">/SoftTeach;component/Fonts/FontAwesome5Pro-Solid-900.otf#Font Awesome 5 Pro Solid</FontFamily>
-  <FontFamily x:Key="FontAwesomeBrands">/SoftTeach;component/Fonts/FontAwesome5Brands-Regular-400.otf#Font Awesome 5 Brands Regular</FontFamily>
+  <FontFamily x:Key="FontAwesomeLight">/SoftTeach;component/Fonts/FontAwesome6Pro-Light-300.otf#Font Awesome 6 Pro Light</FontFamily>
+  <FontFamily x:Key="FontAwesomeRegular">/SoftTeach;component/Fonts/FontAwesome6Pro-Regular-400.otf#Font Awesome 6 Pro Regular</FontFamily>
+  <FontFamily x:Key="FontAwesomeSolid">/SoftTeach;component/Fonts/FontAwesome6Pro-Solid-900.otf#Font Awesome 6 Pro Solid</FontFamily>
+  <FontFamily x:Key="FontAwesomeBrands">/SoftTeach;component/Fonts/FontAwesome6Brands-Regular-400.otf#Font Awesome 6 Brands Regular</FontFamily>
+  <FontFamily x:Key="FontAwesomeThin">/SoftTeach;component/Fonts/FontAwesome6Pro-Thin-100.otf#Font Awesome 6 Pro Thin</FontFamily>
+  <FontFamily x:Key="FontAwesomeDuotone">/SoftTeach;component/Fonts/FontAwesome6Duotone-Solid-900.otf#Font Awesome 6 Duotone Solid</FontFamily>
 
   <Style x:Key="Ok12" TargetType="{x:Type fa:IconBlock}">
     <Setter Property="Icon" Value="Check"/>
@@ -269,7 +271,7 @@
   </Style>
   
   <Style x:Key="VerweisOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
-    <Setter Property="Icon" Value="Link"/>
+    <Setter Property="Icon" Value="SquareArrowUpRight"/>
     <Setter Property="FontSize" Value="10"/>
   </Style>
 
@@ -468,27 +470,27 @@
   </Style>
   
   <Style x:Key="Sitzplan16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
-    <Setter Property="Icon" Value="Chair"/>
+    <Setter Property="Icon" Value="Loveseat"/>
   </Style>
 
   <Style x:Key="Sitzplan32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
-    <Setter Property="Icon" Value="Chair"/>
+    <Setter Property="Icon" Value="Loveseat"/>
   </Style>
 
   <Style x:Key="Sitzplan48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
-    <Setter Property="Icon" Value="Chair"/>
+    <Setter Property="Icon" Value="Loveseat"/>
   </Style>
   
   <Style x:Key="Note16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
-    <Setter Property="Icon" Value="MusicAlt"/>
+    <Setter Property="Icon" Value="Circle1"/>
   </Style>
 
   <Style x:Key="Note32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
-    <Setter Property="Icon" Value="MusicAlt"/>
+    <Setter Property="Icon" Value="Circle1"/>
   </Style>
 
   <Style x:Key="Note48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
-    <Setter Property="Icon" Value="MusicAlt"/>
+    <Setter Property="Icon" Value="Circle1"/>
   </Style>
   
   <Style x:Key="Fach16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
@@ -525,18 +527,6 @@
 
   <Style x:Key="Person48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
     <Setter Property="Icon" Value="User"/>
-  </Style>
-
-  <Style x:Key="Klasse16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
-    <Setter Property="Icon" Value="UsersClass"/>
-  </Style>
-
-  <Style x:Key="Klasse32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
-    <Setter Property="Icon" Value="UsersClass"/>
-  </Style>
-
-  <Style x:Key="Klasse48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
-    <Setter Property="Icon" Value="UsersClass"/>
   </Style>
 
   <Style x:Key="Stundenplan16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
@@ -828,15 +818,15 @@
   </Style>
 
   <Style x:Key="Bewertungsschema16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
-    <Setter Property="Icon" Value="Key"/>
+    <Setter Property="Icon" Value="ScaleBalanced"/>
   </Style>
 
   <Style x:Key="Bewertungsschema32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
-    <Setter Property="Icon" Value="Key"/>
+    <Setter Property="Icon" Value="ScaleBalanced"/>
   </Style>
 
   <Style x:Key="Bewertungsschema48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
-    <Setter Property="Icon" Value="Key"/>
+    <Setter Property="Icon" Value="ScaleBalanced"/>
   </Style>
 
   <Style x:Key="Prozentbereich16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
@@ -893,15 +883,15 @@
   </Style>
 
   <Style x:Key="Lerngruppe16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
-    <Setter Property="Icon" Value="Users"/>
+    <Setter Property="Icon" Value="ScreenUsers"/>
   </Style>
 
   <Style x:Key="Lerngruppe32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
-    <Setter Property="Icon" Value="Users"/>
+    <Setter Property="Icon" Value="ScreenUsers"/>
   </Style>
 
   <Style x:Key="Lerngruppe48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
-    <Setter Property="Icon" Value="Users"/>
+    <Setter Property="Icon" Value="ScreenUsers"/>
   </Style>
   
   <Style x:Key="Ferien16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">

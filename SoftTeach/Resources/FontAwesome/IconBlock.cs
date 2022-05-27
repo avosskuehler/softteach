@@ -19,10 +19,12 @@ namespace SoftTeach.Resources.FontAwesome
     //public static FontFamily FontAwesomeRegular;
     //public static FontFamily FontAwesomeSolid;
     //public static FontFamily FontAwesomeBrands;
-    public static FontFamily FontAwesomeLight = new FontFamily(new Uri("pack://application:,,,/"), "SoftTeach;component/Fonts/#Font Awesome 5 Pro Light");
-    public static FontFamily FontAwesomeRegular = new FontFamily(new Uri("pack://application:,,,/"), "SoftTeach;component/Fonts/#Font Awesome 5 Pro Regular");
-    public static FontFamily FontAwesomeSolid = new FontFamily(new Uri("pack://application:,,,/"), "SoftTeach;component/Fonts/#Font Awesome 5 Pro Solid");
-    public static FontFamily FontAwesomeBrands = new FontFamily(new Uri("pack://application:,,,/"), "SoftTeach;component/Fonts/#Font Awesome 5 Brands Regular");
+    public static FontFamily FontAwesomeThin = new FontFamily(new Uri("pack://application:,,,/"), "SoftTeach;component/Fonts/#Font Awesome 6 Pro Thin");
+    public static FontFamily FontAwesomeDuotone = new FontFamily(new Uri("pack://application:,,,/"), "SoftTeach;component/Fonts/#Font Awesome 6 Duotone Solid");
+    public static FontFamily FontAwesomeLight = new FontFamily(new Uri("pack://application:,,,/"), "SoftTeach;component/Fonts/#Font Awesome 6 Pro Light");
+    public static FontFamily FontAwesomeRegular = new FontFamily(new Uri("pack://application:,,,/"), "SoftTeach;component/Fonts/#Font Awesome 6 Pro Regular");
+    public static FontFamily FontAwesomeSolid = new FontFamily(new Uri("pack://application:,,,/"), "SoftTeach;component/Fonts/#Font Awesome 6 Pro Solid");
+    public static FontFamily FontAwesomeBrands = new FontFamily(new Uri("pack://application:,,,/"), "SoftTeach;component/Fonts/#Font Awesome 6 Brands Regular");
 
     public static readonly DependencyProperty IconProperty = DependencyProperty.Register(
      nameof(Icon),
@@ -371,6 +373,12 @@ namespace SoftTeach.Resources.FontAwesome
         case AwesomeFontType.Light:
           family = FontAwesomeLight;
           break;
+        case AwesomeFontType.Thin:
+          family = FontAwesomeThin;
+          break;
+        case AwesomeFontType.Duotone:
+          family = FontAwesomeDuotone;
+          break;
         default:
         case AwesomeFontType.Regular:
           family = FontAwesomeRegular;
@@ -407,6 +415,12 @@ namespace SoftTeach.Resources.FontAwesome
       {
         case AwesomeFontType.Light:
           family = FontAwesomeLight;
+          break;
+        case AwesomeFontType.Thin:
+          family = FontAwesomeThin;
+          break;
+        case AwesomeFontType.Duotone:
+          family = FontAwesomeDuotone;
           break;
         default:
         case AwesomeFontType.Regular:

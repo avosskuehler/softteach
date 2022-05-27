@@ -235,7 +235,7 @@
             Click="LerngruppeButtonClick">
             <fluent:Button.LargeIcon>
               <Grid>
-                <fa:IconBlock Style="{StaticResource Klasse32}"/>
+                <fa:IconBlock Style="{StaticResource Lerngruppe32}"/>
                 <fa:IconBlock Style="{StaticResource ListeOverlay32}"/>
               </Grid>
             </fluent:Button.LargeIcon>
@@ -251,20 +251,6 @@
             </fluent:Button.LargeIcon>
           </fluent:Button>
         </fluent:RibbonGroupBox>
-        <!--<fluent:RibbonGroupBox Header="Klassen">
-          <fluent:RibbonGroupBox.Icon>
-            <fa:IconBlock Style="{StaticResource Klasse32}"/>
-          </fluent:RibbonGroupBox.Icon>
-          -->
-        <!--<fluent:Button 
-            Header="Jahrgangsstufen und Klassen" 
-            Click="JahrgangsstufenButtonClick">
-            <fluent:Button.LargeIcon>
-              <fa:IconBlock Style="{StaticResource Klasse32}"/>
-            </fluent:Button.LargeIcon>
-          </fluent:Button>-->
-        <!--
-        </fluent:RibbonGroupBox>-->
         <fluent:RibbonGroupBox Header="Stundenplan">
           <fluent:RibbonGroupBox.Icon>
             <fa:IconBlock Style="{StaticResource Stundenplan32}"/>

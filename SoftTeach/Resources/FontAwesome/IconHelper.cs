@@ -26,6 +26,8 @@ namespace SoftTeach.Resources.FontAwesome
     private static readonly GlyphTypeface GlyphTypefaceRegular;
     private static readonly GlyphTypeface GlyphTypefaceSolid;
     private static readonly GlyphTypeface GlyphTypefaceBrands;
+    private static readonly GlyphTypeface GlyphTypefaceThin;
+    private static readonly GlyphTypeface GlyphTypefaceDuotone;
 
     private static readonly int Dpi = GetDpi();
 
@@ -35,6 +37,8 @@ namespace SoftTeach.Resources.FontAwesome
       var FontAwesomeRegular = Application.Current.FindResource("FontAwesomeRegular") as FontFamily;
       var FontAwesomeSolid = Application.Current.FindResource("FontAwesomeSolid") as FontFamily;
       var FontAwesomeBrands = Application.Current.FindResource("FontAwesomeBrands") as FontFamily;
+      var FontAwesomeThin = Application.Current.FindResource("FontAwesomeThin") as FontFamily;
+      var FontAwesomeDuotone = Application.Current.FindResource("FontAwesomeDuotone") as FontFamily;
       //var FontAwesomeLight = new FontFamily(new Uri("pack://application:,,,/"), "./Fonts/#Font Awesome 5 Pro Light");
       //var FontAwesomeRegular = new FontFamily(new Uri("pack://application:,,,/"), "./Fonts/#Font Awesome 5 Pro Regular");
       //var FontAwesomeSolid = new FontFamily(new Uri("pack://application:,,,/"), "./Fonts/#Font Awesome 5 Pro Solid");
@@ -79,6 +83,24 @@ namespace SoftTeach.Resources.FontAwesome
         if (!typeface.TryGetGlyphTypeface(out GlyphTypefaceBrands))
           Log.ProcessErrorMessage("No glyphtypeface found");
       }
+
+      typeface = new Typeface(FontAwesomeThin, FontStyles.Normal, FontWeights.Normal, FontStretches.Normal);
+      if (!typeface.TryGetGlyphTypeface(out GlyphTypefaceThin))
+      {
+        typeface = new Typeface(new FontFamily(new Uri("pack://application:,,,"), FontAwesomeThin.Source),
+            FontStyles.Normal, FontWeights.Normal, FontStretches.Normal);
+        if (!typeface.TryGetGlyphTypeface(out GlyphTypefaceThin))
+          Log.ProcessErrorMessage("No glyphtypeface found");
+      }
+
+      typeface = new Typeface(FontAwesomeDuotone, FontStyles.Normal, FontWeights.Normal, FontStretches.Normal);
+      if (!typeface.TryGetGlyphTypeface(out GlyphTypefaceDuotone))
+      {
+        typeface = new Typeface(new FontFamily(new Uri("pack://application:,,,"), FontAwesomeDuotone.Source),
+            FontStyles.Normal, FontWeights.Normal, FontStretches.Normal);
+        if (!typeface.TryGetGlyphTypeface(out GlyphTypefaceDuotone))
+          Log.ProcessErrorMessage("No glyphtypeface found");
+      }
     }
 
     public static ImageSource ToImageSource(this IconChar iconChar, AwesomeFontType fontType = AwesomeFontType.Regular, Brush foregroundBrush = null, double size = DefaultSize)
@@ -110,6 +132,12 @@ namespace SoftTeach.Resources.FontAwesome
           break;
         case AwesomeFontType.Brands:
           glyphtypeface = GlyphTypefaceBrands;
+          break;
+        case AwesomeFontType.Thin:
+          glyphtypeface = GlyphTypefaceThin;
+          break;
+        case AwesomeFontType.Duotone:
+          glyphtypeface = GlyphTypefaceDuotone;
           break;
       }
 

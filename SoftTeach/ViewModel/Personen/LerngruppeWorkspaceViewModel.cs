@@ -304,33 +304,33 @@
     /// </summary>
     private void DeleteCurrentLerngruppe()
     {
-      using (new UndoBatch(App.MainViewModel, string.Format("Lerngruppe {0} gelöscht.", this.CurrentLerngruppe), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("Lerngruppe {0} gelöscht.", this.currentLerngruppe), false))
       {
         // Dazugehörige Arbeiten löschen
         var arbeiten =
           App.MainViewModel.Arbeiten.Where(
             o =>
-            o.ArbeitLerngruppe == this.CurrentLerngruppe
-            && o.ArbeitFach == this.CurrentLerngruppe.LerngruppeFach);
+            o.ArbeitLerngruppe == this.currentLerngruppe
+            && o.ArbeitFach == this.currentLerngruppe.LerngruppeFach);
         var list = arbeiten.ToList();
         foreach (var arbeitViewModel in list)
         {
           bool success = App.MainViewModel.Arbeiten.RemoveTest(arbeitViewModel);
         }
 
-        foreach (var schülereintrag in this.CurrentLerngruppe.Schülereinträge.ToList())
+        foreach (var schülereintrag in this.currentLerngruppe.Schülereinträge.ToList())
         {
-          this.CurrentLerngruppe.Schülereinträge.Remove(schülereintrag);
+          this.currentLerngruppe.Schülereinträge.Remove(schülereintrag);
         }
 
         // Jetzt die Lerngruppe löschen
-        App.MainViewModel.Lerngruppen.RemoveTest(this.CurrentLerngruppe);
-        var jahresplan = App.MainViewModel.Jahrespläne.FirstOrDefault(o => o.Lerngruppe.Model.Id == this.CurrentLerngruppe.Model.Id);
+        var jahresplan = App.MainViewModel.Jahrespläne.FirstOrDefault(o => o.Lerngruppe.Model.Id == this.currentLerngruppe.Model.Id);
         if (jahresplan != null)
         {
           App.MainViewModel.Jahrespläne.Remove(jahresplan);
         }
-        this.CurrentLerngruppe = null;
+
+        App.MainViewModel.Lerngruppen.RemoveTest(this.currentLerngruppe);
       }
     }
   }

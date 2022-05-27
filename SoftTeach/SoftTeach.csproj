@@ -33,7 +33,7 @@
     <InstallUrl>\\vk2\softteach\</InstallUrl>
     <ProductName>SoftTeach</ProductName>
     <PublisherName>VK</PublisherName>
-    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationRevision>4</ApplicationRevision>
     <ApplicationVersion>2.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -1047,20 +1047,22 @@
       <DependentUpon>TeachyModel.edmx</DependentUpon>
       <LastGenOutput>TeachyModel.cs</LastGenOutput>
     </Content>
-    <Content Include="Resources\FontAwesome\fontawesome-all.css" />
+    <Content Include="Resources\FontAwesome\all.css" />
     <Content Include="Resources\FontAwesome\IconChar.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IconChar1.cs</LastGenOutput>
     </Content>
     <EmbeddedResource Include="ViewModel\Helper\ODSSupport\template.ods" />
-    <Resource Include="Fonts\FontAwesome5Brands-Regular-400.otf" />
-    <Resource Include="Fonts\FontAwesome5Pro-Light-300.otf" />
-    <Resource Include="Fonts\FontAwesome5Pro-Regular-400.otf" />
-    <Resource Include="Fonts\FontAwesome5Pro-Solid-900.otf" />
     <EntityDeploy Include="Model\TeachyModel\TeachyModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>TeachyModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Resource Include="Fonts\FontAwesome6Brands-Regular-400.otf" />
+    <Resource Include="Fonts\FontAwesome6Duotone-Solid-900.otf" />
+    <Resource Include="Fonts\FontAwesome6Pro-Light-300.otf" />
+    <Resource Include="Fonts\FontAwesome6Pro-Regular-400.otf" />
+    <Resource Include="Fonts\FontAwesome6Pro-Solid-900.otf" />
+    <Resource Include="Fonts\FontAwesome6Pro-Thin-100.otf" />
     <None Include="Model\TeachyModel\TeachyModel.edmx.diagram">
       <DependentUpon>TeachyModel.edmx</DependentUpon>
     </None>
@@ -1931,6 +1933,7 @@
       <FileType>File</FileType>
     </PublishFile>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
