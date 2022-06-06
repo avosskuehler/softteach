@@ -20,10 +20,11 @@
     /// </summary>
     public UnitOfWork()
     {
-      this.Context = new TeachyContext(@"data source=VK2\SQL2017;initial catalog=Teachy;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework");
+//      this.Context = new TeachyContext(@"data source=VK2\SQL2017;initial catalog=Teachy;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework");
+      this.Context = new TeachyContext();
     }
 
-   /// <summary>
+    /// <summary>
     /// Holt den SoftTeach database model context, which is a DbContext.
     /// </summary>
     public TeachyContext Context { get; set; }

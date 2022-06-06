@@ -94,29 +94,29 @@
       this.Schülereinträge.CollectionChanged += this.SchülereinträgeCollectionChanged;
 
       this.Lerngruppentermine = new ObservableCollection<LerngruppenterminViewModel>();
-      //foreach (var lerngruppenTermin in lerngruppe.Lerngruppentermine)
-      //{
-      //  if (lerngruppenTermin is Stunde)
-      //  {
-      //    var vm = new StundeViewModel(lerngruppenTermin as Stunde);
-      //    this.Lerngruppentermine.Add(vm);
-      //  }
-      //  else
-      //  {
-      //    var vm = new LerngruppenterminViewModel(lerngruppenTermin);
-      //    this.Lerngruppentermine.Add(vm);
-      //  }
-      //}
       foreach (var lerngruppenTermin in lerngruppe.Lerngruppentermine)
       {
-        var vm = new LerngruppenterminViewModel(lerngruppenTermin);
-        this.Lerngruppentermine.Add(vm);
+        if (lerngruppenTermin is Stunde)
+        {
+          var vm = new StundeViewModel(lerngruppenTermin as Stunde);
+          this.Lerngruppentermine.Add(vm);
+        }
+        else
+        {
+          var vm = new LerngruppenterminViewModel(lerngruppenTermin);
+          this.Lerngruppentermine.Add(vm);
+        }
       }
-      foreach (var lerngruppenTermin in lerngruppe.Stunden)
-      {
-        var vm = new StundeViewModel(lerngruppenTermin as Stunde);
-        this.Lerngruppentermine.Add(vm);
-      }
+      //foreach (var lerngruppenTermin in lerngruppe.Lerngruppentermine)
+      //{
+      //  var vm = new LerngruppenterminViewModel(lerngruppenTermin);
+      //  this.Lerngruppentermine.Add(vm);
+      //}
+      //foreach (var lerngruppenTermin in lerngruppe.Stunden)
+      //{
+      //  var vm = new StundeViewModel(lerngruppenTermin as Stunde);
+      //  this.Lerngruppentermine.Add(vm);
+      //}
 
       //Console.WriteLine("Elapsed Lerngruppentermine {0}", watch.ElapsedMilliseconds);
       //watch.Restart();
