@@ -7,8 +7,8 @@ namespace SoftTeach.Model.TeachyModel
   {
     public Unterrichtsstunde()
     {
-      TermineErsteUnterrichtsstunde = new HashSet<Lerngruppentermin>();
-      TermineLetzteUnterrichtsstunde = new HashSet<Lerngruppentermin>();
+      TermineErsteUnterrichtsstunde = new HashSet<Termin>();
+      TermineLetzteUnterrichtsstunde = new HashSet<Termin>();
     }
 
     public int Id { get; set; }
@@ -17,7 +17,7 @@ namespace SoftTeach.Model.TeachyModel
     public TimeSpan Ende { get; set; }
     public int Stundenindex { get; set; }
 
-    public virtual ICollection<Lerngruppentermin> TermineErsteUnterrichtsstunde { get; set; }
-    public virtual ICollection<Lerngruppentermin> TermineLetzteUnterrichtsstunde { get; set; }
+    public virtual ICollection<Termin> TermineErsteUnterrichtsstunde { get; set; }
+    public virtual ICollection<Termin> TermineLetzteUnterrichtsstunde { get; set; }
   }
 }

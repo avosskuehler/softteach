@@ -231,11 +231,6 @@ namespace SoftTeach
       base.OnStartup(e);
       TrayIconClickedCommand = new DelegateCommand(TrayIconClicked);
 
-      //NotenErinnerungsIcon = (TaskbarIcon)FindResource("NotenNotifyIcon");
-      //if (NotenErinnerungsIcon != null)
-      //{
-      //  NotenErinnerungsIcon.LeftClickCommand = this.TrayIconClickedCommand;
-      //}
 
       UnitOfWork = new UnitOfWork();
       MainViewModel = new MainViewModel();
@@ -255,6 +250,9 @@ namespace SoftTeach
       //navWin.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/MahApps.Metro;component/Styles/Clean/CleanWindow.xaml", UriKind.Absolute) });
       //navWin.SetResourceReference(FrameworkElement.StyleProperty, "CleanWindowStyleKey");
       // Sprache der UI auf Current Culture setzen
+      
+      //TODO
+      //NotenErinnerungsIcon = (TaskbarIcon)navWin.FindResource("NotenNotifyIcon");
 
       FrameworkElement.LanguageProperty.OverrideMetadata(
         typeof(FrameworkElement),

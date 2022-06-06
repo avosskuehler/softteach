@@ -59,7 +59,9 @@ namespace SoftTeach.Model.TeachyModel
     {
       if (!optionsBuilder.IsConfigured)
       {
-        optionsBuilder.UseSqlServer("Server=VK2\\SQL2017;Database=Teachy;Trusted_Connection=True;");
+        optionsBuilder
+          //.UseLazyLoadingProxies()
+          .UseSqlServer("Server=VK2\\SQL2017;Database=Teachy;Trusted_Connection=True;");
       }
     }
 
@@ -92,6 +94,7 @@ namespace SoftTeach.Model.TeachyModel
                   .HasForeignKey(d => d.LerngruppeId)
                   .HasConstraintName("FK_LerngruppeArbeit");
       });
+      //modelBuilder.Entity<Arbeit>().Navigation(e => e.Aufgaben).AutoInclude();
 
       modelBuilder.Entity<Aufgabe>(entity =>
       {
@@ -133,6 +136,7 @@ namespace SoftTeach.Model.TeachyModel
                   .IsRequired()
                   .HasMaxLength(200);
       });
+      //modelBuilder.Entity<Bewertungsschema>().Navigation(e => e.Prozentbereiche).AutoInclude();
 
       modelBuilder.Entity<Curriculum>(entity =>
       {
@@ -159,6 +163,8 @@ namespace SoftTeach.Model.TeachyModel
                   .HasConstraintName("FK_SchuljahrCurriculum");
       });
 
+      //modelBuilder.Entity<Curriculum>().Navigation(e => e.Reihen).AutoInclude();
+
       modelBuilder.Entity<Dateityp>(entity =>
       {
         entity.ToTable("Dateityp");
@@ -170,6 +176,7 @@ namespace SoftTeach.Model.TeachyModel
 
       modelBuilder.Entity<Dateiverweis>(entity =>
       {
+        entity.ToTable("Dateiverweis");
         entity.HasIndex(e => e.DateitypId, "IX_FK_DateitypDateiverweis");
 
         entity.HasIndex(e => e.StundeId, "IX_FK_StundenentwurfDateiverweis");
@@ -289,6 +296,9 @@ namespace SoftTeach.Model.TeachyModel
                   .HasForeignKey(d => d.SchuljahrId)
                   .HasConstraintName("FK_SchuljahrLerngruppe");
       });
+
+      //modelBuilder.Entity<Lerngruppe>().Navigation(e => e.Schülereinträge).AutoInclude();
+      //modelBuilder.Entity<Lerngruppe>().Navigation(e => e.Lerngruppentermine).AutoInclude();
 
       modelBuilder.Entity<Modul>(entity =>
       {
@@ -411,6 +421,7 @@ namespace SoftTeach.Model.TeachyModel
 
         entity.Property(e => e.Bezeichnung).IsRequired();
       });
+      //modelBuilder.Entity<Raum>().Navigation(e => e.Raumpläne).AutoInclude();
 
       modelBuilder.Entity<Raumplan>(entity =>
       {
@@ -427,6 +438,7 @@ namespace SoftTeach.Model.TeachyModel
                   .HasForeignKey(d => d.RaumId)
                   .HasConstraintName("FK_RaumRaumplan");
       });
+      //modelBuilder.Entity<Raumplan>().Navigation(e => e.Sitzplätze).AutoInclude();
 
       modelBuilder.Entity<Reihe>(entity =>
       {
@@ -449,6 +461,8 @@ namespace SoftTeach.Model.TeachyModel
                   .OnDelete(DeleteBehavior.ClientSetNull)
                   .HasConstraintName("FK_ModulReihe");
       });
+
+      //modelBuilder.Entity<Reihe>().Navigation(e => e.Sequenzen).AutoInclude();
 
       modelBuilder.Entity<Schuljahr>(entity =>
       {
@@ -476,6 +490,12 @@ namespace SoftTeach.Model.TeachyModel
                   .HasForeignKey(d => d.PersonId)
                   .HasConstraintName("FK_PersonSchülereintrag");
       });
+
+      //modelBuilder.Entity<Schülereintrag>().Navigation(e => e.Person).AutoInclude();
+      //modelBuilder.Entity<Schülereintrag>().Navigation(e => e.Hausaufgaben).AutoInclude();
+      //modelBuilder.Entity<Schülereintrag>().Navigation(e => e.Noten).AutoInclude();
+      //modelBuilder.Entity<Schülereintrag>().Navigation(e => e.Notentendenzen).AutoInclude();
+      //modelBuilder.Entity<Schülereintrag>().Navigation(e => e.Ergebnisse).AutoInclude();
 
       modelBuilder.Entity<Sequenz>(entity =>
       {
@@ -509,6 +529,9 @@ namespace SoftTeach.Model.TeachyModel
                   .HasForeignKey(d => d.RaumplanId)
                   .HasConstraintName("FK_RaumplanSitzplan");
       });
+
+      //modelBuilder.Entity<Sitzplan>().Navigation(e => e.Sitzplaneinträge).AutoInclude();
+      //modelBuilder.Entity<Sitzplan>().Navigation(e => e.Lerngruppe).AutoInclude();
 
       modelBuilder.Entity<Sitzplaneintrag>(entity =>
       {
@@ -561,6 +584,7 @@ namespace SoftTeach.Model.TeachyModel
                   .HasForeignKey(d => d.SchuljahrId)
                   .HasConstraintName("FK_SchuljahrStundenplan");
       });
+      //modelBuilder.Entity<Stundenplan>().Navigation(e => e.Stundenplaneinträge).AutoInclude();
 
       modelBuilder.Entity<Stundenplaneintrag>(entity =>
       {
@@ -624,7 +648,7 @@ namespace SoftTeach.Model.TeachyModel
       {
         entity.HasOne(d => d.Lerngruppe)
                   .WithMany(p => p.Lerngruppentermine)
-                  .HasForeignKey(d => d.Lerngruppe.Id)
+                  .HasForeignKey(d => d.LerngruppeId)
                   .HasConstraintName("FK_Termin_Lerngruppen");
       });
 
@@ -643,6 +667,9 @@ namespace SoftTeach.Model.TeachyModel
                   .HasConstraintName("FK_Termin_Module");
       });
 
+      //modelBuilder.Entity<Stunde>().Navigation(e => e.Phasen).AutoInclude();
+      //modelBuilder.Entity<Stunde>().Navigation(e => e.Dateiverweise).AutoInclude();
+
       modelBuilder.Entity<Schultermin>(entity =>
       {
         entity.HasOne(d => d.Schuljahr)
@@ -651,6 +678,7 @@ namespace SoftTeach.Model.TeachyModel
                   .OnDelete(DeleteBehavior.Cascade)
                   .HasConstraintName("FK_Termin_Schuljahre");
       });
+      //modelBuilder.Entity<Schultermin>().Navigation(e => e.BetroffeneLerngruppen).AutoInclude();
 
       modelBuilder.Entity<Unterrichtsstunde>(entity =>
       {

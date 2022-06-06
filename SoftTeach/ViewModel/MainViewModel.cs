@@ -11,7 +11,7 @@
   using System.Windows;
   using System.Windows.Data;
   using System.Windows.Media;
-
+  using Microsoft.EntityFrameworkCore;
   using SoftTeach.ExceptionHandling;
   using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
@@ -2183,7 +2183,13 @@
       var collection = this.lerngruppen;
       this.lerngruppen.CollectionChanged -= this.LerngruppenCollectionChanged;
 
-      foreach (var schülerliste in App.UnitOfWork.Context.Lerngruppen.Where(o => o.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr))
+      foreach (var schülerliste in App.UnitOfWork.Context.Lerngruppen.Where(o => o.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr)
+        .Include(lerngruppe => lerngruppe.Schülereinträge)
+        .ThenInclude(schülereintrag => schülereintrag.Person)
+        .Include(lerngruppe => lerngruppe.Lerngruppentermine)
+        .ThenInclude(lerngruppentermin => ((Stunde)lerngruppentermin).Phasen)
+        .Include(lerngruppe => lerngruppe.Lerngruppentermine)
+        .ThenInclude(lerngruppentermin => ((Stunde)lerngruppentermin).Dateiverweise))
       {
         if (!collection.Any(o => o.Model.Id == schülerliste.Id))
         {
@@ -2222,7 +2228,7 @@
       App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = false;
       var collection = this.arbeiten;
       this.arbeiten.CollectionChanged -= this.ArbeitenCollectionChanged;
-      foreach (var arbeit in App.UnitOfWork.Context.Arbeiten.Where(o => o.Lerngruppe.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr))
+      foreach (var arbeit in App.UnitOfWork.Context.Arbeiten.Where(o => o.Lerngruppe.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr).Include(arbeit => arbeit.Aufgaben))
       {
         if (!collection.Any(o => o.Model.Id == arbeit.Id))
         {
@@ -2241,7 +2247,7 @@
       App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = false;
       var collection = this.räume;
       this.räume.CollectionChanged -= this.RäumeCollectionChanged;
-      foreach (var raum in App.UnitOfWork.Context.Räume.OrderBy(o => o.Bezeichnung))
+      foreach (var raum in App.UnitOfWork.Context.Räume.OrderBy(o => o.Bezeichnung).Include(raum => raum.Raumpläne))
       {
         if (!collection.Any(o => o.Model.Bezeichnung == raum.Bezeichnung))
         {
@@ -2260,7 +2266,7 @@
       App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = false;
       var collection = this.curricula;
       this.curricula.CollectionChanged -= this.CurriculaCollectionChanged;
-      foreach (var curriculum in App.UnitOfWork.Context.Curricula)
+      foreach (var curriculum in App.UnitOfWork.Context.Curricula.Include(curriculum => curriculum.Reihen))
       {
         if (!collection.Any(o => o.Model.Id == curriculum.Id))
         {
@@ -2296,7 +2302,8 @@
       var collection = this.sitzpläne;
       this.sitzpläne.CollectionChanged -= this.SitzpläneCollectionChanged;
 
-      foreach (var sitzplan in App.UnitOfWork.Context.Sitzpläne.Where(o => o.Lerngruppe.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr))
+      foreach (var sitzplan in App.UnitOfWork.Context.Sitzpläne.Where(o => o.Lerngruppe.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr)
+        .Include(sitzplan => sitzplan.Sitzplaneinträge))
       {
         if (!collection.Any(o => o.Model.Id == sitzplan.Id))
         {

@@ -12,6 +12,8 @@ namespace SoftTeach.Model.TeachyModel
   {
     public Halbjahr Halbjahr { get; set; }
 
+    public int LerngruppeId { get; set; }
+
     public virtual Lerngruppe Lerngruppe { get; set; }
 
     /// <summary>

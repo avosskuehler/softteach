@@ -14,6 +14,7 @@ namespace SoftTeach.Model.TeachyModel
     public virtual Dateityp Dateityp { get; set; }
     public virtual Stunde Stunde { get; set; }
 
+
     /// <summary>
     /// Holt den Dateiname of this dateiverweis without path.
     /// </summary>
