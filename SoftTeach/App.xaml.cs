@@ -63,16 +63,11 @@ namespace SoftTeach
     /// </summary>
     public static UnitOfWork UnitOfWork { get; private set; }
 
-    /// <summary>
-    /// Gets the noten erinnerungs icon.
-    /// </summary>
-    /// <value>The noten erinnerungs icon.</value>
-    public static TaskbarIcon NotenErinnerungsIcon { get; private set; }
-
-    /// <summary>
-    /// Holt den Befehl, der aufgerufen werden soll, wenn das TrayIcon angeklickt wird.
-    /// </summary>
-    public static DelegateCommand TrayIconClickedCommand { get; private set; }
+    ///// <summary>
+    ///// Gets the noten erinnerungs icon.
+    ///// </summary>
+    ///// <value>The noten erinnerungs icon.</value>
+    //public static TaskbarIcon NotenErinnerungsIcon { get; private set; }
 
     /// <summary>
     /// This static mehtod returns an <see cref="Image"/>
@@ -113,8 +108,8 @@ namespace SoftTeach
       var terminMenuentryIconImage = new BitmapImage();
       terminMenuentryIconImage.BeginInit();
       //terminMenuentryIconImage.UriSource = new Uri("pack://application:,,,/Images/" + imageName, UriKind.RelativeOrAbsolute);
-      terminMenuentryIconImage.UriSource = new Uri(@"Images/" + imageName, UriKind.RelativeOrAbsolute);
-      //terminMenuentryIconImage.UriSource = new Uri("pack://application:,,,/Images/" + imageName);
+      //terminMenuentryIconImage.UriSource = new Uri(@"/SoftTeach;component/Images/" + imageName, UriKind.RelativeOrAbsolute);
+      terminMenuentryIconImage.UriSource = new Uri("Images/" + imageName, UriKind.Relative);
       terminMenuentryIconImage.EndInit();
       return terminMenuentryIconImage;
     }
@@ -150,9 +145,13 @@ namespace SoftTeach
           "Datei nicht gefunden", "Die zu öffnende Datei " + fullPath + " wurde nicht gefunden.", false);
         return;
       }
-
-      var openProcess = new Process { StartInfo = { FileName = fullPath } };
-      openProcess.Start();
+      
+      ProcessStartInfo psi = new ProcessStartInfo
+      {
+        FileName = fullPath,
+        UseShellExecute = true
+      };
+      Process.Start(psi);
     }
 
     /// <summary>
@@ -229,8 +228,12 @@ namespace SoftTeach
     protected override void OnStartup(StartupEventArgs e)
     {
       base.OnStartup(e);
-      TrayIconClickedCommand = new DelegateCommand(TrayIconClicked);
 
+      //NotenErinnerungsIcon = (TaskbarIcon)FindResource("NotenNotifyIcon");
+      //if (NotenErinnerungsIcon != null)
+      //{
+      //  NotenErinnerungsIcon.LeftClickCommand = TrayIconClickedCommand;
+      //}
 
       UnitOfWork = new UnitOfWork();
       MainViewModel = new MainViewModel();
@@ -244,15 +247,13 @@ namespace SoftTeach
       navWin.Title = "SoftTeach";
       navWin.ShowTitleBar = false;
       navWin.WindowState = WindowState.Maximized;
-      navWin.Icon = GetImageSource("Logo64.png");
+      //navWin.Icon = GetImageSource("Logo64.png");
       navWin.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/SoftTeach;component/Resources/MetroResources.xaml", UriKind.Absolute) });
       //uncomment the next two lines if you want the clean style.
       //navWin.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/MahApps.Metro;component/Styles/Clean/CleanWindow.xaml", UriKind.Absolute) });
       //navWin.SetResourceReference(FrameworkElement.StyleProperty, "CleanWindowStyleKey");
       // Sprache der UI auf Current Culture setzen
       
-      //TODO
-      //NotenErinnerungsIcon = (TaskbarIcon)navWin.FindResource("NotenNotifyIcon");
 
       FrameworkElement.LanguageProperty.OverrideMetadata(
         typeof(FrameworkElement),
@@ -264,13 +265,6 @@ namespace SoftTeach
       navWin.Navigate(new LandingPage());
     }
 
-    /// <summary>
-    /// Hier wird der Dialog zur Noteneingabe aufgerufen
-    /// </summary>
-    private static void TrayIconClicked()
-    {
-      MainViewModel.StartNoteneingabe();
-    }
 
     /// <summary>
     /// Handles the Closing event of the navWin control.
@@ -306,7 +300,7 @@ namespace SoftTeach
     /// <param name="e">Arguments of the exit event</param>
     protected override void OnExit(ExitEventArgs e)
     {
-      NotenErinnerungsIcon.Dispose();
+      //NotenErinnerungsIcon.Dispose();
       base.OnExit(e);
     }
 

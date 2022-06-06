@@ -103,9 +103,9 @@
     <Resource Include="Fonts\FontAwesome6Pro-Regular-400.otf" />
     <Resource Include="Fonts\FontAwesome6Pro-Solid-900.otf" />
     <Resource Include="Fonts\FontAwesome6Pro-Thin-100.otf" />
-    <EmbeddedResource Include="Images\Inactive.ico">
+    <Resource Include="Images\Inactive.ico">
       <CopyToOutputDirectory></CopyToOutputDirectory>
-    </EmbeddedResource>
+    </Resource>
     <Resource Include="Images\Logo.ico">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
@@ -114,7 +114,9 @@
     <Resource Include="Resources\WindowsIcons-license.txt" />
     <Resource Include="Resources\Cursors\Copy.cur" />
     <Resource Include="Resources\Cursors\Rotate.cur" />
-    <Resource Include="Images\Error.ico" />
+    <Resource Include="Images\Error.ico">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
     <None Update="App.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

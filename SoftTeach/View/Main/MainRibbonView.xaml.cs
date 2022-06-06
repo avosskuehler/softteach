@@ -1,10 +1,14 @@
 ﻿namespace SoftTeach.View.Main
 {
+  using System;
   using System.Collections.Generic;
+  using System.Collections.ObjectModel;
   using System.Linq;
+  using System.Timers;
   using System.Windows;
+  using System.Windows.Controls;
   using SoftTeach.ExceptionHandling;
-
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Properties;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
@@ -16,6 +20,8 @@
   using SoftTeach.View.Stundenpläne;
   using SoftTeach.View.Termine;
   using SoftTeach.ViewModel.Curricula;
+  using SoftTeach.ViewModel.Helper;
+  using SoftTeach.ViewModel.Noten;
   using SoftTeach.ViewModel.Termine;
 
   /// <summary>
@@ -24,16 +30,35 @@
   public partial class MainRibbonView
   {
     /// <summary>
+    /// The noten timer
+    /// </summary>
+    private Timer notenTimer;
+
+    /// <summary>
+    /// Holt den Befehl, der aufgerufen werden soll, wenn das TrayIcon angeklickt wird.
+    /// </summary>
+    public static DelegateCommand TrayIconClickedCommand { get; private set; }
+
+    /// <summary>
     /// Initialisiert eine e Instanz der <see cref="MainRibbonView"/> Klasse. 
     /// </summary>
     public MainRibbonView()
     {
       this.DataContext = App.MainViewModel;
+      TrayIconClickedCommand = new DelegateCommand(TrayIconClicked);
+
       this.InitializeComponent();
+      this.notenTimer = new Timer(5000);
+      this.notenTimer.Elapsed += this.NotenTimerElapsed;
+
+      this.NotenNotifyIcon.LeftClickCommand = TrayIconClickedCommand;
+      // Notenerinnerungstimer starten
+      this.notenTimer.Start();
     }
 
     private void MainRibbonViewClosing(object sender, System.ComponentModel.CancelEventArgs e)
     {
+
       Selection.Instance.UpdateUserSettings();
       Settings.Default.Save();
 
@@ -53,6 +78,96 @@
       {
         App.UnitOfWork.SaveChanges();
       }
+
+      //clean up notifyicon (would otherwise stay open until application finishes)
+      this.NotenNotifyIcon.Dispose();
+    }
+
+    /// <summary>
+    /// Wird aufgerufen, wenn der noten timer abgelaufen ist.
+    /// Checkt, ob Noten eingegeben werden müssen.
+    /// </summary>
+    /// <param name="source">The source.</param>
+    /// <param name="e">The <see cref="ElapsedEventArgs"/> instance containing the event data.</param>
+    private void NotenTimerElapsed(object source, ElapsedEventArgs e)
+    {
+      var nochZuBenotendeStunden = HoleNochZuBenotendeStunden();
+      var anzahlNichtbenoteterStunden = nochZuBenotendeStunden.Count;
+      if (anzahlNichtbenoteterStunden > 0)
+      {
+        Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+        {
+          var text = string.Format("{0} {1}  noch nicht benotet", anzahlNichtbenoteterStunden, anzahlNichtbenoteterStunden == 1 ? "Stunde" : "Stunden");
+          this.NotenNotifyIcon.ToolTipText = anzahlNichtbenoteterStunden + " Stunden noch nicht benotet";
+          this.NotenNotifyIcon.IconSource = ((Image)this.Resources["ErrorImage"]).Source;
+          this.NotenNotifyIcon.Visibility = Visibility.Visible;
+        }));
+      }
+      else
+      {
+        Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+        {
+          this.NotenNotifyIcon.ToolTipText = "Keine offenen Bewertungen.";
+          this.NotenNotifyIcon.IconSource = ((Image)this.Resources["InactiveImage"]).Source;
+          this.NotenNotifyIcon.Visibility = Visibility.Collapsed;
+        }));
+      }
+    }
+
+    /// <summary>
+    /// Gibt eine Collection mit den noch zu benotenden Stunden aus.
+    /// </summary>
+    /// <returns>ObservableCollection&lt;StundeViewModel&gt;.</returns>
+    private static ObservableCollection<Stunde> HoleNochZuBenotendeStunden()
+    {
+      var von = DateTime.Now.AddDays(-14);
+      var bis = DateTime.Now;
+      var nichtBenoteteStundenderLetzten14Tage =
+        App.UnitOfWork.Context.Termine.OfType<Stunde>().Where(
+          o =>
+          o.Datum > von && o.Datum <= bis && !o.IstBenotet
+          && (o.Fach.Bezeichnung == "Mathematik" || o.Fach.Bezeichnung == "Physik"));
+
+      var nochZuBenotendeStunden = new ObservableCollection<Stunde>();
+
+
+      foreach (var stundeViewModel in nichtBenoteteStundenderLetzten14Tage)
+      {
+        if (stundeViewModel.Datum.Date == bis.Date)
+        {
+          if (stundeViewModel.LetzteUnterrichtsstunde.Beginn > bis.TimeOfDay)
+          {
+            continue;
+          }
+        }
+
+        nochZuBenotendeStunden.Add(stundeViewModel);
+      }
+      return nochZuBenotendeStunden;
+    }
+
+    /// <summary>
+    /// Startet die noteneingabe.
+    /// </summary>
+    public static void StartNoteneingabe()
+    {
+      var nochZuBenotendeStunden = HoleNochZuBenotendeStunden();
+      if (!nochZuBenotendeStunden.Any())
+      {
+        return;
+      }
+
+      var viewModel = new StundennotenReminderWorkspaceViewModel(nochZuBenotendeStunden);
+      var dlg = new MetroStundennotenReminderWindow { DataContext = viewModel };
+      dlg.ShowDialog();
+    }
+
+    /// <summary>
+    /// Hier wird der Dialog zur Noteneingabe aufgerufen
+    /// </summary>
+    private static void TrayIconClicked()
+    {
+      StartNoteneingabe();
     }
 
     #region Ribbon

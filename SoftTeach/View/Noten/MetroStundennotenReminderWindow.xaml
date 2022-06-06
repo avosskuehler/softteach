@@ -66,10 +66,10 @@
               <RowDefinition/>
               <RowDefinition/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Content="{Binding Path=Stundenentwurf.Stundenthema}"/>
-            <Label Grid.Row="1" Grid.Column="0" Content="{Binding Path=Stundenentwurf.Fach.Bezeichnung}"/>
-            <Label Grid.Row="1" Grid.Column="1" Content="{Binding Path=Tagesplan.Monatsplan.Halbjahresplan.Jahresplan.Klasse.Bezeichnung}"/>
-            <Label Grid.Row="1" Grid.Column="2" Content="{Binding Path=Stundenentwurf.Datum, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=DatumKurz}"/>
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Content="{Binding Path=Beschreibung}"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="{Binding Path=Fach.Bezeichnung}"/>
+            <Label Grid.Row="1" Grid.Column="1" Content="{Binding Path=Lerngruppe.Bezeichnung}"/>
+            <Label Grid.Row="1" Grid.Column="2" Content="{Binding Path=Datum, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=DatumKurz}"/>
           </Grid>
         </DataTemplate>
       </ListBox.ItemTemplate>

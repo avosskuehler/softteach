@@ -70,9 +70,22 @@
               <scm:SortDescription PropertyName="SchuljahrJahr"/>
             </CollectionViewSource.SortDescriptions>
           </CollectionViewSource>
+          <Image 
+            x:Key="InactiveImage" 
+            Width="16"
+            Margin="0,4,0,0"
+            Height="16"
+            Source="/Images/Inactive.ico" />
+          <Image
+            x:Key="ErrorImage"
+            Width="16"
+            Margin="0,4,0,0"
+            Height="16"
+            Source="/Images/Error.ico" />
         </ResourceDictionary>
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
+
   </fluent:RibbonWindow.Resources>
   <Grid x:Name="LayoutRoot">
     <Grid.RowDefinitions>
@@ -82,9 +95,9 @@
     </Grid.RowDefinitions>
     <tb:TaskbarIcon 
       x:Name="NotenNotifyIcon"
-      LeftClickCommand="{Binding Source={x:Static softTeach:App.NotenErinnerungsIcon}}"
+      IconSource="{Binding Source={StaticResource InactiveImage}, Path=Source, Mode=Default}"
       ToolTipText=""
-      Visibility="Hidden"
+      Visibility="Collapsed"
       PopupActivation="LeftClick">
       <tb:TaskbarIcon.TrayToolTip>
         <Border

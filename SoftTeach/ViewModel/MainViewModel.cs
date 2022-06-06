@@ -35,20 +35,6 @@
   /// </summary>
   public class MainViewModel : ViewModelBase, ISupportsUndo
   {
-    /// <summary>
-    /// The noten timer
-    /// </summary>
-    private Timer notenTimer;
-
-    /// <summary>
-    /// The error icon
-    /// </summary>
-    private ImageSource errorIcon;
-
-    /// <summary>
-    /// The inactive icon
-    /// </summary>
-    private ImageSource inactiveIcon;
     private ArbeitWorkspaceViewModel arbeitWorkspace;
     private RaumWorkspaceViewModel raumWorkspace;
     private LerngruppeWorkspaceViewModel lerngruppeWorkspace;
@@ -69,12 +55,6 @@
     /// </summary>
     public MainViewModel()
     {
-      this.notenTimer = new Timer(30000);
-      this.notenTimer.Elapsed += this.NotenTimerElapsed;
-
-      this.errorIcon = App.GetImageSource("Error.ico");
-      this.inactiveIcon = App.GetImageSource("Inactive.ico");
-
       // Initialisiert Undo/Redo
       UndoService.Current[this].Clear();
 
@@ -708,22 +688,6 @@
     }
 
     /// <summary>
-    /// Startet die noteneingabe.
-    /// </summary>
-    public static void StartNoteneingabe()
-    {
-      var nochZuBenotendeStunden = HoleNochZuBenotendeStunden();
-      if (!nochZuBenotendeStunden.Any())
-      {
-        return;
-      }
-
-      var viewModel = new StundennotenReminderWorkspaceViewModel(nochZuBenotendeStunden);
-      var dlg = new MetroStundennotenReminderWindow { DataContext = viewModel };
-      dlg.ShowDialog();
-    }
-
-    /// <summary>
     /// Populates this instance of the MainViewModel class.
     /// </summary>
     public void Populate()
@@ -735,9 +699,6 @@
       ChangeFactory.Current.IsTracking = false;
       var watch = new Stopwatch();
       watch.Start();
-
-      // Notenerinnerungstimer starten
-      //this.notenTimer.Start();
 
       // TODO: Divide into multiple contexts for performance reasons
       try
@@ -845,7 +806,9 @@
         //{
         //  this.Schultermine.Add(new SchulterminViewModel(termin as Schultermin));
         //}
-        foreach (Schultermin termin in context.Schultermine.Where(o => o.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr))
+        foreach (Schultermin termin in context.Schultermine.Where(o => o.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr)
+          .Include(schultermin => schultermin.BetroffeneLerngruppen)
+          )
         {
           this.Schultermine.Add(new SchulterminViewModel(termin));
         }
@@ -2266,7 +2229,10 @@
       App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = false;
       var collection = this.curricula;
       this.curricula.CollectionChanged -= this.CurriculaCollectionChanged;
-      foreach (var curriculum in App.UnitOfWork.Context.Curricula.Include(curriculum => curriculum.Reihen))
+      foreach (var curriculum in App.UnitOfWork.Context.Curricula
+        .Include(curriculum => curriculum.Reihen)
+        .ThenInclude(reihe => reihe.Sequenzen)
+        )
       {
         if (!collection.Any(o => o.Model.Id == curriculum.Id))
         {
@@ -2382,67 +2348,6 @@
       }
     }
 
-    /// <summary>
-    /// Wird aufgerufen, wenn der noten timer abgelaufen ist.
-    /// Checkt, ob Noten eingegeben werden müssen.
-    /// </summary>
-    /// <param name="source">The source.</param>
-    /// <param name="e">The <see cref="ElapsedEventArgs"/> instance containing the event data.</param>
-    private void NotenTimerElapsed(object source, ElapsedEventArgs e)
-    {
-      var nochZuBenotendeStunden = HoleNochZuBenotendeStunden();
-      var anzahlNichtbenoteterStunden = nochZuBenotendeStunden.Count;
-      if (anzahlNichtbenoteterStunden > 0)
-      {
-        Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-        {
-          App.NotenErinnerungsIcon.ToolTipText = anzahlNichtbenoteterStunden + " Stunden noch nicht benotet";
-          App.NotenErinnerungsIcon.IconSource = this.errorIcon;
-          App.NotenErinnerungsIcon.Visibility = Visibility.Visible;
-        }));
-      }
-      else
-      {
-        Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-          {
-            App.NotenErinnerungsIcon.ToolTipText = "Keine offenen Bewertungen.";
-            App.NotenErinnerungsIcon.IconSource = this.inactiveIcon;
-            App.NotenErinnerungsIcon.Visibility = Visibility.Collapsed;
-          }));
-      }
-    }
-
-    /// <summary>
-    /// Gibt eine Collection mit den noch zu benotenden Stunden aus.
-    /// </summary>
-    /// <returns>ObservableCollection&lt;StundeViewModel&gt;.</returns>
-    private static ObservableCollection<Stunde> HoleNochZuBenotendeStunden()
-    {
-      var von = DateTime.Now.AddDays(-14);
-      var bis = DateTime.Now;
-      var nichtBenoteteStundenderLetzten14Tage =
-        App.UnitOfWork.Context.Termine.OfType<Stunde>().Where(
-          o =>
-          o.Datum > von && o.Datum <= bis && !o.IstBenotet
-          && (o.Fach.Bezeichnung == "Mathematik" || o.Fach.Bezeichnung == "Physik"));
-
-      var nochZuBenotendeStunden = new ObservableCollection<Stunde>();
-
-
-      foreach (var stundeViewModel in nichtBenoteteStundenderLetzten14Tage)
-      {
-        if (stundeViewModel.Datum.Date == bis.Date)
-        {
-          if (stundeViewModel.LetzteUnterrichtsstunde.Beginn > bis.TimeOfDay)
-          {
-            continue;
-          }
-        }
-
-        nochZuBenotendeStunden.Add(stundeViewModel);
-      }
-      return nochZuBenotendeStunden;
-    }
 
     #region CollectionChangedEventHandler
 
