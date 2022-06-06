@@ -28,19 +28,14 @@
     private SequenzViewModel currentSequenz;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="ReiheViewModel"/> Klasse.
+    /// Initialisiert eine e Instanz der <see cref="ReiheViewModel"/> Klasse.
     /// </summary>
     /// <param name="reihe">
     /// The underlying reihe this ViewModel is to be based on
     /// </param>
-    public ReiheViewModel(ReiheNeu reihe)
+    public ReiheViewModel(Reihe reihe)
     {
-      if (reihe == null)
-      {
-        throw new ArgumentNullException("reihe");
-      }
-
-      this.Model = reihe;
+      this.Model = reihe ?? throw new ArgumentNullException(nameof(reihe));
 
       // Build data structures for sequenzen
       this.UsedSequenzen = new ObservableCollection<SequenzViewModel>();
@@ -75,7 +70,7 @@
     /// <summary>
     /// Holt den underlying Reihe this ViewModel is based on
     /// </summary>
-    public ReiheNeu Model { get; private set; }
+    public Reihe Model { get; private set; }
 
     /// <summary>
     /// Holt den Befehl zur adding a new sequenz
@@ -148,7 +143,7 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "ReiheModul", this.modul, value);
+        this.UndoablePropertyChanging(this, nameof(ReiheModul), this.modul, value);
         this.modul = value;
         this.Model.Modul = value.Model;
         this.RaisePropertyChanged("ReiheModul");
@@ -172,7 +167,7 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "ReiheThema", this.Model.Thema, value);
+        this.UndoablePropertyChanging(this, nameof(ReiheThema), this.Model.Thema, value);
         this.Model.Thema = value;
         this.RaisePropertyChanged("ReiheThema");
       }
@@ -205,7 +200,7 @@
     /// <summary>
     /// Dummy, um Binding-Fehlermeldungen beim Zuweisen von Curricula zu Stunden zu vermeiden
     /// </summary>
-    public string LerngruppenterminMonat
+    public static string LerngruppenterminMonat
     {
       get
       {
@@ -216,7 +211,7 @@
     /// <summary>
     /// Dummy, um Binding-Fehlermeldungen beim Zuweisen von Curricula zu Stunden zu vermeiden
     /// </summary>
-    public DateTime LerngruppenterminDatum
+    public static DateTime LerngruppenterminDatum
     {
       get
       {
@@ -242,7 +237,7 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "Reihenfolge", this.Model.Reihenfolge, value);
+        this.UndoablePropertyChanging(this, nameof(Reihenfolge), this.Model.Reihenfolge, value);
         this.Model.Reihenfolge = value;
         this.RaisePropertyChanged("Reihenfolge");
       }
@@ -265,7 +260,7 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "ReiheStundenbedarf", this.Model.Stundenbedarf, value);
+        this.UndoablePropertyChanging(this, nameof(ReiheStundenbedarf), this.Model.Stundenbedarf, value);
         this.Model.Stundenbedarf = value;
         this.RaisePropertyChanged("ReiheStundenbedarf");
         var vm = App.MainViewModel.Curricula.FirstOrDefault(o => o.Model == this.Model.Curriculum);
@@ -349,11 +344,13 @@
     /// </summary>
     private void AddSequenz()
     {
-      var sequenz = new SequenzNeu();
-      sequenz.Reihenfolge = -1;
-      sequenz.Stundenbedarf = 10;
-      sequenz.Thema = "Neues Thema";
-      sequenz.Reihe = this.Model;
+      var sequenz = new Sequenz
+      {
+        Reihenfolge = -1,
+        Stundenbedarf = 10,
+        Thema = "es Thema",
+        Reihe = this.Model
+      };
 
       var vm = new SequenzViewModel(this, sequenz);
       using (new UndoBatch(App.MainViewModel, string.Format("Sequenz {0} hinzugefügt", vm), false))
@@ -427,7 +424,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void UsedSequenzenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "UsedSequenzen", this.UsedSequenzen, e, true, "Änderung der UsedSequenzen");
+      UndoableCollectionChanged(this, nameof(UsedSequenzen), this.UsedSequenzen, e, true, "Änderung der UsedSequenzen");
     }
 
     /// <summary>
@@ -438,7 +435,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void AvailableSequenzenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "AvailableSequenzen", this.AvailableSequenzen, e, true, "Änderung der AvailableSequenzen");
+      UndoableCollectionChanged(this, nameof(AvailableSequenzen), this.AvailableSequenzen, e, true, "Änderung der AvailableSequenzen");
     }
   }
 }

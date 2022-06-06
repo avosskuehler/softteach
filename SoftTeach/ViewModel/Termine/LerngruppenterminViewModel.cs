@@ -24,18 +24,33 @@
     private LerngruppeViewModel lerngruppe;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="LerngruppenterminViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="LerngruppenterminViewModel"/> Klasse. 
     /// </summary>
     /// <param name="lerngruppentermin">
     /// The underlying lerngruppentermin this ViewModel is to be based on
     /// </param>
-    public LerngruppenterminViewModel(LerngruppenterminNeu lerngruppentermin)
+    public LerngruppenterminViewModel(Lerngruppentermin lerngruppentermin)
       : base(lerngruppentermin)
     {
       this.ViewLerngruppenterminCommand = new DelegateCommand(this.ViewLerngruppentermin);
       this.EditLerngruppenterminCommand = new DelegateCommand(this.EditLerngruppentermin);
       this.RemoveLerngruppenterminCommand = new DelegateCommand(this.DeleteTermin);
       this.Model = lerngruppentermin;
+    }
+
+    /// <summary>
+    /// Initialisiert eine e Instanz der <see cref="LerngruppenterminViewModel"/> Klasse. 
+    /// </summary>
+    /// <param name="lerngruppentermin">
+    /// The underlying lerngruppentermin this ViewModel is to be based on
+    /// </param>
+    public LerngruppenterminViewModel(Stunde stunde)
+      : base(stunde)
+    {
+      this.ViewLerngruppenterminCommand = new DelegateCommand(this.ViewLerngruppentermin);
+      this.EditLerngruppenterminCommand = new DelegateCommand(this.EditLerngruppentermin);
+      this.RemoveLerngruppenterminCommand = new DelegateCommand(this.DeleteTermin);
+      this.Model = stunde;
     }
 
     /// <summary>
@@ -61,11 +76,6 @@
     {
       get
       {
-        if (this.Model.Termintyp == null)
-        {
-          return Brushes.Black;
-        }
-
         switch (this.Model.Termintyp)
         {
           case Termintyp.Klausur:
@@ -115,14 +125,14 @@
     {
       get
       {
-        return ((LerngruppenterminNeu)this.Model).Datum;
+        return ((Lerngruppentermin)this.Model).Datum;
       }
 
       set
       {
-        if (value == ((LerngruppenterminNeu)this.Model).Datum) return;
-        this.UndoablePropertyChanging(this, "LerngruppenterminDatum", ((LerngruppenterminNeu)this.Model).Datum, value);
-        ((LerngruppenterminNeu)this.Model).Datum = value;
+        if (value == ((Lerngruppentermin)this.Model).Datum) return;
+        this.UndoablePropertyChanging(this, nameof(LerngruppenterminDatum), ((Lerngruppentermin)this.Model).Datum, value);
+        ((Lerngruppentermin)this.Model).Datum = value;
         this.RaisePropertyChanged("LerngruppenterminDatum");
       }
     }
@@ -166,11 +176,11 @@
     /// <summary>
     /// Holt a <see cref="string"/> with the schuljahr this lerngruppentermin belongs to
     /// </summary>
-    public SchuljahrNeu LerngruppenterminSchuljahr
+    public Schuljahr LerngruppenterminSchuljahr
     {
       get
       {
-        return ((LerngruppenterminNeu)this.Model).Lerngruppe.Schuljahr;
+        return ((Lerngruppentermin)this.Model).Lerngruppe.Schuljahr;
       }
     }
 
@@ -181,7 +191,7 @@
     {
       get
       {
-        return ((LerngruppenterminNeu)this.Model).Halbjahr;
+        return ((Lerngruppentermin)this.Model).Halbjahr;
       }
     }
 
@@ -192,7 +202,7 @@
     {
       get
       {
-        return ((LerngruppenterminNeu)this.Model).Lerngruppe.Fach.Bezeichnung;
+        return ((Lerngruppentermin)this.Model).Lerngruppe.Fach.Bezeichnung;
       }
     }
 
@@ -203,7 +213,7 @@
     {
       get
       {
-        var lg = ((LerngruppenterminNeu)this.Model).Lerngruppe;
+        var lg = ((Lerngruppentermin)this.Model).Lerngruppe;
         if (lg == null)
         {
           InformationDialog.Show("Lerngruppe fehlt", "Zu diesem Termin fehlt die Lerngruppe.", false);
@@ -225,9 +235,9 @@
         {
           return;
         }
-        this.UndoablePropertyChanging(this, "LerngruppenterminLerngruppe", this.LerngruppenterminLerngruppe, value);
+        this.UndoablePropertyChanging(this, nameof(LerngruppenterminLerngruppe), this.LerngruppenterminLerngruppe, value);
         this.lerngruppe = value;
-        ((LerngruppenterminNeu)this.Model).Lerngruppe = value.Model;
+        ((Lerngruppentermin)this.Model).Lerngruppe = value.Model;
         this.RaisePropertyChanged("LerngruppenterminLerngruppe");
       }
     }
@@ -249,8 +259,8 @@
     {
       if (this is LerngruppenterminViewModel)
       {
-        var lgt = this.Model as LerngruppenterminNeu;
-        var lg = App.MainViewModel.Lerngruppen.FirstOrDefault(o => o.Model.Id == lgt.LerngruppeId);
+        var lgt = this.Model as Lerngruppentermin;
+        var lg = App.MainViewModel.Lerngruppen.FirstOrDefault(o => o.Model.Id == lgt.Lerngruppe.Id);
         if (lg != null)
         {
           lg.Lerngruppentermine.RemoveTest(this);

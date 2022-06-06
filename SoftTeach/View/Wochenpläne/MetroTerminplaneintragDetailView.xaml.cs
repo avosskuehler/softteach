@@ -7,7 +7,7 @@ namespace SoftTeach.View.Wochenpläne
   public partial class MetroTerminplaneintragDetailView
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="MetroTerminplaneintragDetailView"/> Klasse.
+    /// Initialisiert eine e Instanz der <see cref="MetroTerminplaneintragDetailView"/> Klasse.
     /// </summary>
     public MetroTerminplaneintragDetailView()
     {

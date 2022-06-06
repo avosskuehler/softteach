@@ -6,10 +6,13 @@
   using System.Collections.Specialized;
   using System.Globalization;
   using System.Linq;
+  using System.Windows;
   using System.Windows.Media;
 
   using MahApps.Metro.Controls.Dialogs;
-
+  using OxyPlot;
+  using OxyPlot.Axes;
+  using OxyPlot.Series;
   using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
@@ -17,6 +20,7 @@
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Helper;
   using SoftTeach.ViewModel.Personen;
+  using Selection = Setting.Selection;
 
   /// <summary>
   /// ViewModel of an individual schülereintrag
@@ -58,10 +62,10 @@
     /// </summary>
     private NotentendenzViewModel currentNotentendenz;
 
-    /// <summary>
-    /// Das momentane Ergebnis
-    /// </summary>
-    private ErgebnisViewModel currentErgebnis;
+    ///// <summary>
+    ///// Das momentane Ergebnis
+    ///// </summary>
+    //private ErgebnisViewModel currentErgebnis;
 
     /// <summary>
     /// Gibt an, ob dieser Schüler zufällig ausgewählt ist.
@@ -79,32 +83,67 @@
 
     private int schriftlicheAnpassung;
 
+    private PlotModel plotModelQualität;
+
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="SchülereintragViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="SchülereintragViewModel"/> Klasse. 
     /// </summary>
     public SchülereintragViewModel()
     {
-      var schülereintrag = new SchülereintragNeu();
-      schülereintrag.Lerngruppe = Selection.Instance.Lerngruppe.Model;
+      var schülereintrag = new Schülereintrag
+      {
+        Lerngruppe = Selection.Instance.Lerngruppe.Model
+      };
       //App.UnitOfWork.Context.Schülereinträge.Add(schülereintrag);
       this.Model = schülereintrag;
       //App.MainViewModel.Schülereinträge.Add(this);
+      this.plotModelQualität = new PlotModel();
+
+      // < oxy:DateTimeAxis FirstDateTime = "{Binding MündlicheQualitätFirstDateTime}" LastDateTime = "{Binding MündlicheQualitätLastDateTime}" />
+      this.plotModelQualität.Axes.Add(new DateTimeAxis
+      {
+        Position = AxisPosition.Bottom,
+        IntervalType = DateTimeIntervalType.Months,
+        MinimumPadding = 0.1,
+        MaximumPadding = 0.1,
+        StringFormat = "MMMM",
+      });
+
+      this.plotModelQualität.Axes.Add(new LinearAxis
+      {
+        Position = AxisPosition.Left,
+        TickStyle = TickStyle.None,
+        MinimumPadding = 0.1,
+        MaximumPadding = 0.1,
+        StartPosition = 1,
+        EndPosition = 0,
+        Minimum = 0.5,
+        Maximum = 6.5,
+        MajorStep = 1,
+        MinorStep = 1,
+        MajorGridlineStyle = LineStyle.Solid
+      });
+
+      var s = new LineSeries
+      {
+        ItemsSource = this.MündlicheQualitätNotenCollection,
+        DataFieldX = "NoteDatum",
+        DataFieldY = "NoteZensurGanzeNote",
+        MarkerType = MarkerType.Circle
+      };
+      this.plotModelQualität.Series.Add(s);
+
     }
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="SchülereintragViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="SchülereintragViewModel"/> Klasse. 
     /// </summary>
     /// <param name="schülereintrag">
     /// The underlying schülereintrag this ViewModel is to be based on
     /// </param>
-    public SchülereintragViewModel(SchülereintragNeu schülereintrag)
+    public SchülereintragViewModel(Schülereintrag schülereintrag)
     {
-      if (schülereintrag == null)
-      {
-        throw new ArgumentNullException("schülereintrag");
-      }
-
-      this.Model = schülereintrag;
+      this.Model = schülereintrag ?? throw new ArgumentNullException(nameof(schülereintrag));
 
       // Build data structures for Hausaufgaben
       this.Hausaufgaben = new ObservableCollection<HausaufgabeViewModel>();
@@ -186,7 +225,7 @@
     /// <summary>
     /// Holt das Model für den aktuellen Schülereintrag.
     /// </summary>
-    public SchülereintragNeu Model { get; private set; }
+    public Schülereintrag Model { get; private set; }
 
     /// <summary>
     /// Holt das Command zur Erstellung einer einzelnen nicht gemachten Hausaufgabe
@@ -416,7 +455,7 @@
       set
       {
         if (value == this.person) return;
-        this.UndoablePropertyChanging(this, "SchülereintragPerson", this.person, value);
+        this.UndoablePropertyChanging(this, nameof(SchülereintragPerson), this.person, value);
         this.person = value;
         this.Model.Person = value.Model;
         this.RaisePropertyChanged("SchülereintragPerson");
@@ -479,6 +518,14 @@
       {
         return this.Model.Lerngruppe.Fach.Bezeichnung + ": Noten für " + this.Model.Person.Vorname + " "
                + this.Model.Person.Nachname;
+      }
+    }
+
+    public PlotModel PlotModelQualität
+    {
+      get
+      {
+        return this.plotModelQualität;
       }
     }
 
@@ -1015,7 +1062,7 @@
     /// <summary>
     /// Holt das passende Pfeilbild zur Tendenz der gemachten Hausaufgaben.
     /// </summary>
-    public ImageSource HausaufgabenTendenzImage
+    public Style HausaufgabenTendenzStyle
     {
       get
       {
@@ -1023,11 +1070,11 @@
         {
           default:
           case 0:
-            return App.GetImageSource("PfeilO32.png");
+            return App.GetIconStyle("PfeilRechts32");
           case -1:
-            return App.GetImageSource("PfeilSO32.png");
+            return App.GetIconStyle("PfeilRechtsUnten32");
           case -2:
-            return App.GetImageSource("PfeilS32.png");
+            return App.GetIconStyle("PfeilUnten32");
         }
       }
     }
@@ -1035,23 +1082,23 @@
     /// <summary>
     /// Holt ein Bild, dass die Notentendenzen zusammenfasst.
     /// </summary>
-    public ImageSource TendenzenTendenzImage
+    public Style TendenzenTendenzStyle
     {
       get
       {
         switch (this.BerechneTendenzBepunktung())
         {
           case 2:
-            return App.GetImageSource("PfeilN32.png");
+            return App.GetIconStyle("PfeilOben32");
           case 1:
-            return App.GetImageSource("PfeilNO32.png");
+            return App.GetIconStyle("PfeilRechtsOben32");
           default:
           case 0:
-            return App.GetImageSource("PfeilO32.png");
+            return App.GetIconStyle("PfeilRechts32");
           case -1:
-            return App.GetImageSource("PfeilSO32.png");
+            return App.GetIconStyle("PfeilRechtsUnten32");
           case -2:
-            return App.GetImageSource("PfeilS32.png");
+            return App.GetIconStyle("PfeilUnten32");
         }
       }
     }
@@ -1170,17 +1217,19 @@
           using (new UndoBatch(App.MainViewModel, string.Format("Note angelegt"), false))
           {
 
-            var note = new NoteNeu();
-            note.Arbeit = Selection.Instance.Arbeit.Model;
-            note.Bezeichnung = Selection.Instance.Arbeit.ArbeitBezeichnung;
-            note.Datum = Selection.Instance.Arbeit.ArbeitDatum;
-            note.IstSchriftlich = true;
-            note.Notentyp = Selection.Instance.Arbeit.ArbeitIstKlausur
+            var note = new Note
+            {
+              Arbeit = Selection.Instance.Arbeit.Model,
+              Bezeichnung = Selection.Instance.Arbeit.ArbeitBezeichnung,
+              Datum = Selection.Instance.Arbeit.ArbeitDatum,
+              IstSchriftlich = true,
+              Notentyp = Selection.Instance.Arbeit.ArbeitIstKlausur
                               ? Notentyp.SchriftlichKlassenarbeit
-                              : Notentyp.SchriftlichSonstige;
-            note.Wichtung = 1;
-            note.Zensur = zensur.Model;
-            note.Schülereintrag = this.Model;
+                              : Notentyp.SchriftlichSonstige,
+              Wichtung = 1,
+              Zensur = zensur.Model,
+              Schülereintrag = this.Model
+            };
             //App.UnitOfWork.Context.Noten.Add(note);
             var vm = new NoteViewModel(note);
             //App.MainViewModel.Noten.Add(vm);
@@ -1239,10 +1288,10 @@
       this.RaisePropertyChanged("NachgereichteHausaufgaben");
       this.RaisePropertyChanged("NichtgemachteHausaufgaben");
       this.RaisePropertyChanged("NichtGemachteHausaufgabenAnzahl");
-      this.RaisePropertyChanged("HausaufgabenTendenzImage");
+      this.RaisePropertyChanged("HausaufgabenTendenzStyle");
 
       this.RaisePropertyChanged("Notentendenzen");
-      this.RaisePropertyChanged("TendenzenTendenzImage");
+      this.RaisePropertyChanged("TendenzenTendenzStyle");
 
       this.RaisePropertyChanged("MündlicheStandNotenCollection");
       this.RaisePropertyChanged("MündlicheNotenCollection");
@@ -1314,7 +1363,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void ErgebnisseCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Ergebnisse", this.Ergebnisse, e, true, "Änderung der Ergebnisse");
+      UndoableCollectionChanged(this, nameof(Ergebnisse), this.Ergebnisse, e, true, "Änderung der Ergebnisse");
     }
 
     /// <summary>
@@ -1443,13 +1492,13 @@
 
       var qualitätsNoten =
         this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichQualität && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
-      var qualitätsNotenDurchschnitt = this.BerechneDurchschnittsNotenwert(qualitätsNoten);
+      var qualitätsNotenDurchschnitt = BerechneDurchschnittsNotenwert(qualitätsNoten);
       var quantitätsNoten =
         this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichQuantität && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
-      var quantitätsNotenDurchschnitt = this.BerechneDurchschnittsNotenwert(quantitätsNoten);
+      var quantitätsNotenDurchschnitt = BerechneDurchschnittsNotenwert(quantitätsNoten);
       var sonstigeNoten =
         this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichSonstige && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
-      var sonstigeNotenDurchschnitt = this.BerechneDurchschnittsNotenwert(sonstigeNoten);
+      var sonstigeNotenDurchschnitt = BerechneDurchschnittsNotenwert(sonstigeNoten);
 
       var mündlichGesamt = 0;
       if (sonstigeNoten.Any())
@@ -1512,9 +1561,9 @@
     {
       var klausurenNoten =
         this.Noten.Where(o => o.NoteIstSchriftlich && o.NoteNotentyp == Notentyp.SchriftlichKlassenarbeit && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
-      var klausurNotenDurchschnitt = this.BerechneDurchschnittsNotenwert(klausurenNoten);
+      var klausurNotenDurchschnitt = BerechneDurchschnittsNotenwert(klausurenNoten);
       var sonstigeNoten = this.Noten.Where(o => o.NoteIstSchriftlich && o.NoteNotentyp == Notentyp.SchriftlichSonstige && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
-      var sonstigeNotenDurchschnitt = this.BerechneDurchschnittsNotenwert(sonstigeNoten);
+      var sonstigeNotenDurchschnitt = BerechneDurchschnittsNotenwert(sonstigeNoten);
 
       var schriftlichGesamt = 0;
       if (sonstigeNoten.Any())
@@ -1603,7 +1652,7 @@
     /// <param name="notenCollection">Eine Liste an NoteViewModel Noten,
     /// deren Mittelwert berechnet werden soll</param>
     /// <returns>Den gewichteten Mittelwert in Notenpunkten.</returns>
-    private int BerechneDurchschnittsNotenwert(IEnumerable<NoteViewModel> notenCollection)
+    private static int BerechneDurchschnittsNotenwert(IEnumerable<NoteViewModel> notenCollection)
     {
       var noteViewModels = notenCollection as IList<NoteViewModel> ?? notenCollection.ToList();
 
@@ -1657,7 +1706,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void HausaufgabenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Hausaufgaben", this.Hausaufgaben, e, true, "Änderung der Hausaufgaben");
+      UndoableCollectionChanged(this, nameof(Hausaufgaben), this.Hausaufgaben, e, true, "Änderung der Hausaufgaben");
       this.UpdateNoten();
     }
 
@@ -1759,15 +1808,17 @@
     }
 
     /// <summary>
-    /// Diese Methode legt eine neue Hausaufgabe in der Datenbank an.
+    /// Diese Methode legt eine e Hausaufgabe in der Datenbank an.
     /// </summary>
     private void ErstelleHausaufgabe()
     {
-      var hausaufgabe = new HausaufgabeNeu();
-      hausaufgabe.Bezeichnung = Selection.Instance.HausaufgabeBezeichnung;
-      hausaufgabe.Datum = Selection.Instance.HausaufgabeDatum;
-      hausaufgabe.IstNachgereicht = false;
-      hausaufgabe.Schülereintrag = this.Model;
+      var hausaufgabe = new Hausaufgabe
+      {
+        Bezeichnung = Selection.Instance.HausaufgabeBezeichnung,
+        Datum = Selection.Instance.HausaufgabeDatum,
+        IstNachgereicht = false,
+        Schülereintrag = this.Model
+      };
 
       var vm = new HausaufgabeViewModel(hausaufgabe);
       using (new UndoBatch(App.MainViewModel, string.Format("Hausaufgabe {0} erstellt.", vm), false))
@@ -1799,7 +1850,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void NotenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Noten", this.Noten, e, true, "Änderung der Noten");
+      UndoableCollectionChanged(this, nameof(Noten), this.Noten, e, true, "Änderung der Noten");
       this.UpdateNoten();
     }
 
@@ -1847,15 +1898,17 @@
       using (new UndoBatch(App.MainViewModel, string.Format("Note ergänzt"), false))
       {
 
-        var note = new NoteNeu();
-        note.Bezeichnung = string.Empty;
-        note.Datum = DateTime.Now;
-        note.IstSchriftlich = false;
-        note.Notentyp = Notentyp.MündlichQualität;
-        note.NotenTermintyp = NotenTermintyp.Einzeln;
-        note.Wichtung = 1;
-        note.Zensur = App.MainViewModel.Zensuren.FirstOrDefault().Model;
-        note.Schülereintrag = this.Model;
+        var note = new Note
+        {
+          Bezeichnung = string.Empty,
+          Datum = DateTime.Now,
+          IstSchriftlich = false,
+          Notentyp = Notentyp.MündlichQualität,
+          NotenTermintyp = NotenTermintyp.Einzeln,
+          Wichtung = 1,
+          Zensur = App.MainViewModel.Zensuren.FirstOrDefault().Model,
+          Schülereintrag = this.Model
+        };
         //App.UnitOfWork.Context.Noten.Add(note);
         var vm = new NoteViewModel(note);
         var workspace = new NotenWorkspaceViewModel(vm);
@@ -2036,20 +2089,22 @@
     }
 
     /// <summary>
-    /// Erstellt eine neue sonstige Note mit den gegebenen Parametern
+    /// Erstellt eine e sonstige Note mit den gegebenen Parametern
     /// </summary>
     /// <param name="notenwert">Ein ganzzahliger Notenwert für die Note.</param>
     private void AddSonstigeNote(int notenwert)
     {
-      var note = new NoteNeu();
-      note.Datum = Selection.Instance.SonstigeNoteDatum;
-      note.Bezeichnung = Selection.Instance.SonstigeNoteBezeichnung;
-      note.IstSchriftlich = Selection.Instance.SonstigeNoteNotentyp != Notentyp.MündlichSonstige;
-      note.Notentyp = Selection.Instance.SonstigeNoteNotentyp;
-      note.NotenTermintyp = NotenTermintyp.Einzeln;
-      note.Wichtung = Selection.Instance.SonstigeNoteWichtung;
-      note.Zensur = App.MainViewModel.Zensuren.First(o => o.ZensurNoteMitTendenz == notenwert.ToString(CultureInfo.InvariantCulture)).Model;
-      note.Schülereintrag = this.Model;
+      var note = new Note
+      {
+        Datum = Selection.Instance.SonstigeNoteDatum,
+        Bezeichnung = Selection.Instance.SonstigeNoteBezeichnung,
+        IstSchriftlich = Selection.Instance.SonstigeNoteNotentyp != Notentyp.MündlichSonstige,
+        Notentyp = Selection.Instance.SonstigeNoteNotentyp,
+        NotenTermintyp = NotenTermintyp.Einzeln,
+        Wichtung = Selection.Instance.SonstigeNoteWichtung,
+        Zensur = App.MainViewModel.Zensuren.First(o => o.ZensurNoteMitTendenz == notenwert.ToString(CultureInfo.InvariantCulture)).Model,
+        Schülereintrag = this.Model
+      };
       var vm = new NoteViewModel(note);
       using (new UndoBatch(App.MainViewModel, string.Format("Note {0} hinzugefügt.", vm), false))
       {
@@ -2065,14 +2120,16 @@
     }
 
     /// <summary>
-    /// Erstellt eine neue mündliche Note mit den gegebenen Parametern
+    /// Erstellt eine e mündliche Note mit den gegebenen Parametern
     /// </summary>
     /// <param name="notentyp">Der <see cref="Notentyp"/> der Note.</param>
     /// <param name="notenwert">Ein ganzzahliger Notenwert für die Note.</param>
     private void AddMündlicheNote(Notentyp notentyp, int notenwert)
     {
-      var note = new NoteNeu();
-      note.Datum = DateTime.Now;
+      var note = new Note
+      {
+        Datum = DateTime.Now
+      };
       var stunde = Selection.Instance.Stunde;
       if (stunde != null)
       {
@@ -2107,7 +2164,7 @@
     }
 
     /// <summary>
-    /// Erstellt eine neue Notenlistennote mit den gegebenen Parametern
+    /// Erstellt eine e Notenlistennote mit den gegebenen Parametern
     /// </summary>
     /// <param name="notentyp">Der <see cref="Notentyp"/> der Note.</param>
     /// <param name="notenwert">Ein ganzzahliger Notenwert in Notenpunkte für die Note.</param>
@@ -2116,9 +2173,11 @@
       using (new UndoBatch(App.MainViewModel, string.Format("Note ergänzt"), false))
       {
 
-        var note = new NoteNeu();
-        note.Datum = datum;
-        note.Bezeichnung = termintyp.ToString();
+        var note = new Note
+        {
+          Datum = datum,
+          Bezeichnung = termintyp.ToString()
+        };
 
         var alteNote =
           this.Noten.FirstOrDefault(o => o.NoteDatum == datum && o.NoteNotentyp == notentyp && o.NoteTermintyp == termintyp);
@@ -2177,7 +2236,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void NotentendenzenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Notentendenzen", this.Notentendenzen, e, true, "Änderung der Notentendenzen");
+      UndoableCollectionChanged(this, nameof(Notentendenzen), this.Notentendenzen, e, true, "Änderung der Notentendenzen");
       this.UpdateNoten();
     }
 
@@ -2214,12 +2273,14 @@
     /// </summary>
     private async void AddNotentendenz()
     {
-      var notentendenz = new NotentendenzNeu();
-      notentendenz.Bezeichnung = string.Empty;
-      notentendenz.Datum = DateTime.Now;
-      notentendenz.Tendenz = Tendenz.Null;
-      notentendenz.Tendenztyp = Tendenztyp.Leistung;
-      notentendenz.Schülereintrag = this.Model;
+      var notentendenz = new Notentendenz
+      {
+        Bezeichnung = string.Empty,
+        Datum = DateTime.Now,
+        Tendenz = Tendenz.Null,
+        Tendenztyp = Tendenztyp.Leistung,
+        Schülereintrag = this.Model
+      };
       var vm = new NotentendenzViewModel(notentendenz);
 
       bool undo;

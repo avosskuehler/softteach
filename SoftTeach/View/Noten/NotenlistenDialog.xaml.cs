@@ -30,7 +30,7 @@ namespace SoftTeach.View.Noten
     #region Constructors and Destructors
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="NotenlistenDialog"/> Klasse.
+    /// Initialisiert eine e Instanz der <see cref="NotenlistenDialog"/> Klasse.
     /// </summary>
     public NotenlistenDialog()
     {
@@ -58,7 +58,7 @@ namespace SoftTeach.View.Noten
     private void ZwischenstandClick(object sender, RoutedEventArgs e)
     {
       //this.ZwischenstandRadio.IsChecked = true;
-      this.NeuButton.Visibility = Visibility.Visible;
+      this.Button.Visibility = Visibility.Visible;
       this.ÄndernButton.Visibility = Visibility.Collapsed;
       this.VorhandeneNotenlistenControl.Visibility = Visibility.Collapsed;
       this.DatePicker.IsEnabled = true;
@@ -77,7 +77,7 @@ namespace SoftTeach.View.Noten
     private void HalbjahrClick(object sender, RoutedEventArgs e)
     {
       //this.HalbjahrRadio.IsChecked = true;
-      this.NeuButton.Visibility = Visibility.Visible;
+      this.Button.Visibility = Visibility.Visible;
       this.ÄndernButton.Visibility = Visibility.Collapsed;
       this.VorhandeneNotenlistenControl.Visibility = Visibility.Collapsed;
       this.DatePicker.IsEnabled = true;
@@ -91,7 +91,7 @@ namespace SoftTeach.View.Noten
     private void GanzjahrClick(object sender, RoutedEventArgs e)
     {
       //this.GanzjahrRadio.IsChecked = true;
-      this.NeuButton.Visibility = Visibility.Visible;
+      this.Button.Visibility = Visibility.Visible;
       this.ÄndernButton.Visibility = Visibility.Collapsed;
       this.VorhandeneNotenlistenControl.Visibility = Visibility.Collapsed;
       this.DatePicker.IsEnabled = true;
@@ -105,7 +105,7 @@ namespace SoftTeach.View.Noten
     private void ModifyClick(object sender, RoutedEventArgs e)
     {
       //this.ZwischenstandRadio.IsChecked = true;
-      this.NeuButton.Visibility = Visibility.Collapsed;
+      this.Button.Visibility = Visibility.Collapsed;
       this.ÄndernButton.Visibility = Visibility.Visible;
       this.VorhandeneNotenlistenControl.Visibility = Visibility.Visible;
       this.DatePicker.IsEnabled = false;
@@ -116,7 +116,7 @@ namespace SoftTeach.View.Noten
       }
     }
 
-    private void NeuClick(object sender, RoutedEventArgs e)
+    private void Click(object sender, RoutedEventArgs e)
     {
       if (this.DatePicker.SelectedDate == null)
       {

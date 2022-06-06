@@ -22,7 +22,7 @@ namespace SoftTeach.ViewModel.Wochenpläne
     private int wochentagIndex;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="GanztagstermineViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="GanztagstermineViewModel"/> Klasse. 
     /// </summary>
     /// <param name="ganztagsterminEinträge"> The ganztagstermin Einträge. </param>
     public GanztagstermineViewModel(List<TerminplanEintrag> ganztagsterminEinträge)
@@ -67,7 +67,7 @@ namespace SoftTeach.ViewModel.Wochenpläne
       {
         if (!this.IsDummy)
         {
-          throw new ArgumentOutOfRangeException("value", "Der Wochentagindex kann nicht zugewiesen werden.");
+          throw new ArgumentOutOfRangeException(nameof(value), "Der Wochentagindex kann nicht zugewiesen werden.");
         }
 
         this.wochentagIndex = value;

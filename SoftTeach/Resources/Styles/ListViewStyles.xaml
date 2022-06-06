@@ -1,9 +1,11 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-                    xmlns:system="clr-namespace:System;assembly=mscorlib"
-                    xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
-                    xmlns:converter="clr-namespace:SoftTeach.Resources.Converter"
-                    xmlns:controls="clr-namespace:SoftTeach.Resources.Controls">
+﻿<ResourceDictionary 
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+  xmlns:system="clr-namespace:System;assembly=mscorlib"  
+  xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
+  xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
+  xmlns:converter="clr-namespace:SoftTeach.Resources.Converter"
+  xmlns:controls="clr-namespace:SoftTeach.Resources.Controls">
 
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="..\Controls\NumericUpDown.xaml"/>
@@ -77,13 +79,13 @@
             <StackPanel Orientation="Horizontal">
               <StackPanel Orientation="Horizontal" Visibility="Hidden" HorizontalAlignment="Right" x:Name="EditButtons">
                 <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=EditTerminplaneintragCommand}">
-                  <Image Source="/SoftTeach;component/Images/Edit16.png"/>
+                  <fa:IconBlock Style="{StaticResource Edit16}"/>
                 </Button>
                 <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=RemoveTerminplaneintragCommand}">
-                  <Image Source="/SoftTeach;component/Images/Remove16.png"/>
+                  <fa:IconBlock Style="{StaticResource Remove16}"/>
                 </Button>
                 <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddNotenCommand}">
-                  <Image Source="/SoftTeach;component/Images/Note16.png"/>
+                  <fa:IconBlock Style="{StaticResource Note16}"/>
                 </Button>
               </StackPanel>
               <Button Command="{Binding Path=ProofTerminplaneintragCommand}" 
@@ -365,10 +367,10 @@
       <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Visibility="Visible" 
                   HorizontalAlignment="Left" x:Name="EditButtons" Margin="2,0,0,0">
         <Button Width="12" Height="12" Command="{Binding Path=LengthenReiheCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-          <Image Source="/SoftTeach;component/Images/Plus7.png"/>
+          <fa:IconBlock Style="{StaticResource Plus7}"/>
         </Button>
         <Button  Width="12" Height="12" Command="{Binding Path=ShortenReiheCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-          <Image Source="/SoftTeach;component/Images/Minus7.png"/>
+          <fa:IconBlock Style="{StaticResource Minus7}"/>
         </Button>
       </StackPanel>
       <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2"
@@ -407,12 +409,12 @@
         <Button Width="13" Height="13" Command="{Binding Path=LengthenReiheCommand}" 
                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                 VerticalAlignment="Bottom">
-          <Image Source="/SoftTeach;component/Images/Plus7.png"/>
+          <fa:IconBlock Style="{StaticResource Plus7}"/>
         </Button>
         <Button  Width="12" Height="12" Command="{Binding Path=ShortenReiheCommand}" 
                  Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                  VerticalAlignment="Bottom">
-          <Image Source="/SoftTeach;component/Images/Minus7.png"/>
+          <fa:IconBlock Style="{StaticResource Minus7}"/>
         </Button>
       </StackPanel>
       <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2"
@@ -487,10 +489,10 @@
       <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Visibility="Visible" 
                   HorizontalAlignment="Left" x:Name="EditButtons" Margin="2,0,0,0">
         <Button Width="12" Height="12" Command="{Binding Path=LengthenSequenzCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-          <Image Source="/SoftTeach;component/Images/Plus7.png"/>
+          <fa:IconBlock Style="{StaticResource Plus7}"/>
         </Button>
         <Button  Width="12" Height="12" Command="{Binding Path=ShortenSequenzCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-          <Image Source="/SoftTeach;component/Images/Minus7.png"/>
+          <fa:IconBlock Style="{StaticResource Minus7}"/>
         </Button>
       </StackPanel>
       <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2"
@@ -530,10 +532,10 @@
       <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Visibility="Visible" 
                   HorizontalAlignment="Left" x:Name="EditButtons" Margin="2,0,0,0">
         <Button Width="12" Height="12" Command="{Binding Path=LengthenSequenzCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-          <Image Source="/SoftTeach;component/Images/Plus7.png"/>
+          <fa:IconBlock Style="{StaticResource Plus7}"/>
         </Button>
         <Button  Width="12" Height="12" Command="{Binding Path=ShortenSequenzCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-          <Image Source="/SoftTeach;component/Images/Minus7.png"/>
+          <fa:IconBlock Style="{StaticResource Minus7}"/>
         </Button>
       </StackPanel>
       <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2"
@@ -875,15 +877,6 @@
                FontSize="8" Content="{Binding Path=NotentendenzDatumString}"/>
         <Label Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="3,0,0,0"
              FontSize="14" FontFamily="Arial" Content="{Binding Path=NotentendenzTendenz.TendenzBezeichnung}"/>
-        <!--<Border Grid.Row="0" Grid.Column="2" Grid.RowSpan="3">
-          <StackPanel Visibility="Hidden" HorizontalAlignment="Right" x:Name="EditButtons">
-            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=EditNotentendenzCommand}">
-              <Image Source="/SoftTeach;component/Images/Edit16.png"/>
-            </Button>
-            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=RemoveNotentendenzCommand}">
-              <Image Source="/SoftTeach;component/Images/Remove16.png"/>
-            </Button>
-          </StackPanel>-->
       </Grid>
     </Border>
   </DataTemplate>
@@ -945,9 +938,9 @@
           <Label Style="{StaticResource ZeugnisnotenHeader}" Content="{Binding Path=SchülereintragPerson.PersonNachname}"/>
         </StackPanel>
         <Label Grid.Row="1" Grid.Column="0">HA</Label>
-        <Image Grid.Row="1" Grid.Column="1" Source="{Binding Path=HausaufgabenTendenzImage}" Height="16"/>
+        <fa:IconBlock Grid.Row="1" Grid.Column="1" Style="{Binding HausaufgabenTendenzStyle}"/>
         <Label Grid.Row="2" Grid.Column="0">Tendenzen</Label>
-        <Image Grid.Row="2" Grid.Column="1" Source="{Binding Path=TendenzenTendenzImage}" Height="16"/>
+        <fa:IconBlock Grid.Row="2" Grid.Column="1" Style="{Binding TendenzenTendenzStyle}"/>
       </Grid>
       <Grid Grid.Column="2">
         <Grid.ColumnDefinitions>

@@ -11,7 +11,7 @@
   public class PhaseContainer
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="PhaseContainer"/> Klasse.
+    /// Initialisiert eine e Instanz der <see cref="PhaseContainer"/> Klasse.
     /// </summary>
     /// <param name="inhalt"> Der Inhalt der Phase.</param>
     /// <param name="medium"> Das Medium der Phase.</param>

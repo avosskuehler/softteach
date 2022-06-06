@@ -69,7 +69,7 @@ namespace SoftTeach.View.Stundenpläne
           geänderteLerngruppen.Add(lerngruppeToChange);
         }
 
-        // Eine neue Unterrichtsstunde wurde ergänzt, also für alle Wochen.
+        // Eine e Unterrichtsstunde wurde ergänzt, also für alle Wochen.
         if (änderung.UpdateType == StundenplanÄnderungUpdateType.Added)
         {
           var endeMonat = this.StundenplanViewModel.StundenplanHalbjahr == Halbjahr.Winter ? 2 : 8;
@@ -78,21 +78,23 @@ namespace SoftTeach.View.Stundenpläne
           startdatum = startdatum.AddDays(änderung.ModifiedEntry.StundenplaneintragWochentagIndex);
           while (startdatum < endeSchuljahr)
           {
-            var stunde = new StundeNeu();
-            stunde.ErsteUnterrichtsstunde =
-              App.MainViewModel.Unterrichtsstunden[änderung.ModifiedEntry.StundenplaneintragErsteUnterrichtsstundeIndex - 1].Model;
-            stunde.LetzteUnterrichtsstunde =
-              App.MainViewModel.Unterrichtsstunden[änderung.ModifiedEntry.StundenplaneintragLetzteUnterrichtsstundeIndex - 1].Model;
+            var stunde = new Stunde
+            {
+              ErsteUnterrichtsstunde =
+              App.MainViewModel.Unterrichtsstunden[änderung.ModifiedEntry.StundenplaneintragErsteUnterrichtsstundeIndex - 1].Model,
+              LetzteUnterrichtsstunde =
+              App.MainViewModel.Unterrichtsstunden[änderung.ModifiedEntry.StundenplaneintragLetzteUnterrichtsstundeIndex - 1].Model,
 
-            stunde.Datum = startdatum;
-            stunde.Termintyp = Model.TeachyModel.Termintyp.Unterricht;
-            stunde.Lerngruppe = änderung.ModifiedEntry.StundenplaneintragLerngruppe.Model;
-            stunde.Hausaufgaben = string.Empty;
-            stunde.Ansagen = string.Empty;
-            stunde.Jahrgang = änderung.ModifiedEntry.StundenplaneintragLerngruppe.LerngruppeJahrgang;
-            stunde.Fach = änderung.ModifiedEntry.StundenplaneintragLerngruppe.LerngruppeFach.Model;
-            stunde.Halbjahr = this.StundenplanViewModel.StundenplanHalbjahr;
-            stunde.Ort = änderung.ModifiedEntry.StundenplaneintragRaum.RaumBezeichnung;
+              Datum = startdatum,
+              Termintyp = Model.TeachyModel.Termintyp.Unterricht,
+              Lerngruppe = änderung.ModifiedEntry.StundenplaneintragLerngruppe.Model,
+              Hausaufgaben = string.Empty,
+              Ansagen = string.Empty,
+              Jahrgang = änderung.ModifiedEntry.StundenplaneintragLerngruppe.LerngruppeJahrgang,
+              Fach = änderung.ModifiedEntry.StundenplaneintragLerngruppe.LerngruppeFach.Model,
+              Halbjahr = this.StundenplanViewModel.StundenplanHalbjahr,
+              Ort = änderung.ModifiedEntry.StundenplaneintragRaum.RaumBezeichnung
+            };
 
             var vm = new StundeViewModel(stunde);
             if (!lerngruppeToChange.Lerngruppentermine.Any(o => o.LerngruppenterminDatum == startdatum && o.TerminErsteUnterrichtsstunde.UnterrichtsstundeIndex == änderung.ModifiedEntry.StundenplaneintragErsteUnterrichtsstundeIndex)

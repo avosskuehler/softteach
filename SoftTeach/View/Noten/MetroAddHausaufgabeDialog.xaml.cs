@@ -32,7 +32,7 @@ namespace SoftTeach.View.Noten
     #region Constructors and Destructors
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="MetroAddHausaufgabeDialog" /> Klasse.
+    /// Initialisiert eine e Instanz der <see cref="MetroAddHausaufgabeDialog" /> Klasse.
     /// </summary>
     /// <param name="datum">The datum.</param>
     public MetroAddHausaufgabeDialog(DateTime datum)

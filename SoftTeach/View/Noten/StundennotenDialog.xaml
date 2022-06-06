@@ -14,8 +14,13 @@
       <RowDefinition/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader Grid.Row="0" Title="Bitte geben Sie Noten für diese Stunde."
-                                      Icon="/SoftTeach;component/Images/Note32.png"/>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Bitte geben Sie Noten für diese Stunde.">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Note32}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
     <Grid Grid.Row="1" Background="{x:Static SystemColors.MenuBarBrush}">
       <Grid Margin="10">
         <Grid.RowDefinitions>
@@ -33,8 +38,8 @@
             <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddHausaufgabenCommand}" ToolTip="Nicht gemachte Hausaufgaben eintragen.">
               <StackPanel Orientation="Horizontal">
                 <Grid>
-                  <Image Source="/SoftTeach;component/Images/Hausaufgabe32.png"/>
-                  <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
+                  <fa:IconBlock Style="{StaticResource Hausaufgabe32}"/>
+                  <fa:IconBlock Style="{StaticResource AddOverlay32}"/>
                 </Grid>
                 <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Nicht gemachte Hausaufgaben eintragen.</Label>
               </StackPanel>

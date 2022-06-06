@@ -8,8 +8,7 @@
         xmlns:curricula="clr-namespace:SoftTeach.ViewModel.Curricula"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:controls="clr-namespace:SoftTeach.Resources.Controls" mc:Ignorable="d" 
-             d:DesignHeight="465" d:DesignWidth="741" SizeToContent="WidthAndHeight"
-        Icon="/SoftTeach;component/Images/Curriculum32.png">
+             d:DesignHeight="465" d:DesignWidth="741" SizeToContent="WidthAndHeight">
   <Window.Resources>
     <CollectionViewSource x:Key="GroupedAvailableSequenzenViewSource" Source="{Binding AvailableSequenzenDesCurriculums}">
       <CollectionViewSource.GroupDescriptions>

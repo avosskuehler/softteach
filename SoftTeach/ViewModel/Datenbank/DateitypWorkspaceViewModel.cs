@@ -16,7 +16,7 @@
     private DateitypViewModel currentDateityp;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="DateitypWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="DateitypWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public DateitypWorkspaceViewModel()
     {
@@ -68,7 +68,7 @@
     /// </summary>
     private void AddDateityp()
     {
-      var dateityp = new DateitypNeu();
+      var dateityp = new Dateityp();
 
       // Check for existing tagesplan
       if (App.MainViewModel.Dateitypen.Any(vorhandenerDateityp => vorhandenerDateityp.DateitypBezeichnung == dateityp.Bezeichnung))

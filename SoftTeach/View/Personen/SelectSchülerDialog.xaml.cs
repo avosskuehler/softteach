@@ -11,7 +11,7 @@ namespace SoftTeach.View.Personen
   public partial class SelectSchülerDialog
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="SelectSchülerDialog"/> Klasse.
+    /// Initialisiert eine e Instanz der <see cref="SelectSchülerDialog"/> Klasse.
     /// </summary>
     public SelectSchülerDialog()
     {

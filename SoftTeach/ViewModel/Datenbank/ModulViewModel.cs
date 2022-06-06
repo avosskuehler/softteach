@@ -18,19 +18,14 @@
     private FachViewModel fach;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="ModulViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="ModulViewModel"/> Klasse. 
     /// </summary>
     /// <param name="modul">
     /// The underlying modul this ViewModel is to be based on
     /// </param>
-    public ModulViewModel(ModulNeu modul)
+    public ModulViewModel(Modul modul)
     {
-      if (modul == null)
-      {
-        throw new ArgumentNullException("modul");
-      }
-
-      this.Model = modul;
+      this.Model = modul ?? throw new ArgumentNullException(nameof(modul));
 
       // Re-act to any changes from outside this ViewModel
       App.MainViewModel.Fächer.CollectionChanged += (sender, e) =>
@@ -45,7 +40,7 @@
     /// <summary>
     /// Holt den underlying Modul this ViewModel is based on
     /// </summary>
-    public ModulNeu Model { get; private set; }
+    public Modul Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Bezeichnung
@@ -60,7 +55,7 @@
       set
       {
         if (value == this.Model.Bezeichnung) return;
-        this.UndoablePropertyChanging(this, "ModulBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(ModulBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("ModulBezeichnung");
       }
@@ -102,7 +97,7 @@
       set
       {
         if (value == this.fach) return;
-        this.UndoablePropertyChanging(this, "ModulFach", this.fach, value);
+        this.UndoablePropertyChanging(this, nameof(ModulFach), this.fach, value);
         this.fach = value;
         this.Model.Fach = value != null ? value.Model : null;
 
@@ -123,7 +118,7 @@
       set
       {
         if (value == this.Model.Jahrgang) return;
-        this.UndoablePropertyChanging(this, "ModulJahrgang", this.Model.Jahrgang, value);
+        this.UndoablePropertyChanging(this, nameof(ModulJahrgang), this.Model.Jahrgang, value);
         this.Model.Jahrgang = value;
         this.RaisePropertyChanged("ModulJahrgang");
       }
@@ -142,7 +137,7 @@
       set
       {
         if (value == this.Model.Stundenbedarf) return;
-        this.UndoablePropertyChanging(this, "ModulStundenbedarf", this.Model.Stundenbedarf, value);
+        this.UndoablePropertyChanging(this, nameof(ModulStundenbedarf), this.Model.Stundenbedarf, value);
         this.Model.Stundenbedarf = value;
         this.RaisePropertyChanged("ModulStundenbedarf");
       }
@@ -173,7 +168,7 @@
       set
       {
         if (value == this.Model.Bausteine) return;
-        this.UndoablePropertyChanging(this, "ModulBausteine", this.Model.Bausteine, value);
+        this.UndoablePropertyChanging(this, nameof(ModulBausteine), this.Model.Bausteine, value);
         this.Model.Bausteine = value;
         this.RaisePropertyChanged("ModulBausteine");
       }

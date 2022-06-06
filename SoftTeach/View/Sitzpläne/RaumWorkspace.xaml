@@ -41,7 +41,7 @@
           </Grid.RowDefinitions>
           <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddRaumCommand}" 
-                    ToolTip="Neuen Raum erstellen">
+                    ToolTip="en Raum erstellen">
               <StackPanel Orientation="Horizontal">
                 <Grid>
                   <fa:IconBlock Style="{StaticResource Raum32}"/>

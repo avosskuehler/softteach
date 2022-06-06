@@ -19,17 +19,17 @@
     /// <summary>
     /// The Dateiverweis currently selected
     /// </summary>
-    private DateiverweisNeu currentDateiverweis;
+    private Dateiverweis currentDateiverweis;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="DateiverweisWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="DateiverweisWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public DateiverweisWorkspaceViewModel()
     {
       this.RepariereDateiverweiseCommand = new DelegateCommand(this.RepariereDateiverweise);
       this.EntferneDateiverweisCommand = new DelegateCommand(this.EntferneDateiverweis, () => this.CurrentDateiverweis != null);
 
-      this.Dateiverweise = new List<DateiverweisNeu>();
+      this.Dateiverweise = new List<Dateiverweis>();
       foreach (var dateiverweis in App.UnitOfWork.Context.Dateiverweise)
       {
         this.Dateiverweise.Add(dateiverweis);
@@ -43,7 +43,7 @@
         this.DateiverweiseViewSource.SortDescriptions.Add(new SortDescription("Stunde.Modul.Bezeichnung", ListSortDirection.Ascending));
         this.DateiverweiseViewSource.SortDescriptions.Add(new SortDescription("DateinameOhnePfad", ListSortDirection.Ascending));
       }
-      this.SelectedDateiverweise = new List<DateiverweisNeu>();
+      this.SelectedDateiverweise = new List<Dateiverweis>();
     }
 
     /// <summary>
@@ -56,7 +56,7 @@
     /// </summary>
     public DelegateCommand EntferneDateiverweisCommand { get; private set; }
 
-    public List<DateiverweisNeu> Dateiverweise { get; private set; }
+    public List<Dateiverweis> Dateiverweise { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die ViewSource der Sitzpläne
@@ -76,7 +76,7 @@
     /// <summary>
     /// Holt oder setzt die dateiverweis currently selected in this workspace
     /// </summary>
-    public DateiverweisNeu CurrentDateiverweis
+    public Dateiverweis CurrentDateiverweis
     {
       get
       {
@@ -107,7 +107,7 @@
     /// </summary>
     private void RepariereDateiverweise()
     {
-      foreach (DateiverweisNeu dateiverweis in this.SelectedDateiverweise)
+      foreach (Dateiverweis dateiverweis in this.SelectedDateiverweise)
       {
         if (!File.Exists(dateiverweis.Dateiname))
         {
@@ -134,7 +134,7 @@
       }
     }
 
-    static void WalkDirectoryTree(System.IO.DirectoryInfo root, DateiverweisNeu dateiverweis)
+    static void WalkDirectoryTree(System.IO.DirectoryInfo root, Dateiverweis dateiverweis)
     {
       System.IO.FileInfo[] files = null;
       System.IO.DirectoryInfo[] subDirs = null;

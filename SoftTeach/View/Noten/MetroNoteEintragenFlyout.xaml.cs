@@ -12,7 +12,7 @@ namespace SoftTeach.View.Noten
   public partial class MetroNoteEintragenFlyout
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="MetroNoteEintragenFlyout"/> Klasse.
+    /// Initialisiert eine e Instanz der <see cref="MetroNoteEintragenFlyout"/> Klasse.
     /// </summary>
     public MetroNoteEintragenFlyout()
     {

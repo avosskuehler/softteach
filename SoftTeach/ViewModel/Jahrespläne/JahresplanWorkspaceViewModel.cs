@@ -22,7 +22,7 @@
     /// <summary>
     /// Die ausgewählte Lerngruppe für den Jahresplan
     /// </summary>
-    private LerngruppeNeu currentLerngruppe;
+    private Lerngruppe currentLerngruppe;
 
     /// <summary>
     /// Der Jahresplan der ausgewählten Lerngruppe
@@ -40,7 +40,7 @@
     private SchuljahrViewModel schuljahrFilter;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="JahresplanWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="JahresplanWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public JahresplanWorkspaceViewModel()
     {
@@ -51,7 +51,7 @@
       this.ResetFachFilterCommand = new DelegateCommand(() => this.FachFilter = null, () => this.FachFilter != null);
 
       this.CurrentLerngruppe = App.UnitOfWork.Context.Lerngruppen.Count() > 0 ? App.UnitOfWork.Context.Lerngruppen.First() : null;
-      var lerngruppenImContext = new List<LerngruppeNeu>();
+      var lerngruppenImContext = new List<Lerngruppe>();
       foreach (var lerngruppe in App.UnitOfWork.Context.Lerngruppen)
       {
         lerngruppenImContext.Add(lerngruppe);
@@ -115,7 +115,7 @@
     /// <summary>
     /// Holt oder setzt die jahresplan currently selected in this workspace
     /// </summary>
-    public LerngruppeNeu CurrentLerngruppe
+    public Lerngruppe CurrentLerngruppe
     {
       get
       {
@@ -217,7 +217,7 @@
     /// <returns>True, wenn das Objekt in der Liste bleiben soll.</returns>
     private void LerngruppenViewSource_Filter(object sender, FilterEventArgs e)
     {
-      var lerngruppeViewModel = e.Item as LerngruppeNeu;
+      var lerngruppeViewModel = e.Item as Lerngruppe;
       if (lerngruppeViewModel == null)
       {
         e.Accepted = false;
@@ -266,12 +266,12 @@
     /// </summary>
     private void AddJahresplan()
     {
-      //using (new UndoBatch(App.MainViewModel, string.Format("Neues Jahresplan erstellt"), false))
+      //using (new UndoBatch(App.MainViewModel, string.Format("es Jahresplan erstellt"), false))
       //{
       //  var dlg = new AskForJahrFachStufeDialog();
       //  if (dlg.ShowDialog().GetValueOrDefault(false))
       //  {
-      //    var jahresplan = new JahresplanNeu();
+      //    var jahresplan = new Jahresplan();
       //    jahresplan.Bezeichnung = dlg.Bezeichnung;
       //    jahresplan.Fach = dlg.Fach.Model;
       //    jahresplan.Jahrgang = dlg.Jahrgang;

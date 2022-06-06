@@ -21,12 +21,12 @@
     private FerienViewModel currentFerien;
 
     /// <summary>
-    /// Die Bezeichnung des neuen Schuljahrs
+    /// Die Bezeichnung des en Schuljahrs
     /// </summary>
     private string schuljahrBezeichnung;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="AddSchuljahrDialogViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="AddSchuljahrDialogViewModel"/> Klasse. 
     /// </summary>
     public AddSchuljahrDialogViewModel()
     {
@@ -85,11 +85,13 @@
     {
       using (new UndoBatch(App.MainViewModel, string.Format("Ferien angelegt kopiert"), false))
       {
-        var ferien = new FerienNeu();
-        ferien.Schuljahr = this.Schuljahr.Model;
-        ferien.Bezeichnung = bezeichnung;
-        ferien.ErsterFerientag = starttermin;
-        ferien.LetzterFerientag = starttermin.AddDays(dauerInTagen);
+        var ferien = new Ferien
+        {
+          Schuljahr = this.Schuljahr.Model,
+          Bezeichnung = bezeichnung,
+          ErsterFerientag = starttermin,
+          LetzterFerientag = starttermin.AddDays(dauerInTagen)
+        };
         //App.UnitOfWork.Context.Ferien.Add(ferien);
         var vm = new FerienViewModel(ferien);
         this.Ferien.Add(vm);
@@ -99,7 +101,7 @@
 
     private void CreateNewSchuljahr()
     {
-      using (new UndoBatch(App.MainViewModel, string.Format("Neues Schuljahr angelegt."), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("es Schuljahr angelegt."), false))
       {
         var nextYear = DateTime.Now;
         if (App.MainViewModel.Schuljahre.Count >= 0)
@@ -121,7 +123,7 @@
           return;
         }
 
-        var schuljahr = new SchuljahrNeu { Bezeichnung = bezeichnung, Jahr = nextYear.Year };
+        var schuljahr = new Schuljahr { Bezeichnung = bezeichnung, Jahr = nextYear.Year };
         //App.UnitOfWork.Context.Schuljahre.Add(schuljahr);
         var vm = new SchuljahrViewModel(schuljahr);
         this.Schuljahr = vm;

@@ -8,7 +8,7 @@
   public partial class CurriculumDetailView
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="CurriculumDetailView"/> Klasse.
+    /// Initialisiert eine e Instanz der <see cref="CurriculumDetailView"/> Klasse.
     /// </summary>
     public CurriculumDetailView()
     {

@@ -19,19 +19,14 @@
     private RaumplanViewModel currentRaumplan;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="RaumViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="RaumViewModel"/> Klasse. 
     /// </summary>
     /// <param name="raum">
     /// The underlying raum this ViewModel is to be based on
     /// </param>
-    public RaumViewModel(RaumNeu raum)
+    public RaumViewModel(Raum raum)
     {
-      if (raum == null)
-      {
-        throw new ArgumentNullException("raum");
-      }
-
-      this.Model = raum;
+      this.Model = raum ?? throw new ArgumentNullException(nameof(raum));
 
       this.AddRaumplanCommand = new DelegateCommand(this.AddRaumplan);
       this.EditRaumplanCommand = new DelegateCommand(this.EditRaumplan, () => this.CurrentRaumplan != null);
@@ -49,7 +44,7 @@
     }
 
     /// <summary>
-    /// Holt den Befehl zur Erstellung eines neuen Raumplanes
+    /// Holt den Befehl zur Erstellung eines en Raumplanes
     /// </summary>
     public DelegateCommand AddRaumplanCommand { get; private set; }
 
@@ -66,7 +61,7 @@
     /// <summary>
     /// Holt den underlying Raum this ViewModel is based on
     /// </summary>
-    public RaumNeu Model { get; private set; }
+    public Raum Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Raumpläne dieser Raumplan
@@ -104,7 +99,7 @@
       set
       {
         if (value == this.Model.Bezeichnung) return;
-        this.UndoablePropertyChanging(this, "RaumBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(RaumBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("RaumBezeichnung");
       }
@@ -142,11 +137,13 @@
     /// </summary>
     private void AddRaumplan()
     {
-      var raumplan = new RaumplanNeu();
-      raumplan.Raum = this.Model;
+      var raumplan = new Raumplan
+      {
+        Raum = this.Model
+      };
       var raumplanViewModel = new RaumplanViewModel(raumplan);
       bool undo = false;
-      using (new UndoBatch(App.MainViewModel, string.Format("Neuer Raumplan {0} erstellt.", raumplanViewModel), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("er Raumplan {0} erstellt.", raumplanViewModel), false))
       {
         var dlg = new EditRaumplanDialog(raumplanViewModel);
         if (!dlg.ShowDialog().GetValueOrDefault(false))
@@ -218,7 +215,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void RaumpläneCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Raumpläne", this.Raumpläne, e, true, "Änderung der Raumpläne");
+      UndoableCollectionChanged(this, nameof(Raumpläne), this.Raumpläne, e, true, "Änderung der Raumpläne");
     }
   }
 }

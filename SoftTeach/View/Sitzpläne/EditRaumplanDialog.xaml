@@ -32,13 +32,13 @@
 
     <StackPanel Grid.Row="1" Orientation="Horizontal"  Background="{x:Static SystemColors.MenuBarBrush}">
       <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Raumplan.OpenImageFileCommand}" 
-                    ToolTip="Neuen Grundriss laden">
+                    ToolTip="en Grundriss laden">
         <StackPanel Orientation="Horizontal">
           <Grid>
-            <Image Source="/SoftTeach;component/Images/Raumplan32.png"/>
+            <fa:IconBlock Style="{StaticResource Raumplan32}"/>
             <fa:IconBlock Style="{StaticResource ImportOverlay32}"/>
           </Grid>
-          <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Neuen Grundriss laden (800x500px, 96dpi)</Label>
+          <Label Padding="5,0,0,0" VerticalContentAlignment="Center">en Grundriss laden (800x500px, 96dpi)</Label>
         </StackPanel>
       </Button>
       <Border BorderThickness="1" Margin="5" BorderBrush="{x:Static SystemColors.ControlDarkDarkBrush}" />

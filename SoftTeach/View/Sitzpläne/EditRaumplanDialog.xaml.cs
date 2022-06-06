@@ -60,7 +60,7 @@ namespace SoftTeach.View.Sitzpläne
     private SitzplatzViewModel currentSitzplatz;
 
     /// <summary>
-    /// Gibt an, ob ein Sitzplatz neu erstellt wird.
+    /// Gibt an, ob ein Sitzplatz  erstellt wird.
     /// </summary>
     private bool isCreatingSitzplatz;
 
@@ -74,15 +74,15 @@ namespace SoftTeach.View.Sitzpläne
     /// </summary>
     private bool hasCopiedSitzplatz;
 
-    /// <summary>
-    /// Die Liste der Sitzplanrechtecke
-    /// </summary>
-    private List<Border> sitzplatzShapes;
+    ///// <summary>
+    ///// Die Liste der Sitzplanrechtecke
+    ///// </summary>
+    //private List<Border> sitzplatzShapes;
 
     #region Constructors and Destructors
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="EditRaumplanDialog"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="EditRaumplanDialog"/> Klasse. 
     /// </summary>
     /// <param name="raumplan">
     /// The raumplan.
@@ -144,7 +144,7 @@ namespace SoftTeach.View.Sitzpläne
       this.mouseDownPoint = clickLocation;
       if (this.currentSitzplatz == null)
       {
-        // Sitzplatz neu erstellen
+        // Sitzplatz  erstellen
         this.isCreatingSitzplatz = true;
         this.Raumplan.AddSitzplatz(clickLocation.X, clickLocation.Y, 0, 0, 0);
         this.RaumplanCanvas.Children.Add(this.Raumplan.CurrentSitzplatz.Shape);

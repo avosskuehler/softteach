@@ -8,7 +8,7 @@
   public abstract class CollectionChange : Change
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="CollectionChange"/> Klasse.
+    /// Initialisiert eine e Instanz der <see cref="CollectionChange"/> Klasse.
     /// </summary>
     /// <param name="target">Das Target der Aktion.</param>
     ///  <param name="propertyName">Der Name der Property der Collection.</param>

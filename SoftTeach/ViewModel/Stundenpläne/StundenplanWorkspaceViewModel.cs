@@ -20,7 +20,7 @@
     private StundenplanViewModel currentStundenplan;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="StundenplanWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="StundenplanWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public StundenplanWorkspaceViewModel()
     {
@@ -93,11 +93,13 @@
       using (new UndoBatch(App.MainViewModel, string.Format("Stundenplan ergänzt"), false))
       {
 
-        var stundenplan = new StundenplanNeu();
-        stundenplan.Schuljahr = schuljahr.Model;
-        stundenplan.Halbjahr = halbschuljahr;
-        stundenplan.GültigAb = gültigAb;
-        stundenplan.Bezeichnung = string.Format("Stundenplan für {0} {1}", Configuration.Instance.Lehrer.Titel, Configuration.Instance.Lehrer.Nachname);
+        var stundenplan = new Stundenplan
+        {
+          Schuljahr = schuljahr.Model,
+          Halbjahr = halbschuljahr,
+          GültigAb = gültigAb,
+          Bezeichnung = string.Format("Stundenplan für {0} {1}", Configuration.Instance.Lehrer.Titel, Configuration.Instance.Lehrer.Nachname)
+        };
         //App.UnitOfWork.Context.Stundenpläne.Add(stundenplan);
         var vm = new StundenplanViewModel(stundenplan);
         App.MainViewModel.Stundenpläne.Add(vm);
@@ -159,14 +161,14 @@
     /// Liefert den letzten Stundenplan, abhängig vom GültigAb Datum
     /// </summary>
     /// <returns>Der aktuelle Stundenplan.</returns>
-    public StundenplanViewModel GetAktuellenStundenplan()
+    public static StundenplanViewModel GetAktuellenStundenplan()
     {
       var sortedByDate = App.MainViewModel.Stundenpläne.OrderBy(o => o.StundenplanGültigAb);
       return sortedByDate.Last();
     }
 
     /// <summary>
-    /// Fügt einen neuen Stundenplan hinzu mit den aktuellen Parametern.
+    /// Fügt einen en Stundenplan hinzu mit den aktuellen Parametern.
     /// </summary>
     private void AddStundenplan()
     {
@@ -176,7 +178,7 @@
         bool undo;
         using (new UndoBatch(App.MainViewModel, string.Format("Stundenplan angelegt."), false))
         {
-          // Neuen Stundenplan anlegen
+          // en Stundenplan anlegen
           App.MainViewModel.StundenplanWorkspace.AddStundenplan(dlg.Schuljahr, dlg.Halbjahr, dlg.GültigAb);
           var stundenplanView = new EditStundenplanDialog(App.MainViewModel.StundenplanWorkspace.CurrentStundenplan);
           undo = !stundenplanView.ShowDialog().GetValueOrDefault(false);

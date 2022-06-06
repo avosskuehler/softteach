@@ -28,10 +28,10 @@
     /// </summary>
     private FachViewModel fach;
 
-    /// <summary>
-    /// The klassenstufe currently assigned to this curriculum
-    /// </summary>
-    private int klassenstufe;
+    ///// <summary>
+    ///// The klassenstufe currently assigned to this curriculum
+    ///// </summary>
+    //private int klassenstufe;
 
     /// <summary>
     /// The schuljahr currently assigned to this curriculum
@@ -54,19 +54,14 @@
     private ViewModelBase currentItem;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="CurriculumViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="CurriculumViewModel"/> Klasse. 
     /// </summary>
     /// <param name="curriculum">
     /// The underlying curriculum this ViewModel is to be based on
     /// </param>
-    public CurriculumViewModel(CurriculumNeu curriculum)
+    public CurriculumViewModel(Curriculum curriculum)
     {
-      if (curriculum == null)
-      {
-        throw new ArgumentNullException("curriculum");
-      }
-
-      this.Model = curriculum;
+      this.Model = curriculum ?? throw new ArgumentNullException(nameof(curriculum));
 
       this.AdaptForJahresplanCommand = new DelegateCommand(this.AdaptForJahresplan);
       this.AddReiheCommand = new DelegateCommand(this.AddReihe);
@@ -114,7 +109,7 @@
     /// <summary>
     /// Holt den underlying Curriculum this ViewModel is based on
     /// </summary>
-    public CurriculumNeu Model { get; private set; }
+    public Curriculum Model { get; private set; }
 
     /// <summary>
     /// Holt den Befehl zur adding a new reihe
@@ -276,7 +271,7 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "CurriculumFach", this.fach, value);
+        this.UndoablePropertyChanging(this, nameof(CurriculumFach), this.fach, value);
         this.fach = value;
         this.Model.Fach = value.Model;
         this.RaisePropertyChanged("CurriculumFach");
@@ -311,7 +306,7 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "CurriculumSchuljahr", this.schuljahr, value);
+        this.UndoablePropertyChanging(this, nameof(CurriculumSchuljahr), this.schuljahr, value);
         this.schuljahr = value;
         this.Model.Schuljahr = value.Model;
         this.RaisePropertyChanged("CurriculumSchuljahr");
@@ -335,7 +330,7 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "CurriculumHalbjahr", this.Model.Halbjahr, value);
+        this.UndoablePropertyChanging(this, nameof(CurriculumHalbjahr), this.Model.Halbjahr, value);
         this.Model.Halbjahr = value;
         this.RaisePropertyChanged("CurriculumHalbjahr");
       }
@@ -358,7 +353,7 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "CurriculumJahrgang", this.Model.Jahrgang, value);
+        this.UndoablePropertyChanging(this, nameof(CurriculumJahrgang), this.Model.Jahrgang, value);
         this.Model.Jahrgang = value;
         this.RaisePropertyChanged("CurriculumJahrgang");
       }
@@ -381,7 +376,7 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "CurriculumBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(CurriculumBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("CurriculumBezeichnung");
       }
@@ -413,7 +408,7 @@
     {
       get
       {
-        var unterrichtstyp = Termintyp.Unterricht;
+        //var unterrichtstyp = Termintyp.Unterricht;
         var fachstundenViewModel =
           App.MainViewModel.Fachstundenanzahl.First(
             o => o.FachstundenanzahlFach.FachBezeichnung == this.CurriculumFach.FachBezeichnung &&
@@ -562,32 +557,38 @@
                 if (dropInfo.Effects == DragDropEffects.Copy)
                 {
                   // Create a clone
-                  var reiheClone = new ReiheNeu();
-                  reiheClone.Stundenbedarf = reiheViewModel.ReiheStundenbedarf;
-                  reiheClone.Thema = reiheViewModel.ReiheThema;
-                  reiheClone.Modul = reiheViewModel.ReiheModul.Model;
-                  reiheClone.Reihenfolge = -1;
-                  reiheClone.Curriculum = this.Model;
+                  var reiheClone = new Reihe
+                  {
+                    Stundenbedarf = reiheViewModel.ReiheStundenbedarf,
+                    Thema = reiheViewModel.ReiheThema,
+                    Modul = reiheViewModel.ReiheModul.Model,
+                    Reihenfolge = -1,
+                    Curriculum = this.Model
+                  };
                   //App.UnitOfWork.Context.Reihen.Add(reiheClone);
 
                   foreach (var sequenz in reiheViewModel.AvailableSequenzen)
                   {
-                    var sequenzClone = new SequenzNeu();
-                    sequenzClone.Reihenfolge = sequenz.Reihenfolge;
-                    sequenzClone.Reihe = reiheClone;
-                    sequenzClone.Stundenbedarf = sequenz.SequenzStundenbedarf;
-                    sequenzClone.Thema = sequenz.SequenzThema;
+                    var sequenzClone = new Sequenz
+                    {
+                      Reihenfolge = sequenz.Reihenfolge,
+                      Reihe = reiheClone,
+                      Stundenbedarf = sequenz.SequenzStundenbedarf,
+                      Thema = sequenz.SequenzThema
+                    };
                     //App.UnitOfWork.Context.Sequenzen.Add(sequenzClone);
                     reiheClone.Sequenzen.Add(sequenzClone);
                   }
 
                   foreach (var sequenz in reiheViewModel.UsedSequenzen)
                   {
-                    var sequenzClone = new SequenzNeu();
-                    sequenzClone.Reihenfolge = -1;
-                    sequenzClone.Reihe = reiheClone;
-                    sequenzClone.Stundenbedarf = sequenz.SequenzStundenbedarf;
-                    sequenzClone.Thema = sequenz.SequenzThema;
+                    var sequenzClone = new Sequenz
+                    {
+                      Reihenfolge = -1,
+                      Reihe = reiheClone,
+                      Stundenbedarf = sequenz.SequenzStundenbedarf,
+                      Thema = sequenz.SequenzThema
+                    };
                     //App.UnitOfWork.Context.Sequenzen.Add(sequenzClone);
                     reiheClone.Sequenzen.Add(sequenzClone);
                   }
@@ -659,7 +660,7 @@
               }
               else
               {
-                // Sequenz wird neu hinzugefügt
+                // Sequenz wird  hinzugefügt
                 this.AvailableSequenzenDerReihe.RemoveTest(sequenzViewModel);
                 sequenzViewModel.Reihenfolge = -1;
                 this.UsedSequenzenDesCurriculums.Insert(newIndex, sequenzViewModel);
@@ -676,33 +677,37 @@
     private void CreateModuleClonesIfReihenListIsEmpty()
     {
       // Wenn keine Reihen vorhanden sind, um sie
-      // ins Curriculum einzufügen, werden sie aus den Modulen als Vorlage neu erstellt
+      // ins Curriculum einzufügen, werden sie aus den Modulen als Vorlage  erstellt
       if (this.AvailableReihenDesCurriculums.Count == 0 && this.UsedReihenDesCurriculums.Count == 0)
       {
-        using (new UndoBatch(App.MainViewModel, string.Format("Neue Module anlegen"), false))
+        using (new UndoBatch(App.MainViewModel, string.Format("e Module anlegen"), false))
         {
           foreach (var modulViewModel in App.MainViewModel.Module.Where(o => o.ModulFach.FachBezeichnung == this.CurriculumFach.FachBezeichnung
             && o.ModulJahrgang == this.CurriculumJahrgang))
           {
-            var reihe = new ReiheNeu();
-            reihe.Stundenbedarf = modulViewModel.ModulStundenbedarf;
-            reihe.Thema = modulViewModel.ModulBezeichnung;
-            reihe.Modul = modulViewModel.Model;
-            reihe.Reihenfolge = -1;
-            reihe.Curriculum = this.Model;
+            var reihe = new Reihe
+            {
+              Stundenbedarf = modulViewModel.ModulStundenbedarf,
+              Thema = modulViewModel.ModulBezeichnung,
+              Modul = modulViewModel.Model,
+              Reihenfolge = -1,
+              Curriculum = this.Model
+            };
             //App.UnitOfWork.Context.Reihen.Add(reihe);
 
             var bausteine = modulViewModel.ModulBausteine.Trim().Split(',');
             foreach (var baustein in bausteine)
             {
               if (baustein == string.Empty) continue;
-              var sequenz = new SequenzNeu();
-              sequenz.Reihenfolge = -1;
-              sequenz.Reihe = reihe;
+              var sequenz = new Sequenz
+              {
+                Reihenfolge = -1,
+                Reihe = reihe,
 
-              // Stundenbedarf schätzen
-              sequenz.Stundenbedarf = Math.Max((int)(modulViewModel.ModulStundenbedarf / (float)bausteine.Count()), 1);
-              sequenz.Thema = baustein.Trim();
+                // Stundenbedarf schätzen
+                Stundenbedarf = Math.Max((int)(modulViewModel.ModulStundenbedarf / (float)bausteine.Count()), 1),
+                Thema = baustein.Trim()
+              };
               reihe.Sequenzen.Add(sequenz);
               //App.UnitOfWork.Context.Sequenzen.Add(sequenz);
             }
@@ -751,7 +756,7 @@
     private void AddReihe()
     {
       var modul = App.MainViewModel.Module.FirstOrDefault(o => o.ModulFach == this.fach && o.ModulJahrgang == this.CurriculumJahrgang);
-      var reihe = new ReiheNeu { Stundenbedarf = 3, Thema = "Neues Thema", Curriculum = this.Model, Modul = modul.Model };
+      var reihe = new Reihe { Stundenbedarf = 3, Thema = "es Thema", Curriculum = this.Model, Modul = modul.Model };
       var vm = new ReiheViewModel(reihe);
       //App.MainViewModel.Reihen.Add(vm);
       this.AvailableReihenDesCurriculums.Add(vm);
@@ -856,7 +861,7 @@
       var dlg = new AskForLerngruppeToAdaptDialog(this.CurriculumFach, this.CurriculumJahrgang);
       if (dlg.ShowDialog().GetValueOrDefault(false))
       {
-        App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+        App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = false;
         using (new UndoBatch(App.MainViewModel, string.Format("Curriculum an Jahresplan angepasst"), false))
         {
           Selection.Instance.Fach = this.CurriculumFach;
@@ -875,31 +880,37 @@
           Selection.Instance.Halbjahr = this.CurriculumHalbjahr;
 
           // Create a clone of this curriculum for the adaption dialog
-          var curriculumClone = new CurriculumNeu();
-          curriculumClone.Bezeichnung = this.CurriculumBezeichnung + " Kopie";
-          curriculumClone.Fach = this.CurriculumFach.Model;
-          curriculumClone.Schuljahr = this.CurriculumSchuljahr.Model;
-          curriculumClone.Halbjahr = this.CurriculumHalbjahr;
-          curriculumClone.Jahrgang = this.CurriculumJahrgang;
+          var curriculumClone = new Curriculum
+          {
+            Bezeichnung = this.CurriculumBezeichnung + " Kopie",
+            Fach = this.CurriculumFach.Model,
+            Schuljahr = this.CurriculumSchuljahr.Model,
+            Halbjahr = this.CurriculumHalbjahr,
+            Jahrgang = this.CurriculumJahrgang
+          };
           //App.UnitOfWork.Context.Curricula.Add(curriculumClone);
 
           foreach (var reihe in this.Model.Reihen)
           {
-            var reiheClone = new ReiheNeu();
-            reiheClone.Reihenfolge = reihe.Reihenfolge;
-            reiheClone.Modul = reihe.Modul;
-            reiheClone.Stundenbedarf = reihe.Stundenbedarf;
-            reiheClone.Thema = reihe.Thema;
-            reiheClone.Curriculum = curriculumClone;
+            var reiheClone = new Reihe
+            {
+              Reihenfolge = reihe.Reihenfolge,
+              Modul = reihe.Modul,
+              Stundenbedarf = reihe.Stundenbedarf,
+              Thema = reihe.Thema,
+              Curriculum = curriculumClone
+            };
             //App.UnitOfWork.Context.Reihen.Add(reiheClone);
 
             foreach (var sequenz in reihe.Sequenzen)
             {
-              var sequenzClone = new SequenzNeu();
-              sequenzClone.Reihenfolge = sequenz.Reihenfolge;
-              sequenzClone.Stundenbedarf = sequenz.Stundenbedarf;
-              sequenzClone.Thema = sequenz.Thema;
-              sequenzClone.Reihe = reiheClone;
+              var sequenzClone = new Sequenz
+              {
+                Reihenfolge = sequenz.Reihenfolge,
+                Stundenbedarf = sequenz.Stundenbedarf,
+                Thema = sequenz.Thema,
+                Reihe = reiheClone
+              };
               //App.UnitOfWork.Context.Sequenzen.Add(sequenzClone);
               reiheClone.Sequenzen.Add(sequenzClone);
             }
@@ -925,7 +936,7 @@
             undoAll = true;
           }
         }
-        App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
+        App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = true;
       }
 
       if (undoAll)
@@ -942,7 +953,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void ReihenSequenzenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "ReihenSequenzen", this.ReihenSequenzen, e, true, "Änderung der ReihenSequenzen");
+      UndoableCollectionChanged(this, nameof(ReihenSequenzen), this.ReihenSequenzen, e, true, "Änderung der ReihenSequenzen");
       this.RaisePropertyChanged("CurriculumVerplanteStunden");
     }
 
@@ -954,7 +965,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void UsedSequenzenDesCurriculumsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "UsedSequenzenDesCurriculums", this.UsedSequenzenDesCurriculums, e, true, "Änderung der UsedSequenzenDesCurriculums");
+      UndoableCollectionChanged(this, nameof(UsedSequenzenDesCurriculums), this.UsedSequenzenDesCurriculums, e, true, "Änderung der UsedSequenzenDesCurriculums");
       this.RaisePropertyChanged("CurriculumVerplanteStunden");
     }
 
@@ -966,7 +977,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void UsedReihenDesCurriculumsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "UsedReihenDesCurriculums", this.UsedReihenDesCurriculums, e, true, "Änderung der UsedReihenDesCurriculums");
+      UndoableCollectionChanged(this, nameof(UsedReihenDesCurriculums), this.UsedReihenDesCurriculums, e, true, "Änderung der UsedReihenDesCurriculums");
       this.RaisePropertyChanged("CurriculumVerplanteStunden");
     }
 
@@ -978,7 +989,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void AvailableReihenDesCurriculumsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "AvailableReihenDesCurriculums", this.AvailableReihenDesCurriculums, e, true, "Änderung der AvailableReihenDesCurriculums");
+      UndoableCollectionChanged(this, nameof(AvailableReihenDesCurriculums), this.AvailableReihenDesCurriculums, e, true, "Änderung der AvailableReihenDesCurriculums");
     }
   }
 }

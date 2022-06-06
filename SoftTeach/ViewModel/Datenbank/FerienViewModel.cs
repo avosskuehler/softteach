@@ -17,39 +17,36 @@
     private SchuljahrViewModel schuljahr;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="FerienViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="FerienViewModel"/> Klasse. 
     /// </summary>
     public FerienViewModel()
     {
-      var ferien = new FerienNeu();
-      ferien.Schuljahr = Selection.Instance.Schuljahr.Model;
-      ferien.Bezeichnung = "Neue Ferien";
-      ferien.ErsterFerientag = DateTime.Now;
-      ferien.LetzterFerientag = DateTime.Now;
+      var ferien = new Ferien
+      {
+        Schuljahr = Selection.Instance.Schuljahr.Model,
+        Bezeichnung = "e Ferien",
+        ErsterFerientag = DateTime.Now,
+        LetzterFerientag = DateTime.Now
+      };
       App.UnitOfWork.Context.Ferien.Add(ferien);
       this.Model = ferien;
     }
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="FerienViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="FerienViewModel"/> Klasse. 
     /// </summary>
     /// <param name="ferien">
     /// The underlying ferien this ViewModel is to be based on
     /// </param>
-    public FerienViewModel(FerienNeu ferien)
+    public FerienViewModel(Ferien ferien)
     {
-      if (ferien == null)
-      {
-        throw new ArgumentNullException("ferien");
-      }
-
-      this.Model = ferien;
+      this.Model = ferien ?? throw new ArgumentNullException(nameof(ferien));
     }
 
     /// <summary>
     /// Holt den underlying Ferien this ViewModel is based on
     /// </summary>
-    public FerienNeu Model { get; private set; }
+    public Ferien Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Bezeichnung
@@ -64,7 +61,7 @@
       set
       {
         if (value == this.Model.Bezeichnung) return;
-        this.UndoablePropertyChanging(this, "FerienBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(FerienBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("FerienBezeichnung");
       }
@@ -83,7 +80,7 @@
       set
       {
         if (value == this.Model.ErsterFerientag) return;
-        this.UndoablePropertyChanging(this, "FerienErsterFerientag", this.Model.ErsterFerientag, value);
+        this.UndoablePropertyChanging(this, nameof(FerienErsterFerientag), this.Model.ErsterFerientag, value);
         this.Model.ErsterFerientag = value;
         this.RaisePropertyChanged("FerienErsterFerientag");
       }
@@ -102,7 +99,7 @@
       set
       {
         if (value == this.Model.LetzterFerientag) return;
-        this.UndoablePropertyChanging(this, "FerienLetzterFerientag", this.Model.LetzterFerientag, value);
+        this.UndoablePropertyChanging(this, nameof(FerienLetzterFerientag), this.Model.LetzterFerientag, value);
         this.Model.LetzterFerientag = value;
         this.RaisePropertyChanged("FerienLetzterFerientag");
       }
@@ -136,7 +133,7 @@
           if (value.SchuljahrBezeichnung == this.schuljahr.SchuljahrBezeichnung) return;
         }
 
-        this.UndoablePropertyChanging(this, "FerienSchuljahr", this.schuljahr, value);
+        this.UndoablePropertyChanging(this, nameof(FerienSchuljahr), this.schuljahr, value);
         this.schuljahr = value;
         this.Model.Schuljahr = value.Model;
         this.RaisePropertyChanged("FerienSchuljahr");

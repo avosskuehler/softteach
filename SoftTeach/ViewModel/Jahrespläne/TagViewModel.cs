@@ -39,7 +39,7 @@ namespace SoftTeach.ViewModel.Jahrespläne
     private bool istFeiertag;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="JahresplanViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="JahresplanViewModel"/> Klasse. 
     /// </summary>
     public TagViewModel(LerngruppeViewModel lerngruppe)
     {
@@ -49,12 +49,12 @@ namespace SoftTeach.ViewModel.Jahrespläne
     }
 
     /// <summary>
-    /// Holt den Befehl aus Notizen einen neuen Termin zu machen
+    /// Holt den Befehl aus Notizen einen en Termin zu machen
     /// </summary>
     public DelegateCommand EditLerngruppenterminCommand { get; private set; }
 
     /// <summary>
-    /// Holt den Befehl aus Notizen einen neuen Termin zu machen
+    /// Holt den Befehl aus Notizen einen en Termin zu machen
     /// </summary>
     public DelegateCommand LöscheLerngruppenterminCommand { get; private set; }
 
@@ -148,7 +148,7 @@ namespace SoftTeach.ViewModel.Jahrespläne
     }
 
     /// <summary>
-    /// Holt oder setzt einen Wert, der angibt, ob an diesem Tag neue Eintragungen stattfinden dürfen oder nicht.
+    /// Holt oder setzt einen Wert, der angibt, ob an diesem Tag e Eintragungen stattfinden dürfen oder nicht.
     /// </summary>
     public bool Enabled
     {
@@ -222,7 +222,7 @@ namespace SoftTeach.ViewModel.Jahrespläne
       }
     }
 
-    public ContextMenu TagContextMenu
+    public static ContextMenu TagContextMenu
     {
       get
       {
@@ -270,24 +270,26 @@ namespace SoftTeach.ViewModel.Jahrespläne
     }
 
     /// <summary>
-    /// Erstellt eine neue Stunde für diesen Tag und die Lerngruppe
+    /// Erstellt eine e Stunde für diesen Tag und die Lerngruppe
     /// </summary>
     public void AddStunde()
     {
-      var stunde = new StundeNeu();
-      stunde.ErsteUnterrichtsstunde =
-        App.MainViewModel.Unterrichtsstunden.First(unterrichtsstunde => unterrichtsstunde.UnterrichtsstundeBezeichnung == "1").Model;
-      stunde.LetzteUnterrichtsstunde =
-        App.MainViewModel.Unterrichtsstunden.First(unterrichtsstunde => unterrichtsstunde.UnterrichtsstundeBezeichnung == "2").Model;
-      stunde.Datum = this.Datum;
-      stunde.Termintyp = Termintyp.Unterricht;
-      stunde.Hausaufgaben = string.Empty;
-      stunde.Ansagen = string.Empty;
-      stunde.Lerngruppe = lerngruppe.Model;
-      stunde.Halbjahr = this.Halbjahr;
-      stunde.Jahrgang = lerngruppe.LerngruppeJahrgang;
+      var stunde = new Stunde
+      {
+        ErsteUnterrichtsstunde =
+        App.MainViewModel.Unterrichtsstunden.First(unterrichtsstunde => unterrichtsstunde.UnterrichtsstundeBezeichnung == "1").Model,
+        LetzteUnterrichtsstunde =
+        App.MainViewModel.Unterrichtsstunden.First(unterrichtsstunde => unterrichtsstunde.UnterrichtsstundeBezeichnung == "2").Model,
+        Datum = this.Datum,
+        Termintyp = Termintyp.Unterricht,
+        Hausaufgaben = string.Empty,
+        Ansagen = string.Empty,
+        Lerngruppe = lerngruppe.Model,
+        Halbjahr = this.Halbjahr,
+        Jahrgang = lerngruppe.LerngruppeJahrgang,
 
-      stunde.Fach = lerngruppe.LerngruppeFach.Model;
+        Fach = lerngruppe.LerngruppeFach.Model
+      };
 
       var vm = new StundeViewModel(stunde);
       var stundeDlg = new EditStundeDialog(vm);
@@ -304,7 +306,7 @@ namespace SoftTeach.ViewModel.Jahrespläne
     }
 
     /// <summary>
-    /// Erstellt einen neuen Lerngruppentermin für diesen Tag und die Lerngruppe
+    /// Erstellt einen en Lerngruppentermin für diesen Tag und die Lerngruppe
     /// </summary>
     public void AddLerngruppentermin()
     {
@@ -316,13 +318,15 @@ namespace SoftTeach.ViewModel.Jahrespläne
           var ersteStunde = dlg.TerminErsteUnterrichtsstunde;
           var letzteStunde = dlg.TerminLetzteUnterrichtsstunde;
 
-          var lerngruppentermin = new LerngruppenterminNeu();
-          lerngruppentermin.Beschreibung = dlg.Terminbezeichnung;
-          lerngruppentermin.Termintyp = dlg.TerminTermintyp;
-          lerngruppentermin.ErsteUnterrichtsstunde = ersteStunde.Model;
-          lerngruppentermin.LetzteUnterrichtsstunde = letzteStunde.Model;
-          lerngruppentermin.Lerngruppe = this.lerngruppe.Model;
-          lerngruppentermin.Datum = this.Datum;
+          var lerngruppentermin = new Lerngruppentermin
+          {
+            Beschreibung = dlg.Terminbezeichnung,
+            Termintyp = dlg.TerminTermintyp,
+            ErsteUnterrichtsstunde = ersteStunde.Model,
+            LetzteUnterrichtsstunde = letzteStunde.Model,
+            Lerngruppe = this.lerngruppe.Model,
+            Datum = this.Datum
+          };
 
           var vm = new LerngruppenterminViewModel(lerngruppentermin);
 

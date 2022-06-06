@@ -89,7 +89,7 @@
   <Color x:Key="MouseOverColor" A="255" R="211" G="211" B="211"/>
   <Color x:Key="DisabledColor" A="255" R="169" G="169" B="169"/>
   <Color x:Key="SelectionColor" A="160" R="70" G="130" B="180"/>
-  <Color x:Key="NeutralColor" A="0" R="255" G="255" B="255"/>
+  <Color x:Key="tralColor" A="0" R="255" G="255" B="255"/>
 
 
   <SolidColorBrush x:Key="CheckBoxFillNormal" Color="#F4F4F4"/>
@@ -106,7 +106,7 @@
             <BulletDecorator.Bullet>
               <Grid x:Name="ParentGrid">
                 <Grid.Background>
-                  <SolidColorBrush Color="{StaticResource NeutralColor}"/>
+                  <SolidColorBrush Color="{StaticResource tralColor}"/>
                 </Grid.Background>
                 <Border x:Name="CheckMark" Margin="2" Height="{TemplateBinding Height}" MinWidth="{TemplateBinding MinWidth}">
                   <Border.Background>
@@ -129,7 +129,7 @@
                 </VisualState>
                 <VisualState x:Name="Unchecked">
                   <Storyboard>
-                    <ColorAnimation Duration="0:0:0.10" Storyboard.TargetName="CheckMark" Storyboard.TargetProperty="Background.Color" To="{StaticResource NeutralColor}"/>
+                    <ColorAnimation Duration="0:0:0.10" Storyboard.TargetName="CheckMark" Storyboard.TargetProperty="Background.Color" To="{StaticResource tralColor}"/>
                   </Storyboard>
                 </VisualState>
               </VisualStateGroup>
@@ -159,7 +159,7 @@
             <BulletDecorator.Bullet>
               <Grid x:Name="ParentGrid">
                 <Grid.Background>
-                  <SolidColorBrush Color="{StaticResource NeutralColor}"/>
+                  <SolidColorBrush Color="{StaticResource tralColor}"/>
                 </Grid.Background>
                 <Border x:Name="CheckMark" Margin="2" Height="{TemplateBinding Height}" MinWidth="{TemplateBinding MinWidth}">
                   <Border.Background>
@@ -172,7 +172,7 @@
                 </Border>
                 <!--<Border x:Name="CheckMarkLayer" Margin="2" Height="{TemplateBinding Height}" MinWidth="{TemplateBinding MinWidth}">
                   <Border.Background>
-                    <SolidColorBrush Color="{StaticResource NeutralColor}"/>
+                    <SolidColorBrush Color="{StaticResource tralColor}"/>
                   </Border.Background>
                 </Border>-->
               </Grid>

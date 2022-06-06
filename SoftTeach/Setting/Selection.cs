@@ -99,7 +99,7 @@ namespace SoftTeach.Setting
       set
       {
         this.fach = value;
-        this.OnPropertyChanged("Fach");
+        this.OnPropertyChanged(nameof(Fach));
       }
     }
 
@@ -116,7 +116,7 @@ namespace SoftTeach.Setting
       set
       {
         this.halbjahr = value;
-        this.OnPropertyChanged("Halbjahr");
+        this.OnPropertyChanged(nameof(Halbjahr));
       }
     }
 
@@ -139,7 +139,7 @@ namespace SoftTeach.Setting
       {
         if (this.schuljahr == value) return;
         this.schuljahr = value;
-        this.OnPropertyChanged("Schuljahr");
+        this.OnPropertyChanged(nameof(Schuljahr));
       }
     }
 
@@ -156,7 +156,7 @@ namespace SoftTeach.Setting
       set
       {
         this.modul = value;
-        this.OnPropertyChanged("Modul");
+        this.OnPropertyChanged(nameof(Modul));
       }
     }
 
@@ -173,7 +173,7 @@ namespace SoftTeach.Setting
       set
       {
         this.stunde = value;
-        this.OnPropertyChanged("Stunde");
+        this.OnPropertyChanged(nameof(Stunde));
       }
     }
 
@@ -190,7 +190,7 @@ namespace SoftTeach.Setting
       set
       {
         this.jahrgang = value;
-        this.OnPropertyChanged("Jahrgang");
+        this.OnPropertyChanged(nameof(Jahrgang));
       }
     }
 
@@ -207,7 +207,7 @@ namespace SoftTeach.Setting
       set
       {
         this.lerngruppe = value;
-        this.OnPropertyChanged("Lerngruppe");
+        this.OnPropertyChanged(nameof(Lerngruppe));
       }
     }
 
@@ -224,7 +224,7 @@ namespace SoftTeach.Setting
       set
       {
         this.schülereintrag = value;
-        this.OnPropertyChanged("Schülereintrag");
+        this.OnPropertyChanged(nameof(Schülereintrag));
       }
     }
 
@@ -241,7 +241,7 @@ namespace SoftTeach.Setting
       set
       {
         this.arbeit = value;
-        this.OnPropertyChanged("Arbeit");
+        this.OnPropertyChanged(nameof(Arbeit));
       }
     }
 
@@ -258,7 +258,7 @@ namespace SoftTeach.Setting
       set
       {
         this.bewertungsschema = value;
-        this.OnPropertyChanged("Bewertungsschema");
+        this.OnPropertyChanged(nameof(Bewertungsschema));
       }
     }
 
@@ -275,7 +275,7 @@ namespace SoftTeach.Setting
       set
       {
         this.raum = value;
-        this.OnPropertyChanged("Raum");
+        this.OnPropertyChanged(nameof(Raum));
       }
     }
 
@@ -292,7 +292,7 @@ namespace SoftTeach.Setting
       set
       {
         this.raumplan = value;
-        this.OnPropertyChanged("Raumplan");
+        this.OnPropertyChanged(nameof(Raumplan));
       }
     }
 
@@ -309,7 +309,7 @@ namespace SoftTeach.Setting
       set
       {
         this.sitzplan = value;
-        this.OnPropertyChanged("Sitzplan");
+        this.OnPropertyChanged(nameof(Sitzplan));
       }
     }
 
@@ -326,7 +326,7 @@ namespace SoftTeach.Setting
       set
       {
         this.hausaufgabeDatum = value;
-        this.OnPropertyChanged("HausaufgabeDatum");
+        this.OnPropertyChanged(nameof(HausaufgabeDatum));
       }
     }
 
@@ -343,7 +343,7 @@ namespace SoftTeach.Setting
       set
       {
         this.hausaufgabeBezeichnung = value;
-        this.OnPropertyChanged("HausaufgabeBezeichnung");
+        this.OnPropertyChanged(nameof(HausaufgabeBezeichnung));
       }
     }
 
@@ -371,7 +371,7 @@ namespace SoftTeach.Setting
       set
       {
         this.sonstigeNoteDatum = value;
-        this.OnPropertyChanged("SonstigeNoteDatum");
+        this.OnPropertyChanged(nameof(SonstigeNoteDatum));
       }
     }
 
@@ -388,7 +388,7 @@ namespace SoftTeach.Setting
       set
       {
         this.sonstigeNoteBezeichnung = value;
-        this.OnPropertyChanged("SonstigeNoteBezeichnung");
+        this.OnPropertyChanged(nameof(SonstigeNoteBezeichnung));
       }
     }
 
@@ -405,7 +405,7 @@ namespace SoftTeach.Setting
       set
       {
         this.sonstigeNoteNotentyp = value;
-        this.OnPropertyChanged("SonstigeNoteNotentyp");
+        this.OnPropertyChanged(nameof(SonstigeNoteNotentyp));
       }
     }
 
@@ -422,7 +422,7 @@ namespace SoftTeach.Setting
       set
       {
         this.sonstigeNoteWichtung = value;
-        this.OnPropertyChanged("SonstigeNoteWichtung");
+        this.OnPropertyChanged(nameof(SonstigeNoteWichtung));
       }
     }
 
@@ -443,7 +443,7 @@ namespace SoftTeach.Setting
     /// </summary>
     public void ReNotifySchuljahr()
     {
-      this.OnPropertyChanged("Schuljahr");
+      this.OnPropertyChanged(nameof(Schuljahr));
     }
 
     /// <summary>
@@ -462,20 +462,20 @@ namespace SoftTeach.Setting
       }
       else
       {
-        this.OnPropertyChanged("Schuljahr");
+        this.OnPropertyChanged(nameof(Schuljahr));
       }
 
-      if (this.Halbjahr == null)
-      {
-        if (DateTime.Now.Month > 7 || DateTime.Now.Month == 1)
-        {
-          this.Halbjahr = Halbjahr.Winter;
-        }
-        else
-        {
-          this.Halbjahr = Halbjahr.Sommer;
-        }
-      }
+      //if (this.Halbjahr == null)
+      //{
+      //  if (DateTime.Now.Month > 7 || DateTime.Now.Month == 1)
+      //  {
+      //    this.Halbjahr = Halbjahr.Winter;
+      //  }
+      //  else
+      //  {
+      //    this.Halbjahr = Halbjahr.Sommer;
+      //  }
+      //}
 
       if (this.Fach == null)
       {
@@ -496,7 +496,7 @@ namespace SoftTeach.Setting
       Settings.Default.Fach = this.Fach != null ? this.Fach.FachBezeichnung : string.Empty;
       Settings.Default.Lerngruppe = this.Lerngruppe != null ? this.Lerngruppe.LerngruppeBezeichnung : string.Empty;
       Settings.Default.Schuljahr = this.Schuljahr != null ? this.Schuljahr.SchuljahrBezeichnung : string.Empty;
-      Settings.Default.Halbjahr = this.Halbjahr != null ? this.Halbjahr.ToString() : string.Empty;
+      Settings.Default.Halbjahr = this.Halbjahr.ToString();
       Settings.Default.Modul = this.Modul != null ? this.Modul.ModulBezeichnung : string.Empty;
     }
 

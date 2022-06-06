@@ -63,28 +63,20 @@
     private bool nurTeilungsgruppeB;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="LerngruppeViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="LerngruppeViewModel"/> Klasse. 
     /// </summary>
     /// <param name="lerngruppe">
     /// The underlying schülerliste this ViewModel is to be based on
     /// </param>
-    public LerngruppeViewModel(LerngruppeNeu lerngruppe)
+    public LerngruppeViewModel(Lerngruppe lerngruppe)
     {
-      //var watch = new Stopwatch();
-      //watch.Start();
-
-      if (lerngruppe == null)
-      {
-        throw new ArgumentNullException("lerngruppe");
-      }
-
-      this.Model = lerngruppe;
+      this.Model = lerngruppe ?? throw new ArgumentNullException(nameof(lerngruppe));
       this.NotenDatum = DateTime.Today;
       this.AddSchülereintragCommand = new DelegateCommand(this.AddSchülereintrag);
       this.DeleteSchülereintragCommand = new DelegateCommand(this.DeleteCurrentSchülereintrag, () => this.CurrentSchülereintrag != null);
       this.ExportLerngruppeCommand = new DelegateCommand(this.ExportLerngruppe);
       this.ImportSchülerCommand = new DelegateCommand(this.ImportSchüler);
-      this.GruppenNeuEinteilenCommand = new DelegateCommand(this.GruppenNeuEinteilen);
+      this.GruppenEinteilenCommand = new DelegateCommand(this.GruppenEinteilen);
       this.GruppenAusdruckenCommand = new DelegateCommand(this.GruppenAusdrucken);
 
       // Build data structures for schülerlisten
@@ -102,18 +94,28 @@
       this.Schülereinträge.CollectionChanged += this.SchülereinträgeCollectionChanged;
 
       this.Lerngruppentermine = new ObservableCollection<LerngruppenterminViewModel>();
+      //foreach (var lerngruppenTermin in lerngruppe.Lerngruppentermine)
+      //{
+      //  if (lerngruppenTermin is Stunde)
+      //  {
+      //    var vm = new StundeViewModel(lerngruppenTermin as Stunde);
+      //    this.Lerngruppentermine.Add(vm);
+      //  }
+      //  else
+      //  {
+      //    var vm = new LerngruppenterminViewModel(lerngruppenTermin);
+      //    this.Lerngruppentermine.Add(vm);
+      //  }
+      //}
       foreach (var lerngruppenTermin in lerngruppe.Lerngruppentermine)
       {
-        if (lerngruppenTermin is StundeNeu)
-        {
-          var vm = new StundeViewModel(lerngruppenTermin as StundeNeu);
-          this.Lerngruppentermine.Add(vm);
-        }
-        else
-        {
-          var vm = new LerngruppenterminViewModel(lerngruppenTermin);
-          this.Lerngruppentermine.Add(vm);
-        }
+        var vm = new LerngruppenterminViewModel(lerngruppenTermin);
+        this.Lerngruppentermine.Add(vm);
+      }
+      foreach (var lerngruppenTermin in lerngruppe.Stunden)
+      {
+        var vm = new StundeViewModel(lerngruppenTermin as Stunde);
+        this.Lerngruppentermine.Add(vm);
       }
 
       //Console.WriteLine("Elapsed Lerngruppentermine {0}", watch.ElapsedMilliseconds);
@@ -181,7 +183,7 @@
     /// <summary>
     /// Holt den Befehl die Schüler der Lerngruppe in Gruppen einzuteilen.
     /// </summary>
-    public DelegateCommand GruppenNeuEinteilenCommand { get; private set; }
+    public DelegateCommand GruppenEinteilenCommand { get; private set; }
 
     /// <summary>
     /// Holt den Befehl die eingeteilten Gruppen auszudrucken.
@@ -191,7 +193,7 @@
     /// <summary>
     /// Holt den underlying Lerngruppe this ViewModel is based on
     /// </summary>
-    public LerngruppeNeu Model { get; private set; }
+    public Lerngruppe Model { get; private set; }
 
     /// <summary>
     /// Holt die schülereinträge for this schülerliste
@@ -302,7 +304,7 @@
       set
       {
         if (value == this.Model.Bezeichnung) return;
-        this.UndoablePropertyChanging(this, "LerngruppeBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(LerngruppeBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("LerngruppeBezeichnung");
       }
@@ -332,7 +334,7 @@
       set
       {
         if (value.SchuljahrBezeichnung == this.schuljahr.SchuljahrBezeichnung) return;
-        this.UndoablePropertyChanging(this, "LerngruppeSchuljahr", this.schuljahr, value);
+        this.UndoablePropertyChanging(this, nameof(LerngruppeSchuljahr), this.schuljahr, value);
         this.schuljahr = value;
         this.Model.Schuljahr = value.Model;
         this.RaisePropertyChanged("LerngruppeSchuljahr");
@@ -363,7 +365,7 @@
       set
       {
         if (value.FachBezeichnung == this.fach.FachBezeichnung) return;
-        this.UndoablePropertyChanging(this, "LerngruppeFach", this.fach, value);
+        this.UndoablePropertyChanging(this, nameof(LerngruppeFach), this.fach, value);
         this.fach = value;
         this.Model.Fach = value.Model;
         this.RaisePropertyChanged("LerngruppeFach");
@@ -383,7 +385,7 @@
       set
       {
         if (value == this.Model.Jahrgang) return;
-        this.UndoablePropertyChanging(this, "LerngruppeJahrgang", this.Model.Jahrgang, value);
+        this.UndoablePropertyChanging(this, nameof(LerngruppeJahrgang), this.Model.Jahrgang, value);
         this.Model.Jahrgang = value;
         this.RaisePropertyChanged("LerngruppeJahrgang");
       }
@@ -402,7 +404,7 @@
       set
       {
         if (value == this.Model.Bepunktungstyp) return;
-        this.UndoablePropertyChanging(this, "LerngruppeBepunktungstyp", this.Model.Bepunktungstyp, value);
+        this.UndoablePropertyChanging(this, nameof(LerngruppeBepunktungstyp), this.Model.Bepunktungstyp, value);
         this.Model.Bepunktungstyp = value;
         this.RaisePropertyChanged("LerngruppeBepunktungstyp");
       }
@@ -432,7 +434,7 @@
       set
       {
         if (value.NotenWichtungBezeichnung == this.notenWichtung.NotenWichtungBezeichnung) return;
-        this.UndoablePropertyChanging(this, "LerngruppeNotenWichtung", this.notenWichtung, value);
+        this.UndoablePropertyChanging(this, nameof(LerngruppeNotenWichtung), this.notenWichtung, value);
         this.notenWichtung = value;
         this.Model.NotenWichtung = value.Model;
         this.RaisePropertyChanged("LerngruppeNotenWichtung");
@@ -505,7 +507,7 @@
       {
         mädchenJungeGemischt = value;
         this.RaisePropertyChanged("MädchenJungeGemischt");
-        this.GruppenNeuEinteilen();
+        this.GruppenEinteilen();
       }
     }
 
@@ -524,7 +526,7 @@
 
         teilungsgruppenBeachten = value;
         this.RaisePropertyChanged("TeilungsgruppenBeachten");
-        this.GruppenNeuEinteilen();
+        this.GruppenEinteilen();
       }
     }
 
@@ -543,7 +545,7 @@
 
         nurTeilungsgruppeA = value;
         this.RaisePropertyChanged("NurTeilungsgruppeA");
-        this.GruppenNeuEinteilen();
+        this.GruppenEinteilen();
       }
     }
 
@@ -626,18 +628,22 @@
     /// aber leeren Schülereinträgen.</returns>
     public object Clone()
     {
-      var schülerlisteClone = new LerngruppeNeu();
-      schülerlisteClone.Bezeichnung = this.LerngruppeBezeichnung;
-      schülerlisteClone.Schuljahr = this.LerngruppeSchuljahr.Model;
-      schülerlisteClone.Fach = this.LerngruppeFach.Model;
-      schülerlisteClone.Jahrgang = this.LerngruppeJahrgang;
-      schülerlisteClone.Bepunktungstyp = this.LerngruppeBepunktungstyp;
-      schülerlisteClone.NotenWichtung = this.LerngruppeNotenWichtung.Model;
+      var schülerlisteClone = new Lerngruppe
+      {
+        Bezeichnung = this.LerngruppeBezeichnung,
+        Schuljahr = this.LerngruppeSchuljahr.Model,
+        Fach = this.LerngruppeFach.Model,
+        Jahrgang = this.LerngruppeJahrgang,
+        Bepunktungstyp = this.LerngruppeBepunktungstyp,
+        NotenWichtung = this.LerngruppeNotenWichtung.Model
+      };
       foreach (var schülereintragViewModel in this.Schülereinträge.OrderBy(o => o.SchülereintragPerson.PersonNachname))
       {
-        var schülereintragClone = new SchülereintragNeu();
-        schülereintragClone.Person = schülereintragViewModel.Model.Person;
-        schülereintragClone.Lerngruppe = schülerlisteClone;
+        var schülereintragClone = new Schülereintrag
+        {
+          Person = schülereintragViewModel.Model.Person,
+          Lerngruppe = schülerlisteClone
+        };
         schülerlisteClone.Schülereinträge.Add(schülereintragClone);
       }
 
@@ -709,8 +715,8 @@
             if (zielMitglied != null)
             {
               var vm = zielMitglied as SchülereintragViewModel;
-              var neueGruppennummer = vm.SchülereintragPerson.Gruppennummer;
-              source.SchülereintragPerson.Gruppennummer = neueGruppennummer;
+              var eGruppennummer = vm.SchülereintragPerson.Gruppennummer;
+              source.SchülereintragPerson.Gruppennummer = eGruppennummer;
             }
           }
           else
@@ -760,7 +766,7 @@
       var dlg = new SelectSchülerDialog();
       if (dlg.ShowDialog().GetValueOrDefault(false))
       {
-        using (new UndoBatch(App.MainViewModel, string.Format("Neue Schüler in Lerngruppe {0} eingetragen.", this), false))
+        using (new UndoBatch(App.MainViewModel, string.Format("e Schüler in Lerngruppe {0} eingetragen.", this), false))
         {
           foreach (var obj in dlg.SelectedSchüler)
           {
@@ -782,9 +788,11 @@
               }
 
               // perform add
-              var schülereintrag = new SchülereintragNeu();
-              schülereintrag.Person = person.Model;
-              schülereintrag.Lerngruppe = this.Model;
+              var schülereintrag = new Schülereintrag
+              {
+                Person = person.Model,
+                Lerngruppe = this.Model
+              };
               //App.UnitOfWork.Context.Schülereinträge.Add(schülereintrag);
               var vm = new SchülereintragViewModel(schülereintrag);
               //App.MainViewModel.Schülereinträge.Add(vm);
@@ -850,9 +858,11 @@
           }
 
           // perform add
-          var schülereintrag = new SchülereintragNeu();
-          schülereintrag.Person = personViewModel.Model;
-          schülereintrag.Lerngruppe = this.Model;
+          var schülereintrag = new Schülereintrag
+          {
+            Person = personViewModel.Model,
+            Lerngruppe = this.Model
+          };
           //App.UnitOfWork.Context.Schülereinträge.Add(schülereintrag);
           var vm = new SchülereintragViewModel(schülereintrag);
           //App.MainViewModel.Schülereinträge.Add(vm);
@@ -863,9 +873,9 @@
     }
 
     /// <summary>
-    /// Mischt die Gruppen nach den gegebenen Parametern neu
+    /// Mischt die Gruppen nach den gegebenen Parametern 
     /// </summary>
-    private void GruppenNeuEinteilen()
+    private void GruppenEinteilen()
     {
       // Reset Gruppennummern
       this.Schülereinträge.Each(o => o.SchülereintragPerson.Gruppennummer = -1);
@@ -1025,7 +1035,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void SchülereinträgeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Schülereinträge", this.Schülereinträge, e, true, "Änderung der Schülereinträge");
+      UndoableCollectionChanged(this, nameof(Schülereinträge), this.Schülereinträge, e, true, "Änderung der Schülereinträge");
       this.RaisePropertyChanged("Schülerzahl");
     }
 
@@ -1037,7 +1047,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void Lerngruppentermine_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Lerngruppentermine", this.Lerngruppentermine, e, true, "Änderung der Lerngruppentermine");
+      UndoableCollectionChanged(this, nameof(Lerngruppentermine), this.Lerngruppentermine, e, true, "Änderung der Lerngruppentermine");
     }
 
     /// <summary>

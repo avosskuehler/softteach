@@ -27,7 +27,7 @@
     private Point touchPoint;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="MetroSchülereintragNotenPage"/> Klasse.
+    /// Initialisiert eine e Instanz der <see cref="MetroSchülereintragNotenPage"/> Klasse.
     /// </summary>
     public MetroSchülereintragNotenPage()
     {
@@ -53,7 +53,7 @@
         // TODO
         // Refresh the plot view
         this.QualitätPlot.InvalidatePlot();
-        this.QuantitätPlot.InvalidatePlot();
+        //this.QuantitätPlot.InvalidatePlot();
       }
     }
     
@@ -78,7 +78,9 @@
       if (border != null)
       {
         var points = e.TouchDevice.GetTouchPoint(this);
-        var distance = this.touchPoint.DistanceTo(points.Position);
+
+        var distance = Point.Subtract(this.touchPoint, points.Position).Length;
+        //var distance = this.touchPoint.DistanceTo(points.Position);
         if (distance > DeleteDistance)
         {
           var schülereintragViewModel = this.DataContext as SchülereintragViewModel;

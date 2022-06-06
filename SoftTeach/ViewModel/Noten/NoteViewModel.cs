@@ -28,34 +28,31 @@
     private ArbeitViewModel arbeit;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="NoteViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="NoteViewModel"/> Klasse. 
     /// </summary>
     public NoteViewModel()
     {
-      var note = new NoteNeu();
-      note.Datum = DateTime.Now;
-      note.IstSchriftlich = false;
-      note.Wichtung = 1;
-      note.Zensur = App.MainViewModel.Zensuren.First().Model;
+      var note = new Note
+      {
+        Datum = DateTime.Now,
+        IstSchriftlich = false,
+        Wichtung = 1,
+        Zensur = App.MainViewModel.Zensuren.First().Model
+      };
       this.Model = note;
       //App.UnitOfWork.Context.Noten.Add(note);
       //App.MainViewModel.Noten.Add(this);
     }
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="NoteViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="NoteViewModel"/> Klasse. 
     /// </summary>
     /// <param name="note">
     /// The underlying note this ViewModel is to be based on
     /// </param>
-    public NoteViewModel(NoteNeu note)
+    public NoteViewModel(Note note)
     {
-      if (note == null)
-      {
-        throw new ArgumentNullException("note");
-      }
-
-      this.Model = note;
+      this.Model = note ?? throw new ArgumentNullException(nameof(note));
 
       //App.MainViewModel.Arbeiten.CollectionChanged += (sender, e) =>
       //{
@@ -82,7 +79,7 @@
     /// <summary>
     /// Holt das Modell für dieses ViewModel.
     /// </summary>
-    public NoteNeu Model { get; private set; }
+    public Note Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Bezeichnung der Note.
@@ -98,7 +95,7 @@
       set
       {
         if (value == this.Model.Bezeichnung) return;
-        this.UndoablePropertyChanging(this, "NoteBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(NoteBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("NoteBezeichnung");
       }
@@ -118,7 +115,7 @@
       set
       {
         if (value == this.Model.Datum) return;
-        this.UndoablePropertyChanging(this, "NoteDatum", this.Model.Datum, value);
+        this.UndoablePropertyChanging(this, nameof(NoteDatum), this.Model.Datum, value);
         this.Model.Datum = value;
         this.RaisePropertyChanged("NoteDatum");
       }
@@ -160,7 +157,7 @@
       set
       {
         if (value == this.Model.Notentyp) return;
-        this.UndoablePropertyChanging(this, "NoteNotentyp", this.Model.Notentyp, value);
+        this.UndoablePropertyChanging(this, nameof(NoteNotentyp), this.Model.Notentyp, value);
         this.Model.Notentyp = value;
         this.RaisePropertyChanged("NoteNotentyp");
       }
@@ -179,7 +176,7 @@
       set
       {
         if (value == this.Model.NotenTermintyp) return;
-        this.UndoablePropertyChanging(this, "NoteTermintyp", this.Model.Notentyp, value);
+        this.UndoablePropertyChanging(this, nameof(NoteTermintyp), this.Model.Notentyp, value);
         this.Model.NotenTermintyp = value;
         this.RaisePropertyChanged("NoteTermintyp");
       }
@@ -198,7 +195,7 @@
       set
       {
         if (value == this.Model.IstSchriftlich) return;
-        this.UndoablePropertyChanging(this, "NoteIstSchriftlich", this.Model.IstSchriftlich, value);
+        this.UndoablePropertyChanging(this, nameof(NoteIstSchriftlich), this.Model.IstSchriftlich, value);
         this.Model.IstSchriftlich = value;
         this.RaisePropertyChanged("NoteIstSchriftlich");
       }
@@ -217,7 +214,7 @@
       set
       {
         if (value == this.Model.Wichtung) return;
-        this.UndoablePropertyChanging(this, "NoteWichtung", this.Model.Wichtung, value);
+        this.UndoablePropertyChanging(this, nameof(NoteWichtung), this.Model.Wichtung, value);
         this.Model.Wichtung = value;
         this.RaisePropertyChanged("NoteWichtung");
       }
@@ -261,7 +258,7 @@
         if (this.zensur != null)
         {
           if (value.ZensurNotenpunkte == this.zensur.ZensurNotenpunkte) return;
-          this.UndoablePropertyChanging(this, "NoteZensur", this.zensur, value);
+          this.UndoablePropertyChanging(this, nameof(NoteZensur), this.zensur, value);
         }
 
         this.zensur = value;
@@ -325,7 +322,7 @@
       set
       {
         if (value.ArbeitBezeichnung == this.NoteArbeit.ArbeitBezeichnung) return;
-        this.UndoablePropertyChanging(this, "NoteArbeit", this.arbeit, value);
+        this.UndoablePropertyChanging(this, nameof(NoteArbeit), this.arbeit, value);
         this.arbeit = value;
         this.Model.Arbeit = value.Model;
         this.RaisePropertyChanged("NoteArbeit");

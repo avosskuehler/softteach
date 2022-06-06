@@ -15,7 +15,7 @@ namespace SoftTeach.View.Noten
   public partial class NotenlistePrintView
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="NotenlistePrintView"/> Klasse.
+    /// Initialisiert eine e Instanz der <see cref="NotenlistePrintView"/> Klasse.
     /// </summary>
     public NotenlistePrintView()
     {

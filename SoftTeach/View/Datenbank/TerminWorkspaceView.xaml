@@ -8,7 +8,6 @@
         xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
         xmlns:controls="clr-namespace:SoftTeach.Resources.Controls" mc:Ignorable="d" 
         Title="Datenbank - Termine"
-        Icon="/SoftTeach;component/Images/Database.ico"
         d:DesignHeight="400" d:DesignWidth="800" WindowStyle="SingleBorderWindow">
   <Window.Resources>
   </Window.Resources>
@@ -18,10 +17,15 @@
       <RowDefinition/>
       <RowDefinition Height="32"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader Icon="/SoftTeach;component/Images/Schultermin32.png" 
-                              Grid.Row="0" 
-                              Title="Das ist der Inhalt der Termine-Tabelle. Diese Darstellung dient nur zur Kontrolle. 
-Termine ändern Sie im Termin Modul."/>
+    <controls:SmallDialogHeader 
+      Grid.Row="0" 
+      Title="Das ist der Inhalt der Termine-Tabelle. Diese Darstellung dient nur zur Kontrolle. Termine ändern Sie im Termin Modul.">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Termin32}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
     <TabControl Grid.Row="1" Padding="3" Margin="5">
       <TabItem Header="Schultermine">
         <DataGrid ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Schultermine}" AutoGenerateColumns="False"

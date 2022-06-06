@@ -26,19 +26,14 @@ namespace SoftTeach.View.Termine
     private bool istBetroffen;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="LerngruppeViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="LerngruppeViewModel"/> Klasse. 
     /// </summary>
     /// <param name="lerngruppe">
     /// The underlying schülerliste this ViewModel is to be based on
     /// </param>
-    public LerngruppenVorlage(LerngruppeNeu lerngruppe)
+    public LerngruppenVorlage(Lerngruppe lerngruppe)
     {
-      if (lerngruppe == null)
-      {
-        throw new ArgumentNullException("lerngruppe");
-      }
-
-      this.Model = lerngruppe;
+      this.Model = lerngruppe ?? throw new ArgumentNullException(nameof(lerngruppe));
       this.UpdateLerngruppeCommand = new DelegateCommand(this.UpdateLerngruppe);
     }
 
@@ -50,7 +45,7 @@ namespace SoftTeach.View.Termine
     /// <summary>
     /// Holt den underlying Lerngruppe this ViewModel is based on
     /// </summary>
-    public LerngruppeNeu Model { get; private set; }
+    public Lerngruppe Model { get; private set; }
 
     public bool IstBetroffen
     {

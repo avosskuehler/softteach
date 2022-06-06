@@ -24,7 +24,7 @@
           <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddJahresplanCommand}" ToolTip="Neuen Jahresplan erstellen">
+          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddJahresplanCommand}" ToolTip="en Jahresplan erstellen">
             <StackPanel Orientation="Horizontal">
               <Grid>
                 <fa:IconBlock Style="{StaticResource Jahresplan32}"/>
@@ -62,7 +62,7 @@
                       HorizontalAlignment="Stretch"/>
             <Button Grid.Row="0" Grid.Column="2" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                 Command="{Binding Path=ResetSchuljahrFilterCommand}">
-              <Image Source="/SoftTeach;component/Images/Remove16.png"/>
+              <fa:IconBlock Style="{StaticResource Remove16}"/>
             </Button>
             <Label Grid.Row="1" Grid.Column="0" Padding="3" VerticalAlignment="Center">Fach</Label>
             <ComboBox Grid.Row="1" Grid.Column="1" MinWidth="100" ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Fächer}"
@@ -73,7 +73,7 @@
                                           HorizontalAlignment="Stretch"/>
             <Button Grid.Row="1" Grid.Column="2" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                 Command="{Binding Path=ResetFachFilterCommand}">
-              <Image Source="/SoftTeach;component/Images/Remove16.png"/>
+              <fa:IconBlock Style="{StaticResource Remove16}"/>
             </Button>
           </Grid>
         </GroupBox>

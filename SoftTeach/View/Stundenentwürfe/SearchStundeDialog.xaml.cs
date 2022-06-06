@@ -15,7 +15,7 @@
   public partial class SearchStundeDialog
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="SearchStundeDialog"/> Klasse.
+    /// Initialisiert eine e Instanz der <see cref="SearchStundeDialog"/> Klasse.
     /// </summary>
     /// <param name="stundenWorkspaceViewModel">
     /// The stundenentwurf workspace view model.
@@ -39,7 +39,7 @@
     /// <summary>
     /// Gets StundeViewModel.
     /// </summary>
-    public StundeNeu SelectedStundeViewModel
+    public Stunde SelectedStundeViewModel
     {
       get
       {

@@ -14,8 +14,13 @@
       <RowDefinition/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader x:Name="Header"  Grid.Row="0" Title="Auf welche Lerngruppe soll das Curriculum übertragen werden?"
-                                      Icon="/SoftTeach;component/Images/Halbjahresplan32.png"/>
+    <controls:SmallDialogHeader x:Name="Header"  Grid.Row="0" Title="Auf welche Lerngruppe soll das Curriculum übertragen werden?">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Lerngruppe32}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
 
     <Grid Grid.Row="1" Background="{x:Static SystemColors.MenuBarBrush}">
       <StackPanel Margin="10">

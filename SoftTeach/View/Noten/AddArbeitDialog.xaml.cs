@@ -34,10 +34,10 @@ namespace SoftTeach.View.Noten
   /// </summary>
   public partial class AddArbeitDialog
   {
-    private SchuljahrViewModel schuljahr;
+    //private SchuljahrViewModel schuljahr;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="AddArbeitDialog"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="AddArbeitDialog"/> Klasse. 
     /// </summary>
     public AddArbeitDialog()
     {

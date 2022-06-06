@@ -23,19 +23,14 @@
     private UnterrichtsstundeViewModel letzteUnterrichtsstunde;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="TerminViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="TerminViewModel"/> Klasse. 
     /// </summary>
     /// <param name="termin">
     /// The underlying termin this ViewModel is to be based on
     /// </param>
-    protected TerminViewModel(TerminNeu termin)
+    protected TerminViewModel(Termin termin)
     {
-      if (termin == null)
-      {
-        throw new ArgumentNullException("termin");
-      }
-
-      this.Model = termin;
+      this.Model = termin ?? throw new ArgumentNullException(nameof(termin));
 
       App.MainViewModel.Unterrichtsstunden.CollectionChanged += (sender, e) =>
       {
@@ -61,7 +56,7 @@
     /// <summary>
     /// Holt den underlying Termin this ViewModel is based on
     /// </summary>
-    public TerminNeu Model { get; protected set; }
+    public Termin Model { get; protected set; }
 
     /// <summary>
     /// Holt oder setzt den termintyp currently assigned to this Termin
@@ -80,7 +75,7 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "TerminTermintyp", this.Model.Termintyp, value);
+        this.UndoablePropertyChanging(this, nameof(TerminTermintyp), this.Model.Termintyp, value);
         this.Model.Termintyp = value;
         this.RaisePropertyChanged("TerminTermintyp");
       }
@@ -103,7 +98,7 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "TerminBeschreibung", this.Model.Beschreibung, value);
+        this.UndoablePropertyChanging(this, nameof(TerminBeschreibung), this.Model.Beschreibung, value);
         this.Model.Beschreibung = value;
         this.RaisePropertyChanged("TerminBeschreibung");
       }
@@ -137,12 +132,12 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "TerminErsteUnterrichtsstunde", this.TerminErsteUnterrichtsstunde, value);
+        this.UndoablePropertyChanging(this, nameof(TerminErsteUnterrichtsstunde), this.TerminErsteUnterrichtsstunde, value);
         this.ersteUnterrichtsstunde = value;
         this.Model.ErsteUnterrichtsstunde = value.Model;
         this.RaisePropertyChanged("TerminErsteUnterrichtsstunde");
 
-        this.UpdateStundenentwurfStundenzahl();
+        UpdateStundenentwurfStundenzahl();
       }
     }
 
@@ -174,11 +169,11 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "TerminLetzteUnterrichtsstunde", this.TerminLetzteUnterrichtsstunde, value);
+        this.UndoablePropertyChanging(this, nameof(TerminLetzteUnterrichtsstunde), this.TerminLetzteUnterrichtsstunde, value);
         this.letzteUnterrichtsstunde = value;
         this.Model.LetzteUnterrichtsstunde = value.Model;
         this.RaisePropertyChanged("TerminLetzteUnterrichtsstunde");
-        this.UpdateStundenentwurfStundenzahl();
+        UpdateStundenentwurfStundenzahl();
       }
     }
 
@@ -199,7 +194,7 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "TerminOrt", this.Model.Ort, value);
+        this.UndoablePropertyChanging(this, nameof(TerminOrt), this.Model.Ort, value);
         this.Model.Ort = value;
         this.RaisePropertyChanged("TerminOrt");
       }
@@ -223,7 +218,7 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "TerminIstGeprüft", this.Model.IstGeprüft, value);
+        this.UndoablePropertyChanging(this, nameof(TerminIstGeprüft), this.Model.IstGeprüft, value);
         this.Model.IstGeprüft = value;
         this.RaisePropertyChanged("TerminIstGeprüft");
       }
@@ -276,7 +271,7 @@
     /// Updates the stundezahl of the contained stundenentwurf, if this is a stunde
     /// and there is any stundenentwurf created already.
     /// </summary>
-    protected void UpdateStundenentwurfStundenzahl()
+    protected static void UpdateStundenentwurfStundenzahl()
     {
       // TODO not needed
       //if (this is StundeViewModel)

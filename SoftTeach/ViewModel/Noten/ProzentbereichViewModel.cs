@@ -18,25 +18,20 @@
     private ZensurViewModel zensur;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="ProzentbereichViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="ProzentbereichViewModel"/> Klasse. 
     /// </summary>
     /// <param name="prozentbereich">
     /// The underlying prozentbereich this ViewModel is to be based on
     /// </param>
-    public ProzentbereichViewModel(ProzentbereichNeu prozentbereich)
+    public ProzentbereichViewModel(Prozentbereich prozentbereich)
     {
-      if (prozentbereich == null)
-      {
-        throw new ArgumentNullException("prozentbereich");
-      }
-
-      this.Model = prozentbereich;
+      this.Model = prozentbereich ?? throw new ArgumentNullException(nameof(prozentbereich));
     }
 
     /// <summary>
     /// Holt das zugrundeliegende Modell des Prozentbereichs.
     /// </summary>
-    public ProzentbereichNeu Model { get; private set; }
+    public Prozentbereich Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt den Prozentbereich ab dem die Zensur erteilt wird
@@ -71,7 +66,7 @@
       set
       {
         if (value == this.Model.BisProzent) return;
-        this.UndoablePropertyChanging(this, "ProzentbereichBisProzent", this.Model.BisProzent, value);
+        this.UndoablePropertyChanging(this, nameof(ProzentbereichBisProzent), this.Model.BisProzent, value);
         this.Model.BisProzent = value;
         this.RaisePropertyChanged("ProzentbereichBisProzent");
       }
@@ -101,7 +96,7 @@
       set
       {
         if (value.ZensurNotenpunkte == this.zensur.ZensurNotenpunkte) return;
-        this.UndoablePropertyChanging(this, "ProzentbereichZensur", this.zensur, value);
+        this.UndoablePropertyChanging(this, nameof(ProzentbereichZensur), this.zensur, value);
         this.zensur = value;
         this.Model.Zensur = value.Model;
         this.RaisePropertyChanged("ProzentbereichZensur");

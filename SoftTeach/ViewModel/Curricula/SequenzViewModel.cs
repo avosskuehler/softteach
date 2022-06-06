@@ -14,23 +14,18 @@
   public class SequenzViewModel : SequencedViewModel
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="SequenzViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="SequenzViewModel"/> Klasse. 
     /// </summary>
     /// <param name="sequenz">
     /// The underlying sequenz this ViewModel is to be based on
     /// </param>
-    public SequenzViewModel(SequenzNeu sequenz)
+    public SequenzViewModel(Sequenz sequenz)
     {
-      if (sequenz == null)
-      {
-        throw new ArgumentNullException("sequenz");
-      }
-
-      this.Model = sequenz;
+      this.Model = sequenz ?? throw new ArgumentNullException(nameof(sequenz));
     }
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="SequenzViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="SequenzViewModel"/> Klasse. 
     /// </summary>
     /// <param name="reihe">
     /// The reihe.
@@ -38,14 +33,9 @@
     /// <param name="sequenz">
     /// The underlying sequenz this ViewModel is to be based on 
     /// </param>
-    public SequenzViewModel(ReiheViewModel reihe, SequenzNeu sequenz)
+    public SequenzViewModel(ReiheViewModel reihe, Sequenz sequenz)
     {
-      if (sequenz == null)
-      {
-        throw new ArgumentNullException("sequenz");
-      }
-
-      this.Model = sequenz;
+      this.Model = sequenz ?? throw new ArgumentNullException(nameof(sequenz));
       this.SequenzReihe = reihe;
 
       this.EditSequenzCommand = new DelegateCommand(this.EditSequenz);
@@ -56,7 +46,7 @@
     /// <summary>
     /// Holt den underlying Sequenz this ViewModel is based on
     /// </summary>
-    public SequenzNeu Model { get; private set; }
+    public Sequenz Model { get; private set; }
 
     /// <summary>
     /// Holt den Befehl zur Bearbeitung der Sequenz
@@ -95,7 +85,7 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "Reihenfolge", this.Model.Reihenfolge, value);
+        this.UndoablePropertyChanging(this, nameof(Reihenfolge), this.Model.Reihenfolge, value);
         this.Model.Reihenfolge = value;
         this.RaisePropertyChanged("Reihenfolge");
       }
@@ -118,7 +108,7 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "SequenzStundenbedarf", this.Model.Stundenbedarf, value);
+        this.UndoablePropertyChanging(this, nameof(SequenzStundenbedarf), this.Model.Stundenbedarf, value);
         this.Model.Stundenbedarf = value;
         this.RaisePropertyChanged("SequenzStundenbedarf");
         var vm = App.MainViewModel.Curricula.FirstOrDefault(o => o.Model == this.Model.Reihe.Curriculum);
@@ -211,7 +201,7 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "SequenzThema", this.Model.Thema, value);
+        this.UndoablePropertyChanging(this, nameof(SequenzThema), this.Model.Thema, value);
         this.Model.Thema = value;
         this.RaisePropertyChanged("SequenzThema");
       }
@@ -244,7 +234,7 @@
     /// <summary>
     /// Dummy, um Binding-Fehlermeldungen beim Zuweisen von Curricula zu Stunden zu vermeiden
     /// </summary>
-    public string LerngruppenterminMonat
+    public static string LerngruppenterminMonat
     {
       get
       {
@@ -255,7 +245,7 @@
     /// <summary>
     /// Dummy, um Binding-Fehlermeldungen beim Zuweisen von Curricula zu Stunden zu vermeiden
     /// </summary>
-    public DateTime LerngruppenterminDatum
+    public static DateTime LerngruppenterminDatum
     {
       get
       {

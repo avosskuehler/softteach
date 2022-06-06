@@ -31,7 +31,7 @@
     private SchülereintragViewModel currentSchülereintrag;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="SchülereintragWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="SchülereintragWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public SchülereintragWorkspaceViewModel()
     {
@@ -161,7 +161,7 @@
     /// <summary>
     /// Hier wird der Dialog zur Hausaufgabenkontrolle aufgerufen
     /// </summary>
-    private async void AddSonstigeNoten()
+    private void AddSonstigeNoten()
     {
       Selection.Instance.Lerngruppe = this.CurrentLerngruppe;
 
@@ -250,7 +250,7 @@
     /// </summary>
     private void AddZeugnisnoten()
     {
-      using (new UndoBatch(App.MainViewModel, string.Format("Neue Zeugnisnoten erstellt"), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("e Zeugnisnoten erstellt"), false))
       {
         var workspace = new NotenlistenWorkspaceViewModel(this.CurrentLerngruppe);
         var dlg = new NotenlistenDialog { DataContext = workspace };

@@ -44,7 +44,7 @@
     public static DateTime ZuletztVerwendetesDatum;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="SchulterminWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="SchulterminWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public SchulterminWorkspaceViewModel()
     {
@@ -221,7 +221,7 @@
         var terminViewModel = termin.SchulterminViewModel;
         var lerngruppen = App.MainViewModel.Lerngruppen;
 
-        IEnumerable<LerngruppenterminViewModel> lerngruppentermine;
+        //IEnumerable<LerngruppenterminViewModel> lerngruppentermine;
         IEnumerable<LerngruppeViewModel> betroffeneLerngruppen;
         if (termin.SchulterminUpdateType == SchulterminUpdateType.BetroffeneKlasseChanged)
         {
@@ -230,8 +230,8 @@
           switch (eventArgs.Action)
           {
             case NotifyCollectionChangedAction.Add:
-              // Dem Termin wurde eine neue betroffenen Klasse hinzugefügt
-              // Hole also alle neu betroffenen Lerngruppen und ergänze den Termin.
+              // Dem Termin wurde eine e betroffenen Klasse hinzugefügt
+              // Hole also alle  betroffenen Lerngruppen und ergänze den Termin.
               betroffeneLerngruppen = lerngruppen.Where(o => o == ((BetroffeneLerngruppeViewModel)eventArgs.NewItems[0]).BetroffeneLerngruppeLerngruppe);
 
               if (eventArgs.NewItems.Count > 1)
@@ -309,7 +309,7 @@
         else
         {
           // Vom Schultermin hat sich nicht die Liste der betroffenen Klassen geändert
-          // Er ist entweder ganz neu, entfernt oder verändert
+          // Er ist entweder ganz , entfernt oder verändert
           // Hole zuerst alle Lerngruppen, die vom Schultermin betroffen sind
           betroffeneLerngruppen = terminViewModel.BetroffeneLerngruppen.Select(o => o.BetroffeneLerngruppeLerngruppe);
           //lerngruppen.Where(o=> o == terminViewModel.BetroffeneKlassen.Any(betroffeneLerngruppe => betroffeneLerngruppe.Model.Klasse == plan.JahresplanKlasse.Model)));
@@ -326,7 +326,7 @@
             switch (termin.SchulterminUpdateType)
             {
               case SchulterminUpdateType.Added:
-                // Der Termin ist neu
+                // Der Termin ist 
                 AddTerminToLerngruppe(lerngruppe, terminViewModel);
                 break;
               case SchulterminUpdateType.Removed:
@@ -386,12 +386,12 @@
       var lerngruppenTerminToUpdate = lerngruppe.Lerngruppentermine.FirstOrDefault(vm => vm.TerminBeschreibung == terminViewModel.TerminBeschreibung && vm.LerngruppenterminDatum == terminViewModel.SchulterminDatum);
       if (alteBeschreibung != null)
       {
-        // Termin hat neue Beschreibung bekommen
+        // Termin hat e Beschreibung bekommen
         lerngruppenTerminToUpdate = lerngruppe.Lerngruppentermine.FirstOrDefault(vm => vm.TerminBeschreibung == alteBeschreibung && vm.LerngruppenterminDatum == terminViewModel.SchulterminDatum);
       }
       if (alterTermin != null)
       {
-        // Termin hat neues Datum bekommen
+        // Termin hat es Datum bekommen
         lerngruppenTerminToUpdate = lerngruppe.Lerngruppentermine.FirstOrDefault(vm => vm.TerminBeschreibung == terminViewModel.TerminBeschreibung && vm.LerngruppenterminDatum == alterTermin);
       }
 
@@ -431,16 +431,18 @@
         return;
       }
 
-      var neuerLerngruppenTermin = new LerngruppenterminNeu();
-      neuerLerngruppenTermin.Beschreibung = terminViewModel.TerminBeschreibung;
-      neuerLerngruppenTermin.ErsteUnterrichtsstunde = terminViewModel.TerminErsteUnterrichtsstunde.Model;
-      neuerLerngruppenTermin.LetzteUnterrichtsstunde = terminViewModel.TerminLetzteUnterrichtsstunde.Model;
-      neuerLerngruppenTermin.Termintyp = terminViewModel.TerminTermintyp;
-      neuerLerngruppenTermin.Ort = terminViewModel.TerminOrt;
-      neuerLerngruppenTermin.Lerngruppe = lerngruppe.Model;
-      neuerLerngruppenTermin.Datum = terminViewModel.SchulterminDatum;
+      var erLerngruppenTermin = new Lerngruppentermin
+      {
+        Beschreibung = terminViewModel.TerminBeschreibung,
+        ErsteUnterrichtsstunde = terminViewModel.TerminErsteUnterrichtsstunde.Model,
+        LetzteUnterrichtsstunde = terminViewModel.TerminLetzteUnterrichtsstunde.Model,
+        Termintyp = terminViewModel.TerminTermintyp,
+        Ort = terminViewModel.TerminOrt,
+        Lerngruppe = lerngruppe.Model,
+        Datum = terminViewModel.SchulterminDatum
+      };
 
-      var lerngruppenTerminViewModel = new LerngruppenterminViewModel(neuerLerngruppenTermin);
+      var lerngruppenTerminViewModel = new LerngruppenterminViewModel(erLerngruppenTermin);
 
       if (!lerngruppe.Lerngruppentermine.Contains(lerngruppenTerminViewModel))
       {
@@ -504,10 +506,12 @@
     /// </summary>
     private void AddTermin()
     {
-      var termin = new SchulterminNeu();
-      termin.Beschreibung = "Neuer Termin";
-      termin.Datum = ZuletztVerwendetesDatum;
-      termin.ErsteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[0].Model;
+      var termin = new Schultermin
+      {
+        Beschreibung = "er Termin",
+        Datum = ZuletztVerwendetesDatum,
+        ErsteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[0].Model
+      };
       var letzte = Math.Min(App.MainViewModel.Unterrichtsstunden.Count - 1, 9);
       termin.LetzteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[letzte].Model;
       if (Selection.Instance.Schuljahr != null)
@@ -538,21 +542,25 @@
 
       while (aktuellesDatum <= ende)
       {
-        var termin = new SchulterminNeu();
-        termin.Beschreibung = this.CurrentTermin.TerminBeschreibung;
-        termin.Datum = aktuellesDatum;
-        termin.ErsteUnterrichtsstunde = this.CurrentTermin.TerminErsteUnterrichtsstunde.Model;
-        termin.LetzteUnterrichtsstunde = this.CurrentTermin.TerminLetzteUnterrichtsstunde.Model;
-        termin.Schuljahr = this.CurrentTermin.SchulterminSchuljahr.Model;
-        termin.Termintyp = this.CurrentTermin.TerminTermintyp;
+        var termin = new Schultermin
+        {
+          Beschreibung = this.CurrentTermin.TerminBeschreibung,
+          Datum = aktuellesDatum,
+          ErsteUnterrichtsstunde = this.CurrentTermin.TerminErsteUnterrichtsstunde.Model,
+          LetzteUnterrichtsstunde = this.CurrentTermin.TerminLetzteUnterrichtsstunde.Model,
+          Schuljahr = this.CurrentTermin.SchulterminSchuljahr.Model,
+          Termintyp = this.CurrentTermin.TerminTermintyp
+        };
         //App.UnitOfWork.Context.Termine.Add(termin);
 
         var vm = new SchulterminViewModel(termin);
         foreach (var betroffeneLerngruppeViewModel in this.CurrentTermin.BetroffeneLerngruppen)
         {
-          var betroffeneLerngruppe = new BetroffeneLerngruppeNeu();
-          betroffeneLerngruppe.Lerngruppe = betroffeneLerngruppeViewModel.BetroffeneLerngruppeLerngruppe.Model;
-          betroffeneLerngruppe.Schultermin = termin;
+          var betroffeneLerngruppe = new BetroffeneLerngruppe
+          {
+            Lerngruppe = betroffeneLerngruppeViewModel.BetroffeneLerngruppeLerngruppe.Model,
+            Schultermin = termin
+          };
           var viemModelBetroffeneKlasse = new BetroffeneLerngruppeViewModel(betroffeneLerngruppe);
           vm.BetroffeneLerngruppen.Add(viemModelBetroffeneKlasse);
           //App.MainViewModel.BetroffeneKlassen.Add(viemModelBetroffeneKlasse);

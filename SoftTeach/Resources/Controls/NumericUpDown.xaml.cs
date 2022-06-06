@@ -145,7 +145,7 @@
     }
 
     /// <summary>
-    ///   Initialisiert eine neue Instanz der <see cref="NumericUpDown" /> Klasse.
+    ///   Initialisiert eine e Instanz der <see cref="NumericUpDown" /> Klasse.
     ///   Initializes a new instance of the <see cref="NumericUpDown" /> class.
     /// </summary>
     public NumericUpDown()
@@ -714,7 +714,7 @@
     #region Constructors and Destructors
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="NumericUpDownAutomationPeer"/> Klasse.
+    /// Initialisiert eine e Instanz der <see cref="NumericUpDownAutomationPeer"/> Klasse.
     ///   Initializes a new instance of the <see cref="NumericUpDownAutomationPeer"/> class.
     /// </summary>
     /// <param name="control">
@@ -855,7 +855,7 @@
       var val = (decimal)value;
       if (val < this.MyOwner.Minimum || val > this.MyOwner.Maximum)
       {
-        throw new ArgumentOutOfRangeException("value");
+        throw new ArgumentOutOfRangeException(nameof(value));
       }
 
       this.MyOwner.Value = val;

@@ -31,14 +31,16 @@ namespace SoftTeach.View.Curricula
     private ReiheViewModel reihe;
 
    /// <summary>
-   /// Initialisiert eine neue Instanz der <see cref="ReiheDialog"/> Klasse. 
+   /// Initialisiert eine e Instanz der <see cref="ReiheDialog"/> Klasse. 
    /// </summary>
     public ReiheDialog()
     {
       this.InitializeComponent();
       this.DataContext = this;
-      this.ModulView = new ListCollectionView(App.MainViewModel.Module);
-      this.ModulView.Filter = this.ModulFilter;
+      this.ModulView = new ListCollectionView(App.MainViewModel.Module)
+      {
+        Filter = this.ModulFilter
+      };
       this.ModulView.SortDescriptions.Add(new SortDescription("ModulBezeichnung", ListSortDirection.Ascending));
       this.ModulView.Refresh();
     }

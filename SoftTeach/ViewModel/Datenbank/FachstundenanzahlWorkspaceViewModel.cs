@@ -15,7 +15,7 @@
     private FachstundenanzahlViewModel currentFachstundenanzahl;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="FachstundenanzahlWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="FachstundenanzahlWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public FachstundenanzahlWorkspaceViewModel()
     {
@@ -67,13 +67,14 @@
     /// </summary>
     private void AddFachstundenanzahl()
     {
-      var fachstundenanzahl = new FachstundenanzahlNeu();
-
-      // App.UnitOfWork.GetRepository<Fachstundenanzahl>().Add(fachstundenanzahl);
-      fachstundenanzahl.Fach = Selection.Instance.Fach.Model;
-      fachstundenanzahl.Jahrgang = 7;
-      fachstundenanzahl.Stundenzahl = 4;
-      fachstundenanzahl.Teilungsstundenzahl = 0;
+      var fachstundenanzahl = new Fachstundenanzahl
+      {
+        // App.UnitOfWork.GetRepository<Fachstundenanzahl>().Add(fachstundenanzahl);
+        Fach = Selection.Instance.Fach.Model,
+        Jahrgang = 7,
+        Stundenzahl = 4,
+        Teilungsstundenzahl = 0
+      };
 
       var vm = new FachstundenanzahlViewModel(fachstundenanzahl);
 

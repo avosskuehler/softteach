@@ -45,7 +45,7 @@
     private DateTime notendatum;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="NotenlistenWorkspaceViewModel" /> Klasse.
+    /// Initialisiert eine e Instanz der <see cref="NotenlistenWorkspaceViewModel" /> Klasse.
     /// </summary>
     /// <param name="schülerliste">The schülerliste.</param>
     public NotenlistenWorkspaceViewModel(LerngruppeViewModel schülerliste)

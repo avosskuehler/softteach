@@ -30,13 +30,13 @@
       </Grid.RowDefinitions>
       <StackPanel Grid.Row="0" Orientation="Horizontal">
         <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddPersonCommand}" 
-                    ToolTip="Neue Person anlegen">
+                    ToolTip="e Person anlegen">
           <StackPanel Orientation="Horizontal">
             <Grid>
               <fa:IconBlock Style="{StaticResource Person32}" Foreground="{DynamicResource Iconfarbe}"/>
               <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
             </Grid>
-            <!--<Label Padding="5,0,0,0" VerticalContentAlignment="Center">Neuen Stundenentwurf erstellen</Label>-->
+            <!--<Label Padding="5,0,0,0" VerticalContentAlignment="Center">en Stundenentwurf erstellen</Label>-->
           </StackPanel>
         </Button>
         <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"

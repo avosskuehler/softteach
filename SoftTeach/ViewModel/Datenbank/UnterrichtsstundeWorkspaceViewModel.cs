@@ -16,7 +16,7 @@
     private UnterrichtsstundeViewModel currentUnterrichtsstunde;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="UnterrichtsstundeWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="UnterrichtsstundeWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public UnterrichtsstundeWorkspaceViewModel()
     {
@@ -68,7 +68,7 @@
     /// </summary>
     private void AddUnterrichtsstunde()
     {
-      var unterrichtsstunde = new UnterrichtsstundeNeu();
+      var unterrichtsstunde = new Unterrichtsstunde();
 
       // Check for existing jahresplan
       if (App.MainViewModel.Unterrichtsstunden.Any(vorhandenesUnterrichtsstunde => vorhandenesUnterrichtsstunde.UnterrichtsstundeBezeichnung == unterrichtsstunde.Bezeichnung))

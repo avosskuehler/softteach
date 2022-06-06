@@ -210,7 +210,7 @@
     /// </summary>
     public void UpdateContextFromViewModelsInUndoStack()
     {
-      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+      App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = false;
       var addAndRemoveChanges = new List<CollectionAddRemoveChangeBase>();
       foreach (var changeSet in this.UndoStack.Reverse())
       {
@@ -273,8 +273,9 @@
               var viewModel = sameElementChange.Key as ViewModelBase;
               var modelProperty = viewModel.GetType().GetProperty("Model");
               var model = modelProperty.GetValue(viewModel);
-              var set = App.UnitOfWork.Context.Set(model.GetType());
-              set.Add(model);
+              // TODODO
+              //var set = App.UnitOfWork.Context.Set(model.GetType());
+              //set.Add(model);
               Console.WriteLine("Added to context: " + model);
             }
           }
@@ -285,8 +286,9 @@
               var viewModel = sameElementChange.Key as ViewModelBase;
               var modelProperty = viewModel.GetType().GetProperty("Model");
               var model = modelProperty.GetValue(viewModel);
-              var set = App.UnitOfWork.Context.Set(model.GetType());
-              set.Remove(model);
+              // TODODO
+              //var set = App.UnitOfWork.Context.Set(model.GetType());
+              //set.Remove(model);
               Console.WriteLine("Removed from context: " + model);
             }
           }
@@ -298,7 +300,7 @@
         }
       }
 
-      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
+      App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = true;
     }
 
     /// <summary>

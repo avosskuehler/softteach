@@ -6,7 +6,7 @@
   public partial class JahresplanZuweisenDialog
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="JahresplanZuweisenDialog"/> Klasse.
+    /// Initialisiert eine e Instanz der <see cref="JahresplanZuweisenDialog"/> Klasse.
     /// </summary>
     public JahresplanZuweisenDialog()
     {

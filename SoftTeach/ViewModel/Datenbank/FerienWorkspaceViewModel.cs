@@ -16,7 +16,7 @@
     private FerienViewModel currentFerien;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="FerienWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="FerienWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public FerienWorkspaceViewModel()
     {
@@ -68,11 +68,13 @@
     /// </summary>
     private void AddFerien()
     {
-      var ferien = new FerienNeu();
-      ferien.Schuljahr = Selection.Instance.Schuljahr.Model;
-      ferien.Bezeichnung = "Sommerferien";
-      ferien.ErsterFerientag = DateTime.Now;
-      ferien.LetzterFerientag = DateTime.Now;
+      var ferien = new Ferien
+      {
+        Schuljahr = Selection.Instance.Schuljahr.Model,
+        Bezeichnung = "Sommerferien",
+        ErsterFerientag = DateTime.Now,
+        LetzterFerientag = DateTime.Now
+      };
 
       var vm = new FerienViewModel(ferien);
 

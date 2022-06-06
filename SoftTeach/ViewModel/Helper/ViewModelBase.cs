@@ -41,7 +41,7 @@
     private readonly IDictionary<string, List<string>> propertyMap;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="ViewModelBase"/> Klasse.
+    /// Initialisiert eine e Instanz der <see cref="ViewModelBase"/> Klasse.
     /// </summary>
     public ViewModelBase()
     {
@@ -101,7 +101,7 @@
     /// <summary>
     /// Holt einen Wert, der angibt, ob the control is in design mode, running inside Visual Studio or Blend.
     /// </summary>
-    protected bool IsInDesignMode
+    protected static bool IsInDesignMode
     {
       get
       {
@@ -186,7 +186,7 @@
     /// <param name="e"> The event args raised by the INotifyCollectionChanged.CollectionChanged event. </param>
     /// <param name="isDataContextRelevant">Gibt an, ob diese Änderung in der Datenbank mitgeschrieben werden soll.</param>
     /// <param name="descriptionOfChange"> The description Of Change. </param>
-    protected void UndoableCollectionChanged(object viewModel, string propertyName, object collection, NotifyCollectionChangedEventArgs e, bool isDataContextRelevant, string descriptionOfChange)
+    protected static void UndoableCollectionChanged(object viewModel, string propertyName, object collection, NotifyCollectionChangedEventArgs e, bool isDataContextRelevant, string descriptionOfChange)
     {
       ChangeFactory.Current.OnCollectionChanged(viewModel, propertyName, collection, e, isDataContextRelevant, descriptionOfChange);
     }
@@ -202,7 +202,7 @@
     /// <param name="collection"> The collection instance. </param>
     /// <param name="e"> The event args raised by the INotifyCollectionChanged.CollectionChanged event. </param>
     /// <param name="descriptionOfChange"> The description Of Change. </param>
-    protected void UndoableCollectionChanged(object viewModel, string propertyName, object collection, NotifyCollectionChangedEventArgs e, string descriptionOfChange)
+    protected static void UndoableCollectionChanged(object viewModel, string propertyName, object collection, NotifyCollectionChangedEventArgs e, string descriptionOfChange)
     {
       ChangeFactory.Current.OnCollectionChanged(viewModel, propertyName, collection, e, true, descriptionOfChange);
     }
@@ -375,7 +375,7 @@
     protected class DependsUponAttribute : Attribute
     {
       /// <summary>
-      /// Initialisiert eine neue Instanz der <see cref="DependsUponAttribute"/> Klasse.
+      /// Initialisiert eine e Instanz der <see cref="DependsUponAttribute"/> Klasse.
       /// </summary>
       /// <param name="propertyName"> The property name. </param>
       public DependsUponAttribute(string propertyName)

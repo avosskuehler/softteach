@@ -14,17 +14,19 @@
   public class PhaseViewModel : ViewModelBase, ISequencedObject, ICloneable
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="PhaseViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="PhaseViewModel"/> Klasse. 
     /// </summary>
     public PhaseViewModel()
     {
-      var phase = new PhaseNeu();
-      phase.Reihenfolge = Selection.Instance.Stunde.Phasen.Count + 1;
-      phase.Zeit = 10;
-      phase.Inhalt = string.Empty;
-      phase.Medium = Medium.Tafel;
-      phase.Sozialform = Sozialform.UG;
-      phase.Stunde = Selection.Instance.Stunde.Model as StundeNeu;
+      var phase = new Phase
+      {
+        Reihenfolge = Selection.Instance.Stunde.Phasen.Count + 1,
+        Zeit = 10,
+        Inhalt = string.Empty,
+        Medium = Medium.Tafel,
+        Sozialform = Sozialform.UG,
+        Stunde = Selection.Instance.Stunde.Model as Stunde
+      };
       this.Model = phase;
       //App.UnitOfWork.Context.Phasen.Add(phase);
       //App.MainViewModel.Phasen.Add(this);
@@ -32,25 +34,20 @@
     }
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="PhaseViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="PhaseViewModel"/> Klasse. 
     /// </summary>
     /// <param name="phase">
     /// The underlying phase this ViewModel is to be based on
     /// </param>
-    public PhaseViewModel(PhaseNeu phase)
+    public PhaseViewModel(Phase phase)
     {
-      if (phase == null)
-      {
-        throw new ArgumentNullException("phase");
-      }
-
-      this.Model = phase;
+      this.Model = phase ?? throw new ArgumentNullException(nameof(phase));
     }
 
     /// <summary>
     /// Holt den underlying Phase this ViewModel is based on
     /// </summary>
-    public PhaseNeu Model { get; private set; }
+    public Phase Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Inhalt
@@ -65,7 +62,7 @@
       set
       {
         if (value == this.Model.Inhalt) return;
-        this.UndoablePropertyChanging(this, "PhaseInhalt", this.Model.Inhalt, value);
+        this.UndoablePropertyChanging(this, nameof(PhaseInhalt), this.Model.Inhalt, value);
         this.Model.Inhalt = value;
         this.RaisePropertyChanged("PhaseInhalt");
       }
@@ -102,7 +99,7 @@
       set
       {
         if (value == this.Model.Medium) return;
-        this.UndoablePropertyChanging(this, "PhaseMedium", this.Model.Medium, value);
+        this.UndoablePropertyChanging(this, nameof(PhaseMedium), this.Model.Medium, value);
         this.Model.Medium = value;
         this.RaisePropertyChanged("PhaseMedium");
       }
@@ -121,7 +118,7 @@
       set
       {
         if (value == this.Model.Sozialform) return;
-        this.UndoablePropertyChanging(this, "PhaseSozialform", this.Model.Sozialform, value);
+        this.UndoablePropertyChanging(this, nameof(PhaseSozialform), this.Model.Sozialform, value);
         this.Model.Sozialform = value;
         this.RaisePropertyChanged("PhaseSozialform");
       }
@@ -140,7 +137,7 @@
       set
       {
         if (value == this.Model.Zeit) return;
-        this.UndoablePropertyChanging(this, "PhaseZeit", this.Model.Zeit, value);
+        this.UndoablePropertyChanging(this, nameof(PhaseZeit), this.Model.Zeit, value);
         this.Model.Zeit = value;
         this.RaisePropertyChanged("PhaseZeit");
         Selection.Instance.Stunde.NotifyPhaseZeitChanged();
@@ -171,7 +168,7 @@
       set
       {
         if (value == this.Model.Reihenfolge) return;
-        this.UndoablePropertyChanging(this, "Reihenfolge", this.Model.Reihenfolge, value);
+        this.UndoablePropertyChanging(this, nameof(Reihenfolge), this.Model.Reihenfolge, value);
         this.Model.Reihenfolge = value;
         this.RaisePropertyChanged("Reihenfolge");
       }
@@ -197,13 +194,15 @@
     /// <returns>A cloned <see cref="PhaseViewModel"/></returns>
     public object Clone()
     {
-      var phaseClone = new PhaseNeu();
-      phaseClone.Reihenfolge = this.Model.Reihenfolge;
-      phaseClone.Inhalt = this.Model.Inhalt;
-      phaseClone.Medium = this.Model.Medium;
-      phaseClone.Sozialform = this.Model.Sozialform;
-      phaseClone.Zeit = this.Model.Zeit;
-      phaseClone.Stunde = this.Model.Stunde;
+      var phaseClone = new Phase
+      {
+        Reihenfolge = this.Model.Reihenfolge,
+        Inhalt = this.Model.Inhalt,
+        Medium = this.Model.Medium,
+        Sozialform = this.Model.Sozialform,
+        Zeit = this.Model.Zeit,
+        Stunde = this.Model.Stunde
+      };
       //App.UnitOfWork.Context.Phasen.Add(phaseClone);
 
       var vm = new PhaseViewModel(phaseClone);

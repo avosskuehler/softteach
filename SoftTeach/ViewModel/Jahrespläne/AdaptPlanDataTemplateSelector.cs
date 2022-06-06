@@ -32,12 +32,12 @@ namespace SoftTeach.ViewModel.Jahrespläne
           return element.FindResource("FerienViewModelTagesplanView") as DataTemplate;
         }
 
-        //if (item is StundeNeu)
+        //if (item is Stunde)
         //{
         //  return element.FindResource("StundenTagesplanView") as DataTemplate;
         //}
 
-        //if (item is LerngruppenterminNeu)
+        //if (item is Lerngruppentermin)
         //{
         //  return element.FindResource("FerienTagesplanView") as DataTemplate;
         //}

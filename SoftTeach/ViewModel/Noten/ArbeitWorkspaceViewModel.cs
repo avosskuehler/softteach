@@ -33,7 +33,7 @@
     private SchuljahrViewModel schuljahrFilter;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="ArbeitWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="ArbeitWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public ArbeitWorkspaceViewModel()
     {
@@ -56,7 +56,7 @@
     }
 
     /// <summary>
-    /// Holt den Befehl, um eine neue Arbeit anzulegen.
+    /// Holt den Befehl, um eine e Arbeit anzulegen.
     /// </summary>
     public DelegateCommand AddArbeitCommand { get; private set; }
 
@@ -161,14 +161,16 @@
       using (new UndoBatch(App.MainViewModel, string.Format("Arbeit angelegt"), false))
       {
 
-        var arbeit = new ArbeitNeu();
-        arbeit.Lerngruppe = workspace.Lerngruppe.Model;
-        arbeit.Fach = workspace.Lerngruppe.LerngruppeFach.Model;
-        arbeit.Bepunktungstyp = workspace.Bepunktungstyp;
-        arbeit.Bewertungsschema = workspace.Bewertungsschema.Model;
-        arbeit.Bezeichnung = workspace.Bezeichnung;
-        arbeit.Datum = workspace.Datum;
-        arbeit.IstKlausur = workspace.IstKlausur;
+        var arbeit = new Arbeit
+        {
+          Lerngruppe = workspace.Lerngruppe.Model,
+          Fach = workspace.Lerngruppe.LerngruppeFach.Model,
+          Bepunktungstyp = workspace.Bepunktungstyp,
+          Bewertungsschema = workspace.Bewertungsschema.Model,
+          Bezeichnung = workspace.Bezeichnung,
+          Datum = workspace.Datum,
+          IstKlausur = workspace.IstKlausur
+        };
 
         var vorhandeneArbeiten = arbeit.Lerngruppe.Arbeiten.Count();
         arbeit.LfdNr = vorhandeneArbeiten + 1;

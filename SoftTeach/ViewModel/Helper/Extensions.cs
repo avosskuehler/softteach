@@ -12,7 +12,7 @@
 
   public static class Extensions
   {
-    public static Random random = new Random();
+    private static readonly Random random = new();
 
     public static bool RemoveTest<T>(this ICollection<T> source, T viewModel)
     {
@@ -45,9 +45,7 @@
       {
         n--;
         int k = random.Next(n + 1);
-        T value = list[k];
-        list[k] = list[n];
-        list[n] = value;
+        (list[n], list[k]) = (list[k], list[n]);
       }
     }
 
@@ -56,9 +54,7 @@
       for (var n = 0; n < count; n++)
       {
         var k = random.Next(n, array.Length);
-        var temp = array[n];
-        array[n] = array[k];
-        array[k] = temp;
+        (array[k], array[n]) = (array[n], array[k]);
       }
 
       return array;
@@ -85,23 +81,23 @@
     //  return items.GroupBy(x => i++ % numOfParts);
     //}
 
-    /// <summary>
-    /// Break a list of items into chunks of a specific size
-    /// </summary>
-    public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> source, int chunksize)
-    {
-      while (source.Any())
-      {
-        yield return source.Take(chunksize);
-        source = source.Skip(chunksize);
-      }
-    }
+    ///// <summary>
+    ///// Break a list of items into chunks of a specific size
+    ///// </summary>
+    //public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> source, int chunksize)
+    //{
+    //  while (source.Any())
+    //  {
+    //    yield return source.Take(chunksize);
+    //    source = source.Skip(chunksize);
+    //  }
+    //}
 
     public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> source)
     {
       if (source == null)
       {
-        throw new ArgumentNullException("source");
+        throw new ArgumentNullException(nameof(source));
       }
 
       return new ObservableCollection<T>(source);
@@ -109,7 +105,7 @@
 
     public static string StripLeft(this string value, int length)
     {
-      return value.Substring(length, value.Length - length);
+      return value[length..];
     }
 
     public static string StripRight(this string value, int length)
@@ -120,15 +116,14 @@
     public static void Raise(this PropertyChangedEventHandler eventHandler, object source, string propertyName)
     {
       var handlers = eventHandler;
-      if (handlers != null)
-        handlers(source, new PropertyChangedEventArgs(propertyName));
+      if (handlers == null)
+        return;
+      handlers(source, new PropertyChangedEventArgs(propertyName));
     }
 
     public static void Raise(this EventHandler eventHandler, object source)
     {
-      var handlers = eventHandler;
-      if (handlers != null)
-        handlers(source, EventArgs.Empty);
+      eventHandler?.Invoke(source, EventArgs.Empty);
     }
 
     public static void Register(this INotifyPropertyChanged model, string propertyName, Action whenChanged)
@@ -174,7 +169,7 @@
       HitTestResult result = VisualTreeHelper.HitTest(control, p);
       DependencyObject obj = result.VisualHit;
 
-      while (VisualTreeHelper.GetParent(obj) != null && !(obj is TItemContainer))
+      while (VisualTreeHelper.GetParent(obj) != null && obj is not TItemContainer)
       {
         obj = VisualTreeHelper.GetParent(obj);
       }

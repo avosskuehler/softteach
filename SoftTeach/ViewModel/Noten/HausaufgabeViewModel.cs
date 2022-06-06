@@ -19,33 +19,30 @@
   public class HausaufgabeViewModel : ViewModelBase, IComparable
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="HausaufgabeViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="HausaufgabeViewModel"/> Klasse. 
     /// </summary>
     public HausaufgabeViewModel()
     {
-      var hausaufgabe = new HausaufgabeNeu();
-      hausaufgabe.Datum = DateTime.Now;
-      hausaufgabe.Bezeichnung = string.Empty;
-      hausaufgabe.IstNachgereicht = false;
+      var hausaufgabe = new Hausaufgabe
+      {
+        Datum = DateTime.Now,
+        Bezeichnung = string.Empty,
+        IstNachgereicht = false
+      };
       this.Model = hausaufgabe;
       //App.UnitOfWork.Context.Hausaufgaben.Add(hausaufgabe);
       //App.MainViewModel.Hausaufgaben.Add(this);
     }
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="HausaufgabeViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="HausaufgabeViewModel"/> Klasse. 
     /// </summary>
     /// <param name="hausaufgabe">
     /// The underlying hausaufgabe this ViewModel is to be based on
     /// </param>
-    public HausaufgabeViewModel(HausaufgabeNeu hausaufgabe)
+    public HausaufgabeViewModel(Hausaufgabe hausaufgabe)
     {
-      if (hausaufgabe == null)
-      {
-        throw new ArgumentNullException("hausaufgabe");
-      }
-
-      this.Model = hausaufgabe;
+      this.Model = hausaufgabe ?? throw new ArgumentNullException(nameof(hausaufgabe));
 
       this.EditHausaufgabeCommand = new DelegateCommand(this.EditHausaufgabe);
       this.ChangeHausaufgabeNichtGemachtCommand = new DelegateCommand(this.ChangeHausaufgabeNichtGemacht);
@@ -54,7 +51,7 @@
     /// <summary>
     /// Holt das DatenbankmodellHolt den underlying Hausaufgabe this ViewModel is based on
     /// </summary>
-    public HausaufgabeNeu Model { get; private set; }
+    public Hausaufgabe Model { get; private set; }
 
     /// <summary>
     /// Holt das Command zur Änderung einer einzelnen nicht gemachten Hausaufgabe
@@ -79,7 +76,7 @@
       set
       {
         if (value == this.Model.Datum) return;
-        this.UndoablePropertyChanging(this, "HausaufgabeDatum", this.Model.Datum, value);
+        this.UndoablePropertyChanging(this, nameof(HausaufgabeDatum), this.Model.Datum, value);
         this.Model.Datum = value;
         this.RaisePropertyChanged("HausaufgabeDatum");
       }
@@ -122,7 +119,7 @@
       set
       {
         if (value == this.Model.Bezeichnung) return;
-        this.UndoablePropertyChanging(this, "HausaufgabeBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(HausaufgabeBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("HausaufgabeBezeichnung");
       }
@@ -141,7 +138,7 @@
       set
       {
         if (value == this.Model.IstNachgereicht) return;
-        this.UndoablePropertyChanging(this, "HausaufgabeIstNachgereicht", this.Model.IstNachgereicht, value);
+        this.UndoablePropertyChanging(this, nameof(HausaufgabeIstNachgereicht), this.Model.IstNachgereicht, value);
         this.Model.IstNachgereicht = value;
         this.RaisePropertyChanged("HausaufgabeIstNachgereicht");
       }
@@ -217,9 +214,11 @@
         return;
       }
 
-      var dlg = new AddHausaufgabeDialog();
-      dlg.Datum = this.HausaufgabeDatum;
-      dlg.Bezeichnung = this.HausaufgabeBezeichnung;
+      var dlg = new AddHausaufgabeDialog
+      {
+        Datum = this.HausaufgabeDatum,
+        Bezeichnung = this.HausaufgabeBezeichnung
+      };
       using (new UndoBatch(App.MainViewModel, string.Format("Hausaufgabe {0} geändert.", this), false))
       {
         if (dlg.ShowDialog().GetValueOrDefault(false))

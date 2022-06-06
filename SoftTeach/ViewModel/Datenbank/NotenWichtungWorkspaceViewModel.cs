@@ -16,7 +16,7 @@
     private NotenWichtungViewModel currentNotenWichtung;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="NotenWichtungWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="NotenWichtungWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public NotenWichtungWorkspaceViewModel()
     {
@@ -68,7 +68,7 @@
     /// </summary>
     private void AddNotenWichtung()
     {
-      var bepunktungstyp = new NotenWichtungNeu();
+      var bepunktungstyp = new NotenWichtung();
  
       // Check for existing tagesplan
       if (App.MainViewModel.NotenWichtungen.Any(o => o.NotenWichtungBezeichnung == bepunktungstyp.Bezeichnung))

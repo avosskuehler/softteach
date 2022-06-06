@@ -38,6 +38,7 @@ namespace SoftTeach
   using SoftTeach.ExceptionHandling;
   using SoftTeach.Model;
   using SoftTeach.Properties;
+  using SoftTeach.Resources.FontAwesome;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Main;
@@ -71,7 +72,7 @@ namespace SoftTeach
     /// <summary>
     /// Holt den Befehl, der aufgerufen werden soll, wenn das TrayIcon angeklickt wird.
     /// </summary>
-    public DelegateCommand TrayIconClickedCommand { get; private set; }
+    public static DelegateCommand TrayIconClickedCommand { get; private set; }
 
     /// <summary>
     /// This static mehtod returns an <see cref="Image"/>
@@ -86,7 +87,8 @@ namespace SoftTeach
       var terminMenuentryIcon = new Image();
       var terminMenuentryIconImage = new BitmapImage();
       terminMenuentryIconImage.BeginInit();
-      terminMenuentryIconImage.UriSource = new Uri("pack://application:,,,/Images/" + imageName);
+      terminMenuentryIconImage.UriSource = new Uri(@"Images/" + imageName, UriKind.RelativeOrAbsolute);
+      //terminMenuentryIconImage.UriSource = new Uri("pack://application:,,,/Images/" + imageName);
       terminMenuentryIconImage.EndInit();
       terminMenuentryIcon.Source = terminMenuentryIconImage;
       return terminMenuentryIcon;
@@ -110,9 +112,28 @@ namespace SoftTeach
     {
       var terminMenuentryIconImage = new BitmapImage();
       terminMenuentryIconImage.BeginInit();
-      terminMenuentryIconImage.UriSource = new Uri("pack://application:,,,/Images/" + imageName);
+      //terminMenuentryIconImage.UriSource = new Uri("pack://application:,,,/Images/" + imageName, UriKind.RelativeOrAbsolute);
+      terminMenuentryIconImage.UriSource = new Uri(@"Images/" + imageName, UriKind.RelativeOrAbsolute);
+      //terminMenuentryIconImage.UriSource = new Uri("pack://application:,,,/Images/" + imageName);
       terminMenuentryIconImage.EndInit();
       return terminMenuentryIconImage;
+    }
+
+    public static Style GetIconStyle(string imageName)
+    {
+      return App.Current.FindResource(imageName) as Style;
+    }
+
+    public static IconBlock GetIcon(string imageName)
+    {
+      var icon = new IconBlock
+      {
+        VerticalAlignment = VerticalAlignment.Center
+      };
+
+      icon.Style = App.Current.FindResource(imageName) as Style;
+
+      return icon;
     }
 
     /// <summary>
@@ -149,14 +170,14 @@ namespace SoftTeach
       }
 
       var printProcess = new Process
-        {
-          StartInfo =
+      {
+        StartInfo =
             {
               FileName = fullPath,
               UseShellExecute = true,
               Verb = "print"
             }
-        };
+      };
 
       printProcess.Start();
     }
@@ -208,13 +229,13 @@ namespace SoftTeach
     protected override void OnStartup(StartupEventArgs e)
     {
       base.OnStartup(e);
-      this.TrayIconClickedCommand = new DelegateCommand(this.TrayIconClicked);
+      TrayIconClickedCommand = new DelegateCommand(TrayIconClicked);
 
-      NotenErinnerungsIcon = (TaskbarIcon)FindResource("NotenNotifyIcon");
-      if (NotenErinnerungsIcon != null)
-      {
-        NotenErinnerungsIcon.LeftClickCommand = this.TrayIconClickedCommand;
-      }
+      //NotenErinnerungsIcon = (TaskbarIcon)FindResource("NotenNotifyIcon");
+      //if (NotenErinnerungsIcon != null)
+      //{
+      //  NotenErinnerungsIcon.LeftClickCommand = this.TrayIconClickedCommand;
+      //}
 
       UnitOfWork = new UnitOfWork();
       MainViewModel = new MainViewModel();
@@ -248,7 +269,7 @@ namespace SoftTeach
     /// <summary>
     /// Hier wird der Dialog zur Noteneingabe aufgerufen
     /// </summary>
-    private void TrayIconClicked()
+    private static void TrayIconClicked()
     {
       MainViewModel.StartNoteneingabe();
     }
@@ -264,7 +285,7 @@ namespace SoftTeach
       Settings.Default.Save();
 
       // Check if there is nothing to change
-      if (((Stack<ChangeSet>)App.MainViewModel.UndoStack).Count == 0)
+      if (((Stack<ChangeSet>)MainViewModel.UndoStack).Count == 0)
       {
         return;
       }
@@ -287,7 +308,6 @@ namespace SoftTeach
     /// <param name="e">Arguments of the exit event</param>
     protected override void OnExit(ExitEventArgs e)
     {
-      UnitOfWork.Dispose();
       NotenErinnerungsIcon.Dispose();
       base.OnExit(e);
     }

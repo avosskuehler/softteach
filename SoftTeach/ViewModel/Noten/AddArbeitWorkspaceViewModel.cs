@@ -38,7 +38,7 @@ namespace SoftTeach.ViewModel.Noten
     private SchuljahrViewModel schuljahr;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="AddArbeitDialog"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="AddArbeitDialog"/> Klasse. 
     /// </summary>
     public AddArbeitWorkspaceViewModel()
     {
@@ -53,7 +53,7 @@ namespace SoftTeach.ViewModel.Noten
       this.Schuljahr = Selection.Instance.Schuljahr;
       this.Bepunktungstyp = Bepunktungstyp.NoteMitTendenz;
       this.Bewertungsschema = App.MainViewModel.Bewertungsschemata[0];
-      this.Bezeichnung = "Neue Arbeit";
+      this.Bezeichnung = "e Arbeit";
       this.Datum = DateTime.Now;
       this.IstKlausur = true;
     }

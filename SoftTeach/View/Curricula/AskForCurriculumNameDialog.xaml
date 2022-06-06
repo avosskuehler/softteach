@@ -14,7 +14,7 @@
       <RowDefinition/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader Grid.Row="0" Title="Bitte geben Sie einen Namen für das neue Curriculum an.">
+    <controls:SmallDialogHeader Grid.Row="0" Title="Bitte geben Sie einen Namen für das e Curriculum an.">
       <controls:SmallDialogHeader.IconContent>
         <Grid>
           <fa:IconBlock Style="{StaticResource Curriculum48}" Foreground="{DynamicResource Iconfarbe}"/>

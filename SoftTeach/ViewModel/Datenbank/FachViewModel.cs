@@ -11,25 +11,20 @@
   public class FachViewModel : ViewModelBase, IComparable
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="FachViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="FachViewModel"/> Klasse. 
     /// </summary>
     /// <param name="fach">
     /// The underlying fach this ViewModel is to be based on
     /// </param>
-    public FachViewModel(FachNeu fach)
+    public FachViewModel(Fach fach)
     {
-      if (fach == null)
-      {
-        throw new ArgumentNullException("fach");
-      }
-
-      this.Model = fach;
+      this.Model = fach ?? throw new ArgumentNullException(nameof(fach));
     }
 
     /// <summary>
     /// Holt den underlying Fach this ViewModel is based on
     /// </summary>
-    public FachNeu Model { get; private set; }
+    public Fach Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Bezeichnung
@@ -44,7 +39,7 @@
       set
       {
         if (value == this.Model.Bezeichnung) return;
-        this.UndoablePropertyChanging(this, "FachBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(FachBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("FachBezeichnung");
       }
@@ -80,7 +75,7 @@
       set
       {
         if (value.ToString() == this.Model.Farbe) return;
-        this.UndoablePropertyChanging(this, "FachFarbe", this.Model.Farbe, value);
+        this.UndoablePropertyChanging(this, nameof(FachFarbe), this.Model.Farbe, value);
         this.Model.Farbe = value.ToString();
         this.RaisePropertyChanged("FachFarbe");
       }

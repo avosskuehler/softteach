@@ -6,7 +6,7 @@
   public partial class CurriculumWorkspaceView
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="CurriculumWorkspaceView"/> Klasse.
+    /// Initialisiert eine e Instanz der <see cref="CurriculumWorkspaceView"/> Klasse.
     /// </summary>
     public CurriculumWorkspaceView()
     {

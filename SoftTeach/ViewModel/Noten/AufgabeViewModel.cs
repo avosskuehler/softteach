@@ -23,34 +23,31 @@
     private ErgebnisViewModel currentErgebnis;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="AufgabeViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="AufgabeViewModel"/> Klasse. 
     /// </summary>
     public AufgabeViewModel()
     {
-      var aufgabe = new AufgabeNeu();
-      aufgabe.LfdNr = Selection.Instance.Arbeit.Aufgaben.Count;
-      aufgabe.MaxPunkte = 10;
-      aufgabe.Bezeichnung = string.Empty;
-      aufgabe.Arbeit = Selection.Instance.Arbeit.Model;
+      var aufgabe = new Aufgabe
+      {
+        LfdNr = Selection.Instance.Arbeit.Aufgaben.Count,
+        MaxPunkte = 10,
+        Bezeichnung = string.Empty,
+        Arbeit = Selection.Instance.Arbeit.Model
+      };
       this.Model = aufgabe;
       //App.UnitOfWork.Context.Aufgaben.Add(aufgabe);
       //App.MainViewModel.Aufgaben.Add(this);
     }
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="AufgabeViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="AufgabeViewModel"/> Klasse. 
     /// </summary>
     /// <param name="aufgabe">
     /// The underlying aufgabe this ViewModel is to be based on
     /// </param>
-    public AufgabeViewModel(AufgabeNeu aufgabe)
+    public AufgabeViewModel(Aufgabe aufgabe)
     {
-      if (aufgabe == null)
-      {
-        throw new ArgumentNullException("aufgabe");
-      }
-
-      this.Model = aufgabe;
+      this.Model = aufgabe ?? throw new ArgumentNullException(nameof(aufgabe));
 
       // Build data structures for ergebnisse
       this.Ergebnisse = new ObservableCollection<ErgebnisViewModel>();
@@ -72,7 +69,7 @@
     /// <summary>
     /// Holt den underlying Aufgabe this ViewModel is based on
     /// </summary>
-    public AufgabeNeu Model { get; private set; }
+    public Aufgabe Model { get; private set; }
 
     /// <summary>
     /// Holt den Befehl zur Editierung der Aufgabe
@@ -125,7 +122,7 @@
       set
       {
         if (value == this.Model.Bezeichnung) return;
-        this.UndoablePropertyChanging(this, "AufgabeBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(AufgabeBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("AufgabeBezeichnung");
       }
@@ -162,7 +159,7 @@
       set
       {
         if (value == this.Model.LfdNr) return;
-        this.UndoablePropertyChanging(this, "Reihenfolge", this.Model.LfdNr, value);
+        this.UndoablePropertyChanging(this, nameof(Reihenfolge), this.Model.LfdNr, value);
         this.Model.LfdNr = value;
         this.RaisePropertyChanged("Reihenfolge");
       }
@@ -181,7 +178,7 @@
       set
       {
         if (value == this.Model.MaxPunkte) return;
-        this.UndoablePropertyChanging(this, "AufgabeMaxPunkte", this.Model.MaxPunkte, value);
+        this.UndoablePropertyChanging(this, nameof(AufgabeMaxPunkte), this.Model.MaxPunkte, value);
         this.Model.MaxPunkte = value;
         this.RaisePropertyChanged("AufgabeMaxPunkte");
       }
@@ -225,7 +222,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void ErgebnisseCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Ergebnisse", this.Ergebnisse, e, true, "Änderung der Ergebnisse");
+      UndoableCollectionChanged(this, nameof(Ergebnisse), this.Ergebnisse, e, true, "Änderung der Ergebnisse");
     }
 
     /// <summary>
@@ -252,13 +249,13 @@
     }
 
     /// <summary>
-    /// Erstellt ein neues Ergebnis
+    /// Erstellt ein es Ergebnis
     /// </summary>
     private void AddErgebnis()
     {
       using (new UndoBatch(App.MainViewModel, string.Format("Ergebnis erstellt."), false))
       {
-        var ergebnis = new ErgebnisNeu { Punktzahl = 0, Aufgabe = this.Model };
+        var ergebnis = new Ergebnis { Punktzahl = 0, Aufgabe = this.Model };
         //App.UnitOfWork.Context.Ergebnisse.Add(ergebnis);
         var vm = new ErgebnisViewModel(ergebnis);
         vm.PropertyChanged += this.ErgebnisPropertyChanged;

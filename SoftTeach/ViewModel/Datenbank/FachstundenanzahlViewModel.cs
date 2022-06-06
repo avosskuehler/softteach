@@ -10,10 +10,10 @@
   /// </summary>
   public class FachstundenanzahlViewModel : ViewModelBase
   {
-    /// <summary>
-    /// The klassenstufe currently assigned to this FachstundenanzahlViewModel
-    /// </summary>
-    private int jahrgang;
+    ///// <summary>
+    ///// The klassenstufe currently assigned to this FachstundenanzahlViewModel
+    ///// </summary>
+    //private int jahrgang;
 
     /// <summary>
     /// The fach currently assigned to this FachstundenanzahlViewModel
@@ -21,25 +21,20 @@
     private FachViewModel fach;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="FachstundenanzahlViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="FachstundenanzahlViewModel"/> Klasse. 
     /// </summary>
     /// <param name="fachstundenanzahl">
     /// The underlying fachstundenanzahl this ViewModel is to be based on
     /// </param>
-    public FachstundenanzahlViewModel(FachstundenanzahlNeu fachstundenanzahl)
+    public FachstundenanzahlViewModel(Fachstundenanzahl fachstundenanzahl)
     {
-      if (fachstundenanzahl == null)
-      {
-        throw new ArgumentNullException("fachstundenanzahl");
-      }
-
-      this.Model = fachstundenanzahl;
+      this.Model = fachstundenanzahl ?? throw new ArgumentNullException(nameof(fachstundenanzahl));
     }
 
     /// <summary>
     /// Holt den underlying Fachstundenanzahl this ViewModel is based on
     /// </summary>
-    public FachstundenanzahlNeu Model { get; private set; }
+    public Fachstundenanzahl Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Stundenzahl
@@ -54,7 +49,7 @@
       set
       {
         if (value == this.Model.Stundenzahl) return;
-        this.UndoablePropertyChanging(this, "FachstundenanzahlStundenzahl", this.Model.Stundenzahl, value);
+        this.UndoablePropertyChanging(this, nameof(FachstundenanzahlStundenzahl), this.Model.Stundenzahl, value);
         this.Model.Stundenzahl = value;
         this.RaisePropertyChanged("FachstundenanzahlStundenzahl");
       }
@@ -73,7 +68,7 @@
       set
       {
         if (value == this.Model.Teilungsstundenzahl) return;
-        this.UndoablePropertyChanging(this, "FachstundenanzahlTeilungsstundenzahl", this.Model.Teilungsstundenzahl, value);
+        this.UndoablePropertyChanging(this, nameof(FachstundenanzahlTeilungsstundenzahl), this.Model.Teilungsstundenzahl, value);
         this.Model.Teilungsstundenzahl = value;
         this.RaisePropertyChanged("FachstundenanzahlTeilungsstundenzahl");
       }
@@ -92,7 +87,7 @@
       set
       {
         if (value == this.Model.Jahrgang) return;
-        this.UndoablePropertyChanging(this, "FachstundenanzahlJahrgang", this.Model.Jahrgang, value);
+        this.UndoablePropertyChanging(this, nameof(FachstundenanzahlJahrgang), this.Model.Jahrgang, value);
         this.Model.Jahrgang = value;
         this.RaisePropertyChanged("FachstundenanzahlJahrgang");
       }
@@ -122,7 +117,7 @@
       set
       {
         if (value.FachBezeichnung == this.fach.FachBezeichnung) return;
-        this.UndoablePropertyChanging(this, "FachstundenanzahlFach", this.fach, value);
+        this.UndoablePropertyChanging(this, nameof(FachstundenanzahlFach), this.fach, value);
         this.fach = value;
         this.Model.Fach = value.Model;
         this.RaisePropertyChanged("FachstundenanzahlFach");

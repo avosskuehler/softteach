@@ -17,7 +17,7 @@
     private RaumViewModel currentRaum;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="RaumWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="RaumWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public RaumWorkspaceViewModel()
     {
@@ -70,7 +70,7 @@
     /// </summary>
     private void AddRaum()
     {
-      var raum = new RaumNeu();
+      var raum = new Raum();
  
       // Check for existing raum
       if (App.MainViewModel.Räume.Any(vorhandenerRaum => vorhandenerRaum.RaumBezeichnung == raum.Bezeichnung))

@@ -8,7 +8,7 @@
   public abstract class CollectionAddRemoveChangeBase : CollectionChange
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="CollectionAddRemoveChangeBase"/> Klasse.
+    /// Initialisiert eine e Instanz der <see cref="CollectionAddRemoveChangeBase"/> Klasse.
     /// </summary>
     /// <param name="target"> The target. </param>
     /// <param name="propertyName"> The property name. </param>

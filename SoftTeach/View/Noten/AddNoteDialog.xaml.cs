@@ -26,15 +26,15 @@ namespace SoftTeach.View.Noten
   /// </summary>
   public partial class AddNoteDialog
   {
-    /// <summary>
-    /// Die aktuell zu bearbeitende Note.
-    /// </summary>
-    private NoteViewModel currentNote;
+    ///// <summary>
+    ///// Die aktuell zu bearbeitende Note.
+    ///// </summary>
+    //private NoteViewModel currentNote;
 
     #region Constructors and Destructors
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="AddNoteDialog"/> Klasse.
+    /// Initialisiert eine e Instanz der <see cref="AddNoteDialog"/> Klasse.
     /// </summary>
     /// <param name="notenWorkspaceViewModel">
     /// The noten Workspace View Model.

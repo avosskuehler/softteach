@@ -34,7 +34,7 @@
     private SchuljahrViewModel schuljahrFilter;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="CurriculumWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="CurriculumWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public CurriculumWorkspaceViewModel()
     {
@@ -226,17 +226,19 @@
     /// </summary>
     private void AddCurriculum()
     {
-      using (new UndoBatch(App.MainViewModel, string.Format("Neues Curriculum erstellt"), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("es Curriculum erstellt"), false))
       {
         var dlg = new AskForJahrFachStufeDialog();
         if (dlg.ShowDialog().GetValueOrDefault(false))
         {
-          var curriculum = new CurriculumNeu();
-          curriculum.Bezeichnung = dlg.Bezeichnung;
-          curriculum.Fach = dlg.Fach.Model;
-          curriculum.Jahrgang = dlg.Jahrgang;
-          curriculum.Schuljahr = dlg.Schuljahr.Model;
-          curriculum.Halbjahr = dlg.Halbjahr;
+          var curriculum = new Curriculum
+          {
+            Bezeichnung = dlg.Bezeichnung,
+            Fach = dlg.Fach.Model,
+            Jahrgang = dlg.Jahrgang,
+            Schuljahr = dlg.Schuljahr.Model,
+            Halbjahr = dlg.Halbjahr
+          };
           //App.UnitOfWork.Context.Curricula.Add(curriculum);
           var vm = new CurriculumViewModel(curriculum);
           App.MainViewModel.Curricula.Add(vm);
@@ -257,38 +259,46 @@
 
       using (new UndoBatch(App.MainViewModel, string.Format("Curriculum kopiert"), false))
       {
-        var dlg = new AskForJahrFachStufeDialog();
-        dlg.Fach = this.CurrentCurriculum.CurriculumFach;
-        dlg.Jahrgang = this.CurrentCurriculum.CurriculumJahrgang;
-        dlg.Halbjahr = this.CurrentCurriculum.CurriculumHalbjahr;
-        dlg.Schuljahr = Selection.Instance.Schuljahr;
+        var dlg = new AskForJahrFachStufeDialog
+        {
+          Fach = this.CurrentCurriculum.CurriculumFach,
+          Jahrgang = this.CurrentCurriculum.CurriculumJahrgang,
+          Halbjahr = this.CurrentCurriculum.CurriculumHalbjahr,
+          Schuljahr = Selection.Instance.Schuljahr
+        };
         if (dlg.ShowDialog().GetValueOrDefault(false))
         {
           // Create a clone of this curriculum for the adaption dialog
-          var curriculumClone = new CurriculumNeu();
-          curriculumClone.Bezeichnung = dlg.Bezeichnung;
-          curriculumClone.Fach = dlg.Fach.Model;
-          curriculumClone.Jahrgang = dlg.Jahrgang;
-          curriculumClone.Schuljahr = dlg.Schuljahr.Model;
-          curriculumClone.Halbjahr = dlg.Halbjahr;
+          var curriculumClone = new Curriculum
+          {
+            Bezeichnung = dlg.Bezeichnung,
+            Fach = dlg.Fach.Model,
+            Jahrgang = dlg.Jahrgang,
+            Schuljahr = dlg.Schuljahr.Model,
+            Halbjahr = dlg.Halbjahr
+          };
 
           foreach (var reihe in this.CurrentCurriculum.Model.Reihen)
           {
-            var reiheClone = new ReiheNeu();
-            reiheClone.Reihenfolge = reihe.Reihenfolge;
-            reiheClone.Modul = reihe.Modul;
-            reiheClone.Stundenbedarf = reihe.Stundenbedarf;
-            reiheClone.Thema = reihe.Thema;
-            reiheClone.Curriculum = curriculumClone;
+            var reiheClone = new Reihe
+            {
+              Reihenfolge = reihe.Reihenfolge,
+              Modul = reihe.Modul,
+              Stundenbedarf = reihe.Stundenbedarf,
+              Thema = reihe.Thema,
+              Curriculum = curriculumClone
+            };
             //App.UnitOfWork.Context.Reihen.Add(reiheClone);
 
             foreach (var sequenz in reihe.Sequenzen)
             {
-              var sequenzClone = new SequenzNeu();
-              sequenzClone.Reihenfolge = sequenz.Reihenfolge;
-              sequenzClone.Stundenbedarf = sequenz.Stundenbedarf;
-              sequenzClone.Thema = sequenz.Thema;
-              sequenzClone.Reihe = reiheClone;
+              var sequenzClone = new Sequenz
+              {
+                Reihenfolge = sequenz.Reihenfolge,
+                Stundenbedarf = sequenz.Stundenbedarf,
+                Thema = sequenz.Thema,
+                Reihe = reiheClone
+              };
               //App.UnitOfWork.Context.Sequenzen.Add(sequenzClone);
               reiheClone.Sequenzen.Add(sequenzClone);
             }

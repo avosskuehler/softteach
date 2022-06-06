@@ -8,12 +8,12 @@
   public partial class MetroGruppenPage
   {
    /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="MetroGruppenPage"/> Klasse.
+    /// Initialisiert eine e Instanz der <see cref="MetroGruppenPage"/> Klasse.
     /// </summary>
     public MetroGruppenPage()
     {
       this.InitializeComponent();
-      Selection.Instance.Lerngruppe.GruppenNeuEinteilenCommand.Execute(null);
+      Selection.Instance.Lerngruppe.GruppenEinteilenCommand.Execute(null);
     }
   }
 }

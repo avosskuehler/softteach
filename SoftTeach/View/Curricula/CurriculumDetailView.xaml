@@ -108,7 +108,7 @@
               <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Orientation="Horizontal">
-              <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddReiheCommand}" ToolTip="Neues Modul erstellen">
+              <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddReiheCommand}" ToolTip="es Modul erstellen">
                 <StackPanel Orientation="Horizontal">
                   <Grid>
                     <fa:IconBlock Style="{StaticResource Modul16}"/>
@@ -154,7 +154,7 @@
               <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Orientation="Horizontal">
-              <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddSequenzCommand}" ToolTip="Neue Sequenz erstellen">
+              <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddSequenzCommand}" ToolTip="e Sequenz erstellen">
                 <StackPanel Orientation="Horizontal">
                   <Grid>
                     <fa:IconBlock Style="{StaticResource Sequenz16}"/>

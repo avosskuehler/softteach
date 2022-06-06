@@ -127,10 +127,12 @@
             }
             else
             {
-              var person = new PersonNeu();
-              person.Nachname = nachname;
-              person.Vorname = vorname;
-              person.Geschlecht = geschlecht;
+              var person = new Person
+              {
+                Nachname = nachname,
+                Vorname = vorname,
+                Geschlecht = geschlecht
+              };
               if (hatGeburtstag)
               {
                 person.Geburtstag = geburtstag;
@@ -144,8 +146,8 @@
         }
 
         InformationDialog.Show(
-          "Neue Personen",
-          string.Format("{0} neue Personen angelegt und {1} bestehende Personen gefunden.", newCounter, foundCounter),
+          "e Personen",
+          string.Format("{0} e Personen angelegt und {1} bestehende Personen gefunden.", newCounter, foundCounter),
           false);
       }
 

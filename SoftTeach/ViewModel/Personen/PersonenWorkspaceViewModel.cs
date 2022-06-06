@@ -28,7 +28,7 @@
     private PersonViewModel currentPerson;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="PersonenWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="PersonenWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public PersonenWorkspaceViewModel()
     {
@@ -144,11 +144,11 @@
     }
 
     /// <summary>
-    /// Fügt eine neue Person hinzu.
+    /// Fügt eine e Person hinzu.
     /// </summary>
     private void AddPerson()
     {
-      var person = new PersonNeu();
+      var person = new Person();
       var vm = new PersonViewModel(person);
       App.MainViewModel.Personen.Add(vm);
       this.CurrentPerson = vm;

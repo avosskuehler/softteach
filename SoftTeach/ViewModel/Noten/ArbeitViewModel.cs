@@ -64,10 +64,10 @@
     /// </summary>
     private FachViewModel fach;
 
-    /// <summary>
-    /// The schuljahr currently assigned to this arbeit
-    /// </summary>
-    private SchuljahrViewModel schuljahr;
+    ///// <summary>
+    ///// The schuljahr currently assigned to this arbeit
+    ///// </summary>
+    //private SchuljahrViewModel schuljahr;
 
     /// <summary>
     /// The klasse currently assigned to this arbeit
@@ -90,19 +90,14 @@
     private SchülereintragViewModel currentSchülereintrag;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="ArbeitViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="ArbeitViewModel"/> Klasse. 
     /// </summary>
     /// <param name="arbeit">
     /// The underlying arbeit this ViewModel is to be based on
     /// </param>
-    public ArbeitViewModel(ArbeitNeu arbeit)
+    public ArbeitViewModel(Arbeit arbeit)
     {
-      if (arbeit == null)
-      {
-        throw new ArgumentNullException("arbeit");
-      }
-
-      this.Model = arbeit;
+      this.Model = arbeit ?? throw new ArgumentNullException(nameof(arbeit));
 
       this.AddAufgabeCommand = new DelegateCommand(this.AddAufgabe);
       this.EditAufgabeCommand = new DelegateCommand(this.EditAufgabe);
@@ -145,7 +140,7 @@
     /// <summary>
     /// Holt den underlying Arbeit this ViewModel is based on
     /// </summary>
-    public ArbeitNeu Model { get; private set; }
+    public Arbeit Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Aufgaben dieser Arbeit
@@ -201,7 +196,7 @@
       set
       {
         if (value == this.Model.Bezeichnung) return;
-        this.UndoablePropertyChanging(this, "ArbeitBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(ArbeitBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("ArbeitBezeichnung");
       }
@@ -220,7 +215,7 @@
       set
       {
         if (value == this.Model.LfdNr) return;
-        this.UndoablePropertyChanging(this, "ArbeitLfdNr", this.Model.LfdNr, value);
+        this.UndoablePropertyChanging(this, nameof(ArbeitLfdNr), this.Model.LfdNr, value);
         this.Model.LfdNr = value;
         this.RaisePropertyChanged("ArbeitLfdNr");
       }
@@ -239,7 +234,7 @@
       set
       {
         if (value == this.Model.Datum) return;
-        this.UndoablePropertyChanging(this, "ArbeitDatum", this.Model.Datum, value);
+        this.UndoablePropertyChanging(this, nameof(ArbeitDatum), this.Model.Datum, value);
         this.Model.Datum = value;
         this.RaisePropertyChanged("ArbeitDatum");
       }
@@ -260,7 +255,7 @@
       set
       {
         if (value == this.Model.IstKlausur) return;
-        this.UndoablePropertyChanging(this, "ArbeitIstKlausur", this.Model.IstKlausur, value);
+        this.UndoablePropertyChanging(this, nameof(ArbeitIstKlausur), this.Model.IstKlausur, value);
         this.Model.IstKlausur = value;
         this.RaisePropertyChanged("ArbeitIstKlausur");
       }
@@ -290,7 +285,7 @@
       set
       {
         if (value.FachBezeichnung == this.fach.FachBezeichnung) return;
-        this.UndoablePropertyChanging(this, "ArbeitFach", this.fach, value);
+        this.UndoablePropertyChanging(this, nameof(ArbeitFach), this.fach, value);
         this.fach = value;
         this.Model.Fach = value.Model;
         this.RaisePropertyChanged("ArbeitFach");
@@ -322,7 +317,7 @@
       set
       {
         if (value == this.lerngruppe) return;
-        this.UndoablePropertyChanging(this, "ArbeitLerngruppe", this.lerngruppe, value);
+        this.UndoablePropertyChanging(this, nameof(ArbeitLerngruppe), this.lerngruppe, value);
         this.lerngruppe = value;
         this.Model.Lerngruppe = value.Model;
         this.RaisePropertyChanged("ArbeitLerngruppe");
@@ -353,7 +348,7 @@
       set
       {
         if (value.BewertungsschemaBezeichnung == this.bewertungsschema.BewertungsschemaBezeichnung) return;
-        this.UndoablePropertyChanging(this, "ArbeitBewertungsschema", this.bewertungsschema, value);
+        this.UndoablePropertyChanging(this, nameof(ArbeitBewertungsschema), this.bewertungsschema, value);
         this.bewertungsschema = value;
         this.Model.Bewertungsschema = value.Model;
         this.RaisePropertyChanged("ArbeitBewertungsschema");
@@ -401,7 +396,7 @@
       set
       {
         if (value == this.Model.Bepunktungstyp) return;
-        this.UndoablePropertyChanging(this, "ArbeitBepunktungstyp", this.Model.Bepunktungstyp, value);
+        this.UndoablePropertyChanging(this, nameof(ArbeitBepunktungstyp), this.Model.Bepunktungstyp, value);
         this.Model.Bepunktungstyp = value;
         this.RaisePropertyChanged("ArbeitBepunktungstyp");
         this.UpdateNoten();
@@ -671,7 +666,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void AufgabenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Aufgaben", this.Aufgaben, e, true, "Änderung der Aufgaben");
+      UndoableCollectionChanged(this, nameof(Aufgaben), this.Aufgaben, e, true, "Änderung der Aufgaben");
       this.RaisePropertyChanged("ArbeitGesamtpunktzahl");
 
       // Resequence list
@@ -683,8 +678,10 @@
     /// </summary>
     private void AddAufgabe()
     {
-      var aufgabe = new AufgabeNeu();
-      aufgabe.LfdNr = this.Aufgaben.Count + 1;
+      var aufgabe = new Aufgabe
+      {
+        LfdNr = this.Aufgaben.Count + 1
+      };
       aufgabe.Bezeichnung = "Nr. " + aufgabe.LfdNr;
       aufgabe.MaxPunkte = 10;
       aufgabe.Arbeit = this.Model;
@@ -695,9 +692,9 @@
         return;
       }
 
-      using (new UndoBatch(App.MainViewModel, string.Format("Neue Aufgabe {0} erstellt.", aufgabeViewModel), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("e Aufgabe {0} erstellt.", aufgabeViewModel), false))
       {
-        App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+        App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = false;
         //App.UnitOfWork.Context.Aufgaben.Add(aufgabe);
         //App.MainViewModel.Aufgaben.Add(aufgabeViewModel);
         aufgabeViewModel.PropertyChanged += this.AufgabePropertyChanged;
@@ -706,9 +703,11 @@
 
         foreach (var schülereintragViewModel in this.Schülereinträge)
         {
-          var ergebnis = new ErgebnisNeu();
-          ergebnis.Schülereintrag = schülereintragViewModel.Model;
-          ergebnis.Aufgabe = aufgabe;
+          var ergebnis = new Ergebnis
+          {
+            Schülereintrag = schülereintragViewModel.Model,
+            Aufgabe = aufgabe
+          };
 
           //App.UnitOfWork.Context.Ergebnisse.Add(ergebnis);
           var ergebnisViewModel = new ErgebnisViewModel(ergebnis);
@@ -719,7 +718,7 @@
           schülereintragViewModel.UpdateErgebnisse();
         }
 
-        App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
+        App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = true;
 
         //this.UpdateAufgabenColumnsCollection();
       }

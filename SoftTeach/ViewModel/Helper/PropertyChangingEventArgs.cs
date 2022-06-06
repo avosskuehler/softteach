@@ -8,7 +8,7 @@
   public class PropertyChangingEventArgs : EventArgs
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="PropertyChangingEventArgs"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="PropertyChangingEventArgs"/> Klasse. 
     /// </summary>
     /// <param name="propertyName"> The name of the property that changed. </param>
     /// <param name="propertyOldValue"> The property Old Value. </param>

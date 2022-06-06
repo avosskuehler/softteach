@@ -46,15 +46,6 @@
             <Label Content="Schuljahr entfernen"/>
           </StackPanel>
         </Button>
-        <!--<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Width="200" Height="32" Name="AddWeeksButton" Command="{Binding Path=AddWeeksCommand}">
-          <StackPanel Orientation="Horizontal">
-            <Grid>
-              <Image Source="/SoftTeach;component/Images/Schuljahr32.png"/>
-              <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
-            </Grid>
-            <Label Content="Wochen und Tage ergänzen"/>
-          </StackPanel>
-        </Button>-->
       </StackPanel>
     </Border>
     <HeaderedContentControl Grid.Row="2" Header="Tabelle der Schuljahre" Padding="3" Margin="5">

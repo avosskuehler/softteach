@@ -10,25 +10,20 @@
   public class UnterrichtsstundeViewModel : ViewModelBase, IComparable
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="UnterrichtsstundeViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="UnterrichtsstundeViewModel"/> Klasse. 
     /// </summary>
     /// <param name="unterrichtsstunde">
     /// The underlying unterrichtsstunde this ViewModel is to be based on
     /// </param>
-    public UnterrichtsstundeViewModel(UnterrichtsstundeNeu unterrichtsstunde)
+    public UnterrichtsstundeViewModel(Unterrichtsstunde unterrichtsstunde)
     {
-      if (unterrichtsstunde == null)
-      {
-        throw new ArgumentNullException("unterrichtsstunde");
-      }
-
-      this.Model = unterrichtsstunde;
+      this.Model = unterrichtsstunde ?? throw new ArgumentNullException(nameof(unterrichtsstunde));
     }
 
     /// <summary>
     /// Holt den underlying Unterrichtsstunde this ViewModel is based on
     /// </summary>
-    public UnterrichtsstundeNeu Model { get; private set; }
+    public Unterrichtsstunde Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Bezeichnung
@@ -43,7 +38,7 @@
       set
       {
         if (value == this.Model.Bezeichnung) return;
-        this.UndoablePropertyChanging(this, "UnterrichtsstundeBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(UnterrichtsstundeBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("UnterrichtsstundeBezeichnung");
       }
@@ -62,7 +57,7 @@
       set
       {
         if (value == this.Model.Beginn) return;
-        this.UndoablePropertyChanging(this, "UnterrichtsstundeBeginn", this.Model.Beginn, value);
+        this.UndoablePropertyChanging(this, nameof(UnterrichtsstundeBeginn), this.Model.Beginn, value);
         this.Model.Beginn = value;
         this.RaisePropertyChanged("UnterrichtsstundeBeginn");
       }
@@ -81,7 +76,7 @@
       set
       {
         if (value == this.Model.Ende) return;
-        this.UndoablePropertyChanging(this, "UnterrichtsstundeEnde", this.Model.Ende, value);
+        this.UndoablePropertyChanging(this, nameof(UnterrichtsstundeEnde), this.Model.Ende, value);
         this.Model.Ende = value;
         this.RaisePropertyChanged("UnterrichtsstundeEnde");
       }
@@ -100,7 +95,7 @@
       set
       {
         if (value == this.Model.Stundenindex) return;
-        this.UndoablePropertyChanging(this, "UnterrichtsstundeIndex", this.Model.Stundenindex, value);
+        this.UndoablePropertyChanging(this, nameof(UnterrichtsstundeIndex), this.Model.Stundenindex, value);
         this.Model.Stundenindex = value;
         this.RaisePropertyChanged("UnterrichtsstundeIndex");
       }

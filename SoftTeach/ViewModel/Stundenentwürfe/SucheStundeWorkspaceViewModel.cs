@@ -40,18 +40,18 @@
     /// <summary>
     /// The item currently selected
     /// </summary>
-    private StundeNeu currentStunde;
+    private Stunde currentStunde;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="SucheStundeWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="SucheStundeWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public SucheStundeWorkspaceViewModel()
     {
       this.DeleteStundeCommand = new DelegateCommand(this.DeleteSelectedStunde, () => this.CurrentStunde != null);
       this.RemoveFilterCommand = new DelegateCommand(this.RemoveFilter);
 
-      this.StundenFürFachUndJahrgang = new List<StundeNeu>();
-      this.SelectedStunden = new List<StundeNeu>();
+      this.StundenFürFachUndJahrgang = new List<Stunde>();
+      this.SelectedStunden = new List<Stunde>();
 
       this.PopulateStunden();
 
@@ -81,7 +81,7 @@
         return;
       }
 
-      var stundenNachFilter = App.UnitOfWork.Context.Termine.OfType<StundeNeu>().Where(o => o.FachId == this.fachFilter.Model.Id && o.Jahrgang == this.jahrgangFilter);
+      var stundenNachFilter = App.UnitOfWork.Context.Termine.OfType<Stunde>().Where(o => o.FachId == this.fachFilter.Model.Id && o.Jahrgang == this.jahrgangFilter);
 
       foreach (var stunde in stundenNachFilter)
       {
@@ -94,7 +94,7 @@
     /// <summary>
     /// Holt oder setzt die gefilterten und sortierten Stundenentwürfe
     /// </summary>
-    public List<StundeNeu> StundenFürFachUndJahrgang { get; set; }
+    public List<Stunde> StundenFürFachUndJahrgang { get; set; }
 
     /// <summary>
     /// Holt oder setzt die gefilterten Module
@@ -175,7 +175,7 @@
     /// <summary>
     /// Holt oder setzt den ausgewählten Stunde
     /// </summary>
-    public StundeNeu CurrentStunde
+    public Stunde CurrentStunde
     {
       get
       {
@@ -252,7 +252,7 @@
     /// <returns>True if the given object should remain in the list.</returns>
     private bool FilterStunden(object de)
     {
-      var stundeViewModel = de as StundeNeu;
+      var stundeViewModel = de as Stunde;
       if (stundeViewModel == null)
       {
         return false;

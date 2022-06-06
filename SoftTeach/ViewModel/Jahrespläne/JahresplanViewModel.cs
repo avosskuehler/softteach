@@ -39,13 +39,13 @@
 
     private LerngruppeViewModel lerngruppe;
 
-    /// <summary>
-    /// Diese Event wird aufgerufen, wenn ein Tag geändert wurde.
-    /// </summary>
-    public event EventHandler<TagGeändertEventArgs> TagGeändert;
+    ///// <summary>
+    ///// Diese Event wird aufgerufen, wenn ein Tag geändert wurde.
+    ///// </summary>
+    //public event EventHandler<TagGeändertEventArgs> TagGeändert;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="JahresplanViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="JahresplanViewModel"/> Klasse. 
     /// </summary>
     public JahresplanViewModel(LerngruppeViewModel lerngruppe)
     {
@@ -87,12 +87,12 @@
     }
 
     /// <summary>
-    /// Holt den Befehl aus Notizen einen neuen Termin zu machen
+    /// Holt den Befehl aus Notizen einen en Termin zu machen
     /// </summary>
     public DelegateCommand AddStundeCommand { get; private set; }
 
     /// <summary>
-    /// Holt den Befehl aus Notizen einen neuen Termin zu machen
+    /// Holt den Befehl aus Notizen einen en Termin zu machen
     /// </summary>
     public DelegateCommand AddLerngruppenterminCommand { get; private set; }
 
@@ -296,9 +296,9 @@
     public string MonatsBezeichnung => this.AktuellesDatum.ToString("MMMM yyyy");
 
     ///// <summary>
-    ///// Erstellt den Kalender neu und lädt dabei die Lerngruppentermine
+    ///// Erstellt den Kalender  und lädt dabei die Lerngruppentermine
     ///// </summary>
-    //public void KalenderNeuLaden()
+    //public void KalenderLaden()
     //{
     //  if (!this.TageHJ1.Any())
     //  {
@@ -378,48 +378,48 @@
     }
 
     /// <summary>
-    /// Erstellt den Kalender neu für einen Monat früher
+    /// Erstellt den Kalender  für einen Monat früher
     /// </summary>
     internal void MonatZurück()
     {
-      var neuerMonat = this.AktuellesDatum.Month - 1;
-      var neuesJahr = this.AktuellesDatum.Year;
-      if (neuerMonat < 1)
+      var erMonat = this.AktuellesDatum.Month - 1;
+      var esJahr = this.AktuellesDatum.Year;
+      if (erMonat < 1)
       {
-        neuerMonat = 12;
-        neuesJahr -= 1;
+        erMonat = 12;
+        esJahr -= 1;
       }
       if (this.AktuellesDatum.Day > 28)
       {
-        this.AktuellesDatum = new DateTime(neuesJahr, neuerMonat, 28);
+        this.AktuellesDatum = new DateTime(esJahr, erMonat, 28);
       }
       else
       {
-        this.AktuellesDatum = new DateTime(neuesJahr, neuerMonat, this.AktuellesDatum.Day);
+        this.AktuellesDatum = new DateTime(esJahr, erMonat, this.AktuellesDatum.Day);
       }
 
       this.KalenderErstellen();
     }
 
     /// <summary>
-    /// Erstellt den Kalender neu für einen Monat später
+    /// Erstellt den Kalender  für einen Monat später
     /// </summary>
     internal void MonatVor()
     {
-      var neuerMonat = this.AktuellesDatum.Month + 1;
-      var neuesJahr = this.AktuellesDatum.Year;
-      if (neuerMonat > 12)
+      var erMonat = this.AktuellesDatum.Month + 1;
+      var esJahr = this.AktuellesDatum.Year;
+      if (erMonat > 12)
       {
-        neuerMonat = 1;
-        neuesJahr = neuesJahr + 1;
+        erMonat = 1;
+        esJahr = esJahr + 1;
       }
       if (this.AktuellesDatum.Day > 28)
       {
-        this.AktuellesDatum = new DateTime(neuesJahr, neuerMonat, 28);
+        this.AktuellesDatum = new DateTime(esJahr, erMonat, 28);
       }
       else
       {
-        this.AktuellesDatum = new DateTime(neuesJahr, neuerMonat, this.AktuellesDatum.Day);
+        this.AktuellesDatum = new DateTime(esJahr, erMonat, this.AktuellesDatum.Day);
       }
       this.KalenderErstellen();
     }
@@ -447,7 +447,7 @@
 
       using (new UndoBatch(App.MainViewModel, string.Format("Stunden im Jahresplan {0} angelegt.", this.Bezeichnung), false))
       {
-        App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+        App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = false;
         for (int i = 0; i < stundenpläne.Count; i++)
         {
           var stundenplanViewModel = stundenpläne[i];
@@ -496,21 +496,23 @@
                   // Now we found the day on which a stunde is found in the stundenplan
                   // and no other stunden already placed
                   // So create a stunde
-                  var stunde = new StundeNeu();
-                  stunde.ErsteUnterrichtsstunde =
+                  var stunde = new Stunde
+                  {
+                    ErsteUnterrichtsstunde =
                     App.MainViewModel.Unterrichtsstunden[
-                      stundenplaneintragViewModel.StundenplaneintragErsteUnterrichtsstundeIndex - 1].Model;
-                  stunde.LetzteUnterrichtsstunde =
+                      stundenplaneintragViewModel.StundenplaneintragErsteUnterrichtsstundeIndex - 1].Model,
+                    LetzteUnterrichtsstunde =
                     App.MainViewModel.Unterrichtsstunden[
-                      stundenplaneintragViewModel.StundenplaneintragLetzteUnterrichtsstundeIndex - 1].Model;
-                  stunde.Datum = tagesplanViewModel.Datum;
-                  stunde.Termintyp = Model.TeachyModel.Termintyp.Unterricht;
-                  stunde.Lerngruppe = this.Lerngruppe.Model;
-                  stunde.Hausaufgaben = string.Empty;
-                  stunde.Ansagen = string.Empty;
-                  stunde.Jahrgang = this.Jahrgang;
-                  stunde.Fach = this.Fach.Model;
-                  stunde.Halbjahr = this.Halbjahr;
+                      stundenplaneintragViewModel.StundenplaneintragLetzteUnterrichtsstundeIndex - 1].Model,
+                    Datum = tagesplanViewModel.Datum,
+                    Termintyp = Model.TeachyModel.Termintyp.Unterricht,
+                    Lerngruppe = this.Lerngruppe.Model,
+                    Hausaufgaben = string.Empty,
+                    Ansagen = string.Empty,
+                    Jahrgang = this.Jahrgang,
+                    Fach = this.Fach.Model,
+                    Halbjahr = this.Halbjahr
+                  };
                   if (stundenplaneintragViewModel.StundenplaneintragRaum != null)
                   {
                     stunde.Ort = stundenplaneintragViewModel.StundenplaneintragRaum.RaumBezeichnung;
@@ -527,7 +529,7 @@
           }
         }
 
-        App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
+        App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = true;
       }
     }
 
@@ -538,7 +540,7 @@
     {
       using (new UndoBatch(App.MainViewModel, string.Format("Stunden im Jahresplan {0} gelöscht.", this.Bezeichnung), false))
       {
-        App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+        App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = false;
 
         ObservableCollection<TagViewModel> tagedesHalbjahres = this.HalbjahrIndex == 0 ? this.TageHJ1 : this.TageHJ2;
 
@@ -558,7 +560,7 @@
           tagesplanViewModel.UpdateView();
         }
 
-        App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
+        App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = true;
       }
     }
 
@@ -567,8 +569,10 @@
     /// </summary>
     private void GetStundenFromOtherJahresplan()
     {
-      var dlg = new AskForLerngruppeToAdaptDialog(this.Fach, this.Jahrgang);
-      dlg.Title = "Aus welcher Lerngruppe sollen die Stunden übertragen werden?";
+      var dlg = new AskForLerngruppeToAdaptDialog(this.Fach, this.Jahrgang)
+      {
+        Title = "Aus welcher Lerngruppe sollen die Stunden übertragen werden?"
+      };
       if (dlg.ShowDialog().GetValueOrDefault(false))
       {
         using (new UndoBatch(App.MainViewModel, string.Format("Stunden in Jahresplan {0} importiert.", this.Bezeichnung), false))

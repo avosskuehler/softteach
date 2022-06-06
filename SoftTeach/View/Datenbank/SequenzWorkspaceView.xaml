@@ -7,7 +7,6 @@
         xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
         xmlns:controls="clr-namespace:SoftTeach.Resources.Controls" mc:Ignorable="d" 
         Title="Datenbank - Sequenzen"
-        Icon="/SoftTeach;component/Images/Database.ico"
              d:DesignHeight="400" d:DesignWidth="800" WindowStyle="SingleBorderWindow">
   <Window.Resources>
   </Window.Resources>
@@ -17,10 +16,15 @@
       <RowDefinition/>
       <RowDefinition Height="32"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader  Icon="/SoftTeach;component/Images/Sequenz32.png" 
-                              Grid.Row="0" 
-                              Title="Das ist der Inhalt der Sequenzen-Tabelle. Diese Darstellung dient nur zur Kontrolle. 
-Sequenzen ändern Sie im Curricula Modul."/>
+    <controls:SmallDialogHeader 
+      Grid.Row="0" 
+      Title="Das ist der Inhalt der Sequenzen-Tabelle. Diese Darstellung dient nur zur Kontrolle. Sequenzen ändern Sie im Curricula Modul.">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Sequenz32}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
     <GroupBox Grid.Row="1" Header="Tabelle der Sequenzen" Padding="3" Margin="5">
       <DataGrid ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Sequenzen}" AutoGenerateColumns="False"
                 IsReadOnly="True">

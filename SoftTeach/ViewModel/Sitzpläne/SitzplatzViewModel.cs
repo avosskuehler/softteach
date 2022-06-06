@@ -20,19 +20,14 @@
     private SitzplatzShape shape;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="SitzplatzViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="SitzplatzViewModel"/> Klasse. 
     /// </summary>
     /// <param name="sitzplatz">
     /// The underlying sitzplatz this ViewModel is to be based on
     /// </param>
-    public SitzplatzViewModel(SitzplatzNeu sitzplatz)
+    public SitzplatzViewModel(Sitzplatz sitzplatz)
     {
-      if (sitzplatz == null)
-      {
-        throw new ArgumentNullException("sitzplatz");
-      }
-
-      this.Model = sitzplatz;
+      this.Model = sitzplatz ?? throw new ArgumentNullException(nameof(sitzplatz));
 
       this.CreateShape();
     }
@@ -40,7 +35,7 @@
     /// <summary>
     /// Holt den underlying Sitzplatz this ViewModel is based on
     /// </summary>
-    public SitzplatzNeu Model { get; private set; }
+    public Sitzplatz Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die x Position des linken oberern Sitzplatzrechtecks.
@@ -55,7 +50,7 @@
       set
       {
         if (value == this.Model.LinksObenX) return;
-        this.UndoablePropertyChanging(this, "SitzplatzLinksObenX", this.Model.LinksObenX, value);
+        this.UndoablePropertyChanging(this, nameof(SitzplatzLinksObenX), this.Model.LinksObenX, value);
         this.Model.LinksObenX = value;
         Canvas.SetLeft(this.shape, this.SitzplatzLinksObenX);
         this.RaisePropertyChanged("SitzplatzLinksObenX");
@@ -75,7 +70,7 @@
       set
       {
         if (value == this.Model.LinksObenY) return;
-        this.UndoablePropertyChanging(this, "SitzplatzLinksObenY", this.Model.LinksObenY, value);
+        this.UndoablePropertyChanging(this, nameof(SitzplatzLinksObenY), this.Model.LinksObenY, value);
         this.Model.LinksObenY = value;
         Canvas.SetLeft(this.shape, this.SitzplatzLinksObenY);
         this.RaisePropertyChanged("SitzplatzLinksObenY");
@@ -95,7 +90,7 @@
       set
       {
         if (value == this.Model.Breite) return;
-        this.UndoablePropertyChanging(this, "SitzplatzBreite", this.Model.Breite, value);
+        this.UndoablePropertyChanging(this, nameof(SitzplatzBreite), this.Model.Breite, value);
         this.Model.Breite = value;
         this.shape.Width = this.SitzplatzBreite;
         this.RaisePropertyChanged("SitzplatzBreite");
@@ -115,7 +110,7 @@
       set
       {
         if (value == this.Model.Höhe) return;
-        this.UndoablePropertyChanging(this, "SitzplatzHöhe", this.Model.Höhe, value);
+        this.UndoablePropertyChanging(this, nameof(SitzplatzHöhe), this.Model.Höhe, value);
         this.Model.Höhe = value;
         this.shape.Height = this.SitzplatzHöhe;
         this.RaisePropertyChanged("SitzplatzHöhe");
@@ -135,7 +130,7 @@
       set
       {
         if (value == this.Model.Drehwinkel) return;
-        this.UndoablePropertyChanging(this, "SitzplatzDrehwinkel", this.Model.Drehwinkel, value);
+        this.UndoablePropertyChanging(this, nameof(SitzplatzDrehwinkel), this.Model.Drehwinkel, value);
         this.Model.Drehwinkel = value;
         this.shape.RenderTransform = new RotateTransform(this.SitzplatzDrehwinkel);
         this.RaisePropertyChanged("SitzplatzDrehwinkel");
@@ -155,7 +150,7 @@
       set
       {
         if (value == this.Model.Reihenfolge) return;
-        this.UndoablePropertyChanging(this, "Reihenfolge", this.Model.Reihenfolge, value);
+        this.UndoablePropertyChanging(this, nameof(Reihenfolge), this.Model.Reihenfolge, value);
         this.Model.Reihenfolge = value;
         this.shape.Reihenfolge = value;
         this.RaisePropertyChanged("Reihenfolge");
@@ -237,12 +232,14 @@
     {
       if (this.shape == null)
       {
-        this.shape = new SitzplatzShape();
-        this.shape.Width = this.SitzplatzBreite;
-        this.shape.Height = this.SitzplatzHöhe;
-        this.shape.RenderTransform = new RotateTransform(this.SitzplatzDrehwinkel);
-        this.shape.Sitzplatz = this;
-        this.shape.Reihenfolge = this.Model.Reihenfolge;
+        this.shape = new SitzplatzShape
+        {
+          Width = this.SitzplatzBreite,
+          Height = this.SitzplatzHöhe,
+          RenderTransform = new RotateTransform(this.SitzplatzDrehwinkel),
+          Sitzplatz = this,
+          Reihenfolge = this.Model.Reihenfolge
+        };
         Canvas.SetTop(this.shape, this.SitzplatzLinksObenY);
         Canvas.SetLeft(this.shape, this.SitzplatzLinksObenX);
       }

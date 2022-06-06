@@ -7,8 +7,7 @@
       Height="344" 
         Width="360" 
         ResizeMode="NoResize" 
-        WindowStyle="SingleBorderWindow"
-        Icon="/SoftTeach;component/Images/Curriculum32.png">
+        WindowStyle="SingleBorderWindow">
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>

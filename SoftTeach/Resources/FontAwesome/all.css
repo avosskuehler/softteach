@@ -8182,7 +8182,7 @@ readers do not read off random characters that represent icons */
 .fa-network-wired::before {
   content: "\f6ff"; }
 
-.fa-neuter::before {
+.fa-ter::before {
   content: "\f22c"; }
 
 .fa-newspaper::before {
@@ -21992,7 +21992,7 @@ readers do not read off random characters that represent icons */
 .fad.fa-network-wired::after, .fa-duotone.fa-network-wired::after {
   content: "\f6ff\f6ff"; }
 
-.fad.fa-neuter::after, .fa-duotone.fa-neuter::after {
+.fad.fa-ter::after, .fa-duotone.fa-ter::after {
   content: "\f22c\f22c"; }
 
 .fad.fa-newspaper::after, .fa-duotone.fa-newspaper::after {

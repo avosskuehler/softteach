@@ -9,7 +9,6 @@
         xmlns:noten="clr-namespace:SoftTeach.ViewModel.Noten" xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
         mc:Ignorable="d" 
         Title="Datenbank - Bewertungsschemata und Prozentbereiche"
-        Icon="/SoftTeach;component/Images/Database.ico"
              d:DesignHeight="400" d:DesignWidth="400" WindowStyle="SingleBorderWindow">
   <Grid Background="{StaticResource MainBackgroundBrush}">
     <Grid.RowDefinitions>
@@ -35,7 +34,7 @@
         <StackPanel Grid.Row="0" Orientation="Vertical" Margin="5">
           <Label Content="Bewertungsschema"/>
           <StackPanel Orientation="Horizontal">
-            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Name="AddBewertungsschemaButton" Command="{Binding Path=AddBewertungsschemaCommand}" HorizontalContentAlignment="Left" ToolTip="Neues Bewertungsschema anlegen">
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Name="AddBewertungsschemaButton" Command="{Binding Path=AddBewertungsschemaCommand}" HorizontalContentAlignment="Left" ToolTip="es Bewertungsschema anlegen">
               <StackPanel Orientation="Horizontal" Height="16">
                 <Grid>
                   <fa:IconBlock Style="{StaticResource Bewertungsschema16}" Foreground="{DynamicResource Iconfarbe}"/>

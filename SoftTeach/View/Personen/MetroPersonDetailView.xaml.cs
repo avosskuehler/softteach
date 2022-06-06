@@ -12,7 +12,7 @@ namespace SoftTeach.View.Personen
   public partial class MetroPersonDetailView
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="MetroPersonDetailView"/> Klasse.
+    /// Initialisiert eine e Instanz der <see cref="MetroPersonDetailView"/> Klasse.
     /// </summary>
     public MetroPersonDetailView()
     {

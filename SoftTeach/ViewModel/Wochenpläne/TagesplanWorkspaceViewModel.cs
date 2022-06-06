@@ -17,7 +17,7 @@
     private DateTime tagesplanDatum;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="TagesplanWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="TagesplanWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public TagesplanWorkspaceViewModel()
     {
@@ -329,14 +329,16 @@
         var tag = this.tagesplanDatum;
         if (tag >= ferien.FerienErsterFerientag && tag <= ferien.FerienLetzterFerientag)
         {
-          var termin = new SchulterminNeu();
-          termin.Beschreibung = ferien.FerienBezeichnung;
-          termin.ErsteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[0].Model;
-          termin.LetzteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[8].Model;
-          termin.IstGeprüft = true;
-          termin.Termintyp = Termintyp.Ferien;
-          termin.Datum = tag;
-          termin.Schuljahr = App.MainViewModel.Schuljahre.First(o => o.SchuljahrJahr == jahresplanJahr).Model;
+          var termin = new Schultermin
+          {
+            Beschreibung = ferien.FerienBezeichnung,
+            ErsteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[0].Model,
+            LetzteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[8].Model,
+            IstGeprüft = true,
+            Termintyp = Termintyp.Ferien,
+            Datum = tag,
+            Schuljahr = App.MainViewModel.Schuljahre.First(o => o.SchuljahrJahr == jahresplanJahr).Model
+          };
 
           var ferienTerminViewModel = new SchulterminViewModel(termin);
           var ferientagEintrag = new TerminplanEintrag(this, ferienTerminViewModel);
@@ -356,11 +358,13 @@
 
       foreach (var person in personenMitGeburtstag)
       {
-        var termin = new SchulterminNeu();
-        termin.ErsteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[0].Model;
-        termin.LetzteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[8].Model;
-        termin.IstGeprüft = true;
-        termin.Termintyp = Termintyp.Geburtstag;
+        var termin = new Schultermin
+        {
+          ErsteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[0].Model,
+          LetzteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[8].Model,
+          IstGeprüft = true,
+          Termintyp = Termintyp.Geburtstag
+        };
         var geburstagInDerWoche = new DateTime(
           this.TagesplanDatum.Year,
           person.PersonGeburtstag.Value.Month,

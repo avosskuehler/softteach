@@ -34,16 +34,16 @@
           <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Command="{Binding Path=AddStundenplanCommand}" ToolTip="Neuen Stundenplan erstellen">
+          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Command="{Binding Path=AddStundenplanCommand}" ToolTip="en Stundenplan erstellen">
             <StackPanel Orientation="Horizontal">
               <Grid>
                 <fa:IconBlock Style="{StaticResource Stundenplan32}" Foreground="{DynamicResource Iconfarbe}"/>
                 <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
               </Grid>
-              <!--<Label Padding="5,0,0,0" VerticalContentAlignment="Center">Neuen Stundenplan erstellen</Label>-->
+              <!--<Label Padding="5,0,0,0" VerticalContentAlignment="Center">en Stundenplan erstellen</Label>-->
             </StackPanel>
           </Button>
-          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=EditStundenplanCommand}" ToolTip="Wenn im Halbjahr neue Stundenpläne gültig werden, bitte hier die Stundenplanänderungen eingeben.">
+          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=EditStundenplanCommand}" ToolTip="Wenn im Halbjahr e Stundenpläne gültig werden, bitte hier die Stundenplanänderungen eingeben.">
             <StackPanel Orientation="Horizontal">
               <Grid>
                 <fa:IconBlock Style="{StaticResource Stundenplan32}" Foreground="{DynamicResource Iconfarbe}"/>
@@ -75,19 +75,6 @@
             <DataGridTextColumn Header="Halbjahr" Binding="{Binding Path=StundenplanHalbjahr}" SortMemberPath="StundenplanHalbjahr" Width="Auto"/>
             <DataGridTextColumn Header="Schuljahr" Binding="{Binding Path=StundenplanSchuljahr.SchuljahrBezeichnung}" Width="Auto"/>
             <DataGridTextColumn Header="Gültig ab" Binding="{Binding Path=StundenplanGültigAb, StringFormat={}{0:dd.MM.yy},ConverterCulture={x:Static Globalization:CultureInfo.CurrentCulture}}" Width="*"/>
-            <!--<DataGridTextColumn Header="Beschreibung" Binding="{Binding Path=StundenplanBezeichnung}" Width="*"/>-->
-            <!--<DataGridTemplateColumn CanUserReorder="False" IsReadOnly="False">
-                <DataGridTemplateColumn.CellTemplate>
-                  <DataTemplate>
-                    <Button Command="{Binding Path=DeleteStundenplanCommand}">
-                      <Grid>
-                        <Image Source="/SoftTeach;component/Images/Stundenplan16.png" />
-                        <Image Source="/SoftTeach;component/Images/RemoveOverlay16.png"/>
-                      </Grid>
-                    </Button>
-                  </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-              </DataGridTemplateColumn>-->
           </DataGrid.Columns>
         </DataGrid>
       </Grid>

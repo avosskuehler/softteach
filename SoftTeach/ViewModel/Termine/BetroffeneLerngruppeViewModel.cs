@@ -18,25 +18,20 @@
     private LerngruppeViewModel lerngruppe;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="BetroffeneLerngruppeViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="BetroffeneLerngruppeViewModel"/> Klasse. 
     /// </summary>
     /// <param name="betroffeneLerngruppe">
     /// The underlying betroffeneLerngruppe this ViewModel is to be based on
     /// </param>
-    public BetroffeneLerngruppeViewModel(BetroffeneLerngruppeNeu betroffeneLerngruppe)
+    public BetroffeneLerngruppeViewModel(BetroffeneLerngruppe betroffeneLerngruppe)
     {
-      if (betroffeneLerngruppe == null)
-      {
-        throw new ArgumentNullException("betroffeneLerngruppe");
-      }
-
-      this.Model = betroffeneLerngruppe;
+      this.Model = betroffeneLerngruppe ?? throw new ArgumentNullException(nameof(betroffeneLerngruppe));
      }
 
     /// <summary>
     /// Holt den underlying BetroffeneKlasse this ViewModel is based on
     /// </summary>
-    public BetroffeneLerngruppeNeu Model { get; private set; }
+    public BetroffeneLerngruppe Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die halbjahr currently assigned to this Termin
@@ -62,7 +57,7 @@
       set
       {
         if (value.LerngruppeBezeichnung == this.lerngruppe.LerngruppeBezeichnung) return;
-        this.UndoablePropertyChanging(this, "BetroffeneLerngruppeLerngruppe", this.lerngruppe, value);
+        this.UndoablePropertyChanging(this, nameof(BetroffeneLerngruppeLerngruppe), this.lerngruppe, value);
         this.lerngruppe = value;
         this.Model.Lerngruppe = value.Model;
         this.RaisePropertyChanged("BetroffeneLerngruppeLerngruppe");

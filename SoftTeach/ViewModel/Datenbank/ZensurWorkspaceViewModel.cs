@@ -16,7 +16,7 @@
     private ZensurViewModel currentZensur;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="ZensurWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="ZensurWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public ZensurWorkspaceViewModel()
     {
@@ -68,7 +68,7 @@
     /// </summary>
     private void AddZensur()
     {
-      var zensur = new ZensurNeu();
+      var zensur = new Zensur();
  
       // Check for existing zensur
       if (App.MainViewModel.Zensuren.Any(vorhandenerZensur => vorhandenerZensur.ZensurNotenpunkte == zensur.Notenpunkte))

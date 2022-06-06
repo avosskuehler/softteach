@@ -15,7 +15,7 @@
     private BewertungsschemaViewModel currentBewertungsschema;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="BewertungsschemaWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="BewertungsschemaWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public BewertungsschemaWorkspaceViewModel()
     {
@@ -25,7 +25,7 @@
     }
 
     /// <summary>
-    /// Holt den Befehl, um eine neue Bewertungsschema anzulegen.
+    /// Holt den Befehl, um eine e Bewertungsschema anzulegen.
     /// </summary>
     public DelegateCommand AddBewertungsschemaCommand { get; private set; }
 
@@ -57,8 +57,10 @@
     /// </summary>
     private void AddBewertungsschema()
     {
-      var bewertungsschema = new BewertungsschemaNeu();
-      bewertungsschema.Bezeichnung = "Neues Bewertungsschema";
+      var bewertungsschema = new Bewertungsschema
+      {
+        Bezeichnung = "es Bewertungsschema"
+      };
       var vm = new BewertungsschemaViewModel(bewertungsschema);
       App.MainViewModel.Bewertungsschemata.Add(vm);
       this.CurrentBewertungsschema = vm;

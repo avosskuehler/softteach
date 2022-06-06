@@ -23,7 +23,7 @@
     </controls:SmallDialogHeader>
     <StackPanel Grid.Row="1" Margin="10">
       <TextBlock TextWrapping="Wrap">Sollen die Stunden der Lerngruppen an den geänderten Stundenplan angepasst werden? 
-            <LineBreak/>Die bestehenden Stunden werden dabei an neue Zeiten und Tage angepasst.</TextBlock>
+            <LineBreak/>Die bestehenden Stunden werden dabei an e Zeiten und Tage angepasst.</TextBlock>
     </StackPanel>
     <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
       <Button Width="100" HorizontalAlignment="Right" IsDefault="True" Click="OkClick" TabIndex="2">Ja</Button>

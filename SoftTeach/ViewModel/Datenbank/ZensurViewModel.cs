@@ -10,25 +10,20 @@
   public class ZensurViewModel : ViewModelBase, IComparable
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="ZensurViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="ZensurViewModel"/> Klasse. 
     /// </summary>
     /// <param name="zensur">
     /// The underlying zensur this ViewModel is to be based on
     /// </param>
-    public ZensurViewModel(ZensurNeu zensur)
+    public ZensurViewModel(Zensur zensur)
     {
-      if (zensur == null)
-      {
-        throw new ArgumentNullException("zensur");
-      }
-
-      this.Model = zensur;
+      this.Model = zensur ?? throw new ArgumentNullException(nameof(zensur));
     }
 
     /// <summary>
     /// Holt den underlying Zensur this ViewModel is based on
     /// </summary>
-    public ZensurNeu Model { get; private set; }
+    public Zensur Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Notenpunkte
@@ -43,7 +38,7 @@
       set
       {
         if (value == this.Model.Notenpunkte) return;
-        this.UndoablePropertyChanging(this, "ZensurNotenpunkte", this.Model.Notenpunkte, value);
+        this.UndoablePropertyChanging(this, nameof(ZensurNotenpunkte), this.Model.Notenpunkte, value);
         this.Model.Notenpunkte = value;
         this.RaisePropertyChanged("ZensurNotenpunkte");
       }
@@ -62,7 +57,7 @@
       set
       {
         if (value == this.Model.GanzeNote) return;
-        this.UndoablePropertyChanging(this, "ZensurGanzeNote", this.Model.GanzeNote, value);
+        this.UndoablePropertyChanging(this, nameof(ZensurGanzeNote), this.Model.GanzeNote, value);
         this.Model.GanzeNote = value;
         this.RaisePropertyChanged("ZensurGanzeNote");
       }
@@ -81,7 +76,7 @@
       set
       {
         if (value == this.Model.NoteMitTendenz) return;
-        this.UndoablePropertyChanging(this, "ZensurNoteMitTendenz", this.Model.NoteMitTendenz, value);
+        this.UndoablePropertyChanging(this, nameof(ZensurNoteMitTendenz), this.Model.NoteMitTendenz, value);
         this.Model.NoteMitTendenz = value;
         this.RaisePropertyChanged("ZensurNoteMitTendenz");
       }

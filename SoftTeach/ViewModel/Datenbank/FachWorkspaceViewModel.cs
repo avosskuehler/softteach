@@ -16,7 +16,7 @@
     private FachViewModel currentFach;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="FachWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="FachWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public FachWorkspaceViewModel()
     {
@@ -68,7 +68,7 @@
     /// </summary>
     private void AddFach()
     {
-      var fach = new FachNeu();
+      var fach = new Fach();
 
       if (App.MainViewModel.Fächer.Any(vorhandenesFach => vorhandenesFach.FachBezeichnung == fach.Bezeichnung))
       {

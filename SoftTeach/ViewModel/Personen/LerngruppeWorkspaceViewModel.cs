@@ -33,7 +33,7 @@
     private SchuljahrViewModel schuljahrFilter;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="LerngruppeWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="LerngruppeWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public LerngruppeWorkspaceViewModel()
     {
@@ -228,15 +228,17 @@
         return;
       }
 
-      var neueLerngruppe = new LerngruppeNeu();
-      neueLerngruppe.Jahrgang = dlg.Jahrgang;
-      neueLerngruppe.Bezeichnung = dlg.Bezeichnung;
-      neueLerngruppe.Schuljahr = dlg.Schuljahr.Model;
-      neueLerngruppe.Fach = dlg.Fach.Model;
-      neueLerngruppe.NotenWichtung = dlg.NotenWichtung.Model;
-      neueLerngruppe.Bepunktungstyp = dlg.Bepunktungstyp;
-      var vm = new LerngruppeViewModel(neueLerngruppe);
-      using (new UndoBatch(App.MainViewModel, string.Format("Neue Lerngruppe {0} angelegt.", vm), false))
+      var eLerngruppe = new Lerngruppe
+      {
+        Jahrgang = dlg.Jahrgang,
+        Bezeichnung = dlg.Bezeichnung,
+        Schuljahr = dlg.Schuljahr.Model,
+        Fach = dlg.Fach.Model,
+        NotenWichtung = dlg.NotenWichtung.Model,
+        Bepunktungstyp = dlg.Bepunktungstyp
+      };
+      var vm = new LerngruppeViewModel(eLerngruppe);
+      using (new UndoBatch(App.MainViewModel, string.Format("e Lerngruppe {0} angelegt.", vm), false))
       {
         App.MainViewModel.Lerngruppen.Add(vm);
         this.CurrentLerngruppe = vm;
@@ -257,7 +259,7 @@
       {
         InformationDialog.Show(
           "Schuljahr fehlt",
-          "Bitte legen Sie zuerst das neue Schuljahr an, bevor Sie die Lerngruppen erzeugen",
+          "Bitte legen Sie zuerst das e Schuljahr an, bevor Sie die Lerngruppen erzeugen",
           false);
         return;
       }

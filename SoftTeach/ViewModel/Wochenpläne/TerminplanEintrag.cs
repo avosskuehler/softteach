@@ -45,19 +45,14 @@
     private TerminViewModel terminViewModel;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="TerminplanEintrag"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="TerminplanEintrag"/> Klasse. 
     /// </summary>
     /// <param name="parent"> The underlying terminplanworkspace this ViewModel is to be based on </param>
     /// <param name="terminViewModel"> The termin View Model. </param>
     public TerminplanEintrag(TerminplanWorkspaceViewModel parent, TerminViewModel terminViewModel)
     {
-      if (parent == null)
-      {
-        throw new ArgumentNullException("parent");
-      }
-
       this.TerminViewModel = terminViewModel;
-      this.Parent = parent;
+      this.Parent = parent ?? throw new ArgumentNullException(nameof(parent));
       this.ViewTerminplaneintragCommand = new DelegateCommand(this.ViewTerminplaneintrag, () => this.TerminViewModel != null);
       this.EditTerminplaneintragCommand = new DelegateCommand(this.EditTerminplaneintrag, () => this.TerminViewModel != null);
       this.RemoveTerminplaneintragCommand = new DelegateCommand(this.RemoveTerminplaneintrag, () => this.TerminViewModel != null);
@@ -174,7 +169,7 @@
       {
         if (!this.IsDummy)
         {
-          throw new ArgumentOutOfRangeException("value", "Der Wochentagindex kann nicht zugewiesen werden.");
+          throw new ArgumentOutOfRangeException(nameof(value), "Der Wochentagindex kann nicht zugewiesen werden.");
         }
 
         this.wochentagIndex = value;
@@ -201,7 +196,7 @@
       {
         if (!this.IsDummy)
         {
-          throw new ArgumentOutOfRangeException("value", "Der StundenplaneintragErsteUnterrichtsstundeIndex kann nicht zugewiesen werden.");
+          throw new ArgumentOutOfRangeException(nameof(value), "Der StundenplaneintragErsteUnterrichtsstundeIndex kann nicht zugewiesen werden.");
         }
 
         this.ersteUnterrichtsstundeIndex = value;
@@ -228,7 +223,7 @@
       {
         if (!this.IsDummy)
         {
-          throw new ArgumentOutOfRangeException("value", "Der StundenplaneintragLetzteUnterrichtsstundeIndex kann nicht zugewiesen werden.");
+          throw new ArgumentOutOfRangeException(nameof(value), "Der StundenplaneintragLetzteUnterrichtsstundeIndex kann nicht zugewiesen werden.");
         }
 
         this.letzteUnterrichtsstundeIndex = value;
@@ -249,7 +244,7 @@
       }
     }
 
-    public int RowIndex
+    public static int RowIndex
     {
       get
       {
@@ -267,7 +262,7 @@
       }
     }
 
-    public int ColumnSpan
+    public static int ColumnSpan
     {
       get
       {
@@ -421,6 +416,12 @@
             case Termintyp.PSE:
               color = Colors.Fuchsia;
               break;
+            case Termintyp.Feiertag:
+              color = Colors.Green;
+              break;
+            case Termintyp.Sportveranstaltung:
+              color = Colors.Orange;
+              break;
             default:
               color = Colors.Transparent;
               break;
@@ -484,30 +485,6 @@
         return App.Current.FindResource(this.TerminplaneintragIstGeprüft ? "Ok48" : "Ok48Check") as Style;
       }
     }
-
-    ///// <summary>
-    ///// Holt die imagesource for the proof icon
-    ///// </summary>
-    //[DependsUpon("WochenplaneintragIstGeprüft")]
-    //public ImageSource ProofImage
-    //{
-    //  get
-    //  {
-    //    return App.GetImageSource(this.TerminplaneintragIstGeprüft ? "ProofValid16.png" : "ProofOpen16.png");
-    //  }
-    //}
-
-    ///// <summary>
-    ///// Holt die imagesource for the proof icon
-    ///// </summary>
-    //[DependsUpon("WochenplaneintragIstGeprüft")]
-    //public ImageSource ProofImage48
-    //{
-    //  get
-    //  {
-    //    return App.GetImageSource(this.TerminplaneintragIstGeprüft ? "ProofValid48.png" : "ProofOpen48.png");
-    //  }
-    //}
 
     /// <summary>
     /// Gibt eine lesbare Repräsentation des ViewModels
@@ -627,14 +604,14 @@
         return;
       }
 
-      if (!(this.TerminViewModel is StundeViewModel))
+      if (this.TerminViewModel is not StundeViewModel)
       {
         return;
       }
 
       var stunde = this.TerminViewModel as StundeViewModel;
       Selection.Instance.Fach = App.MainViewModel.Fächer.First(o => o.FachBezeichnung == stunde.LerngruppenterminFach);
-      Selection.Instance.Lerngruppe = App.MainViewModel.Lerngruppen.First(o => o.Model.Id == ((StundeNeu)stunde.Model).LerngruppeId);
+      Selection.Instance.Lerngruppe = App.MainViewModel.Lerngruppen.First(o => o.Model.Id == ((Stunde)stunde.Model).Lerngruppe.Id);
       Selection.Instance.Stunde = stunde;
 
       var schülerliste = Selection.Instance.Lerngruppe;
@@ -655,16 +632,20 @@
           //  notenPage.DataContext = viewModel;
           //  Configuration.Instance.NavigationService.Navigate(notenPage);
           //
-          var stunden = new ObservableCollection<StundeNeu>();
-          stunden.Add(stunde.Model as StundeNeu);
+          var stunden = new ObservableCollection<Stunde>
+          {
+            stunde.Model as Stunde
+          };
           var viewModelReminder = new StundennotenReminderWorkspaceViewModel(stunden);
           var dlg = new MetroStundennotenReminderWindow { DataContext = viewModelReminder };
           dlg.ShowDialog();
         }
         else
         {
-          var dlg = new StundennotenDialog();
-          dlg.DataContext = viewModel;
+          var dlg = new StundennotenDialog
+          {
+            DataContext = viewModel
+          };
           undo = !dlg.ShowDialog().GetValueOrDefault(false);
         }
 
@@ -688,13 +669,13 @@
         return;
       }
 
-      if (!(this.TerminViewModel is StundeViewModel))
+      if (this.TerminViewModel is not StundeViewModel)
       {
         return;
       }
 
       var stunde = this.TerminViewModel as StundeViewModel;
-      var schülerliste = App.MainViewModel.Lerngruppen.First(o => o.Model.Id == ((StundeNeu)stunde.Model).LerngruppeId);
+      var schülerliste = App.MainViewModel.Lerngruppen.First(o => o.Model.Id == ((Stunde)stunde.Model).Lerngruppe.Id);
 
       Selection.Instance.Lerngruppe = schülerliste;
 
@@ -735,20 +716,20 @@
     /// <summary>
     /// Hier wird der Dialog zur Hausaufgabenkontrolle aufgerufen
     /// </summary>
-    private async void AddSonstigeNoten()
+    private void AddSonstigeNoten()
     {
       if (this.TerminViewModel == null)
       {
         return;
       }
 
-      if (!(this.TerminViewModel is StundeViewModel))
+      if (this.TerminViewModel is not StundeViewModel)
       {
         return;
       }
 
       var stunde = this.TerminViewModel as StundeViewModel;
-      var schülerliste = App.MainViewModel.Lerngruppen.First(o => o.Model.Id == ((StundeNeu)stunde.Model).LerngruppeId);
+      var schülerliste = App.MainViewModel.Lerngruppen.First(o => o.Model.Id == ((Stunde)stunde.Model).Lerngruppe.Id);
 
 
       if (Configuration.Instance.IsMetroMode)

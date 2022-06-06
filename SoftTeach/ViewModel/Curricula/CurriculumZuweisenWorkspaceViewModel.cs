@@ -44,7 +44,7 @@
     private bool showFerien;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="CurriculumZuweisenWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="CurriculumZuweisenWorkspaceViewModel"/> Klasse. 
     /// </summary>
     /// <param name="curriculumViewModel">
     /// This should be a clone of a curriculum to be adapted,
@@ -176,7 +176,7 @@
       var ferienSource = App.MainViewModel.Ferien.Where(o => o.Model.Schuljahr.Jahr == lerngruppe.LerngruppeSchuljahr.SchuljahrJahr);
       foreach (var ferienzeit in ferienSource)
       {
-        var lgt = new StundeNeu();
+        var lgt = new Stunde();
         if (ferienzeit.FerienErsterFerientag.Month > 7 || ferienzeit.FerienErsterFerientag.Month == 1)
         {
           lgt.Halbjahr = Halbjahr.Winter;

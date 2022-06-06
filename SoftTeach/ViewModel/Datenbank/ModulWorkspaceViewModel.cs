@@ -32,7 +32,7 @@
     private ModulViewModel currentModul;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="ModulWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="ModulWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public ModulWorkspaceViewModel()
     {
@@ -126,7 +126,7 @@
     /// </summary>
     private void AddModul()
     {
-      var modul = new ModulNeu();
+      var modul = new Modul();
 
       // Check for existing modul
       if (App.MainViewModel.Module.Any(vorhandenerModul => vorhandenerModul.ModulBezeichnung == modul.Bezeichnung))

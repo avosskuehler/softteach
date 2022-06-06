@@ -17,10 +17,10 @@
   /// </summary>
   public class StundenplaneintragViewModel : ViewModelBase
   {
-    /// <summary>
-    /// The fach currently assigned to this stundenplaneintrag
-    /// </summary>
-    private FachViewModel fach;
+    ///// <summary>
+    ///// The fach currently assigned to this stundenplaneintrag
+    ///// </summary>
+    //private FachViewModel fach;
 
     /// <summary>
     /// The klasse currently assigned to this stundenplaneintrag
@@ -33,23 +33,18 @@
     private RaumViewModel raum;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="StundenplaneintragViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="StundenplaneintragViewModel"/> Klasse. 
     /// </summary>
     /// <param name="stundenplaneintrag">
     /// The underlying stundenplaneintrag this ViewModel is to be based on
     /// </param>
-    public StundenplaneintragViewModel(StundenplaneintragNeu stundenplaneintrag)
+    public StundenplaneintragViewModel(Stundenplaneintrag stundenplaneintrag)
     {
-      if (stundenplaneintrag == null)
-      {
-        throw new ArgumentNullException("stundenplaneintrag");
-      }
-
-      this.Model = stundenplaneintrag;
+      this.Model = stundenplaneintrag ?? throw new ArgumentNullException(nameof(stundenplaneintrag));
     }
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="StundenplaneintragViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="StundenplaneintragViewModel"/> Klasse. 
     /// </summary>
     /// <param name="parent">
     /// The stundenplan this ViewModel belongs to.
@@ -57,20 +52,10 @@
     /// <param name="stundenplaneintrag">
     /// The underlying stundenplaneintrag this ViewModel is to be based on
     /// </param>
-    public StundenplaneintragViewModel(StundenplanViewModel parent, StundenplaneintragNeu stundenplaneintrag)
+    public StundenplaneintragViewModel(StundenplanViewModel parent, Stundenplaneintrag stundenplaneintrag)
     {
-      if (stundenplaneintrag == null)
-      {
-        throw new ArgumentNullException("stundenplaneintrag");
-      }
-
-      if (parent == null)
-      {
-        throw new ArgumentNullException("parent");
-      }
-
-      this.Model = stundenplaneintrag;
-      this.Parent = parent;
+      this.Model = stundenplaneintrag ?? throw new ArgumentNullException(nameof(stundenplaneintrag));
+      this.Parent = parent ?? throw new ArgumentNullException(nameof(parent));
 
       this.EditStundenplaneintragCommand = new DelegateCommand(this.EditStundenplaneintrag);
       this.RemoveStundenplaneintragCommand = new DelegateCommand(this.RemoveStundenplaneintrag);
@@ -94,7 +79,7 @@
     /// <summary>
     /// Holt den underlying Stundenplaneintrag this ViewModel is based on
     /// </summary>
-    public StundenplaneintragNeu Model { get; private set; }
+    public Stundenplaneintrag Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt den Raum für den Stundenplaneintrag
@@ -125,7 +110,7 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "StundenplaneintragRaum", this.raum, value);
+        this.UndoablePropertyChanging(this, nameof(StundenplaneintragRaum), this.raum, value);
         this.raum = value;
         this.Model.Raum = value.Model;
         this.RaisePropertyChanged("StundenplaneintragRaum");
@@ -146,7 +131,7 @@
       set
       {
         if (value == this.Model.WochentagIndex) return;
-        this.UndoablePropertyChanging(this, "StundenplaneintragWochentagIndex", this.Model.WochentagIndex, value);
+        this.UndoablePropertyChanging(this, nameof(StundenplaneintragWochentagIndex), this.Model.WochentagIndex, value);
         this.Model.WochentagIndex = value;
         this.RaisePropertyChanged("StundenplaneintragWochentagIndex");
       }
@@ -181,7 +166,7 @@
           if (value.LerngruppeBezeichnung == this.lerngruppe.LerngruppeBezeichnung) return;
         }
 
-        this.UndoablePropertyChanging(this, "StundenplaneintragLerngruppe", this.lerngruppe, value);
+        this.UndoablePropertyChanging(this, nameof(StundenplaneintragLerngruppe), this.lerngruppe, value);
         this.lerngruppe = value;
         this.Model.Lerngruppe = value.Model;
         this.RaisePropertyChanged("StundenplaneintragLerngruppe");
@@ -238,7 +223,7 @@
       {
         if (value == this.Model.ErsteUnterrichtsstundeIndex) return;
         this.UndoablePropertyChanging(
-          this, "StundenplaneintragErsteUnterrichtsstundeIndex", this.Model.ErsteUnterrichtsstundeIndex, value);
+          this, nameof(StundenplaneintragErsteUnterrichtsstundeIndex), this.Model.ErsteUnterrichtsstundeIndex, value);
         this.Model.ErsteUnterrichtsstundeIndex = value;
         this.RaisePropertyChanged("StundenplaneintragErsteUnterrichtsstundeIndex");
       }
@@ -258,7 +243,7 @@
       {
         if (value == this.Model.LetzteUnterrichtsstundeIndex) return;
         this.UndoablePropertyChanging(
-          this, "StundenplaneintragLetzteUnterrichtsstundeIndex", this.Model.LetzteUnterrichtsstundeIndex, value);
+          this, nameof(StundenplaneintragLetzteUnterrichtsstundeIndex), this.Model.LetzteUnterrichtsstundeIndex, value);
         this.Model.LetzteUnterrichtsstundeIndex = value;
         this.RaisePropertyChanged("StundenplaneintragLetzteUnterrichtsstundeIndex");
       }

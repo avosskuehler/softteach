@@ -18,8 +18,13 @@
       <RowDefinition/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader Grid.Row="0" Title="Bitte geben Sie einen Note ein."
-                                      Icon="/SoftTeach;component/Images/Note32.png"/>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Bitte geben Sie einen Note ein.">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Note32}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
     <Grid Grid.Row="1" Background="{x:Static SystemColors.MenuBarBrush}">
       <StackPanel Margin="10">
         <UniformGrid Columns="2">

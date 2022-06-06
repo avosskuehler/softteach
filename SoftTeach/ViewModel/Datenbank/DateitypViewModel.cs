@@ -10,25 +10,20 @@
   public class DateitypViewModel : ViewModelBase, IComparable
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="DateitypViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="DateitypViewModel"/> Klasse. 
     /// </summary>
     /// <param name="dateityp">
     /// The underlying dateityp this ViewModel is to be based on
     /// </param>
-    public DateitypViewModel(DateitypNeu dateityp)
+    public DateitypViewModel(Dateityp dateityp)
     {
-      if (dateityp == null)
-      {
-        throw new ArgumentNullException("dateityp");
-      }
-
-      this.Model = dateityp;
+      this.Model = dateityp ?? throw new ArgumentNullException(nameof(dateityp));
     }
 
     /// <summary>
     /// Holt den underlying Dateityp this ViewModel is based on
     /// </summary>
-    public DateitypNeu Model { get; private set; }
+    public Dateityp Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die bezeichnung of this Dateityp
@@ -47,7 +42,7 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "DateitypBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(DateitypBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("DateitypBezeichnung");
       }
@@ -70,7 +65,7 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "DateitypKürzel", this.Model.Kürzel, value);
+        this.UndoablePropertyChanging(this, nameof(DateitypKürzel), this.Model.Kürzel, value);
         this.Model.Kürzel = value;
         this.RaisePropertyChanged("DateitypKürzel");
       }

@@ -13,25 +13,20 @@
   public class SchuljahrViewModel : ViewModelBase, IComparable
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="SchuljahrViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="SchuljahrViewModel"/> Klasse. 
     /// </summary>
     /// <param name="schuljahr">
     /// The underlying schuljahr this ViewModel is to be based on
     /// </param>
-    public SchuljahrViewModel(SchuljahrNeu schuljahr)
+    public SchuljahrViewModel(Schuljahr schuljahr)
     {
-      if (schuljahr == null)
-      {
-        throw new ArgumentNullException("schuljahr");
-      }
-
-      this.Model = schuljahr;
+      this.Model = schuljahr ?? throw new ArgumentNullException(nameof(schuljahr));
     }
 
     /// <summary>
     /// Holt den underlying Schuljahr this ViewModel is based on
     /// </summary>
-    public SchuljahrNeu Model { get; private set; }
+    public Schuljahr Model { get; private set; }
 
      /// <summary>
     /// Holt oder setzt die Bezeichnung
@@ -46,7 +41,7 @@
       set
       {
         if (value == this.Model.Bezeichnung) return;
-        this.UndoablePropertyChanging(this, "SchuljahrBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(SchuljahrBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("SchuljahrBezeichnung");
       }
@@ -77,7 +72,7 @@
       set
       {
         if (value == this.Model.Jahr) return;
-        this.UndoablePropertyChanging(this, "SchuljahrJahr", this.Model.Jahr, value);
+        this.UndoablePropertyChanging(this, nameof(SchuljahrJahr), this.Model.Jahr, value);
         this.Model.Jahr = value;
         this.RaisePropertyChanged("SchuljahrJahr");
       }

@@ -18,7 +18,7 @@
     }
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="ChangeFactory"/> Klasse.
+    /// Initialisiert eine e Instanz der <see cref="ChangeFactory"/> Klasse.
     /// </summary>
     public ChangeFactory()
     {
@@ -139,7 +139,7 @@
         case NotifyCollectionChangedAction.Add:
           foreach (var item in e.NewItems)
           {
-            var des = string.Format("Neues Element {0} zu {1} hinzugefügt.", item, propertyName);
+            var des = string.Format("es Element {0} zu {1} hinzugefügt.", item, propertyName);
             var change = new CollectionAddChange(
               instance, propertyName, (IList)collection, e.NewStartingIndex, item, isDataContextRelevant, des);
 

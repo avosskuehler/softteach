@@ -20,7 +20,7 @@
     private SchuljahrViewModel currentSchuljahr;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="SchuljahrWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="SchuljahrWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public SchuljahrWorkspaceViewModel()
     {
@@ -80,7 +80,7 @@
     public static void AddSchuljahr()
     {
       var backup = Selection.Instance.Schuljahr;
-      using (new UndoBatch(App.MainViewModel, string.Format("Neues Schuljahr hinzugefügt"), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("es Schuljahr hinzugefügt"), false))
       {
         var dlgVm = new AddSchuljahrDialogViewModel();
         var dlg = new AddSchuljahrDialog { DataContext = dlgVm };

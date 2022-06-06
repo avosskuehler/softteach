@@ -32,7 +32,7 @@
     private RaumplanViewModel raumplanFilter;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="SitzplanWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="SitzplanWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public SitzplanWorkspaceViewModel()
     {
@@ -223,12 +223,12 @@
     /// </summary>
     private void AddSitzplan()
     {
-      using (new UndoBatch(App.MainViewModel, string.Format("Sitzplan neu angelegt"), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("Sitzplan  angelegt"), false))
       {
         try
         {
-          App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
-          var sitzplan = new SitzplanNeu { Bezeichnung = "Neuer Sitzplan", GültigAb = DateTime.Now.Date };
+          App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = false;
+          var sitzplan = new Sitzplan { Bezeichnung = "er Sitzplan", GültigAb = DateTime.Now.Date };
 
           if (this.raumplanFilter != null)
           {
@@ -258,7 +258,7 @@
         }
         finally
         {
-          App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
+          App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = true;
         }
       }
     }

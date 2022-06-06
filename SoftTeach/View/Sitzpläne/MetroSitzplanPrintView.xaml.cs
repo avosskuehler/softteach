@@ -6,7 +6,7 @@
   public partial class MetroSitzplanPrintView
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="MetroSitzplanPrintView"/> Klasse.
+    /// Initialisiert eine e Instanz der <see cref="MetroSitzplanPrintView"/> Klasse.
     /// </summary>
     public MetroSitzplanPrintView()
     {

@@ -33,7 +33,7 @@ namespace SoftTeach.View.Datenbank
     #region Constructors and Destructors
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="CleanupDatabaseDialog"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="CleanupDatabaseDialog"/> Klasse. 
     /// </summary>
     public CleanupDatabaseDialog()
     {
@@ -120,28 +120,28 @@ namespace SoftTeach.View.Datenbank
 
     private void DeleteLeereStundenClick(object sender, RoutedEventArgs e)
     {
-      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+      App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = false;
 
       // Stunden ohne Stundenentwürfe löschen
-      var leereStunden = App.UnitOfWork.Context.Termine.OfType<StundeNeu>().Where(o => !o.Phasen.Any()).ToList();
+      var leereStunden = App.UnitOfWork.Context.Termine.OfType<Stunde>().Where(o => !o.Phasen.Any()).ToList();
 
       App.UnitOfWork.Context.Termine.RemoveRange(leereStunden);
 
-      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
+      App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = true;
 
       App.UnitOfWork.SaveChanges();
     }
 
     private void DeleteLeereCurriculaClick(object sender, RoutedEventArgs e)
     {
-      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+      App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = false;
 
       // Curricula ohne Reihen löschen
       var leereCurricula = App.UnitOfWork.Context.Curricula.Where(o => !o.Reihen.Any(a => a.Reihenfolge != -1)).ToList();
 
       App.UnitOfWork.Context.Curricula.RemoveRange(leereCurricula);
 
-      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
+      App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = true;
 
       App.UnitOfWork.SaveChanges();
     }

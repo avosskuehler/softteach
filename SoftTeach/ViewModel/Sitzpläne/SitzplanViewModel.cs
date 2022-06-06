@@ -43,21 +43,16 @@
     private bool nurTeilungsgruppeB;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="SitzplanViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="SitzplanViewModel"/> Klasse. 
     /// </summary>
     /// <param name="sitzplan">
     /// The underlying sitzplan this ViewModel is to be based on
     /// </param>
-    public SitzplanViewModel(SitzplanNeu sitzplan)
+    public SitzplanViewModel(Sitzplan sitzplan)
     {
-      if (sitzplan == null)
-      {
-        throw new ArgumentNullException("sitzplan");
-      }
+      this.Model = sitzplan ?? throw new ArgumentNullException(nameof(sitzplan));
 
-      this.Model = sitzplan;
-
-      this.SitzplanNeuEinteilenCommand = new DelegateCommand(this.SitzplanNeuEinteilen);
+      this.SitzplanEinteilenCommand = new DelegateCommand(this.SitzplanEinteilen);
       this.SitzplanLeerenCommand = new DelegateCommand(this.SitzplanLeeren);
       this.SitzplanAusdruckenCommand = new DelegateCommand(this.SitzplanAusdrucken);
 
@@ -76,16 +71,18 @@
       }
       else
       {
-        using (new UndoBatch(App.MainViewModel, string.Format("Neuer Sitzplan angelegt"), false))
+        using (new UndoBatch(App.MainViewModel, string.Format("er Sitzplan angelegt"), false))
         {
           this.Sitzplaneinträge.CollectionChanged += this.SitzplaneinträgeCollectionChanged;
 
-          // Noch keine Sitzplaneinträge vorhanden, erstelle also alle neu aus den Sitzplätzen des Raumplans
+          // Noch keine Sitzplaneinträge vorhanden, erstelle also alle  aus den Sitzplätzen des Raumplans
           foreach (var sitzplatz in sitzplan.Raumplan.Sitzplätze)
           {
-            var sitzplaneintrag = new SitzplaneintragNeu();
-            sitzplaneintrag.Sitzplan = this.Model;
-            sitzplaneintrag.Sitzplatz = sitzplatz;
+            var sitzplaneintrag = new Sitzplaneintrag
+            {
+              Sitzplan = this.Model,
+              Sitzplatz = sitzplatz
+            };
             //App.UnitOfWork.Context.Sitzplaneinträge.Add(sitzplaneintrag);
 
             var vm = new SitzplaneintragViewModel(sitzplaneintrag);
@@ -98,8 +95,8 @@
 
 
       // Build data structures for Schülereinträge
-      this.UsedSchülereinträge = new ObservableCollection<SchülereintragNeu>();
-      this.AvailableSchülereinträge = new ObservableCollection<SchülereintragNeu>();
+      this.UsedSchülereinträge = new ObservableCollection<Schülereintrag>();
+      this.AvailableSchülereinträge = new ObservableCollection<Schülereintrag>();
       foreach (var schülereintrag in sitzplan.Lerngruppe.Schülereinträge.OrderBy(o => o.Person.Vorname))
       {
         //var schülerId = schülereintrag.Id;
@@ -118,9 +115,9 @@
     }
 
     /// <summary>
-    /// Holt den Befehl um den Sitzplan neu einzuteilen
+    /// Holt den Befehl um den Sitzplan  einzuteilen
     /// </summary>
-    public DelegateCommand SitzplanNeuEinteilenCommand { get; private set; }
+    public DelegateCommand SitzplanEinteilenCommand { get; private set; }
 
     /// <summary>
     /// Holt den Befehl um den Sitzplan zu leeren einzuteilen
@@ -135,7 +132,7 @@
     /// <summary>
     /// Holt den underlying Sitzplan this ViewModel is based on
     /// </summary>
-    public SitzplanNeu Model { get; private set; }
+    public Sitzplan Model { get; private set; }
 
     /// <summary>
     /// Holt die schülereinträge for this schülerliste
@@ -145,12 +142,12 @@
     /// <summary>
     /// Holt die im Sitzplan verwendeten Schülereinträge
     /// </summary>
-    public ObservableCollection<SchülereintragNeu> UsedSchülereinträge { get; private set; }
+    public ObservableCollection<Schülereintrag> UsedSchülereinträge { get; private set; }
 
     /// <summary>
     /// Holt die im Sitzplan nicht verwendeten Schülereinträge
     /// </summary>
-    public ObservableCollection<SchülereintragNeu> AvailableSchülereinträge { get; private set; }
+    public ObservableCollection<Schülereintrag> AvailableSchülereinträge { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die currently selected sitzplaneintrag
@@ -182,7 +179,7 @@
       set
       {
         if (value == this.Model.Bezeichnung) return;
-        this.UndoablePropertyChanging(this, "SitzplanBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(SitzplanBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("SitzplanBezeichnung");
       }
@@ -217,7 +214,7 @@
           if (value.LerngruppeÜberschrift == this.schülerliste.LerngruppeÜberschrift) return;
         }
 
-        this.UndoablePropertyChanging(this, "SitzplanLerngruppe", this.schülerliste, value);
+        this.UndoablePropertyChanging(this, nameof(SitzplanLerngruppe), this.schülerliste, value);
         this.schülerliste = value;
         this.Model.Lerngruppe = value.Model;
         this.RaisePropertyChanged("SitzplanLerngruppe");
@@ -253,7 +250,7 @@
           if (value.RaumplanBezeichnung == this.raumplan.RaumplanBezeichnung) return;
         }
 
-        this.UndoablePropertyChanging(this, "SitzplanRaumplan", this.raumplan, value);
+        this.UndoablePropertyChanging(this, nameof(SitzplanRaumplan), this.raumplan, value);
         this.raumplan = value;
         this.Model.Raumplan = value.Model;
         this.RaisePropertyChanged("SitzplanRaumplan");
@@ -273,7 +270,7 @@
       set
       {
         if (value == this.Model.GültigAb) return;
-        this.UndoablePropertyChanging(this, "SitzplanGültigAb", this.Model.GültigAb, value);
+        this.UndoablePropertyChanging(this, nameof(SitzplanGültigAb), this.Model.GültigAb, value);
         this.Model.GültigAb = value;
         this.RaisePropertyChanged("SitzplanGültigAb");
       }
@@ -304,7 +301,7 @@
       set
       {
         if (value == this.sitzplanDrehung) return;
-        this.UndoablePropertyChanging(this, "SitzplanDrehung", this.sitzplanDrehung, value);
+        this.UndoablePropertyChanging(this, nameof(SitzplanDrehung), this.sitzplanDrehung, value);
         this.sitzplanDrehung = value;
         this.RaisePropertyChanged("SitzplanDrehung");
       }
@@ -406,7 +403,7 @@
       var sourceItem = dropInfo.Data;
       var targetItem = dropInfo.TargetItem;
       if ((sourceItem is SchülereintragViewModel && targetItem is SitzplaneintragViewModel)
-        || sourceItem is SitzplaneintragViewModel || (sourceItem is SchülereintragNeu && targetItem is SitzplaneintragViewModel))
+        || sourceItem is SitzplaneintragViewModel || (sourceItem is Schülereintrag && targetItem is SitzplaneintragViewModel))
       {
         dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
         dropInfo.Effects = DragDropEffects.Move;
@@ -427,9 +424,9 @@
       {
         var sourceItem = dropInfo.Data;
         var targetItem = dropInfo.TargetItem;
-        if (sourceItem is SchülereintragNeu && targetItem is SitzplaneintragViewModel)
+        if (sourceItem is Schülereintrag && targetItem is SitzplaneintragViewModel)
         {
-          var source = sourceItem as SchülereintragNeu;
+          var source = sourceItem as Schülereintrag;
           var target = targetItem as SitzplaneintragViewModel;
           target.SitzplaneintragSchülereintrag = source;
           if (this.AvailableSchülereinträge.Contains(source))
@@ -469,16 +466,16 @@
 
 
     /// <summary>
-    /// Teilt die verbliebenen Schüler auf die Sitzplätze neu auf
+    /// Teilt die verbliebenen Schüler auf die Sitzplätze  auf
     /// </summary>
-    public void SitzplanNeuEinteilen()
+    public void SitzplanEinteilen()
     {
       //if (this.AvailableSchülereinträge.Count == 0)
       {
         this.SitzplanLeeren();
       }
 
-      IEnumerable<SchülereintragNeu> schülereinträgeZurVerwendung = this.AvailableSchülereinträge.OrderBy(o => o.Person.Nachname);
+      IEnumerable<Schülereintrag> schülereinträgeZurVerwendung = this.AvailableSchülereinträge.OrderBy(o => o.Person.Nachname);
 
       if (this.NurTeilungsgruppen)
       {
@@ -651,7 +648,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void SitzplaneinträgeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Sitzplaneinträge", this.Sitzplaneinträge, e, true, "Änderung der Sitzplaneinträge");
+      UndoableCollectionChanged(this, nameof(Sitzplaneinträge), this.Sitzplaneinträge, e, true, "Änderung der Sitzplaneinträge");
     }
   }
 }

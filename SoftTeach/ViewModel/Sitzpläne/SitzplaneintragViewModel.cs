@@ -32,22 +32,17 @@
     ///// <summary>
     ///// Der Schülereintrag der zu diesem Sitzplaneintrag gehört
     ///// </summary>
-    //private SchülereintragNeu schülereintrag;
+    //private Schülereintrag schülereintrag;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="SitzplaneintragViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="SitzplaneintragViewModel"/> Klasse. 
     /// </summary>
     /// <param name="sitzplaneintrag">
     /// The underlying sitzplaneintrag this ViewModel is to be based on
     /// </param>
-    public SitzplaneintragViewModel(SitzplaneintragNeu sitzplaneintrag)
+    public SitzplaneintragViewModel(Sitzplaneintrag sitzplaneintrag)
     {
-      if (sitzplaneintrag == null)
-      {
-        throw new ArgumentNullException("sitzplaneintrag");
-      }
-
-      this.Model = sitzplaneintrag;
+      this.Model = sitzplaneintrag ?? throw new ArgumentNullException(nameof(sitzplaneintrag));
 
       this.CreateShape();
     }
@@ -55,7 +50,7 @@
     /// <summary>
     /// Holt den underlying Sitzplaneintrag this ViewModel is based on
     /// </summary>
-    public SitzplaneintragNeu Model { get; private set; }
+    public Sitzplaneintrag Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt den Sitzplan für den Sitzplanplan
@@ -86,7 +81,7 @@
           if (value.Model.Id == this.sitzplan.Model.Id) return;
         }
 
-        this.UndoablePropertyChanging(this, "SitzplaneintragSitzplan", this.sitzplan, value);
+        this.UndoablePropertyChanging(this, nameof(SitzplaneintragSitzplan), this.sitzplan, value);
         this.sitzplan = value;
         this.Model.Sitzplan = value.Model;
         this.RaisePropertyChanged("SitzplaneintragSitzplan");
@@ -126,7 +121,7 @@
     /// <summary>
     /// Holt oder setzt den Schülereintrag für den Schülereintragplan
     /// </summary>
-    public SchülereintragNeu SitzplaneintragSchülereintrag
+    public Schülereintrag SitzplaneintragSchülereintrag
     {
       get
       {
@@ -190,7 +185,7 @@
           if (value.Bounds == this.sitzplatz.Bounds) return;
         }
 
-        this.UndoablePropertyChanging(this, "SitzplaneintragSitzplatz", this.sitzplatz, value);
+        this.UndoablePropertyChanging(this, nameof(SitzplaneintragSitzplatz), this.sitzplatz, value);
         this.sitzplatz = value;
         this.Model.Sitzplatz = value.Model;
         this.RaisePropertyChanged("SitzplaneintragSitzplatz");

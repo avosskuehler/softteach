@@ -23,23 +23,23 @@
     /// <summary>
     /// Holt oder setzt die Stunde currently selected
     /// </summary>
-    private StundeNeu currentStunde;
+    private Stunde currentStunde;
 
-    /// <summary>
-    /// Ein View von allen Schülern der momentanten Stunde.
-    /// </summary>
-    private ICollectionView currentSchülerView;
+    ///// <summary>
+    ///// Ein View von allen Schülern der momentanten Stunde.
+    ///// </summary>
+    //private ICollectionView currentSchülerView;
 
     /// <summary>
     /// Ein View von allen unbenoteten Stunden.
     /// </summary>
-    private ObservableCollection<StundeNeu> nichtBenoteteStunden;
+    private ObservableCollection<Stunde> nichtBenoteteStunden;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="StundennotenReminderWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="StundennotenReminderWorkspaceViewModel"/> Klasse. 
     /// </summary>
     /// <param name="nichtBenoteteStunden">Die Liste der noch nicht benoteten Stunden.</param>
-    public StundennotenReminderWorkspaceViewModel(ObservableCollection<StundeNeu> nichtBenoteteStunden)
+    public StundennotenReminderWorkspaceViewModel(ObservableCollection<Stunde> nichtBenoteteStunden)
     {
       this.nichtBenoteteStunden = nichtBenoteteStunden;
       this.CurrentStunde = nichtBenoteteStunden[0];
@@ -106,7 +106,7 @@
     /// <summary>
     /// Holt oder setzt die Stunde currently selected in this workspace
     /// </summary>
-    public StundeNeu CurrentStunde
+    public Stunde CurrentStunde
     {
       get
       {

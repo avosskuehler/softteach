@@ -3,6 +3,7 @@
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:setting="clr-namespace:SoftTeach.Setting"
+  xmlns:tb="http://www.hardcodet.net/taskbar"
   xmlns:jahrespläneView="clr-namespace:SoftTeach.View.Jahrespläne"
   xmlns:jahrespläneViewModel="clr-namespace:SoftTeach.ViewModel.Jahrespläne"
   xmlns:curriculaViewModel="clr-namespace:SoftTeach.ViewModel.Curricula"
@@ -16,13 +17,14 @@
   xmlns:fluent="urn:fluent-ribbon"
   xmlns:changeTypes="clr-namespace:SoftTeach.UndoRedo.ChangeTypes"
   xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+  xmlns:app="clr-namespace:SoftTeach"
   xmlns:sitzplanView="clr-namespace:SoftTeach.View.Sitzpläne"
   xmlns:sitzplanViewModel="clr-namespace:SoftTeach.ViewModel.Sitzpläne" 
+  xmlns:prop="clr-namespace:SoftTeach.Properties"
   xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
   Title="SoftTeach - Unterrichtsvorbereitung" 
   x:Name="Window"
-  Width="893.969" Height="324" Closing="MainRibbonViewClosing" 
-  Icon="/SoftTeach;component/Images/Logo.ico" WindowState="Maximized">
+  Width="893.969" Height="324" Closing="MainRibbonViewClosing" WindowState="Maximized">
   <fluent:RibbonWindow.CommandBindings>
     <CommandBinding Command="ApplicationCommands.Close" Executed="CloseCommandHandler"/>
     <!--<CommandBinding Command="ApplicationCommands.Save" Executed="SaveCommandExecuted"/>-->
@@ -78,39 +80,31 @@
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
+    <tb:TaskbarIcon 
+      x:Name="NotenNotifyIcon"
+      LeftClickCommand="{Binding Source={x:Static softTeach:App.NotenErinnerungsIcon}}"
+      ToolTipText=""
+      Visibility="Hidden"
+      PopupActivation="LeftClick">
+      <tb:TaskbarIcon.TrayToolTip>
+        <Border
+      Background="White"
+      BorderBrush="DarkGray"
+      BorderThickness="1"
+      CornerRadius="0"
+      Opacity="1"
+      Width="Auto"
+      Height="25">
+          <TextBlock Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Border}}, Path=(tb:TaskbarIcon.ParentTaskbarIcon).ToolTipText}"
+        HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
+        </Border>
+      </tb:TaskbarIcon.TrayToolTip>
+    </tb:TaskbarIcon>
     <fluent:Ribbon Grid.Row="0" x:Name="Ribbon" IsQuickAccessToolBarVisible="True">
       <fluent:Ribbon.QuickAccessItems>
         <fluent:QuickAccessMenuItem Target="{Binding ElementName=SaveButton}" IsChecked="True" />
         <fluent:QuickAccessMenuItem Target="{Binding ElementName=UndoButton}" IsChecked="True" />
         <fluent:QuickAccessMenuItem Target="{Binding ElementName=RedoButton}" IsChecked="True" />
-        <!--<RibbonQuickAccessToolBar >
-          <RibbonButton x:Name="MetroButton" Click="MetroButton_OnClick"  SmallImageSource="/SoftTeach;component/Images/OpenCalcOverlay32.png" ToolTip="Metro Surface"/>
-          <RibbonSplitButton x:Name="QatButtonUndo" 
-                        Command="{Binding Path=UndoCommand}"
-                        SmallImageSource="/SoftTeach;component/Images/Undo16.png" 
-                        ToolTip="Undo">
-            -->
-        <!--<TreeView x:Name="UndoStackListBoxQAT"
-            ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=UndoStack, Mode=OneWay}"/>-->
-
-        <!--<RibbonSplitButton.ItemContainerStyle></RibbonSplitButton.ItemContainerStyle>-->
-        <!--
-            <RibbonGallery SelectedValue="Green"
-                          SelectedValuePath="Content"
-                          MaxColumnCount="1">
-              <RibbonGalleryCategory ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=UndoStack, Mode=OneWay}" DisplayMemberPath="Description"/>
-            </RibbonGallery>
-
-          </RibbonSplitButton>
-          <RibbonSplitButton x:Name="QatButtonRedo" 
-                        Command="{Binding Path=RedoCommand}"
-                        SmallImageSource="/SoftTeach;component/Images/Redo16.png" 
-                        ToolTip="Redo"/>
-          -->
-        <!--Click="QatRedoButtonClick"
-                        IsEnabled="{Binding Source={x:Static softTeach:App.UnitOfWork}, Path=CanRedo}"-->
-        <!--
-        </RibbonQuickAccessToolBar>-->
       </fluent:Ribbon.QuickAccessItems>
       <fluent:Ribbon.Menu>
         <fluent:Backstage Header="Datei">
@@ -180,19 +174,6 @@
             DisplayMemberPath="SchuljahrBezeichnung" 
             ItemsSource="{Binding Source={StaticResource SchuljahreSorted}}" />
         </fluent:RibbonGroupBox>
-        <!--<fluent:RibbonGroupBox Header="Lerngruppe">
-          <fluent:RibbonGroupBox.Icon>
-            <fa:IconBlock Style="{StaticResource Fach32}"/>
-          </fluent:RibbonGroupBox.Icon>
-          <fluent:ComboBox  Width="110"
-            SelectedValue="{Binding Source={x:Static setting:Selection.Instance}, Path=Fach}" 
-            DisplayMemberPath="FachBezeichnung" 
-            ItemsSource="{Binding Source={StaticResource FächerSorted}}" />
-          <fluent:ComboBox 
-            SelectedValue="{Binding Source={x:Static setting:Selection.Instance}, Path=Lerngruppe}" 
-            DisplayMemberPath="LerngruppeBezeichnung" 
-            ItemsSource="{Binding Source={StaticResource LerngruppenSorted}}" />
-        </fluent:RibbonGroupBox>-->
         <fluent:RibbonGroupBox Header="Termine">
           <fluent:RibbonGroupBox.Icon>
             <fa:IconBlock Style="{StaticResource Termin32}"/>
@@ -258,7 +239,7 @@
           <fluent:Button 
             Header="Übersicht" 
             Click="StundenplanButtonClick"
-            ToolTip="Stundenplan für neues Halbjahr">
+            ToolTip="Stundenplan für es Halbjahr">
             <fluent:Button.LargeIcon>
               <Grid>
                 <fa:IconBlock Style="{StaticResource Stundenplan32}"/>
@@ -267,9 +248,9 @@
             </fluent:Button.LargeIcon>
           </fluent:Button>
           <fluent:Button 
-            Header="Neues Halbjahr" 
-            Click="NeuerStundenplanButtonClick"
-            ToolTip="Stundenplan für neues Halbjahr">
+            Header="es Halbjahr" 
+            Click="erStundenplanButtonClick"
+            ToolTip="Stundenplan für es Halbjahr">
             <fluent:Button.LargeIcon>
               <Grid>
                 <fa:IconBlock Style="{StaticResource Stundenplan32}"/>
@@ -294,7 +275,7 @@
           <fluent:RibbonGroupBox.Icon>
             <fa:IconBlock Style="{StaticResource Note32}"/>
           </fluent:RibbonGroupBox.Icon>
-          <fluent:Button Header="Bewertungsschemata" Click="BewertungsschemataButtonClick" ToolTip="Bewertungsschemata neu definieren">
+          <fluent:Button Header="Bewertungsschemata" Click="BewertungsschemataButtonClick" ToolTip="Bewertungsschemata  definieren">
             <fluent:Button.LargeIcon>
               <Grid>
                 <fa:IconBlock Style="{StaticResource Bewertungsschema32}"/>
@@ -309,7 +290,7 @@
           <fluent:Button 
             Header="Räume" Width="50"
             Click="RäumeButtonClick"
-            ToolTip="Räume neu definieren">
+            ToolTip="Räume  definieren">
             <fluent:Button.LargeIcon>
               <Grid>
                 <fa:IconBlock Style="{StaticResource Raum32}"/>
@@ -368,26 +349,6 @@
           <fluent:RibbonGroupBox.Icon>
             <fa:IconBlock Style="{StaticResource Medien32}"/>
           </fluent:RibbonGroupBox.Icon>
-          <!--<fluent:Button 
-            Header="Medien" Width="50"
-            Click="MedienButtonClick"
-            ToolTip="Medien festlegen">
-            <fluent:Button.LargeIcon>
-              <Grid>
-                <fa:IconBlock Style="{StaticResource Medien32}"/>
-              </Grid>
-            </fluent:Button.LargeIcon>
-          </fluent:Button>-->
-          <!--<fluent:Button 
-            Header="Sozialformen" Width="50"
-            Click="SozialformenButtonClick"
-            ToolTip="Sozialformen festlegen">
-            <fluent:Button.LargeIcon>
-              <Grid>
-                <fa:IconBlock Style="{StaticResource Sozialformen32}"/>
-              </Grid>
-            </fluent:Button.LargeIcon>
-          </fluent:Button>-->
           <fluent:Button 
             Header="Dateitypen" Width="50"
             Click="DateitypenButtonClick"
@@ -398,150 +359,8 @@
               </Grid>
             </fluent:Button.LargeIcon>
           </fluent:Button>
-          <!--<fluent:Button 
-            Header="Termintypen" Width="50"
-            Click="TermintypenButtonClick"
-            ToolTip="Termintypen festlegen">
-            <fluent:Button.LargeIcon>
-              <Grid>
-                <fa:IconBlock Style="{StaticResource Termintypen32}"/>
-              </Grid>
-            </fluent:Button.LargeIcon>
-          </fluent:Button>-->
         </fluent:RibbonGroupBox>
       </fluent:RibbonTabItem>
-
-      <!--        <RibbonGroup x:Name="DatenbankCurriculaGroup" Header="Curricula"
-                            LargeImageSource="/SoftTeach;component/Images/Curriculum32.png"
-                            SmallImageSource="/SoftTeach;component/Images/Curriculum16.png">
-          <RibbonGroup.GroupSizeDefinitions>
-            <RibbonGroupSizeDefinition IsCollapsed="True"/>
-          </RibbonGroup.GroupSizeDefinitions>
-          <RibbonControlGroup >
-            <RibbonButton x:Name="CurriculumButton"
-                               Label="Curriculum" 
-                               Click="CurriculumButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Curriculum32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Curriculum16.png"/>
-            <RibbonButton x:Name="ReiheButton"
-                               Label="Reihe" 
-                               Click="ReiheButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Reihe32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Reihe16.png"/>
-            <RibbonButton x:Name="SequenzButton"
-                               Label="Sequenz" 
-                               Click="SequenzButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Sequenz32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Sequenz16.png"/>
-          </RibbonControlGroup>
-          <RibbonSeparator/>
-        </RibbonGroup>-->
-       <!--         <RibbonSeparator></RibbonSeparator>
-          <RibbonControlGroup>
-        </RibbonGroup>
-        <RibbonGroup x:Name="DatenbankStundenplanGroup" Header="Stundenpläne"
-                            LargeImageSource="/SoftTeach;component/Images/Stundenplan32.png"
-                            SmallImageSource="/SoftTeach;component/Images/Stundenplan16.png">
-          <RibbonGroup.GroupSizeDefinitions>
-            <RibbonGroupSizeDefinition IsCollapsed="True"/>
-          </RibbonGroup.GroupSizeDefinitions>
-          <RibbonControlGroup>
-            <RibbonButton x:Name="StundenpläneButton"
-                               Label="Stundenpläne" 
-                               Click="StundenpläneButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Stundenplan32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Stundenplan16.png"/>
-            <RibbonButton x:Name="StundenplaneintragButton"
-                               Label="Stundenplaneinträge" 
-                               Click="StundenplaneintragButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/StundenplanÄndern32.png"
-                               SmallImageSource="/SoftTeach;component/Images/StundenplanÄndern16.png"/>
-            <RibbonButton x:Name="StundenplanZeigenButton"
-                               Label="Anzeigen" 
-                               Click="StundenplanZeigenButtonClick"
-                               ToolTipTitle="Stundenpläne verwalten"
-                               ToolTipDescription="Nutzen Sie diese Funktion, um bestehende 
-                               Stundenpläne anzusehen."
-                               LargeImageSource="/SoftTeach;component/Images/StundenplanZeigen32.png"
-                               SmallImageSource="/SoftTeach;component/Images/StundenplanZeigen16.png"/>
-          </RibbonControlGroup>
-          <RibbonSeparator/>
-        </RibbonGroup>
-        <RibbonGroup x:Name="DatenbankPersonenGroup" Header="Personen"
-                            LargeImageSource="/SoftTeach;component/Images/Person32.png"
-                            SmallImageSource="/SoftTeach;component/Images/Person16.png">
-          <RibbonGroup.GroupSizeDefinitions>
-            <RibbonGroupSizeDefinition IsCollapsed="True"/>
-          </RibbonGroup.GroupSizeDefinitions>
-          <RibbonControlGroup>
-            <RibbonButton
-                               Label="Personen" 
-                               Click="PersonDBButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Person32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Person16.png"/>
-            <RibbonButton x:Name="LerngruppeButton"
-                               Label="Lerngruppen" 
-                               Click="LerngruppeButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Lerngruppe32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Lerngruppe16.png"/>
-            <RibbonButton x:Name="SchülereintragButton"
-                               Label="Schülereinträge" 
-                               Click="SchülereintragButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Schülereintrag32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Schülereintrag16.png"/>
-          </RibbonControlGroup>
-          <RibbonSeparator/>
-          <RibbonControlGroup>
-            <RibbonButton x:Name="JahrgangsstufeButton"
-                               Label="Jahrgangsstufen und Klassen" 
-                               Click="JahrgangsstufenButtonClick" 
-                               LargeImageSource="/SoftTeach;component/Images/Jahrgangsstufe32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Jahrgangsstufe16.png"/>
-          </RibbonControlGroup>
-        </RibbonGroup>
-        <RibbonGroup x:Name="DatenbankNotenGroup" Header="Noten"
-                            LargeImageSource="/SoftTeach;component/Images/Zensur32.png"
-                            SmallImageSource="/SoftTeach;component/Images/Zensur16.png">
-          <RibbonGroup.GroupSizeDefinitions>
-            <RibbonGroupSizeDefinition IsCollapsed="True"/>
-          </RibbonGroup.GroupSizeDefinitions>
-          <RibbonControlGroup>
-            <RibbonButton x:Name="NotenButton"
-                               Label="Noten" 
-                               Click="NotenButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Note32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Note16.png"/>
-            <RibbonButton x:Name="NotentendenzenButton"
-                               Label="Notentendenzen" 
-                               Click="NotentendenzenButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Notentendenz32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Notentendenz16.png"/>
-            <RibbonButton x:Name="HausaufgabenButton"
-                               Label="Hausaufgaben" 
-                               Click="HausaufgabenButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Hausaufgabe32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Hausaufgabe16.png"/>
-          </RibbonControlGroup>
-          <RibbonSeparator/>
-          <RibbonControlGroup>
-            <RibbonButton x:Name="ArbeitenButton"
-                               Label="Arbeiten" 
-                               Click="ArbeitenButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Arbeit32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Arbeit16.png"/>
-            <RibbonButton x:Name="AufgabenButton"
-                               Label="Aufgaben" 
-                               Click="AufgabenButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Aufgabe32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Aufgabe16.png"/>
-            <RibbonButton x:Name="ErgebnisseButton"
-                               Label="Ergebnisse" 
-                               Click="ErgebnisseButtonClick"
-                               LargeImageSource="/SoftTeach;component/Images/Ergebnis32.png"
-                               SmallImageSource="/SoftTeach;component/Images/Ergebnis16.png"/>
-
-        </RibbonGroup>
-      </RibbonTab>-->
       <fluent:RibbonTabItem x:Name="ToolsTab" Header="Tools">
         <fluent:RibbonGroupBox Header="Datenbank">
           <fluent:RibbonGroupBox.Icon>

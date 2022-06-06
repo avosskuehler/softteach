@@ -74,8 +74,8 @@
       </StackPanel>
       <CheckBox  Grid.Column="6" IsThreeState="True" IsChecked="{Binding SitzplanMädchenJungeNebeneinander}" FontSize="18" Margin="6">w/m</CheckBox>
       <Button Grid.Column="7" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-                    Command="{Binding Path=SitzplanNeuEinteilenCommand}" 
-                    ToolTip="Sitzplan neu einteilen.">
+                    Command="{Binding Path=SitzplanEinteilenCommand}" 
+                    ToolTip="Sitzplan  einteilen.">
         <fa:IconBlock Style="{StaticResource Würfel48}" VerticalAlignment="Center"/>
       </Button>
       <Button Grid.Column="8" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"

@@ -19,31 +19,28 @@
   public class NotentendenzViewModel : ViewModelBase
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="NotentendenzViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="NotentendenzViewModel"/> Klasse. 
     /// </summary>
     public NotentendenzViewModel()
     {
-      var notentendenz = new NotentendenzNeu();
-      notentendenz.Datum = DateTime.Now;
-      notentendenz.Tendenztyp = Tendenztyp.Leistung;
-      notentendenz.Tendenz = Tendenz.Null;
+      var notentendenz = new Notentendenz
+      {
+        Datum = DateTime.Now,
+        Tendenztyp = Tendenztyp.Leistung,
+        Tendenz = Tendenz.Null
+      };
       this.Model = notentendenz;
     }
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="NotentendenzViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="NotentendenzViewModel"/> Klasse. 
     /// </summary>
     /// <param name="note">
     /// The underlying note this ViewModel is to be based on
     /// </param>
-    public NotentendenzViewModel(NotentendenzNeu note)
+    public NotentendenzViewModel(Notentendenz note)
     {
-      if (note == null)
-      {
-        throw new ArgumentNullException("note");
-      }
-
-      this.Model = note;
+      this.Model = note ?? throw new ArgumentNullException(nameof(note));
 
       this.EditNotentendenzCommand = new DelegateCommand(this.EditNotentendenz);
     }
@@ -51,7 +48,7 @@
     /// <summary>
     /// Holt den underlying Notentendenz this ViewModel is based on
     /// </summary>
-    public NotentendenzNeu Model { get; private set; }
+    public Notentendenz Model { get; private set; }
 
     /// <summary>
     /// Holt das Command zur Änderung einer einzelnen nicht gemachten Notentendenz
@@ -71,7 +68,7 @@
       set
       {
         if (value == this.Model.Bezeichnung) return;
-        this.UndoablePropertyChanging(this, "NotentendenzBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(NotentendenzBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("NotentendenzBezeichnung");
       }
@@ -90,7 +87,7 @@
       set
       {
         if (value == this.Model.Datum) return;
-        this.UndoablePropertyChanging(this, "NotentendenzDatum", this.Model.Datum, value);
+        this.UndoablePropertyChanging(this, nameof(NotentendenzDatum), this.Model.Datum, value);
         this.Model.Datum = value;
         this.RaisePropertyChanged("NotentendenzDatum");
       }
@@ -109,7 +106,7 @@
       set
       {
         if (value == this.Model.Tendenz) return;
-        this.UndoablePropertyChanging(this, "NotentendenzTendenz", this.Model.Tendenz, value);
+        this.UndoablePropertyChanging(this, nameof(NotentendenzTendenz), this.Model.Tendenz, value);
         this.Model.Tendenz = value;
         this.RaisePropertyChanged("NotentendenzTendenz");
       }
@@ -128,7 +125,7 @@
       set
       {
         if (value == this.Model.Tendenztyp) return;
-        this.UndoablePropertyChanging(this, "NotentendenzTendenztyp", this.Model.Tendenztyp, value);
+        this.UndoablePropertyChanging(this, nameof(NotentendenzTendenztyp), this.Model.Tendenztyp, value);
         this.Model.Tendenztyp = value;
         this.RaisePropertyChanged("NotentendenzTendenztyp");
       }

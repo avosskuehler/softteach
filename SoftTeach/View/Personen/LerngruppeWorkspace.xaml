@@ -46,7 +46,7 @@
           </Grid.RowDefinitions>
           <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddLerngruppeCommand}" 
-                    ToolTip="Neue Lerngruppe erstellen">
+                    ToolTip="e Lerngruppe erstellen">
               <StackPanel Orientation="Horizontal">
                 <Grid>
                   <fa:IconBlock Style="{StaticResource Lerngruppe32}" Foreground="{DynamicResource Iconfarbe}"/>
@@ -146,13 +146,13 @@
         <Label Style="{StaticResource Header1}" Grid.Row="0" Content="{Binding Path=LerngruppeÜberschrift}"/>
         <StackPanel Grid.Row="2" Orientation="Horizontal">
           <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddSchülereintragCommand}" 
-                    ToolTip="Neuen Schülereintrag erstellen">
+                    ToolTip="en Schülereintrag erstellen">
             <StackPanel Orientation="Horizontal">
               <Grid>
                 <fa:IconBlock Style="{StaticResource Person32}" Foreground="{DynamicResource Iconfarbe}"/>
                 <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
               </Grid>
-              <!--<Label Padding="5,0,0,0" VerticalContentAlignment="Center">Neuen Stundenentwurf erstellen</Label>-->
+              <!--<Label Padding="5,0,0,0" VerticalContentAlignment="Center">en Stundenentwurf erstellen</Label>-->
             </StackPanel>
           </Button>
           <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"

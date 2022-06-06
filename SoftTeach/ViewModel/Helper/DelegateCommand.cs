@@ -15,11 +15,8 @@
 
     public DelegateCommand(Action<T> execute, Predicate<T> canExecute)
     {
-      if (canExecute == null) throw new ArgumentNullException("canExecute");
-      if (execute == null) throw new ArgumentNullException("execute");
-
-      _execute = execute;
-      _canExecute = canExecute;
+      _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+      _canExecute = canExecute ?? throw new ArgumentNullException(nameof(canExecute));
     }
 
     public void Execute(object parameter)
@@ -75,7 +72,7 @@
   //  private readonly Predicate<object> canExecutePredicate;
 
   //  /// <summary>
-  //  /// Initialisiert eine neue Instanz der <see cref="DelegateCommand"/> Klasse. 
+  //  /// Initialisiert eine e Instanz der <see cref="DelegateCommand"/> Klasse. 
   //  /// The command will always be valid for execution.
   //  /// </summary>
   //  /// <param name="execute">
@@ -87,7 +84,7 @@
   //  }
 
   //  /// <summary>
-  //  /// Initialisiert eine neue Instanz der <see cref="DelegateCommand"/> Klasse. 
+  //  /// Initialisiert eine e Instanz der <see cref="DelegateCommand"/> Klasse. 
   //  /// </summary>
   //  /// <param name="execute">
   //  /// The delegate to call on execution

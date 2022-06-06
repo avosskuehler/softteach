@@ -23,10 +23,10 @@ using System.Runtime.InteropServices;
 //<UICulture>CultureYouAreCodingWith</UICulture> in your .csproj file
 //inside a <PropertyGroup>.  For example, if you are using US english
 //in your source files, set the <UICulture> to en-US.  Then uncomment
-//the NeutralResourceLanguage attribute below.  Update the "en-US" in
+//the tralResourceLanguage attribute below.  Update the "en-US" in
 //the line below to match the UICulture setting in the project file.
 
-//[assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.Satellite)]
+//[assembly: tralResourcesLanguage("en-US", UltimateResourceFallbackLocation.Satellite)]
 
 
 //[assembly: ThemeInfo(
@@ -51,5 +51,5 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("2.0.0.0")]
 [assembly: AssemblyFileVersion("2.0.0.0")]
-[assembly: NeutralResourcesLanguage("de-LI")]
+[assembly: NeutralResourcesLanguage("de-DE")]
 [assembly: Guid("8BC5FEF5-76E5-4F48-869F-F28EBEE6691C")]

@@ -39,9 +39,9 @@
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
         <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                     Command="{Binding Path=AddSitzplanCommand}" 
-                    ToolTip="Neuen Sitzplan anlegen." Padding="0" Margin="0">
+                    ToolTip="en Sitzplan anlegen." Padding="0" Margin="0">
           <StackPanel Orientation="Horizontal">
-            <Label Foreground="White" HorizontalAlignment="Center" FontSize="18">Sitzplan neu anlegen</Label>
+            <Label Foreground="White" HorizontalAlignment="Center" FontSize="18">Sitzplan  anlegen</Label>
             <Grid>
               <fa:IconBlock Style="{StaticResource Sitzplan32}"/>
               <fa:IconBlock Style="{StaticResource AddOverlay32}"/>

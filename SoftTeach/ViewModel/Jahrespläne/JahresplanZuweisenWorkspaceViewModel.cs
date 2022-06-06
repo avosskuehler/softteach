@@ -43,7 +43,7 @@
     private bool showFerien;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="JahresplanZuweisenWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="JahresplanZuweisenWorkspaceViewModel"/> Klasse. 
     /// </summary>
     /// <param name="lerngruppeSource">Die Lerngruppe, deren Stunden als Vorlage dienen sollen.</param>
     /// <param name="lerngruppeTarget">Die Lerngruppe, in die die Stunden der Vorlage übertragen werden sollen.</param>
@@ -105,7 +105,7 @@
       var ferienSource = App.MainViewModel.Ferien.Where(o => o.Model.Schuljahr.Jahr == lerngruppe.LerngruppeSchuljahr.SchuljahrJahr);
       foreach (var ferienzeit in ferienSource)
       {
-        var lgt = new LerngruppenterminNeu();
+        var lgt = new Lerngruppentermin();
         if (ferienzeit.FerienErsterFerientag.Month > 7 || ferienzeit.FerienErsterFerientag.Month == 1)
         {
           lgt.Halbjahr = Halbjahr.Winter;
@@ -235,10 +235,12 @@
         // Dateiverweise kopieren
         foreach (var dateiverweis in sourceItem.Dateiverweise.ToList())
         {
-          var dateiverweisClone = new DateiverweisNeu();
-          dateiverweisClone.Dateiname = dateiverweis.DateiverweisDateiname;
-          dateiverweisClone.Dateityp = dateiverweis.DateiverweisDateityp.Model;
-          dateiverweisClone.Stunde = (StundeNeu)targetItem.Model;
+          var dateiverweisClone = new Dateiverweis
+          {
+            Dateiname = dateiverweis.DateiverweisDateiname,
+            Dateityp = dateiverweis.DateiverweisDateityp.Model,
+            Stunde = (Stunde)targetItem.Model
+          };
           targetItem.Dateiverweise.Add(new DateiverweisViewModel(dateiverweisClone));
         }
 
@@ -258,13 +260,15 @@
         // Phasen kopieren
         foreach (var phase in sourceItem.Phasen.ToList())
         {
-          var phaseClone = new PhaseNeu();
-          phaseClone.Reihenfolge = phase.Reihenfolge;
-          phaseClone.Inhalt = phase.PhaseInhalt;
-          phaseClone.Medium = phase.PhaseMedium;
-          phaseClone.Sozialform = phase.PhaseSozialform;
-          phaseClone.Zeit = phase.PhaseZeit;
-          phaseClone.Stunde = (StundeNeu)targetItem.Model;
+          var phaseClone = new Phase
+          {
+            Reihenfolge = phase.Reihenfolge,
+            Inhalt = phase.PhaseInhalt,
+            Medium = phase.PhaseMedium,
+            Sozialform = phase.PhaseSozialform,
+            Zeit = phase.PhaseZeit,
+            Stunde = (Stunde)targetItem.Model
+          };
           targetItem.Phasen.Add(new PhaseViewModel(phaseClone));
         }
       }

@@ -34,7 +34,7 @@ namespace SoftTeach.View.Curricula
   public partial class AskForLerngruppeToAdaptDialog
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="AskForLerngruppeToAdaptDialog"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="AskForLerngruppeToAdaptDialog"/> Klasse. 
     /// </summary>
     /// <param name="fachViewModel"> The fach View Model.  </param>
     /// <param name="jahrgang">Der Jahrgang</param>
@@ -51,18 +51,18 @@ namespace SoftTeach.View.Curricula
     /// <summary>
     /// Holt alle möglichen Lerngruppen mit gleichem Fach und Jahrgang
     /// </summary>
-    public ObservableCollection<LerngruppeNeu> FilteredLerngruppen { get; private set; }
+    public ObservableCollection<Lerngruppe> FilteredLerngruppen { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die ausgewählte Lerngruppe
     /// </summary>
-    public LerngruppeNeu SelectedLerngruppe { get; set; }
+    public Lerngruppe SelectedLerngruppe { get; set; }
 
 
     /// <summary>
     /// Holt oder setzt den Titel des Dialogs.
     /// </summary>
-    public string Title
+    public new string Title
     {
       get
       {

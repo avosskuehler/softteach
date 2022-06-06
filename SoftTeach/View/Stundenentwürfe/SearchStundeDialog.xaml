@@ -6,7 +6,6 @@
         xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
         xmlns:pushBinding="clr-namespace:SoftTeach.ViewModel.Helper.PushBinding"
         Title="Stundenentwurf ..." 
-        Icon="/SoftTeach;component/Images/Stundenentwurf32.png"
         WindowState="Maximized"
         Height="600" 
         Width="900">

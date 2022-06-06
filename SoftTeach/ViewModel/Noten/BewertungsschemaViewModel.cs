@@ -18,19 +18,14 @@
     private ProzentbereichViewModel currentProzentbereich;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="BewertungsschemaViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="BewertungsschemaViewModel"/> Klasse. 
     /// </summary>
     /// <param name="bewertungsschema">
     /// The underlying bewertungsschema this ViewModel is to be based on
     /// </param>
-    public BewertungsschemaViewModel(BewertungsschemaNeu bewertungsschema)
+    public BewertungsschemaViewModel(Bewertungsschema bewertungsschema)
     {
-      if (bewertungsschema == null)
-      {
-        throw new ArgumentNullException("bewertungsschema");
-      }
-
-      this.Model = bewertungsschema;
+      this.Model = bewertungsschema ?? throw new ArgumentNullException(nameof(bewertungsschema));
 
       this.AddProzentbereichCommand = new DelegateCommand(this.AddProzentbereich);
       this.AddProzentbereicheCommand = new DelegateCommand(this.AddProzentbereiche);
@@ -66,7 +61,7 @@
     /// <summary>
     /// Holt den underlying Bewertungsschema this ViewModel is based on
     /// </summary>
-    public BewertungsschemaNeu Model { get; private set; }
+    public Bewertungsschema Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die currently selected phase
@@ -99,7 +94,7 @@
       set
       {
         if (value == this.Model.Bezeichnung) return;
-        this.UndoablePropertyChanging(this, "BewertungsschemaBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(BewertungsschemaBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("BewertungsschemaBezeichnung");
       }
@@ -145,7 +140,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void ProzentbereicheCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Prozentbereiche", this.Prozentbereiche, e, true, "Änderung der Prozentbereiche");
+      UndoableCollectionChanged(this, nameof(Prozentbereiche), this.Prozentbereiche, e, true, "Änderung der Prozentbereiche");
     }
 
     /// <summary>
@@ -153,14 +148,16 @@
     /// </summary>
     private void AddProzentbereich()
     {
-      var prozentbereich = new ProzentbereichNeu();
-      prozentbereich.BisProzent = 0.05f;
-      prozentbereich.VonProzent = 0f;
-      prozentbereich.Zensur = App.MainViewModel.Zensuren[0].Model;
-      prozentbereich.Bewertungsschema = this.Model;
+      var prozentbereich = new Prozentbereich
+      {
+        BisProzent = 0.05f,
+        VonProzent = 0f,
+        Zensur = App.MainViewModel.Zensuren[0].Model,
+        Bewertungsschema = this.Model
+      };
       var vm = new ProzentbereichViewModel(prozentbereich);
 
-      using (new UndoBatch(App.MainViewModel, string.Format("Neuer Prozentbereich {0} erstellt.", vm), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("er Prozentbereich {0} erstellt.", vm), false))
       {
         App.MainViewModel.Prozentbereiche.Add(vm);
         this.Prozentbereiche.Add(vm);
@@ -179,11 +176,13 @@
         var startProzent = 0f;
         foreach (var zensurViewModel in zensuren)
         {
-          var prozentbereich = new ProzentbereichNeu();
-          prozentbereich.BisProzent = startProzent + 0.05f;
-          prozentbereich.VonProzent = startProzent;
-          prozentbereich.Zensur = zensurViewModel.Model;
-          prozentbereich.Bewertungsschema = this.Model;
+          var prozentbereich = new Prozentbereich
+          {
+            BisProzent = startProzent + 0.05f,
+            VonProzent = startProzent,
+            Zensur = zensurViewModel.Model,
+            Bewertungsschema = this.Model
+          };
           startProzent += 0.05f;
 
           var vm = new ProzentbereichViewModel(prozentbereich);

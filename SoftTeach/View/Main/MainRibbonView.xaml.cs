@@ -24,7 +24,7 @@
   public partial class MainRibbonView
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="MainRibbonView"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="MainRibbonView"/> Klasse. 
     /// </summary>
     public MainRibbonView()
     {
@@ -38,7 +38,7 @@
       Settings.Default.Save();
 
       // Check if there is nothing to change
-      if (((Stack<ChangeSet>)App.MainViewModel.UndoStack).Count == 0)
+      if (((Stack<ChangeSet>)ViewModel.MainViewModel.UndoStack).Count == 0)
       {
         return;
       }
@@ -263,7 +263,7 @@
       stundenpläneView.ShowDialog();
     }
 
-    private void NeuerStundenplanButtonClick(object sender, RoutedEventArgs e)
+    private void erStundenplanButtonClick(object sender, RoutedEventArgs e)
     {
       var dlg = new AskForSchuljahr();
       if (dlg.ShowDialog().GetValueOrDefault(false))
@@ -271,7 +271,7 @@
         bool undo;
         using (new UndoBatch(App.MainViewModel, string.Format("Stundenplan angelegt."), false))
         {
-          // Neuen Stundenplan anlegen
+          // en Stundenplan anlegen
           App.MainViewModel.StundenplanWorkspace.AddStundenplan(dlg.Schuljahr, dlg.Halbjahr, dlg.GültigAb);
           var stundenplanView = new EditStundenplanDialog(App.MainViewModel.StundenplanWorkspace.CurrentStundenplan);
           undo = !stundenplanView.ShowDialog().GetValueOrDefault(false);
@@ -286,7 +286,7 @@
 
     private void StundenplanÄnderungButtonClick(object sender, RoutedEventArgs e)
     {
-      var aktuellerStundenplan = App.MainViewModel.StundenplanWorkspace.GetAktuellenStundenplan();
+      var aktuellerStundenplan = ViewModel.Stundenpläne.StundenplanWorkspaceViewModel.GetAktuellenStundenplan();
       App.MainViewModel.StundenplanWorkspace.AddStundenplanÄnderung(aktuellerStundenplan);
     }
 
@@ -399,7 +399,7 @@
       {
         var dlg = new InformationDialog(
           "Jahrespläne aktualisieren?",
-          "Wollen Sie in allen betreffenden Jahresplänen die geänderten/neuen/gelöschten Termin aktualisieren?",
+          "Wollen Sie in allen betreffenden Jahresplänen die geänderten/en/gelöschten Termin aktualisieren?",
           true);
 
         if (dlg.ShowDialog().GetValueOrDefault(false))

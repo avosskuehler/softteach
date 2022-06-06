@@ -33,7 +33,7 @@
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
     <controls:SmallDialogHeader Grid.Row="0" Title="Ergänzen, ändern oder löschen Sie hier Personen in der Datenbank.
-Das können Schüler oder Lehrer sein. Anschließend werden Sie (jährlich neu) den Klassen zugeordnet.">
+Das können Schüler oder Lehrer sein. Anschließend werden Sie (jährlich ) den Klassen zugeordnet.">
       <controls:SmallDialogHeader.IconContent>
         <Grid>
           <fa:IconBlock Style="{StaticResource Person48}" Foreground="{DynamicResource Iconfarbe}"/>
@@ -49,7 +49,7 @@ Das können Schüler oder Lehrer sein. Anschließend werden Sie (jährlich neu) 
       <Label  Background="{x:Static SystemColors.MenuBarBrush}" Style="{StaticResource Header1}" Grid.Row="0" Padding="5,5,0,0" Content="{Binding Path=PersonenÜberschrift}"/>
       <StackPanel Grid.Row="1" Orientation="Horizontal" Background="{x:Static SystemColors.MenuBarBrush}">
         <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddPersonCommand}" 
-                    ToolTip="Neue Person anlegen">
+                    ToolTip="e Person anlegen">
           <StackPanel Orientation="Horizontal">
             <Grid>
               <fa:IconBlock Style="{StaticResource Person32}" Foreground="{DynamicResource Iconfarbe}"/>

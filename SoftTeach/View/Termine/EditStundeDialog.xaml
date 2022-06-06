@@ -10,7 +10,6 @@
         xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         Title="Stunde ..." 
-        Icon="/SoftTeach;component/Images/Stundenentwurf32.png"
         Height="600" 
         Width="900">
   <Window.Resources>

@@ -1,7 +1,9 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:System="clr-namespace:System;assembly=mscorlib"
-                    xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase">
+﻿<ResourceDictionary 
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:System="clr-namespace:System;assembly=mscorlib"
+  xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
+  xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase">
 
   <DataTemplate x:Key="DateiverweiseListViewTile">
     <Grid>
@@ -17,8 +19,8 @@
         <RowDefinition Height="Auto"/>
         <RowDefinition Height="*"/>
       </Grid.RowDefinitions>
-      <Image Grid.Row="0" Source="{Binding Path=DateiverweisBild}" HorizontalAlignment="Center"/>
-      <Image Grid.Row="0" Source="{Binding Path=DateiverweisBildOverlay}" HorizontalAlignment="Center"/>
+      <fa:IconBlock Grid.Row="0" Style="{Binding DateiverweisBild}"/>
+      <fa:IconBlock Grid.Row="0" Style="{Binding DateiverweisBildOverlay}"/>
       <TextBlock Width="70" Grid.Row="1" Text="{Binding Path=DateiverweisDateinameOhnePfad}" 
                  FontSize="8" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow"/>
     </Grid>
@@ -44,10 +46,10 @@
       <Label Padding="10,0,0,0" VerticalAlignment="Center" FontSize="10" 
                    Grid.Column="1" Content="{Binding Path=TerminBeschreibung}"/>
       <Button Grid.Column="2" Command="{Binding Path=EditLerngruppenterminCommand}">
-        <Image Source="/SoftTeach;component/Images/Edit16.png"/>
+        <fa:IconBlock Style="{StaticResource Edit16}"/>
       </Button>
       <Button Grid.Column="3" Command="{Binding Path=RemoveLerngruppenterminCommand}">
-        <Image Source="/SoftTeach;component/Images/Remove16.png"/>
+        <fa:IconBlock Style="{StaticResource Remove16}"/>
       </Button>
     </Grid>
   </DataTemplate>
@@ -83,26 +85,26 @@
         <StackPanel Orientation="Horizontal" Visibility="Hidden" x:Name="EditButtons">
           <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=Lerngruppentermine[0].EditLerngruppenterminCommand}" ToolTip="Stunde ändern">
             <Grid>
-              <Image Source="/SoftTeach;component/Images/Edit16.png"/>
+              <fa:IconBlock Style="{StaticResource Edit16}"/>
             </Grid>
           </Button>
           <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=Lerngruppentermine[0].RemoveLerngruppenterminCommand}" ToolTip="Termin/Stunde löschen">
             <Grid>
-              <Image Source="/SoftTeach;component/Images/Remove16.png"/>
+              <fa:IconBlock Style="{StaticResource Remove16}"/>
             </Grid>
           </Button>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
           <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddStundeCommand}" ToolTip="Stunde anlegen">
             <Grid>
-              <Image Source="/SoftTeach;component/Images/Stundenentwurf16.png"/>
-              <Image Source="/SoftTeach;component/Images/AddOverlay16.png"/>
+              <fa:IconBlock Style="{StaticResource Stundenentwurf16}"/>
+              <fa:IconBlock Style="{StaticResource AddOverlay16}"/>
             </Grid>
           </Button>
           <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddLerngruppenterminCommand}" ToolTip="Lerngruppentermin anlegen">
             <Grid>
-              <Image Source="/SoftTeach;component/Images/Lerngruppentermin16.png"/>
-              <Image Source="/SoftTeach;component/Images/AddOverlay16.png"/>
+              <fa:IconBlock Style="{StaticResource Termin16}"/>
+              <fa:IconBlock Style="{StaticResource AddOverlay16}"/>
             </Grid>
           </Button>
         </StackPanel>

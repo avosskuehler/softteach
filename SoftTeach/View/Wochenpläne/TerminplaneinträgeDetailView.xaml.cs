@@ -15,7 +15,7 @@ namespace SoftTeach.View.Wochenpläne
     private bool isCurrentlyClicked;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="TerminplaneinträgeDetailView"/> Klasse.
+    /// Initialisiert eine e Instanz der <see cref="TerminplaneinträgeDetailView"/> Klasse.
     /// </summary>
     public TerminplaneinträgeDetailView()
     {

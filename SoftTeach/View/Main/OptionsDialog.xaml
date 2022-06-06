@@ -4,8 +4,7 @@
         xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
         xmlns:Setting="clr-namespace:SoftTeach.Setting" 
         xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
-        Title="Einstellungen ..." MinHeight="200" Height="328" Width="433" WindowStyle="SingleBorderWindow"
-        Icon="/SoftTeach;component/Images/Settings.ico">
+        Title="Einstellungen ..." MinHeight="200" Height="328" Width="433" WindowStyle="SingleBorderWindow">
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="80"/>

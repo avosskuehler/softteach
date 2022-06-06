@@ -85,8 +85,8 @@
         <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddNotentendenzCommand}" ToolTip="Notentendenz anlegen" >
           <StackPanel Orientation="Horizontal">
             <Grid>
-              <Image Source="/SoftTeach;component/Images/Notentendenz32.png" />
-              <fa:IconBlock Style="{StaticResource AddOverlay16}"/>
+              <fa:IconBlock Style="{StaticResource Tendenz32}"/>
+              <fa:IconBlock Style="{StaticResource AddOverlay32}"/>
             </Grid>
             <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Notentendenz anlegen</Label>
           </StackPanel>
@@ -314,8 +314,8 @@
             <ColumnDefinition Width="*"/>
           </Grid.ColumnDefinitions>
           <Label Grid.Row="0" Grid.Column="0">Tendenzen</Label>
-          <Image Grid.Row="0" Grid.Column="1" Height="32" Source="{Binding Path=TendenzenTendenzImage}"/>
-          <ListBox  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"       Background="Transparent"        
+          <fa:IconBlock Grid.Row="0" Grid.Column="1" Style="{Binding TendenzenTendenzStyle}"/>
+          <ListBox  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent"        
                  ItemsSource="{Binding Source={StaticResource NotentendenzenViewSource}}"             
                  BorderThickness="0"
                  SelectedItem="{Binding CurrentNotentendenz}"
@@ -342,7 +342,7 @@
             <ColumnDefinition Width="*"/>
           </Grid.ColumnDefinitions>
           <Label Grid.Row="0" Grid.Column="0">Nicht gemachte Hausaufgaben</Label>
-          <Image Grid.Row="0" Grid.Column="1" Height="32" Source="{Binding Path=HausaufgabenTendenzImage}"/>
+          <fa:IconBlock Grid.Row="0" Grid.Column="1" Style="{Binding HausaufgabenTendenzStyle}"/>
           <ListBox  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Background="Transparent"              
                  ItemsSource="{Binding Source={StaticResource HausaufgabenViewSource}}"             
                  BorderThickness="0"

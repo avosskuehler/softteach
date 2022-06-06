@@ -29,13 +29,16 @@ namespace SoftTeach.Resources.Controls
     {
       base.OnRender(drawingContext);
 
-      drawingContext.DrawText(
-       new FormattedText(this.Reihenfolge.ToString(),
-          CultureInfo.GetCultureInfo("de-de"),
-          FlowDirection.LeftToRight,
-          new Typeface("Verdana"),
-          18, System.Windows.Media.Brushes.Black),
-          new System.Windows.Point(5, 5));
+      var formattedText = new FormattedText(
+        this.Reihenfolge.ToString(),
+        CultureInfo.GetCultureInfo("de-de"),
+        FlowDirection.LeftToRight,
+        new Typeface("Verdana"),
+        18,
+        Brushes.Black,
+        VisualTreeHelper.GetDpi(this).PixelsPerDip);
+
+      drawingContext.DrawText(formattedText, new System.Windows.Point(5, 5));
     }
 
     private Geometry GetGeometry()

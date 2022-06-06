@@ -31,7 +31,7 @@ namespace SoftTeach.View.Personen
     #region Constructors and Destructors
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="AskForLerngruppeToAddDialog"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="AskForLerngruppeToAddDialog"/> Klasse. 
     /// </summary>
     public AskForLerngruppeToAddDialog()
     {
@@ -42,7 +42,7 @@ namespace SoftTeach.View.Personen
       this.Fach = Selection.Instance.Fach;
       this.NotenWichtung = App.MainViewModel.NotenWichtungen.FirstOrDefault();
       this.Bepunktungstyp = Bepunktungstyp.NoteMitTendenz;
-      this.Bezeichnung = "neue Lerngruppe";
+      this.Bezeichnung = "e Lerngruppe";
     }
 
     #endregion

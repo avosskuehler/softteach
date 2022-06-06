@@ -22,10 +22,10 @@
   /// </summary>
   public class RaumplanViewModel : ViewModelBase, IComparable
   {
-    /// <summary>
-    /// Der Grundriss des Raumplans
-    /// </summary>
-    private BitmapSource grundriss;
+    ///// <summary>
+    ///// Der Grundriss des Raumplans
+    ///// </summary>
+    //private BitmapSource grundriss;
 
     /// <summary>
     /// The raum currently assigned to this Raumplan
@@ -38,19 +38,14 @@
     private SitzplatzViewModel currentSitzplatz;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="RaumplanViewModel"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="RaumplanViewModel"/> Klasse. 
     /// </summary>
     /// <param name="raumplan">
     /// The underlying raumplan this ViewModel is to be based on
     /// </param>
-    public RaumplanViewModel(RaumplanNeu raumplan)
+    public RaumplanViewModel(Raumplan raumplan)
     {
-      if (raumplan == null)
-      {
-        throw new ArgumentNullException("raumplan");
-      }
-
-      this.Model = raumplan;
+      this.Model = raumplan ?? throw new ArgumentNullException(nameof(raumplan));
 
       this.OpenImageFileCommand = new DelegateCommand(this.OpenImageFile);
       this.EditRaumplanCommand = new DelegateCommand(this.EditRaumplan);
@@ -87,7 +82,7 @@
     /// <summary>
     /// Holt den underlying Raumplan this ViewModel is based on
     /// </summary>
-    public RaumplanNeu Model { get; private set; }
+    public Raumplan Model { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die Sitzplätze dieser Raumplan
@@ -124,7 +119,7 @@
       set
       {
         if (value == this.Model.Bezeichnung) return;
-        this.UndoablePropertyChanging(this, "RaumplanBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(RaumplanBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("RaumplanBezeichnung");
       }
@@ -143,7 +138,7 @@
       set
       {
         if (value == this.Model.Grundriss) return;
-        this.UndoablePropertyChanging(this, "RaumplanGrundriss", this.Model.Grundriss, value);
+        this.UndoablePropertyChanging(this, nameof(RaumplanGrundriss), this.Model.Grundriss, value);
         this.Model.Grundriss = value;
         this.RaisePropertyChanged("RaumplanGrundriss");
       }
@@ -240,7 +235,7 @@
           if (value.RaumBezeichnung == this.raum.RaumBezeichnung) return;
         }
 
-        this.UndoablePropertyChanging(this, "RaumplanRaum", this.raum, value);
+        this.UndoablePropertyChanging(this, nameof(RaumplanRaum), this.raum, value);
         this.raum = value;
         this.Model.Raum = value.Model;
         this.RaisePropertyChanged("RaumplanRaum");
@@ -304,16 +299,18 @@
     /// <param name="angle"> The angle. </param>
     public void AddSitzplatz(double left, double top, double width, double height, double angle)
     {
-      var sitzplatz = new SitzplatzNeu();
-      sitzplatz.LinksObenX = left;
-      sitzplatz.LinksObenY = top;
-      sitzplatz.Breite = width;
-      sitzplatz.Höhe = height;
-      sitzplatz.Drehwinkel = angle;
-      sitzplatz.Raumplan = this.Model;
+      var sitzplatz = new Sitzplatz
+      {
+        LinksObenX = left,
+        LinksObenY = top,
+        Breite = width,
+        Höhe = height,
+        Drehwinkel = angle,
+        Raumplan = this.Model
+      };
       var sitzplatzViewModel = new SitzplatzViewModel(sitzplatz);
 
-      using (new UndoBatch(App.MainViewModel, string.Format("Neuer Sitzplatz {0} erstellt.", sitzplatzViewModel), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("er Sitzplatz {0} erstellt.", sitzplatzViewModel), false))
       {
         //App.MainViewModel.Sitzplätze.Add(sitzplatzViewModel);
         //App.UnitOfWork.Context.Sitzplätze.Add(sitzplatzViewModel.Model);
@@ -361,7 +358,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void SitzplätzeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Sitzplätze", this.Sitzplätze, e, true, "Änderung der Sitzplätze");
+      UndoableCollectionChanged(this, nameof(Sitzplätze), this.Sitzplätze, e, true, "Änderung der Sitzplätze");
     }
 
     /// <summary>

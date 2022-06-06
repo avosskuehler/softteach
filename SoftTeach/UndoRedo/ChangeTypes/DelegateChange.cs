@@ -18,7 +18,7 @@
     private Action redoAction;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="DelegateChange"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="DelegateChange"/> Klasse. 
     /// </summary>
     /// <param name="target"> The object that this change affects. </param>
     /// <param name="undoAction"> The delegate that will do the Undo logic </param>

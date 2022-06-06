@@ -10,7 +10,7 @@
   public partial class OptionsDialog
   {
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="OptionsDialog"/> Klasse. 
+    /// Initialisiert eine e Instanz der <see cref="OptionsDialog"/> Klasse. 
     /// </summary>
     public OptionsDialog()
     {
@@ -26,7 +26,7 @@
     private void SaveButtonClick(object sender, RoutedEventArgs e)
     {
       this.DialogResult = true;
-      Configuration.Instance.Serialize();
+      Configuration.Serialize();
       this.Close();
     }
 

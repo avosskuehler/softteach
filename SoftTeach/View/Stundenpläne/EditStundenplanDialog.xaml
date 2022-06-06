@@ -5,8 +5,7 @@
         xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
         xmlns:StundenplanView="clr-namespace:SoftTeach.ViewModel.Stundenpläne"
         xmlns:StundenplanViewModel="clr-namespace:SoftTeach.View.Stundenpläne"
-        Title="Stundenplan neu ..." 
-        Icon="/SoftTeach;component/Images/Stundenplan.ico"
+        Title="Stundenplan  ..." 
         Height="700" 
         Width="850">
   <Window.Resources>
@@ -17,7 +16,7 @@
       <RowDefinition Height="*"/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader Grid.Row="0" Title="Neuen Stundenplan eintragen ...">
+    <controls:SmallDialogHeader Grid.Row="0" Title="en Stundenplan eintragen ...">
       <controls:SmallDialogHeader.IconContent>
         <Grid>
           <fa:IconBlock Style="{StaticResource Stundenplan48}" Foreground="{DynamicResource Iconfarbe}"/>

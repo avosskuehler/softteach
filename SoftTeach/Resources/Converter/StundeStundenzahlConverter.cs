@@ -9,7 +9,7 @@
   /// Konvertiert einen Dezimalwert in einen Prozentwert und zurück,
   /// inklusive %-Zeichen Formatierung
   /// </summary>
-  [ValueConversion(typeof(StundeNeu), typeof(int))]
+  [ValueConversion(typeof(Stunde), typeof(int))]
   public class StundeStundenzahlConverter : IValueConverter
   {
     #region IValueConverter Members
@@ -24,12 +24,12 @@
     /// <returns>A converted value. If the method returns null, the valid null value is used.</returns>
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-      if (!(value is StundeNeu))
+      if (value is not Stunde)
       {
-        throw new InvalidOperationException("The source must be a StundeNeu");
+        throw new InvalidOperationException("The source must be a Stunde");
       }
 
-      var valueToConvert = (StundeNeu)value;
+      var valueToConvert = (Stunde)value;
       return valueToConvert.LetzteUnterrichtsstunde.Stundenindex - valueToConvert.ErsteUnterrichtsstunde.Stundenindex + 1;
     }
 
