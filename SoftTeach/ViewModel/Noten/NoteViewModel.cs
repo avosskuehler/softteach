@@ -109,7 +109,7 @@
     {
       get
       {
-        return this.Model.Datum;
+        return this.Model.Datum.Date;
       }
 
       set

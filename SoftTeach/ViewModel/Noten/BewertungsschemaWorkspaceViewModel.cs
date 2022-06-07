@@ -59,7 +59,7 @@
     {
       var bewertungsschema = new Bewertungsschema
       {
-        Bezeichnung = "es Bewertungsschema"
+        Bezeichnung = "Neues Bewertungsschema"
       };
       var vm = new BewertungsschemaViewModel(bewertungsschema);
       App.MainViewModel.Bewertungsschemata.Add(vm);

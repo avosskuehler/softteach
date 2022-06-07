@@ -48,7 +48,7 @@
       TrayIconClickedCommand = new DelegateCommand(TrayIconClicked);
 
       this.InitializeComponent();
-      this.notenTimer = new Timer(5000);
+      this.notenTimer = new Timer(10000);
       this.notenTimer.Elapsed += this.NotenTimerElapsed;
 
       this.NotenNotifyIcon.LeftClickCommand = TrayIconClickedCommand;
@@ -91,27 +91,27 @@
     /// <param name="e">The <see cref="ElapsedEventArgs"/> instance containing the event data.</param>
     private void NotenTimerElapsed(object source, ElapsedEventArgs e)
     {
-      var nochZuBenotendeStunden = HoleNochZuBenotendeStunden();
-      var anzahlNichtbenoteterStunden = nochZuBenotendeStunden.Count;
-      if (anzahlNichtbenoteterStunden > 0)
+      Application.Current.Dispatcher.Invoke(new Action(() =>
       {
-        Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+        var nochZuBenotendeStunden = HoleNochZuBenotendeStunden();
+        var anzahlNichtbenoteterStunden = nochZuBenotendeStunden.Count;
+        if (anzahlNichtbenoteterStunden > 0)
         {
-          var text = string.Format("{0} {1}  noch nicht benotet", anzahlNichtbenoteterStunden, anzahlNichtbenoteterStunden == 1 ? "Stunde" : "Stunden");
-          this.NotenNotifyIcon.ToolTipText = anzahlNichtbenoteterStunden + " Stunden noch nicht benotet";
+          var text = string.Format("{0} {1} noch nicht benotet", anzahlNichtbenoteterStunden, anzahlNichtbenoteterStunden == 1 ? "Stunde" : "Stunden");
+          this.NotenNotifyIcon.ToolTipText = text;
           this.NotenNotifyIcon.IconSource = ((Image)this.Resources["ErrorImage"]).Source;
           this.NotenNotifyIcon.Visibility = Visibility.Visible;
-        }));
-      }
-      else
-      {
-        Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+        }
+        else
         {
+          //Application.Current.Dispatcher.Invoke(new Action(() =>
+          //{
           this.NotenNotifyIcon.ToolTipText = "Keine offenen Bewertungen.";
           this.NotenNotifyIcon.IconSource = ((Image)this.Resources["InactiveImage"]).Source;
           this.NotenNotifyIcon.Visibility = Visibility.Collapsed;
-        }));
-      }
+          //}));
+        }
+      }));
     }
 
     /// <summary>
@@ -120,29 +120,37 @@
     /// <returns>ObservableCollection&lt;StundeViewModel&gt;.</returns>
     private static ObservableCollection<Stunde> HoleNochZuBenotendeStunden()
     {
-      var von = DateTime.Now.AddDays(-14);
-      var bis = DateTime.Now;
-      var nichtBenoteteStundenderLetzten14Tage =
-        App.UnitOfWork.Context.Termine.OfType<Stunde>().Where(
-          o =>
-          o.Datum > von && o.Datum <= bis && !o.IstBenotet
-          && (o.Fach.Bezeichnung == "Mathematik" || o.Fach.Bezeichnung == "Physik"));
-
       var nochZuBenotendeStunden = new ObservableCollection<Stunde>();
 
-
-      foreach (var stundeViewModel in nichtBenoteteStundenderLetzten14Tage)
+      try
       {
-        if (stundeViewModel.Datum.Date == bis.Date)
-        {
-          if (stundeViewModel.LetzteUnterrichtsstunde.Beginn > bis.TimeOfDay)
-          {
-            continue;
-          }
-        }
+        var von = DateTime.Now.AddDays(-30);
+        var bis = DateTime.Now;
+        var nichtBenoteteStundenderLetzten14Tage =
+          App.UnitOfWork.Context.Stunden.Where(
+            o =>
+            o.Datum > von && o.Datum <= bis && !o.IstBenotet
+            && (o.Fach.Bezeichnung == "Mathematik" || o.Fach.Bezeichnung == "Physik")).ToList();
 
-        nochZuBenotendeStunden.Add(stundeViewModel);
+
+        foreach (var stundeViewModel in nichtBenoteteStundenderLetzten14Tage)
+        {
+          if (stundeViewModel.Datum.Date == bis.Date)
+          {
+            if (stundeViewModel.LetzteUnterrichtsstunde.Beginn > bis.TimeOfDay)
+            {
+              continue;
+            }
+          }
+
+          nochZuBenotendeStunden.Add(stundeViewModel);
+        }
       }
+      catch (Exception)
+      {
+        // Ignore DBContext errors
+      }
+
       return nochZuBenotendeStunden;
     }
 
@@ -378,7 +386,7 @@
       stundenpläneView.ShowDialog();
     }
 
-    private void erStundenplanButtonClick(object sender, RoutedEventArgs e)
+    private void NeuerStundenplanButtonClick(object sender, RoutedEventArgs e)
     {
       var dlg = new AskForSchuljahr();
       if (dlg.ShowDialog().GetValueOrDefault(false))

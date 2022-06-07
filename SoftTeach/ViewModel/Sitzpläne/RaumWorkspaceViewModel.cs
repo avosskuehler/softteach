@@ -77,7 +77,7 @@
       {
         Log.ProcessMessage(
           "Raum bereits vorhanden",
-          "Dieses Raum ist bereits in " + "der Datenbank vorhanden und kann nicht doppelt angelegt werden.");
+          "Dieser Raum ist bereits in " + "der Datenbank vorhanden und kann nicht doppelt angelegt werden.");
         return;
       }
 

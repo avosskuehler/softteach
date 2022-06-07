@@ -75,7 +75,7 @@
       {
         Log.ProcessMessage(
           "Zensur bereits vorhanden",
-          "Dieses Zensur ist bereits in " + "der Datenbank vorhanden und kann nicht doppelt angelegt werden.");
+          "Diese Zensur ist bereits in " + "der Datenbank vorhanden und kann nicht doppelt angelegt werden.");
         return;
       }
 

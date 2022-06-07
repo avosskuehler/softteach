@@ -143,7 +143,7 @@
       };
       var raumplanViewModel = new RaumplanViewModel(raumplan);
       bool undo = false;
-      using (new UndoBatch(App.MainViewModel, string.Format("er Raumplan {0} erstellt.", raumplanViewModel), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("Neuer Raumplan {0} erstellt.", raumplanViewModel), false))
       {
         var dlg = new EditRaumplanDialog(raumplanViewModel);
         if (!dlg.ShowDialog().GetValueOrDefault(false))

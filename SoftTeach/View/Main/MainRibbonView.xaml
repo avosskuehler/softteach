@@ -252,7 +252,7 @@
           <fluent:Button 
             Header="Übersicht" 
             Click="StundenplanButtonClick"
-            ToolTip="Stundenplan für es Halbjahr">
+            ToolTip="Stundenplan für Neues Halbjahr">
             <fluent:Button.LargeIcon>
               <Grid>
                 <fa:IconBlock Style="{StaticResource Stundenplan32}"/>
@@ -261,9 +261,9 @@
             </fluent:Button.LargeIcon>
           </fluent:Button>
           <fluent:Button 
-            Header="es Halbjahr" 
-            Click="erStundenplanButtonClick"
-            ToolTip="Stundenplan für es Halbjahr">
+            Header="Neues Halbjahr" 
+            Click="NeuerStundenplanButtonClick"
+            ToolTip="Stundenplan für Neues Halbjahr">
             <fluent:Button.LargeIcon>
               <Grid>
                 <fa:IconBlock Style="{StaticResource Stundenplan32}"/>

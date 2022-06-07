@@ -229,7 +229,6 @@
                 <ListView Grid.Column="1" 
                  SelectedItem="{Binding Path=CurrentDateiverweis, Mode=TwoWay}" 
                  ItemsSource="{Binding Path=Dateiverweise}"
-                        ItemContainerStyle="{StaticResource NoBorderListBoxItemStyle}"
                  ItemTemplate="{StaticResource DateiverweiseListViewTile}"
                   >
                   <ListView.ItemsPanel>

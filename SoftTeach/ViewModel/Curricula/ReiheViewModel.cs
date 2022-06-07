@@ -42,7 +42,7 @@
       this.AvailableSequenzen = new ObservableCollection<SequenzViewModel>();
 
       // Sort Sequenzen by Reihenfolge
-      foreach (var sequenz in reihe.Sequenzen.OrderBy(o => o.Reihenfolge))
+      foreach (var sequenz in reihe.Sequenzen.OrderBy(o => o.Reihenfolge).ToList())
       {
         var vm = new SequenzViewModel(this, sequenz);
         //App.MainViewModel.Sequenzen.Add(vm);
@@ -292,18 +292,22 @@
     {
       get
       {
+        var fachBezeichnung = this.Model.Curriculum.Fach.Bezeichnung;
+        var jahrgang = this.Model.Curriculum.Jahrgang;
+
         var fachstundenanzahl = App.MainViewModel.Fachstundenanzahl.FirstOrDefault(
           o =>
-          o.FachstundenanzahlFach.FachBezeichnung == Selection.Instance.Fach.FachBezeichnung
-          && o.FachstundenanzahlJahrgang == Selection.Instance.Lerngruppe.LerngruppeJahrgang);
+          o.FachstundenanzahlFach.FachBezeichnung == fachBezeichnung// Selection.Instance.Fach.FachBezeichnung
+          && o.FachstundenanzahlJahrgang == jahrgang);//Selection.Instance.Lerngruppe.LerngruppeJahrgang);
         if (fachstundenanzahl == null)
         {
-          Console.WriteLine("Keine Fachstundenanzahl gefunden für {0} {1}", Selection.Instance.Fach.FachBezeichnung, Selection.Instance.Lerngruppe.LerngruppeJahrgang);
+          Console.WriteLine("Keine Fachstundenanzahl gefunden für {0} {1}", fachBezeichnung, jahrgang);
           return 40;
         }
 
         var wochenstunden = fachstundenanzahl.FachstundenanzahlStundenzahl
                             + fachstundenanzahl.FachstundenanzahlTeilungsstundenzahl;
+
         return (int)(this.Model.Stundenbedarf / (float)wochenstunden * Properties.Settings.Default.Wochenbreite);
       }
     }
@@ -348,7 +352,7 @@
       {
         Reihenfolge = -1,
         Stundenbedarf = 10,
-        Thema = "es Thema",
+        Thema = "Neues Thema",
         Reihe = this.Model
       };
 

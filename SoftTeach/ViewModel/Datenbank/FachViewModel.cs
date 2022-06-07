@@ -46,6 +46,26 @@
     }
 
     /// <summary>
+    /// Holt oder setzt einen Wert, der angibt, ob das Fach benotet wird
+    /// </summary>
+    public bool FachMitNoten
+    {
+      get
+      {
+        return this.Model.MitNoten;
+      }
+
+      set
+      {
+        if (value == this.Model.MitNoten) return;
+        this.UndoablePropertyChanging(this, nameof(FachMitNoten), this.Model.MitNoten, value);
+        this.Model.MitNoten = value;
+        this.RaisePropertyChanged("FachMitNoten");
+      }
+    }
+
+
+    /// <summary>
     /// Holt eine zweibuchstabige Kurzbezeichnung des Fachs
     /// </summary>
     [DependsUpon("FachBezeichnung")]

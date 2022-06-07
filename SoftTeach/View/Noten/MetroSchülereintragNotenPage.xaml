@@ -11,8 +11,8 @@
       d:DesignHeight="768" 
       d:DesignWidth="1366"
       Title="Notengebung"
-      FontSize="20"
-      DataContext="{Binding Source={x:Static setting:Selection.Instance}, Path=Schülereintrag}">
+      FontSize="20">
+  <!--DataContext="{Binding Source={x:Static setting:Selection.Instance}, Path=Schülereintrag}">-->
   <Page.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
@@ -288,15 +288,7 @@
               </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
           </ListBox>
-          <!--<oxy:Plot  Background="Transparent" Grid.Column="1" PlotAreaBorderThickness="0" x:Name="QuantitätPlot" Height="120" Width="400" Visibility="{Binding ElementName=ShowQuantitätGraphRadioButton, Path=IsChecked, Converter={StaticResource BoolVisibleConverter}}">
-            <oxy:Plot.Axes>
-              <oxy:DateTimeAxis MinimumPadding="0.1" MaximumPadding="0.1" FirstDateTime="{Binding MündlicheQuantitätFirstDateTime}" LastDateTime="{Binding MündlicheQuantitätLastDateTime}" Position="Bottom" IntervalType="Auto" StringFormat="MMMM"/>
-              <oxy:LinearAxis TickStyle="None" MinimumPadding="0.1" MaximumPadding="0.1" Position="Left" StartPosition="1" EndPosition="0" Minimum=".5" Maximum="6.5" MajorStep="1" MinorStep="1"  MajorGridlineStyle="Solid"/>
-            </oxy:Plot.Axes>
-            <oxy:Plot.Series>
-              <oxy:LineSeries ItemsSource="{Binding Source={StaticResource MündlicheQuantitätViewSource}}" DataFieldX="NoteDatum" DataFieldY="NoteZensurGanzeNote" MarkerType="Circle"/>
-            </oxy:Plot.Series>
-          </oxy:Plot>-->
+          <oxy:PlotView Model="{Binding Path=PlotModelQuantität}" Background="Transparent" Grid.Column="1" x:Name="QuantitätPlot" Height="120" Width="400" Visibility="{Binding ElementName=ShowQuantitätGraphRadioButton, Path=IsChecked, Converter={StaticResource BoolVisibleConverter}}"/>
         </Grid>
       </GroupBox>
       <GroupBox Grid.Row="5" Grid.Column="0" Name="GroupBoxWeitereMündlich" Margin="3" Padding="0">

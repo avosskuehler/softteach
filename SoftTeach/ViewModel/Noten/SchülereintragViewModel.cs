@@ -85,6 +85,8 @@
 
     private PlotModel plotModelQualität;
 
+    private PlotModel plotModelQuantität;
+
     /// <summary>
     /// Initialisiert eine e Instanz der <see cref="SchülereintragViewModel"/> Klasse. 
     /// </summary>
@@ -97,42 +99,6 @@
       //App.UnitOfWork.Context.Schülereinträge.Add(schülereintrag);
       this.Model = schülereintrag;
       //App.MainViewModel.Schülereinträge.Add(this);
-      this.plotModelQualität = new PlotModel();
-
-      // < oxy:DateTimeAxis FirstDateTime = "{Binding MündlicheQualitätFirstDateTime}" LastDateTime = "{Binding MündlicheQualitätLastDateTime}" />
-      this.plotModelQualität.Axes.Add(new DateTimeAxis
-      {
-        Position = AxisPosition.Bottom,
-        IntervalType = DateTimeIntervalType.Months,
-        MinimumPadding = 0.1,
-        MaximumPadding = 0.1,
-        StringFormat = "MMMM",
-      });
-
-      this.plotModelQualität.Axes.Add(new LinearAxis
-      {
-        Position = AxisPosition.Left,
-        TickStyle = TickStyle.None,
-        MinimumPadding = 0.1,
-        MaximumPadding = 0.1,
-        StartPosition = 1,
-        EndPosition = 0,
-        Minimum = 0.5,
-        Maximum = 6.5,
-        MajorStep = 1,
-        MinorStep = 1,
-        MajorGridlineStyle = LineStyle.Solid
-      });
-
-      var s = new LineSeries
-      {
-        ItemsSource = this.MündlicheQualitätNotenCollection,
-        DataFieldX = "NoteDatum",
-        DataFieldY = "NoteZensurGanzeNote",
-        MarkerType = MarkerType.Circle
-      };
-      this.plotModelQualität.Series.Add(s);
-
     }
 
     /// <summary>
@@ -521,11 +487,35 @@
       }
     }
 
+    /// <summary>
+    /// Holt das <see cref="PlotModel"/> für das Diagramm der Qualitätsnoten
+    /// </summary>
     public PlotModel PlotModelQualität
     {
       get
       {
-        return this.plotModelQualität;
+        if (plotModelQualität == null)
+        {
+          CreateQualitätPlotModel();
+        }
+
+        return plotModelQualität;
+      }
+    }
+
+    /// <summary>
+    /// Holt das <see cref="PlotModel"/> für das Diagramm der Quantitätsnoten
+    /// </summary>
+    public PlotModel PlotModelQuantität
+    {
+      get
+      {
+        if (plotModelQuantität == null)
+        {
+          CreateQuanitätPlotModel();
+        }
+
+        return plotModelQuantität;
       }
     }
 
@@ -2368,5 +2358,91 @@
       var schlüssel = (int)Math.Round(tendenzSumme / (float)anzahlTendenzen, 0);
       return schlüssel != 0 ? schlüssel * -1 + 3 : 2;
     }
+
+    private void CreateQuanitätPlotModel()
+    {
+      this.plotModelQuantität = new PlotModel();
+
+      var min = DateTimeAxis.ToDouble(this.MündlicheQuantitätFirstDateTime);
+      var max = DateTimeAxis.ToDouble(this.MündlicheQuantitätLastDateTime);
+      this.plotModelQuantität.Axes.Add(new DateTimeAxis
+      {
+        Position = AxisPosition.Bottom,
+        IntervalType = DateTimeIntervalType.Months,
+        Minimum = min,
+        Maximum = max,
+        StringFormat = "MMM"
+      });
+
+      this.plotModelQuantität.Axes.Add(new LinearAxis
+      {
+        Position = AxisPosition.Left,
+        TickStyle = TickStyle.None,
+        MinimumPadding = 0.1,
+        MaximumPadding = 0.1,
+        StartPosition = 1,
+        EndPosition = 0,
+        Minimum = 0.5,
+        Maximum = 6.5,
+        MajorStep = 1,
+        MinorStep = 1,
+        MajorGridlineStyle = LineStyle.Solid
+      });
+
+      var s = new LineSeries
+      {
+        ItemsSource = this.MündlicheQuantitätNotenCollection,
+        Mapping = item => new DataPoint(DateTimeAxis.ToDouble(((NoteViewModel)item).NoteDatum), ((NoteViewModel)item).NoteZensurGanzeNote),
+        DataFieldX = "NoteDatum",
+        DataFieldY = "NoteZensurGanzeNote",
+        MarkerType = MarkerType.Circle
+      };
+
+      this.plotModelQuantität.Series.Add(s);
+    }
+
+    private void CreateQualitätPlotModel()
+    {
+      this.plotModelQualität = new PlotModel();
+
+      var min = DateTimeAxis.ToDouble(this.MündlicheQualitätFirstDateTime);
+      var max = DateTimeAxis.ToDouble(this.MündlicheQualitätLastDateTime);
+      this.plotModelQualität.Axes.Add(new DateTimeAxis
+      {
+        Position = AxisPosition.Bottom,
+        IntervalType = DateTimeIntervalType.Months,
+        Minimum = min,
+        Maximum = max,
+        StringFormat = "MMM"
+      });
+
+      this.plotModelQualität.Axes.Add(new LinearAxis
+      {
+        Position = AxisPosition.Left,
+        TickStyle = TickStyle.None,
+        MinimumPadding = 0.1,
+        MaximumPadding = 0.1,
+        StartPosition = 1,
+        EndPosition = 0,
+        Minimum = 0.5,
+        Maximum = 6.5,
+        MajorStep = 1,
+        MinorStep = 1,
+        MajorGridlineStyle = LineStyle.Solid
+      });
+
+      var s = new LineSeries
+      {
+        ItemsSource = this.MündlicheQualitätNotenCollection,
+        Mapping = item => new DataPoint(DateTimeAxis.ToDouble(((NoteViewModel)item).NoteDatum), ((NoteViewModel)item).NoteZensurGanzeNote),
+        DataFieldX = "NoteDatum",
+        DataFieldY = "NoteZensurGanzeNote",
+        MarkerType = MarkerType.Circle
+      };
+
+      this.plotModelQualität.Series.Add(s);
+    }
+
+
   }
 }

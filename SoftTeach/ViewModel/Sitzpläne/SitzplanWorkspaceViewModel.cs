@@ -228,7 +228,7 @@
         try
         {
           App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = false;
-          var sitzplan = new Sitzplan { Bezeichnung = "er Sitzplan", GültigAb = DateTime.Now.Date };
+          var sitzplan = new Sitzplan { Bezeichnung = "Neuer Sitzplan", GültigAb = DateTime.Now.Date };
 
           if (this.raumplanFilter != null)
           {

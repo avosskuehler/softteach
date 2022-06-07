@@ -391,7 +391,7 @@
       }
       if (alterTermin != null)
       {
-        // Termin hat es Datum bekommen
+        // Termin hat neues Datum bekommen
         lerngruppenTerminToUpdate = lerngruppe.Lerngruppentermine.FirstOrDefault(vm => vm.TerminBeschreibung == terminViewModel.TerminBeschreibung && vm.LerngruppenterminDatum == alterTermin);
       }
 
@@ -508,7 +508,7 @@
     {
       var termin = new Schultermin
       {
-        Beschreibung = "er Termin",
+        Beschreibung = "Neuer Termin",
         Datum = ZuletztVerwendetesDatum,
         ErsteUnterrichtsstunde = App.MainViewModel.Unterrichtsstunden[0].Model
       };

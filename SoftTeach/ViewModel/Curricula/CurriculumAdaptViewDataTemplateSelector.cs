@@ -1,10 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="CurriculumAdaptViewDataTemplateSelector.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
-
-namespace SoftTeach.ViewModel.Curricula
+﻿namespace SoftTeach.ViewModel.Curricula
 {
   using System.Windows;
   using System.Windows.Controls;

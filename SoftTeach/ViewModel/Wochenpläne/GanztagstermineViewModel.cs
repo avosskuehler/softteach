@@ -1,10 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="TerminUpdateType.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
-
-namespace SoftTeach.ViewModel.Wochenpläne
+﻿namespace SoftTeach.ViewModel.Wochenpläne
 {
   using System;
   using System.Collections.Generic;

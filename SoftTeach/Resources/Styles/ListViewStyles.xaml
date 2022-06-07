@@ -366,10 +366,10 @@
       <Rectangle Fill="Gray" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"/>
       <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Visibility="Visible" 
                   HorizontalAlignment="Left" x:Name="EditButtons" Margin="2,0,0,0">
-        <Button Width="12" Height="12" Command="{Binding Path=LengthenReiheCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+        <Button Command="{Binding Path=LengthenReiheCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
           <fa:IconBlock Style="{StaticResource Plus7}"/>
         </Button>
-        <Button  Width="12" Height="12" Command="{Binding Path=ShortenReiheCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+        <Button Command="{Binding Path=ShortenReiheCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
           <fa:IconBlock Style="{StaticResource Minus7}"/>
         </Button>
       </StackPanel>
@@ -405,15 +405,15 @@
       </Grid.RowDefinitions>
       <Rectangle Fill="Gray" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"/>
       <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Visibility="Visible" 
-                  HorizontalAlignment="Left" x:Name="EditButtons" Margin="1,0,1,0">
-        <Button Width="13" Height="13" Command="{Binding Path=LengthenReiheCommand}" 
+                  HorizontalAlignment="Left" x:Name="EditButtons" Margin="1">
+        <Button Command="{Binding Path=LengthenReiheCommand}" 
                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                 VerticalAlignment="Bottom">
           <fa:IconBlock Style="{StaticResource Plus7}"/>
         </Button>
-        <Button  Width="12" Height="12" Command="{Binding Path=ShortenReiheCommand}" 
-                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-                 VerticalAlignment="Bottom">
+        <Button Command="{Binding Path=ShortenReiheCommand}" 
+                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                VerticalAlignment="Bottom">
           <fa:IconBlock Style="{StaticResource Minus7}"/>
         </Button>
       </StackPanel>
@@ -488,10 +488,10 @@
       <Rectangle Fill="Gray" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"/>
       <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Visibility="Visible" 
                   HorizontalAlignment="Left" x:Name="EditButtons" Margin="2,0,0,0">
-        <Button Width="12" Height="12" Command="{Binding Path=LengthenSequenzCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+        <Button Padding="0" Command="{Binding Path=LengthenSequenzCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
           <fa:IconBlock Style="{StaticResource Plus7}"/>
         </Button>
-        <Button  Width="12" Height="12" Command="{Binding Path=ShortenSequenzCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+        <Button Padding="0" Command="{Binding Path=ShortenSequenzCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
           <fa:IconBlock Style="{StaticResource Minus7}"/>
         </Button>
       </StackPanel>
@@ -531,10 +531,10 @@
       <Rectangle Fill="Gray" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"/>
       <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Visibility="Visible" 
                   HorizontalAlignment="Left" x:Name="EditButtons" Margin="2,0,0,0">
-        <Button Width="12" Height="12" Command="{Binding Path=LengthenSequenzCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+        <Button Padding="0" Command="{Binding Path=LengthenSequenzCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
           <fa:IconBlock Style="{StaticResource Plus7}"/>
         </Button>
-        <Button  Width="12" Height="12" Command="{Binding Path=ShortenSequenzCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+        <Button Padding="0" Command="{Binding Path=ShortenSequenzCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
           <fa:IconBlock Style="{StaticResource Minus7}"/>
         </Button>
       </StackPanel>

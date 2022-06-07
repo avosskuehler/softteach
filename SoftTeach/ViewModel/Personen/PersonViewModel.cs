@@ -620,7 +620,7 @@
       this.PersonBild = image;
     }
 
-    // TODO Check this
+    //// TODO Check this
     //protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
     //{
     //  base.OnPropertyChanged(e);

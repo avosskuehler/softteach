@@ -65,8 +65,7 @@
             </DataTemplate>
           </DataGridTemplateColumn.CellTemplate>
         </DataGridTemplateColumn>
-
-
+        <DataGridCheckBoxColumn Header="MitNote" Binding="{Binding Path=FachMitNoten}"/>
       </DataGrid.Columns>
     </DataGrid>
     <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">

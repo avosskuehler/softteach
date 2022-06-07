@@ -226,7 +226,7 @@
     /// </summary>
     private void AddCurriculum()
     {
-      using (new UndoBatch(App.MainViewModel, string.Format("es Curriculum erstellt"), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("Neues Curriculum erstellt"), false))
       {
         var dlg = new AskForJahrFachStufeDialog();
         if (dlg.ShowDialog().GetValueOrDefault(false))

@@ -162,11 +162,11 @@
     <Setter Property="FontSize" Value="10"/>
   </Style>
 
-  <Style x:Key="WordOverlay24" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource PDFOverlay16}">
+  <Style x:Key="WordOverlay24" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource WordOverlay16}">
     <Setter Property="FontSize" Value="12"/>
   </Style>
 
-  <Style x:Key="WordOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource PDFOverlay16}">
+  <Style x:Key="WordOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource WordOverlay16}">
     <Setter Property="FontSize" Value="16"/>
   </Style>
 
@@ -523,15 +523,15 @@
   </Style>
   
   <Style x:Key="Note16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
-    <Setter Property="Icon" Value="Circle1"/>
+    <Setter Property="Icon" Value="Brightness"/>
   </Style>
 
   <Style x:Key="Note32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
-    <Setter Property="Icon" Value="Circle1"/>
+    <Setter Property="Icon" Value="Brightness"/>
   </Style>
 
   <Style x:Key="Note48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
-    <Setter Property="Icon" Value="Circle1"/>
+    <Setter Property="Icon" Value="Brightness"/>
   </Style>
   
   <Style x:Key="Fach16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
@@ -959,7 +959,8 @@
     <Setter Property="Icon" Value="Map"/>
   </Style>
 
-  <Style x:Key="Plus7" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+  <Style x:Key="Plus7" TargetType="{x:Type fa:IconBlock}">
+    <Setter Property="Foreground" Value="{DynamicResource Iconfarbe}"/>
     <Setter Property="FontSize" Value="7"/>
     <Setter Property="Icon" Value="Plus"/>
   </Style>
@@ -981,7 +982,8 @@
     <Setter Property="Icon" Value="Plus"/>
   </Style>
 
-  <Style x:Key="Minus7" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+  <Style x:Key="Minus7" TargetType="{x:Type fa:IconBlock}">
+    <Setter Property="Foreground" Value="{DynamicResource Iconfarbe}"/>
     <Setter Property="FontSize" Value="7"/>
     <Setter Property="Icon" Value="Minus"/>
   </Style>

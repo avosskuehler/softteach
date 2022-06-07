@@ -139,7 +139,7 @@
         case NotifyCollectionChangedAction.Add:
           foreach (var item in e.NewItems)
           {
-            var des = string.Format("es Element {0} zu {1} hinzugefügt.", item, propertyName);
+            var des = string.Format("Neues Element {0} zu {1} hinzugefügt.", item, propertyName);
             var change = new CollectionAddChange(
               instance, propertyName, (IList)collection, e.NewStartingIndex, item, isDataContextRelevant, des);
 

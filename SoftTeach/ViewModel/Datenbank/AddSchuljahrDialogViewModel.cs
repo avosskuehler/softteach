@@ -101,7 +101,7 @@
 
     private void CreateNewSchuljahr()
     {
-      using (new UndoBatch(App.MainViewModel, string.Format("es Schuljahr angelegt."), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("Neues Schuljahr angelegt."), false))
       {
         var nextYear = DateTime.Now;
         if (App.MainViewModel.Schuljahre.Count >= 0)

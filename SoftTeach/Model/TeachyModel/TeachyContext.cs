@@ -60,7 +60,7 @@ namespace SoftTeach.Model.TeachyModel
       if (!optionsBuilder.IsConfigured)
       {
         optionsBuilder
-          //.UseLazyLoadingProxies()
+          .UseLazyLoadingProxies()
           .UseSqlServer("Server=VK2\\SQL2017;Database=Teachy;Trusted_Connection=True;");
       }
     }
@@ -196,6 +196,7 @@ namespace SoftTeach.Model.TeachyModel
 
       modelBuilder.Entity<Ergebnis>(entity =>
       {
+        entity.ToTable("Ergebnis");
         entity.HasIndex(e => e.AufgabeId, "IX_FK_AufgabeErgebnis");
 
         entity.HasIndex(e => e.SchülereintragId, "IX_FK_SchülereintragErgebnis");

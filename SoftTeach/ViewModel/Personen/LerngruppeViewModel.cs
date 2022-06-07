@@ -81,7 +81,7 @@
 
       // Build data structures for schülerlisten
       this.Schülereinträge = new ObservableCollection<SchülereintragViewModel>();
-      foreach (var schülereintrag in lerngruppe.Schülereinträge)
+      foreach (var schülereintrag in lerngruppe.Schülereinträge.ToList())
       {
         var vm = new SchülereintragViewModel(schülereintrag);
         //App.MainViewModel.Schülereinträge.Add(vm);

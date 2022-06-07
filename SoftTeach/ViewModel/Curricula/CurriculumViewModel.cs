@@ -72,7 +72,7 @@
       // Build data structures for Reihen
       this.UsedReihenDesCurriculums = new ObservableCollection<ReiheViewModel>();
       this.AvailableReihenDesCurriculums = new ObservableCollection<ReiheViewModel>();
-      foreach (var reihe in curriculum.Reihen.OrderBy(o => o.Reihenfolge))
+      foreach (var reihe in curriculum.Reihen.OrderBy(o => o.Reihenfolge).ToList())
       {
         var vm = new ReiheViewModel(reihe);
         //App.MainViewModel.Reihen.Add(vm);
@@ -756,7 +756,7 @@
     private void AddReihe()
     {
       var modul = App.MainViewModel.Module.FirstOrDefault(o => o.ModulFach == this.fach && o.ModulJahrgang == this.CurriculumJahrgang);
-      var reihe = new Reihe { Stundenbedarf = 3, Thema = "es Thema", Curriculum = this.Model, Modul = modul.Model };
+      var reihe = new Reihe { Stundenbedarf = 3, Thema = "Neues Thema", Curriculum = this.Model, Modul = modul.Model };
       var vm = new ReiheViewModel(reihe);
       //App.MainViewModel.Reihen.Add(vm);
       this.AvailableReihenDesCurriculums.Add(vm);

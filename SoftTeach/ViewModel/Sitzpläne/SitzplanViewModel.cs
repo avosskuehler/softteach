@@ -71,7 +71,7 @@
       }
       else
       {
-        using (new UndoBatch(App.MainViewModel, string.Format("er Sitzplan angelegt"), false))
+        using (new UndoBatch(App.MainViewModel, string.Format("Neuer Sitzplan angelegt"), false))
         {
           this.Sitzplaneinträge.CollectionChanged += this.SitzplaneinträgeCollectionChanged;
 

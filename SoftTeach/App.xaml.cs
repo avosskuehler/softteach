@@ -63,32 +63,6 @@ namespace SoftTeach
     /// </summary>
     public static UnitOfWork UnitOfWork { get; private set; }
 
-    ///// <summary>
-    ///// Gets the noten erinnerungs icon.
-    ///// </summary>
-    ///// <value>The noten erinnerungs icon.</value>
-    //public static TaskbarIcon NotenErinnerungsIcon { get; private set; }
-
-    /// <summary>
-    /// This static mehtod returns an <see cref="Image"/>
-    /// for the given filename string, if the image is in the Images
-    /// subfolder of the solution.
-    /// </summary>
-    /// <param name="imageName">A <see cref="String"/> with the images file name</param>
-    /// <returns>The <see cref="Image"/> that can be used as a source for
-    /// an icon property.</returns>
-    public static Image GetImage(string imageName)
-    {
-      var terminMenuentryIcon = new Image();
-      var terminMenuentryIconImage = new BitmapImage();
-      terminMenuentryIconImage.BeginInit();
-      terminMenuentryIconImage.UriSource = new Uri(@"Images/" + imageName, UriKind.RelativeOrAbsolute);
-      //terminMenuentryIconImage.UriSource = new Uri("pack://application:,,,/Images/" + imageName);
-      terminMenuentryIconImage.EndInit();
-      terminMenuentryIcon.Source = terminMenuentryIconImage;
-      return terminMenuentryIcon;
-    }
-
     /// <summary>
     /// Setzt den Cursor für die gesamte Anwendung.
     /// </summary>
@@ -101,17 +75,6 @@ namespace SoftTeach
           // The check is required to prevent cursor flickering
           if (Mouse.OverrideCursor != cursor) Mouse.OverrideCursor = cursor;
         });
-    }
-
-    public static ImageSource GetImageSource(string imageName)
-    {
-      var terminMenuentryIconImage = new BitmapImage();
-      terminMenuentryIconImage.BeginInit();
-      //terminMenuentryIconImage.UriSource = new Uri("pack://application:,,,/Images/" + imageName, UriKind.RelativeOrAbsolute);
-      //terminMenuentryIconImage.UriSource = new Uri(@"/SoftTeach;component/Images/" + imageName, UriKind.RelativeOrAbsolute);
-      terminMenuentryIconImage.UriSource = new Uri("Images/" + imageName, UriKind.Relative);
-      terminMenuentryIconImage.EndInit();
-      return terminMenuentryIconImage;
     }
 
     public static Style GetIconStyle(string imageName)
@@ -229,25 +192,15 @@ namespace SoftTeach
     {
       base.OnStartup(e);
 
-      //NotenErinnerungsIcon = (TaskbarIcon)FindResource("NotenNotifyIcon");
-      //if (NotenErinnerungsIcon != null)
-      //{
-      //  NotenErinnerungsIcon.LeftClickCommand = TrayIconClickedCommand;
-      //}
-
       UnitOfWork = new UnitOfWork();
       MainViewModel = new MainViewModel();
       MainViewModel.Populate();
-      //var window = new MainRibbonView { DataContext = MainViewModel };
-      //window.Show();
-
 
       var navWin = new MetroNavigationWindow();
       navWin.Closing += navWin_Closing;
       navWin.Title = "SoftTeach";
       navWin.ShowTitleBar = false;
       navWin.WindowState = WindowState.Maximized;
-      //navWin.Icon = GetImageSource("Logo64.png");
       navWin.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/SoftTeach;component/Resources/MetroResources.xaml", UriKind.Absolute) });
       //uncomment the next two lines if you want the clean style.
       //navWin.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/MahApps.Metro;component/Styles/Clean/CleanWindow.xaml", UriKind.Absolute) });
@@ -292,16 +245,6 @@ namespace SoftTeach
       {
         App.UnitOfWork.SaveChanges();
       }
-    }
-
-    /// <summary>
-    /// Cleans up any resources on exit
-    /// </summary>
-    /// <param name="e">Arguments of the exit event</param>
-    protected override void OnExit(ExitEventArgs e)
-    {
-      //NotenErinnerungsIcon.Dispose();
-      base.OnExit(e);
     }
 
     /// <summary>

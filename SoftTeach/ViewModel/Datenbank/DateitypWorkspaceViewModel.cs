@@ -74,7 +74,7 @@
       if (App.MainViewModel.Dateitypen.Any(vorhandenerDateityp => vorhandenerDateityp.DateitypBezeichnung == dateityp.Bezeichnung))
       {
         Log.ProcessMessage("Dateityp bereits vorhanden",
-          "Dieses Dateityp ist bereits in " + "der Datenbank vorhanden und kann nicht doppelt angelegt werden.");
+          "Dieser Dateityp ist bereits in " + "der Datenbank vorhanden und kann nicht doppelt angelegt werden.");
         return;
       }
 

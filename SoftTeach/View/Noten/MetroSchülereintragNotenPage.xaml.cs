@@ -29,13 +29,13 @@
     /// <summary>
     /// Initialisiert eine e Instanz der <see cref="MetroSchülereintragNotenPage"/> Klasse.
     /// </summary>
-    public MetroSchülereintragNotenPage()
+    public MetroSchülereintragNotenPage(SchülereintragViewModel vm)
     {
       this.InitializeComponent();
-      var schülereintragViewModel = this.DataContext as SchülereintragViewModel;
-      if (schülereintragViewModel != null)
+      this.DataContext = vm;
+      if (vm != null)
       {
-        schülereintragViewModel.PropertyChanged += this.SchülereintragViewModelPropertyChanged;
+        vm.PropertyChanged += this.SchülereintragViewModelPropertyChanged;
       }
     }
 
@@ -50,10 +50,9 @@
       // der Check ist nur damit nur einmal geupdated wird
       if (e.PropertyName == "Gesamtnote")
       {
-        // TODO
         // Refresh the plot view
         this.QualitätPlot.InvalidatePlot();
-        //this.QuantitätPlot.InvalidatePlot();
+        this.QuantitätPlot.InvalidatePlot();
       }
     }
     

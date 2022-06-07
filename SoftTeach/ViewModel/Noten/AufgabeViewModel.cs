@@ -249,7 +249,7 @@
     }
 
     /// <summary>
-    /// Erstellt ein es Ergebnis
+    /// Erstellt ein neues Ergebnis
     /// </summary>
     private void AddErgebnis()
     {

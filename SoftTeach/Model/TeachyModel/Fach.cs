@@ -19,6 +19,7 @@ namespace SoftTeach.Model.TeachyModel
     public int Id { get; set; }
     public string Bezeichnung { get; set; }
     public string Farbe { get; set; }
+    public bool MitNoten { get; set; }
 
     public virtual ICollection<Arbeit> Arbeiten { get; set; }
     public virtual ICollection<Curriculum> Curricula { get; set; }

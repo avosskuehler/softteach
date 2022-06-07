@@ -1,10 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="CurriculumViewDataTemplateSelector.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
-
-namespace SoftTeach.ViewModel.Curricula
+﻿namespace SoftTeach.ViewModel.Curricula
 {
   using System.Windows;
   using System.Windows.Controls;
@@ -12,7 +6,7 @@ namespace SoftTeach.ViewModel.Curricula
   using SoftTeach.ViewModel.Datenbank;
 
   /// <summary>
-  /// TODO: Update summary.
+  /// Klasse um im Curriculumsmodul das richtige DataTemplate auszuwählen
   /// </summary>
   public class CurriculumViewDataTemplateSelector : DataTemplateSelector
   {

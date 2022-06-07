@@ -1,10 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="Class1.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
-
-namespace SoftTeach.View.Stundenpläne
+﻿namespace SoftTeach.View.Stundenpläne
 {
   using System;
 

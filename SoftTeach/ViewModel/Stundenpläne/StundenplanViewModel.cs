@@ -935,7 +935,7 @@
         Stundenplan = this.Model
       };
       var vm = new StundenplaneintragViewModel(this, stundenplaneintrag);
-      using (new UndoBatch(App.MainViewModel, string.Format("er Stundenplaneintrag {0} angelegt.", vm), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("Neuer Stundenplaneintrag {0} angelegt.", vm), false))
       {
         //App.MainViewModel.Stundenplaneinträge.Add(vm);
         this.Stundenplaneinträge.Add(vm);

@@ -19,9 +19,9 @@
         <RowDefinition Height="Auto"/>
         <RowDefinition Height="*"/>
       </Grid.RowDefinitions>
-      <fa:IconBlock Grid.Row="0" Style="{Binding DateiverweisBild}"/>
       <fa:IconBlock Grid.Row="0" Style="{Binding DateiverweisBildOverlay}"/>
-      <TextBlock Width="70" Grid.Row="1" Text="{Binding Path=DateiverweisDateinameOhnePfad}" 
+      <fa:IconBlock Grid.Row="0" Style="{Binding DateiverweisBild}"/>
+      <TextBlock Width="Auto" MaxWidth="70" Grid.Row="1" Text="{Binding Path=DateiverweisDateinameOhnePfad}" 
                  FontSize="8" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow"/>
     </Grid>
   </DataTemplate>

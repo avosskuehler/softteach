@@ -136,8 +136,6 @@
         this.ersteUnterrichtsstunde = value;
         this.Model.ErsteUnterrichtsstunde = value.Model;
         this.RaisePropertyChanged("TerminErsteUnterrichtsstunde");
-
-        UpdateStundenentwurfStundenzahl();
       }
     }
 
@@ -173,7 +171,6 @@
         this.letzteUnterrichtsstunde = value;
         this.Model.LetzteUnterrichtsstunde = value.Model;
         this.RaisePropertyChanged("TerminLetzteUnterrichtsstunde");
-        UpdateStundenentwurfStundenzahl();
       }
     }
 
@@ -266,22 +263,5 @@
     /// Handles deletion of the current termin
     /// </summary>
     protected abstract void DeleteTermin();
-
-    /// <summary>
-    /// Updates the stundezahl of the contained stundenentwurf, if this is a stunde
-    /// and there is any stundenentwurf created already.
-    /// </summary>
-    protected static void UpdateStundenentwurfStundenzahl()
-    {
-      // TODO not needed
-      //if (this is StundeViewModel)
-      //{
-      //  var stunde = this as StundeViewModel;
-      //  if (stunde != null && stunde.StundeStundenentwurf != null)
-      //  {
-      //    stunde.StundeStundenentwurf.StundenentwurfStundenzahl = this.TerminStundenanzahl;
-      //  }
-      //}
-    }
   }
 }

@@ -1,8 +1,10 @@
 ﻿namespace SoftTeach.ViewModel.Noten
 {
   using System;
+  using System.ComponentModel;
   using System.Windows;
   using System.Windows.Controls;
+  using System.Windows.Data;
   using System.Windows.Documents;
 
   using Helper;
@@ -35,25 +37,26 @@
     /// </summary>
     public SchülereintragWorkspaceViewModel()
     {
-      this.CurrentLerngruppe = App.MainViewModel.Lerngruppen.Count > 0 ? App.MainViewModel.Lerngruppen[0] : null;
-      if (this.CurrentLerngruppe != null)
-      {
-        this.CurrentSchülereintrag = this.currentLerngruppe.CurrentSchülereintrag;
-      }
 
-      // Re-act to any changes from outside this ViewModel
-      //App.MainViewModel.Schülereinträge.CollectionChanged += (sender, e) =>
-      //{
-      //  if (e.OldItems != null && e.OldItems.Contains(this.CurrentSchülereintrag))
-      //  {
-      //    this.CurrentSchülereintrag = null;
-      //  }
-      //};
+      this.LerngruppenViewSource = new CollectionViewSource() { Source = App.MainViewModel.Lerngruppen };
+      using (this.LerngruppenViewSource.DeferRefresh())
+      {
+        this.LerngruppenViewSource.Filter += this.LerngruppenViewSource_Filter;
+        this.LerngruppenViewSource.SortDescriptions.Add(new SortDescription("LerngruppeSchuljahr", ListSortDirection.Ascending));
+        this.LerngruppenViewSource.SortDescriptions.Add(new SortDescription("LerngruppeFach", ListSortDirection.Ascending));
+      }
 
       this.AddHausaufgabenCommand = new DelegateCommand(this.AddHausaufgaben);
       this.AddSonstigeNotenCommand = new DelegateCommand(this.AddSonstigeNoten);
       this.PrintNotenlisteCommand = new DelegateCommand(this.PrintNotenliste);
       this.AddZeugnisnotenCommand = new DelegateCommand(this.AddZeugnisnoten);
+
+      // Erste Lerngruppe laden      
+      var enumerator = this.LerngruppenView.GetEnumerator();
+      enumerator.MoveNext(); // sets it to the first element
+
+      this.CurrentLerngruppe = (LerngruppeViewModel)enumerator.Current;
+
     }
 
     /// <summary>
@@ -75,6 +78,16 @@
     /// Holt den Befehl, um Zeugnisnoten zu machen
     /// </summary>
     public DelegateCommand AddZeugnisnotenCommand { get; private set; }
+
+    /// <summary>
+    /// Holt oder setzt die LerngruppenViewSource
+    /// </summary>
+    public CollectionViewSource LerngruppenViewSource { get; set; }
+
+    /// <summary>
+    /// Holt oder setzt ein gefiltertes View der Lerngruppen
+    /// </summary>
+    public ICollectionView LerngruppenView => this.LerngruppenViewSource.View;
 
     /// <summary>
     /// Holt oder setzt die Schülereintrag currently selected in this workspace
@@ -300,6 +313,29 @@
       // print it out
       var title = "Noten" + this.CurrentLerngruppe.LerngruppeBezeichnung + this.CurrentLerngruppe.LerngruppeFach.FachBezeichnung;
       pd.PrintVisual(fixedPage, title);
+    }
+
+    /// <summary>
+    /// Filtert die Lerngruppen, so dass nur zu benotende Lerngruppen erscheinen
+    /// </summary>
+    /// <param name="item">Das LerngruppeViewModel, das gefiltert werden soll</param>
+    /// <returns>True, wenn das Objekt in der Liste bleiben soll.</returns>
+    private void LerngruppenViewSource_Filter(object sender, FilterEventArgs e)
+    {
+      var lerngruppeViewModel = e.Item as LerngruppeViewModel;
+      if (lerngruppeViewModel == null)
+      {
+        e.Accepted = false;
+        return;
+      }
+
+      if (!lerngruppeViewModel.LerngruppeFach.FachMitNoten)
+      {
+        e.Accepted = false;
+        return;
+      }
+
+      e.Accepted = true;
     }
 
     ///// <summary>

@@ -142,15 +142,17 @@
     {
       get
       {
+        var fachBezeichnung = this.Model.Reihe.Curriculum.Fach.Bezeichnung;
+        var jahrgang = this.Model.Reihe.Curriculum.Jahrgang;
         var fachstundenanzahl =
-  App.MainViewModel.Fachstundenanzahl.FirstOrDefault(
-    o =>
-    o.FachstundenanzahlFach.FachBezeichnung == Selection.Instance.Fach.FachBezeichnung
-    && o.FachstundenanzahlJahrgang == Selection.Instance.Lerngruppe.LerngruppeJahrgang);
+          App.MainViewModel.Fachstundenanzahl.FirstOrDefault(
+            o =>
+            o.FachstundenanzahlFach.FachBezeichnung == fachBezeichnung
+            && o.FachstundenanzahlJahrgang == jahrgang);
 
         if (fachstundenanzahl == null)
         {
-          Console.WriteLine("Keine Fachstundenanzahl gefunden für {0} {1}", Selection.Instance.Fach.FachBezeichnung, Selection.Instance.Lerngruppe.LerngruppeJahrgang);
+          Console.WriteLine("Keine Fachstundenanzahl gefunden für {0} {1}", fachBezeichnung, jahrgang);
           return 40;
         }
 

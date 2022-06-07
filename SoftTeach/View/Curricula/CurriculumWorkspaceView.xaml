@@ -29,7 +29,7 @@
                 <fa:IconBlock Style="{StaticResource Curriculum32}"/>
                 <fa:IconBlock Style="{StaticResource AddOverlay32}"/>
               </Grid>
-              <!--<Label Padding="5,0,0,0" VerticalContentAlignment="Center">es Curriculum erstellen</Label>-->
+              <!--<Label Padding="5,0,0,0" VerticalContentAlignment="Center">Neues Curriculum erstellen</Label>-->
             </StackPanel>
           </Button>
           <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=DeleteCurriculumCommand}" ToolTip="Curriculum löschen" >

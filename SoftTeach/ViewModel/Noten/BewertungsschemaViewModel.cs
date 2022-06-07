@@ -157,7 +157,7 @@
       };
       var vm = new ProzentbereichViewModel(prozentbereich);
 
-      using (new UndoBatch(App.MainViewModel, string.Format("er Prozentbereich {0} erstellt.", vm), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("Neuer Prozentbereich {0} erstellt.", vm), false))
       {
         App.MainViewModel.Prozentbereiche.Add(vm);
         this.Prozentbereiche.Add(vm);

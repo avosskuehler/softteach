@@ -24,7 +24,7 @@
             <RowDefinition Height="Auto"/>
           </Grid.RowDefinitions>
           <ComboBox Grid.Row="0" Margin="0,3" 
-                    ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Lerngruppen}"
+                    ItemsSource="{Binding Path=LerngruppenView}"
                     SelectedItem="{Binding Path=CurrentLerngruppe}"
                     DisplayMemberPath="LerngruppeKurzbezeichnung"
                     Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"

@@ -310,7 +310,7 @@
       };
       var sitzplatzViewModel = new SitzplatzViewModel(sitzplatz);
 
-      using (new UndoBatch(App.MainViewModel, string.Format("er Sitzplatz {0} erstellt.", sitzplatzViewModel), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("Neuer Sitzplatz {0} erstellt.", sitzplatzViewModel), false))
       {
         //App.MainViewModel.Sitzplätze.Add(sitzplatzViewModel);
         //App.UnitOfWork.Context.Sitzplätze.Add(sitzplatzViewModel.Model);

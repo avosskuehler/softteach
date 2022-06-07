@@ -1,10 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="CurriculumAdaptViewDataTemplateSelector.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
-
-namespace SoftTeach.ViewModel.Jahrespläne
+﻿namespace SoftTeach.ViewModel.Jahrespläne
 {
   using System.Windows;
   using System.Windows.Controls;
@@ -12,7 +6,7 @@ namespace SoftTeach.ViewModel.Jahrespläne
   using SoftTeach.ViewModel.Termine;
 
   /// <summary>
-  /// TODO: Update summary.
+  /// DataTemplateSelector für Tagesplan
   /// </summary>
   public class AdaptPlanDataTemplateSelector : DataTemplateSelector
   {
@@ -31,17 +25,6 @@ namespace SoftTeach.ViewModel.Jahrespläne
         {
           return element.FindResource("FerienViewModelTagesplanView") as DataTemplate;
         }
-
-        //if (item is Stunde)
-        //{
-        //  return element.FindResource("StundenTagesplanView") as DataTemplate;
-        //}
-
-        //if (item is Lerngruppentermin)
-        //{
-        //  return element.FindResource("FerienTagesplanView") as DataTemplate;
-        //}
-
       }
 
       return null;

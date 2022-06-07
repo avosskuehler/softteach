@@ -50,7 +50,7 @@
       this.ResetSchuljahrFilterCommand = new DelegateCommand(() => this.SchuljahrFilter = null, () => this.SchuljahrFilter != null);
       this.ResetFachFilterCommand = new DelegateCommand(() => this.FachFilter = null, () => this.FachFilter != null);
 
-      this.CurrentLerngruppe = App.UnitOfWork.Context.Lerngruppen.Count() > 0 ? App.UnitOfWork.Context.Lerngruppen.First() : null;
+      //this.CurrentLerngruppe = App.UnitOfWork.Context.Lerngruppen.Count() > 0 ? App.UnitOfWork.Context.Lerngruppen.First() : null;
       var lerngruppenImContext = new List<Lerngruppe>();
       foreach (var lerngruppe in App.UnitOfWork.Context.Lerngruppen)
       {
@@ -266,7 +266,7 @@
     /// </summary>
     private void AddJahresplan()
     {
-      //using (new UndoBatch(App.MainViewModel, string.Format("es Jahresplan erstellt"), false))
+      //using (new UndoBatch(App.MainViewModel, string.Format("Neuer Jahresplan erstellt"), false))
       //{
       //  var dlg = new AskForJahrFachStufeDialog();
       //  if (dlg.ShowDialog().GetValueOrDefault(false))

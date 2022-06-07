@@ -766,8 +766,6 @@ namespace SoftTeach.ViewModel.Termine
 
     private void UpdateStundenentwurfPhasenzeitraum()
     {
-      UpdateStundenentwurfStundenzahl();
-
       // Update phasen with correct zeitraum
       var phasen = this.Phasen;
 
@@ -843,7 +841,7 @@ namespace SoftTeach.ViewModel.Termine
     //  entwurf.Computer = false;
     //  entwurf.Hausaufgaben = string.Empty;
     //  entwurf.Kopieren = false;
-    //  entwurf.Stundenthema = "es Thema";
+    //  entwurf.Stundenthema = "Neues Thema";
     //  var availableModule =
     //    App.MainViewModel.Module.Where(
     //      o => o.ModulJahrgang.Model == entwurf.Jahrgangsstufe && o.ModulFach.Model == entwurf.Fach);
@@ -919,8 +917,6 @@ namespace SoftTeach.ViewModel.Termine
           };
           this.Dateiverweise.Add(new DateiverweisViewModel(erDateiverweis));
         }
-
-        UpdateStundenentwurfStundenzahl();
       }
     }
 
