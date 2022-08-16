@@ -30,7 +30,7 @@
     private BetroffeneLerngruppeViewModel currentBetroffeneLerngruppe;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="SchulterminViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="SchulterminViewModel"/> Klasse. 
     /// </summary>
     /// <param name="schultermin">
     /// The underlying termin this ViewModel is to be based on

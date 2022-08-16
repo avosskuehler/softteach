@@ -32,7 +32,7 @@
     private RaumplanViewModel raumplanFilter;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="SitzplanWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="SitzplanWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public SitzplanWorkspaceViewModel()
     {

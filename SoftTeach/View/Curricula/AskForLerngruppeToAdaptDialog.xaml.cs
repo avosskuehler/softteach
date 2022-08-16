@@ -34,7 +34,7 @@ namespace SoftTeach.View.Curricula
   public partial class AskForLerngruppeToAdaptDialog
   {
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="AskForLerngruppeToAdaptDialog"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="AskForLerngruppeToAdaptDialog"/> Klasse. 
     /// </summary>
     /// <param name="fachViewModel"> The fach View Model.  </param>
     /// <param name="jahrgang">Der Jahrgang</param>

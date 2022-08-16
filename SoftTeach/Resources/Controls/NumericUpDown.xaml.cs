@@ -145,7 +145,7 @@
     }
 
     /// <summary>
-    ///   Initialisiert eine e Instanz der <see cref="NumericUpDown" /> Klasse.
+    ///   Initialisiert eine neue Instanz der <see cref="NumericUpDown" /> Klasse.
     ///   Initializes a new instance of the <see cref="NumericUpDown" /> class.
     /// </summary>
     public NumericUpDown()
@@ -714,7 +714,7 @@
     #region Constructors and Destructors
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="NumericUpDownAutomationPeer"/> Klasse.
+    /// Initialisiert eine neue Instanz der <see cref="NumericUpDownAutomationPeer"/> Klasse.
     ///   Initializes a new instance of the <see cref="NumericUpDownAutomationPeer"/> class.
     /// </summary>
     /// <param name="control">

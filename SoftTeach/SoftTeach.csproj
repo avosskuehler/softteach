@@ -106,9 +106,9 @@
     <Resource Include="Images\Inactive.ico">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\Logo.ico">
-      <CopyToOutputDirectory></CopyToOutputDirectory>
-    </Resource>
+    <Content Include="Images\Logo.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Resources\Entypo.ttf" />
     <Resource Include="Resources\Entypo-license.txt" />
     <Resource Include="Resources\WindowsIcons-license.txt" />
@@ -117,8 +117,8 @@
     <Resource Include="Images\Error.ico">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
-    <None Update="App.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Update="App.Config">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="Images\Logo64.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -251,12 +251,14 @@
     <None Remove="Images\Logo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\Logo.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Sitzpläne\AskForRaumToAdaptDialog.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
   </ItemGroup>
 </Project>

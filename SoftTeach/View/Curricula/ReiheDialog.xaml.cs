@@ -31,7 +31,7 @@ namespace SoftTeach.View.Curricula
     private ReiheViewModel reihe;
 
    /// <summary>
-   /// Initialisiert eine e Instanz der <see cref="ReiheDialog"/> Klasse. 
+   /// Initialisiert eine neue Instanz der <see cref="ReiheDialog"/> Klasse. 
    /// </summary>
     public ReiheDialog()
     {

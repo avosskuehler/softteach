@@ -16,7 +16,7 @@
     private DateitypViewModel currentDateityp;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="DateitypWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="DateitypWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public DateitypWorkspaceViewModel()
     {

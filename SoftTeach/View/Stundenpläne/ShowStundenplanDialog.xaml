@@ -43,7 +43,7 @@
               <!--<Label Padding="5,0,0,0" VerticalContentAlignment="Center">en Stundenplan erstellen</Label>-->
             </StackPanel>
           </Button>
-          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=EditStundenplanCommand}" ToolTip="Wenn im Halbjahr e Stundenpläne gültig werden, bitte hier die Stundenplanänderungen eingeben.">
+          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=EditStundenplanCommand}" ToolTip="Wenn im Halbjahr neue Stundenpläne gültig werden, bitte hier die Stundenplanänderungen eingeben.">
             <StackPanel Orientation="Horizontal">
               <Grid>
                 <fa:IconBlock Style="{StaticResource Stundenplan32}" Foreground="{DynamicResource Iconfarbe}"/>

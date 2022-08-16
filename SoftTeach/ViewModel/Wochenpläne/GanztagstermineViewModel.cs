@@ -16,7 +16,7 @@
     private int wochentagIndex;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="GanztagstermineViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="GanztagstermineViewModel"/> Klasse. 
     /// </summary>
     /// <param name="ganztagsterminEinträge"> The ganztagstermin Einträge. </param>
     public GanztagstermineViewModel(List<TerminplanEintrag> ganztagsterminEinträge)

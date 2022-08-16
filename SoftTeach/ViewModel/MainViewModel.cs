@@ -51,7 +51,7 @@
     private ObservableCollection<Personen.LerngruppeViewModel> lerngruppen;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="MainViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="MainViewModel"/> Klasse. 
     /// </summary>
     public MainViewModel()
     {
@@ -2171,6 +2171,28 @@
       this.lerngruppen.CollectionChanged += this.LerngruppenCollectionChanged;
 
       App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = true;
+
+      LoadJahrespläne();
+    }
+
+    /// <summary>
+    /// Lädt die Jahrespläne für die Lerngruppen ins View Model
+    /// </summary>
+    public void LoadJahrespläne()
+    {
+      App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = false;
+
+      foreach (var lerngruppe in this.lerngruppen)
+      {
+        var jahresplan = App.MainViewModel.Jahrespläne.FirstOrDefault(o => o.Lerngruppe.Model.Id == lerngruppe.Model.Id);
+        if (jahresplan == null)
+        {
+          jahresplan = new JahresplanViewModel(lerngruppe);
+          App.MainViewModel.Jahrespläne.Add(jahresplan);
+        }
+      }
+
+      App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = true;
     }
 
     public LerngruppeViewModel LoadLerngruppe(Lerngruppe lg)
@@ -2223,7 +2245,7 @@
         //.Include(raum => raum.Raumpläne)
         )
       {
-        if (!collection.Any(o => o.Model.Bezeichnung == raum.Bezeichnung))
+        if (!collection.Any(o => o.Model.Id == raum.Id))
         {
           collection.Add(new RaumViewModel(raum));
         }

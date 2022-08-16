@@ -11,7 +11,7 @@
   public class ChangeSet
   {
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="ChangeSet"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="ChangeSet"/> Klasse. 
     /// Create a ChangeSet for the specified UndoRoot.
     /// </summary>
     /// <param name="undoRoot"> The UndoRoot that this ChangeSet belongs to. </param>

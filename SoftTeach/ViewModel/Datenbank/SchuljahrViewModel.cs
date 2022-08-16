@@ -13,7 +13,7 @@
   public class SchuljahrViewModel : ViewModelBase, IComparable
   {
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="SchuljahrViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="SchuljahrViewModel"/> Klasse. 
     /// </summary>
     /// <param name="schuljahr">
     /// The underlying schuljahr this ViewModel is to be based on

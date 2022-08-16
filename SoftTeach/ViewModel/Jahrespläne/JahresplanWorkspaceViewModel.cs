@@ -40,7 +40,7 @@
     private SchuljahrViewModel schuljahrFilter;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="JahresplanWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="JahresplanWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public JahresplanWorkspaceViewModel()
     {
@@ -128,7 +128,11 @@
         if (this.currentLerngruppe != null)
         {
           // FIND
-          var lerngruppe = App.UnitOfWork.Context.Lerngruppen.FirstOrDefault(o => o.SchuljahrId == this.currentLerngruppe.SchuljahrId && o.FachId == this.currentLerngruppe.FachId && o.Jahrgang == this.currentLerngruppe.Jahrgang);
+          var lerngruppe = App.UnitOfWork.Context.Lerngruppen.FirstOrDefault(o => 
+          o.SchuljahrId == this.currentLerngruppe.SchuljahrId &&
+          o.FachId == this.currentLerngruppe.FachId && 
+          o.Jahrgang == this.currentLerngruppe.Jahrgang &&
+          o.Bezeichnung == this.currentLerngruppe.Bezeichnung);
           if (lerngruppe == null)
           {
             InformationDialog.Show("Fehler", "Lerngruppe nicht gefunden", false);

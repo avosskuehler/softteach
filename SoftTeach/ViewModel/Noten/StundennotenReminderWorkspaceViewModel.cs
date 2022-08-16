@@ -36,7 +36,7 @@
     private ObservableCollection<Stunde> nichtBenoteteStunden;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="StundennotenReminderWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="StundennotenReminderWorkspaceViewModel"/> Klasse. 
     /// </summary>
     /// <param name="nichtBenoteteStunden">Die Liste der noch nicht benoteten Stunden.</param>
     public StundennotenReminderWorkspaceViewModel(ObservableCollection<Stunde> nichtBenoteteStunden)

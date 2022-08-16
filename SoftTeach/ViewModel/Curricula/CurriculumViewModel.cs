@@ -54,7 +54,7 @@
     private ViewModelBase currentItem;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="CurriculumViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="CurriculumViewModel"/> Klasse. 
     /// </summary>
     /// <param name="curriculum">
     /// The underlying curriculum this ViewModel is to be based on

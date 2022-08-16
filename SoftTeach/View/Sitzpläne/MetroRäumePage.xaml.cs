@@ -6,7 +6,7 @@
   public partial class MetroRäumePage
   {
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="MetroRäumePage"/> Klasse.
+    /// Initialisiert eine neue Instanz der <see cref="MetroRäumePage"/> Klasse.
     /// </summary>
     public MetroRäumePage()
     {

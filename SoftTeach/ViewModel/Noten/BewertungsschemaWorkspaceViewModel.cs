@@ -15,7 +15,7 @@
     private BewertungsschemaViewModel currentBewertungsschema;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="BewertungsschemaWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="BewertungsschemaWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public BewertungsschemaWorkspaceViewModel()
     {
@@ -25,7 +25,7 @@
     }
 
     /// <summary>
-    /// Holt den Befehl, um eine e Bewertungsschema anzulegen.
+    /// Holt den Befehl, um eine neue Bewertungsschema anzulegen.
     /// </summary>
     public DelegateCommand AddBewertungsschemaCommand { get; private set; }
 

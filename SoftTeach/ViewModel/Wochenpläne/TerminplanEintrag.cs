@@ -45,7 +45,7 @@
     private TerminViewModel terminViewModel;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="TerminplanEintrag"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="TerminplanEintrag"/> Klasse. 
     /// </summary>
     /// <param name="parent"> The underlying terminplanworkspace this ViewModel is to be based on </param>
     /// <param name="terminViewModel"> The termin View Model. </param>

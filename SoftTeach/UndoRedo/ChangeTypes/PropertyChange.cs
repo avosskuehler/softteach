@@ -9,7 +9,7 @@
   public class PropertyChange : Change
   {
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="PropertyChange"/> Klasse.
+    /// Initialisiert eine neue Instanz der <see cref="PropertyChange"/> Klasse.
     /// </summary>
     /// <param name="instance"> The instance.  </param>
     /// <param name="propertyName"> The property name.  </param>

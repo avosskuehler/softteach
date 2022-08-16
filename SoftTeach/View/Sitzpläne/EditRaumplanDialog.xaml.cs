@@ -82,7 +82,7 @@ namespace SoftTeach.View.Sitzpläne
     #region Constructors and Destructors
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="EditRaumplanDialog"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="EditRaumplanDialog"/> Klasse. 
     /// </summary>
     /// <param name="raumplan">
     /// The raumplan.

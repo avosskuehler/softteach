@@ -18,7 +18,7 @@
     private LerngruppeViewModel lerngruppe;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="BetroffeneLerngruppeViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="BetroffeneLerngruppeViewModel"/> Klasse. 
     /// </summary>
     /// <param name="betroffeneLerngruppe">
     /// The underlying betroffeneLerngruppe this ViewModel is to be based on

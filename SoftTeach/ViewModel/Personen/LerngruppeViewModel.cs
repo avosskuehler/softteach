@@ -63,7 +63,7 @@
     private bool nurTeilungsgruppeB;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="LerngruppeViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="LerngruppeViewModel"/> Klasse. 
     /// </summary>
     /// <param name="lerngruppe">
     /// The underlying schülerliste this ViewModel is to be based on

@@ -16,7 +16,7 @@
     private NotenWichtungViewModel currentNotenWichtung;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="NotenWichtungWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="NotenWichtungWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public NotenWichtungWorkspaceViewModel()
     {

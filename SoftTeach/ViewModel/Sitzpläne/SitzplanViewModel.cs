@@ -43,7 +43,7 @@
     private bool nurTeilungsgruppeB;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="SitzplanViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="SitzplanViewModel"/> Klasse. 
     /// </summary>
     /// <param name="sitzplan">
     /// The underlying sitzplan this ViewModel is to be based on

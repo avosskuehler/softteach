@@ -13,7 +13,7 @@
   public class WochenplanWorkspaceViewModel : TerminplanWorkspaceViewModel
   {
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="WochenplanWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="WochenplanWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public WochenplanWorkspaceViewModel()
     {

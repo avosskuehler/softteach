@@ -27,7 +27,7 @@ namespace SoftTeach.View.Datenbank
     #region Constructors and Destructors
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="AddSchuljahrDialog"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="AddSchuljahrDialog"/> Klasse. 
     /// </summary>
     public AddSchuljahrDialog()
     {

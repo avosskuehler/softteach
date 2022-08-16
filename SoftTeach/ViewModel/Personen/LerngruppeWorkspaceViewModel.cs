@@ -33,7 +33,7 @@
     private SchuljahrViewModel schuljahrFilter;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="LerngruppeWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="LerngruppeWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public LerngruppeWorkspaceViewModel()
     {
@@ -259,7 +259,7 @@
       {
         InformationDialog.Show(
           "Schuljahr fehlt",
-          "Bitte legen Sie zuerst das e Schuljahr an, bevor Sie die Lerngruppen erzeugen",
+          "Bitte legen Sie zuerst das neue Schuljahr an, bevor Sie die Lerngruppen erzeugen",
           false);
         return;
       }

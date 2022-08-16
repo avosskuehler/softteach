@@ -40,7 +40,7 @@
     public static DelegateCommand TrayIconClickedCommand { get; private set; }
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="MainRibbonView"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="MainRibbonView"/> Klasse. 
     /// </summary>
     public MainRibbonView()
     {

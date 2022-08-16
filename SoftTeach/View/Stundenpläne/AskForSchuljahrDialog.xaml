@@ -22,7 +22,7 @@
       </controls:SmallDialogHeader.IconContent>
     </controls:SmallDialogHeader>
     <StackPanel Grid.Row="1" Margin="10">
-      <TextBlock TextWrapping="Wrap">Bitte geben Sie Schuljahr und Halbjahr an, für das der e Stundenplan gültig sein soll.</TextBlock>
+      <TextBlock TextWrapping="Wrap">Bitte geben Sie Schuljahr und Halbjahr an, für das der neue Stundenplan gültig sein soll.</TextBlock>
       <StackPanel Orientation="Horizontal">
         <ComboBox Width="100" Margin="10"  Name="HalbjahrCombo" 
                   Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"
@@ -31,7 +31,7 @@
                   Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"
                   ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Schuljahre}" SelectedValuePath="." DisplayMemberPath="SchuljahrBezeichnung"/>
       </StackPanel>
-      <TextBlock TextWrapping="Wrap">Bitte geben Sie das Datum an, ab dem der e Stundenplan gültig sein soll. 
+      <TextBlock TextWrapping="Wrap">Bitte geben Sie das Datum an, ab dem der neue Stundenplan gültig sein soll. 
         <LineBreak/>
         <Bold>Tip:</Bold>
       Das ist normalerweise der erste Tagesplan des Halbjahrs, für Änderungen eines bestehenden Stundenplans im Laufe eines Halbjahres

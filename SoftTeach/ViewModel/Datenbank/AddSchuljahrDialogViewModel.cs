@@ -26,7 +26,7 @@
     private string schuljahrBezeichnung;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="AddSchuljahrDialogViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="AddSchuljahrDialogViewModel"/> Klasse. 
     /// </summary>
     public AddSchuljahrDialogViewModel()
     {

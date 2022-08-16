@@ -18,7 +18,7 @@
     private ProzentbereichViewModel currentProzentbereich;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="BewertungsschemaViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="BewertungsschemaViewModel"/> Klasse. 
     /// </summary>
     /// <param name="bewertungsschema">
     /// The underlying bewertungsschema this ViewModel is to be based on

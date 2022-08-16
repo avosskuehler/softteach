@@ -69,7 +69,7 @@ namespace SoftTeach.View.Stundenpläne
           geänderteLerngruppen.Add(lerngruppeToChange);
         }
 
-        // Eine e Unterrichtsstunde wurde ergänzt, also für alle Wochen.
+        // Eine neue Unterrichtsstunde wurde ergänzt, also für alle Wochen.
         if (änderung.UpdateType == StundenplanÄnderungUpdateType.Added)
         {
           var endeMonat = this.StundenplanViewModel.StundenplanHalbjahr == Halbjahr.Winter ? 2 : 8;

@@ -16,7 +16,7 @@
     private FachViewModel currentFach;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="FachWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="FachWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public FachWorkspaceViewModel()
     {

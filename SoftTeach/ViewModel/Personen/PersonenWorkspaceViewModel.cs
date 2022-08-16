@@ -28,7 +28,7 @@
     private PersonViewModel currentPerson;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="PersonenWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="PersonenWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public PersonenWorkspaceViewModel()
     {
@@ -144,7 +144,7 @@
     }
 
     /// <summary>
-    /// Fügt eine e Person hinzu.
+    /// Fügt eine neue Person hinzu.
     /// </summary>
     private void AddPerson()
     {

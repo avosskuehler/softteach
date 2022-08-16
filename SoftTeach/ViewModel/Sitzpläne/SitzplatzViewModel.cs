@@ -20,7 +20,7 @@
     private SitzplatzShape shape;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="SitzplatzViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="SitzplatzViewModel"/> Klasse. 
     /// </summary>
     /// <param name="sitzplatz">
     /// The underlying sitzplatz this ViewModel is to be based on

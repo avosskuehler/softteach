@@ -30,7 +30,7 @@ namespace SoftTeach.View.Noten
     #region Constructors and Destructors
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="NotenlistenDialog"/> Klasse.
+    /// Initialisiert eine neue Instanz der <see cref="NotenlistenDialog"/> Klasse.
     /// </summary>
     public NotenlistenDialog()
     {

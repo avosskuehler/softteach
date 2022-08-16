@@ -31,7 +31,7 @@ namespace SoftTeach.View.Noten
     #region Constructors and Destructors
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="AddSonstigeNoteDialog"/> Klasse.
+    /// Initialisiert eine neue Instanz der <see cref="AddSonstigeNoteDialog"/> Klasse.
     /// </summary>
     public AddSonstigeNoteDialog()
     {

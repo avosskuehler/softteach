@@ -31,7 +31,7 @@ namespace SoftTeach.View.Personen
     #region Constructors and Destructors
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="AskForLerngruppeToAddDialog"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="AskForLerngruppeToAddDialog"/> Klasse. 
     /// </summary>
     public AskForLerngruppeToAddDialog()
     {

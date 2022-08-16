@@ -29,7 +29,7 @@
       <TextBox Margin="0,10" Name="TerminBezeichnungTextBox"  BorderThickness="2" TabIndex="0" />
       <TextBlock TextWrapping="Wrap">Bitte wählen Sie hier den Typ des Termins aus. Damit
             bestimmen Sie auch die Farbe, in der der Termin auf dem Plan erscheint
-            (Eine e Terminsorte können Sie, falls erforderlich, in der Datenbank erstellen).</TextBlock>
+            (Eine neue Terminsorte können Sie, falls erforderlich, in der Datenbank erstellen).</TextBlock>
       <ComboBox Margin="10"  TabIndex="1"
                 ItemsSource="{Binding Source={StaticResource Termintypen}}" 
                 SelectedItem="{Binding Path=TerminTermintyp}"

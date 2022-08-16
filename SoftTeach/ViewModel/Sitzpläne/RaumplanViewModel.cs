@@ -38,7 +38,7 @@
     private SitzplatzViewModel currentSitzplatz;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="RaumplanViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="RaumplanViewModel"/> Klasse. 
     /// </summary>
     /// <param name="raumplan">
     /// The underlying raumplan this ViewModel is to be based on

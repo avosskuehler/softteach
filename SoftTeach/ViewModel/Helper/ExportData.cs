@@ -147,7 +147,7 @@
 
         InformationDialog.Show(
           "e Personen",
-          string.Format("{0} e Personen angelegt und {1} bestehende Personen gefunden.", newCounter, foundCounter),
+          string.Format("{0} neue Personen angelegt und {1} bestehende Personen gefunden.", newCounter, foundCounter),
           false);
       }
 

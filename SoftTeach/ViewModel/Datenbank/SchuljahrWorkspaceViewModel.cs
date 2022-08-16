@@ -20,7 +20,7 @@
     private SchuljahrViewModel currentSchuljahr;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="SchuljahrWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="SchuljahrWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public SchuljahrWorkspaceViewModel()
     {

@@ -22,7 +22,7 @@
     private Dateiverweis currentDateiverweis;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="DateiverweisWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="DateiverweisWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public DateiverweisWorkspaceViewModel()
     {

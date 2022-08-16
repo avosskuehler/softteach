@@ -16,7 +16,7 @@
     private FerienViewModel currentFerien;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="FerienWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="FerienWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public FerienWorkspaceViewModel()
     {

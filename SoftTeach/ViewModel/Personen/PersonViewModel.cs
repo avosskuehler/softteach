@@ -28,7 +28,7 @@
     private BitmapSource bild;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="PersonViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="PersonViewModel"/> Klasse. 
     /// </summary>
     public PersonViewModel()
     {
@@ -43,7 +43,7 @@
     }
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="PersonViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="PersonViewModel"/> Klasse. 
     /// </summary>
     /// <param name="person">
     /// The underlying person this ViewModel is to be based on

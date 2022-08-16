@@ -8,7 +8,7 @@
   public partial class MetroGruppenPage
   {
    /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="MetroGruppenPage"/> Klasse.
+    /// Initialisiert eine neue Instanz der <see cref="MetroGruppenPage"/> Klasse.
     /// </summary>
     public MetroGruppenPage()
     {

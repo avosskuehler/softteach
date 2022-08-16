@@ -6,7 +6,7 @@
   public partial class MetroGruppenPrintView
   {
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="MetroGruppenPrintView"/> Klasse.
+    /// Initialisiert eine neue Instanz der <see cref="MetroGruppenPrintView"/> Klasse.
     /// </summary>
     public MetroGruppenPrintView()
     {

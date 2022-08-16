@@ -6,7 +6,7 @@
   public abstract class Change
   {
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="Change"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="Change"/> Klasse. 
     /// </summary>
     /// <param name="target">
     /// The object that this change affects.

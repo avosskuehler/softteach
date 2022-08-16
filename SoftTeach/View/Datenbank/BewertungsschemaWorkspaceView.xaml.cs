@@ -8,7 +8,7 @@
   public partial class BewertungsschemaWorkspaceView
   {
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="BewertungsschemaWorkspaceView"/> Klasse.
+    /// Initialisiert eine neue Instanz der <see cref="BewertungsschemaWorkspaceView"/> Klasse.
     /// </summary>
     public BewertungsschemaWorkspaceView()
     {

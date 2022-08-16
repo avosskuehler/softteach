@@ -44,7 +44,7 @@
     public static DateTime ZuletztVerwendetesDatum;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="SchulterminWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="SchulterminWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public SchulterminWorkspaceViewModel()
     {
@@ -230,7 +230,7 @@
           switch (eventArgs.Action)
           {
             case NotifyCollectionChangedAction.Add:
-              // Dem Termin wurde eine e betroffenen Klasse hinzugefügt
+              // Dem Termin wurde eine neue betroffenen Klasse hinzugefügt
               // Hole also alle  betroffenen Lerngruppen und ergänze den Termin.
               betroffeneLerngruppen = lerngruppen.Where(o => o == ((BetroffeneLerngruppeViewModel)eventArgs.NewItems[0]).BetroffeneLerngruppeLerngruppe);
 
@@ -386,7 +386,7 @@
       var lerngruppenTerminToUpdate = lerngruppe.Lerngruppentermine.FirstOrDefault(vm => vm.TerminBeschreibung == terminViewModel.TerminBeschreibung && vm.LerngruppenterminDatum == terminViewModel.SchulterminDatum);
       if (alteBeschreibung != null)
       {
-        // Termin hat e Beschreibung bekommen
+        // Termin hat neue Beschreibung bekommen
         lerngruppenTerminToUpdate = lerngruppe.Lerngruppentermine.FirstOrDefault(vm => vm.TerminBeschreibung == alteBeschreibung && vm.LerngruppenterminDatum == terminViewModel.SchulterminDatum);
       }
       if (alterTermin != null)

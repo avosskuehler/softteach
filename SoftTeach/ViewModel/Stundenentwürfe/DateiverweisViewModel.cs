@@ -22,7 +22,7 @@
     private DateitypViewModel dateityp;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="DateiverweisViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="DateiverweisViewModel"/> Klasse. 
     /// </summary>
     /// <param name="dateiverweis">
     /// The underlying dateiverweis this ViewModel is to be based on

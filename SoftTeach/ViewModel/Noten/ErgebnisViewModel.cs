@@ -12,7 +12,7 @@
   public class ErgebnisViewModel : ViewModelBase
   {
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="ErgebnisViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="ErgebnisViewModel"/> Klasse. 
     /// </summary>
     /// <param name="ergebnis">
     /// The underlying ergebnis this ViewModel is to be based on

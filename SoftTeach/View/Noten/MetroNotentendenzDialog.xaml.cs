@@ -32,7 +32,7 @@ namespace SoftTeach.View.Noten
     #region Constructors and Destructors
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="MetroNotentendenzDialog"/> Klasse.
+    /// Initialisiert eine neue Instanz der <see cref="MetroNotentendenzDialog"/> Klasse.
     /// </summary>
     /// <param name="notentendenzViewModel">
     /// The noten Workspace View Model.

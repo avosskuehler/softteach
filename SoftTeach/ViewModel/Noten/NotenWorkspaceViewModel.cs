@@ -23,7 +23,7 @@
     private bool isMündlich;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="NotenWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="NotenWorkspaceViewModel"/> Klasse. 
     /// </summary>
     /// <param name="noteViewModel"> The note View Model. </param>
     public NotenWorkspaceViewModel(NoteViewModel noteViewModel)

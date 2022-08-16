@@ -19,7 +19,7 @@
     private RaumplanViewModel currentRaumplan;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="RaumViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="RaumViewModel"/> Klasse. 
     /// </summary>
     /// <param name="raum">
     /// The underlying raum this ViewModel is to be based on
@@ -102,6 +102,14 @@
         this.UndoablePropertyChanging(this, nameof(RaumBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("RaumBezeichnung");
+      }
+    }
+
+    public int RaumID
+    {
+      get
+      {
+        return this.Model.Id;
       }
     }
 

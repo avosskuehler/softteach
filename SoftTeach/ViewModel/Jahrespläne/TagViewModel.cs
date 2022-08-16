@@ -39,7 +39,7 @@ namespace SoftTeach.ViewModel.Jahrespläne
     private bool istFeiertag;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="JahresplanViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="JahresplanViewModel"/> Klasse. 
     /// </summary>
     public TagViewModel(LerngruppeViewModel lerngruppe)
     {
@@ -148,7 +148,7 @@ namespace SoftTeach.ViewModel.Jahrespläne
     }
 
     /// <summary>
-    /// Holt oder setzt einen Wert, der angibt, ob an diesem Tag e Eintragungen stattfinden dürfen oder nicht.
+    /// Holt oder setzt einen Wert, der angibt, ob an diesem Tag neue Eintragungen stattfinden dürfen oder nicht.
     /// </summary>
     public bool Enabled
     {
@@ -270,7 +270,7 @@ namespace SoftTeach.ViewModel.Jahrespläne
     }
 
     /// <summary>
-    /// Erstellt eine e Stunde für diesen Tag und die Lerngruppe
+    /// Erstellt eine neue Stunde für diesen Tag und die Lerngruppe
     /// </summary>
     public void AddStunde()
     {

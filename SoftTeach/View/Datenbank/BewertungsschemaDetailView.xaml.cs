@@ -7,7 +7,7 @@ namespace SoftTeach.View.Datenbank
   public partial class BewertungsschemaDetailView
   {
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="BewertungsschemaDetailView"/> Klasse.
+    /// Initialisiert eine neue Instanz der <see cref="BewertungsschemaDetailView"/> Klasse.
     /// </summary>
     public BewertungsschemaDetailView()
     {

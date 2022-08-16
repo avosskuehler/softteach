@@ -12,7 +12,7 @@
   public class TerminplanEintragCollection : ViewModelBase
   {
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="TerminplanEintragCollection"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="TerminplanEintragCollection"/> Klasse. 
     /// </summary>
     /// <param name="wochentagIndex"> The wochentag Index. </param>
     /// <param name="einträge">Die Liste der Wochenplaneinträge.</param>

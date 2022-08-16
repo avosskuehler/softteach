@@ -10,7 +10,7 @@
   public class DateitypViewModel : ViewModelBase, IComparable
   {
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="DateitypViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="DateitypViewModel"/> Klasse. 
     /// </summary>
     /// <param name="dateityp">
     /// The underlying dateityp this ViewModel is to be based on

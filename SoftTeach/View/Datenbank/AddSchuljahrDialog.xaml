@@ -59,7 +59,7 @@
         </DataGrid>
       </GroupBox>
 
-      <TextBlock TextWrapping="Wrap">Wenn Sie auf OK klicken wird das e Schuljahr angelegt.
+      <TextBlock TextWrapping="Wrap">Wenn Sie auf OK klicken wird das neue Schuljahr angelegt.
       Weitere Termine können in der Schulterminübersicht nach dem Anlegen des Schuljahres ergänzt werden.</TextBlock>
     </StackPanel>
     <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">

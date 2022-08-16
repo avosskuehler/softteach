@@ -43,7 +43,7 @@
     private Stunde currentStunde;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="SucheStundeWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="SucheStundeWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public SucheStundeWorkspaceViewModel()
     {

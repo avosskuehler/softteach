@@ -88,7 +88,7 @@
     private PlotModel plotModelQuantität;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="SchülereintragViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="SchülereintragViewModel"/> Klasse. 
     /// </summary>
     public SchülereintragViewModel()
     {
@@ -102,7 +102,7 @@
     }
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="SchülereintragViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="SchülereintragViewModel"/> Klasse. 
     /// </summary>
     /// <param name="schülereintrag">
     /// The underlying schülereintrag this ViewModel is to be based on
@@ -1798,7 +1798,7 @@
     }
 
     /// <summary>
-    /// Diese Methode legt eine e Hausaufgabe in der Datenbank an.
+    /// Diese Methode legt eine neue Hausaufgabe in der Datenbank an.
     /// </summary>
     private void ErstelleHausaufgabe()
     {
@@ -2079,7 +2079,7 @@
     }
 
     /// <summary>
-    /// Erstellt eine e sonstige Note mit den gegebenen Parametern
+    /// Erstellt eine neue sonstige Note mit den gegebenen Parametern
     /// </summary>
     /// <param name="notenwert">Ein ganzzahliger Notenwert für die Note.</param>
     private void AddSonstigeNote(int notenwert)
@@ -2110,7 +2110,7 @@
     }
 
     /// <summary>
-    /// Erstellt eine e mündliche Note mit den gegebenen Parametern
+    /// Erstellt eine neue mündliche Note mit den gegebenen Parametern
     /// </summary>
     /// <param name="notentyp">Der <see cref="Notentyp"/> der Note.</param>
     /// <param name="notenwert">Ein ganzzahliger Notenwert für die Note.</param>
@@ -2154,7 +2154,7 @@
     }
 
     /// <summary>
-    /// Erstellt eine e Notenlistennote mit den gegebenen Parametern
+    /// Erstellt eine neue Notenlistennote mit den gegebenen Parametern
     /// </summary>
     /// <param name="notentyp">Der <see cref="Notentyp"/> der Note.</param>
     /// <param name="notenwert">Ein ganzzahliger Notenwert in Notenpunkte für die Note.</param>

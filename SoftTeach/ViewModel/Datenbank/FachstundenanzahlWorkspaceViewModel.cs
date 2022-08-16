@@ -15,7 +15,7 @@
     private FachstundenanzahlViewModel currentFachstundenanzahl;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="FachstundenanzahlWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="FachstundenanzahlWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public FachstundenanzahlWorkspaceViewModel()
     {

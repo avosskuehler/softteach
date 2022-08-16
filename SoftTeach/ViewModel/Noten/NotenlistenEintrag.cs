@@ -9,7 +9,7 @@
   public class NotenlistenEintrag
   {
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="NotenlistenEintrag" /> Klasse.
+    /// Initialisiert eine neue Instanz der <see cref="NotenlistenEintrag" /> Klasse.
     /// </summary>
     /// <param name="notenTermintyp">Der zeugnisnotentyp.</param>
     /// <param name="jahresplanViewModel">The jahresplan view model.</param>

@@ -10,7 +10,7 @@
   public class ZensurViewModel : ViewModelBase, IComparable
   {
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="ZensurViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="ZensurViewModel"/> Klasse. 
     /// </summary>
     /// <param name="zensur">
     /// The underlying zensur this ViewModel is to be based on

@@ -19,7 +19,7 @@
   public class NotentendenzViewModel : ViewModelBase
   {
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="NotentendenzViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="NotentendenzViewModel"/> Klasse. 
     /// </summary>
     public NotentendenzViewModel()
     {
@@ -33,7 +33,7 @@
     }
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="NotentendenzViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="NotentendenzViewModel"/> Klasse. 
     /// </summary>
     /// <param name="note">
     /// The underlying note this ViewModel is to be based on

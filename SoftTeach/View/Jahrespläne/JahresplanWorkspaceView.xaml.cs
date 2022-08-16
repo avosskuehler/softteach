@@ -6,7 +6,7 @@
   public partial class JahresplanWorkspaceView
   {
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="JahresplanWorkspaceView"/> Klasse.
+    /// Initialisiert eine neue Instanz der <see cref="JahresplanWorkspaceView"/> Klasse.
     /// </summary>
     public JahresplanWorkspaceView()
     {

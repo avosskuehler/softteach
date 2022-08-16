@@ -19,7 +19,7 @@
   public class HausaufgabeViewModel : ViewModelBase, IComparable
   {
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="HausaufgabeViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="HausaufgabeViewModel"/> Klasse. 
     /// </summary>
     public HausaufgabeViewModel()
     {
@@ -35,7 +35,7 @@
     }
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="HausaufgabeViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="HausaufgabeViewModel"/> Klasse. 
     /// </summary>
     /// <param name="hausaufgabe">
     /// The underlying hausaufgabe this ViewModel is to be based on

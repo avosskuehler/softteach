@@ -14,7 +14,7 @@
       <RowDefinition/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader Grid.Row="0" Title="Ab wann soll der e Stundenplan gelten?">
+    <controls:SmallDialogHeader Grid.Row="0" Title="Ab wann soll der neue Stundenplan gelten?">
       <controls:SmallDialogHeader.IconContent>
         <Grid>
           <fa:IconBlock Style="{StaticResource Stundenplan32}" Foreground="{DynamicResource Iconfarbe}"/>
@@ -22,7 +22,7 @@
       </controls:SmallDialogHeader.IconContent>
     </controls:SmallDialogHeader>
     <StackPanel Grid.Row="1" Margin="10">
-      <TextBlock TextWrapping="Wrap">Bitte geben Sie das Datum an, ab dem der e Stundenplan gültig ist.</TextBlock>
+      <TextBlock TextWrapping="Wrap">Bitte geben Sie das Datum an, ab dem der neue Stundenplan gültig ist.</TextBlock>
       <DatePicker Name="GültigAbDate"/>
     </StackPanel>
     <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">

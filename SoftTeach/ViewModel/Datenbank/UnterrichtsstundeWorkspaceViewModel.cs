@@ -16,7 +16,7 @@
     private UnterrichtsstundeViewModel currentUnterrichtsstunde;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="UnterrichtsstundeWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="UnterrichtsstundeWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public UnterrichtsstundeWorkspaceViewModel()
     {

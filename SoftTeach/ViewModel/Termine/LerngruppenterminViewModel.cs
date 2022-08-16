@@ -24,7 +24,7 @@
     private LerngruppeViewModel lerngruppe;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="LerngruppenterminViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="LerngruppenterminViewModel"/> Klasse. 
     /// </summary>
     /// <param name="lerngruppentermin">
     /// The underlying lerngruppentermin this ViewModel is to be based on
@@ -39,7 +39,7 @@
     }
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="LerngruppenterminViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="LerngruppenterminViewModel"/> Klasse. 
     /// </summary>
     /// <param name="lerngruppentermin">
     /// The underlying lerngruppentermin this ViewModel is to be based on

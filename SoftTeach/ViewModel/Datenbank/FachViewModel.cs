@@ -11,7 +11,7 @@
   public class FachViewModel : ViewModelBase, IComparable
   {
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="FachViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="FachViewModel"/> Klasse. 
     /// </summary>
     /// <param name="fach">
     /// The underlying fach this ViewModel is to be based on

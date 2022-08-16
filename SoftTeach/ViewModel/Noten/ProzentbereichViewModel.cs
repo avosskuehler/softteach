@@ -18,7 +18,7 @@
     private ZensurViewModel zensur;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="ProzentbereichViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="ProzentbereichViewModel"/> Klasse. 
     /// </summary>
     /// <param name="prozentbereich">
     /// The underlying prozentbereich this ViewModel is to be based on

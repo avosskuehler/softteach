@@ -43,7 +43,7 @@
     //private List<Rectangle> sitzplatzShapes;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="MetroSitzplanPage"/> Klasse.
+    /// Initialisiert eine neue Instanz der <see cref="MetroSitzplanPage"/> Klasse.
     /// </summary>
     public MetroSitzplanPage()
     {

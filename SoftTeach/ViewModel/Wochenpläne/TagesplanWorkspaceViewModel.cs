@@ -17,7 +17,7 @@
     private DateTime tagesplanDatum;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="TagesplanWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="TagesplanWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public TagesplanWorkspaceViewModel()
     {

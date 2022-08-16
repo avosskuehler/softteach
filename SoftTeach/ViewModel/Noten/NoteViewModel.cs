@@ -28,7 +28,7 @@
     private ArbeitViewModel arbeit;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="NoteViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="NoteViewModel"/> Klasse. 
     /// </summary>
     public NoteViewModel()
     {
@@ -45,7 +45,7 @@
     }
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="NoteViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="NoteViewModel"/> Klasse. 
     /// </summary>
     /// <param name="note">
     /// The underlying note this ViewModel is to be based on

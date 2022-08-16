@@ -39,7 +39,7 @@
     private ContextMenu stundenplanContextMenu;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="StundenplanViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="StundenplanViewModel"/> Klasse. 
     /// </summary>
     /// <param name="stundenplan">
     /// The underlying stundenplan this ViewModel is to be based on

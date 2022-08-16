@@ -33,7 +33,7 @@
     private RaumViewModel raum;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="StundenplaneintragViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="StundenplaneintragViewModel"/> Klasse. 
     /// </summary>
     /// <param name="stundenplaneintrag">
     /// The underlying stundenplaneintrag this ViewModel is to be based on
@@ -44,7 +44,7 @@
     }
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="StundenplaneintragViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="StundenplaneintragViewModel"/> Klasse. 
     /// </summary>
     /// <param name="parent">
     /// The stundenplan this ViewModel belongs to.

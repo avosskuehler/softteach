@@ -17,7 +17,7 @@
     private SchuljahrViewModel schuljahr;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="FerienViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="FerienViewModel"/> Klasse. 
     /// </summary>
     public FerienViewModel()
     {
@@ -33,7 +33,7 @@
     }
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="FerienViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="FerienViewModel"/> Klasse. 
     /// </summary>
     /// <param name="ferien">
     /// The underlying ferien this ViewModel is to be based on

@@ -44,7 +44,7 @@
     private bool showFerien;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="CurriculumZuweisenWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="CurriculumZuweisenWorkspaceViewModel"/> Klasse. 
     /// </summary>
     /// <param name="curriculumViewModel">
     /// This should be a clone of a curriculum to be adapted,

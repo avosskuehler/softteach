@@ -37,7 +37,7 @@ namespace SoftTeach.View.Noten
     //private SchuljahrViewModel schuljahr;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="AddArbeitDialog"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="AddArbeitDialog"/> Klasse. 
     /// </summary>
     public AddArbeitDialog()
     {

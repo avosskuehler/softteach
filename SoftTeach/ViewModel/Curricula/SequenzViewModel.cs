@@ -14,7 +14,7 @@
   public class SequenzViewModel : SequencedViewModel
   {
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="SequenzViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="SequenzViewModel"/> Klasse. 
     /// </summary>
     /// <param name="sequenz">
     /// The underlying sequenz this ViewModel is to be based on
@@ -25,7 +25,7 @@
     }
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="SequenzViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="SequenzViewModel"/> Klasse. 
     /// </summary>
     /// <param name="reihe">
     /// The reihe.

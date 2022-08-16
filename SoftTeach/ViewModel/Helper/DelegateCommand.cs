@@ -72,7 +72,7 @@
   //  private readonly Predicate<object> canExecutePredicate;
 
   //  /// <summary>
-  //  /// Initialisiert eine e Instanz der <see cref="DelegateCommand"/> Klasse. 
+  //  /// Initialisiert eine neue Instanz der <see cref="DelegateCommand"/> Klasse. 
   //  /// The command will always be valid for execution.
   //  /// </summary>
   //  /// <param name="execute">
@@ -84,7 +84,7 @@
   //  }
 
   //  /// <summary>
-  //  /// Initialisiert eine e Instanz der <see cref="DelegateCommand"/> Klasse. 
+  //  /// Initialisiert eine neue Instanz der <see cref="DelegateCommand"/> Klasse. 
   //  /// </summary>
   //  /// <param name="execute">
   //  /// The delegate to call on execution

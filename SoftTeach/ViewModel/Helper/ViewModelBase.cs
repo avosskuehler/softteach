@@ -41,7 +41,7 @@
     private readonly IDictionary<string, List<string>> propertyMap;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="ViewModelBase"/> Klasse.
+    /// Initialisiert eine neue Instanz der <see cref="ViewModelBase"/> Klasse.
     /// </summary>
     public ViewModelBase()
     {
@@ -375,7 +375,7 @@
     protected class DependsUponAttribute : Attribute
     {
       /// <summary>
-      /// Initialisiert eine e Instanz der <see cref="DependsUponAttribute"/> Klasse.
+      /// Initialisiert eine neue Instanz der <see cref="DependsUponAttribute"/> Klasse.
       /// </summary>
       /// <param name="propertyName"> The property name. </param>
       public DependsUponAttribute(string propertyName)

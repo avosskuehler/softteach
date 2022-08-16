@@ -65,7 +65,7 @@ namespace SoftTeach.ViewModel.Termine
     private List<PhaseContainer> copyToClipboardList;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="StundeViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="StundeViewModel"/> Klasse. 
     /// </summary>
     /// <param name="parentTagesplan">
     /// The tagesplan this ViewModel belongs to

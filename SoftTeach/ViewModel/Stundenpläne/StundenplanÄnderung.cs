@@ -8,7 +8,7 @@
   public class StundenplanÄnderung
   {
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="StundenplanÄnderung"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="StundenplanÄnderung"/> Klasse. 
     /// </summary>
     /// <param name="updateType">
     /// The <see cref="StundenplanÄnderungUpdateType"/> that describes the 

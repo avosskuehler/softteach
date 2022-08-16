@@ -10,7 +10,7 @@
   public class UnterrichtsstundeViewModel : ViewModelBase, IComparable
   {
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="UnterrichtsstundeViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="UnterrichtsstundeViewModel"/> Klasse. 
     /// </summary>
     /// <param name="unterrichtsstunde">
     /// The underlying unterrichtsstunde this ViewModel is to be based on

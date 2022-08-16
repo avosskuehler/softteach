@@ -45,7 +45,7 @@
     //public event EventHandler<TagGeändertEventArgs> TagGeändert;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="JahresplanViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="JahresplanViewModel"/> Klasse. 
     /// </summary>
     public JahresplanViewModel(LerngruppeViewModel lerngruppe)
     {

@@ -23,7 +23,7 @@
     private ErgebnisViewModel currentErgebnis;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="AufgabeViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="AufgabeViewModel"/> Klasse. 
     /// </summary>
     public AufgabeViewModel()
     {
@@ -40,7 +40,7 @@
     }
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="AufgabeViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="AufgabeViewModel"/> Klasse. 
     /// </summary>
     /// <param name="aufgabe">
     /// The underlying aufgabe this ViewModel is to be based on

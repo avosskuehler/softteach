@@ -33,7 +33,7 @@
     private SchuljahrViewModel schuljahrFilter;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="ArbeitWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="ArbeitWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public ArbeitWorkspaceViewModel()
     {
@@ -56,7 +56,7 @@
     }
 
     /// <summary>
-    /// Holt den Befehl, um eine e Arbeit anzulegen.
+    /// Holt den Befehl, um eine neue Arbeit anzulegen.
     /// </summary>
     public DelegateCommand AddArbeitCommand { get; private set; }
 

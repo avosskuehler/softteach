@@ -18,7 +18,7 @@
     private FachViewModel fach;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="ModulViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="ModulViewModel"/> Klasse. 
     /// </summary>
     /// <param name="modul">
     /// The underlying modul this ViewModel is to be based on

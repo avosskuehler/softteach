@@ -27,7 +27,7 @@
     private Point touchPoint;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="MetroSchülereintragNotenPage"/> Klasse.
+    /// Initialisiert eine neue Instanz der <see cref="MetroSchülereintragNotenPage"/> Klasse.
     /// </summary>
     public MetroSchülereintragNotenPage(SchülereintragViewModel vm)
     {

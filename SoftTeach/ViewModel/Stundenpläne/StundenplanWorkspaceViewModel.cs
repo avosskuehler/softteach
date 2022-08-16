@@ -20,7 +20,7 @@
     private StundenplanViewModel currentStundenplan;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="StundenplanWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="StundenplanWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public StundenplanWorkspaceViewModel()
     {

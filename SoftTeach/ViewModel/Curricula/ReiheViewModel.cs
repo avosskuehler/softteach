@@ -28,7 +28,7 @@
     private SequenzViewModel currentSequenz;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="ReiheViewModel"/> Klasse.
+    /// Initialisiert eine neue Instanz der <see cref="ReiheViewModel"/> Klasse.
     /// </summary>
     /// <param name="reihe">
     /// The underlying reihe this ViewModel is to be based on

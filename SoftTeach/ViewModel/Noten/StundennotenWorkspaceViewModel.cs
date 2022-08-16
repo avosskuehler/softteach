@@ -39,7 +39,7 @@
     private ICollectionView completeSchülerView;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="StundennotenWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="StundennotenWorkspaceViewModel"/> Klasse. 
     /// </summary>
     /// <param name="schülerlisteViewModel">Die Lerngruppe für die Stundennoten gegeben werden sollen.</param>
     /// <param name="stundeViewModel">Die Stunde für die Noten gegeben werden sollen.</param>

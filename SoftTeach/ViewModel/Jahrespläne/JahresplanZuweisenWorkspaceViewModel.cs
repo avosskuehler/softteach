@@ -43,7 +43,7 @@
     private bool showFerien;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="JahresplanZuweisenWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="JahresplanZuweisenWorkspaceViewModel"/> Klasse. 
     /// </summary>
     /// <param name="lerngruppeSource">Die Lerngruppe, deren Stunden als Vorlage dienen sollen.</param>
     /// <param name="lerngruppeTarget">Die Lerngruppe, in die die Stunden der Vorlage übertragen werden sollen.</param>

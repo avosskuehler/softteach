@@ -6,7 +6,7 @@
   public partial class SchülereintragDetailView
   {
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="SchülereintragDetailView"/> Klasse.
+    /// Initialisiert eine neue Instanz der <see cref="SchülereintragDetailView"/> Klasse.
     /// </summary>
     public SchülereintragDetailView()
     {

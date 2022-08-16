@@ -32,7 +32,7 @@
     private ModulViewModel currentModul;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="ModulWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="ModulWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public ModulWorkspaceViewModel()
     {

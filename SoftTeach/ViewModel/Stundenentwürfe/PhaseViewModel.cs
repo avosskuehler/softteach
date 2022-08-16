@@ -14,7 +14,7 @@
   public class PhaseViewModel : ViewModelBase, ISequencedObject, ICloneable
   {
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="PhaseViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="PhaseViewModel"/> Klasse. 
     /// </summary>
     public PhaseViewModel()
     {
@@ -34,7 +34,7 @@
     }
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="PhaseViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="PhaseViewModel"/> Klasse. 
     /// </summary>
     /// <param name="phase">
     /// The underlying phase this ViewModel is to be based on

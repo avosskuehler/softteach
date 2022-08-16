@@ -10,7 +10,7 @@
   public class NotenWichtungViewModel : ViewModelBase, IComparable
   {
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="NotenWichtungViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="NotenWichtungViewModel"/> Klasse. 
     /// </summary>
     /// <param name="notenWichtung">
     /// The underlying notenWichtung this ViewModel is to be based on

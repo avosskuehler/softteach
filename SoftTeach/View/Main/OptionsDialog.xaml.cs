@@ -10,7 +10,7 @@
   public partial class OptionsDialog
   {
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="OptionsDialog"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="OptionsDialog"/> Klasse. 
     /// </summary>
     public OptionsDialog()
     {

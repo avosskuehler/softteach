@@ -35,7 +35,7 @@
     //private Schülereintrag schülereintrag;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="SitzplaneintragViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="SitzplaneintragViewModel"/> Klasse. 
     /// </summary>
     /// <param name="sitzplaneintrag">
     /// The underlying sitzplaneintrag this ViewModel is to be based on

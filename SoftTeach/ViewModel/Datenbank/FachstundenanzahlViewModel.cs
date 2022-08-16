@@ -21,7 +21,7 @@
     private FachViewModel fach;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="FachstundenanzahlViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="FachstundenanzahlViewModel"/> Klasse. 
     /// </summary>
     /// <param name="fachstundenanzahl">
     /// The underlying fachstundenanzahl this ViewModel is to be based on

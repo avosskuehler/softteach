@@ -15,7 +15,7 @@
   public class UnitOfWork
   {
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="UnitOfWork"/> Klasse.
+    /// Initialisiert eine neue Instanz der <see cref="UnitOfWork"/> Klasse.
     /// Sie stellt die Verbindung zur Datenbank her.
     /// </summary>
     public UnitOfWork()

@@ -90,7 +90,7 @@
     private SchülereintragViewModel currentSchülereintrag;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="ArbeitViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="ArbeitViewModel"/> Klasse. 
     /// </summary>
     /// <param name="arbeit">
     /// The underlying arbeit this ViewModel is to be based on

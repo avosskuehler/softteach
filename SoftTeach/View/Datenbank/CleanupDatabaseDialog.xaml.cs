@@ -33,7 +33,7 @@ namespace SoftTeach.View.Datenbank
     #region Constructors and Destructors
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="CleanupDatabaseDialog"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="CleanupDatabaseDialog"/> Klasse. 
     /// </summary>
     public CleanupDatabaseDialog()
     {

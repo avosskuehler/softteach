@@ -23,7 +23,7 @@
     private UnterrichtsstundeViewModel letzteUnterrichtsstunde;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="TerminViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="TerminViewModel"/> Klasse. 
     /// </summary>
     /// <param name="termin">
     /// The underlying termin this ViewModel is to be based on

@@ -17,7 +17,7 @@
     private object redoNewItem;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="CollectionReplaceChange"/> Klasse.
+    /// Initialisiert eine neue Instanz der <see cref="CollectionReplaceChange"/> Klasse.
     /// </summary>
     /// <param name="target"> The target. </param>
     /// <param name="propertyName"> The property name. </param>

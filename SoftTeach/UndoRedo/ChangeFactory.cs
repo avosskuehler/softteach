@@ -18,7 +18,7 @@
     }
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="ChangeFactory"/> Klasse.
+    /// Initialisiert eine neue Instanz der <see cref="ChangeFactory"/> Klasse.
     /// </summary>
     public ChangeFactory()
     {

@@ -16,7 +16,7 @@
     private ZensurViewModel currentZensur;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="ZensurWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="ZensurWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public ZensurWorkspaceViewModel()
     {

@@ -33,7 +33,7 @@
     private SchülereintragViewModel currentSchülereintrag;
 
     /// <summary>
-    /// Initialisiert eine e Instanz der <see cref="SchülereintragWorkspaceViewModel"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="SchülereintragWorkspaceViewModel"/> Klasse. 
     /// </summary>
     public SchülereintragWorkspaceViewModel()
     {
