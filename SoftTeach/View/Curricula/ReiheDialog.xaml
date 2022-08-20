@@ -24,7 +24,7 @@
     <StackPanel Grid.Row="1" Background="{x:Static SystemColors.MenuBarBrush}">
       <StackPanel Margin="5">
         <Label Grid.Row="0">Thema</Label>
-        <TextBox Grid.Row="0" Margin="6,0" Text="{Binding Path=Reihe.ReiheThema}"/>
+        <TextBox Grid.Row="0" Margin="6,0" Text="{Binding Path=Reihe.Thema}"/>
         <Label Grid.Row="1">Modul</Label>
         <ComboBox Grid.Row="1" SelectedValuePath="." Margin="6,0"
                     SelectedItem="{Binding Path=Reihe.ReiheModul}" 

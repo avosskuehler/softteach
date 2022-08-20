@@ -3,9 +3,11 @@
   using System;
   using System.Collections.ObjectModel;
   using System.Collections.Specialized;
+  using System.ComponentModel;
   using System.Linq;
   using System.Windows;
   using System.Windows.Controls;
+  using System.Windows.Data;
   using System.Windows.Input;
 
   using GongSolutions.Wpf.DragDrop;
@@ -70,35 +72,49 @@
       this.DeleteSequenzCommand = new DelegateCommand(this.DeleteCurrentSequenz, () => this.CurrentReihe != null && this.CurrentReihe.CurrentSequenz != null);
 
       // Build data structures for Reihen
-      this.UsedReihenDesCurriculums = new ObservableCollection<ReiheViewModel>();
-      this.AvailableReihenDesCurriculums = new ObservableCollection<ReiheViewModel>();
+      this.BausteineDesCurriculums = new ObservableCollection<SequencedViewModel>();
+      //this.AvailableReihenDesCurriculums = new ObservableCollection<ReiheViewModel>();
       foreach (var reihe in curriculum.Reihen.OrderBy(o => o.Reihenfolge).ToList())
       {
         var vm = new ReiheViewModel(reihe);
-        //App.MainViewModel.Reihen.Add(vm);
-        if (vm.Reihenfolge == -1)
+        this.BausteineDesCurriculums.Add(vm);
+
+        foreach (var sequenzViewModel in vm.Sequenzen)
         {
-          this.AvailableReihenDesCurriculums.Add(vm);
-        }
-        else
-        {
-          this.UsedReihenDesCurriculums.Add(vm);
+          this.BausteineDesCurriculums.Add(sequenzViewModel);
         }
       }
 
-      this.CreateModuleClonesIfReihenListIsEmpty();
+      this.ReihenViewSource = new CollectionViewSource() { Source = this.BausteineDesCurriculums };
+      using (this.ReihenViewSource.DeferRefresh())
+      {
+        this.ReihenViewSource.SortDescriptions.Add(new SortDescription("Thema", ListSortDirection.Ascending));
+        this.ReihenViewSource.Filter += this.ReihenViewSource_Filter;
+      }
 
-      this.UsedSequenzenDesCurriculums = new ObservableCollection<SequenzViewModel>();
-      this.PopulateSequenzen();
+      this.SequenzenViewSource = new CollectionViewSource() { Source = this.BausteineDesCurriculums };
+      using (this.SequenzenViewSource.DeferRefresh())
+      {
+        this.SequenzenViewSource.SortDescriptions.Add(new SortDescription("Thema", ListSortDirection.Ascending));
+        this.SequenzenViewSource.Filter += this.SequenzenViewSource_Filter;
+      }
 
-      this.ReihenSequenzen = new ObservableCollection<SequencedViewModel>();
-      this.PopulateBoth();
+      this.BausteineViewSource = new CollectionViewSource() { Source = this.BausteineDesCurriculums };
+      using (this.BausteineViewSource.DeferRefresh())
+      {
+        this.BausteineViewSource.SortDescriptions.Add(new SortDescription("Reihenfolge", ListSortDirection.Ascending));
+        this.BausteineViewSource.GroupDescriptions.Add(new PropertyGroupDescription("ViewModelType"));
+        this.BausteineViewSource.Filter += this.BausteineViewSource_Filter;
+      }
+
 
       // Listen for changes
-      this.UsedReihenDesCurriculums.CollectionChanged += this.UsedReihenDesCurriculumsCollectionChanged;
-      this.AvailableReihenDesCurriculums.CollectionChanged += this.AvailableReihenDesCurriculumsCollectionChanged;
-      this.UsedSequenzenDesCurriculums.CollectionChanged += this.UsedSequenzenDesCurriculumsCollectionChanged;
-      this.ReihenSequenzen.CollectionChanged += this.ReihenSequenzenCollectionChanged;
+      this.BausteineDesCurriculums.CollectionChanged += this.BausteineDesCurriculumsCollectionChanged;
+      //this.AvailableReihenDesCurriculums.CollectionChanged += this.AvailableReihenDesCurriculumsCollectionChanged;
+      //this.SequenzenDesCurriculums.CollectionChanged += this.SequenzenDesCurriculumsCollectionChanged;
+      //this.SequenzenDerReihen.CollectionChanged += this.ReihenSequenzenCollectionChanged;
+
+      this.CreateModuleClonesIfReihenListIsEmpty();
     }
 
     /// <summary>
@@ -131,25 +147,55 @@
     /// </summary>
     public DelegateCommand DeleteSequenzCommand { get; private set; }
 
-    /// <summary>
-    /// Holt die im Curriculum verwendeten Sequenzen.
-    /// </summary>
-    public ObservableCollection<SequenzViewModel> UsedSequenzenDesCurriculums { get; private set; }
+    ///// <summary>
+    ///// Holt die im Curriculum verwendeten Sequenzen.
+    ///// </summary>
+    //public ObservableCollection<SequenzViewModel> SequenzenDesCurriculums { get; private set; }
 
     /// <summary>
-    /// Holt die im Curriculum verwendeten Reihen
+    /// Holt die im Curriculum vorhandenen Reihen
     /// </summary>
-    public ObservableCollection<ReiheViewModel> UsedReihenDesCurriculums { get; private set; }
+    public ObservableCollection<SequencedViewModel> BausteineDesCurriculums { get; private set; }
 
     /// <summary>
-    /// Holt die im Curriculum nicht verwendeten Reihen
+    /// Holt oder setzt die View Source der Tage des ersten Halbjahres
     /// </summary>
-    public ObservableCollection<ReiheViewModel> AvailableReihenDesCurriculums { get; private set; }
+    public CollectionViewSource BausteineViewSource { get; set; }
 
     /// <summary>
-    /// Holt alle verfügbaren Reihen und Sequenzen
+    /// Holt oder setzt ein gefiltertes und gruppiertes View der Curriculumsbausteine
     /// </summary>
-    public ObservableCollection<SequencedViewModel> ReihenSequenzen { get; private set; }
+    public ICollectionView BausteineView => this.BausteineViewSource.View;
+
+    /// <summary>
+    /// Holt oder setzt die View Source der Tage des ersten Halbjahres
+    /// </summary>
+    public CollectionViewSource ReihenViewSource { get; set; }
+
+    /// <summary>
+    /// Holt oder setzt ein gefiltertes View der Reihen
+    /// </summary>
+    public ICollectionView ReihenView => this.ReihenViewSource.View;
+
+    /// <summary>
+    /// Holt oder setzt die View Source der Tage des ersten Halbjahres
+    /// </summary>
+    public CollectionViewSource SequenzenViewSource { get; set; }
+
+    /// <summary>
+    /// Holt oder setzt ein gefiltertes View der Sequenzen
+    /// </summary>
+    public ICollectionView SequenzenView => this.SequenzenViewSource.View;
+
+    ///// <summary>
+    ///// Holt die im Curriculum nicht verwendeten Reihen
+    ///// </summary>
+    //public ObservableCollection<ReiheViewModel> AvailableReihenDesCurriculums { get; private set; }
+
+    ///// <summary>
+    ///// Holt alle verfügbaren Reihen und Sequenzen
+    ///// </summary>
+    //public ObservableCollection<SequencedViewModel> SequenzenDerReihen { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die currently selected reihe
@@ -168,41 +214,42 @@
 
         this.DeleteReiheCommand.RaiseCanExecuteChanged();
         this.DeleteSequenzCommand.RaiseCanExecuteChanged();
+        this.SequenzenView.Refresh();
       }
     }
 
-    /// <summary>
-    /// Holt die in der Reihe nicht verwendeten Sequenzen
-    /// </summary>
-    [DependsUpon("CurrentReihe")]
-    public ObservableCollection<SequenzViewModel> AvailableSequenzenDerReihe
-    {
-      get
-      {
-        if (this.CurrentReihe != null)
-        {
-          return this.CurrentReihe.AvailableSequenzen;
-        }
+    ///// <summary>
+    ///// Holt die in der Reihe nicht verwendeten Sequenzen
+    ///// </summary>
+    //[DependsUpon("CurrentReihe")]
+    //public ObservableCollection<SequenzViewModel> AvailableSequenzenDerReihe
+    //{
+    //  get
+    //  {
+    //    if (this.CurrentReihe != null)
+    //    {
+    //      return this.CurrentReihe.AvailableSequenzen;
+    //    }
 
-        return null;
-      }
-    }
+    //    return null;
+    //  }
+    //}
 
-    /// <summary>
-    /// Holt die in der Reihe verwendeten Sequenzen
-    /// </summary>
-    public ObservableCollection<SequenzViewModel> UsedSequenzenDerReihe
-    {
-      get
-      {
-        if (this.CurrentReihe != null)
-        {
-          return this.CurrentReihe.UsedSequenzen;
-        }
+    ///// <summary>
+    ///// Holt die in der Reihe verwendeten Sequenzen
+    ///// </summary>
+    //public ObservableCollection<SequenzViewModel> UsedSequenzenDerReihe
+    //{
+    //  get
+    //  {
+    //    if (this.CurrentReihe != null)
+    //    {
+    //      return this.CurrentReihe.Sequenzen;
+    //    }
 
-        return null;
-      }
-    }
+    //    return null;
+    //  }
+    //}
 
     /// <summary>
     /// Holt oder setzt die currently selected reihe
@@ -421,26 +468,22 @@
     }
 
     /// <summary>
-    /// Holt den number of needed lessons for this curriculum
+    /// Holt die Anzahl der bereits verplanten Stunden des Curriculums.
+    /// Wenn keine Sequenzen vorliegen wird die Reihenstundenzahl gezählt, sonst die Sequenzen.
     /// </summary>
-    [DependsUpon("UsedReihenDesCurriculums")]
+    [DependsUpon("BausteineDesCurriculums")]
     public int CurriculumVerplanteStunden
     {
       get
       {
         var summe = 0;
-        foreach (var reiheViewModel in this.UsedReihenDesCurriculums)
+        if (!this.BausteineDesCurriculums.OfType<SequenzViewModel>().Any(o => o.Reihenfolge != -1))
         {
-          // if there are reihe defined used this for the count
-          // otherwise use the predefined value
-          if (reiheViewModel.UsedSequenzen.Count > 0)
-          {
-            summe += reiheViewModel.UsedSequenzen.Sum(sequenzViewModel => sequenzViewModel.SequenzStundenbedarf);
-          }
-          else
-          {
-            summe += reiheViewModel.ReiheStundenbedarf;
-          }
+          summe += this.BausteineDesCurriculums.OfType<ReiheViewModel>().Where(o => o.Reihenfolge != -1).Sum(o => o.ReiheStundenbedarf);
+        }
+        else
+        {
+          summe += this.BausteineDesCurriculums.OfType<SequenzViewModel>().Where(o => o.Reihenfolge != -1).Sum(o => o.SequenzStundenbedarf);
         }
 
         return summe;
@@ -457,7 +500,7 @@
       {
         if (this.CurrentReihe != null)
         {
-          return "Sequenzen des Moduls " + this.CurrentReihe.ReiheThema;
+          return "Sequenzen des Moduls " + this.CurrentReihe.Thema;
         }
 
         return "Bitte Modul auswählen, um Sequenzen anzuzeigen";
@@ -538,88 +581,40 @@
             var targetListBox = dropInfo.VisualTarget as ListBox;
             if (targetListBox.Name == "AvailableReihenListBox")
             {
-              if (this.UsedReihenDesCurriculums.Contains(reiheViewModel))
-              {
-                this.UsedReihenDesCurriculums.RemoveTest(reiheViewModel);
-                this.AvailableReihenDesCurriculums.Add(reiheViewModel);
-              }
+              reiheViewModel.Reihenfolge = -1;
+              //if (this.ReihenDesCurriculums.Contains(reiheViewModel))
+              //{
+              //  this.ReihenDesCurriculums.RemoveTest(reiheViewModel);
+              //  this.AvailableReihenDesCurriculums.Add(reiheViewModel);
+              //}
             }
             else if (targetListBox.Name == "UsedItemsListBox")
             {
               var newIndex = dropInfo.InsertIndex;
               if (newIndex < 0)
               {
-                newIndex = this.UsedReihenDesCurriculums.Count;
+                newIndex = this.BausteineDesCurriculums.Count(o => o.Reihenfolge != -1);
               }
 
-              if (this.UsedReihenDesCurriculums.Contains(reiheViewModel))
-              {
-                if (dropInfo.Effects == DragDropEffects.Copy)
-                {
-                  // Create a clone
-                  var reiheClone = new Reihe
-                  {
-                    Stundenbedarf = reiheViewModel.ReiheStundenbedarf,
-                    Thema = reiheViewModel.ReiheThema,
-                    Modul = reiheViewModel.ReiheModul.Model,
-                    Reihenfolge = -1,
-                    Curriculum = this.Model
-                  };
-                  //App.UnitOfWork.Context.Reihen.Add(reiheClone);
+              reiheViewModel.Reihenfolge = newIndex;
 
-                  foreach (var sequenz in reiheViewModel.AvailableSequenzen)
-                  {
-                    var sequenzClone = new Sequenz
-                    {
-                      Reihenfolge = sequenz.Reihenfolge,
-                      Reihe = reiheClone,
-                      Stundenbedarf = sequenz.SequenzStundenbedarf,
-                      Thema = sequenz.SequenzThema
-                    };
-                    //App.UnitOfWork.Context.Sequenzen.Add(sequenzClone);
-                    reiheClone.Sequenzen.Add(sequenzClone);
-                  }
+              //if (reiheViewModel.Reihenfolge != -1)
+              //{
+              //  // Reihe wird nur verschoben
+              //  reiheViewModel.Reihenfolge = newIndex;
+              //}
+              //else
+              //{
+              //  // Insert at position
+              //  this.CurrentReihe = reiheViewModel;
+              //  if (newIndex > this.ReihenDesCurriculums.Count)
+              //  {
+              //    newIndex = this.ReihenDesCurriculums.Count;
+              //  }
 
-                  foreach (var sequenz in reiheViewModel.UsedSequenzen)
-                  {
-                    var sequenzClone = new Sequenz
-                    {
-                      Reihenfolge = -1,
-                      Reihe = reiheClone,
-                      Stundenbedarf = sequenz.SequenzStundenbedarf,
-                      Thema = sequenz.SequenzThema
-                    };
-                    //App.UnitOfWork.Context.Sequenzen.Add(sequenzClone);
-                    reiheClone.Sequenzen.Add(sequenzClone);
-                  }
-
-                  var vm = new ReiheViewModel(reiheClone);
-                  //App.MainViewModel.Reihen.Add(vm);
-                  this.UsedReihenDesCurriculums.Add(vm);
-                }
-                else
-                {
-                  var oldIndex = this.UsedReihenDesCurriculums.IndexOf(reiheViewModel);
-                  if (newIndex > oldIndex)
-                  {
-                    newIndex--;
-                  }
-
-                  this.UsedReihenDesCurriculums.Move(oldIndex, newIndex);
-                }
-              }
-              else
-              {
-                // Insert at position
-                this.CurrentReihe = reiheViewModel;
-                if (newIndex > this.UsedReihenDesCurriculums.Count)
-                {
-                  newIndex = this.UsedReihenDesCurriculums.Count;
-                }
-
-                this.UsedReihenDesCurriculums.Insert(newIndex, reiheViewModel);
-                this.AvailableReihenDesCurriculums.RemoveTest(reiheViewModel);
-              }
+              //  this.ReihenDesCurriculums.Insert(newIndex, reiheViewModel);
+              //  this.AvailableReihenDesCurriculums.RemoveTest(reiheViewModel);
+              //}
             }
           }
         }
@@ -633,44 +628,20 @@
             var targetListBox = dropInfo.VisualTarget as ListBox;
             if (targetListBox.Name == "AvailableSequenzenListBox")
             {
-              if (this.UsedSequenzenDesCurriculums.Contains(sequenzViewModel))
-              {
-                sequenzViewModel.SequenzReihe.AvailableSequenzen.Add(sequenzViewModel);
-                sequenzViewModel.SequenzReihe.UsedSequenzen.RemoveTest(sequenzViewModel);
-                this.UsedSequenzenDesCurriculums.RemoveTest(sequenzViewModel);
-              }
+              sequenzViewModel.Reihenfolge = -1;
             }
             else if (targetListBox.Name == "UsedItemsListBox")
             {
-              var newIndex = dropInfo.InsertIndex - this.UsedReihenDesCurriculums.Count;
-              if (newIndex < 0)
-              {
-                newIndex = this.UsedSequenzenDesCurriculums.Count;
-              }
-
-              if (this.UsedSequenzenDesCurriculums.Contains(sequenzViewModel))
-              {
-                var oldIndex = this.UsedSequenzenDesCurriculums.IndexOf(sequenzViewModel);
-                if (newIndex > oldIndex)
-                {
-                  newIndex--;
-                }
-
-                this.UsedSequenzenDesCurriculums.Move(oldIndex, newIndex);
-              }
-              else
-              {
-                // Sequenz wird  hinzugefügt
-                this.AvailableSequenzenDerReihe.RemoveTest(sequenzViewModel);
-                sequenzViewModel.Reihenfolge = -1;
-                this.UsedSequenzenDesCurriculums.Insert(newIndex, sequenzViewModel);
-                this.UsedSequenzenDerReihe.Add(sequenzViewModel);
-              }
+              sequenzViewModel.Reihenfolge = dropInfo.InsertIndex;
+              sequenzViewModel.IstZuerst = true;
             }
           }
         }
 
         this.UpdateReihenfolgeIndex();
+        this.SequenzenView.Refresh();
+        this.ReihenView.Refresh();
+        this.BausteineView.Refresh();
       }
     }
 
@@ -678,9 +649,9 @@
     {
       // Wenn keine Reihen vorhanden sind, um sie
       // ins Curriculum einzufügen, werden sie aus den Modulen als Vorlage  erstellt
-      if (this.AvailableReihenDesCurriculums.Count == 0 && this.UsedReihenDesCurriculums.Count == 0)
+      if (this.BausteineDesCurriculums.Count == 0)
       {
-        using (new UndoBatch(App.MainViewModel, string.Format("e Module anlegen"), false))
+        using (new UndoBatch(App.MainViewModel, string.Format("Neue Module anlegen"), false))
         {
           foreach (var modulViewModel in App.MainViewModel.Module.Where(o => o.ModulFach.FachBezeichnung == this.CurriculumFach.FachBezeichnung
             && o.ModulJahrgang == this.CurriculumJahrgang))
@@ -713,69 +684,59 @@
             }
 
             var vm = new ReiheViewModel(reihe);
-            //App.MainViewModel.Reihen.Add(vm);
-            this.AvailableReihenDesCurriculums.Add(vm);
+            this.BausteineDesCurriculums.Add(vm);
+
+            foreach (var sequenzViewModel in vm.Sequenzen)
+            {
+              this.BausteineDesCurriculums.Add(sequenzViewModel);
+            }
+
             this.CurrentReihe = vm;
           }
         }
       }
     }
 
-    private void PopulateSequenzen()
-    {
-      this.UsedSequenzenDesCurriculums.Clear();
+    //private void PopulateBoth()
+    //{
+    //  this.SequenzenDerReihen.Clear();
+    //  foreach (var usedReiheDesCurriculums in this.ReihenDesCurriculums)
+    //  {
+    //    this.SequenzenDerReihen.Add(usedReiheDesCurriculums);
+    //  }
 
-      foreach (var reiheViewModel in this.UsedReihenDesCurriculums)
-      {
-        foreach (var sequenzViewModel in reiheViewModel.UsedSequenzen)
-        {
-          this.UsedSequenzenDesCurriculums.Add(sequenzViewModel);
-        }
-      }
-
-      this.UsedSequenzenDesCurriculums.BubbleSort();
-    }
-
-    private void PopulateBoth()
-    {
-      this.ReihenSequenzen.Clear();
-      foreach (var usedReiheDesCurriculums in this.UsedReihenDesCurriculums)
-      {
-        this.ReihenSequenzen.Add(usedReiheDesCurriculums);
-      }
-
-      foreach (var usedSequenzenDesCurriculums in this.UsedSequenzenDesCurriculums)
-      {
-        this.ReihenSequenzen.Add(usedSequenzenDesCurriculums);
-      }
-    }
+    //  foreach (var usedSequenzenDesCurriculums in this.SequenzenDesCurriculums)
+    //  {
+    //    this.SequenzenDerReihen.Add(usedSequenzenDesCurriculums);
+    //  }
+    //}
 
     /// <summary>
-    /// Handles addition a new reihe to this modul
+    /// Handles addition a new reihe to this curriculum
     /// </summary>
     private void AddReihe()
     {
       var modul = App.MainViewModel.Module.FirstOrDefault(o => o.ModulFach == this.fach && o.ModulJahrgang == this.CurriculumJahrgang);
-      var reihe = new Reihe { Stundenbedarf = 3, Thema = "Neues Thema", Curriculum = this.Model, Modul = modul.Model };
+      var reihe = new Reihe { Stundenbedarf = 3, Thema = "Neues Thema", Curriculum = this.Model, Modul = modul.Model, Reihenfolge = -1 };
       var vm = new ReiheViewModel(reihe);
       //App.MainViewModel.Reihen.Add(vm);
-      this.AvailableReihenDesCurriculums.Add(vm);
+      this.BausteineDesCurriculums.Add(vm);
       this.CurrentReihe = vm;
     }
 
     /// <summary>
-    /// Handles deletion of the current phase
+    /// Handles deletion of the current reihe
     /// </summary>
     private void DeleteCurrentReihe()
     {
       //App.MainViewModel.Reihen.RemoveTest(this.CurrentReihe);
-      if (this.AvailableReihenDesCurriculums.Contains(this.CurrentReihe))
+      //if (this.AvailableReihenDesCurriculums.Contains(this.CurrentReihe))
+      //{
+      //  this.AvailableReihenDesCurriculums.RemoveTest(this.currentReihe);
+      //}
+      if (this.BausteineDesCurriculums.Contains(this.CurrentReihe))
       {
-        this.AvailableReihenDesCurriculums.RemoveTest(this.currentReihe);
-      }
-      else if (this.UsedReihenDesCurriculums.Contains(this.CurrentReihe))
-      {
-        this.UsedReihenDesCurriculums.RemoveTest(this.currentReihe);
+        this.BausteineDesCurriculums.RemoveTest(this.currentReihe);
       }
     }
 
@@ -787,6 +748,7 @@
       if (this.CurrentReihe != null)
       {
         this.CurrentReihe.AddSequenzCommand.Execute(null);
+        this.BausteineDesCurriculums.Add(this.CurrentReihe.CurrentSequenz);
       }
     }
 
@@ -803,52 +765,75 @@
 
     private void UpdateReihenfolgeIndex()
     {
-      SequencingService.SetCollectionSequence(this.UsedReihenDesCurriculums);
+      var sequenceNumber = 1;
 
-      foreach (var model in this.AvailableReihenDesCurriculums)
+      // Resequence
+      var collection = this.BausteineDesCurriculums.OfType<ReiheViewModel>().Where(o => o.Reihenfolge != -1).OrderBy(o => o.Reihenfolge).ThenBy(o => o.IstZuerst);
+      foreach (var sequencedObject in collection)
       {
-        model.Reihenfolge = -1;
+        sequencedObject.Reihenfolge = sequenceNumber;
+        sequencedObject.IstZuerst = false;
+        sequenceNumber++;
       }
 
-      SequencingService.SetCollectionSequence(this.UsedSequenzenDesCurriculums);
+      sequenceNumber = 1;
 
-      if (this.AvailableSequenzenDerReihe != null)
+      // Resequence
+      var collection2 = this.BausteineDesCurriculums.OfType<SequenzViewModel>().Where(o => o.Reihenfolge != -1).OrderBy(o => o.Reihenfolge).ThenByDescending(o => o.IstZuerst);
+      foreach (var sequencedObject in collection2)
       {
-        foreach (var model in this.AvailableSequenzenDerReihe)
-        {
-          model.Reihenfolge = -1;
-        }
+        sequencedObject.Reihenfolge = sequenceNumber;
+        sequencedObject.IstZuerst = false;
+        sequenceNumber++;
       }
 
-      this.UpdateReihenSequenzenCollection();
+      //SequencingService.SetCollectionSequence(.ToObservableCollection());
+      //SequencingService.SetCollectionSequence(this.BausteineDesCurriculums.OfType<SequenzViewModel>().Where(o => o.Reihenfolge != -1).ToObservableCollection());
+
+      //foreach (var model in this.AvailableReihenDesCurriculums)
+      //{
+      //  model.Reihenfolge = -1;
+      //}
+
+      //SequencingService.SetCollectionSequence(this.SequenzenDesCurriculums);
+
+      //if (this.AvailableSequenzenDerReihe != null)
+      //{
+      //  foreach (var model in this.AvailableSequenzenDerReihe)
+      //  {
+      //    model.Reihenfolge = -1;
+      //  }
+      //}
+
+      //this.UpdateReihenSequenzenCollection();
     }
 
-    /// <summary>
-    /// Removes all ReiheViewModels from the ReihenSequenzen
-    /// and readds the updated values from the UsedReihenDesCurriculums collection.
-    /// </summary>
-    private void UpdateReihenSequenzenCollection()
-    {
-      var sequenzenInCollection = this.ReihenSequenzen.OfType<SequenzViewModel>().Count();
-      var reihenInCollection = this.ReihenSequenzen.OfType<ReiheViewModel>().Count();
-      var backup = this.CurrentItem;
-      for (int i = 0; i < reihenInCollection + sequenzenInCollection; i++)
-      {
-        this.ReihenSequenzen.RemoveAt(this.ReihenSequenzen.Count - 1);
-      }
+    ///// <summary>
+    ///// Removes all ReiheViewModels from the ReihenSequenzen
+    ///// and readds the updated values from the UsedReihenDesCurriculums collection.
+    ///// </summary>
+    //private void UpdateReihenSequenzenCollection()
+    //{
+    //  var sequenzenInCollection = this.SequenzenDerReihen.OfType<SequenzViewModel>().Count();
+    //  var reihenInCollection = this.SequenzenDerReihen.OfType<ReiheViewModel>().Count();
+    //  var backup = this.CurrentItem;
+    //  for (int i = 0; i < reihenInCollection + sequenzenInCollection; i++)
+    //  {
+    //    this.SequenzenDerReihen.RemoveAt(this.SequenzenDerReihen.Count - 1);
+    //  }
 
-      foreach (var usedReiheDesCurriculums in this.UsedReihenDesCurriculums)
-      {
-        this.ReihenSequenzen.Add(usedReiheDesCurriculums);
-      }
+    //  foreach (var usedReiheDesCurriculums in this.ReihenDesCurriculums)
+    //  {
+    //    this.SequenzenDerReihen.Add(usedReiheDesCurriculums);
+    //  }
 
-      foreach (var usedSequenzDesCurriculums in this.UsedSequenzenDesCurriculums)
-      {
-        this.ReihenSequenzen.Add(usedSequenzDesCurriculums);
-      }
+    //  foreach (var usedSequenzDesCurriculums in this.SequenzenDesCurriculums)
+    //  {
+    //    this.SequenzenDerReihen.Add(usedSequenzDesCurriculums);
+    //  }
 
-      this.CurrentItem = backup;
-    }
+    //  this.CurrentItem = backup;
+    //}
 
     /// <summary>
     /// This method is used to adapt the current curriculum such that
@@ -866,17 +851,14 @@
         {
           Selection.Instance.Fach = this.CurriculumFach;
 
-          var lerngruppe = App.UnitOfWork.Context.Lerngruppen.FirstOrDefault(o => o.SchuljahrId == dlg.SelectedLerngruppe.SchuljahrId && o.FachId == dlg.SelectedLerngruppe.FachId && o.Jahrgang == dlg.SelectedLerngruppe.Jahrgang);
-          if (lerngruppe == null)
+          if (dlg.SelectedLerngruppe == null)
           {
             InformationDialog.Show("Fehler", "Lerngruppe nicht gefunden", false);
             return;
           }
 
-          var vm = App.MainViewModel.LoadLerngruppe(lerngruppe);
-
-          Selection.Instance.Lerngruppe = vm;
-          Selection.Instance.Fach = vm.LerngruppeFach;
+          Selection.Instance.Lerngruppe = dlg.SelectedLerngruppe;
+          Selection.Instance.Fach = dlg.SelectedLerngruppe.LerngruppeFach;
           Selection.Instance.Halbjahr = this.CurriculumHalbjahr;
 
           // Create a clone of this curriculum for the adaption dialog
@@ -919,7 +901,7 @@
           }
 
           var curriculumCloneViewModel = new CurriculumViewModel(curriculumClone);
-          var curriculumZuweisenWorkspace = new CurriculumZuweisenWorkspaceViewModel(curriculumCloneViewModel, vm, this.CurriculumHalbjahr);
+          var curriculumZuweisenWorkspace = new CurriculumZuweisenWorkspaceViewModel(curriculumCloneViewModel, dlg.SelectedLerngruppe, this.CurriculumHalbjahr);
           var dlgZuweisen = new CurriculumZuweisenDialog { DataContext = curriculumZuweisenWorkspace };
 
           if (dlgZuweisen.ShowDialog().GetValueOrDefault(false))
@@ -945,29 +927,29 @@
       }
     }
 
-    /// <summary>
-    /// Tritt auf, wenn die ReihenSequenzenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void ReihenSequenzenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      UndoableCollectionChanged(this, nameof(ReihenSequenzen), this.ReihenSequenzen, e, true, "Änderung der ReihenSequenzen");
-      this.RaisePropertyChanged("CurriculumVerplanteStunden");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die ReihenSequenzenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void ReihenSequenzenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  UndoableCollectionChanged(this, nameof(SequenzenDerReihen), this.SequenzenDerReihen, e, true, "Änderung der ReihenSequenzen");
+    //  this.RaisePropertyChanged("CurriculumVerplanteStunden");
+    //}
 
-    /// <summary>
-    /// Tritt auf, wenn die UsedSequenzenDesCurriculumsCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void UsedSequenzenDesCurriculumsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      UndoableCollectionChanged(this, nameof(UsedSequenzenDesCurriculums), this.UsedSequenzenDesCurriculums, e, true, "Änderung der UsedSequenzenDesCurriculums");
-      this.RaisePropertyChanged("CurriculumVerplanteStunden");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die UsedSequenzenDesCurriculumsCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void SequenzenDesCurriculumsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  UndoableCollectionChanged(this, nameof(SequenzenDesCurriculums), this.SequenzenDesCurriculums, e, true, "Änderung der UsedSequenzenDesCurriculums");
+    //  this.RaisePropertyChanged("CurriculumVerplanteStunden");
+    //}
 
     /// <summary>
     /// Tritt auf, wenn die UsedReihenDesCurriculumsCollection verändert wurde.
@@ -975,21 +957,91 @@
     /// </summary>
     /// <param name="sender">Die auslösende Collection</param>
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void UsedReihenDesCurriculumsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    private void BausteineDesCurriculumsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      UndoableCollectionChanged(this, nameof(UsedReihenDesCurriculums), this.UsedReihenDesCurriculums, e, true, "Änderung der UsedReihenDesCurriculums");
+      UndoableCollectionChanged(this, nameof(BausteineDesCurriculums), this.BausteineDesCurriculums, e, true, "Änderung der BausteineDesCurriculums");
       this.RaisePropertyChanged("CurriculumVerplanteStunden");
     }
 
-    /// <summary>
-    /// Tritt auf, wenn die AvailableReihenDesCurriculumsCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void AvailableReihenDesCurriculumsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    ///// <summary>
+    ///// Tritt auf, wenn die AvailableReihenDesCurriculumsCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void AvailableReihenDesCurriculumsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  UndoableCollectionChanged(this, nameof(AvailableReihenDesCurriculums), this.AvailableReihenDesCurriculums, e, true, "Änderung der AvailableReihenDesCurriculums");
+    //}
+
+    private void BausteineViewSource_Filter(object sender, FilterEventArgs e)
     {
-      UndoableCollectionChanged(this, nameof(AvailableReihenDesCurriculums), this.AvailableReihenDesCurriculums, e, true, "Änderung der AvailableReihenDesCurriculums");
+      var vm = e.Item as SequencedViewModel;
+      if (vm == null)
+      {
+        e.Accepted = false;
+        return;
+      }
+
+      if (vm.Reihenfolge == -1)
+      {
+        e.Accepted = false;
+        return;
+      }
+
+      e.Accepted = true;
+      return;
     }
+
+    private void SequenzenViewSource_Filter(object sender, FilterEventArgs e)
+    {
+      var vm = e.Item as SequenzViewModel;
+      if (vm == null)
+      {
+        e.Accepted = false;
+        return;
+      }
+
+      if (vm.Reihenfolge != -1)
+      {
+        e.Accepted = false;
+        return;
+      }
+
+      if (this.CurrentReihe == null)
+      {
+        e.Accepted = false;
+        return;
+      }
+
+      if (vm.SequenzReihe != this.CurrentReihe)
+      {
+        e.Accepted = false;
+        return;
+      }
+
+      e.Accepted = true;
+      return;
+    }
+
+    private void ReihenViewSource_Filter(object sender, FilterEventArgs e)
+    {
+      var vm = e.Item as ReiheViewModel;
+      if (vm == null)
+      {
+        e.Accepted = false;
+        return;
+      }
+
+      if (vm.Reihenfolge != -1)
+      {
+        e.Accepted = false;
+        return;
+      }
+
+      e.Accepted = true;
+      return;
+    }
+
   }
 }

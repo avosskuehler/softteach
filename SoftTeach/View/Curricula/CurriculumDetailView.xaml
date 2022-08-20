@@ -9,25 +9,6 @@
              xmlns:curricula="clr-namespace:SoftTeach.ViewModel.Curricula" mc:Ignorable="d" 
              d:DesignHeight="471" d:DesignWidth="738">
   <UserControl.Resources>
-    <CollectionViewSource x:Key="GroupedSchulwochenReihenSequenzenViewSource" Source="{Binding ReihenSequenzen}">
-      <CollectionViewSource.SortDescriptions>
-        <scm:SortDescription PropertyName="ViewModelType" Direction="Ascending" />
-        <scm:SortDescription PropertyName="Reihenfolge" Direction="Ascending" />
-      </CollectionViewSource.SortDescriptions>
-      <CollectionViewSource.GroupDescriptions>
-        <PropertyGroupDescription PropertyName="ViewModelType"/>
-      </CollectionViewSource.GroupDescriptions>
-    </CollectionViewSource>
-    <CollectionViewSource x:Key="SortedAvailableReihenDesCurriculumsViewSource" Source="{Binding AvailableReihenDesCurriculums}">
-      <CollectionViewSource.SortDescriptions>
-        <scm:SortDescription PropertyName="ReiheThema" Direction="Ascending" />
-      </CollectionViewSource.SortDescriptions>
-    </CollectionViewSource>
-    <CollectionViewSource x:Key="SortedAvailableSequenzenDerReiheViewSource" Source="{Binding AvailableSequenzenDerReihe}">
-      <CollectionViewSource.SortDescriptions>
-        <scm:SortDescription PropertyName="SequenzThema" Direction="Ascending" />
-      </CollectionViewSource.SortDescriptions>
-    </CollectionViewSource>
     <curricula:CurriculumViewDataTemplateSelector x:Key="curriculumViewDataTemplateSelector"/>
   </UserControl.Resources>
   <Grid>
@@ -65,14 +46,14 @@
       </Button>
     </Grid>
     <HeaderedContentControl Grid.Row="1" Header="Reihenfolge im Jahr" HeaderTemplate="{StaticResource GroupBoxHeader}">
-      <ListBox ItemsSource="{Binding Source={StaticResource GroupedSchulwochenReihenSequenzenViewSource}}" 
+      <ListBox ItemsSource="{Binding Path=BausteineView}" 
                  ItemTemplateSelector="{StaticResource curriculumViewDataTemplateSelector}"
                  ItemContainerStyle="{StaticResource NoBorderListBoxItemStyle}"
                  BorderThickness="0"
                  SelectedItem="{Binding CurrentItem, Mode=TwoWay}"
                  dd:DragDrop.IsDragSource="True" 
                  dd:DragDrop.IsDropTarget="True"
-                 dd:DragDrop.DragAdornerTemplate="{StaticResource ReiheDragAdorner}"
+                 dd:DragDrop.DragAdornerTemplate="{StaticResource BausteinDragAdorner}"
                  dd:DragDrop.DropHandler="{Binding}"
                  Name="UsedItemsListBox"
                  Height="210" GotFocus="UsedItemsListBox_GotFocus">
@@ -101,33 +82,34 @@
     </HeaderedContentControl>
     <UniformGrid Grid.Row="2" Columns="2">
       <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-        <HeaderedContentControl Header="Verfügbare Unterrichtsreihen">
-          <Grid>
-            <Grid.RowDefinitions>
-              <RowDefinition Height="Auto"/>
-              <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" Orientation="Horizontal">
-              <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddReiheCommand}" ToolTip="Neues Modul erstellen">
-                <StackPanel Orientation="Horizontal">
-                  <Grid>
-                    <fa:IconBlock Style="{StaticResource Modul16}"/>
-                    <fa:IconBlock Style="{StaticResource AddOverlay16}"/>
-                  </Grid>
-                  <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Reihe erstellen</Label>
-                </StackPanel>
-              </Button>
-              <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=DeleteReiheCommand}" ToolTip="Sequenz löschen" >
-                <StackPanel Orientation="Horizontal">
-                  <Grid>
-                    <fa:IconBlock Style="{StaticResource Modul16}"/>
-                    <fa:IconBlock Style="{StaticResource RemoveOverlay16}"/>
-                  </Grid>
-                  <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Reihe löschen</Label>
-                </StackPanel>
-              </Button>
-            </StackPanel>
-            <ListBox Grid.Row="1" ItemsSource="{Binding Source={StaticResource SortedAvailableReihenDesCurriculumsViewSource}}" 
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+          </Grid.RowDefinitions>
+          <Label>Verfügbare Unterrichtsreihen</Label>
+          <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddReiheCommand}" ToolTip="Neues Modul erstellen">
+              <StackPanel Orientation="Horizontal">
+                <Grid>
+                  <fa:IconBlock Style="{StaticResource Modul16}"/>
+                  <fa:IconBlock Style="{StaticResource AddOverlay16}"/>
+                </Grid>
+                <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Reihe erstellen</Label>
+              </StackPanel>
+            </Button>
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=DeleteReiheCommand}" ToolTip="Sequenz löschen" >
+              <StackPanel Orientation="Horizontal">
+                <Grid>
+                  <fa:IconBlock Style="{StaticResource Modul16}"/>
+                  <fa:IconBlock Style="{StaticResource RemoveOverlay16}"/>
+                </Grid>
+                <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Reihe löschen</Label>
+              </StackPanel>
+            </Button>
+          </StackPanel>
+          <ListBox Grid.Row="2" ItemsSource="{Binding Path=ReihenView}" 
                   ItemTemplate="{StaticResource ReihenGroupView}" 
                  ItemContainerStyle="{StaticResource ItemContainerDefaultStyle}"
                   SelectedItem="{Binding SelectedAvailableReihe}"
@@ -137,43 +119,43 @@
                   dd:DragDrop.DragAdornerTemplate="{StaticResource ReiheDragAdorner}"
                   Name="AvailableReihenListBox"
                  BorderThickness="0">
-              <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                  <WrapPanel Width="{Binding ElementName=AvailableReihenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
-                </ItemsPanelTemplate>
-              </ListBox.ItemsPanel>
-            </ListBox>
-          </Grid>
-        </HeaderedContentControl>
+            <ListBox.ItemsPanel>
+              <ItemsPanelTemplate>
+                <WrapPanel Width="{Binding ElementName=AvailableReihenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
+              </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+          </ListBox>
+        </Grid>
       </ScrollViewer>
       <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-        <HeaderedContentControl Header="{Binding CurriculumSequenzenGroupHeader}">
-          <Grid>
-            <Grid.RowDefinitions>
-              <RowDefinition Height="Auto"/>
-              <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" Orientation="Horizontal">
-              <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddSequenzCommand}" ToolTip="e Sequenz erstellen">
-                <StackPanel Orientation="Horizontal">
-                  <Grid>
-                    <fa:IconBlock Style="{StaticResource Sequenz16}"/>
-                    <fa:IconBlock Style="{StaticResource AddOverlay16}"/>
-                  </Grid>
-                  <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Sequenz erstellen</Label>
-                </StackPanel>
-              </Button>
-              <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=DeleteSequenzCommand}" ToolTip="Sequenz löschen" >
-                <StackPanel Orientation="Horizontal">
-                  <Grid>
-                    <fa:IconBlock Style="{StaticResource Sequenz16}"/>
-                    <fa:IconBlock Style="{StaticResource RemoveOverlay16}"/>
-                  </Grid>
-                  <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Sequenz löschen</Label>
-                </StackPanel>
-              </Button>
-            </StackPanel>
-            <ListBox Grid.Row="1" ItemsSource="{Binding Source={StaticResource SortedAvailableSequenzenDerReiheViewSource}}" 
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+          </Grid.RowDefinitions>
+          <Label Content="{Binding Path=CurriculumSequenzenGroupHeader}"/>
+          <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddSequenzCommand}" ToolTip="neue Sequenz erstellen">
+              <StackPanel Orientation="Horizontal">
+                <Grid>
+                  <fa:IconBlock Style="{StaticResource Sequenz16}"/>
+                  <fa:IconBlock Style="{StaticResource AddOverlay16}"/>
+                </Grid>
+                <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Sequenz erstellen</Label>
+              </StackPanel>
+            </Button>
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=DeleteSequenzCommand}" ToolTip="Sequenz löschen" >
+              <StackPanel Orientation="Horizontal">
+                <Grid>
+                  <fa:IconBlock Style="{StaticResource Sequenz16}"/>
+                  <fa:IconBlock Style="{StaticResource RemoveOverlay16}"/>
+                </Grid>
+                <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Sequenz löschen</Label>
+              </StackPanel>
+            </Button>
+          </StackPanel>
+          <ListBox Grid.Row="2" ItemsSource="{Binding Path=SequenzenView}" 
                   ItemTemplate="{StaticResource SequenzenGroupView}" 
                   ItemContainerStyle="{StaticResource ItemContainerDefaultStyle}"
                  dd:DragDrop.IsDragSource="True" 
@@ -182,14 +164,13 @@
                   dd:DragDrop.DragAdornerTemplate="{StaticResource SequenzDragAdorner}"
                   Name="AvailableSequenzenListBox"
                   BorderThickness="0">
-              <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                  <WrapPanel Width="{Binding ElementName=AvailableSequenzenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
-                </ItemsPanelTemplate>
-              </ListBox.ItemsPanel>
-            </ListBox>
-          </Grid>
-        </HeaderedContentControl>
+            <ListBox.ItemsPanel>
+              <ItemsPanelTemplate>
+                <WrapPanel Width="{Binding ElementName=AvailableSequenzenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
+              </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+          </ListBox>
+        </Grid>
       </ScrollViewer>
     </UniformGrid>
   </Grid>

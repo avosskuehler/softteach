@@ -9,5 +9,6 @@
     /// The sequence number of the object
     /// </summary>
     int Reihenfolge { get; set; }
+    bool IstZuerst { get; set; }
   }
 }

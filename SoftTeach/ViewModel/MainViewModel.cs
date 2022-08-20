@@ -706,7 +706,6 @@
         //LoadRäume();
         //Console.WriteLine("Elapsed Räume {0}", watch.ElapsedMilliseconds);
         //watch.Restart();
-
         foreach (var schuljahr in context.Schuljahre)
         {
           this.Schuljahre.Add(new SchuljahrViewModel(schuljahr));

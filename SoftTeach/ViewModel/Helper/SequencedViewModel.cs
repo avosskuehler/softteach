@@ -15,6 +15,12 @@
     public abstract int Reihenfolge { get; set; }
 
     /// <summary>
+    /// Holt oder setzt einen Wert, der angibt, ob die Reihenfolge Vorrang vor allen
+    /// anderer Reihenfolgen der gleichen Zahl hat.
+    /// </summary>
+    public abstract bool IstZuerst { get; set; }
+
+    /// <summary>
     /// Compares the current object with another object of the same type.
     /// </summary>
     /// <param name="viewModel">The object to be compared with this instance</param>

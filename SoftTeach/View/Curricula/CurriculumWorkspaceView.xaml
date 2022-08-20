@@ -105,7 +105,7 @@
                         SelectedItemBinding="{Binding Path=CurriculumHalbjahr}" 
                         SortMemberPath="CurriculumHalbjahr"
                         EditingElementStyle="{StaticResource DatagridComboBoxElementStyle}"/>
-            <DataGridTextColumn Header="Klasse" Binding="{Binding Path=CurriculumJahrgang}" Width="Auto" IsReadOnly="True"/>
+            <DataGridTextColumn Header="Klasse" Binding="{Binding Path=CurriculumJahrgang}" Width="Auto"/>
             <DataGridTextColumn Header="Bezeichnung" Binding="{Binding Path=CurriculumBezeichnung}" 
                                   SortMemberPath="CurriculumBezeichnung" Width="*"/>
           </DataGrid.Columns>

@@ -45,18 +45,24 @@ namespace SoftTeach.View.Curricula
       this.InitializeComponent();
       this.DataContext = this;
 
-      this.FilteredLerngruppen = App.UnitOfWork.Context.Lerngruppen.Where(o => o.FachId == fachViewModel.Model.Id && o.Jahrgang == jahrgang).OrderBy(o => o.Schuljahr.Jahr).ToObservableCollection();
+      var passendeLerngruppen = App.UnitOfWork.Context.Lerngruppen.Where(o => o.FachId == fachViewModel.Model.Id && o.Jahrgang == jahrgang).OrderBy(o => o.Schuljahr.Jahr).ToObservableCollection();
+      foreach (var lg in passendeLerngruppen)
+      {
+        App.MainViewModel.LoadLerngruppe(lg);
+      }
+
+      this.FilteredLerngruppen = App.MainViewModel.Lerngruppen.Where(o => o.LerngruppeFach.Model.Id == fachViewModel.Model.Id && o.LerngruppeJahrgang == jahrgang).OrderBy(o => o.LerngruppeSchuljahr.SchuljahrJahr).ToObservableCollection();
     }
 
     /// <summary>
     /// Holt alle möglichen Lerngruppen mit gleichem Fach und Jahrgang
     /// </summary>
-    public ObservableCollection<Lerngruppe> FilteredLerngruppen { get; private set; }
+    public ObservableCollection<LerngruppeViewModel> FilteredLerngruppen { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die ausgewählte Lerngruppe
     /// </summary>
-    public Lerngruppe SelectedLerngruppe { get; set; }
+    public LerngruppeViewModel SelectedLerngruppe { get; set; }
 
 
     /// <summary>

@@ -218,7 +218,7 @@
     /// </summary>
     private void PopulateSequenzen()
     {
-      foreach (SequenzViewModel sequenzViewModel in this.curriculumSource.ReihenSequenzen.Where(o => o is SequenzViewModel).OrderBy(o => o.Reihenfolge))
+      foreach (SequenzViewModel sequenzViewModel in this.curriculumSource.BausteineDesCurriculums.OfType<SequenzViewModel>().Where(o => o.Reihenfolge != -1).OrderBy(o => o.Reihenfolge))
       {
         this.UsedSequenzenDesCurriculums.Add(sequenzViewModel);
       }
@@ -226,12 +226,9 @@
       // ResequenceList
       SequencingService.SetCollectionSequence(this.UsedSequenzenDesCurriculums);
 
-      foreach (ReiheViewModel reiheViewModel in this.curriculumSource.ReihenSequenzen.Where(o => o is ReiheViewModel).OrderBy(o => o.Reihenfolge))
+      foreach (SequenzViewModel sequenzViewModel in this.curriculumSource.BausteineDesCurriculums.OfType<SequenzViewModel>().Where(o => o.Reihenfolge == -1).OrderBy(o => o.Reihenfolge))
       {
-        foreach (var sequenzViewModel in reiheViewModel.AvailableSequenzen.OrderBy(o => o.Reihenfolge))
-        {
-          this.AvailableSequenzenDesCurriculums.Add(sequenzViewModel);
-        }
+        this.AvailableSequenzenDesCurriculums.Add(sequenzViewModel);
       }
     }
 
@@ -258,7 +255,7 @@
         this.StundenAndSequenzenCollection.Add(stunde);
       }
 
-      foreach (var usedReiheDesCurriculums in this.curriculumSource.UsedReihenDesCurriculums.OrderBy(o => o.Reihenfolge))
+      foreach (var usedReiheDesCurriculums in this.curriculumSource.BausteineDesCurriculums.OrderBy(o => o.Reihenfolge))
       {
         this.StundenAndSequenzenCollection.Add(usedReiheDesCurriculums);
       }
@@ -383,7 +380,7 @@
           stunde.StundeComputer = false;
           stunde.StundeHausaufgaben = string.Empty;
           stunde.StundeKopieren = false;
-          stunde.TerminBeschreibung = aktuelleSequenz.SequenzThema;
+          stunde.TerminBeschreibung = aktuelleSequenz.Thema;
           stunde.StundeModul = aktuelleSequenz.SequenzReihe.ReiheModul;
 
           stundenZähler += stunde.TerminStundenanzahl;
@@ -412,7 +409,7 @@
               nächsteSequenz = this.UsedSequenzenDesCurriculums[sequenzIndex];
               if (nächsteSequenz.SequenzStundenbedarf + aktuelleSequenz.SequenzStundenbedarf == stundenZähler)
               {
-                stunde.TerminBeschreibung += "+ " + nächsteSequenz.SequenzThema;
+                stunde.TerminBeschreibung += "+ " + nächsteSequenz.Thema;
                 sequenzIndex++;
                 aktuelleSequenz = this.UsedSequenzenDesCurriculums[sequenzIndex];
               }

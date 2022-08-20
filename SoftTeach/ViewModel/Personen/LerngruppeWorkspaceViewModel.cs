@@ -238,7 +238,7 @@
         Bepunktungstyp = dlg.Bepunktungstyp
       };
       var vm = new LerngruppeViewModel(eLerngruppe);
-      using (new UndoBatch(App.MainViewModel, string.Format("e Lerngruppe {0} angelegt.", vm), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("neue Lerngruppe {0} angelegt.", vm), false))
       {
         App.MainViewModel.Lerngruppen.Add(vm);
         this.CurrentLerngruppe = vm;

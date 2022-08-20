@@ -263,7 +263,7 @@
     /// </summary>
     private void AddZeugnisnoten()
     {
-      using (new UndoBatch(App.MainViewModel, string.Format("e Zeugnisnoten erstellt"), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("neue Zeugnisnoten erstellt"), false))
       {
         var workspace = new NotenlistenWorkspaceViewModel(this.CurrentLerngruppe);
         var dlg = new NotenlistenDialog { DataContext = workspace };

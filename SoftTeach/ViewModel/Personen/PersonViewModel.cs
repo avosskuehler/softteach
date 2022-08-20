@@ -36,7 +36,7 @@
       var person = new Person();
       this.Model = person;
       //App.UnitOfWork.Context.Personen.Add(person);
-      using (new UndoBatch(App.MainViewModel, string.Format("e Person angelegt"), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("neue Person angelegt"), false))
       {
         App.MainViewModel.Personen.Add(this);
       }

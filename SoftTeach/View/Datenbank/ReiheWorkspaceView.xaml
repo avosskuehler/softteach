@@ -28,8 +28,8 @@
       <DataGrid ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Reihen}" AutoGenerateColumns="False"
                 IsReadOnly="True">
         <DataGrid.Columns>
-          <DataGridTextColumn Header="Modul" Binding="{Binding Path=ReiheThema}" Width="*"/>
-          <DataGridTextColumn Header="Stundenbedarf" Binding="{Binding Path=ReiheStundenbedarfString}"/>
+          <DataGridTextColumn Header="Modul" Binding="{Binding Path=Thema}" Width="*"/>
+          <DataGridTextColumn Header="Stundenbedarf" Binding="{Binding Path=StundenbedarfString}"/>
           <DataGridTextColumn Header="Reihenfolge" Binding="{Binding Path=Reihenfolge}"/>
         </DataGrid.Columns>
       </DataGrid>

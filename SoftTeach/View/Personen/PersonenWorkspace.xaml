@@ -49,7 +49,7 @@ Das können Schüler oder Lehrer sein. Anschließend werden Sie (jährlich ) den
       <Label  Background="{x:Static SystemColors.MenuBarBrush}" Style="{StaticResource Header1}" Grid.Row="0" Padding="5,5,0,0" Content="{Binding Path=PersonenÜberschrift}"/>
       <StackPanel Grid.Row="1" Orientation="Horizontal" Background="{x:Static SystemColors.MenuBarBrush}">
         <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddPersonCommand}" 
-                    ToolTip="e Person anlegen">
+                    ToolTip="neue Person anlegen">
           <StackPanel Orientation="Horizontal">
             <Grid>
               <fa:IconBlock Style="{StaticResource Person32}" Foreground="{DynamicResource Iconfarbe}"/>

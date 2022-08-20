@@ -166,6 +166,12 @@
     }
 
     /// <summary>
+    /// Holt oder setzt einen Wert, der angibt, ob die Reihenfolge Vorrang vor allen
+    /// anderer Reihenfolgen der gleichen Zahl hat.
+    /// </summary>
+    public bool IstZuerst { get; set; }
+
+    /// <summary>
     /// Holt oder setzt die MaxPunkte
     /// </summary>
     public double AufgabeMaxPunkte

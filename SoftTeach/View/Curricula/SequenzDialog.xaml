@@ -24,7 +24,7 @@
     <StackPanel Grid.Row="1" Background="{x:Static SystemColors.MenuBarBrush}">
         <StackPanel Margin="5">
           <Label Grid.Row="0" Grid.Column="0">Thema</Label>
-          <TextBox Grid.Row="0" Grid.Column="1" Margin="6,0" Text="{Binding Path=Sequenz.SequenzThema}"/>
+          <TextBox Grid.Row="0" Grid.Column="1" Margin="6,0" Text="{Binding Path=Sequenz.Thema}"/>
           <Label Grid.Row="1" Grid.Column="0">Dauer in Unterrichtsstunden</Label>
           <controls:NumericUpDown Grid.Row="1" Grid.Column="1" Margin="6,0" Style="{StaticResource NumericUpDownRoundStyle}"
               Value="{Binding Path=Sequenz.SequenzStundenbedarf, Mode=TwoWay}"

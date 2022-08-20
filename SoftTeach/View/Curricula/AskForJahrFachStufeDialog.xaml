@@ -48,9 +48,8 @@
                   HorizontalAlignment="Left"/>
         <TextBlock TextWrapping="Wrap">Geben Sie hier die Klassenstufe an.</TextBlock>
         <ComboBox Margin="3" TabIndex="1"
-                ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Klassenstufen}" 
-                SelectedItem="{Binding Path=Klassenstufe}"
-                DisplayMemberPath="KlassenstufeBezeichnung"
+                ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Jahrgänge}" 
+                SelectedItem="{Binding Path=Jahrgang}"
                 Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" Width="230"
                   HorizontalAlignment="Left"/>
         <TextBlock TextWrapping="Wrap">Geben Sie bitte auch eine hilfreiche Bezeichnung für das Curriculum an, z.B. Genetischer Lehrgang.</TextBlock>

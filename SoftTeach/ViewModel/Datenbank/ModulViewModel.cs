@@ -144,6 +144,17 @@
     }
 
     /// <summary>
+    /// Holt oder setzt die Anzahl der Entwürfe zu dem Modul
+    /// </summary>
+    public int ModulEntwürfe
+    {
+      get
+      {
+        return this.Model.Stunden.Count;
+      }
+    }
+
+    /// <summary>
     /// Holt den Stundenbedarf as a string
     /// </summary>
     [DependsUpon("ModulStundenbedarf")]

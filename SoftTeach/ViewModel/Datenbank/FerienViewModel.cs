@@ -24,7 +24,7 @@
       var ferien = new Ferien
       {
         Schuljahr = Selection.Instance.Schuljahr.Model,
-        Bezeichnung = "e Ferien",
+        Bezeichnung = "neue Ferien",
         ErsterFerientag = DateTime.Now,
         LetzterFerientag = DateTime.Now
       };

@@ -4,7 +4,7 @@
   using System.Collections.ObjectModel;
   using System.Collections.Specialized;
   using System.Linq;
-
+  using System.Windows.Media;
   using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
@@ -27,6 +27,8 @@
     /// </summary>
     private SequenzViewModel currentSequenz;
 
+    private bool istZuerst;
+
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="ReiheViewModel"/> Klasse.
     /// </summary>
@@ -38,27 +40,27 @@
       this.Model = reihe ?? throw new ArgumentNullException(nameof(reihe));
 
       // Build data structures for sequenzen
-      this.UsedSequenzen = new ObservableCollection<SequenzViewModel>();
-      this.AvailableSequenzen = new ObservableCollection<SequenzViewModel>();
+      this.Sequenzen = new ObservableCollection<SequenzViewModel>();
+      //this.AvailableSequenzen = new ObservableCollection<SequenzViewModel>();
 
       // Sort Sequenzen by Reihenfolge
       foreach (var sequenz in reihe.Sequenzen.OrderBy(o => o.Reihenfolge).ToList())
       {
         var vm = new SequenzViewModel(this, sequenz);
         //App.MainViewModel.Sequenzen.Add(vm);
-        if (sequenz.Reihenfolge == -1)
-        {
-          this.AvailableSequenzen.Add(vm);
-        }
-        else
-        {
-          this.UsedSequenzen.Add(vm);
-        }
+        //if (sequenz.Reihenfolge == -1)
+        //{
+        //  this.AvailableSequenzen.Add(vm);
+        //}
+        //else
+        //{
+        this.Sequenzen.Add(vm);
+        //}
       }
 
       // Listen for changes
-      this.UsedSequenzen.CollectionChanged += this.UsedSequenzenCollectionChanged;
-      this.AvailableSequenzen.CollectionChanged += this.AvailableSequenzenCollectionChanged;
+      this.Sequenzen.CollectionChanged += this.SequenzenCollectionChanged;
+      //this.AvailableSequenzen.CollectionChanged += this.AvailableSequenzenCollectionChanged;
 
       this.AddSequenzCommand = new DelegateCommand(this.AddSequenz);
       this.EditReiheCommand = new DelegateCommand(this.EditReihe);
@@ -96,6 +98,12 @@
     /// Holt den Befehl zur shorten this reihe with 1 hour
     /// </summary>
     public DelegateCommand ShortenReiheCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den used sequenzen of this curriculum
+    /// </summary>
+    public ObservableCollection<SequenzViewModel> Sequenzen { get; private set; }
+
 
     /// <summary>
     /// Holt oder setzt die currently selected sequenz
@@ -153,7 +161,7 @@
     /// <summary>
     /// Holt oder setzt die Thema of this reihe
     /// </summary>
-    public string ReiheThema
+    public string Thema
     {
       get
       {
@@ -167,9 +175,21 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, nameof(ReiheThema), this.Model.Thema, value);
+        this.UndoablePropertyChanging(this, nameof(Thema), this.Model.Thema, value);
         this.Model.Thema = value;
-        this.RaisePropertyChanged("ReiheThema");
+        this.RaisePropertyChanged("Thema");
+      }
+    }
+
+    /// <summary>
+    /// Holt einen Wert der angibt, ob diese Reihe im Curriculum verwendet wird.
+    /// Das ist der Fall wenn die Reihenreihenfolge ungleich -1 ist.
+    /// </summary>
+    public bool ReiheWirdinCurriculumBenutzt
+    {
+      get
+      {
+        return this.Reihenfolge != -1;
       }
     }
 
@@ -188,12 +208,23 @@
     /// <summary>
     /// Holt einen Wert, der angibt, ob dies eine PseudoReihe ist.
     /// </summary>
-    [DependsUpon("ReiheThema")]
+    [DependsUpon("Thema")]
     public bool ReiheIsDummy
     {
       get
       {
-        return this.ReiheThema == "NN";
+        return this.Thema == "NN";
+      }
+    }
+
+    /// <summary>
+    /// Holt die passende Hintergrundfarbe
+    /// </summary>
+    public SolidColorBrush BackgroundBrush
+    {
+      get
+      {
+        return App.Current.FindResource("ReiheBackgroundBrush") as SolidColorBrush;
       }
     }
 
@@ -244,6 +275,30 @@
     }
 
     /// <summary>
+    /// Holt oder setzt einen Wert, der angibt, ob die Reihenfolge Vorrang vor allen
+    /// anderer Reihenfolgen der gleichen Zahl hat.
+    /// </summary>
+    public override bool IstZuerst
+    {
+      get
+      {
+        return this.istZuerst;
+      }
+
+      set
+      {
+        if (value == this.istZuerst)
+        {
+          return;
+        }
+
+        this.UndoablePropertyChanging(this, nameof(IstZuerst), this.istZuerst, value);
+        this.istZuerst = value;
+        this.RaisePropertyChanged("IstZuerst");
+      }
+    }
+
+    /// <summary>
     /// Holt oder setzt die Stundenbedarf of this reihe
     /// </summary>
     public int ReiheStundenbedarf
@@ -275,7 +330,7 @@
     /// Holt den Stundenbedarf as a string
     /// </summary>
     [DependsUpon("ReiheStundenbedarf")]
-    public string ReiheStundenbedarfString
+    public string StundenbedarfString
     {
       get
       {
@@ -288,7 +343,7 @@
     /// </summary>
     [DependsUpon("ReiheStundenbedarf")]
     [DependsUpon("ReiheModul")]
-    public int ReiheBreite
+    public int Breite
     {
       get
       {
@@ -324,15 +379,10 @@
       }
     }
 
-    /// <summary>
-    /// Holt den used sequenzen of this curriculum
-    /// </summary>
-    public ObservableCollection<SequenzViewModel> UsedSequenzen { get; private set; }
-
-    /// <summary>
-    /// Holt den available sequenzen of this curriculum
-    /// </summary>
-    public ObservableCollection<SequenzViewModel> AvailableSequenzen { get; private set; }
+    ///// <summary>
+    ///// Holt den available sequenzen of this curriculum
+    ///// </summary>
+    //public ObservableCollection<SequenzViewModel> AvailableSequenzen { get; private set; }
 
     /// <summary>
     /// Gibt eine lesbare Repräsentation des ViewModels
@@ -340,7 +390,7 @@
     /// <returns>Ein <see cref="string"/> mit einer Kurzform des ViewModels.</returns>
     public override string ToString()
     {
-      return this.ReiheThema;
+      return this.Thema;
     }
 
     /// <summary>
@@ -362,7 +412,7 @@
         var dlg = new SequenzDialog { Sequenz = vm };
         dlg.ShowDialog();
 
-        this.AvailableSequenzen.Add(vm);
+        this.Sequenzen.Add(vm);
         //App.MainViewModel.Sequenzen.Add(vm);
         this.CurrentSequenz = vm;
       }
@@ -376,14 +426,14 @@
       using (new UndoBatch(App.MainViewModel, string.Format("Sequenz {0} entfernt", this.CurrentSequenz), false))
       {
         //App.MainViewModel.Sequenzen.RemoveTest(this.CurrentSequenz);
-        if (this.AvailableSequenzen.Contains(this.CurrentSequenz))
-        {
-          this.AvailableSequenzen.RemoveTest(this.CurrentSequenz);
-        }
+        //if (this.AvailableSequenzen.Contains(this.CurrentSequenz))
+        //{
+        //  this.AvailableSequenzen.RemoveTest(this.CurrentSequenz);
+        //}
 
-        if (this.UsedSequenzen.Contains(this.CurrentSequenz))
+        if (this.Sequenzen.Contains(this.CurrentSequenz))
         {
-          this.UsedSequenzen.RemoveTest(this.CurrentSequenz);
+          this.Sequenzen.RemoveTest(this.CurrentSequenz);
         }
       }
     }
@@ -426,20 +476,20 @@
     /// </summary>
     /// <param name="sender">Die auslösende Collection</param>
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void UsedSequenzenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    private void SequenzenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      UndoableCollectionChanged(this, nameof(UsedSequenzen), this.UsedSequenzen, e, true, "Änderung der UsedSequenzen");
+      UndoableCollectionChanged(this, nameof(Sequenzen), this.Sequenzen, e, true, "Änderung der UsedSequenzen");
     }
 
-    /// <summary>
-    /// Tritt auf, wenn die AvailableSequenzenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void AvailableSequenzenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      UndoableCollectionChanged(this, nameof(AvailableSequenzen), this.AvailableSequenzen, e, true, "Änderung der AvailableSequenzen");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die AvailableSequenzenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void AvailableSequenzenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  UndoableCollectionChanged(this, nameof(AvailableSequenzen), this.AvailableSequenzen, e, true, "Änderung der AvailableSequenzen");
+    //}
   }
 }

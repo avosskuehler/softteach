@@ -766,7 +766,7 @@
       var dlg = new SelectSchülerDialog();
       if (dlg.ShowDialog().GetValueOrDefault(false))
       {
-        using (new UndoBatch(App.MainViewModel, string.Format("e Schüler in Lerngruppe {0} eingetragen.", this), false))
+        using (new UndoBatch(App.MainViewModel, string.Format("neue Schüler in Lerngruppe {0} eingetragen.", this), false))
         {
           foreach (var obj in dlg.SelectedSchüler)
           {

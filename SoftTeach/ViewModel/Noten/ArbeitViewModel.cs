@@ -692,7 +692,7 @@
         return;
       }
 
-      using (new UndoBatch(App.MainViewModel, string.Format("e Aufgabe {0} erstellt.", aufgabeViewModel), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("neue Aufgabe {0} erstellt.", aufgabeViewModel), false))
       {
         App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = false;
         //App.UnitOfWork.Context.Aufgaben.Add(aufgabe);

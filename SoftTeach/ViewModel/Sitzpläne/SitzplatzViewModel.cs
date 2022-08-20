@@ -158,6 +158,12 @@
     }
 
     /// <summary>
+    /// Holt oder setzt einen Wert, der angibt, ob die Reihenfolge Vorrang vor allen
+    /// anderer Reihenfolgen der gleichen Zahl hat.
+    /// </summary>
+    public bool IstZuerst { get; set; }
+
+    /// <summary>
     /// Holt das Umfassungrechteck für den Sitzplatz.
     /// </summary>
     public Rect Bounds

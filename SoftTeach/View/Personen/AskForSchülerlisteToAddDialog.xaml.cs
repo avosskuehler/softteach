@@ -42,7 +42,7 @@ namespace SoftTeach.View.Personen
       this.Fach = Selection.Instance.Fach;
       this.NotenWichtung = App.MainViewModel.NotenWichtungen.FirstOrDefault();
       this.Bepunktungstyp = Bepunktungstyp.NoteMitTendenz;
-      this.Bezeichnung = "e Lerngruppe";
+      this.Bezeichnung = "neue Lerngruppe";
     }
 
     #endregion

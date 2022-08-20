@@ -2,7 +2,7 @@
 {
   using System;
   using System.Linq;
-
+  using System.Windows.Media;
   using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.View.Curricula;
@@ -13,6 +13,8 @@
   /// </summary>
   public class SequenzViewModel : SequencedViewModel
   {
+    private bool istZuerst;
+
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="SequenzViewModel"/> Klasse. 
     /// </summary>
@@ -92,6 +94,42 @@
     }
 
     /// <summary>
+    /// Holt oder setzt einen Wert, der angibt, ob die Reihenfolge Vorrang vor allen
+    /// anderer Reihenfolgen der gleichen Zahl hat.
+    /// </summary>
+    public override bool IstZuerst
+    {
+      get
+      {
+        return this.istZuerst;
+      }
+
+      set
+      {
+        if (value == this.istZuerst)
+        {
+          return;
+        }
+
+        this.UndoablePropertyChanging(this, nameof(IstZuerst), this.istZuerst, value);
+        this.istZuerst = value;
+        this.RaisePropertyChanged("IstZuerst");
+      }
+    }
+
+    /// <summary>
+    /// Holt einen Wert der angibt, ob diese Sequenz im Curriculum verwendet wird.
+    /// Das ist der Fall wenn die Sequenzreihenfolge ungleich -1 ist.
+    /// </summary>
+    public bool SequenzWirdinCurriculumBenutzt
+    {
+      get
+      {
+        return this.Reihenfolge != -1;
+      }
+    }
+
+    /// <summary>
     /// Holt oder setzt die Stundenbedarf of this reihe
     /// </summary>
     public int SequenzStundenbedarf
@@ -126,7 +164,7 @@
     /// Holt den Stundenbedarf as a string
     /// </summary>
     [DependsUpon("SequenzStundenbedarf")]
-    public string SequenzStundenbedarfString
+    public string StundenbedarfString
     {
       get
       {
@@ -138,7 +176,7 @@
     /// Holt den stundenbedarf als breite
     /// </summary>
     [DependsUpon("SequenzStundenbedarf")]
-    public float SequenzBreite
+    public float Breite
     {
       get
       {
@@ -170,7 +208,7 @@
     {
       get
       {
-        return this.SequenzBreite * 4;
+        return this.Breite * 4;
       }
     }
 
@@ -187,9 +225,9 @@
     }
 
     /// <summary>
-    /// Holt oder setzt das Thema der Reihe
+    /// Holt oder setzt das Thema der Sequenz
     /// </summary>
-    public string SequenzThema
+    public string Thema
     {
       get
       {
@@ -203,9 +241,9 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, nameof(SequenzThema), this.Model.Thema, value);
+        this.UndoablePropertyChanging(this, nameof(Thema), this.Model.Thema, value);
         this.Model.Thema = value;
-        this.RaisePropertyChanged("SequenzThema");
+        this.RaisePropertyChanged("Thema");
       }
     }
 
@@ -224,12 +262,23 @@
     /// <summary>
     /// Holt eine Kurzbezeichnung für das Thema der Sequenz
     /// </summary>
-    [DependsUpon("SequenzThema")]
+    [DependsUpon("Thema")]
     public string SequenzKurzbezeichnung
     {
       get
       {
-        return this.SequenzThema;
+        return this.Thema;
+      }
+    }
+
+    /// <summary>
+    /// Holt die passende Hintergrundfarbe
+    /// </summary>
+    public SolidColorBrush BackgroundBrush
+    {
+      get
+      {
+        return App.Current.FindResource("SequenzBackgroundBrush") as SolidColorBrush;
       }
     }
 

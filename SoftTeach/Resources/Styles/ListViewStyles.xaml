@@ -21,15 +21,15 @@
       </DataTrigger>
     </Style.Triggers>
   </Style>
-  
+
   <Style TargetType="{x:Type ListBoxItem}">
     <Setter Property="HorizontalContentAlignment" Value="Left" />
     <Setter Property="VerticalContentAlignment" Value="Top" />
   </Style>
 
   <Style x:Key="ItemContainerDefaultStyle" TargetType="{x:Type ListBoxItem}">
-      <Setter Property="HorizontalContentAlignment" Value="Left"/>
-      <Setter Property="VerticalContentAlignment" Value="Top"/>
+    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+    <Setter Property="VerticalContentAlignment" Value="Top"/>
   </Style>
 
   <!--MouseEnter="SurroundBorderMouseEnter" 
@@ -107,42 +107,65 @@
 
   <DataTemplate x:Key="SequenzDragAdorner">
     <Border Background="Silver" BorderBrush="Gray" BorderThickness="1" CornerRadius="2" Margin="1">
-      <Grid Width="{Binding Path=SequenzBreite}" Background="{StaticResource SequenzBackgroundBrush}" Margin="3" Height="40">
+      <Grid Width="{Binding Path=Breite}" Background="{StaticResource SequenzBackgroundBrush}" Margin="3" Height="40">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*"/>
           <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Column="0"
-                 Text="{Binding Path=SequenzThema}" 
+                 Text="{Binding Path=Thema}" 
                  FontSize="11"
                  HorizontalAlignment="Left" 
                  TextWrapping="WrapWithOverflow"              
                  Margin="1,0,0,1" 
                  Padding="3"/>
         <TextBlock Grid.Column="1"
-                 Text="{Binding Path=SequenzStundenbedarfString}" 
+                 Text="{Binding Path=StundenbedarfString}" 
                  FontSize="11" HorizontalAlignment="Right" Margin="0,0,1,1" 
                  Padding="3"/>
       </Grid>
     </Border>
   </DataTemplate>
 
-  <DataTemplate x:Key="ReiheDragAdorner">
+  <DataTemplate x:Key="BausteinDragAdorner">
     <Border Background="Silver" BorderBrush="Gray" BorderThickness="1" CornerRadius="2" Margin="1">
-      <Grid Width="{Binding Path=ReiheBreite}" Background="{StaticResource ReiheBackgroundBrush}" Margin="3" Height="40">
+      <Grid Width="{Binding Path=Breite}" Background="{Binding Path=BackgroundBrush}" Margin="3" Height="40">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*"/>
           <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Column="0"
-                 Text="{Binding Path=ReiheThema}" 
+                 Text="{Binding Path=Thema}" 
                  FontSize="11"
                  HorizontalAlignment="Left" 
                  TextWrapping="WrapWithOverflow"              
                  Margin="1,0,0,1" 
                  Padding="3"/>
         <TextBlock Grid.Column="1"
-                 Text="{Binding Path=ReiheStundenbedarfString}" 
+                 Text="{Binding Path=StundenbedarfString}" 
+                 FontSize="11" HorizontalAlignment="Right" Margin="0,0,1,1" 
+                 Padding="3"/>
+      </Grid>
+    </Border>
+  </DataTemplate>
+
+
+  <DataTemplate x:Key="ReiheDragAdorner">
+    <Border Background="Silver" BorderBrush="Gray" BorderThickness="1" CornerRadius="2" Margin="1">
+      <Grid Width="{Binding Path=Breite}" Background="{StaticResource ReiheBackgroundBrush}" Margin="3" Height="40">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0"
+                 Text="{Binding Path=Thema}" 
+                 FontSize="11"
+                 HorizontalAlignment="Left" 
+                 TextWrapping="WrapWithOverflow"              
+                 Margin="1,0,0,1" 
+                 Padding="3"/>
+        <TextBlock Grid.Column="1"
+                 Text="{Binding Path=StundenbedarfString}" 
                  FontSize="11" HorizontalAlignment="Right" Margin="0,0,1,1" 
                  Padding="3"/>
       </Grid>
@@ -229,14 +252,14 @@
           <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Column="0"
-                 Text="{Binding Path=SequenzThema}" 
+                 Text="{Binding Path=Thema}" 
                  FontSize="11"
                  HorizontalAlignment="Left" 
                  TextWrapping="WrapWithOverflow"              
                  Margin="1,0,0,1" 
                  Padding="3"/>
         <TextBlock Grid.Column="1"
-                 Text="{Binding Path=SequenzStundenbedarfString}" 
+                 Text="{Binding Path=StundenbedarfString}" 
                  FontSize="11" HorizontalAlignment="Right" Margin="0,0,1,1" 
                  Padding="3"/>
       </Grid>
@@ -244,7 +267,7 @@
   </DataTemplate>
 
   <DataTemplate x:Key="SequenzenView">
-    <Grid Width="{Binding Path=SequenzBreite}" Background="{StaticResource SequenzBackgroundBrush}" Margin="3" Height="40">
+    <Grid Width="{Binding Path=Breite}" Background="{StaticResource SequenzBackgroundBrush}" Margin="3" Height="40">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="*"/>
         <ColumnDefinition Width="Auto"/>
@@ -254,14 +277,14 @@
         <RowDefinition/>
       </Grid.RowDefinitions>
       <TextBlock Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
-                 Text="{Binding Path=SequenzThema}" 
+                 Text="{Binding Path=Thema}" 
                  FontSize="11"
                  HorizontalAlignment="Left" 
                  TextWrapping="WrapWithOverflow"              
                  Margin="1,0,0,1" 
                  Padding="3"/>
       <TextBlock Grid.Column="1" Grid.Row="1"
-                 Text="{Binding Path=SequenzStundenbedarfString}" 
+                 Text="{Binding Path=StundenbedarfString}" 
                  FontSize="11" HorizontalAlignment="Right" Margin="0,0,1,1" 
                  Padding="3"/>
       <Label Grid.Column="1" Grid.Row="0" Content="{Binding Path=SequenzModulAbkürzung}" HorizontalAlignment="Right"
@@ -324,7 +347,7 @@
   </Style>
 
   <converter:InverseBooleanToVisibilityConverter x:Key="BoolVisibleConverterInverse2" />
- 
+
   <DataTemplate x:Key="SchulwochenView">
     <Border CornerRadius="5" BorderBrush="Gray" BorderThickness="0">
       <Grid Width="{Binding Path=SchulwocheBreite}" Margin="0" Height="30">
@@ -374,25 +397,25 @@
         </Button>
       </StackPanel>
       <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2"
-                 Text="{Binding Path=ReiheThema}" 
+                 Text="{Binding Path=Thema}" 
                  FontSize="10"
                  HorizontalAlignment="Left" 
                  TextWrapping="WrapWithOverflow"              
                  Margin="0" 
                  Padding="1" TextTrimming="CharacterEllipsis">
         <TextBlock.ToolTip>
-          <Label Content="{Binding Path=ReiheThema}"/>
+          <Label Content="{Binding Path=Thema}"/>
         </TextBlock.ToolTip>
       </TextBlock>
       <TextBlock Grid.Column="2" Grid.Row="1"
-                 Text="{Binding Path=ReiheStundenbedarfString}" 
+                 Text="{Binding Path=StundenbedarfString}" 
                  FontSize="10" HorizontalAlignment="Right" Margin="0" 
                  Padding="1"/>
     </Grid>
   </DataTemplate>
 
   <DataTemplate x:Key="ReihenNarrowView">
-    <Grid Width="{Binding Path=ReiheBreite}" Name="BaseGrid"  Background="{StaticResource ReiheBackgroundBrush}" Margin="0">
+    <Grid Width="{Binding Path=Breite}" Name="BaseGrid"  Background="{StaticResource ReiheBackgroundBrush}" Margin="0">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="1"/>
         <ColumnDefinition Width="Auto"/>
@@ -418,7 +441,7 @@
         </Button>
       </StackPanel>
       <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2"
-                 Text="{Binding Path=ReiheThema}" 
+                 Text="{Binding Path=Thema}" 
                  FontSize="11"
                  HorizontalAlignment="Left" 
                  TextWrapping="WrapWithOverflow"              
@@ -432,7 +455,7 @@
                  Margin="0" 
                  Padding="3" TextTrimming="CharacterEllipsis" />
       <TextBlock Grid.Column="3" Grid.Row="1"
-                 Text="{Binding Path=ReiheStundenbedarfString}" 
+                 Text="{Binding Path=StundenbedarfString}" 
                  FontSize="11" HorizontalAlignment="Right" Margin="0" 
                  Padding="3"/>
     </Grid>
@@ -457,14 +480,14 @@
           <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Column="0"
-                 Text="{Binding Path=ReiheThema}" 
+                 Text="{Binding Path=Thema}" 
                  FontSize="11"
                  HorizontalAlignment="Left" 
                  TextWrapping="WrapWithOverflow"              
                  Margin="1,0,0,1" 
                  Padding="3"/>
         <TextBlock Grid.Column="1"
-                 Text="{Binding Path=ReiheStundenbedarfString}" 
+                 Text="{Binding Path=StundenbedarfString}" 
                  FontSize="11" HorizontalAlignment="Right" Margin="0,0,1,1" 
                  Padding="3"/>
       </Grid>
@@ -472,7 +495,7 @@
   </DataTemplate>
 
   <DataTemplate x:Key="SequenzenNarrowView">
-    <Grid Width="{Binding Path=SequenzBreite}" Background="{StaticResource SequenzBackgroundBrush}" Margin="0" Height="30">
+    <Grid Width="{Binding Path=Breite}" Background="{StaticResource SequenzBackgroundBrush}" Margin="0" Height="30">
       <Grid.InputBindings>
         <MouseBinding MouseAction="RightClick" Command="{Binding Path=EditSequenzCommand}"/>
       </Grid.InputBindings>
@@ -507,7 +530,7 @@
         </TextBlock.ToolTip>
       </TextBlock>
       <TextBlock Grid.Column="2" Grid.Row="1"
-                 Text="{Binding Path=SequenzStundenbedarfString}" 
+                 Text="{Binding Path=StundenbedarfString}" 
                  FontSize="10" HorizontalAlignment="Right" Margin="0" 
                  Padding="1"/>
     </Grid>
@@ -550,12 +573,12 @@
         </TextBlock.ToolTip>
       </TextBlock>
       <TextBlock Grid.Column="2" Grid.Row="1"
-                 Text="{Binding Path=SequenzStundenbedarfString}" 
+                 Text="{Binding Path=StundenbedarfString}" 
                  FontSize="10" HorizontalAlignment="Right" Margin="0" 
                  Padding="1"/>
     </Grid>
   </DataTemplate>
-  
+
   <DataTemplate x:Key="FerienViewModelTagesplanView">
     <Grid Width="80" Background="{Binding LerngruppenterminFarbe}" Margin="0" Height="30">
       <Grid.ColumnDefinitions>
@@ -581,7 +604,7 @@
       </TextBlock>
     </Grid>
   </DataTemplate>
-  
+
   <DataTemplate x:Key="StundenViewModelTagesplanView">
     <Grid Width="{Binding Path=StundeBreite}" Background="{Binding Path=LerngruppenterminFarbe}" Margin="0" Height="30">
       <Grid.InputBindings>

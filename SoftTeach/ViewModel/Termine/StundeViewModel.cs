@@ -652,6 +652,12 @@ namespace SoftTeach.ViewModel.Termine
     public int Reihenfolge { get; set; }
 
     /// <summary>
+    /// Holt oder setzt einen Wert, der angibt, ob die Reihenfolge Vorrang vor allen
+    /// anderer Reihenfolgen der gleichen Zahl hat.
+    /// </summary>
+    public bool IstZuerst { get; set; }
+
+    /// <summary>
     /// Holt einen String mit dem Stundenbereich der laufenden Nummer.
     /// </summary>
     [DependsUpon("StundeLaufendeStundennummer")]
@@ -1320,7 +1326,7 @@ namespace SoftTeach.ViewModel.Termine
     /// </summary>
     private void AddPhase()
     {
-      using (new UndoBatch(App.MainViewModel, string.Format("e Phase angelegt"), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("neue Phase angelegt"), false))
       {
         var phase = new Phase
         {

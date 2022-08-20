@@ -27,6 +27,7 @@
         <ComboBox Margin="3" TabIndex="1" x:Name="LerngruppeCombo"
                 ItemsSource="{Binding Path=FilteredLerngruppen}" 
                 SelectedItem="{Binding Path=SelectedLerngruppe}"
+                  DisplayMemberPath="LerngruppeKurzbezeichnung"
                 Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" 
                 HorizontalAlignment="Stretch"/>
       </StackPanel>

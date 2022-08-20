@@ -175,9 +175,15 @@
     }
 
     /// <summary>
-    /// Holt oder setzt die Zeitraum of this phase (using a specific start time)
+    /// Holt oder setzt einen Wert, der angibt, ob die Reihenfolge Vorrang vor allen
+    /// anderer Reihenfolgen der gleichen Zahl hat.
     /// </summary>
-    public string PhaseZeitraum { get; set; }
+    public bool IstZuerst { get; set; }
+
+  /// <summary>
+  /// Holt oder setzt die Zeitraum of this phase (using a specific start time)
+  /// </summary>
+  public string PhaseZeitraum { get; set; }
 
     /// <summary>
     /// Gibt eine lesbare Repräsentation des ViewModels

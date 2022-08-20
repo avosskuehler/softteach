@@ -53,7 +53,7 @@ namespace SoftTeach.ViewModel.Noten
       this.Schuljahr = Selection.Instance.Schuljahr;
       this.Bepunktungstyp = Bepunktungstyp.NoteMitTendenz;
       this.Bewertungsschema = App.MainViewModel.Bewertungsschemata[0];
-      this.Bezeichnung = "e Arbeit";
+      this.Bezeichnung = "neue Arbeit";
       this.Datum = DateTime.Now;
       this.IstKlausur = true;
     }

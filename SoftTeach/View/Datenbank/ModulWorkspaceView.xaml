@@ -81,6 +81,7 @@
           <DataGridTextColumn Header="Bezeichnung" Binding="{Binding Path=ModulBezeichnung}"/>
           <DataGridTextColumn Header="Bausteine" Binding="{Binding Path=ModulBausteine}"  Width="*" />
           <DataGridTextColumn Header="Stundenbedarf" Binding="{Binding Path=ModulStundenbedarf}"/>
+          <DataGridTextColumn Header="Entwürfe" Binding="{Binding Path=ModulEntwürfe}"/>
         </DataGrid.Columns>
       </DataGrid>
     </Grid>

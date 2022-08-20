@@ -577,9 +577,7 @@
       {
         using (new UndoBatch(App.MainViewModel, string.Format("Stunden in Jahresplan {0} importiert.", this.Bezeichnung), false))
         {
-          var vm = App.MainViewModel.LoadLerngruppe(dlg.SelectedLerngruppe);
-
-          var halbjahresplanZuweisenWorkspace = new JahresplanZuweisenWorkspaceViewModel(vm, this.lerngruppe, this.Halbjahr);
+          var halbjahresplanZuweisenWorkspace = new JahresplanZuweisenWorkspaceViewModel(dlg.SelectedLerngruppe, this.lerngruppe, this.Halbjahr);
           var dlgZuweisen = new JahresplanZuweisenDialog { DataContext = halbjahresplanZuweisenWorkspace };
           dlgZuweisen.ShowDialog();
         }
