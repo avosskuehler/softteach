@@ -1202,7 +1202,7 @@ namespace SoftTeach.ViewModel.Termine
         this.PerformDropWithPhasencollection(dropInfo);
       }
 
-      SequencingService.SetCollectionSequence(this.Phasen);
+      SequencingService.NeuAnordnen(this.Phasen);
 
       // Editing stoppen, da sonst kein Refresh funktioniert
       targetGrid.CommitEdit();
@@ -1214,41 +1214,43 @@ namespace SoftTeach.ViewModel.Termine
       var phaseViewModel = (PhaseViewModel)dropInfo.Data;
 
       var newIndex = dropInfo.InsertIndex;
-      if (newIndex < 0)
-      {
-        newIndex = this.Phasen.Count;
-      }
+      //if (newIndex < 0)
+      //{
+      //  newIndex = this.Phasen.Count;
+      //}
 
-      var oldIndex = this.Phasen.IndexOf(phaseViewModel);
-      if (newIndex > oldIndex)
-      {
-        newIndex--;
-      }
+      //var oldIndex = this.Phasen.IndexOf(phaseViewModel);
+      //if (newIndex > oldIndex)
+      //{
+      //  newIndex--;
+      //}
 
       // Wenn Control gedrückt ist
       if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
       {
-        if (newIndex > this.Phasen.Count)
-        {
-          newIndex = this.Phasen.Count;
-        }
-
-        this.Phasen.Insert(newIndex, (PhaseViewModel)phaseViewModel.Clone());
+        //if (newIndex > this.Phasen.Count)
+        //{
+        //  newIndex = this.Phasen.Count;
+        //}
+        var kopie = (PhaseViewModel)phaseViewModel.Clone();
+        kopie.Reihenfolge = newIndex;
+        kopie.IstZuerst = true;
+        this.Phasen.Insert(newIndex, kopie);
       }
       else
       {
-        if (newIndex >= this.Phasen.Count)
-        {
-          newIndex = this.Phasen.Count - 1;
-        }
+        //if (newIndex >= this.Phasen.Count)
+        //{
+        //  newIndex = this.Phasen.Count - 1;
+        //}
 
-        if (newIndex != oldIndex)
-        {
-          this.Phasen.Move(oldIndex, newIndex);
-        }
+        //if (newIndex != oldIndex)
+        //{
+        //  this.Phasen.Move(oldIndex, newIndex);
+        //}
+        phaseViewModel.Reihenfolge= newIndex;
+        phaseViewModel.IstZuerst = true;
       }
-
-      SequencingService.SetCollectionSequence(this.Phasen);
     }
 
     private void PerformDropWithPhasencollection(IDropInfo dropInfo)
@@ -1292,8 +1294,6 @@ namespace SoftTeach.ViewModel.Termine
           }
         }
       }
-
-      SequencingService.SetCollectionSequence(this.Phasen);
     }
 
     /// <summary>

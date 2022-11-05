@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="Schuljahr" Type="System.String" Scope="User">
-      <Value Profile="(Default)">2019/2020</Value>
+      <Value Profile="(Default)">2022/2023</Value>
     </Setting>
     <Setting Name="Halbjahr" Type="System.String" Scope="User">
       <Value Profile="(Default)">Winter</Value>
@@ -32,8 +32,14 @@
     <Setting Name="Wochenbreite" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">80</Value>
     </Setting>
+    <Setting Name="Jahrgangsstufe" Type="System.String" Scope="User">
+      <Value Profile="(Default)">7</Value>
+    </Setting>
+    <Setting Name="Klasse" Type="System.String" Scope="User">
+      <Value Profile="(Default)">7D</Value>
+    </Setting>
     <Setting Name="Stundenbreite" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">40</Value>
+      <Value Profile="(Default)">20</Value>
     </Setting>
   </Settings>
 </SettingsFile>

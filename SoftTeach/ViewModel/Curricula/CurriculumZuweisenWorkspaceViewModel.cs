@@ -255,10 +255,10 @@
         this.StundenAndSequenzenCollection.Add(stunde);
       }
 
-      foreach (var usedReiheDesCurriculums in this.curriculumSource.BausteineDesCurriculums.OrderBy(o => o.Reihenfolge))
-      {
-        this.StundenAndSequenzenCollection.Add(usedReiheDesCurriculums);
-      }
+      //foreach (var usedReiheDesCurriculums in this.curriculumSource.BausteineDesCurriculums.OfType<ReiheViewModel>().Where(o => o.Reihenfolge != -1).OrderBy(o => o.Reihenfolge))
+      //{
+      //  this.StundenAndSequenzenCollection.Add(usedReiheDesCurriculums);
+      //}
 
       foreach (var usedSequenzDesCurriculums in this.UsedSequenzenDesCurriculums)
       {

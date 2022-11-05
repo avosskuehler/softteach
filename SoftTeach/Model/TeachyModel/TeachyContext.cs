@@ -61,7 +61,7 @@ namespace SoftTeach.Model.TeachyModel
       {
         optionsBuilder
           .UseLazyLoadingProxies()
-          .UseSqlServer("Server=VK2\\SQL2017;Database=Teachy;Trusted_Connection=True;");
+          .UseSqlServer("Server=VK3\\SQL2017;Database=Teachy;Trusted_Connection=True;");
       }
     }
 

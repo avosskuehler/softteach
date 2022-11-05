@@ -786,54 +786,7 @@
         sequencedObject.IstZuerst = false;
         sequenceNumber++;
       }
-
-      //SequencingService.SetCollectionSequence(.ToObservableCollection());
-      //SequencingService.SetCollectionSequence(this.BausteineDesCurriculums.OfType<SequenzViewModel>().Where(o => o.Reihenfolge != -1).ToObservableCollection());
-
-      //foreach (var model in this.AvailableReihenDesCurriculums)
-      //{
-      //  model.Reihenfolge = -1;
-      //}
-
-      //SequencingService.SetCollectionSequence(this.SequenzenDesCurriculums);
-
-      //if (this.AvailableSequenzenDerReihe != null)
-      //{
-      //  foreach (var model in this.AvailableSequenzenDerReihe)
-      //  {
-      //    model.Reihenfolge = -1;
-      //  }
-      //}
-
-      //this.UpdateReihenSequenzenCollection();
     }
-
-    ///// <summary>
-    ///// Removes all ReiheViewModels from the ReihenSequenzen
-    ///// and readds the updated values from the UsedReihenDesCurriculums collection.
-    ///// </summary>
-    //private void UpdateReihenSequenzenCollection()
-    //{
-    //  var sequenzenInCollection = this.SequenzenDerReihen.OfType<SequenzViewModel>().Count();
-    //  var reihenInCollection = this.SequenzenDerReihen.OfType<ReiheViewModel>().Count();
-    //  var backup = this.CurrentItem;
-    //  for (int i = 0; i < reihenInCollection + sequenzenInCollection; i++)
-    //  {
-    //    this.SequenzenDerReihen.RemoveAt(this.SequenzenDerReihen.Count - 1);
-    //  }
-
-    //  foreach (var usedReiheDesCurriculums in this.ReihenDesCurriculums)
-    //  {
-    //    this.SequenzenDerReihen.Add(usedReiheDesCurriculums);
-    //  }
-
-    //  foreach (var usedSequenzDesCurriculums in this.SequenzenDesCurriculums)
-    //  {
-    //    this.SequenzenDerReihen.Add(usedSequenzDesCurriculums);
-    //  }
-
-    //  this.CurrentItem = backup;
-    //}
 
     /// <summary>
     /// This method is used to adapt the current curriculum such that

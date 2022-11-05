@@ -4,7 +4,7 @@
 //     Laufzeitversion:4.0.30319.42000
 //
 //     Änderungen an dieser Datei können falsches Verhalten verursachen und gehen verloren, wenn
-//     der Code ert generiert wird.
+//     der Code erneut generiert wird.
 // </auto-generated>
 //------------------------------------------------------------------------------
 
@@ -12,7 +12,7 @@ namespace SoftTeach.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.2.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.3.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -25,7 +25,7 @@ namespace SoftTeach.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2019/2020")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2022/2023")]
         public string Schuljahr {
             get {
                 return ((string)(this["Schuljahr"]));
@@ -145,7 +145,31 @@ namespace SoftTeach.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("40")]
+        [global::System.Configuration.DefaultSettingValueAttribute("7")]
+        public string Jahrgangsstufe {
+            get {
+                return ((string)(this["Jahrgangsstufe"]));
+            }
+            set {
+                this["Jahrgangsstufe"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("7D")]
+        public string Klasse {
+            get {
+                return ((string)(this["Klasse"]));
+            }
+            set {
+                this["Klasse"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("20")]
         public int Stundenbreite {
             get {
                 return ((int)(this["Stundenbreite"]));

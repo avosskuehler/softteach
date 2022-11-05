@@ -12,7 +12,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <EnableSecurityDebugging>false</EnableSecurityDebugging>
-    <_LastSelectedProfileId>C:\Users\VK\VisualStudioProjects\SoftTeach%40GitHub\SoftTeach\Properties\PublishProfiles\ClickOnceProfile.pubxml</_LastSelectedProfileId>
+    <_LastSelectedProfileId>C:\Users\vk\VSProjects\SoftTeach%40GitHub\SoftTeach\Properties\PublishProfiles\ClickOnceProfile.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
   <ItemGroup>
     <Page Update="View\Sitzpläne\AskForRaumToAdaptDialog.xaml">
