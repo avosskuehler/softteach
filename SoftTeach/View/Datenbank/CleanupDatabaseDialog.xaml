@@ -100,7 +100,18 @@
               </StackPanel>
             </Button>
           </StackPanel>
-           <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="2">
+          <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="2">
+            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="DeleteDoppelteStundenClick" ToolTip="Doppelte Stunden entfernen">
+              <StackPanel Orientation="Horizontal">
+                <Grid Height="32">
+                  <fa:IconBlock Style="{StaticResource Stundenentwurf32}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+                </Grid>
+                <TextBlock TextWrapping="Wrap" Padding="5,0,0,0">Von identischen, aber mehrfach vorhandenen<LineBreak/>Lerngruppenterminen, die überzähligen löschen.</TextBlock>
+              </StackPanel>
+            </Button>
+          </StackPanel>
+          <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="2">
             <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="DeleteLeereStundenClick" ToolTip="Leere Stunden entfernen">
               <StackPanel Orientation="Horizontal">
                 <Grid Height="32">

@@ -267,7 +267,7 @@
         if (value == this.Model.Halbjahr) return;
         this.UndoablePropertyChanging(this, nameof(StundenplanGültigAb), this.Model.Halbjahr, value);
         this.Model.Halbjahr = value;
-        this.RaisePropertyChanged("StundenplanGültigAb");
+        this.RaisePropertyChanged("StundenplanHalbjahr");
       }
     }
 

@@ -586,11 +586,11 @@
           var noteViewModels = klassenarbeitNoten as IList<NoteViewModel> ?? klassenarbeitNoten.ToList();
           if (noteViewModels.Count() > 1)
           {
-            // Nur eine Note pro Arbeit zugelassen, nimm die erste und lösche die anderen
-            for (int i = 1; i < noteViewModels.Count(); i++)
-            {
-              schülereintragViewModel.Noten.RemoveTest(noteViewModels[i]);
-            }
+            //// Nur eine Note pro Arbeit zugelassen, nimm die erste und lösche die anderen
+            //for (int i = 1; i < noteViewModels.Count(); i++)
+            //{
+            //  schülereintragViewModel.Noten.RemoveTest(noteViewModels[i]);
+            //}
           }
 
           if (noteViewModels.Count == 0)

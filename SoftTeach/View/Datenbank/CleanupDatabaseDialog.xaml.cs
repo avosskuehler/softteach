@@ -24,6 +24,9 @@ namespace SoftTeach.View.Datenbank
 
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.Model.TeachyModel;
+  using System.Windows.Documents;
+  using SoftTeach.ViewModel.Termine;
+  using System.Collections.Generic;
 
   /// <summary>
   /// Ein Dialog um nicht gemachte Arbeiten einzutragen.
@@ -140,6 +143,34 @@ namespace SoftTeach.View.Datenbank
       var leereCurricula = App.UnitOfWork.Context.Curricula.Where(o => !o.Reihen.Any(a => a.Reihenfolge != -1)).ToList();
 
       App.UnitOfWork.Context.Curricula.RemoveRange(leereCurricula);
+
+      App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = true;
+
+      App.UnitOfWork.SaveChanges();
+    }
+
+    private void DeleteDoppelteStundenClick(object sender, RoutedEventArgs e)
+    {
+      App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = false;
+
+      var zulöschendeStunden = new List<Lerngruppentermin>();
+
+      // Von identischen, aber mehrfach vorhandenen Lerngruppentermine, die überzähligen löschen
+      var stundenGruppen = App.UnitOfWork.Context.Termine.OfType<Lerngruppentermin>().GroupBy(o => o.Datum.ToString() + "#" + o.LerngruppeId + "#" + o.ErsteUnterrichtsstundeId).ToList().Where(o => o.Count() > 1);
+      foreach (var gruppe in stundenGruppen)
+      {
+        if (gruppe.Count() == 1)
+        {
+          continue;
+        }
+
+        foreach (var einzelstunde in gruppe.Skip(1))
+        {
+          zulöschendeStunden.Add(einzelstunde);
+        }
+      }
+
+      App.UnitOfWork.Context.Termine.RemoveRange(zulöschendeStunden);
 
       App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = true;
 

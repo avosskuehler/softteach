@@ -4,9 +4,11 @@
   using System.Collections.Generic;
   using System.Collections.ObjectModel;
   using System.Collections.Specialized;
+  using System.ComponentModel;
   using System.Globalization;
   using System.Linq;
   using System.Windows;
+  using System.Windows.Data;
   using System.Windows.Media;
 
   using MahApps.Metro.Controls.Dialogs;
@@ -17,6 +19,7 @@
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Noten;
+  using SoftTeach.View.Termine;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Helper;
   using SoftTeach.ViewModel.Personen;
@@ -145,7 +148,11 @@
       this.Notentendenzen.CollectionChanged += this.NotentendenzenCollectionChanged;
 
       this.Ergebnisse = new ObservableCollection<ErgebnisViewModel>();
-      this.CurrentArbeitErgebnisse = new ObservableCollection<ErgebnisViewModel>();
+      this.CurrentArbeitErgebnisseViewSource = new CollectionViewSource() { Source = this.Ergebnisse };
+      using (this.CurrentArbeitErgebnisseViewSource.DeferRefresh())
+      {
+        this.CurrentArbeitErgebnisseViewSource.Filter += this.CurrentArbeitErgebnisseViewSource_Filter;
+      }
 
       foreach (var ergebnis in schülereintrag.Ergebnisse)
       {
@@ -342,6 +349,16 @@
     /// Holt oder setzt die Ergebnisse für diesen Schülereintrag
     /// </summary>
     public ObservableCollection<ErgebnisViewModel> Ergebnisse { get; set; }
+
+    /// <summary>
+    /// Holt oder setzt die CurrentArbeitErgebnisseViewSource
+    /// </summary>
+    public CollectionViewSource CurrentArbeitErgebnisseViewSource { get; set; }
+
+    /// <summary>
+    /// Holt oder setzt ein View der Ergebnisse der aktuellen Arbeit
+    /// </summary>
+    public ICollectionView CurrentArbeitErgebnisseView => this.CurrentArbeitErgebnisseViewSource.View;
 
     /// <summary>
     /// Holt oder setzt die currently selected Hausaufgabe
@@ -906,7 +923,8 @@
     {
       get
       {
-        return this.Noten.Where(o => o.NoteIstSchriftlich && o.NoteNotentyp == Notentyp.SchriftlichKlassenarbeit && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
+        var test = this.Noten.Where(o => o.NoteIstSchriftlich && o.NoteNotentyp == Notentyp.SchriftlichKlassenarbeit && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
+        return test;
       }
     }
 
@@ -1127,10 +1145,10 @@
       }
     }
 
-    /// <summary>
-    /// Holt oder setzt die Ergebnisse für diesen Schülereintrag
-    /// </summary>
-    public ObservableCollection<ErgebnisViewModel> CurrentArbeitErgebnisse { get; set; }
+    ///// <summary>
+    ///// Holt oder setzt die Ergebnisse für diesen Schülereintrag
+    ///// </summary>
+    //public ObservableCollection<ErgebnisViewModel> CurrentArbeitErgebnisse { get; set; }
 
     /// <summary>
     /// Holt die berechnete Summe aller Punkte der aktuellen Arbeit
@@ -1199,7 +1217,19 @@
         // Note des Schülereintrags für die Arbeit wird aus der Arbeitsnote erzeugt,
         // bzw. aktualisiert
         var existingNotes =
-          this.Noten.Where(o => o.NoteIstSchriftlich && o.NoteDatum == Selection.Instance.Arbeit.ArbeitDatum);
+          this.Noten.Where(o => o.NoteIstSchriftlich && o.NoteDatum.Date == Selection.Instance.Arbeit.ArbeitDatum.Date);
+
+        // Altlasten der Datenbank aufräumen, wenn mehrere Noten für die gleiche Arbeit existieren, einfach alle löschen
+        // sie werden dann beim nächsten Aufruf neu angelegt
+        if (existingNotes.Count() > 1)
+        {
+          foreach (var note in existingNotes.ToList())
+          {
+            this.Noten.Remove(note);
+          }
+
+          return string.Empty;
+        }
 
         var noteViewModels = existingNotes as IList<NoteViewModel> ?? existingNotes.ToList();
         if (!noteViewModels.Any())
@@ -1310,15 +1340,16 @@
     /// </summary>
     public void UpdateErgebnisse()
     {
-      this.CurrentArbeitErgebnisse.Clear();
-      foreach (
-        var ergebnis in
-          this.Ergebnisse.Where(ergebnis => ergebnis.Model.Aufgabe.Arbeit == Selection.Instance.Arbeit.Model))
-      {
-        this.CurrentArbeitErgebnisse.Add(ergebnis);
-      }
+      this.CurrentArbeitErgebnisseView.Refresh();
+      //this.CurrentArbeitErgebnisse.Clear();
+      //foreach (
+      //  var ergebnis in
+      //    this.Ergebnisse.Where(ergebnis => ergebnis.Model.Aufgabe.Arbeit == Selection.Instance.Arbeit.Model))
+      //{
+      //  this.CurrentArbeitErgebnisse.Add(ergebnis);
+      //}
 
-      this.RaisePropertyChanged("CurrentArbeitErgebnisse");
+      //this.RaisePropertyChanged("CurrentArbeitErgebnisse");
       this.RaisePropertyChanged("CurrentArbeitNote");
       this.RaisePropertyChanged("CurrentArbeitProzentsatz");
       this.RaisePropertyChanged("CurrentArbeitPunktsumme");
@@ -1841,7 +1872,7 @@
     private void NotenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
       UndoableCollectionChanged(this, nameof(Noten), this.Noten, e, true, "Änderung der Noten");
-      this.UpdateNoten();
+      //this.UpdateNoten();
     }
 
     /// <summary>
@@ -2443,6 +2474,32 @@
       this.plotModelQualität.Series.Add(s);
     }
 
+    /// <summary>
+    /// Filtert die Ergebnisse nach aktuell ausgewählter Arbeit
+    /// </summary>
+    /// <param name="item">Das Ergebnis, das gefiltert werden soll</param>
+    /// <returns>True, wenn das Objekt in der Liste bleiben soll.</returns>
+    private void CurrentArbeitErgebnisseViewSource_Filter(object sender, FilterEventArgs e)
+    {
+      var ergebnisViewModel = e.Item as ErgebnisViewModel;
+      if (ergebnisViewModel == null)
+      {
+        e.Accepted = false;
+        return;
+      }
+
+      if (Selection.Instance.Arbeit != null)
+      {
+        if (ergebnisViewModel.Model.Aufgabe.Arbeit.Id != Selection.Instance.Arbeit.Model.Id)
+        {
+          e.Accepted = false;
+          return;
+        }
+      }
+
+      e.Accepted = true;
+      return;
+    }
 
   }
 }

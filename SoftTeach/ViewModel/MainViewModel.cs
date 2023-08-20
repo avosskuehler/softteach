@@ -48,6 +48,7 @@
     private ObservableCollection<RaumViewModel> räume;
     private ObservableCollection<SitzplanViewModel> sitzpläne;
     private ObservableCollection<ArbeitViewModel> arbeiten;
+    private ObservableCollection<SchulterminViewModel> schultermine;
     private ObservableCollection<Personen.LerngruppeViewModel> lerngruppen;
 
     /// <summary>
@@ -97,7 +98,7 @@
 
       // The creation of the Schultermine includes the creation of
       // the betroffene klassen models, schultermin, lerngruppentermine, stunden
-      this.Schultermine = new ObservableCollection<SchulterminViewModel>();
+      this.schultermine = new ObservableCollection<SchulterminViewModel>();
       //this.Lerngruppentermine = new ObservableCollection<LerngruppenterminViewModel>();
       //this.Stunden = new ObservableCollection<StundeViewModel>();
       //this.BetroffeneKlassen = new ObservableCollection<BetroffeneLerngruppeViewModel>();
@@ -136,7 +137,11 @@
     {
       if (e.PropertyName == "Schuljahr")
       {
+        UiServices.SetBusyState();
         LoadLerngruppen();
+        LoadJahrespläne();
+        LoadTermine();
+        LoadArbeiten();
       }
     }
 
@@ -169,17 +174,26 @@
     /// <summary>
     /// Holt alle Schuljahre der Datenbank
     /// </summary>
-    public ObservableCollection<SchuljahrViewModel> Schuljahre { get; private set; }
+    public ObservableCollection<SchuljahrViewModel> Schuljahre
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt alle Unterrichtsstunden der Datenbank
     /// </summary>
-    public ObservableCollection<UnterrichtsstundeViewModel> Unterrichtsstunden { get; private set; }
+    public ObservableCollection<UnterrichtsstundeViewModel> Unterrichtsstunden
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt alle Jahrgänge
     /// </summary>
-    public ObservableCollection<int> Jahrgänge { get; private set; }
+    public ObservableCollection<int> Jahrgänge
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt alle Lerngruppen der Datenbank
@@ -210,12 +224,18 @@
     /// <summary>
     /// Holt alle Fächer der Datenbank
     /// </summary>
-    public ObservableCollection<FachViewModel> Fächer { get; private set; }
+    public ObservableCollection<FachViewModel> Fächer
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt alle Module der Datenbank
     /// </summary>
-    public ObservableCollection<ModulViewModel> Module { get; private set; }
+    public ObservableCollection<ModulViewModel> Module
+    {
+      get; private set;
+    }
 
     ///// <summary>
     ///// Holt alle Reihen der Datenbank
@@ -225,22 +245,37 @@
     /// <summary>
     /// Holt alle  der Datenbank
     /// </summary>
-    public ObservableCollection<DateitypViewModel> Dateitypen { get; private set; }
+    public ObservableCollection<DateitypViewModel> Dateitypen
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt alle Ferien der Datenbank
     /// </summary>
-    public ObservableCollection<FerienViewModel> Ferien { get; private set; }
+    public ObservableCollection<FerienViewModel> Ferien
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt alle Fachstundenanzahlen der Datenbank
     /// </summary>
-    public ObservableCollection<FachstundenanzahlViewModel> Fachstundenanzahl { get; private set; }
+    public ObservableCollection<FachstundenanzahlViewModel> Fachstundenanzahl
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt alle Lerngruppentermine der Datenbank
     /// </summary>
-    public ObservableCollection<SchulterminViewModel> Schultermine { get; private set; }
+    public ObservableCollection<SchulterminViewModel> Schultermine
+    {
+      get
+      {
+        return this.schultermine;
+      }
+    }
 
     ///// <summary>
     ///// Holt alle BetroffeneKlassen der Datenbank
@@ -288,7 +323,10 @@
     /// <summary>
     /// Holt alle Stundenpläne der Datenbank
     /// </summary>
-    public ObservableCollection<StundenplanViewModel> Stundenpläne { get; private set; }
+    public ObservableCollection<StundenplanViewModel> Stundenpläne
+    {
+      get; private set;
+    }
 
     ///// <summary>
     ///// Holt alle Stundenplaneinträge der Datenbank
@@ -298,17 +336,26 @@
     /// <summary>
     /// Holt alle Personen der Datenbank
     /// </summary>
-    public ObservableCollection<PersonViewModel> Personen { get; private set; }
+    public ObservableCollection<PersonViewModel> Personen
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt alle Zensuren der Datenbank
     /// </summary>
-    public ObservableCollection<ZensurViewModel> Zensuren { get; private set; }
+    public ObservableCollection<ZensurViewModel> Zensuren
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt alle NotenWichtungen der Datenbank
     /// </summary>
-    public ObservableCollection<NotenWichtungViewModel> NotenWichtungen { get; private set; }
+    public ObservableCollection<NotenWichtungViewModel> NotenWichtungen
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt alle Arbeiten der Datenbank
@@ -334,12 +381,18 @@
     /// <summary>
     /// Holt alle Bewertungsschemata der Datenbank
     /// </summary>
-    public ObservableCollection<BewertungsschemaViewModel> Bewertungsschemata { get; private set; }
+    public ObservableCollection<BewertungsschemaViewModel> Bewertungsschemata
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt alle Prozentbereiche der Datenbank
     /// </summary>
-    public ObservableCollection<ProzentbereichViewModel> Prozentbereiche { get; private set; }
+    public ObservableCollection<ProzentbereichViewModel> Prozentbereiche
+    {
+      get; private set;
+    }
 
     ///// <summary>
     ///// Holt alle Hausaufgaben der Datenbank
@@ -360,7 +413,10 @@
     /// <summary>
     /// Holt alle Jahrespläne der Datenbank
     /// </summary>
-    public ObservableCollection<JahresplanViewModel> Jahrespläne { get; private set; }
+    public ObservableCollection<JahresplanViewModel> Jahrespläne
+    {
+      get; private set;
+    }
 
 
     ///// <summary>
@@ -398,22 +454,34 @@
     /// <summary>
     /// Holt den Befehl die letzte Datenbankaktion rückgängig zu machen.
     /// </summary>
-    public DelegateCommand UndoCommand { get; private set; }
+    public DelegateCommand UndoCommand
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt den Befehl die letzte Datenbankaktion rückgängig zu machen.
     /// </summary>
-    public DelegateCommand RedoCommand { get; private set; }
+    public DelegateCommand RedoCommand
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt den command to save all changes made in the current sessions UnitOfWork
     /// </summary>
-    public DelegateCommand SaveCommand { get; private set; }
+    public DelegateCommand SaveCommand
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt den command to show options for the program
     /// </summary>
-    public DelegateCommand ShowOptionsCommand { get; private set; }
+    public DelegateCommand ShowOptionsCommand
+    {
+      get; private set;
+    }
 
     #endregion //Commands
 
@@ -438,7 +506,10 @@
     /// <summary>
     /// Holt den workspace for managing Curricula
     /// </summary>
-    public CurriculumWorkspaceViewModel CurriculumWorkspace { get; private set; }
+    public CurriculumWorkspaceViewModel CurriculumWorkspace
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt den workspace for managing Wochenpläne
@@ -476,47 +547,74 @@
     /// <summary>
     /// Holt den workspace for managing Stundenpläne
     /// </summary>
-    public StundenplanWorkspaceViewModel StundenplanWorkspace { get; private set; }
+    public StundenplanWorkspaceViewModel StundenplanWorkspace
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt den workspace for managing Termine
     /// </summary>
-    public SchulterminWorkspaceViewModel SchulterminWorkspace { get; private set; }
+    public SchulterminWorkspaceViewModel SchulterminWorkspace
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt den workspace for managing Schuljahre
     /// </summary>
-    public SchuljahrWorkspaceViewModel SchuljahrWorkspace { get; private set; }
+    public SchuljahrWorkspaceViewModel SchuljahrWorkspace
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt den workspace for managing Fächer
     /// </summary>
-    public FachWorkspaceViewModel FachWorkspace { get; private set; }
+    public FachWorkspaceViewModel FachWorkspace
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt den workspace for managing Dateitypen
     /// </summary>
-    public DateitypWorkspaceViewModel DateitypWorkspace { get; private set; }
+    public DateitypWorkspaceViewModel DateitypWorkspace
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt den workspace for managing Module
     /// </summary>
-    public ModulWorkspaceViewModel ModulWorkspace { get; private set; }
+    public ModulWorkspaceViewModel ModulWorkspace
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt den workspace for managing Unterrichtsstunden
     /// </summary>
-    public UnterrichtsstundeWorkspaceViewModel UnterrichtsstundeWorkspace { get; private set; }
+    public UnterrichtsstundeWorkspaceViewModel UnterrichtsstundeWorkspace
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt den workspace for managing Ferien
     /// </summary>
-    public FerienWorkspaceViewModel FerienWorkspace { get; private set; }
+    public FerienWorkspaceViewModel FerienWorkspace
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt den workspace for managing Ferien
     /// </summary>
-    public FachstundenanzahlWorkspaceViewModel FachstundenanzahlWorkspace { get; private set; }
+    public FachstundenanzahlWorkspaceViewModel FachstundenanzahlWorkspace
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt den workspace for managing Lerngruppen
@@ -553,22 +651,34 @@
     /// <summary>
     /// Holt den workspace for managing Schülereinträge
     /// </summary>
-    public SchülereintragWorkspaceViewModel SchülereintragWorkspace { get; private set; }
+    public SchülereintragWorkspaceViewModel SchülereintragWorkspace
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt den workspace for managing Personen
     /// </summary>
-    public PersonenWorkspaceViewModel PersonenWorkspace { get; private set; }
+    public PersonenWorkspaceViewModel PersonenWorkspace
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt den workspace for managing NotenWichtung
     /// </summary>
-    public NotenWichtungWorkspaceViewModel NotenWichtungWorkspace { get; private set; }
+    public NotenWichtungWorkspaceViewModel NotenWichtungWorkspace
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt das Modul zur Bearbeitung von Zensuren.
     /// </summary>
-    public ZensurWorkspaceViewModel ZensurWorkspace { get; private set; }
+    public ZensurWorkspaceViewModel ZensurWorkspace
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt das Modul zur Bearbeitung von Arbeiten.
@@ -589,7 +699,10 @@
     /// <summary>
     /// Holt das Modul zur Bearbeitung von Bewertungsschemata.
     /// </summary>
-    public BewertungsschemaWorkspaceViewModel BewertungsschemaWorkspace { get; private set; }
+    public BewertungsschemaWorkspaceViewModel BewertungsschemaWorkspace
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Holt das Modul zur Bearbeitung von Räumen.
@@ -2170,8 +2283,6 @@
       this.lerngruppen.CollectionChanged += this.LerngruppenCollectionChanged;
 
       App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = true;
-
-      LoadJahrespläne();
     }
 
     /// <summary>
@@ -2310,6 +2421,31 @@
         }
       }
       this.sitzpläne.CollectionChanged += this.SitzpläneCollectionChanged;
+
+      App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = true;
+    }
+
+    private void LoadTermine()
+    {
+      this.LoadTermine(Selection.Instance.Schuljahr.SchuljahrJahr);
+    }
+
+    public void LoadTermine(int jahr)
+    {
+      App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = false;
+      var collection = this.schultermine;
+      this.schultermine.CollectionChanged -= this.SchultermineCollectionChanged;
+
+      foreach (var schultermin in App.UnitOfWork.Context.Schultermine.Where(o => o.Schuljahr.Jahr == jahr).ToList()
+        //.Include(sitzplan => sitzplan.Sitzplaneinträge)
+        )
+      {
+        if (!collection.Any(o => o.Model.TerminId == schultermin.TerminId))
+        {
+          collection.Add(new SchulterminViewModel(schultermin));
+        }
+      }
+      this.schultermine.CollectionChanged += this.SchultermineCollectionChanged;
 
       App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = true;
     }

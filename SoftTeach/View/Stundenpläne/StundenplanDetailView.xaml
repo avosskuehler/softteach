@@ -58,21 +58,26 @@
         <Grid Grid.Row="0" Margin="5">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="95"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
           </Grid.ColumnDefinitions>
-          <StackPanel Grid.Column="0">
-            <Label Content="{Binding Path=StundenplanHalbjahr}" Padding="0"/>
-            <Label Content="{Binding Path=StundenplanSchuljahr.SchuljahrBezeichnung}" Padding="0"/>
-          </StackPanel>
-          <TextBox Grid.Column="1" Style="{StaticResource StundenplanDescriptionHeaderText}" Text="{Binding Path=StundenplanBezeichnung}">
+          <Label Grid.Column="1" Content="{Binding Path=StundenplanSchuljahr.SchuljahrBezeichnung}" Padding="0" VerticalContentAlignment="Center"/>
+          <ComboBox Grid.Column="2"
+              Padding="3"                
+              ItemsSource="{Binding Source={StaticResource Halbjahre}}" 
+              SelectedItem="{Binding Path=StundenplanHalbjahr}"
+              Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" 
+              Width="95"/>
+          <TextBox Grid.Column="3" Style="{StaticResource StundenplanDescriptionHeaderText}" Text="{Binding Path=StundenplanBezeichnung}">
             <TextBox.ToolTip>
               <TextBlock TextWrapping="Wrap">Bitte geben Sie eine Bezeichnung für den Stundenplan ein.</TextBlock>
             </TextBox.ToolTip>
           </TextBox>
-          <Label Grid.Column="2">Gültig ab</Label>
-          <DatePicker Grid.Column="3" SelectedDateFormat="Long" SelectedDate="{Binding Path=StundenplanGültigAb}"/>
+          <Label Grid.Column="4">Gültig ab</Label>
+          <DatePicker Grid.Column="5" SelectedDateFormat="Long" SelectedDate="{Binding Path=StundenplanGültigAb}"/>
         </Grid>
         <Grid x:Name="PlanGrid" Grid.Row="1" Background="{StaticResource OverlayBackgroundBrush}">
           <Grid.RowDefinitions>

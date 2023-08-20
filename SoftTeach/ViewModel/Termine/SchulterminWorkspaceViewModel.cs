@@ -158,8 +158,19 @@
 
       set
       {
+        if (value == this.schuljahrFilter)
+        {
+          return;
+        }
+
         this.schuljahrFilter = value;
         this.RaisePropertyChanged("SchuljahrFilter");
+        this.ResetSchuljahrFilterCommand.RaiseCanExecuteChanged();
+        if (value != null)
+        {
+          UiServices.SetBusyState();
+          App.MainViewModel.LoadTermine(value.SchuljahrJahr);
+        }
         this.TermineView.Refresh();
       }
     }
@@ -178,6 +189,7 @@
       {
         this.termintypFilter = value;
         this.RaisePropertyChanged("TermintypFilter");
+        this.ResetTermintypFilterCommand.RaiseCanExecuteChanged();
         this.TermineView.Refresh();
       }
     }
