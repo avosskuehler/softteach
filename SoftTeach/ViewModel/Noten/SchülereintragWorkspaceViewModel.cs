@@ -2,6 +2,7 @@
 {
   using System;
   using System.ComponentModel;
+  using System.Linq;
   using System.Windows;
   using System.Windows.Controls;
   using System.Windows.Data;
@@ -55,8 +56,10 @@
       var enumerator = this.LerngruppenView.GetEnumerator();
       enumerator.MoveNext(); // sets it to the first element
 
-      this.CurrentLerngruppe = (LerngruppeViewModel)enumerator.Current;
-
+      if (App.MainViewModel.Lerngruppen.Any())
+      {
+        this.CurrentLerngruppe = (LerngruppeViewModel)enumerator.Current;
+      }
     }
 
     /// <summary>

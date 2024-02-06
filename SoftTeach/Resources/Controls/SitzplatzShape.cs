@@ -54,7 +54,7 @@ namespace SoftTeach.Resources.Controls
       //Geometry geometry = formattedText.BuildGeometry(new Point(0, 0));
 
       //PathGeometry pathGeometry = geometry.GetFlattenedPathGeometry();
-      var source = string.Format("M 0,0 L {0} , 0 L {0} , {1} L 0, {1} Z", this.Width, this.Height);
+      var source = string.Format("M 0,0 L {0} , 0 L {0} , {1} L 0, {1} Z", Math.Round(this.Width,0), Math.Round(this.Height));
       var rechteck = Geometry.Parse(source);
       return rechteck;
       //return Geometry.Combine(geometry, rechteck, GeometryCombineMode.Union, this.LayoutTransform);

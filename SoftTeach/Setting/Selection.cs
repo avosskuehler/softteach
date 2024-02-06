@@ -484,7 +484,7 @@ namespace SoftTeach.Setting
 
       if (this.Lerngruppe == null)
       {
-        this.Lerngruppe = App.MainViewModel.Lerngruppen.First();
+        this.Lerngruppe = App.MainViewModel.Lerngruppen.FirstOrDefault();
       }
     }
 
