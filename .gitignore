@@ -2,7 +2,12 @@
 # Diese .gitignore-Datei wurde von Microsoft(R) Visual Studio automatisch erstellt.
 ################################################################################
 
-/Debug/x86
-/packages
-/SoftTeach/obj
-/.vs/SoftTeach/v16
+/Debug/x86/
+/packages/
+/SoftTeach/obj/
+/.vs/
+/SoftTeach/bin/
+/Debug/
+/Release/
+/Setup/obj/x64/Debug
+/Setup/obj
