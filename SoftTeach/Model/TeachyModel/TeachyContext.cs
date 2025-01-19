@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using SoftTeach.Model.TeachyModel;
 
 namespace SoftTeach.Model.TeachyModel
@@ -695,7 +696,7 @@ namespace SoftTeach.Model.TeachyModel
                   .IsRequired()
                   .HasMaxLength(50);
       });
-      
+
 
       OnModelCreatingPartial(modelBuilder);
     }
