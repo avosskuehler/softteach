@@ -1,36 +1,79 @@
-﻿<Window x:Class="SoftTeach.View.Datenbank.DateiverweisWorkspaceView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:resources="clr-namespace:SoftTeach.Resources" xmlns:SoftTeach="clr-namespace:SoftTeach"
-        xmlns:controls="clr-namespace:SoftTeach.Resources.Controls" mc:Ignorable="d" 
-        Title="Datenbank - Dateiverweise"
-        Icon="/SoftTeach;component/Images/Database.ico"
-             d:DesignHeight="400" d:DesignWidth="800" WindowStyle="SingleBorderWindow">
-  <Window.Resources>
-  </Window.Resources>
-  <Grid Background="{StaticResource MainBackgroundBrush}">
+﻿<Window 
+  x:Class="SoftTeach.View.Datenbank.DateiverweisWorkspaceView"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+  xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
+  xmlns:pb="clr-namespace:SoftTeach.ViewModel.Helper.PushBinding"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+  xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+  xmlns:controls="clr-namespace:SoftTeach.Resources.Controls" mc:Ignorable="d" 
+  Title="Dateiverweise"
+  d:DesignHeight="400" d:DesignWidth="800">
+
+  <Grid>
     <Grid.RowDefinitions>
-      <RowDefinition Height="48"/>
-      <RowDefinition/>
-      <RowDefinition Height="32"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader  Icon="/SoftTeach;component/Images/Dateiverweis32.png" 
-                              Grid.Row="0" 
-                              Title="Das ist der Inhalt der Dateiverweise-Tabelle. Diese Darstellung dient nur zur Kontrolle. 
-Dateiverweise ändern Sie im Stundenentwurfsmodul."/>
-    <GroupBox Grid.Row="1" Header="Tabelle der Dateiverweise" Padding="3" Margin="5">
-      <DataGrid ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Dateiverweise}" AutoGenerateColumns="False"
-                IsReadOnly="True">
-        <DataGrid.Columns>
-          <DataGridTextColumn Header="Datei" Binding="{Binding Path=DateiverweisDateinameOhnePfad}"/>
-          <DataGridTextColumn Header="Typ" Binding="{Binding Path=DateiverweisDateityp.DateitypBezeichnung}"/>
-          <DataGridTextColumn Header="verlinkt in Stundenentwurf" Binding="{Binding Path=Model.Stundenentwurf.Stundenthema}" Width="*"/>
-        </DataGrid.Columns>
-      </DataGrid>
-    </GroupBox>
-    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+    <controls:SmallDialogHeader Grid.Row="0" Title="Dateiverweisliste">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Datei32}" Foreground="{DynamicResource Iconfarbe}"/>
+          <fa:IconBlock Style="{StaticResource VerweisOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
+    <Border Grid.Row="1">
+      <StackPanel Orientation="Horizontal" Margin="5">
+        <Button Name="AddButton" Command="{Binding Path=RepariereDateiverweiseCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+          <StackPanel Orientation="Horizontal">
+            <Grid>
+              <fa:IconBlock Style="{StaticResource Datei32}" Foreground="{DynamicResource Iconfarbe}"/>
+              <fa:IconBlock Style="{StaticResource SearchOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+            </Grid>
+            <Label Content="Dateien finden"/>
+          </StackPanel>
+        </Button>
+        <Button Name="RemoveButton" Command="{Binding Path=EntferneDateiverweisCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+          <StackPanel Orientation="Horizontal">
+            <Grid>
+              <fa:IconBlock Style="{StaticResource Datei32}" Foreground="{DynamicResource Iconfarbe}"/>
+              <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+            </Grid>
+            <Label Content="Dateiverweis entfernen"/>
+          </StackPanel>
+        </Button>
+      </StackPanel>
+    </Border>
+    <DataGrid 
+      Grid.Row="2" 
+      EnableRowVirtualization="True" 
+      EnableColumnVirtualization="True"
+      VirtualizingStackPanel.VirtualizationMode="Standard"
+      VirtualizingStackPanel.IsVirtualizing="True"                  
+      ItemsSource="{Binding Path=DateiverweiseView}" 
+      SelectedItem="{Binding Path=CurrentDateiverweis}"
+      AutoGenerateColumns="False"
+      SelectionMode="Extended"
+      IsReadOnly="True"
+      Style="{StaticResource DefaultViewDataGridStyle}">
+      <pb:PushBindingManager.PushBindings>
+        <pb:PushBinding TargetProperty="SelectedItems" Path="SelectedDateiverweise"/>
+      </pb:PushBindingManager.PushBindings>
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="Jahr" Binding="{Binding Path=Stunde.Lerngruppe.Schuljahr.Jahr}"/>
+        <DataGridTextColumn Header="Datei" Binding="{Binding Path=DateinameOhnePfad}"/>
+        <DataGridTextColumn Header="Typ" Binding="{Binding Path=Dateityp.Bezeichnung}"/>
+        <DataGridTextColumn Header="verlinkt in Stundenentwurf" Binding="{Binding Path=Stunde.Beschreibung}" Width="*"/>
+        <DataGridTextColumn Header="Fach" Binding="{Binding Path=Stunde.Fach.Bezeichnung}" />
+        <DataGridTextColumn Header="Modul" Binding="{Binding Path=Stunde.Modul.Bezeichnung}" />
+        <DataGridTextColumn Header="Pfad" Binding="{Binding Path=Pfad}"/>
+      </DataGrid.Columns>
+    </DataGrid>
+    <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
       <Button Name="OK" Width="80" Margin="3" IsDefault="True" Click="OKClick">OK</Button>
     </StackPanel>
   </Grid>

@@ -79,7 +79,7 @@
         </Polygon>
       </Canvas>
     </Button>
-    <Grid Grid.Row="1" x:Name="PlanGrid" Grid.Column="1" Background="{StaticResource OverlayBackgroundBrush}">
+    <Grid Grid.Row="1" x:Name="PlanGrid" Grid.Column="1">
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto"/>
         <RowDefinition MinHeight="40"/>

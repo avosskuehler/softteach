@@ -1,8 +1,6 @@
 ﻿
 namespace SoftTeach.View.Wochenpläne
 {
-  using System.Windows.Input;
-
   /// <summary>
   /// Interaction logic for WochenplanWorkspaceView.xaml
   /// </summary>

@@ -1,11 +1,8 @@
 ﻿namespace SoftTeach.ViewModel.Datenbank
 {
   using System.Linq;
-  using System.Windows.Input;
-
-  using SoftTeach.Model;
   using SoftTeach.ExceptionHandling;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
@@ -73,15 +70,12 @@
     {
       var fach = new Fach();
 
-      // Check for existing jahresplan
       if (App.MainViewModel.Fächer.Any(vorhandenesFach => vorhandenesFach.FachBezeichnung == fach.Bezeichnung))
       {
         Log.ProcessMessage("Fach bereits vorhanden",
           "Dieses Fach ist bereits in " + "der Datenbank vorhanden und kann nicht doppelt angelegt werden.");
         return;
       }
-
-      // App.UnitOfWork.GetRepository<Fach>().Add(fach);
 
       var vm = new FachViewModel(fach);
 
@@ -94,7 +88,6 @@
     /// </summary>
     private void DeleteCurrentFach()
     {
-      // App.UnitOfWork.GetRepository<Fach>().RemoveTest(this.CurrentFach.Model);
       App.MainViewModel.Fächer.RemoveTest(this.CurrentFach);
       this.CurrentFach = null;
     }

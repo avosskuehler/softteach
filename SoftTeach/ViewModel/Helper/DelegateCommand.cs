@@ -15,11 +15,8 @@
 
     public DelegateCommand(Action<T> execute, Predicate<T> canExecute)
     {
-      if (canExecute == null) throw new ArgumentNullException("canExecute");
-      if (execute == null) throw new ArgumentNullException("execute");
-
-      _execute = execute;
-      _canExecute = canExecute;
+      _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+      _canExecute = canExecute ?? throw new ArgumentNullException(nameof(canExecute));
     }
 
     public void Execute(object parameter)

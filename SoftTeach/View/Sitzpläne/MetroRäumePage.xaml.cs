@@ -12,6 +12,7 @@
     {
       // Lädt die Räume, falls noch nicht geschehen
       var räume = App.MainViewModel.RaumWorkspace;
+      this.DataContext = App.MainViewModel.SitzplanWorkspace;
       this.InitializeComponent();
     }
   }

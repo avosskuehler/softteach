@@ -20,8 +20,6 @@ namespace SoftTeach.View.Noten
   using System;
   using System.Windows;
 
-  using SoftTeach.Model;
-
   /// <summary>
   /// Ein Dialog um nicht gemachte Hausaufgaben einzutragen.
   /// </summary>

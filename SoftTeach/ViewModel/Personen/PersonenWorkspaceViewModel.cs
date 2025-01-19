@@ -1,15 +1,11 @@
 ﻿namespace SoftTeach.ViewModel.Personen
 {
   using System.ComponentModel;
-  using System.Windows;
   using System.Windows.Data;
-  using System.Windows.Input;
 
   using Helper;
 
-  using Model;
-
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
 
   /// <summary>
   /// ViewModel for managing Personen

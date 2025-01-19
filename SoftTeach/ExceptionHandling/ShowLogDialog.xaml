@@ -3,8 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
         xmlns:resources="clr-namespace:SoftTeach.Resources"
         xmlns:Setting="clr-namespace:SoftTeach.Setting" xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
-        Title="Einstellungen ..." MinHeight="200" Height="328" Width="433" WindowStyle="SingleBorderWindow"
-        Icon="/SoftTeach;component/Images/Settings.ico">
+        Title="Einstellungen ..." MinHeight="200" Height="328" Width="433" WindowStyle="SingleBorderWindow">
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="80"/>

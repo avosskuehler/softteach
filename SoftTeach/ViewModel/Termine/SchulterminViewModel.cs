@@ -4,14 +4,15 @@
   using System.Collections.Generic;
   using System.Collections.ObjectModel;
   using System.Collections.Specialized;
+  using System.ComponentModel;
   using System.Linq;
-  using System.Windows.Input;
-
-  using SoftTeach.Model.EntityFramework;
+  using System.Windows.Data;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Termine;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Helper;
+  using SoftTeach.ViewModel.Personen;
 
   /// <summary>
   /// ViewModel of an individual schultermin
@@ -19,14 +20,14 @@
   public class SchulterminViewModel : TerminViewModel
   {
     /// <summary>
-    /// The jahrtyp currently assigned to this termin
+    /// The schuljahr currently assigned to this termin
     /// </summary>
-    private JahrtypViewModel jahrtyp;
+    private SchuljahrViewModel schuljahr;
 
     /// <summary>
-    /// The betroffeneKlasse currently selected
+    /// The betroffeneLerngruppe currently selected
     /// </summary>
-    private BetroffeneKlasseViewModel currentBetroffeneKlasse;
+    private BetroffeneLerngruppeViewModel currentBetroffeneLerngruppe;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="SchulterminViewModel"/> Klasse. 
@@ -37,32 +38,34 @@
     public SchulterminViewModel(Schultermin schultermin)
       : base(schultermin)
     {
-      // Build data structures for betroffeneKlassen
-      this.BetroffeneKlassen = new ObservableCollection<BetroffeneKlasseViewModel>();
-      foreach (var betroffeneKlasse in schultermin.BetroffeneKlassen)
+      this.AddBetroffeneLerngruppeCommand = new DelegateCommand(this.AddBetroffeneLerngruppe);
+      this.DeleteBetroffeneLerngruppeCommand = new DelegateCommand(this.DeleteCurrentBetroffeneLerngruppe, () => this.CurrentBetroffeneLerngruppe != null);
+
+      // Build data structures for betroffeneLerngruppen
+      this.BetroffeneLerngruppen = new ObservableCollection<BetroffeneLerngruppeViewModel>();
+      foreach (var betroffeneLerngruppe in schultermin.BetroffeneLerngruppen)
       {
-        var vm = new BetroffeneKlasseViewModel(betroffeneKlasse);
-        App.MainViewModel.BetroffeneKlassen.Add(vm);
-        this.BetroffeneKlassen.Add(vm);
+        var vm = new BetroffeneLerngruppeViewModel(betroffeneLerngruppe);
+        //App.MainViewModel.BetroffeneKlassen.Add(vm);
+        this.BetroffeneLerngruppen.Add(vm);
       }
 
-      this.BetroffeneKlassen.CollectionChanged += this.BetroffeneKlassenCollectionChanged;
+
+      this.BetroffeneLerngruppen.CollectionChanged += this.BetroffeneLerngruppenCollectionChanged;
 
       this.PropertyChanging += this.TerminViewModelPropertyChanging;
 
-      this.AddBetroffeneKlasseCommand = new DelegateCommand(this.AddBetroffeneKlasse);
-      this.DeleteBetroffeneKlasseCommand = new DelegateCommand(this.DeleteCurrentBetroffeneKlasse, () => this.CurrentBetroffeneKlasse != null);
     }
 
     /// <summary>
     /// Holt den Befehl zur adding a new Email address
     /// </summary>
-    public DelegateCommand AddBetroffeneKlasseCommand { get; private set; }
+    public DelegateCommand AddBetroffeneLerngruppeCommand { get; private set; }
 
     /// <summary>
     /// Holt den Befehl zur deleting the current employee
     /// </summary>
-    public DelegateCommand DeleteBetroffeneKlasseCommand { get; private set; }
+    public DelegateCommand DeleteBetroffeneLerngruppeCommand { get; private set; }
 
     ///// <summary>
     ///// Holt den underlying Termin this ViewModel is based on
@@ -70,20 +73,20 @@
     //public override Schultermin Model { get; private set; }
 
     /// <summary>
-    /// Holt oder setzt die currently selected betroffeneKlasse
+    /// Holt oder setzt die currently selected betroffeneLerngruppe
     /// </summary>
-    public BetroffeneKlasseViewModel CurrentBetroffeneKlasse
+    public BetroffeneLerngruppeViewModel CurrentBetroffeneLerngruppe
     {
       get
       {
-        return this.currentBetroffeneKlasse;
+        return this.currentBetroffeneLerngruppe;
       }
 
       set
       {
-        this.currentBetroffeneKlasse = value;
-        this.RaisePropertyChanged("CurrentBetroffeneKlasse");
-        this.DeleteBetroffeneKlasseCommand.RaiseCanExecuteChanged();
+        this.currentBetroffeneLerngruppe = value;
+        this.RaisePropertyChanged("CurrentBetroffeneLerngruppe");
+        this.DeleteBetroffeneLerngruppeCommand.RaiseCanExecuteChanged();
       }
     }
 
@@ -100,8 +103,9 @@
       set
       {
         if (value == ((Schultermin)this.Model).Datum) return;
-        this.UndoablePropertyChanging(this, "SchulterminDatum", ((Schultermin)this.Model).Datum, value);
+        this.UndoablePropertyChanging(this, nameof(SchulterminDatum), ((Schultermin)this.Model).Datum, value);
         ((Schultermin)this.Model).Datum = value;
+        SchulterminWorkspaceViewModel.ZuletztVerwendetesDatum = value;
         this.RaisePropertyChanged("SchulterminDatum");
       }
     }
@@ -109,38 +113,38 @@
     /// <summary>
     /// Holt oder setzt die halbjahr currently assigned to this Termin
     /// </summary>
-    public JahrtypViewModel SchulterminJahrtyp
+    public SchuljahrViewModel SchulterminSchuljahr
     {
       get
       {
         // We need to reflect any changes made in the model so we check the current value before returning
-        if (((Schultermin)this.Model).Jahrtyp == null)
+        if (((Schultermin)this.Model).Schuljahr == null)
         {
           return null;
         }
 
-        if (this.jahrtyp == null || this.jahrtyp.Model != ((Schultermin)this.Model).Jahrtyp)
+        if (this.schuljahr == null || this.schuljahr.Model != ((Schultermin)this.Model).Schuljahr)
         {
-          this.jahrtyp = App.MainViewModel.Jahrtypen.SingleOrDefault(d => d.Model == ((Schultermin)this.Model).Jahrtyp);
+          this.schuljahr = App.MainViewModel.Schuljahre.SingleOrDefault(d => d.Model == ((Schultermin)this.Model).Schuljahr);
         }
 
-        return this.jahrtyp;
+        return this.schuljahr;
       }
 
       set
       {
-        if (value.JahrtypBezeichnung == this.jahrtyp.JahrtypBezeichnung) return;
-        this.UndoablePropertyChanging(this, "SchulterminJahrtyp", this.jahrtyp, value);
-        this.jahrtyp = value;
-        ((Schultermin)this.Model).Jahrtyp = value.Model;
-        this.RaisePropertyChanged("SchulterminJahrtyp");
+        if (value.SchuljahrBezeichnung == this.schuljahr.SchuljahrBezeichnung) return;
+        this.UndoablePropertyChanging(this, nameof(SchulterminSchuljahr), this.schuljahr, value);
+        this.schuljahr = value;
+        ((Schultermin)this.Model).Schuljahr = value.Model;
+        this.RaisePropertyChanged("SchulterminSchuljahr");
       }
     }
 
     /// <summary>
-    /// Holt den betroffeneKlassen on file for this termin
+    /// Holt den betroffeneLerngruppen on file for this termin
     /// </summary>
-    public ObservableCollection<BetroffeneKlasseViewModel> BetroffeneKlassen { get; private set; }
+    public ObservableCollection<BetroffeneLerngruppeViewModel> BetroffeneLerngruppen { get; private set; }
 
     /// <summary>
     /// Gibt eine lesbare Repräsentation des ViewModels
@@ -159,7 +163,7 @@
       var undo = false;
       using (new UndoBatch(App.MainViewModel, string.Format("Lerngruppentermin {0} editieren", this), false))
       {
-        var dlg = new EditSchulterminDialog { DataContext = this };
+        var dlg = new SchulterminDialog { DataContext = this };
         undo = !dlg.ShowDialog().GetValueOrDefault(false);
       }
 
@@ -174,76 +178,85 @@
     /// </summary>
     protected override void DeleteTermin()
     {
-      SchulterminWorkspaceViewModel.AddToModifiedList(this, SchulterminUpdateType.Removed, null);
-      var result = App.MainViewModel.Schultermine.RemoveTest(this);
+      using (new UndoBatch(App.MainViewModel, string.Format("Lösche Termin"), false))
+      {
+        SchulterminWorkspaceViewModel.AddToModifiedList(this, SchulterminUpdateType.Removed, null);
+        //App.UnitOfWork.Context.Termine.Remove(this.Model);
+        var result = App.MainViewModel.Schultermine.RemoveTest(this);
+      }
     }
 
     /// <summary>
-    /// Handles addition a new betroffeneKlasse to this termin
+    /// Handles addition a new betroffeneLerngruppe to this termin
     /// </summary>
-    private void AddBetroffeneKlasse()
+    private void AddBetroffeneLerngruppe()
     {
-      var dlg = new BetroffeneKlassenDialog();
+      var dlg = new BetroffeneKlassenDialog(this.schuljahr);
 
-      foreach (var betroffeneKlasse in this.BetroffeneKlassen)
+      foreach (var bl in this.BetroffeneLerngruppen)
       {
-        dlg.Klassen.Add(betroffeneKlasse.BetroffeneKlasseKlasse);
+        var lg = dlg.Lerngruppen.Where(o => o.LerngruppeSchuljahr.SchuljahrJahr == this.SchulterminSchuljahr.SchuljahrJahr).FirstOrDefault(o => o.Model == bl.BetroffeneLerngruppeLerngruppe.Model);
+        if (lg != null)
+        {
+          lg.IstBetroffen = true;
+        }
       }
 
       if (dlg.ShowDialog().GetValueOrDefault(false))
       {
         using (new UndoBatch(App.MainViewModel, string.Format("Betroffene Klassen des Termins {0} verändert.", this), false))
         {
-          // Remove deselected Klassen
-          var klassenToRemove = new List<BetroffeneKlasseViewModel>();
-          foreach (var bereitsGewählteKlasse in this.BetroffeneKlassen)
+          // Remove deselected Lerngruppen
+          var lerngruppenToRemove = new List<BetroffeneLerngruppeViewModel>();
+          foreach (var bereitsGewählteKlasse in this.BetroffeneLerngruppen)
           {
-            var found =
-              dlg.Klassen.Any(
-                o => bereitsGewählteKlasse.BetroffeneKlasseKlasse.KlasseBezeichnung == o.KlasseBezeichnung);
+            var found = dlg.Lerngruppen.Where(o => o.LerngruppeSchuljahr.SchuljahrJahr == this.SchulterminSchuljahr.SchuljahrJahr).Any(o => bereitsGewählteKlasse.BetroffeneLerngruppeLerngruppe.Model == o.Model && o.IstBetroffen);
 
             if (!found)
             {
               // Delete
-              klassenToRemove.Add(bereitsGewählteKlasse);
+              lerngruppenToRemove.Add(bereitsGewählteKlasse);
             }
           }
 
-          foreach (var betroffeneKlasseViewModel in klassenToRemove)
+          foreach (var betroffeneLerngruppeViewModel in lerngruppenToRemove)
           {
-            this.BetroffeneKlassen.RemoveTest(betroffeneKlasseViewModel);
+            this.BetroffeneLerngruppen.RemoveTest(betroffeneLerngruppeViewModel);
           }
+        }
 
-          foreach (var klasse in dlg.Klassen)
+        foreach (var lerngruppe in dlg.Lerngruppen.Where(o => o.LerngruppeSchuljahr.SchuljahrJahr == this.SchulterminSchuljahr.SchuljahrJahr && o.IstBetroffen))
+        {
+          // Check for already existing klassen
+          var skip = this.BetroffeneLerngruppen.Any(o => o.BetroffeneLerngruppeLerngruppe.Model == lerngruppe.Model);
+
+          if (!skip)
           {
-            // Check for already existing klassen
-            var skip =
-              this.BetroffeneKlassen.Any(o => o.BetroffeneKlasseKlasse.KlasseBezeichnung == klasse.KlasseBezeichnung);
-
-            if (!skip)
+            var betroffeneLerngruppe = new BetroffeneLerngruppe
             {
-              var betroffeneKlasse = new BetroffeneKlasse();
-              betroffeneKlasse.Klasse = klasse.Model;
-              betroffeneKlasse.Termin = this.Model as Schultermin;
+              Lerngruppe = lerngruppe.Model,
+              Schultermin = this.Model as Schultermin
+            };
 
-              var vm = new BetroffeneKlasseViewModel(betroffeneKlasse);
-              App.MainViewModel.BetroffeneKlassen.Add(vm);
-              this.BetroffeneKlassen.Add(vm);
-              this.CurrentBetroffeneKlasse = vm;
-            }
+            var vm = new BetroffeneLerngruppeViewModel(betroffeneLerngruppe);
+            //App.UnitOfWork.Context.BetroffeneKlassen.Add(betroffeneLerngruppe);
+            //App.MainViewModel.BetroffeneKlassen.Add(vm);
+            this.BetroffeneLerngruppen.Add(vm);
+            //this.CurrentBetroffeneLerngruppe = vm;
           }
         }
       }
     }
 
     /// <summary>
-    /// Handles deletion of the current betroffeneKlasse
+    /// Handles deletion of the current betroffeneLerngruppe
     /// </summary>
-    private void DeleteCurrentBetroffeneKlasse()
+    private void DeleteCurrentBetroffeneLerngruppe()
     {
-      App.MainViewModel.BetroffeneKlassen.RemoveTest(this.CurrentBetroffeneKlasse);
-      this.BetroffeneKlassen.RemoveTest(this.CurrentBetroffeneKlasse);
-      this.CurrentBetroffeneKlasse = null;
+      //App.UnitOfWork.Context.BetroffeneKlassen.Remove(this.CurrentBetroffeneKlasse.Model);
+      //App.MainViewModel.BetroffeneKlassen.RemoveTest(this.CurrentBetroffeneLerngruppe);
+      this.BetroffeneLerngruppen.RemoveTest(this.CurrentBetroffeneLerngruppe);
+      this.CurrentBetroffeneLerngruppe = null;
     }
 
     /// <summary>
@@ -252,10 +265,10 @@
     /// </summary>
     /// <param name="sender">Die auslösende Collection</param>
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void BetroffeneKlassenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    private void BetroffeneLerngruppenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
       SchulterminWorkspaceViewModel.AddToModifiedList(this, SchulterminUpdateType.BetroffeneKlasseChanged, e);
-      this.UndoableCollectionChanged(this, "BetroffeneKlassen", this.BetroffeneKlassen, e, "Änderung der BetroffeneKlassen");
+      UndoableCollectionChanged(this, nameof(BetroffeneLerngruppen), this.BetroffeneLerngruppen, e, true, "Änderung der BetroffeneLerngruppen");
     }
 
     /// <summary>
@@ -263,7 +276,7 @@
     /// </summary>
     /// <param name="sender"> The sender. </param> 
     /// <param name="e"> The e. </param>
-    private void TerminViewModelPropertyChanging(object sender, PropertyChangingEventArgs e)
+    private void TerminViewModelPropertyChanging(object sender, Helper.PropertyChangingEventArgs e)
     {
       switch (e.PropertyName)
       {
@@ -278,5 +291,7 @@
           break;
       }
     }
+
+
   }
 }

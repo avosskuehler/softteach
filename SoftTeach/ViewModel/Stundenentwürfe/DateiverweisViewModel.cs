@@ -3,11 +3,13 @@
   using System;
   using System.IO;
   using System.Linq;
+  using System.Windows;
   using System.Windows.Media;
-
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.ExceptionHandling;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Helper;
+  using SoftTeach.ViewModel.Termine;
 
   /// <summary>
   /// ViewModel of an individual dateiverweis
@@ -27,12 +29,7 @@
     /// </param>
     public DateiverweisViewModel(Dateiverweis dateiverweis)
     {
-      if (dateiverweis == null)
-      {
-        throw new ArgumentNullException("dateiverweis");
-      }
-
-      this.Model = dateiverweis;
+      this.Model = dateiverweis ?? throw new ArgumentNullException(nameof(dateiverweis));
       this.OpenDateiCommand = new DelegateCommand(this.OpenDatei);
     }
 
@@ -59,7 +56,7 @@
       set
       {
         if (value == this.Model.Dateiname) return;
-        this.UndoablePropertyChanging(this, "DateiverweisDateiname", this.Model.Dateiname, value);
+        this.UndoablePropertyChanging(this, nameof(DateiverweisDateiname), this.Model.Dateiname, value);
         this.Model.Dateiname = value;
         this.RaisePropertyChanged("DateiverweisDateiname");
       }
@@ -78,44 +75,54 @@
     }
 
     /// <summary>
+    /// Holt den Dateiname of this dateiverweis without path.
+    /// </summary>
+    [DependsUpon("DateiverweisDateiname")]
+    public string DateiverweisPfad
+    {
+      get
+      {
+        return Path.GetDirectoryName(this.Model.Dateiname);
+      }
+    }
+
+    /// <summary>
     /// Holt den Bild for this dateiverweis
     /// </summary>
     [DependsUpon("DateiverweisDateityp")]
-    public ImageSource DateiverweisBild
+    public Style DateiverweisBild
     {
       get
       {
         switch (this.DateiverweisDateityp.DateitypKürzel)
         {
           case "OH":
-            return App.GetImageSource("Folie32.png");
+            return App.GetIconStyle("Projektor32");
           case "SP":
-            return App.GetImageSource("Spiel32.png");
+            return App.GetIconStyle("Spiel32");
           case "AB":
-            return App.GetImageSource("Arbeitsblatt32.png");
+            return App.GetIconStyle("Arbeitsblatt32");
           case "KL":
-            return App.GetImageSource("Klausur32.png");
           case "KA":
-            return App.GetImageSource("Klassenarbeit32.png");
           case "TE":
-            return App.GetImageSource("Test32.png");
+            return App.GetIconStyle("Klausur32");
           case "TÜ":
-            return App.GetImageSource("TäglicheÜbungen32.png");
+            return App.GetIconStyle("TäglicheÜbungen32");
           case "TA":
-            return App.GetImageSource("Tandembogen32.png");
+            return App.GetIconStyle("Tandembogen32");
           case "PR":
-            return App.GetImageSource("Projekt32.png");
+            return App.GetIconStyle("Projekt32");
           case "PP":
-            return App.GetImageSource("Präsentation32.png");
+            return App.GetIconStyle("Präsentation32");
           case "WP":
-            return App.GetImageSource("Wochenplan32.png");
+            return App.GetIconStyle("Wochenplan32");
           case "HA":
-            return App.GetImageSource("Hausaufgabe32.png");
+            return App.GetIconStyle("Hausaufgabe32");
           case "UE":
-            return App.GetImageSource("Unterrichtsentwurf32.png");
+            return App.GetIconStyle("Unterrichtsentwurf32");
         }
 
-        return App.GetImageSource("Unbekannt32.png");
+        return App.GetIconStyle("Unbekannt32");
       }
     }
 
@@ -123,46 +130,46 @@
     /// Holt den Overlay for this dateiverweis
     /// </summary>
     [DependsUpon("DateiverweisDateityp")]
-    public ImageSource DateiverweisBildOverlay
+    public Style DateiverweisBildOverlay
     {
       get
       {
         switch (Path.GetExtension(this.DateiverweisDateinameOhnePfad))
         {
           case ".pdf":
-            return App.GetImageSource("AdobeOverlay32.png");
+            return App.GetIconStyle("AdobeOverlay32");
           case ".txt":
           case ".doc":
           case ".docx":
-            return App.GetImageSource("WordOverlay32.png");
+            return App.GetIconStyle("WordOverlay32");
           case ".ppt":
           case ".pptx":
-            return App.GetImageSource("PowerpointOverlay32.png");
+            return App.GetIconStyle("PowerpointOverlay32");
           case ".xls":
           case ".xlsx":
-            return App.GetImageSource("ExcelOverlay32.png");
+            return App.GetIconStyle("ExcelOverlay32");
           case ".odt":
-            return App.GetImageSource("OpenTextOverlay32.png");
+            return App.GetIconStyle("OpenTextOverlay32");
           case ".odp":
-            return App.GetImageSource("OpenPräsentationOverlay32.png");
+            return App.GetIconStyle("OpenPräsentationOverlay32");
           case ".ggb":
-            return App.GetImageSource("GeogebraOverlay32.png");
+            return App.GetIconStyle("GeogebraOverlay32");
           case ".psd":
-            return App.GetImageSource("PhotoshopOverlay32.png");
+            return App.GetIconStyle("PhotoshopOverlay32");
           case ".png":
           case ".jpg":
           case ".bmp":
-            return App.GetImageSource("ImageOverlay32.png");
+            return App.GetIconStyle("ImageOverlay32");
           case ".avi":
           case ".mp4":
           case ".wmv":
-            return App.GetImageSource("VideoOverlay32.png");
+            return App.GetIconStyle("VideoOverlay32");
           case ".html":
           case ".htm":
-            return App.GetImageSource("InternetOverlay32.png");
+            return App.GetIconStyle("InternetOverlay32");
         }
 
-        return App.GetImageSource("UnbekanntOverlay32.png");
+        return App.GetIconStyle("UnbekanntOverlay32");
       }
     }
 
@@ -190,7 +197,7 @@
       set
       {
         if (value.DateitypBezeichnung == this.dateityp.DateitypBezeichnung) return;
-        this.UndoablePropertyChanging(this, "DateiverweisDateityp", this.dateityp, value);
+        this.UndoablePropertyChanging(this, nameof(DateiverweisDateityp), this.dateityp, value);
         this.dateityp = value;
         this.Model.Dateityp = value.Model;
         this.RaisePropertyChanged("DateiverweisDateityp");
@@ -214,9 +221,11 @@
       // Wenn die Datei verschoben wurde, aber nicht zu finden ist, suche unter Standardverzeichnis
       if (!File.Exists(this.DateiverweisDateiname))
       {
-        var resolvedPfad = StundenentwurfViewModel.GetDateiverweispfad(this.Model.Stundenentwurf);
-        var newLocationTest = Path.Combine(resolvedPfad, this.DateiverweisDateinameOhnePfad);
-        if (File.Exists(newLocationTest)) this.DateiverweisDateiname = newLocationTest;
+        InformationDialog.Show("Datei nicht gefunden", string.Format("Die Datei wurde nicht am angegebenen Ort {0} gefunden", this.DateiverweisDateiname), false);
+        return;
+        //var resolvedPfad = StundeViewModel.GetDateiverweispfad(this.Model.Stunde);
+        //var newLocationTest = Path.Combine(resolvedPfad, this.DateiverweisDateinameOhnePfad);
+        //if (File.Exists(newLocationTest)) this.DateiverweisDateiname = newLocationTest;
       }
 
       App.OpenFile(this.DateiverweisDateiname);

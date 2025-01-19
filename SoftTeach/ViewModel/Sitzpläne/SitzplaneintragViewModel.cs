@@ -5,11 +5,9 @@
   using System.Windows;
   using System.Windows.Controls;
   using System.Windows.Media;
-  using System.Windows.Shapes;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Helper;
-  using SoftTeach.ViewModel.Noten;
 
   /// <summary>
   /// ViewModel of an individual sitzplaneintrag
@@ -31,10 +29,10 @@
     /// </summary>
     private SitzplatzViewModel sitzplatz;
 
-    /// <summary>
-    /// Der Schülereintrag der zu diesem Sitzplaneintrag gehört
-    /// </summary>
-    private SchülereintragViewModel schülereintrag;
+    ///// <summary>
+    ///// Der Schülereintrag der zu diesem Sitzplaneintrag gehört
+    ///// </summary>
+    //private Schülereintrag schülereintrag;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="SitzplaneintragViewModel"/> Klasse. 
@@ -44,12 +42,7 @@
     /// </param>
     public SitzplaneintragViewModel(Sitzplaneintrag sitzplaneintrag)
     {
-      if (sitzplaneintrag == null)
-      {
-        throw new ArgumentNullException("sitzplaneintrag");
-      }
-
-      this.Model = sitzplaneintrag;
+      this.Model = sitzplaneintrag ?? throw new ArgumentNullException(nameof(sitzplaneintrag));
 
       this.CreateShape();
     }
@@ -88,7 +81,7 @@
           if (value.Model.Id == this.sitzplan.Model.Id) return;
         }
 
-        this.UndoablePropertyChanging(this, "SitzplaneintragSitzplan", this.sitzplan, value);
+        this.UndoablePropertyChanging(this, nameof(SitzplaneintragSitzplan), this.sitzplan, value);
         this.sitzplan = value;
         this.Model.Sitzplan = value.Model;
         this.RaisePropertyChanged("SitzplaneintragSitzplan");
@@ -96,36 +89,69 @@
     }
 
     /// <summary>
-    /// Holt oder setzt den Schülereintrag für den Schülereintragplan
+    /// Holt den Namen für den Ausdruck des Sitzplans, das ist in der Regel
+    /// der Vorname, bei mehreren Schülern mit gleichem Vornamen wird der erste
+    /// Buchstabe des Nachnamens ergänzt.
     /// </summary>
-    public SchülereintragViewModel SitzplaneintragSchülereintrag
+    [DependsUpon("SitzplaneintragSchülereintrag")]
+    public string SitzplanSchülername
     {
       get
       {
-        // We need to reflect any changes made in the model so we check the current value before returning
         if (this.Model.Schülereintrag == null)
         {
-          return null;
+          return string.Empty;
         }
 
-        if (this.schülereintrag == null || this.schülereintrag.Model != this.Model.Schülereintrag)
+        if (this.SitzplaneintragSitzplan.UsedSchülereinträge == null)
         {
-          this.schülereintrag = App.MainViewModel.Schülereinträge.SingleOrDefault(d => d.Model == this.Model.Schülereintrag);
+          return this.Model.Schülereintrag.Person.Vorname;
         }
 
-        return this.schülereintrag;
+        var anzahlSchülerMitGleichemVornamen = this.SitzplaneintragSitzplan.UsedSchülereinträge.Count(o => o.Person.Vorname == this.Model.Schülereintrag.Person.Vorname);
+        if (anzahlSchülerMitGleichemVornamen > 1)
+        {
+          return string.Format("{0} {1}.", this.Model.Schülereintrag.Person.Vorname, this.Model.Schülereintrag.Person.Nachname.First());
+        }
+
+        return this.Model.Schülereintrag.Person.Vorname;
+      }
+    }
+
+    /// <summary>
+    /// Holt oder setzt den Schülereintrag für den Schülereintragplan
+    /// </summary>
+    public Schülereintrag SitzplaneintragSchülereintrag
+    {
+      get
+      {
+        //// We need to reflect any changes made in the model so we check the current value before returning
+        //if (this.Model.Schülereintrag == null)
+        //{
+        //  return null;
+        //}
+
+        //if (this.schülereintrag == null || this.schülereintrag.Model != this.Model.Schülereintrag)
+        //{
+        //  this.schülereintrag = new SchülereintragViewModel(this.Model.Schülereintrag);
+        //}
+
+        //return this.schülereintrag;
+        return this.Model.Schülereintrag;
       }
 
       set
       {
-        if (this.schülereintrag != null && value != null)
-        {
-          if (value.SchülereintragÜberschrift == this.schülereintrag.SchülereintragÜberschrift) return;
-        }
+        //if (this.schülereintrag != null && value != null)
+        //{
+        //  if (value.SchülereintragÜberschrift == this.schülereintrag.SchülereintragÜberschrift) return;
+        //}
 
-        this.UndoablePropertyChanging(this, "SitzplaneintragSchülereintrag", this.schülereintrag, value);
-        this.schülereintrag = value;
-        this.Model.Schülereintrag = value != null ? value.Model : null;
+        //if (this.schülereintrag == value) return;
+
+        //this.UndoablePropertyChanging(this, "SitzplaneintragSchülereintrag", this.schülereintrag, value);
+        //this.schülereintrag = value;
+        this.Model.Schülereintrag = value != null ? value : null;
         this.RaisePropertyChanged("SitzplaneintragSchülereintrag");
       }
     }
@@ -159,7 +185,7 @@
           if (value.Bounds == this.sitzplatz.Bounds) return;
         }
 
-        this.UndoablePropertyChanging(this, "SitzplaneintragSitzplatz", this.sitzplatz, value);
+        this.UndoablePropertyChanging(this, nameof(SitzplaneintragSitzplatz), this.sitzplatz, value);
         this.sitzplatz = value;
         this.Model.Sitzplatz = value.Model;
         this.RaisePropertyChanged("SitzplaneintragSitzplatz");
@@ -229,7 +255,11 @@
         var shapeLabel = new Label();
         if (this.SitzplaneintragSchülereintrag != null)
         {
-          shapeLabel.Content = this.SitzplaneintragSchülereintrag.SchülereintragPerson.PersonVorname;
+          shapeLabel.Content = this.SitzplaneintragSchülereintrag.Person.Vorname;
+        }
+        else
+        {
+          shapeLabel.Content = "Platz";
         }
 
         this.shape.Child = shapeLabel;

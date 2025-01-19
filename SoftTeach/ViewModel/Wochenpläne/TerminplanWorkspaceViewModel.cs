@@ -3,18 +3,17 @@
   using System;
   using System.Collections.Generic;
   using System.Collections.ObjectModel;
-  using System.Collections.Specialized;
-  using System.Globalization;
   using System.Linq;
   using System.Windows.Controls;
 
   using SoftTeach.ExceptionHandling;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Termine;
   using SoftTeach.View.Wochenpläne;
   using SoftTeach.ViewModel.Helper;
   using SoftTeach.ViewModel.Jahrespläne;
+  using SoftTeach.ViewModel.Personen;
   using SoftTeach.ViewModel.Termine;
 
   /// <summary>
@@ -129,7 +128,7 @@
     /// <summary>
     /// Holt die Bezeichnung der ersten Unterrichtsstunde.
     /// </summary>
-    public string Wochenplan1Bezeichnung
+    public static string Wochenplan1Bezeichnung
     {
       get { return App.MainViewModel.Unterrichtsstunden[0].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
@@ -137,7 +136,7 @@
     /// <summary>
     /// Holt den Zeitraum der ersten Unterrichtsstunde.
     /// </summary>
-    public string Wochenplan1Zeit
+    public static string Wochenplan1Zeit
     {
       get { return App.MainViewModel.Unterrichtsstunden[0].UnterrichtsstundeZeitraum; }
     }
@@ -145,7 +144,7 @@
     /// <summary>
     /// Holt die Bezeichnung der zweiten Unterrichtsstunde.
     /// </summary>
-    public string Wochenplan2Bezeichnung
+    public static string Wochenplan2Bezeichnung
     {
       get { return App.MainViewModel.Unterrichtsstunden[1].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
@@ -153,7 +152,7 @@
     /// <summary>
     /// Holt den Zeitraum der zweiten Unterrichtsstunde.
     /// </summary>
-    public string Wochenplan2Zeit
+    public static string Wochenplan2Zeit
     {
       get { return App.MainViewModel.Unterrichtsstunden[1].UnterrichtsstundeZeitraum; }
     }
@@ -161,7 +160,7 @@
     /// <summary>
     /// Holt die Bezeichnung der dritten Unterrichtsstunde.
     /// </summary>
-    public string Wochenplan3Bezeichnung
+    public static string Wochenplan3Bezeichnung
     {
       get { return App.MainViewModel.Unterrichtsstunden[2].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
@@ -169,7 +168,7 @@
     /// <summary>
     /// Holt den Zeitraum der dritten Unterrichtsstunde.
     /// </summary>
-    public string Wochenplan3Zeit
+    public static string Wochenplan3Zeit
     {
       get { return App.MainViewModel.Unterrichtsstunden[2].UnterrichtsstundeZeitraum; }
     }
@@ -177,7 +176,7 @@
     /// <summary>
     /// Holt die Bezeichnung der vierten Unterrichtsstunde.
     /// </summary>
-    public string Wochenplan4Bezeichnung
+    public static string Wochenplan4Bezeichnung
     {
       get { return App.MainViewModel.Unterrichtsstunden[3].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
@@ -185,7 +184,7 @@
     /// <summary>
     /// Holt den Zeitraum der vierten Unterrichtsstunde.
     /// </summary>
-    public string Wochenplan4Zeit
+    public static string Wochenplan4Zeit
     {
       get { return App.MainViewModel.Unterrichtsstunden[3].UnterrichtsstundeZeitraum; }
     }
@@ -193,7 +192,7 @@
     /// <summary>
     /// Holt die Bezeichnung der fünften Unterrichtsstunde.
     /// </summary>
-    public string Wochenplan5Bezeichnung
+    public static string Wochenplan5Bezeichnung
     {
       get { return App.MainViewModel.Unterrichtsstunden[4].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
@@ -201,7 +200,7 @@
     /// <summary>
     /// Holt den Zeitraum der fünften Unterrichtsstunde.
     /// </summary>
-    public string Wochenplan5Zeit
+    public static string Wochenplan5Zeit
     {
       get { return App.MainViewModel.Unterrichtsstunden[4].UnterrichtsstundeZeitraum; }
     }
@@ -209,7 +208,7 @@
     /// <summary>
     /// Holt die Bezeichnung der sechsten Unterrichtsstunde.
     /// </summary>
-    public string Wochenplan6Bezeichnung
+    public static string Wochenplan6Bezeichnung
     {
       get { return App.MainViewModel.Unterrichtsstunden[5].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
@@ -217,7 +216,7 @@
     /// <summary>
     /// Holt den Zeitraum der sechsten Unterrichtsstunde.
     /// </summary>
-    public string Wochenplan6Zeit
+    public static string Wochenplan6Zeit
     {
       get { return App.MainViewModel.Unterrichtsstunden[5].UnterrichtsstundeZeitraum; }
     }
@@ -225,7 +224,7 @@
     /// <summary>
     /// Holt die Bezeichnung der siebten Unterrichtsstunde.
     /// </summary>
-    public string Wochenplan7Bezeichnung
+    public static string Wochenplan7Bezeichnung
     {
       get { return App.MainViewModel.Unterrichtsstunden[6].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
@@ -233,7 +232,7 @@
     /// <summary>
     /// Holt den Zeitraum der siebten Unterrichtsstunde.
     /// </summary>
-    public string Wochenplan7Zeit
+    public static string Wochenplan7Zeit
     {
       get { return App.MainViewModel.Unterrichtsstunden[6].UnterrichtsstundeZeitraum; }
     }
@@ -241,7 +240,7 @@
     /// <summary>
     /// Holt die Bezeichnung der achten Unterrichtsstunde.
     /// </summary>
-    public string Wochenplan8Bezeichnung
+    public static string Wochenplan8Bezeichnung
     {
       get { return App.MainViewModel.Unterrichtsstunden[7].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
@@ -249,23 +248,23 @@
     /// <summary>
     /// Holt den Zeitraum der achten Unterrichtsstunde.
     /// </summary>
-    public string Wochenplan8Zeit
+    public static string Wochenplan8Zeit
     {
       get { return App.MainViewModel.Unterrichtsstunden[7].UnterrichtsstundeZeitraum; }
     }
 
     /// <summary>
-    /// Holt die Bezeichnung der neunten Unterrichtsstunde.
+    /// Holt die Bezeichnung der nten Unterrichtsstunde.
     /// </summary>
-    public string Wochenplan9Bezeichnung
+    public static string Wochenplan9Bezeichnung
     {
       get { return App.MainViewModel.Unterrichtsstunden[8].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
 
     /// <summary>
-    /// Holt den Zeitraum der neunten Unterrichtsstunde.
+    /// Holt den Zeitraum der nten Unterrichtsstunde.
     /// </summary>
-    public string Wochenplan9Zeit
+    public static string Wochenplan9Zeit
     {
       get { return App.MainViewModel.Unterrichtsstunden[8].UnterrichtsstundeZeitraum; }
     }
@@ -273,7 +272,7 @@
     /// <summary>
     /// Holt die Bezeichnung der zehnten Unterrichtsstunde.
     /// </summary>
-    public string Wochenplan10Bezeichnung
+    public static string Wochenplan10Bezeichnung
     {
       get { return App.MainViewModel.Unterrichtsstunden[9].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
@@ -281,7 +280,7 @@
     /// <summary>
     /// Holt den Zeitraum der zehnten Unterrichtsstunde.
     /// </summary>
-    public string Wochenplan10Zeit
+    public static string Wochenplan10Zeit
     {
       get { return App.MainViewModel.Unterrichtsstunden[9].UnterrichtsstundeZeitraum; }
     }
@@ -314,30 +313,41 @@
     /// </summary>
     private void AddVertretungsstunde()
     {
-      var tagesplanToAdd = this.GetTagesplanToAddInVertretungsjahresplan();
+      var vertretungsLerngruppe = this.GetVertretungsLerngruppe();
+      if (vertretungsLerngruppe == null)
+      {
+        return;
+      }
 
       var stunde = new Stunde();
-      stunde.ErsteUnterrichtsstunde =
-        App.MainViewModel.Unterrichtsstunden.First(
-          o => o.UnterrichtsstundeIndex == WochenplanSelection.Instance.ErsteUnterrichtsstundeIndex).Model;
-      stunde.LetzteUnterrichtsstunde =
-        App.MainViewModel.Unterrichtsstunden.First(
-          o => o.UnterrichtsstundeIndex == WochenplanSelection.Instance.LetzteUnterrichtsstundeIndex).Model;
-      stunde.Tagesplan = tagesplanToAdd.Model;
-      stunde.Termintyp = App.MainViewModel.Termintypen.First(
-          termintyp => termintyp.TermintypBezeichnung == "Vertretung").Model;
+      var ersteStunde = App.MainViewModel.Unterrichtsstunden.FirstOrDefault(o => o.UnterrichtsstundeIndex == WochenplanSelection.Instance.ErsteUnterrichtsstundeIndex).Model;
+      if (ersteStunde == null)
+      {
+        return;
+      }
+      stunde.ErsteUnterrichtsstunde = ersteStunde;
+      var letzteStunde = App.MainViewModel.Unterrichtsstunden.FirstOrDefault(o => o.UnterrichtsstundeIndex == WochenplanSelection.Instance.LetzteUnterrichtsstundeIndex).Model;
+      if (letzteStunde == null)
+      {
+        return;
+      }
+      stunde.LetzteUnterrichtsstunde = letzteStunde;
 
-      var vm = new StundeViewModel(tagesplanToAdd, stunde);
+      stunde.Lerngruppe = vertretungsLerngruppe.Model;
+      stunde.Termintyp = Termintyp.Vertretung;
+      stunde.Datum = this.wochenplanMontag.AddDays(WochenplanSelection.Instance.WochentagIndex - 1);
 
-      var stundeDlg = new AddStundeDialog(vm);
+      var vm = new StundeViewModel(stunde);
+
+      var stundeDlg = new EditStundeDialog(vm);
       var undo = false;
       using (new UndoBatch(App.MainViewModel, string.Format("Vertretungsstunde {0} angelegt.", vm), false))
       {
         if (!(undo = !stundeDlg.ShowDialog().GetValueOrDefault(false)))
         {
-          App.MainViewModel.Stunden.Add(vm);
-          tagesplanToAdd.Lerngruppentermine.Add(vm);
-          tagesplanToAdd.CurrentLerngruppentermin = vm;
+          //App.MainViewModel.Stunden.Add(vm);
+          //App.UnitOfWork.Context.Termine.Add(stunde);
+          vertretungsLerngruppe.Lerngruppentermine.Add(vm);
 
           var wochenplanEintrag = new TerminplanEintrag(this, vm);
           if (!this.Terminplaneinträge.Contains(wochenplanEintrag, new TerminplanEintragEqualityComparer()))
@@ -363,7 +373,7 @@
     /// </summary>
     private void AddBesprechung()
     {
-      this.AddSpecialLerngruppentermin("Besprechung");
+      this.AddSpecialLerngruppentermin(Termintyp.Besprechung);
     }
 
     /// <summary>
@@ -371,43 +381,50 @@
     /// </summary>
     private void AddSondertermin()
     {
-      this.AddSpecialLerngruppentermin("Sondertermin");
+      this.AddSpecialLerngruppentermin(Termintyp.Sondertermin);
     }
 
     /// <summary>
     /// Fügt einen Sondertermin oder eine Besprechung ein (Lerngruppentermine)
     /// </summary>
-    /// <param name="termintypBezeichnung">Die Bezeichnung des Termins.</param>
-    private void AddSpecialLerngruppentermin(string termintypBezeichnung)
+    /// <param name="termintyp">Die Bezeichnung des Termins.</param>
+    private void AddSpecialLerngruppentermin(Termintyp termintyp)
     {
-      var dlg = new AddSonderterminDialog();
-      dlg.TerminTermintyp = App.MainViewModel.Termintypen.First(o => o.TermintypBezeichnung == termintypBezeichnung);
+      var dlg = new AddSonderterminDialog
+      {
+        TerminTermintyp = termintyp
+      };
 
       bool undo;
       if (!(undo = !dlg.ShowDialog().GetValueOrDefault(false)))
       {
-        var tagesplanToAdd = this.GetTagesplanToAddInVertretungsjahresplan();
+        var vertretungslerngruppe = this.GetVertretungsLerngruppe();
+        if (vertretungslerngruppe == null)
+        {
+          return;
+        }
 
-        var lerngruppentermin = new Lerngruppentermin();
-        lerngruppentermin.Beschreibung = dlg.TerminBeschreibung;
-        lerngruppentermin.ErsteUnterrichtsstunde =
+        var lerngruppentermin = new Lerngruppentermin
+        {
+          Beschreibung = dlg.TerminBeschreibung,
+          ErsteUnterrichtsstunde =
           App.MainViewModel.Unterrichtsstunden.First(
-            o => o.UnterrichtsstundeIndex == WochenplanSelection.Instance.ErsteUnterrichtsstundeIndex).Model;
-        lerngruppentermin.LetzteUnterrichtsstunde =
+            o => o.UnterrichtsstundeIndex == WochenplanSelection.Instance.ErsteUnterrichtsstundeIndex).Model,
+          LetzteUnterrichtsstunde =
           App.MainViewModel.Unterrichtsstunden.First(
-            o => o.UnterrichtsstundeIndex == WochenplanSelection.Instance.LetzteUnterrichtsstundeIndex).Model;
-        lerngruppentermin.Tagesplan = tagesplanToAdd.Model;
-        lerngruppentermin.Termintyp =
-          App.MainViewModel.Termintypen.First(termintyp => termintyp.TermintypBezeichnung == termintypBezeichnung)
-             .Model;
-        lerngruppentermin.Ort = dlg.TerminOrt;
+            o => o.UnterrichtsstundeIndex == WochenplanSelection.Instance.LetzteUnterrichtsstundeIndex).Model,
+          Lerngruppe = vertretungslerngruppe.Model,
+          Termintyp = termintyp,
+          Ort = dlg.TerminOrt,
+          Datum = this.wochenplanMontag.AddDays(WochenplanSelection.Instance.WochentagIndex - 1)
+        };
 
-        var vm = new LerngruppenterminViewModel(tagesplanToAdd, lerngruppentermin);
+        var vm = new LerngruppenterminViewModel(lerngruppentermin);
         using (new UndoBatch(App.MainViewModel, string.Format("Sondertermin {0} angelegt.", vm), false))
         {
-          App.MainViewModel.Lerngruppentermine.Add(vm);
-          tagesplanToAdd.Lerngruppentermine.Add(vm);
-          tagesplanToAdd.CurrentLerngruppentermin = vm;
+          //App.UnitOfWork.Context.Termine.Add(lerngruppentermin);
+          //App.MainViewModel.Lerngruppentermine.Add(vm);
+          vertretungslerngruppe.Lerngruppentermine.Add(vm);
 
           var wochenplanEintrag = new TerminplanEintrag(this, vm);
           if (!this.Terminplaneinträge.Contains(wochenplanEintrag, new TerminplanEintragEqualityComparer()))
@@ -432,45 +449,26 @@
     /// Holt den Tagesplan aus dem Vertretungsjahresplan für die Sondertermine.
     /// </summary>
     /// <returns>Ein <see cref="TagesplanViewModel"/> mit dem Tagesplan.</returns>
-    private TagesplanViewModel GetTagesplanToAddInVertretungsjahresplan()
+    private LerngruppeViewModel GetVertretungsLerngruppe()
     {
       // The day to add the stunde to
       var date = this.wochenplanMontag.AddDays(WochenplanSelection.Instance.WochentagIndex - 1);
 
-      bool sommerHalbjahr;
+      Halbjahr halbjahr;
       int jahresplanJahr;
-      this.GetJahrAndHalbjahr(out sommerHalbjahr, out jahresplanJahr);
+      this.GetJahrAndHalbjahr(out halbjahr, out jahresplanJahr);
 
       var vertretungsjahresplan =
-        App.MainViewModel.Jahrespläne.Single(
-          o => o.JahresplanFach.FachBezeichnung == "Vertretungsstunden" && o.JahresplanJahrtyp.JahrtypJahr == jahresplanJahr);
+        App.MainViewModel.Lerngruppen.SingleOrDefault(
+          o => o.LerngruppeFach.FachBezeichnung == "Vertretungsstunden" && o.LerngruppeSchuljahr.SchuljahrJahr == jahresplanJahr);
 
-      // Get correct Halbjahresplan
-      var halbjahresplanViewModel = sommerHalbjahr
-                              ? vertretungsjahresplan.CurrentJahresplanSommerhalbjahr
-                              : vertretungsjahresplan.CurrentJahresplanWinterhalbjahr;
-
-      // Wenn der Halbjahresplan noch fehlt, dann anlegen
-      if (halbjahresplanViewModel == null)
+      if (vertretungsjahresplan == null)
       {
-        if (sommerHalbjahr)
-        {
-          vertretungsjahresplan.AddSommerHalbjahresplan();
-          halbjahresplanViewModel = vertretungsjahresplan.CurrentJahresplanSommerhalbjahr;
-        }
-        else
-        {
-          vertretungsjahresplan.AddWinterHalbjahresplan();
-          halbjahresplanViewModel = vertretungsjahresplan.CurrentJahresplanWinterhalbjahr;
-        }
+        InformationDialog.Show("Jahresplan fehlt", "Ein Jahresplan für das Fach Vertretungsstunden fehlt, daher können keine Vertretungsstunden, Sondertermine, etc. angelegt werden. Bitte zuerst den Jahresplan anlegen.", false);
+        return null;
       }
 
-      // Get correct month
-      var month = halbjahresplanViewModel.Monatspläne.Single(o => o.MonatsplanMonatindex == date.Month);
-
-      // Get correct day
-      var tagesplanToAdd = month.Tagespläne.Single(o => o.TagesplanDatum == date);
-      return tagesplanToAdd;
+      return vertretungsjahresplan;
     }
 
     /// <summary>
@@ -586,7 +584,7 @@
       {
         Header = "Vertretungsstunde anlegen",
         Command = this.AddVertretungsstundeCommand,
-        Icon = App.GetImage("Vertretung16.png")
+        Icon = App.GetIcon("Vertretung16")
       };
       this.terminplanContextMenu.Items.Add(addVertretungsstundeItem);
 
@@ -594,7 +592,7 @@
       {
         Header = "Besprechung anlegen",
         Command = this.AddBesprechungCommand,
-        Icon = App.GetImage("Besprechung16.png")
+        Icon = App.GetIcon("Besprechung16")
       };
       this.terminplanContextMenu.Items.Add(addBesprechungItem);
 
@@ -602,7 +600,7 @@
       {
         Header = "Sondertermin anlegen",
         Command = this.AddSonderterminCommand,
-        Icon = App.GetImage("Sondertermin16.png")
+        Icon = App.GetIcon("Sondertermin16")
       };
       this.terminplanContextMenu.Items.Add(addSonderterminItem);
     }
@@ -633,13 +631,13 @@
         vm.TerminStundenanzahl);
     }
 
-    protected void GetJahrAndHalbjahr(out bool sommerHalbjahr, out int jahresplanJahr)
+    protected void GetJahrAndHalbjahr(out Halbjahr halbjahr, out int jahresplanJahr)
     {
       // Get StundenFrom Jahresplänen
       if (this.wochenplanMontag.Month >= 8)
       {
         jahresplanJahr = this.wochenplanMontag.Year;
-        sommerHalbjahr = false;
+        halbjahr = Halbjahr.Winter;
       }
       else
       {
@@ -650,16 +648,16 @@
 
           if (date.Month > 1)
           {
-            sommerHalbjahr = true;
+            halbjahr = Halbjahr.Sommer;
           }
           else
           {
-            sommerHalbjahr = false;
+            halbjahr = Halbjahr.Winter;
           }
         }
         else
         {
-          sommerHalbjahr = true;
+          halbjahr = Halbjahr.Sommer;
         }
       }
     }

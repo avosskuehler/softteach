@@ -1,13 +1,13 @@
 ﻿namespace SoftTeach.ViewModel.Helper.ODSSupport
 {
-  using Ionic.Zip;
   using SoftTeach.ViewModel.Jahrespläne;
+  using SoftTeach.ViewModel.Personen;
+  using SoftTeach.ViewModel.Termine;
   using System;
-  using System.Collections.Generic;
-  using System.Collections.ObjectModel;
   using System.Data;
   using System.Globalization;
   using System.IO;
+  using System.IO.Compression;
   using System.Linq;
   using System.Reflection;
   using System.Xml;
@@ -47,25 +47,25 @@
     };
 
     // Read zip stream (.ods file is zip file).
-    private ZipFile GetZipFile(Stream stream)
+    private static ZipArchive GetZipFile(Stream stream)
     {
-      return ZipFile.Read(stream);
+      return new ZipArchive(stream, ZipArchiveMode.Update, true);
     }
 
     // Read zip file (.ods file is zip file).
-    private ZipFile GetZipFile(string inputFilePath)
+    private static ZipArchive GetZipFile(string inputFilePath)
     {
-      return ZipFile.Read(inputFilePath);
+      return ZipFile.Open(inputFilePath, ZipArchiveMode.Update);
     }
 
-    private XmlDocument GetContentXmlFile(ZipFile zipFile)
+    private static XmlDocument GetContentXmlFile(ZipArchive zipFile)
     {
       // Get file(in zip archive) that contains data ("content.xml").
-      ZipEntry contentZipEntry = zipFile["content.xml"];
+      ZipArchiveEntry contentZipEntry = zipFile.GetEntry("content.xml");
 
       // Extract that file to MemoryStream.
       Stream contentStream = new MemoryStream();
-      contentZipEntry.Extract(contentStream);
+      contentStream = contentZipEntry.Open();
       contentStream.Seek(0, SeekOrigin.Begin);
 
       // Create XmlDocument from MemoryStream (MemoryStream contains content.xml).
@@ -75,7 +75,7 @@
       return contentXml;
     }
 
-    private XmlNamespaceManager InitializeXmlNamespaceManager(XmlDocument xmlDocument)
+    private static XmlNamespaceManager InitializeXmlNamespaceManager(XmlDocument xmlDocument)
     {
       XmlNamespaceManager nmsManager = new XmlNamespaceManager(xmlDocument.NameTable);
 
@@ -92,24 +92,24 @@
     /// <returns>DataSet that represents .ods file.</returns>
     public DataSet ReadOdsFile(string inputFilePath)
     {
-      ZipFile odsZipFile = this.GetZipFile(inputFilePath);
+      ZipArchive odsZipFile = GetZipFile(inputFilePath);
 
       // Get content.xml file
-      XmlDocument contentXml = this.GetContentXmlFile(odsZipFile);
+      XmlDocument contentXml = GetContentXmlFile(odsZipFile);
 
       // Initialize XmlNamespaceManager
-      XmlNamespaceManager nmsManager = this.InitializeXmlNamespaceManager(contentXml);
+      XmlNamespaceManager nmsManager = InitializeXmlNamespaceManager(contentXml);
 
       DataSet odsFile = new DataSet(Path.GetFileName(inputFilePath));
 
-      foreach (XmlNode tableNode in this.GetTableNodes(contentXml, nmsManager))
+      foreach (XmlNode tableNode in GetTableNodes(contentXml, nmsManager))
         odsFile.Tables.Add(this.GetSheet(tableNode, nmsManager));
 
       return odsFile;
     }
 
     // In ODF sheet is stored in table:table node
-    private XmlNodeList GetTableNodes(XmlDocument contentXmlDocument, XmlNamespaceManager nmsManager)
+    private static XmlNodeList GetTableNodes(XmlDocument contentXmlDocument, XmlNamespaceManager nmsManager)
     {
       return contentXmlDocument.SelectNodes("/office:document-content/office:body/office:spreadsheet/table:table", nmsManager);
     }
@@ -171,7 +171,7 @@
         while (sheet.Columns.Count <= cellIndex)
           sheet.Columns.Add();
 
-        row[cellIndex] = this.ReadCellValue(cellNode);
+        row[cellIndex] = ReadCellValue(cellNode);
 
         cellIndex++;
       }
@@ -181,7 +181,7 @@
       }
     }
 
-    private string ReadCellValue(XmlNode cell)
+    private static string ReadCellValue(XmlNode cell)
     {
       XmlAttribute cellVal = cell.Attributes["office:value"];
 
@@ -194,113 +194,115 @@
     /// <summary>
     /// Writes a Jahresplan into an .ods file.
     /// </summary>
-    /// <param name="jahresplan">The <see cref="JahresplanViewModel"/> with the Jahresplandata to export.</param>
+    /// <param name="lerngruppe">The <see cref="JahresplanViewModel"/> with the Jahresplandata to export.</param>
     /// <param name="outputFilePath">The name of the file to save to.</param>
-    public void WriteOdsFile(JahresplanViewModel jahresplan, string outputFilePath)
+    public void WriteOdsFile(LerngruppeViewModel lerngruppe, string outputFilePath)
     {
-      ZipFile templateFile = this.GetZipFile(Assembly.GetExecutingAssembly().GetManifestResourceStream("SoftTeach.ViewModel.Helper.ODSSupport.template.ods"));
+      ZipArchive templateFile = GetZipFile(Assembly.GetExecutingAssembly().GetManifestResourceStream("SoftTeach.ViewModel.Helper.ODSSupport.template.ods"));
 
-      XmlDocument contentXml = this.GetContentXmlFile(templateFile);
+      XmlDocument contentXml = GetContentXmlFile(templateFile);
 
-      XmlNamespaceManager nmsManager = this.InitializeXmlNamespaceManager(contentXml);
+      XmlNamespaceManager nmsManager = InitializeXmlNamespaceManager(contentXml);
 
       XmlNode sheetsRootNode = this.GetSheetsRootNodeAndRemoveChildrens(contentXml, nmsManager);
 
-      foreach (var halbjahresplan in jahresplan.Halbjahrespläne)
+      // Tabelle anlegen
+      XmlDocument ownerDocument = sheetsRootNode.OwnerDocument;
+      XmlNode sheetNode = ownerDocument.CreateElement("table:table", GetNamespaceUri("table"));
+      XmlAttribute sheetName = ownerDocument.CreateAttribute("table:name", GetNamespaceUri("table"));
+      sheetName.Value = lerngruppe.LerngruppeSchuljahr.ToString();
+      sheetNode.Attributes.Append(sheetName);
+
+      // Spalten anlegen
+      XmlNode columnDefinition = ownerDocument.CreateElement("table:table-column", GetNamespaceUri("table"));
+      XmlAttribute columnsCount = ownerDocument.CreateAttribute("table:number-columns-repeated", GetNamespaceUri("table"));
+      columnsCount.Value = "5";
+      columnDefinition.Attributes.Append(columnsCount);
+      sheetNode.AppendChild(columnDefinition);
+
+      // Zeilen anlegen
+      foreach (var stunde in lerngruppe.Lerngruppentermine.OfType<StundeViewModel>().OrderBy(o => o.LerngruppenterminDatum))
       {
-        // Tabelle anlegen
-        XmlDocument ownerDocument = sheetsRootNode.OwnerDocument;
-        XmlNode sheetNode = ownerDocument.CreateElement("table:table", this.GetNamespaceUri("table"));
-        XmlAttribute sheetName = ownerDocument.CreateAttribute("table:name", this.GetNamespaceUri("table"));
-        sheetName.Value = halbjahresplan.HalbjahresplanHeader;
-        sheetNode.Attributes.Append(sheetName);
+        XmlNode rowNode = ownerDocument.CreateElement("table:table-row", GetNamespaceUri("table"));
 
-        // Spalten anlegen
-        XmlNode columnDefinition = ownerDocument.CreateElement("table:table-column", this.GetNamespaceUri("table"));
-        XmlAttribute columnsCount = ownerDocument.CreateAttribute("table:number-columns-repeated", this.GetNamespaceUri("table"));
-        columnsCount.Value = "5";
-        columnDefinition.Attributes.Append(columnsCount);
-        sheetNode.AppendChild(columnDefinition);
+        // Datum schreiben
+        XmlElement cellNode = ownerDocument.CreateElement("table:table-cell", GetNamespaceUri("table"));
+        XmlAttribute valueType = ownerDocument.CreateAttribute("office:value-type", GetNamespaceUri("office"));
+        valueType.Value = "string";
+        cellNode.Attributes.Append(valueType);
+        XmlElement cellValue = ownerDocument.CreateElement("text:p", GetNamespaceUri("text"));
+        cellValue.InnerText = stunde.LerngruppenterminDatumKurz;
+        cellNode.AppendChild(cellValue);
 
-        // Zeilen anlegen
-        foreach (var stunde in halbjahresplan.Stunden.OrderBy(o => o.LerngruppenterminDatum))
-        {
-          XmlNode rowNode = ownerDocument.CreateElement("table:table-row", this.GetNamespaceUri("table"));
+        rowNode.AppendChild(cellNode);
 
-          // Datum schreiben
-          XmlElement cellNode = ownerDocument.CreateElement("table:table-cell", this.GetNamespaceUri("table"));
-          XmlAttribute valueType = ownerDocument.CreateAttribute("office:value-type", this.GetNamespaceUri("office"));
-          valueType.Value = "string";
-          cellNode.Attributes.Append(valueType);
-          XmlElement cellValue = ownerDocument.CreateElement("text:p", this.GetNamespaceUri("text"));
-          cellValue.InnerText = stunde.LerngruppenterminDatumKurz;
-          cellNode.AppendChild(cellValue);
+        // Titel des Stundenentwurfs schreiben
+        cellNode = ownerDocument.CreateElement("table:table-cell", GetNamespaceUri("table"));
+        valueType = ownerDocument.CreateAttribute("office:value-type", GetNamespaceUri("office"));
+        valueType.Value = "string";
+        cellNode.Attributes.Append(valueType);
+        cellValue = ownerDocument.CreateElement("text:p", GetNamespaceUri("text"));
+        cellValue.InnerText = stunde.TerminBeschreibung;
+        cellNode.AppendChild(cellValue);
 
-          rowNode.AppendChild(cellNode);
+        rowNode.AppendChild(cellNode);
 
-          // Titel des Stundenentwurfs schreiben
-          cellNode = ownerDocument.CreateElement("table:table-cell", this.GetNamespaceUri("table"));
-          valueType = ownerDocument.CreateAttribute("office:value-type", this.GetNamespaceUri("office"));
-          valueType.Value = "string";
-          cellNode.Attributes.Append(valueType);
-          cellValue = ownerDocument.CreateElement("text:p", this.GetNamespaceUri("text"));
-          cellValue.InnerText = stunde.StundeStundenentwurf == null ? "Stunde ausgefallen" : stunde.StundeStundenentwurfTitel;
-          cellNode.AppendChild(cellValue);
+        // Modul des Stundenentwurfs schreiben
+        cellNode = ownerDocument.CreateElement("table:table-cell", GetNamespaceUri("table"));
+        valueType = ownerDocument.CreateAttribute("office:value-type", GetNamespaceUri("office"));
+        valueType.Value = "string";
+        cellNode.Attributes.Append(valueType);
+        cellValue = ownerDocument.CreateElement("text:p", GetNamespaceUri("text"));
+        cellValue.InnerText = stunde.StundeModul.ModulBezeichnung;
+        cellNode.AppendChild(cellValue);
 
-          rowNode.AppendChild(cellNode);
+        rowNode.AppendChild(cellNode);
 
-          // Modul des Stundenentwurfs schreiben
-          cellNode = ownerDocument.CreateElement("table:table-cell", this.GetNamespaceUri("table"));
-          valueType = ownerDocument.CreateAttribute("office:value-type", this.GetNamespaceUri("office"));
-          valueType.Value = "string";
-          cellNode.Attributes.Append(valueType);
-          cellValue = ownerDocument.CreateElement("text:p", this.GetNamespaceUri("text"));
-          cellValue.InnerText = stunde.StundeStundenentwurf == null ? "" : stunde.StundeStundenentwurf.StundenentwurfModul.ModulBezeichnung;
-          cellNode.AppendChild(cellValue);
+        // Phasen des Stundenentwurfs schreiben
+        cellNode = ownerDocument.CreateElement("table:table-cell", GetNamespaceUri("table"));
+        valueType = ownerDocument.CreateAttribute("office:value-type", GetNamespaceUri("office"));
+        valueType.Value = "string";
+        cellNode.Attributes.Append(valueType);
+        cellValue = ownerDocument.CreateElement("text:p", GetNamespaceUri("text"));
+        cellValue.InnerText = stunde.StundePhasenLangform;
+        cellNode.AppendChild(cellValue);
 
-          rowNode.AppendChild(cellNode);
+        rowNode.AppendChild(cellNode);
 
-          // Phasen des Stundenentwurfs schreiben
-          cellNode = ownerDocument.CreateElement("table:table-cell", this.GetNamespaceUri("table"));
-          valueType = ownerDocument.CreateAttribute("office:value-type", this.GetNamespaceUri("office"));
-          valueType.Value = "string";
-          cellNode.Attributes.Append(valueType);
-          cellValue = ownerDocument.CreateElement("text:p", this.GetNamespaceUri("text"));
-          cellValue.InnerText = stunde.StundeStundenentwurf == null ? "" : stunde.StundeStundenentwurf.StundenentwurfPhasenLangform;
-          cellNode.AppendChild(cellValue);
+        // ggf. Datein für den Stundenentwurf schreiben
+        cellNode = ownerDocument.CreateElement("table:table-cell", GetNamespaceUri("table"));
+        valueType = ownerDocument.CreateAttribute("office:value-type", GetNamespaceUri("office"));
+        valueType.Value = "string";
+        cellNode.Attributes.Append(valueType);
+        cellValue = ownerDocument.CreateElement("text:p", GetNamespaceUri("text"));
+        cellValue.InnerText = stunde.StundeDateiliste;
+        cellNode.AppendChild(cellValue);
 
-          rowNode.AppendChild(cellNode);
+        rowNode.AppendChild(cellNode);
 
-          // ggf. Datein für den Stundenentwurf schreiben
-          cellNode = ownerDocument.CreateElement("table:table-cell", this.GetNamespaceUri("table"));
-          valueType = ownerDocument.CreateAttribute("office:value-type", this.GetNamespaceUri("office"));
-          valueType.Value = "string";
-          cellNode.Attributes.Append(valueType);
-          cellValue = ownerDocument.CreateElement("text:p", this.GetNamespaceUri("text"));
-          cellValue.InnerText = stunde.StundeStundenentwurf == null ? "" : stunde.StundeStundenentwurf.StundenentwurfDateiliste;          cellNode.AppendChild(cellValue);
-
-          rowNode.AppendChild(cellNode);
-
-          sheetNode.AppendChild(rowNode);
-        }
-
-        sheetsRootNode.AppendChild(sheetNode);
+        sheetNode.AppendChild(rowNode);
       }
 
-      this.SaveContentXml(templateFile, contentXml);
+      sheetsRootNode.AppendChild(sheetNode);
 
-      templateFile.Save(outputFilePath);
+      using (FileStream zipToOpen = new FileStream(outputFilePath, FileMode.Open))
+      {
+        using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Update))
+        {
+          SaveContentXml(archive, contentXml);
+        }
+      }
 
       App.OpenFile(outputFilePath);
     }
 
     private void WriteFloatCell(XmlDocument ownerDocument, XmlNode rowNode, string floatValue)
     {
-      XmlElement cellNode = ownerDocument.CreateElement("table:table-cell", this.GetNamespaceUri("table"));
-      XmlAttribute valueType = ownerDocument.CreateAttribute("office:value-type", this.GetNamespaceUri("office"));
+      XmlElement cellNode = ownerDocument.CreateElement("table:table-cell", GetNamespaceUri("table"));
+      XmlAttribute valueType = ownerDocument.CreateAttribute("office:value-type", GetNamespaceUri("office"));
       valueType.Value = "float";
       cellNode.Attributes.Append(valueType);
-      XmlAttribute cellAttributeValue = ownerDocument.CreateAttribute("office:value", this.GetNamespaceUri("office"));
+      XmlAttribute cellAttributeValue = ownerDocument.CreateAttribute("office:value", GetNamespaceUri("office"));
       cellAttributeValue.Value = floatValue;
       cellNode.Attributes.Append(cellAttributeValue);
       rowNode.AppendChild(cellNode);
@@ -308,17 +310,17 @@
 
     private void WriteStringCell(XmlDocument ownerDocument, XmlNode rowNode, string cellContent, bool withColor = false)
     {
-      XmlElement cellNode = ownerDocument.CreateElement("table:table-cell", this.GetNamespaceUri("table"));
-      XmlAttribute valueType = ownerDocument.CreateAttribute("office:value-type", this.GetNamespaceUri("office"));
+      XmlElement cellNode = ownerDocument.CreateElement("table:table-cell", GetNamespaceUri("table"));
+      XmlAttribute valueType = ownerDocument.CreateAttribute("office:value-type", GetNamespaceUri("office"));
       valueType.Value = "string";
       cellNode.Attributes.Append(valueType);
       if (withColor)
       {
-        XmlAttribute stylename = ownerDocument.CreateAttribute("table:style-name", this.GetNamespaceUri("table"));
+        XmlAttribute stylename = ownerDocument.CreateAttribute("table:style-name", GetNamespaceUri("table"));
         stylename.Value = "Notiz";
         cellNode.Attributes.Append(stylename);
       }
-      XmlElement cellValue = ownerDocument.CreateElement("text:p", this.GetNamespaceUri("text"));
+      XmlElement cellValue = ownerDocument.CreateElement("text:p", GetNamespaceUri("text"));
       cellValue.InnerText = cellContent;
       cellNode.AppendChild(cellValue);
       rowNode.AppendChild(cellNode);
@@ -326,11 +328,11 @@
 
     private void WriteZeroCell(XmlDocument ownerDocument, XmlNode rowNode)
     {
-      XmlElement cellNode = ownerDocument.CreateElement("table:table-cell", this.GetNamespaceUri("table"));
-      XmlAttribute valueType = ownerDocument.CreateAttribute("office:value-type", this.GetNamespaceUri("office"));
+      XmlElement cellNode = ownerDocument.CreateElement("table:table-cell", GetNamespaceUri("table"));
+      XmlAttribute valueType = ownerDocument.CreateAttribute("office:value-type", GetNamespaceUri("office"));
       valueType.Value = "float";
       cellNode.Attributes.Append(valueType);
-      XmlAttribute cellAttributeValue = ownerDocument.CreateAttribute("office:value", this.GetNamespaceUri("office"));
+      XmlAttribute cellAttributeValue = ownerDocument.CreateAttribute("office:value", GetNamespaceUri("office"));
       cellAttributeValue.Value = "0";
       cellNode.Attributes.Append(cellAttributeValue);
       rowNode.AppendChild(cellNode);
@@ -340,34 +342,34 @@
     {
       XmlDocument ownerDocument = sheetsRootNode.OwnerDocument;
 
-      XmlNode sheetNode = ownerDocument.CreateElement("number:date-style", this.GetNamespaceUri("number"));
+      XmlNode sheetNode = ownerDocument.CreateElement("number:date-style", GetNamespaceUri("number"));
 
-      XmlAttribute styleName = ownerDocument.CreateAttribute("style:name", this.GetNamespaceUri("style"));
+      XmlAttribute styleName = ownerDocument.CreateAttribute("style:name", GetNamespaceUri("style"));
       styleName.Value = "N19";
       sheetNode.Attributes.Append(styleName);
 
-      XmlElement numberDay = ownerDocument.CreateElement("number:day", this.GetNamespaceUri("number"));
-      XmlAttribute numberStyle = ownerDocument.CreateAttribute("number:style", this.GetNamespaceUri("number"));
+      XmlElement numberDay = ownerDocument.CreateElement("number:day", GetNamespaceUri("number"));
+      XmlAttribute numberStyle = ownerDocument.CreateAttribute("number:style", GetNamespaceUri("number"));
       numberStyle.Value = "long";
       numberDay.Attributes.Append(numberStyle);
       sheetNode.AppendChild(numberDay);
 
-      XmlElement numberText = ownerDocument.CreateElement("number:text", this.GetNamespaceUri("number"));
+      XmlElement numberText = ownerDocument.CreateElement("number:text", GetNamespaceUri("number"));
       numberText.InnerText = "/";
       sheetNode.AppendChild(numberText);
 
-      XmlElement numberMonth = ownerDocument.CreateElement("number:month", this.GetNamespaceUri("number"));
-      XmlAttribute numberStyle2 = ownerDocument.CreateAttribute("number:style", this.GetNamespaceUri("number"));
+      XmlElement numberMonth = ownerDocument.CreateElement("number:month", GetNamespaceUri("number"));
+      XmlAttribute numberStyle2 = ownerDocument.CreateAttribute("number:style", GetNamespaceUri("number"));
       numberStyle2.Value = "long";
       numberMonth.Attributes.Append(numberStyle2);
       sheetNode.AppendChild(numberMonth);
 
-      XmlElement numberText2 = ownerDocument.CreateElement("number:text", this.GetNamespaceUri("number"));
+      XmlElement numberText2 = ownerDocument.CreateElement("number:text", GetNamespaceUri("number"));
       numberText2.InnerText = "/";
       sheetNode.AppendChild(numberText2);
 
-      XmlElement numberYear = ownerDocument.CreateElement("number:year", this.GetNamespaceUri("number"));
-      XmlAttribute numberStyle3 = ownerDocument.CreateAttribute("number:style", this.GetNamespaceUri("number"));
+      XmlElement numberYear = ownerDocument.CreateElement("number:year", GetNamespaceUri("number"));
+      XmlAttribute numberStyle3 = ownerDocument.CreateAttribute("number:style", GetNamespaceUri("number"));
       numberStyle3.Value = "long";
       numberYear.Attributes.Append(numberStyle3);
       sheetNode.AppendChild(numberYear);
@@ -379,53 +381,30 @@
     {
       XmlDocument ownerDocument = sheetsRootNode.OwnerDocument;
 
-      XmlNode sheetNode = ownerDocument.CreateElement("style:style", this.GetNamespaceUri("style"));
+      XmlNode sheetNode = ownerDocument.CreateElement("style:style", GetNamespaceUri("style"));
 
-      XmlAttribute styleName = ownerDocument.CreateAttribute("style:name", this.GetNamespaceUri("style"));
+      XmlAttribute styleName = ownerDocument.CreateAttribute("style:name", GetNamespaceUri("style"));
       styleName.Value = "ce2";
       sheetNode.Attributes.Append(styleName);
 
-      XmlAttribute styleFamily = ownerDocument.CreateAttribute("style:family", this.GetNamespaceUri("style"));
+      XmlAttribute styleFamily = ownerDocument.CreateAttribute("style:family", GetNamespaceUri("style"));
       styleFamily.Value = "table-cell";
       sheetNode.Attributes.Append(styleFamily);
 
-      XmlAttribute styleParentStyleName = ownerDocument.CreateAttribute("style:parent-style-name", this.GetNamespaceUri("style"));
+      XmlAttribute styleParentStyleName = ownerDocument.CreateAttribute("style:parent-style-name", GetNamespaceUri("style"));
       styleParentStyleName.Value = "Default";
       sheetNode.Attributes.Append(styleParentStyleName);
 
-      XmlAttribute styleDataStyleName = ownerDocument.CreateAttribute("style:data-style-name", this.GetNamespaceUri("style"));
+      XmlAttribute styleDataStyleName = ownerDocument.CreateAttribute("style:data-style-name", GetNamespaceUri("style"));
       styleDataStyleName.Value = "N19";
       sheetNode.Attributes.Append(styleDataStyleName);
 
       sheetsRootNode.AppendChild(sheetNode);
     }
 
-    /// <summary>
-    /// Writes DataSet as .ods file.
-    /// </summary>
-    /// <param name="odsFile">DataSet that represent .ods file.</param>
-    /// <param name="outputFilePath">The name of the file to save to.</param>
-    public void WriteOdsFile(DataSet odsFile, string outputFilePath)
-    {
-      ZipFile templateFile = this.GetZipFile(Assembly.GetExecutingAssembly().GetManifestResourceStream("Kurssystem.template.ods"));
-
-      XmlDocument contentXml = this.GetContentXmlFile(templateFile);
-
-      XmlNamespaceManager nmsManager = this.InitializeXmlNamespaceManager(contentXml);
-
-      XmlNode sheetsRootNode = this.GetSheetsRootNodeAndRemoveChildrens(contentXml, nmsManager);
-
-      foreach (DataTable sheet in odsFile.Tables)
-        this.SaveSheet(sheet, sheetsRootNode);
-
-      this.SaveContentXml(templateFile, contentXml);
-
-      templateFile.Save(outputFilePath);
-    }
-
     private XmlNode GetSheetsRootNodeAndRemoveChildrens(XmlDocument contentXml, XmlNamespaceManager nmsManager)
     {
-      XmlNodeList tableNodes = this.GetTableNodes(contentXml, nmsManager);
+      XmlNodeList tableNodes = GetTableNodes(contentXml, nmsManager);
 
       XmlNode sheetsRootNode = tableNodes.Item(0).ParentNode;
       // remove sheets from template file
@@ -439,9 +418,9 @@
     {
       XmlDocument ownerDocument = sheetsRootNode.OwnerDocument;
 
-      XmlNode sheetNode = ownerDocument.CreateElement("table:table", this.GetNamespaceUri("table"));
+      XmlNode sheetNode = ownerDocument.CreateElement("table:table", GetNamespaceUri("table"));
 
-      XmlAttribute sheetName = ownerDocument.CreateAttribute("table:name", this.GetNamespaceUri("table"));
+      XmlAttribute sheetName = ownerDocument.CreateAttribute("table:name", GetNamespaceUri("table"));
       sheetName.Value = sheet.TableName;
       sheetNode.Attributes.Append(sheetName);
 
@@ -454,9 +433,9 @@
 
     private void SaveColumnDefinition(DataTable sheet, XmlNode sheetNode, XmlDocument ownerDocument)
     {
-      XmlNode columnDefinition = ownerDocument.CreateElement("table:table-column", this.GetNamespaceUri("table"));
+      XmlNode columnDefinition = ownerDocument.CreateElement("table:table-column", GetNamespaceUri("table"));
 
-      XmlAttribute columnsCount = ownerDocument.CreateAttribute("table:number-columns-repeated", this.GetNamespaceUri("table"));
+      XmlAttribute columnsCount = ownerDocument.CreateAttribute("table:number-columns-repeated", GetNamespaceUri("table"));
       columnsCount.Value = sheet.Columns.Count.ToString(CultureInfo.InvariantCulture);
       columnDefinition.Attributes.Append(columnsCount);
 
@@ -468,7 +447,7 @@
       DataRowCollection rows = sheet.Rows;
       for (int i = 0; i < rows.Count; i++)
       {
-        XmlNode rowNode = ownerDocument.CreateElement("table:table-row", this.GetNamespaceUri("table"));
+        XmlNode rowNode = ownerDocument.CreateElement("table:table-row", GetNamespaceUri("table"));
 
         this.SaveCell(rows[i], rowNode, ownerDocument);
 
@@ -482,16 +461,16 @@
 
       for (int i = 0; i < cells.Length; i++)
       {
-        XmlElement cellNode = ownerDocument.CreateElement("table:table-cell", this.GetNamespaceUri("table"));
+        XmlElement cellNode = ownerDocument.CreateElement("table:table-cell", GetNamespaceUri("table"));
 
         if (row[i] != DBNull.Value)
         {
           // We save values as text (string)
-          XmlAttribute valueType = ownerDocument.CreateAttribute("office:value-type", this.GetNamespaceUri("office"));
+          XmlAttribute valueType = ownerDocument.CreateAttribute("office:value-type", GetNamespaceUri("office"));
           valueType.Value = "string";
           cellNode.Attributes.Append(valueType);
 
-          XmlElement cellValue = ownerDocument.CreateElement("text:p", this.GetNamespaceUri("text"));
+          XmlElement cellValue = ownerDocument.CreateElement("text:p", GetNamespaceUri("text"));
           cellValue.InnerText = row[i].ToString();
           cellNode.AppendChild(cellValue);
         }
@@ -500,18 +479,15 @@
       }
     }
 
-    private void SaveContentXml(ZipFile templateFile, XmlDocument contentXml)
+    private static void SaveContentXml(ZipArchive templateFile, XmlDocument contentXml)
     {
-      templateFile.RemoveEntry("content.xml");
-
-      MemoryStream memStream = new MemoryStream();
-      contentXml.Save(memStream);
-      memStream.Seek(0, SeekOrigin.Begin);
-
-      templateFile.AddEntry("content.xml", memStream);
+      templateFile.GetEntry("content.xml").Delete();
+      var entry = templateFile.CreateEntry("content.xml");
+      var stream = entry.Open();
+      contentXml.Save(stream);
     }
 
-    private string GetNamespaceUri(string prefix)
+    private static string GetNamespaceUri(string prefix)
     {
       for (int i = 0; i < namespaces.GetLength(0); i++)
       {

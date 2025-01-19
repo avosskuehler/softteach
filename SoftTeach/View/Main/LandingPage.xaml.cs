@@ -1,6 +1,5 @@
 ﻿namespace SoftTeach.View.Main
 {
-  using System.Security.RightsManagement;
   using System.Windows;
   using System.Windows.Controls;
 
@@ -64,24 +63,25 @@
     {
       Configuration.Instance.IsMetroMode = true;
       Configuration.Instance.NavigateTarget = NavigateTarget.Noten;
-      this.NavigationService.Navigate(new MetroSelectSchülerlistePage());
+      this.NavigationService.Navigate(new MetroSelectLerngruppePage());
     }
 
     private void GruppenOnClick(object sender, RoutedEventArgs e)
     {
       Configuration.Instance.IsMetroMode = true;
       Configuration.Instance.NavigateTarget = NavigateTarget.Gruppen;
-      var schülerlisten = App.MainViewModel.SchülerlisteWorkspace;
-      this.NavigationService.Navigate(new MetroSelectSchülerlistePage());
+      //var schülerlisten = App.MainViewModel.LerngruppeWorkspace;
+      this.NavigationService.Navigate(new MetroSelectLerngruppePage());
     }
 
     private void SitzpläneOnClick(object sender, RoutedEventArgs e)
     {
       Configuration.Instance.IsMetroMode = true;
       Configuration.Instance.NavigateTarget = NavigateTarget.Sitzpläne;
-      var schülerlisten = App.MainViewModel.SchülerlisteWorkspace;
-      var sitzpläne = App.MainViewModel.SitzplanWorkspace;
-      this.NavigationService.Navigate(new MetroSelectSchülerlistePage());
+      App.MainViewModel.LoadSitzpläne();
+      //var schülerlisten = App.MainViewModel.LerngruppeWorkspace;
+      //var sitzpläne = App.MainViewModel.SitzplanWorkspace;
+      this.NavigationService.Navigate(new MetroSelectLerngruppePage());
     }
 
     /// <summary>

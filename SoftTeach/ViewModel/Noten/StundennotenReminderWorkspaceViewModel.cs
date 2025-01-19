@@ -7,13 +7,8 @@
 
   using Helper;
 
-  using SoftTeach.UndoRedo;
-  using SoftTeach.View.Noten;
-
-  using MahApps.Metro.Controls.Dialogs;
-
   using SoftTeach.Setting;
-  using SoftTeach.ViewModel.Termine;
+  using SoftTeach.Model.TeachyModel;
 
   /// <summary>
   /// ViewModel for managing Stundennote
@@ -28,23 +23,23 @@
     /// <summary>
     /// Holt oder setzt die Stunde currently selected
     /// </summary>
-    private StundeViewModel currentStunde;
+    private Stunde currentStunde;
 
-    /// <summary>
-    /// Ein View von allen Schülern der momentanten Stunde.
-    /// </summary>
-    private ICollectionView currentSchülerView;
+    ///// <summary>
+    ///// Ein View von allen Schülern der momentanten Stunde.
+    ///// </summary>
+    //private ICollectionView currentSchülerView;
 
     /// <summary>
     /// Ein View von allen unbenoteten Stunden.
     /// </summary>
-    private ObservableCollection<StundeViewModel> nichtBenoteteStunden;
+    private ObservableCollection<Stunde> nichtBenoteteStunden;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="StundennotenReminderWorkspaceViewModel"/> Klasse. 
     /// </summary>
     /// <param name="nichtBenoteteStunden">Die Liste der noch nicht benoteten Stunden.</param>
-    public StundennotenReminderWorkspaceViewModel(ObservableCollection<StundeViewModel> nichtBenoteteStunden)
+    public StundennotenReminderWorkspaceViewModel(ObservableCollection<Stunde> nichtBenoteteStunden)
     {
       this.nichtBenoteteStunden = nichtBenoteteStunden;
       this.CurrentStunde = nichtBenoteteStunden[0];
@@ -77,13 +72,13 @@
       get
       {
         var schülerliste =
-          App.MainViewModel.Schülerlisten.FirstOrDefault(
+          App.MainViewModel.Lerngruppen.FirstOrDefault(
             o =>
-            o.SchülerlisteFach.FachBezeichnung == this.CurrentStunde.LerngruppenterminFach
-            && o.SchülerlisteJahrtyp.JahrtypBezeichnung == this.CurrentStunde.LerngruppenterminSchuljahr
-            && o.SchülerlisteKlasse.KlasseBezeichnung == this.CurrentStunde.LerngruppenterminKlasse);
+            o.LerngruppeFach.FachBezeichnung == this.CurrentStunde.Fach.Bezeichnung
+            && o.LerngruppeSchuljahr.SchuljahrBezeichnung == this.CurrentStunde.Lerngruppe.Schuljahr.Bezeichnung
+            && o.LerngruppeBezeichnung == this.CurrentStunde.Lerngruppe.Bezeichnung);
 
-        Selection.Instance.Schülerliste = schülerliste;
+        Selection.Instance.Lerngruppe = schülerliste;
 
         if (schülerliste != null)
         {
@@ -111,7 +106,7 @@
     /// <summary>
     /// Holt oder setzt die Stunde currently selected in this workspace
     /// </summary>
-    public StundeViewModel CurrentStunde
+    public Stunde CurrentStunde
     {
       get
       {
@@ -123,7 +118,7 @@
         this.currentStunde = value;
         if (value != null)
         {
-          Selection.Instance.Stunde = this.currentStunde;
+          //Selection.Instance.Stunde = this.currentStunde;
           this.RaisePropertyChanged("CurrentStunde");
         }
       }
@@ -154,7 +149,7 @@
     {
       if (this.CurrentStunde != null)
       {
-        this.CurrentStunde.StundeIstBenotet = true;
+        this.CurrentStunde.IstBenotet = true;
         var result = this.nichtBenoteteStunden.Remove(this.currentStunde);
         if (this.nichtBenoteteStunden.Count > 0)
         {

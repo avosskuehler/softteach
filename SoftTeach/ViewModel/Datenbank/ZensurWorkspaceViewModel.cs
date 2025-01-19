@@ -1,11 +1,8 @@
 ﻿namespace SoftTeach.ViewModel.Datenbank
 {
   using System.Linq;
-  using System.Windows.Input;
-
-  using SoftTeach.Model;
   using SoftTeach.ExceptionHandling;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
@@ -78,7 +75,7 @@
       {
         Log.ProcessMessage(
           "Zensur bereits vorhanden",
-          "Dieses Zensur ist bereits in " + "der Datenbank vorhanden und kann nicht doppelt angelegt werden.");
+          "Diese Zensur ist bereits in " + "der Datenbank vorhanden und kann nicht doppelt angelegt werden.");
         return;
       }
 

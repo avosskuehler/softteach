@@ -1,10 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="Class1.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
-
-namespace SoftTeach.View.Stundenpläne
+﻿namespace SoftTeach.View.Stundenpläne
 {
   using System;
 
@@ -14,6 +8,12 @@ namespace SoftTeach.View.Stundenpläne
   [Flags]
   public enum StundenplanViewMode
   {
+    /// <summary>
+    /// The default view, with disabled edit and disabled drag drop,
+    /// just view
+    /// </summary>
+    None = 0,
+
     /// <summary>
     /// The default view, with disabled edit and disabled drag drop,
     /// just view

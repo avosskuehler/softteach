@@ -5,8 +5,7 @@
         Title                 ='Stundenentwurf Ausdruck' 
         Height                ='600' 
         Width                 ='800' 
-        WindowStartupLocation ='CenterOwner'
-        Icon="/SoftTeach;component/Images/Preview32.png">
+        WindowStartupLocation ='CenterOwner'>
   <DocumentViewer Name='documentViewer' Style="{StaticResource SoftTeachDocumentViewer}" HorizontalPageSpacing="25" VerticalPageSpacing="25">
     <DocumentViewer.CommandBindings>
       <CommandBinding Command="ApplicationCommands.Copy" CanExecute="CommandBindingCanExecuteCopy"  />

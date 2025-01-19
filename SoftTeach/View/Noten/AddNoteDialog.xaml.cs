@@ -17,23 +17,19 @@
 
 namespace SoftTeach.View.Noten
 {
-  using System;
-  using System.Linq;
   using System.Windows;
 
   using SoftTeach.ViewModel.Noten;
-
-  using ViewModel.Datenbank;
 
   /// <summary>
   /// The add note dialog.
   /// </summary>
   public partial class AddNoteDialog
   {
-    /// <summary>
-    /// Die aktuell zu bearbeitende Note.
-    /// </summary>
-    private NoteViewModel currentNote;
+    ///// <summary>
+    ///// Die aktuell zu bearbeitende Note.
+    ///// </summary>
+    //private NoteViewModel currentNote;
 
     #region Constructors and Destructors
 

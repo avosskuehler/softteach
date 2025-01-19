@@ -3,18 +3,21 @@
   using System;
   using System.Windows;
   using System.Windows.Controls;
+  using System.Windows.Documents;
   using System.Windows.Media;
   using System.Windows.Shapes;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
+  using SoftTeach.Resources.Controls;
+  using SoftTeach.View.Sitzpläne;
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
   /// ViewModel of an individual sitzplatz
   /// </summary>
-  public class SitzplatzViewModel : ViewModelBase, IComparable
+  public class SitzplatzViewModel : ViewModelBase, IComparable, ISequencedObject
   {
-    private Rectangle shape;
+    private SitzplatzShape shape;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="SitzplatzViewModel"/> Klasse. 
@@ -24,12 +27,7 @@
     /// </param>
     public SitzplatzViewModel(Sitzplatz sitzplatz)
     {
-      if (sitzplatz == null)
-      {
-        throw new ArgumentNullException("sitzplatz");
-      }
-
-      this.Model = sitzplatz;
+      this.Model = sitzplatz ?? throw new ArgumentNullException(nameof(sitzplatz));
 
       this.CreateShape();
     }
@@ -52,7 +50,7 @@
       set
       {
         if (value == this.Model.LinksObenX) return;
-        this.UndoablePropertyChanging(this, "SitzplatzLinksObenX", this.Model.LinksObenX, value);
+        this.UndoablePropertyChanging(this, nameof(SitzplatzLinksObenX), this.Model.LinksObenX, value);
         this.Model.LinksObenX = value;
         Canvas.SetLeft(this.shape, this.SitzplatzLinksObenX);
         this.RaisePropertyChanged("SitzplatzLinksObenX");
@@ -72,7 +70,7 @@
       set
       {
         if (value == this.Model.LinksObenY) return;
-        this.UndoablePropertyChanging(this, "SitzplatzLinksObenY", this.Model.LinksObenY, value);
+        this.UndoablePropertyChanging(this, nameof(SitzplatzLinksObenY), this.Model.LinksObenY, value);
         this.Model.LinksObenY = value;
         Canvas.SetLeft(this.shape, this.SitzplatzLinksObenY);
         this.RaisePropertyChanged("SitzplatzLinksObenY");
@@ -92,7 +90,7 @@
       set
       {
         if (value == this.Model.Breite) return;
-        this.UndoablePropertyChanging(this, "SitzplatzBreite", this.Model.Breite, value);
+        this.UndoablePropertyChanging(this, nameof(SitzplatzBreite), this.Model.Breite, value);
         this.Model.Breite = value;
         this.shape.Width = this.SitzplatzBreite;
         this.RaisePropertyChanged("SitzplatzBreite");
@@ -112,7 +110,7 @@
       set
       {
         if (value == this.Model.Höhe) return;
-        this.UndoablePropertyChanging(this, "SitzplatzHöhe", this.Model.Höhe, value);
+        this.UndoablePropertyChanging(this, nameof(SitzplatzHöhe), this.Model.Höhe, value);
         this.Model.Höhe = value;
         this.shape.Height = this.SitzplatzHöhe;
         this.RaisePropertyChanged("SitzplatzHöhe");
@@ -132,12 +130,38 @@
       set
       {
         if (value == this.Model.Drehwinkel) return;
-        this.UndoablePropertyChanging(this, "SitzplatzDrehwinkel", this.Model.Drehwinkel, value);
+        this.UndoablePropertyChanging(this, nameof(SitzplatzDrehwinkel), this.Model.Drehwinkel, value);
         this.Model.Drehwinkel = value;
         this.shape.RenderTransform = new RotateTransform(this.SitzplatzDrehwinkel);
         this.RaisePropertyChanged("SitzplatzDrehwinkel");
       }
     }
+
+    /// <summary>
+    /// Holt oder setzt die laufende Nummer des Sitzplatzes.
+    /// </summary>
+    public int Reihenfolge
+    {
+      get
+      {
+        return this.Model.Reihenfolge;
+      }
+
+      set
+      {
+        if (value == this.Model.Reihenfolge) return;
+        this.UndoablePropertyChanging(this, nameof(Reihenfolge), this.Model.Reihenfolge, value);
+        this.Model.Reihenfolge = value;
+        this.shape.Reihenfolge = value;
+        this.RaisePropertyChanged("Reihenfolge");
+      }
+    }
+
+    /// <summary>
+    /// Holt oder setzt einen Wert, der angibt, ob die Reihenfolge Vorrang vor allen
+    /// anderer Reihenfolgen der gleichen Zahl hat.
+    /// </summary>
+    public bool IstZuerst { get; set; }
 
     /// <summary>
     /// Holt das Umfassungrechteck für den Sitzplatz.
@@ -157,7 +181,7 @@
     [DependsUpon("SitzplatzLinksObenY")]
     [DependsUpon("SitzplatzHöhe")]
     [DependsUpon("SitzplatzBreite")]
-    public Rectangle Shape
+    public SitzplatzShape Shape
     {
       get
       {
@@ -214,14 +238,14 @@
     {
       if (this.shape == null)
       {
-        this.shape = new Rectangle();
-        var fillColor = new SolidColorBrush(Colors.DarkSeaGreen) { Opacity = 0.25 };
-        this.shape.Fill = fillColor;
-        this.shape.Width = this.SitzplatzBreite;
-        this.shape.Height = this.SitzplatzHöhe;
-        this.shape.RenderTransformOrigin = new Point(0.5, 0.5);
-        this.shape.RenderTransform = new RotateTransform(this.SitzplatzDrehwinkel);
-        this.shape.Tag = this;
+        this.shape = new SitzplatzShape
+        {
+          Width = this.SitzplatzBreite,
+          Height = this.SitzplatzHöhe,
+          RenderTransform = new RotateTransform(this.SitzplatzDrehwinkel),
+          Sitzplatz = this,
+          Reihenfolge = this.Model.Reihenfolge
+        };
         Canvas.SetTop(this.shape, this.SitzplatzLinksObenY);
         Canvas.SetLeft(this.shape, this.SitzplatzLinksObenX);
       }

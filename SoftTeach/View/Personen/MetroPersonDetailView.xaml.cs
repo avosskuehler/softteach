@@ -2,8 +2,6 @@
 namespace SoftTeach.View.Personen
 {
   using System.Windows;
-
-  using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.Setting;
   using SoftTeach.View.Noten;
   using SoftTeach.ViewModel.Noten;
@@ -36,7 +34,7 @@ namespace SoftTeach.View.Personen
         Selection.Instance.Schülereintrag.AnpassungenAuslesen();
       }
 
-      Configuration.Instance.NavigationService.Navigate(new MetroSchülereintragNotenPage());
+      Configuration.Instance.NavigationService.Navigate(new MetroSchülereintragNotenPage(Selection.Instance.Schülereintrag));
     }
   }
 }

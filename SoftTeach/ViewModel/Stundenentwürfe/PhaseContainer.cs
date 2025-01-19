@@ -1,5 +1,6 @@
 ﻿namespace SoftTeach.ViewModel.Stundenentwürfe
 {
+  using SoftTeach.Model.TeachyModel;
   using System;
 
   /// <summary>
@@ -16,7 +17,7 @@
     /// <param name="medium"> Das Medium der Phase.</param>
     /// <param name="sozialform"> Die Sozialform der Phase.</param>
     /// <param name="zeit"> Die Dauer der Phase.</param>
-    public PhaseContainer(string inhalt, string medium, string sozialform, int zeit)
+    public PhaseContainer(string inhalt, Medium medium, Sozialform sozialform, int zeit)
     {
       this.Inhalt = inhalt;
       this.Medium = medium;
@@ -32,12 +33,12 @@
     /// <summary>
     /// Holt oder setzt das Medium der Phase.
     /// </summary>
-    public string Medium { get; set; }
+    public Medium Medium { get; set; }
 
     /// <summary>
     /// Holt oder setzt die Sozialform der Phase.
     /// </summary>
-    public string Sozialform { get; set; }
+    public Sozialform Sozialform { get; set; }
 
     /// <summary>
     /// Holt oder setzt die Dauer der Phase.

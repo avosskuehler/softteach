@@ -1,10 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="TerminUpdateType.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
-
-namespace SoftTeach.ViewModel.Wochenpläne
+﻿namespace SoftTeach.ViewModel.Wochenpläne
 {
   using System;
   using System.Collections.Generic;
@@ -67,7 +61,7 @@ namespace SoftTeach.ViewModel.Wochenpläne
       {
         if (!this.IsDummy)
         {
-          throw new ArgumentOutOfRangeException("value", "Der Wochentagindex kann nicht zugewiesen werden.");
+          throw new ArgumentOutOfRangeException(nameof(value), "Der Wochentagindex kann nicht zugewiesen werden.");
         }
 
         this.wochentagIndex = value;

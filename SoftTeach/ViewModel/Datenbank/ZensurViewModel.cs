@@ -1,9 +1,7 @@
 ﻿namespace SoftTeach.ViewModel.Datenbank
 {
   using System;
-
-  using SoftTeach.Model;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
@@ -19,12 +17,7 @@
     /// </param>
     public ZensurViewModel(Zensur zensur)
     {
-      if (zensur == null)
-      {
-        throw new ArgumentNullException("zensur");
-      }
-
-      this.Model = zensur;
+      this.Model = zensur ?? throw new ArgumentNullException(nameof(zensur));
     }
 
     /// <summary>
@@ -45,7 +38,7 @@
       set
       {
         if (value == this.Model.Notenpunkte) return;
-        this.UndoablePropertyChanging(this, "ZensurNotenpunkte", this.Model.Notenpunkte, value);
+        this.UndoablePropertyChanging(this, nameof(ZensurNotenpunkte), this.Model.Notenpunkte, value);
         this.Model.Notenpunkte = value;
         this.RaisePropertyChanged("ZensurNotenpunkte");
       }
@@ -64,7 +57,7 @@
       set
       {
         if (value == this.Model.GanzeNote) return;
-        this.UndoablePropertyChanging(this, "ZensurGanzeNote", this.Model.GanzeNote, value);
+        this.UndoablePropertyChanging(this, nameof(ZensurGanzeNote), this.Model.GanzeNote, value);
         this.Model.GanzeNote = value;
         this.RaisePropertyChanged("ZensurGanzeNote");
       }
@@ -83,7 +76,7 @@
       set
       {
         if (value == this.Model.NoteMitTendenz) return;
-        this.UndoablePropertyChanging(this, "ZensurNoteMitTendenz", this.Model.NoteMitTendenz, value);
+        this.UndoablePropertyChanging(this, nameof(ZensurNoteMitTendenz), this.Model.NoteMitTendenz, value);
         this.Model.NoteMitTendenz = value;
         this.RaisePropertyChanged("ZensurNoteMitTendenz");
       }

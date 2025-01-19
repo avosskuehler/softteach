@@ -1,11 +1,8 @@
 ﻿namespace SoftTeach.ViewModel.Datenbank
 {
   using System.Linq;
-  using System.Windows.Input;
-
-  using SoftTeach.Model;
   using SoftTeach.ExceptionHandling;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
@@ -77,7 +74,7 @@
       if (App.MainViewModel.Unterrichtsstunden.Any(vorhandenesUnterrichtsstunde => vorhandenesUnterrichtsstunde.UnterrichtsstundeBezeichnung == unterrichtsstunde.Bezeichnung))
       {
         Log.ProcessMessage("Unterrichtsstunde bereits vorhanden",
-          "Dieses Unterrichtsstunde ist bereits in " + "der Datenbank vorhanden und kann nicht doppelt angelegt werden.");
+          "Diese Unterrichtsstunde ist bereits in " + "der Datenbank vorhanden und kann nicht doppelt angelegt werden.");
         return;
       }
 

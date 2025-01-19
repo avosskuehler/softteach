@@ -2,11 +2,9 @@
 {
   using System;
 
-  using SoftTeach.Model;
-
   using System.Linq;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
@@ -20,11 +18,6 @@
     private FachViewModel fach;
 
     /// <summary>
-    /// The jahrgangsstufe currently assigned to this Modul
-    /// </summary>
-    private JahrgangsstufeViewModel jahrgangsstufe;
-
-    /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="ModulViewModel"/> Klasse. 
     /// </summary>
     /// <param name="modul">
@@ -32,12 +25,7 @@
     /// </param>
     public ModulViewModel(Modul modul)
     {
-      if (modul == null)
-      {
-        throw new ArgumentNullException("modul");
-      }
-
-      this.Model = modul;
+      this.Model = modul ?? throw new ArgumentNullException(nameof(modul));
 
       // Re-act to any changes from outside this ViewModel
       App.MainViewModel.Fächer.CollectionChanged += (sender, e) =>
@@ -45,14 +33,6 @@
         if (e.OldItems != null && e.OldItems.Contains(this.ModulFach))
         {
           this.ModulFach = null;
-        }
-      };
-
-      App.MainViewModel.Jahrgangsstufen.CollectionChanged += (sender, e) =>
-      {
-        if (e.OldItems != null && e.OldItems.Contains(this.ModulJahrgangsstufe))
-        {
-          this.ModulJahrgangsstufe = null;
         }
       };
     }
@@ -75,7 +55,7 @@
       set
       {
         if (value == this.Model.Bezeichnung) return;
-        this.UndoablePropertyChanging(this, "ModulBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(ModulBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("ModulBezeichnung");
       }
@@ -117,7 +97,7 @@
       set
       {
         if (value == this.fach) return;
-        this.UndoablePropertyChanging(this, "ModulFach", this.fach, value);
+        this.UndoablePropertyChanging(this, nameof(ModulFach), this.fach, value);
         this.fach = value;
         this.Model.Fach = value != null ? value.Model : null;
 
@@ -126,33 +106,21 @@
     }
 
     /// <summary>
-    /// Holt oder setzt die fach currently assigned to this Stundenentwurf
+    /// Holt oder setzt den Jahrgang für das Modul
     /// </summary>
-    public JahrgangsstufeViewModel ModulJahrgangsstufe
+    public int ModulJahrgang
     {
       get
       {
-        // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Jahrgangsstufe == null)
-        {
-          return null;
-        }
-
-        if (this.jahrgangsstufe == null || this.jahrgangsstufe.Model != this.Model.Jahrgangsstufe)
-        {
-          this.jahrgangsstufe = App.MainViewModel.Jahrgangsstufen.SingleOrDefault(d => d.Model == this.Model.Jahrgangsstufe);
-        }
-
-        return this.jahrgangsstufe;
+        return this.Model.Jahrgang;
       }
 
       set
       {
-        if (value.JahrgangsstufeBezeichnung == this.jahrgangsstufe.JahrgangsstufeBezeichnung) return;
-        this.UndoablePropertyChanging(this, "ModulJahrgangsstufe", this.jahrgangsstufe, value);
-        this.jahrgangsstufe = value;
-        this.Model.Jahrgangsstufe = value.Model;
-        this.RaisePropertyChanged("ModulJahrgangsstufe");
+        if (value == this.Model.Jahrgang) return;
+        this.UndoablePropertyChanging(this, nameof(ModulJahrgang), this.Model.Jahrgang, value);
+        this.Model.Jahrgang = value;
+        this.RaisePropertyChanged("ModulJahrgang");
       }
     }
 
@@ -169,9 +137,20 @@
       set
       {
         if (value == this.Model.Stundenbedarf) return;
-        this.UndoablePropertyChanging(this, "ModulStundenbedarf", this.Model.Stundenbedarf, value);
+        this.UndoablePropertyChanging(this, nameof(ModulStundenbedarf), this.Model.Stundenbedarf, value);
         this.Model.Stundenbedarf = value;
         this.RaisePropertyChanged("ModulStundenbedarf");
+      }
+    }
+
+    /// <summary>
+    /// Holt oder setzt die Anzahl der Entwürfe zu dem Modul
+    /// </summary>
+    public int ModulEntwürfe
+    {
+      get
+      {
+        return this.Model.Stunden.Count;
       }
     }
 
@@ -200,7 +179,7 @@
       set
       {
         if (value == this.Model.Bausteine) return;
-        this.UndoablePropertyChanging(this, "ModulBausteine", this.Model.Bausteine, value);
+        this.UndoablePropertyChanging(this, nameof(ModulBausteine), this.Model.Bausteine, value);
         this.Model.Bausteine = value;
         this.RaisePropertyChanged("ModulBausteine");
       }

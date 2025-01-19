@@ -8,11 +8,12 @@
   using System.Linq;
   using System.Windows;
   using System.Windows.Controls;
-  using System.Windows.Forms.VisualStyles;
   using System.Windows.Media;
 
   public static class Extensions
   {
+    private static readonly Random random = new();
+
     public static bool RemoveTest<T>(this ICollection<T> source, T viewModel)
     {
       var success = source.Remove(viewModel);
@@ -37,15 +38,23 @@
       return ShuffleInternal(array, Math.Min(count, array.Length)).Take(count);
     }
 
+    public static void Shuffle2<T>(this IList<T> list)
+    {
+      int n = list.Count;
+      while (n > 1)
+      {
+        n--;
+        int k = random.Next(n + 1);
+        (list[n], list[k]) = (list[k], list[n]);
+      }
+    }
+
     private static IEnumerable<T> ShuffleInternal<T>(T[] array, int count)
     {
-      var random = new Random();
       for (var n = 0; n < count; n++)
       {
         var k = random.Next(n, array.Length);
-        var temp = array[n];
-        array[n] = array[k];
-        array[k] = temp;
+        (array[k], array[n]) = (array[n], array[k]);
       }
 
       return array;
@@ -72,23 +81,23 @@
     //  return items.GroupBy(x => i++ % numOfParts);
     //}
 
-    /// <summary>
-    /// Break a list of items into chunks of a specific size
-    /// </summary>
-    public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> source, int chunksize)
-    {
-      while (source.Any())
-      {
-        yield return source.Take(chunksize);
-        source = source.Skip(chunksize);
-      }
-    }
+    ///// <summary>
+    ///// Break a list of items into chunks of a specific size
+    ///// </summary>
+    //public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> source, int chunksize)
+    //{
+    //  while (source.Any())
+    //  {
+    //    yield return source.Take(chunksize);
+    //    source = source.Skip(chunksize);
+    //  }
+    //}
 
     public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> source)
     {
       if (source == null)
       {
-        throw new ArgumentNullException("source");
+        throw new ArgumentNullException(nameof(source));
       }
 
       return new ObservableCollection<T>(source);
@@ -96,7 +105,7 @@
 
     public static string StripLeft(this string value, int length)
     {
-      return value.Substring(length, value.Length - length);
+      return value[length..];
     }
 
     public static string StripRight(this string value, int length)
@@ -107,23 +116,23 @@
     public static void Raise(this PropertyChangedEventHandler eventHandler, object source, string propertyName)
     {
       var handlers = eventHandler;
-      if (handlers != null)
-        handlers(source, new PropertyChangedEventArgs(propertyName));
+      if (handlers == null)
+        return;
+      handlers(source, new PropertyChangedEventArgs(propertyName));
     }
 
     public static void Raise(this EventHandler eventHandler, object source)
     {
-      var handlers = eventHandler;
-      if (handlers != null)
-        handlers(source, EventArgs.Empty);
+      eventHandler?.Invoke(source, EventArgs.Empty);
     }
 
     public static void Register(this INotifyPropertyChanged model, string propertyName, Action whenChanged)
-    {model.PropertyChanged += (sender, args) =>
-      {
-        if (args.PropertyName == propertyName)
-          whenChanged();
-      };
+    {
+      model.PropertyChanged += (sender, args) =>
+       {
+         if (args.PropertyName == propertyName)
+           whenChanged();
+       };
     }
 
     public static void BubbleSort(this IList o)
@@ -160,7 +169,7 @@
       HitTestResult result = VisualTreeHelper.HitTest(control, p);
       DependencyObject obj = result.VisualHit;
 
-      while (VisualTreeHelper.GetParent(obj) != null && !(obj is TItemContainer))
+      while (VisualTreeHelper.GetParent(obj) != null && obj is not TItemContainer)
       {
         obj = VisualTreeHelper.GetParent(obj);
       }
@@ -168,5 +177,12 @@
       // Will return null if not found
       return obj as TItemContainer;
     }
+
+    public static DateTime StartOfWeek(this DateTime dt)
+    {
+      int diff = (7 + (dt.DayOfWeek - DayOfWeek.Sunday)) % 7;
+      return dt.AddDays(-1 * diff).Date;
+    }
+
   }
 }

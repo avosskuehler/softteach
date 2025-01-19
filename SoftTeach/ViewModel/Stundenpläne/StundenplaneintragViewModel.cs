@@ -2,14 +2,14 @@
 {
   using System;
   using System.Linq;
-  using System.Windows.Input;
   using System.Windows.Media;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Stundenpläne;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Helper;
+  using SoftTeach.ViewModel.Personen;
   using SoftTeach.ViewModel.Sitzpläne;
 
   /// <summary>
@@ -17,15 +17,15 @@
   /// </summary>
   public class StundenplaneintragViewModel : ViewModelBase
   {
-    /// <summary>
-    /// The fach currently assigned to this stundenplaneintrag
-    /// </summary>
-    private FachViewModel fach;
+    ///// <summary>
+    ///// The fach currently assigned to this stundenplaneintrag
+    ///// </summary>
+    //private FachViewModel fach;
 
     /// <summary>
     /// The klasse currently assigned to this stundenplaneintrag
     /// </summary>
-    private KlasseViewModel klasse;
+    private LerngruppeViewModel lerngruppe;
 
     /// <summary>
     /// The raum currently assigned to this stundenplaneintrag
@@ -40,12 +40,7 @@
     /// </param>
     public StundenplaneintragViewModel(Stundenplaneintrag stundenplaneintrag)
     {
-      if (stundenplaneintrag == null)
-      {
-        throw new ArgumentNullException("stundenplaneintrag");
-      }
-
-      this.Model = stundenplaneintrag;
+      this.Model = stundenplaneintrag ?? throw new ArgumentNullException(nameof(stundenplaneintrag));
     }
 
     /// <summary>
@@ -59,18 +54,8 @@
     /// </param>
     public StundenplaneintragViewModel(StundenplanViewModel parent, Stundenplaneintrag stundenplaneintrag)
     {
-      if (stundenplaneintrag == null)
-      {
-        throw new ArgumentNullException("stundenplaneintrag");
-      }
-
-      if (parent == null)
-      {
-        throw new ArgumentNullException("parent");
-      }
-
-      this.Model = stundenplaneintrag;
-      this.Parent = parent;
+      this.Model = stundenplaneintrag ?? throw new ArgumentNullException(nameof(stundenplaneintrag));
+      this.Parent = parent ?? throw new ArgumentNullException(nameof(parent));
 
       this.EditStundenplaneintragCommand = new DelegateCommand(this.EditStundenplaneintrag);
       this.RemoveStundenplaneintragCommand = new DelegateCommand(this.RemoveStundenplaneintrag);
@@ -125,7 +110,7 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "StundenplaneintragRaum", this.raum, value);
+        this.UndoablePropertyChanging(this, nameof(StundenplaneintragRaum), this.raum, value);
         this.raum = value;
         this.Model.Raum = value.Model;
         this.RaisePropertyChanged("StundenplaneintragRaum");
@@ -146,7 +131,7 @@
       set
       {
         if (value == this.Model.WochentagIndex) return;
-        this.UndoablePropertyChanging(this, "StundenplaneintragWochentagIndex", this.Model.WochentagIndex, value);
+        this.UndoablePropertyChanging(this, nameof(StundenplaneintragWochentagIndex), this.Model.WochentagIndex, value);
         this.Model.WochentagIndex = value;
         this.RaisePropertyChanged("StundenplaneintragWochentagIndex");
       }
@@ -155,74 +140,74 @@
     /// <summary>
     /// Holt oder setzt die Klasse currently assigned to this Jahresplan
     /// </summary>
-    public KlasseViewModel StundenplaneintragKlasse
+    public LerngruppeViewModel StundenplaneintragLerngruppe
     {
       get
       {
         // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Klasse == null)
+        if (this.Model.Lerngruppe == null)
         {
           return null;
         }
 
-        if (this.klasse == null || this.klasse.Model != this.Model.Klasse)
+        if (this.lerngruppe == null || this.lerngruppe.Model != this.Model.Lerngruppe)
         {
-          this.klasse = App.MainViewModel.Klassen.SingleOrDefault(d => d.Model == this.Model.Klasse);
+          this.lerngruppe = App.MainViewModel.Lerngruppen.SingleOrDefault(d => d.Model == this.Model.Lerngruppe);
         }
 
-        return this.klasse;
+        return this.lerngruppe;
       }
 
       set
       {
         if (value == null) return;
-        if (this.klasse != null)
+        if (this.lerngruppe != null)
         {
-          if (value.KlasseBezeichnung == this.klasse.KlasseBezeichnung) return;
+          if (value.LerngruppeBezeichnung == this.lerngruppe.LerngruppeBezeichnung) return;
         }
 
-        this.UndoablePropertyChanging(this, "StundenplaneintragKlasse", this.klasse, value);
-        this.klasse = value;
-        this.Model.Klasse = value.Model;
-        this.RaisePropertyChanged("StundenplaneintragKlasse");
+        this.UndoablePropertyChanging(this, nameof(StundenplaneintragLerngruppe), this.lerngruppe, value);
+        this.lerngruppe = value;
+        this.Model.Lerngruppe = value.Model;
+        this.RaisePropertyChanged("StundenplaneintragLerngruppe");
       }
     }
 
-    /// <summary>
-    /// Holt oder setzt die fach currently assigned to this Stundenentwurf
-    /// </summary>
-    public FachViewModel StundenplaneintragFach
-    {
-      get
-      {
-        // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Fach == null)
-        {
-          return null;
-        }
+    ///// <summary>
+    ///// Holt oder setzt die fach currently assigned to this Stundenentwurf
+    ///// </summary>
+    //public FachViewModel StundenplaneintragFach
+    //{
+    //  get
+    //  {
+    //    // We need to reflect any changes made in the model so we check the current value before returning
+    //    if (this.Model.Fach == null)
+    //    {
+    //      return null;
+    //    }
 
-        if (this.fach == null || this.fach.Model != this.Model.Fach)
-        {
-          this.fach = App.MainViewModel.Fächer.SingleOrDefault(d => d.Model == this.Model.Fach);
-        }
+    //    if (this.fach == null || this.fach.Model != this.Model.Fach)
+    //    {
+    //      this.fach = App.MainViewModel.Fächer.SingleOrDefault(d => d.Model == this.Model.Fach);
+    //    }
 
-        return this.fach;
-      }
+    //    return this.fach;
+    //  }
 
-      set
-      {
-        if (value == null) return;
-        if (this.fach != null)
-        {
-          if (value.FachBezeichnung == this.fach.FachBezeichnung) return;
-        }
+    //  set
+    //  {
+    //    if (value == null) return;
+    //    if (this.fach != null)
+    //    {
+    //      if (value.FachBezeichnung == this.fach.FachBezeichnung) return;
+    //    }
 
-        this.UndoablePropertyChanging(this, "StundenplaneintragFach", this.fach, value);
-        this.fach = value;
-        this.Model.Fach = value.Model;
-        this.RaisePropertyChanged("StundenplaneintragFach");
-      }
-    }
+    //    this.UndoablePropertyChanging(this, "StundenplaneintragFach", this.fach, value);
+    //    this.fach = value;
+    //    this.Model.Fach = value.Model;
+    //    this.RaisePropertyChanged("StundenplaneintragFach");
+    //  }
+    //}
 
     /// <summary>
     /// Holt oder setzt die ErsteUnterrichtsstundeIndex
@@ -238,7 +223,7 @@
       {
         if (value == this.Model.ErsteUnterrichtsstundeIndex) return;
         this.UndoablePropertyChanging(
-          this, "StundenplaneintragErsteUnterrichtsstundeIndex", this.Model.ErsteUnterrichtsstundeIndex, value);
+          this, nameof(StundenplaneintragErsteUnterrichtsstundeIndex), this.Model.ErsteUnterrichtsstundeIndex, value);
         this.Model.ErsteUnterrichtsstundeIndex = value;
         this.RaisePropertyChanged("StundenplaneintragErsteUnterrichtsstundeIndex");
       }
@@ -258,7 +243,7 @@
       {
         if (value == this.Model.LetzteUnterrichtsstundeIndex) return;
         this.UndoablePropertyChanging(
-          this, "StundenplaneintragLetzteUnterrichtsstundeIndex", this.Model.LetzteUnterrichtsstundeIndex, value);
+          this, nameof(StundenplaneintragLetzteUnterrichtsstundeIndex), this.Model.LetzteUnterrichtsstundeIndex, value);
         this.Model.LetzteUnterrichtsstundeIndex = value;
         this.RaisePropertyChanged("StundenplaneintragLetzteUnterrichtsstundeIndex");
       }
@@ -280,12 +265,12 @@
     /// <summary>
     /// Holt einen Wert, der angibt, ob dieser Stundenplaneintrag ein Dummy ist.
     /// </summary>
-    [DependsUpon("StundenplaneintragKlasse")]
+    [DependsUpon("StundenplaneintragLerngruppe")]
     public bool IsDummy
     {
       get
       {
-        return this.Model.Klasse == null;
+        return this.Model.Lerngruppe == null;
       }
     }
 
@@ -301,19 +286,19 @@
     }
 
     /// <summary>
-    /// Holt den Stundenanzahl of this Stundenplaneintrag
+    /// Holt die Hintergrundfarbe für diesen Stundenplaneintrag
     /// </summary>
-    [DependsUpon("StundenplaneintragFach")]
+    [DependsUpon("StundenplaneintragLerngruppe")]
     public SolidColorBrush StundenplaneintragBackground
     {
       get
       {
-        if (this.StundenplaneintragFach == null)
+        if (this.StundenplaneintragLerngruppe == null || this.StundenplaneintragLerngruppe.LerngruppeFach == null)
         {
           return Brushes.Transparent;
         }
 
-        var newColor = this.StundenplaneintragFach.FachFarbe;
+        var newColor = this.StundenplaneintragLerngruppe.LerngruppeFach.FachFarbe;
         return new SolidColorBrush(newColor);
       }
     }

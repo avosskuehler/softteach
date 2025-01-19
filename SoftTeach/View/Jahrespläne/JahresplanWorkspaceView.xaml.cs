@@ -1,12 +1,13 @@
 ﻿namespace SoftTeach.View.Jahrespläne
 {
-  using System.Windows.Controls;
-
   /// <summary>
   /// Interaction logic for JahresplanWorkspaceView.xaml
   /// </summary>
-  public partial class JahresplanWorkspaceView : UserControl
+  public partial class JahresplanWorkspaceView
   {
+    /// <summary>
+    /// Initialisiert eine neue Instanz der <see cref="JahresplanWorkspaceView"/> Klasse.
+    /// </summary>
     public JahresplanWorkspaceView()
     {
       this.InitializeComponent();

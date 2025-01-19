@@ -3,34 +3,21 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
       xmlns:personen="clr-namespace:SoftTeach.ViewModel.Personen"
       xmlns:setting="clr-namespace:SoftTeach.Setting"
       xmlns:personenView="clr-namespace:SoftTeach.View.Personen"
       xmlns:sitzpläne="clr-namespace:SoftTeach.ViewModel.Sitzpläne"
       xmlns:datenbank="clr-namespace:SoftTeach.View.Datenbank"
-      xmlns:softTeach="clr-namespace:SoftTeach"
+      xmlns:softTeach="clr-namespace:SoftTeach" 
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
       mc:Ignorable="d" 
       d:DesignHeight="768" 
       d:DesignWidth="1366"
       Title="Räume"
       FontSize="20">
   <Page.Resources>
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/SoftTeach;component/Resources/MetroResources.xaml"/>
-        <ResourceDictionary >
-          <DataTemplate DataType="{x:Type sitzpläne:RaumViewModel}" x:Key="RaumDataTemplate">
-            <datenbank:MetroRaumDetailView />
-          </DataTemplate>
-          <DataTemplate DataType="{x:Type sitzpläne:RaumplanViewModel}" x:Key="RaumpläneDataTemplate">
-            <datenbank:MetroRaumplanDetailView />
-          </DataTemplate>
-          <DataTemplate DataType="{x:Type sitzpläne:SitzplanViewModel}" x:Key="SitzpläneDataTemplate">
-            <datenbank:MetroSitzplanDetailView />
-          </DataTemplate>
-        </ResourceDictionary>
-      </ResourceDictionary.MergedDictionaries>
-    </ResourceDictionary>
+    <ResourceDictionary Source="/SoftTeach;component/Resources/MetroResources.xaml"/>
   </Page.Resources>
   <Grid Stylus.IsPressAndHoldEnabled="False">
     <Grid.RowDefinitions>
@@ -38,60 +25,85 @@
       <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
-      <ColumnDefinition/>
+      <ColumnDefinition Width="Auto"/>
       <ColumnDefinition/>
       <ColumnDefinition/>
     </Grid.ColumnDefinitions>
-    <Border Grid.Row="0" Grid.ColumnSpan="3" Background="{StaticResource MetroHeaderBackground}">
+    <Border Grid.Row="0" Grid.Column="0" Background="{StaticResource MetroHeaderBackground}">
+      <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">Raum auswählen</Label>
+    </Border>
+    <Border Grid.Row="0" Grid.Column="1" Background="{StaticResource MetroHeaderBackground}">
+      <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">Plan auswählen</Label>
+    </Border>
+    <Border Grid.Row="0" Grid.Column="2" Background="{StaticResource MetroHeaderBackground}">
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-        <Label Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center">Sitzplan auswählen</Label>
         <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-                    Command="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=SitzplanWorkspace.AddSitzplanCommand}" 
-                    ToolTip="Neuen Sitzplan anlegen.">
-          <Grid>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="Auto"/>
-              <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <Image Grid.Column="1"  Source="/SoftTeach;component/Images/Sitzplan32.png"/>
-            <Image Grid.Column="1" Source="/SoftTeach;component/Images/AddOverlay32.png"/>
-            <Label Grid.Column="0" Foreground="White" HorizontalAlignment="Center">oder Sitzplan neu anlegen</Label>
-          </Grid>
+                    Command="{Binding Path=AddSitzplanCommand}" 
+                    ToolTip="en Sitzplan anlegen." Padding="0" Margin="0">
+          <StackPanel Orientation="Horizontal">
+            <Label Foreground="White" HorizontalAlignment="Center" FontSize="18">Sitzplan  anlegen</Label>
+            <Grid>
+              <fa:IconBlock Style="{StaticResource Sitzplan32}"/>
+              <fa:IconBlock Style="{StaticResource AddOverlay32}"/>
+            </Grid>
+          </StackPanel>
         </Button>
         <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-                    Command="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=SitzplanWorkspace.DeleteSitzplanCommand}" 
+                    Command="{Binding Path=DeleteSitzplanCommand}" 
                     ToolTip="Sitzplan löschen.">
-          <Grid>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="Auto"/>
-              <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <Image Grid.Column="1"  Source="/SoftTeach;component/Images/Sitzplan32.png"/>
-            <Image Grid.Column="1" Source="/SoftTeach;component/Images/RemoveOverlay32.png"/>
-            <Label Grid.Column="0" Foreground="White" HorizontalAlignment="Center">oder Sitzplan löschen</Label>
-          </Grid>
+          <StackPanel Orientation="Horizontal">
+            <Label Foreground="White" HorizontalAlignment="Center" FontSize="18">Sitzplan löschen</Label>
+            <Grid>
+              <fa:IconBlock Style="{StaticResource Sitzplan32}"/>
+              <fa:IconBlock Style="{StaticResource DeleteOverlay32}"/>
+            </Grid>
+          </StackPanel>
         </Button>
 
       </StackPanel>
     </Border>
-    <ListBox Grid.Row="1" Grid.Column="0"
-                 ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Räume}"             
-                 BorderThickness="0"
-                 Name="RäumeListBox"
-                 ItemTemplate="{StaticResource RaumDataTemplate}"
-                 ItemContainerStyle="{StaticResource MetroListBoxItem}">
+    <!--ItemTemplate="{StaticResource RaumDataTemplate}"-->
+    <ListBox Grid.Row="1" Grid.Column="0" Width="300"
+             ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Räume}"    
+             SelectedItem="{Binding Path=RaumFilter}"
+             BorderThickness="0"
+             Name="RäumeListBox"
+             ItemContainerStyle="{StaticResource MahApps.Styles.ListBoxItem}">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <StackPanel Margin="5">
+            <Border Margin="0,5,5,5" Padding="10">
+              <Border.Background>
+                <SolidColorBrush Color="{StaticResource ToggleButtonBackColor}"/>
+              </Border.Background>
+              <TextBlock Style="{StaticResource MetroLabelStyle}" Text="{Binding Path=RaumBezeichnung}"/>
+            </Border>
+          </StackPanel>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
       <ListBox.ItemsPanel>
         <ItemsPanelTemplate>
           <WrapPanel Width="{Binding ElementName=RäumeListBox, Path=ActualWidth}" Orientation="Horizontal"/>
         </ItemsPanelTemplate>
       </ListBox.ItemsPanel>
     </ListBox>
+    <!--ItemTemplate="{StaticResource RaumpläneDataTemplate}"-->
     <ListBox Grid.Row="1" Grid.Column="1"
-                 ItemsSource="{Binding Source={x:Static setting:Selection.Instance}, Path=Raum.Raumpläne}"             
-                 BorderThickness="0"
-                 Name="RaumpläneListBox"
-                 ItemTemplate="{StaticResource RaumpläneDataTemplate}"
-                 ItemContainerStyle="{StaticResource MetroSilentListBoxItem}">
+             ItemsSource="{Binding Path=RaumFilter.Raumpläne}"             
+             SelectedItem="{Binding Path=RaumplanFilter}"
+             BorderThickness="0"
+             Name="RaumpläneListBox"
+             ItemContainerStyle="{StaticResource MahApps.Styles.ListBoxItem}">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <Border Margin="0,5,5,5" Padding="10">
+            <StackPanel>
+              <TextBlock Style="{StaticResource MetroLabelStyle}" Text="{Binding Path=RaumplanBezeichnung}"/>
+              <Image Source="{Binding Path=RaumplanImage}" Height="180"/>
+            </StackPanel>
+          </Border>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
       <ListBox.ItemsPanel>
         <ItemsPanelTemplate>
           <WrapPanel Width="{Binding ElementName=RaumpläneListBox, Path=ActualWidth}" Orientation="Horizontal"/>
@@ -99,13 +111,29 @@
       </ListBox.ItemsPanel>
     </ListBox>
 
+    <!--ItemTemplate="{StaticResource SitzpläneDataTemplate}"-->
     <ListBox  Grid.Row="1" Grid.Column="2"
-              ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=SitzplanWorkspace.SitzpläneView}"             
-              SelectedItem="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=SitzplanWorkspace.CurrentSitzplan}"
+              ItemsSource="{Binding Path=SitzpläneView}"             
+              SelectedItem="{Binding Path=CurrentSitzplan}"
               BorderThickness="0"
               Name="SitzpläneListBox"
-              ItemTemplate="{StaticResource SitzpläneDataTemplate}"
-              ItemContainerStyle="{StaticResource MetroSilentListBoxItem}">
+              ItemContainerStyle="{StaticResource MahApps.Styles.ListBoxItem}">
+      <i:Interaction.Triggers>
+        <i:EventTrigger EventName="MouseDoubleClick">
+          <i:InvokeCommandAction Command="{Binding SitzplanBearbeitenCommand}"/>
+        </i:EventTrigger>
+      </i:Interaction.Triggers>
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <Border Margin="0,5,5,5" Padding="10">
+            <StackPanel>
+              <TextBlock Style="{StaticResource MetroLabelStyle}" Text="{Binding Path=SitzplanBezeichnung}"/>
+              <Image Source="{Binding Path=SitzplanRaumplan.RaumplanImage}" Height="180"/>
+              <TextBlock Style="{StaticResource MetroLabelStyle}" Text="{Binding Path=SitzplanGültigAbString}"/>
+            </StackPanel>
+          </Border>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
       <ListBox.ItemsPanel>
         <ItemsPanelTemplate>
           <WrapPanel Width="{Binding ElementName=SitzpläneListBox, Path=ActualWidth}" Orientation="Horizontal"/>

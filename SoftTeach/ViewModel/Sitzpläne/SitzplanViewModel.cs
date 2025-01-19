@@ -1,20 +1,15 @@
 ﻿namespace SoftTeach.ViewModel.Sitzpläne
 {
   using System;
+  using System.Collections.Generic;
   using System.Collections.ObjectModel;
   using System.Collections.Specialized;
-  using System.ComponentModel;
   using System.Linq;
-  using System.Printing;
   using System.Windows;
   using System.Windows.Controls;
-  using System.Windows.Data;
-  using System.Windows.Documents;
 
   using GongSolutions.Wpf.DragDrop;
-
-  using SoftTeach.View.Personen;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Sitzpläne;
@@ -33,9 +28,9 @@
     private RaumplanViewModel raumplan;
 
     /// <summary>
-    /// Der Schülerliste der zu diesem Sitzplan gehört
+    /// Der Lerngruppe der zu diesem Sitzplan gehört
     /// </summary>
-    private SchülerlisteViewModel schülerliste;
+    private LerngruppeViewModel schülerliste;
 
     /// <summary>
     /// The schüler currently selected
@@ -43,6 +38,9 @@
     private SitzplaneintragViewModel currentSitzplaneintrag;
 
     private double sitzplanDrehung;
+    private bool nurTeilungsgruppen;
+    private bool nurTeilungsgruppeA;
+    private bool nurTeilungsgruppeB;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="SitzplanViewModel"/> Klasse. 
@@ -52,14 +50,9 @@
     /// </param>
     public SitzplanViewModel(Sitzplan sitzplan)
     {
-      if (sitzplan == null)
-      {
-        throw new ArgumentNullException("sitzplan");
-      }
+      this.Model = sitzplan ?? throw new ArgumentNullException(nameof(sitzplan));
 
-      this.Model = sitzplan;
-
-      this.SitzplanNeuEinteilenCommand = new DelegateCommand(this.SitzplanNeuEinteilen);
+      this.SitzplanEinteilenCommand = new DelegateCommand(this.SitzplanEinteilen);
       this.SitzplanLeerenCommand = new DelegateCommand(this.SitzplanLeeren);
       this.SitzplanAusdruckenCommand = new DelegateCommand(this.SitzplanAusdrucken);
 
@@ -74,47 +67,57 @@
           //App.MainViewModel.Sitzplaneinträge.Add(vm);
           this.Sitzplaneinträge.Add(vm);
         }
+        this.Sitzplaneinträge.CollectionChanged += this.SitzplaneinträgeCollectionChanged;
       }
       else
       {
-        // Noch keine Sitzplaneinträge vorhanden, erstelle also alle neu aus den Sitzplätzen des Raumplans
-        foreach (var sitzplatz in sitzplan.Raumplan.Sitzplätze)
+        using (new UndoBatch(App.MainViewModel, string.Format("Neuer Sitzplan angelegt"), false))
         {
-          var sitzplaneintrag = new Sitzplaneintrag();
-          sitzplaneintrag.Sitzplan = this.Model;
-          sitzplaneintrag.Sitzplatz = sitzplatz;
+          this.Sitzplaneinträge.CollectionChanged += this.SitzplaneinträgeCollectionChanged;
 
-          var vm = new SitzplaneintragViewModel(sitzplaneintrag);
-          //App.MainViewModel.Sitzplaneinträge.Add(vm);
-          this.Sitzplaneinträge.Add(vm);
-          this.CurrentSitzplaneintrag = vm;
+          // Noch keine Sitzplaneinträge vorhanden, erstelle also alle  aus den Sitzplätzen des Raumplans
+          foreach (var sitzplatz in sitzplan.Raumplan.Sitzplätze)
+          {
+            var sitzplaneintrag = new Sitzplaneintrag
+            {
+              Sitzplan = this.Model,
+              Sitzplatz = sitzplatz
+            };
+            //App.UnitOfWork.Context.Sitzplaneinträge.Add(sitzplaneintrag);
+
+            var vm = new SitzplaneintragViewModel(sitzplaneintrag);
+            //App.MainViewModel.Sitzplaneinträge.Add(vm);
+            this.Sitzplaneinträge.Add(vm);
+            this.CurrentSitzplaneintrag = vm;
+          }
         }
       }
 
-      this.Sitzplaneinträge.CollectionChanged += this.SitzplaneinträgeCollectionChanged;
 
       // Build data structures for Schülereinträge
-      this.UsedSchülereinträge = new ObservableCollection<SchülereintragViewModel>();
-      this.AvailableSchülereinträge = new ObservableCollection<SchülereintragViewModel>();
-      foreach (var schülereintrag in sitzplan.Schülerliste.Schülereinträge.OrderBy(o => o.Person.Vorname))
+      this.UsedSchülereinträge = new ObservableCollection<Schülereintrag>();
+      this.AvailableSchülereinträge = new ObservableCollection<Schülereintrag>();
+      foreach (var schülereintrag in sitzplan.Lerngruppe.Schülereinträge.OrderBy(o => o.Person.Vorname))
       {
-        var schülerId = schülereintrag.Id;
-        var vm = App.MainViewModel.Schülereinträge.First(o => o.Model.Id == schülerId);
-        if (this.Sitzplaneinträge.Any(o => o.SitzplaneintragSchülereintrag != null && o.SitzplaneintragSchülereintrag == vm))
+        //var schülerId = schülereintrag.Id;
+        //var vm = App.MainViewModel.Schülereinträge.First(o => o.Model.Id == schülerId);
+        if (this.Sitzplaneinträge.Any(o => o.SitzplaneintragSchülereintrag != null && o.SitzplaneintragSchülereintrag == schülereintrag))
         {
-          this.UsedSchülereinträge.Add(vm);
+          this.UsedSchülereinträge.Add(schülereintrag);
         }
         else
         {
-          this.AvailableSchülereinträge.Add(vm);
+          this.AvailableSchülereinträge.Add(schülereintrag);
         }
       }
+
+      this.NurTeilungsgruppeA = true;
     }
 
     /// <summary>
-    /// Holt den Befehl um den Sitzplan neu einzuteilen
+    /// Holt den Befehl um den Sitzplan  einzuteilen
     /// </summary>
-    public DelegateCommand SitzplanNeuEinteilenCommand { get; private set; }
+    public DelegateCommand SitzplanEinteilenCommand { get; private set; }
 
     /// <summary>
     /// Holt den Befehl um den Sitzplan zu leeren einzuteilen
@@ -139,12 +142,12 @@
     /// <summary>
     /// Holt die im Sitzplan verwendeten Schülereinträge
     /// </summary>
-    public ObservableCollection<SchülereintragViewModel> UsedSchülereinträge { get; private set; }
+    public ObservableCollection<Schülereintrag> UsedSchülereinträge { get; private set; }
 
     /// <summary>
     /// Holt die im Sitzplan nicht verwendeten Schülereinträge
     /// </summary>
-    public ObservableCollection<SchülereintragViewModel> AvailableSchülereinträge { get; private set; }
+    public ObservableCollection<Schülereintrag> AvailableSchülereinträge { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die currently selected sitzplaneintrag
@@ -176,28 +179,28 @@
       set
       {
         if (value == this.Model.Bezeichnung) return;
-        this.UndoablePropertyChanging(this, "SitzplanBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(SitzplanBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("SitzplanBezeichnung");
       }
     }
 
     /// <summary>
-    /// Holt oder setzt den Schülerliste für den Schülerlisteplan
+    /// Holt oder setzt den Lerngruppe für den Lerngruppeplan
     /// </summary>
-    public SchülerlisteViewModel SitzplanSchülerliste
+    public LerngruppeViewModel SitzplanLerngruppe
     {
       get
       {
         // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Schülerliste == null)
+        if (this.Model.Lerngruppe == null)
         {
           return null;
         }
 
-        if (this.schülerliste == null || this.schülerliste.Model != this.Model.Schülerliste)
+        if (this.schülerliste == null || this.schülerliste.Model != this.Model.Lerngruppe)
         {
-          this.schülerliste = App.MainViewModel.Schülerlisten.SingleOrDefault(d => d.Model == this.Model.Schülerliste);
+          this.schülerliste = App.MainViewModel.Lerngruppen.SingleOrDefault(d => d.Model == this.Model.Lerngruppe);
         }
 
         return this.schülerliste;
@@ -208,13 +211,13 @@
         if (value == null) return;
         if (this.schülerliste != null)
         {
-          if (value.SchülerlisteÜberschrift == this.schülerliste.SchülerlisteÜberschrift) return;
+          if (value.LerngruppeÜberschrift == this.schülerliste.LerngruppeÜberschrift) return;
         }
 
-        this.UndoablePropertyChanging(this, "SitzplanSchülerliste", this.schülerliste, value);
+        this.UndoablePropertyChanging(this, nameof(SitzplanLerngruppe), this.schülerliste, value);
         this.schülerliste = value;
-        this.Model.Schülerliste = value.Model;
-        this.RaisePropertyChanged("SitzplanSchülerliste");
+        this.Model.Lerngruppe = value.Model;
+        this.RaisePropertyChanged("SitzplanLerngruppe");
       }
     }
 
@@ -247,7 +250,7 @@
           if (value.RaumplanBezeichnung == this.raumplan.RaumplanBezeichnung) return;
         }
 
-        this.UndoablePropertyChanging(this, "SitzplanRaumplan", this.raumplan, value);
+        this.UndoablePropertyChanging(this, nameof(SitzplanRaumplan), this.raumplan, value);
         this.raumplan = value;
         this.Model.Raumplan = value.Model;
         this.RaisePropertyChanged("SitzplanRaumplan");
@@ -267,7 +270,7 @@
       set
       {
         if (value == this.Model.GültigAb) return;
-        this.UndoablePropertyChanging(this, "SitzplanGültigAb", this.Model.GültigAb, value);
+        this.UndoablePropertyChanging(this, nameof(SitzplanGültigAb), this.Model.GültigAb, value);
         this.Model.GültigAb = value;
         this.RaisePropertyChanged("SitzplanGültigAb");
       }
@@ -298,7 +301,7 @@
       set
       {
         if (value == this.sitzplanDrehung) return;
-        this.UndoablePropertyChanging(this, "SitzplanDrehung", this.sitzplanDrehung, value);
+        this.UndoablePropertyChanging(this, nameof(SitzplanDrehung), this.sitzplanDrehung, value);
         this.sitzplanDrehung = value;
         this.RaisePropertyChanged("SitzplanDrehung");
       }
@@ -308,8 +311,6 @@
     /// Holt oder setzt einen Wert, der angibt, ob beim Sitzplan Jungen und Mädchen möglichst getrennt sitzen sollen.
     /// </summary>
     public bool? SitzplanMädchenJungeNebeneinander { get; set; }
-
-    private bool nurTeilungsgruppen;
 
     /// <summary>
     /// Holt oder setzt einen Wert, der angibt, ob beim Sitzplan Teilungsgruppen berücksichtigt werden sollen.
@@ -332,12 +333,38 @@
     /// <summary>
     /// Holt oder setzt einen Wert, der angibt, ob beim Sitzplan nur die Teilungsgruppe A berücksichtigt wird.
     /// </summary>
-    public bool NurTeilungsgruppeA { get; set; }
+    public bool NurTeilungsgruppeA
+    {
+      get => nurTeilungsgruppeA;
+      set
+      {
+        if (nurTeilungsgruppeA == value)
+        {
+          return;
+        }
+
+        nurTeilungsgruppeA = value;
+        this.RaisePropertyChanged("NurTeilungsgruppeA");
+      }
+    }
 
     /// <summary>
     /// Holt oder setzt einen Wert, der angibt, ob beim Sitzplan nur die Teilungsgruppe B berücksichtigt wird.
     /// </summary>
-    public bool NurTeilungsgruppeB { get; set; }
+    public bool NurTeilungsgruppeB
+    {
+      get => nurTeilungsgruppeB;
+      set
+      {
+        if (nurTeilungsgruppeB == value)
+        {
+          return;
+        }
+
+        nurTeilungsgruppeB = value;
+        this.RaisePropertyChanged("NurTeilungsgruppeB");
+      }
+    }
 
     /// <summary>
     /// Gibt eine lesbare Repräsentation des ViewModels
@@ -376,7 +403,7 @@
       var sourceItem = dropInfo.Data;
       var targetItem = dropInfo.TargetItem;
       if ((sourceItem is SchülereintragViewModel && targetItem is SitzplaneintragViewModel)
-        || sourceItem is SitzplaneintragViewModel)
+        || sourceItem is SitzplaneintragViewModel || (sourceItem is Schülereintrag && targetItem is SitzplaneintragViewModel))
       {
         dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
         dropInfo.Effects = DragDropEffects.Move;
@@ -397,9 +424,9 @@
       {
         var sourceItem = dropInfo.Data;
         var targetItem = dropInfo.TargetItem;
-        if (sourceItem is SchülereintragViewModel && targetItem is SitzplaneintragViewModel)
+        if (sourceItem is Schülereintrag && targetItem is SitzplaneintragViewModel)
         {
-          var source = sourceItem as SchülereintragViewModel;
+          var source = sourceItem as Schülereintrag;
           var target = targetItem as SitzplaneintragViewModel;
           target.SitzplaneintragSchülereintrag = source;
           if (this.AvailableSchülereinträge.Contains(source))
@@ -439,42 +466,46 @@
 
 
     /// <summary>
-    /// Teilt die verbliebenen Schüler auf die Sitzplätze neu auf
+    /// Teilt die verbliebenen Schüler auf die Sitzplätze  auf
     /// </summary>
-    public void SitzplanNeuEinteilen()
+    public void SitzplanEinteilen()
     {
-      if (this.AvailableSchülereinträge.Count == 0)
+      //if (this.AvailableSchülereinträge.Count == 0)
       {
         this.SitzplanLeeren();
       }
 
+      IEnumerable<Schülereintrag> schülereinträgeZurVerwendung = this.AvailableSchülereinträge.OrderBy(o => o.Person.Nachname);
+
       if (this.NurTeilungsgruppen)
       {
-        var schülernachGruppen = this.AvailableSchülereinträge.OrderBy(o => o.SchülereintragPerson.PersonNachname).Chunk(this.AvailableSchülereinträge.Count / 2);
+        var schülernachGruppen = schülereinträgeZurVerwendung.Chunk(this.AvailableSchülereinträge.Count / 2);
         if (this.NurTeilungsgruppeA)
         {
-          this.AvailableSchülereinträge = schülernachGruppen.First().ToObservableCollection();
+          schülereinträgeZurVerwendung = schülernachGruppen.First();
         }
         else if (this.NurTeilungsgruppeB)
         {
-          this.AvailableSchülereinträge = schülernachGruppen.Last().ToObservableCollection();
+          schülereinträgeZurVerwendung = schülernachGruppen.Last();
         }
       }
 
       if (this.SitzplanMädchenJungeNebeneinander.HasValue)
       {
-        var mädchen = this.AvailableSchülereinträge.Where(o => o.SchülereintragPerson.PersonIstWeiblich).Shuffle().ToList();
-        var jungen = this.AvailableSchülereinträge.Where(o => !o.SchülereintragPerson.PersonIstWeiblich).Shuffle().ToList();
+        var mädchen = schülereinträgeZurVerwendung.Where(o => o.Person.Geschlecht == Geschlecht.w).ToList();
+        mädchen.Shuffle2();
+        var jungen = schülereinträgeZurVerwendung.Where(o => o.Person.Geschlecht != Geschlecht.w).ToList();
+        jungen.Shuffle2();
 
         var größereGruppe = mädchen.Count >= jungen.Count ? mädchen : jungen;
         var kleinereGruppe = mädchen.Count >= jungen.Count ? jungen : mädchen;
         var gleichviel = (int)Math.Min(mädchen.Count, jungen.Count);
         var restlicheSchülerZahl = mädchen.Count + jungen.Count;
-        var restlicheSitzplätze = this.Sitzplaneinträge.Where(o => o.SitzplaneintragSchülereintrag == null).ToList();
+        var restlicheSitzplätze = this.Sitzplaneinträge.Where(o => o.SitzplaneintragSchülereintrag == null).OrderBy(o => o.SitzplaneintragSitzplatz.Reihenfolge).ToList();
 
         if (this.SitzplanMädchenJungeNebeneinander.Value)
         {
-          for (int i = 0; i <= gleichviel * 2; i++)
+          for (int i = 0; i < gleichviel * 2; i++)
           {
             if (restlicheSitzplätze.Count > i)
             {
@@ -488,7 +519,7 @@
             }
           }
 
-          for (int i = gleichviel * 2 + 1; i < restlicheSchülerZahl; i++)
+          for (int i = gleichviel * 2; i < restlicheSchülerZahl; i++)
           {
             if (restlicheSitzplätze.Count > i)
             {
@@ -504,11 +535,11 @@
         }
         else
         {
-          for (int i = 0; i <= gleichviel * 2; i++)
+          for (int i = 0; i < gleichviel * 2; i++)
           {
             if (restlicheSitzplätze.Count > i)
             {
-              var useGrößereGruppe = (i / 2) % 2 == 0;
+              var useGrößereGruppe = i % 2 == 0;
               var schülereintrag = useGrößereGruppe ? größereGruppe[i / 2 + i % 2] : kleinereGruppe[i / 2 + i % 2 - 1];
               restlicheSitzplätze[i].SitzplaneintragSchülereintrag = schülereintrag;
               if (this.AvailableSchülereinträge.Contains(schülereintrag))
@@ -519,7 +550,7 @@
             }
           }
 
-          for (int i = gleichviel * 2 + 1; i < restlicheSchülerZahl; i++)
+          for (int i = gleichviel * 2; i < restlicheSchülerZahl; i++)
           {
             if (restlicheSitzplätze.Count > i)
             {
@@ -537,8 +568,11 @@
       }
       else
       {
-        var restlicheSchüler = this.AvailableSchülereinträge.Shuffle().ToList();
-        var restlicheSitzplätze = this.Sitzplaneinträge.Where(o => o.SitzplaneintragSchülereintrag == null).Shuffle().ToList();
+        var restlicheSchüler = schülereinträgeZurVerwendung.ToList();
+        restlicheSchüler.Shuffle2();
+
+        var restlicheSitzplätze = this.Sitzplaneinträge.Where(o => o.SitzplaneintragSchülereintrag == null).OrderBy(o => o.SitzplaneintragSitzplatz.Reihenfolge).ToList();
+
         for (int i = 0; i < restlicheSchüler.Count(); i++)
         {
           if (restlicheSitzplätze.Count > i)
@@ -561,27 +595,27 @@
       {
         if (sitzplaneintragViewModel.SitzplaneintragSchülereintrag != null)
         {
-          //if (this.UsedSchülereinträge.Contains(sitzplaneintragViewModel.SitzplaneintragSchülereintrag))
-          //{
-          //  this.UsedSchülereinträge.RemoveTest(sitzplaneintragViewModel.SitzplaneintragSchülereintrag);
-          //  //this.AvailableSchülereinträge.Add(sitzplaneintragViewModel.SitzplaneintragSchülereintrag);
-          //}
+          if (this.UsedSchülereinträge.Contains(sitzplaneintragViewModel.SitzplaneintragSchülereintrag))
+          {
+            this.UsedSchülereinträge.RemoveTest(sitzplaneintragViewModel.SitzplaneintragSchülereintrag);
+            this.AvailableSchülereinträge.Add(sitzplaneintragViewModel.SitzplaneintragSchülereintrag);
+          }
 
           sitzplaneintragViewModel.SitzplaneintragSchülereintrag = null;
         }
       }
 
-      this.UsedSchülereinträge.Clear();
+      //this.UsedSchülereinträge.Clear();
 
-      foreach (var schülereintrag in this.Model.Schülerliste.Schülereinträge.OrderBy(o => o.Person.Vorname))
-      {
-        var schülerId = schülereintrag.Id;
-        var vm = App.MainViewModel.Schülereinträge.First(o => o.Model.Id == schülerId);
-        if (!this.Sitzplaneinträge.Any(o => o.SitzplaneintragSchülereintrag != null && o.SitzplaneintragSchülereintrag == vm))
-        {
-          this.AvailableSchülereinträge.Add(vm);
-        }
-      }
+      //foreach (var schülereintrag in this.Model.Lerngruppe.Schülereinträge.OrderBy(o => o.Person.Vorname))
+      //{
+      //  var schülerId = schülereintrag.Id;
+      //  //var vm = App.MainViewModel.Schülereinträge.First(o => o.Model.Id == schülerId);
+      //  if (!this.Sitzplaneinträge.Any(o => o.SitzplaneintragSchülereintrag != null && o.SitzplaneintragSchülereintrag == schülereintrag))
+      //  {
+      //    this.AvailableSchülereinträge.Add(schülereintrag);
+      //  }
+      //}
 
     }
 
@@ -614,7 +648,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void SitzplaneinträgeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Sitzplaneinträge", this.Sitzplaneinträge, e, false, "Änderung der Sitzplaneinträge");
+      UndoableCollectionChanged(this, nameof(Sitzplaneinträge), this.Sitzplaneinträge, e, true, "Änderung der Sitzplaneinträge");
     }
   }
 }

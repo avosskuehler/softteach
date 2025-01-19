@@ -3,13 +3,10 @@
   using System;
   using System.Globalization;
   using System.Linq;
-  using System.Windows.Input;
-
-  using SoftTeach.Model;
 
   using MahApps.Metro.Controls.Dialogs;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.View.Noten;
   using SoftTeach.ViewModel.Datenbank;
@@ -35,13 +32,16 @@
     /// </summary>
     public NoteViewModel()
     {
-      var note = new Note();
-      note.Datum = DateTime.Now;
-      note.IstSchriftlich = false;
-      note.Wichtung = 1;
-      note.Zensur = App.MainViewModel.Zensuren.First().Model;
+      var note = new Note
+      {
+        Datum = DateTime.Now,
+        IstSchriftlich = false,
+        Wichtung = 1,
+        Zensur = App.MainViewModel.Zensuren.First().Model
+      };
       this.Model = note;
-      App.MainViewModel.Noten.Add(this);
+      //App.UnitOfWork.Context.Noten.Add(note);
+      //App.MainViewModel.Noten.Add(this);
     }
 
     /// <summary>
@@ -52,20 +52,15 @@
     /// </param>
     public NoteViewModel(Note note)
     {
-      if (note == null)
-      {
-        throw new ArgumentNullException("note");
-      }
+      this.Model = note ?? throw new ArgumentNullException(nameof(note));
 
-      this.Model = note;
-
-      App.MainViewModel.Arbeiten.CollectionChanged += (sender, e) =>
-      {
-        if (e.OldItems != null && e.OldItems.Contains(this.NoteZensur))
-        {
-          this.NoteArbeit = null;
-        }
-      };
+      //App.MainViewModel.Arbeiten.CollectionChanged += (sender, e) =>
+      //{
+      //  if (e.OldItems != null && e.OldItems.Contains(this.NoteZensur))
+      //  {
+      //    this.NoteArbeit = null;
+      //  }
+      //};
 
       this.EditNoteCommand = new DelegateCommand(this.EditNote);
       this.DeleteNoteCommand = new DelegateCommand(this.DeleteNote);
@@ -100,7 +95,7 @@
       set
       {
         if (value == this.Model.Bezeichnung) return;
-        this.UndoablePropertyChanging(this, "NoteBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(NoteBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("NoteBezeichnung");
       }
@@ -114,13 +109,13 @@
     {
       get
       {
-        return this.Model.Datum;
+        return this.Model.Datum.Date;
       }
 
       set
       {
         if (value == this.Model.Datum) return;
-        this.UndoablePropertyChanging(this, "NoteDatum", this.Model.Datum, value);
+        this.UndoablePropertyChanging(this, nameof(NoteDatum), this.Model.Datum, value);
         this.Model.Datum = value;
         this.RaisePropertyChanged("NoteDatum");
       }
@@ -156,14 +151,14 @@
     {
       get
       {
-        return (Notentyp)Enum.Parse(typeof(Notentyp), this.Model.Notentyp);
+        return this.Model.Notentyp;
       }
 
       set
       {
-        if (value.ToString() == this.Model.Notentyp) return;
-        this.UndoablePropertyChanging(this, "NoteNotentyp", this.NoteNotentyp, value);
-        this.Model.Notentyp = value.ToString();
+        if (value == this.Model.Notentyp) return;
+        this.UndoablePropertyChanging(this, nameof(NoteNotentyp), this.Model.Notentyp, value);
+        this.Model.Notentyp = value;
         this.RaisePropertyChanged("NoteNotentyp");
       }
     }
@@ -175,19 +170,14 @@
     {
       get
       {
-        if (this.Model.NotenTermintyp == null)
-        {
-          this.Model.NotenTermintyp = NotenTermintyp.Einzeln.ToString();
-        }
-
-        return (NotenTermintyp)Enum.Parse(typeof(NotenTermintyp), this.Model.NotenTermintyp);
+        return this.Model.NotenTermintyp;
       }
 
       set
       {
-        if (value.ToString() == this.Model.NotenTermintyp) return;
-        this.UndoablePropertyChanging(this, "NoteTermintyp", this.NoteTermintyp, value);
-        this.Model.NotenTermintyp = value.ToString();
+        if (value == this.Model.NotenTermintyp) return;
+        this.UndoablePropertyChanging(this, nameof(NoteTermintyp), this.Model.Notentyp, value);
+        this.Model.NotenTermintyp = value;
         this.RaisePropertyChanged("NoteTermintyp");
       }
     }
@@ -205,7 +195,7 @@
       set
       {
         if (value == this.Model.IstSchriftlich) return;
-        this.UndoablePropertyChanging(this, "NoteIstSchriftlich", this.Model.IstSchriftlich, value);
+        this.UndoablePropertyChanging(this, nameof(NoteIstSchriftlich), this.Model.IstSchriftlich, value);
         this.Model.IstSchriftlich = value;
         this.RaisePropertyChanged("NoteIstSchriftlich");
       }
@@ -224,7 +214,7 @@
       set
       {
         if (value == this.Model.Wichtung) return;
-        this.UndoablePropertyChanging(this, "NoteWichtung", this.Model.Wichtung, value);
+        this.UndoablePropertyChanging(this, nameof(NoteWichtung), this.Model.Wichtung, value);
         this.Model.Wichtung = value;
         this.RaisePropertyChanged("NoteWichtung");
       }
@@ -268,7 +258,7 @@
         if (this.zensur != null)
         {
           if (value.ZensurNotenpunkte == this.zensur.ZensurNotenpunkte) return;
-          this.UndoablePropertyChanging(this, "NoteZensur", this.zensur, value);
+          this.UndoablePropertyChanging(this, nameof(NoteZensur), this.zensur, value);
         }
 
         this.zensur = value;
@@ -285,10 +275,7 @@
     {
       get
       {
-        var bepunktungsTyp =
-          (Bepunktungstyp)
-          Enum.Parse(typeof(Bepunktungstyp), this.Model.Schülereintrag.Schülerliste.Klasse.Klassenstufe.Jahrgangsstufe.Bepunktungstyp);
-        switch (bepunktungsTyp)
+        switch (this.Model.Schülereintrag.Lerngruppe.Bepunktungstyp)
         {
           case Bepunktungstyp.GanzeNote:
             return this.NoteZensur.ZensurGanzeNote.ToString(CultureInfo.InvariantCulture);
@@ -335,7 +322,7 @@
       set
       {
         if (value.ArbeitBezeichnung == this.NoteArbeit.ArbeitBezeichnung) return;
-        this.UndoablePropertyChanging(this, "NoteArbeit", this.arbeit, value);
+        this.UndoablePropertyChanging(this, nameof(NoteArbeit), this.arbeit, value);
         this.arbeit = value;
         this.Model.Arbeit = value.Model;
         this.RaisePropertyChanged("NoteArbeit");
@@ -345,12 +332,12 @@
     /// <summary>
     /// Holt das Schuljahr dieser Note
     /// </summary>
-    public JahrtypViewModel NoteJahrtyp
+    public SchuljahrViewModel NoteSchuljahr
     {
       get
       {
         return
-          App.MainViewModel.Jahrtypen.SingleOrDefault(d => d.Model == this.Model.Schülereintrag.Schülerliste.Jahrtyp);
+          App.MainViewModel.Schuljahre.SingleOrDefault(d => d.Model == this.Model.Schülereintrag.Lerngruppe.Schuljahr);
       }
     }
 

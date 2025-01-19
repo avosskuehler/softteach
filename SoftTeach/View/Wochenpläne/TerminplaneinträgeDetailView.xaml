@@ -48,6 +48,7 @@
         <Setter Property="Grid.ColumnSpan" Value="{Binding ColumnSpan}" />
         <Setter Property="Grid.RowSpan" Value="{Binding RowSpan}" />
         <Setter Property="ListBoxItem.Padding" Value="0"/>
+        <Setter Property="ListBoxItem.Margin" Value="-1"/>
         <Setter Property="ListBoxItem.Background" Value="Transparent"/>
         <Setter Property="FrameworkElement.HorizontalAlignment"  Value="Stretch"/>
         <Setter Property="FrameworkElement.VerticalAlignment"  Value="Stretch"/>

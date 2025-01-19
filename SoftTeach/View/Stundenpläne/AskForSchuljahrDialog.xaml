@@ -1,6 +1,7 @@
 ﻿<Window x:Class="SoftTeach.View.Stundenpläne.AskForSchuljahr"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
         xmlns:resources="clr-namespace:SoftTeach.Resources" xmlns:SoftTeach="clr-namespace:SoftTeach"
         xmlns:controls="clr-namespace:SoftTeach.Resources.Controls" Title="Frage ..." 
         Height="356" 
@@ -13,17 +14,22 @@
       <RowDefinition/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader Grid.Row="0" Title="Für welches Schuljahr soll der Stundenplan gelten?"
-                                      Icon="/SoftTeach;component/Images/Stundenplan32.png"/>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Für welches Schuljahr soll der Stundenplan gelten?">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Schuljahr32}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
     <StackPanel Grid.Row="1" Margin="10">
       <TextBlock TextWrapping="Wrap">Bitte geben Sie Schuljahr und Halbjahr an, für das der neue Stundenplan gültig sein soll.</TextBlock>
       <StackPanel Orientation="Horizontal">
-        <ComboBox Width="100" Margin="10"  Name="HalbjahrtypCombo" 
+        <ComboBox Width="100" Margin="10"  Name="HalbjahrCombo" 
                   Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"
-                  ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Halbjahrtypen}" SelectedValue="JahrtypBezeichnung" SelectedValuePath="." DisplayMemberPath="HalbjahrtypBezeichnung"/>
-        <ComboBox Width="100" Margin="10"  Name="JahrtypCombo" 
+                  ItemsSource="{Binding Source={StaticResource Halbjahre}}"/>
+        <ComboBox Width="100" Margin="10"  Name="SchuljahrCombo" 
                   Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"
-                  ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Jahrtypen}" SelectedValue="JahrtypBezeichnung" SelectedValuePath="." DisplayMemberPath="JahrtypBezeichnung"/>
+                  ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Schuljahre}" SelectedValuePath="." DisplayMemberPath="SchuljahrBezeichnung"/>
       </StackPanel>
       <TextBlock TextWrapping="Wrap">Bitte geben Sie das Datum an, ab dem der neue Stundenplan gültig sein soll. 
         <LineBreak/>

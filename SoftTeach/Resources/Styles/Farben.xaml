@@ -1,12 +1,26 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  
+  <SolidColorBrush x:Key="Iconfarbe" Color="Black"/>
+  <SolidColorBrush x:Key="Basisfarbe" Color="#FFbed0e8"/>
+  <SolidColorBrush x:Key="Basisschriftfarbe" Color="#FFF5F5F5"/>
+  <SolidColorBrush x:Key="Highlightfarbe" Color="#3c6eb0"/>
+  <SolidColorBrush x:Key="Logoschriftfarbe" Color="#FFEEEEEE"/>
+  <SolidColorBrush x:Key="DialogHintergrundfarbe" Color="#FFFFFFFF"/>
+  <SolidColorBrush x:Key="DialogButtonsHintergrundfarbe" Color="#FFDDDDDD"/>
 
   <SolidColorBrush x:Key="HausaufgabeNichtGemachtBrush" Color="#99FF0000"/>
   <SolidColorBrush x:Key="HausaufgabeNachgereichtBrush" Color="#99FFA500"/>
+  <LinearGradientBrush x:Key="HighlightGradientBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+    <GradientStop Offset="0" Color="#AA3c6eb0" />
+    <GradientStop Offset="0.4" Color="#FF3c6eb0" />
+  </LinearGradientBrush>
 
   <SolidColorBrush x:Key="ReiheBackgroundBrush" Color="#996495ED"/>
   <SolidColorBrush x:Key="SequenzBackgroundBrush" Color="#99F0DDFF"/>
-  <SolidColorBrush x:Key="StundeBackgroundBrush" Color="#996422ED"/>
+  <SolidColorBrush x:Key="FerienBackgroundBrush" Color="MediumAquamarine"/>
+  <SolidColorBrush x:Key="StundeSourceBackgroundBrush" Color="#996422ED"/>
+  <SolidColorBrush x:Key="StundeTargetBackgroundBrush" Color="#99009900"/>
   <SolidColorBrush x:Key="PhaseBackgroundBrush" Color="#99DDDDDD"/>
   <SolidColorBrush x:Key="MetroHeaderBackground" Color="SteelBlue"/>
 

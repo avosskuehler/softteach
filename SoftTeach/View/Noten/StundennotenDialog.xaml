@@ -1,7 +1,8 @@
 ﻿<Window x:Class="SoftTeach.View.Noten.StundennotenDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:resources="clr-namespace:SoftTeach.Resources" xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
+          xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
+      xmlns:resources="clr-namespace:SoftTeach.Resources" xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
         Title="Noten eingeben ..." 
         Height="660" 
         Width="660">
@@ -13,8 +14,13 @@
       <RowDefinition/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader Grid.Row="0" Title="Bitte geben Sie Noten für diese Stunde."
-                                      Icon="/SoftTeach;component/Images/Note32.png"/>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Bitte geben Sie Noten für diese Stunde.">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Note32}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
     <Grid Grid.Row="1" Background="{x:Static SystemColors.MenuBarBrush}">
       <Grid Margin="10">
         <Grid.RowDefinitions>
@@ -24,7 +30,7 @@
         <StackPanel  Grid.Row="0">
           <StackPanel Orientation="Horizontal">
             <Label>Stunde:</Label>
-            <Label Content="{Binding Path=Stunde.StundeStundenentwurfTitel}"/>
+            <Label Content="{Binding Path=Stunde.TerminBeschreibung}"/>
             <Label>vom</Label>
             <Label Content="{Binding Path=Stunde.StundeDatum}"/>
           </StackPanel>
@@ -32,8 +38,8 @@
             <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddHausaufgabenCommand}" ToolTip="Nicht gemachte Hausaufgaben eintragen.">
               <StackPanel Orientation="Horizontal">
                 <Grid>
-                  <Image Source="/SoftTeach;component/Images/Hausaufgabe32.png"/>
-                  <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
+                  <fa:IconBlock Style="{StaticResource Hausaufgabe32}"/>
+                  <fa:IconBlock Style="{StaticResource AddOverlay32}"/>
                 </Grid>
                 <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Nicht gemachte Hausaufgaben eintragen.</Label>
               </StackPanel>

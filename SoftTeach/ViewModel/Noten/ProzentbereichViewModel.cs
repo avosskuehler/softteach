@@ -3,7 +3,7 @@
   using System;
   using System.Linq;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Helper;
 
@@ -25,12 +25,7 @@
     /// </param>
     public ProzentbereichViewModel(Prozentbereich prozentbereich)
     {
-      if (prozentbereich == null)
-      {
-        throw new ArgumentNullException("prozentbereich");
-      }
-
-      this.Model = prozentbereich;
+      this.Model = prozentbereich ?? throw new ArgumentNullException(nameof(prozentbereich));
     }
 
     /// <summary>
@@ -41,7 +36,7 @@
     /// <summary>
     /// Holt oder setzt den Prozentbereich ab dem die Zensur erteilt wird
     /// </summary>
-    public float ProzentbereichVonProzent
+    public double ProzentbereichVonProzent
     {
       get
       {
@@ -61,7 +56,7 @@
     /// <summary>
     /// Holt oder setzt den Prozentbereich bis zu dem die Zensur erteilt wird
     /// </summary>
-    public float ProzentbereichBisProzent
+    public double ProzentbereichBisProzent
     {
       get
       {
@@ -71,7 +66,7 @@
       set
       {
         if (value == this.Model.BisProzent) return;
-        this.UndoablePropertyChanging(this, "ProzentbereichBisProzent", this.Model.BisProzent, value);
+        this.UndoablePropertyChanging(this, nameof(ProzentbereichBisProzent), this.Model.BisProzent, value);
         this.Model.BisProzent = value;
         this.RaisePropertyChanged("ProzentbereichBisProzent");
       }
@@ -101,7 +96,7 @@
       set
       {
         if (value.ZensurNotenpunkte == this.zensur.ZensurNotenpunkte) return;
-        this.UndoablePropertyChanging(this, "ProzentbereichZensur", this.zensur, value);
+        this.UndoablePropertyChanging(this, nameof(ProzentbereichZensur), this.zensur, value);
         this.zensur = value;
         this.Model.Zensur = value.Model;
         this.RaisePropertyChanged("ProzentbereichZensur");

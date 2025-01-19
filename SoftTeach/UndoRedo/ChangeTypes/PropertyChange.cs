@@ -1,6 +1,5 @@
 ﻿namespace SoftTeach.UndoRedo.ChangeTypes
 {
-  using System;
   using System.Diagnostics;
 
   /// <summary>
@@ -37,7 +36,7 @@
     public object OldValue { get; private set; }
 
     /// <summary>
-    /// Holt den neuen Wert der Property
+    /// Holt den en Wert der Property
     /// </summary>
     public object NewValue { get; private set; }
 

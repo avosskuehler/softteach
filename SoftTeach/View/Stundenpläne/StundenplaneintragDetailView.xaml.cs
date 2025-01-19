@@ -109,7 +109,7 @@ namespace SoftTeach.View.Stundenpläne
 
     private void SurroundBorderDragOver(object sender, DragEventArgs e)
     {
-      if (!(e.Data.GetData(typeof(StundenplaneintragViewModel)) is StundenplaneintragViewModel))
+      if (e.Data.GetData(typeof(StundenplaneintragViewModel)) is not StundenplaneintragViewModel)
       {
         return;
       }
@@ -124,7 +124,7 @@ namespace SoftTeach.View.Stundenpläne
 
     private void SurroundBorderDrop(object sender, DragEventArgs e)
     {
-      if (!(e.Data.GetData(typeof(StundenplaneintragViewModel)) is StundenplaneintragViewModel))
+      if (e.Data.GetData(typeof(StundenplaneintragViewModel)) is not StundenplaneintragViewModel)
       {
         return;
       }
@@ -162,7 +162,7 @@ namespace SoftTeach.View.Stundenpläne
 
     private void SurroundBorderDragEnter(object sender, DragEventArgs e)
     {
-      if (!(e.Data.GetData(typeof(StundenplaneintragViewModel)) is StundenplaneintragViewModel))
+      if (e.Data.GetData(typeof(StundenplaneintragViewModel)) is not StundenplaneintragViewModel)
       {
         return;
       }
@@ -172,7 +172,7 @@ namespace SoftTeach.View.Stundenpläne
 
     private void SurroundBorderDragLeave(object sender, DragEventArgs e)
     {
-      if (!(e.Data.GetData(typeof(StundenplaneintragViewModel)) is StundenplaneintragViewModel))
+      if (e.Data.GetData(typeof(StundenplaneintragViewModel)) is not StundenplaneintragViewModel)
       {
         return;
       }

@@ -2,6 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:resources="clr-namespace:SoftTeach.Resources" xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
+        xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="SoftTeach.View.Noten.AddSonstigeNoteDialog"
         Title="Frage ..." 
         WindowStyle="SingleBorderWindow"
@@ -13,8 +14,13 @@
       <RowDefinition/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader Grid.Row="0" Title="Bitte geben Sie hier Datum und Bezeichnung der sonstigen Note an."
-			Icon="/SoftTeach;component/Images/Note32.png"/>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Bitte geben Sie hier Datum und Bezeichnung der sonstigen Note an.">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Note32}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
     <StackPanel Grid.Row="1" Background="{x:Static SystemColors.MenuBarBrush}">
       <StackPanel Margin="10">
         <TextBlock TextWrapping="Wrap"><Run Text="Bezeichnung der sonstigen Note?"/></TextBlock>

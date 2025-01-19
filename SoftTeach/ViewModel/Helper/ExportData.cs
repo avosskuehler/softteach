@@ -2,17 +2,15 @@
 {
   using System;
   using System.Collections.Generic;
-  using System.ComponentModel.DataAnnotations;
   using System.IO;
   using System.Linq;
   using System.Text;
   using System.Windows.Forms;
-  using System.Windows.Navigation;
 
   using Microsoft.Office.Interop.Excel;
 
   using SoftTeach.ExceptionHandling;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Personen;
 
   /// <summary>
@@ -21,9 +19,9 @@
   public class ExportData
   {
     /// <summary>
-    /// Exportiert eine Schülerliste nach Excel
+    /// Exportiert eine Lerngruppe nach Excel
     /// </summary>
-    /// <param name="viewModel">Das view model der Schülerliste.</param>
+    /// <param name="viewModel">Das view model der Lerngruppe.</param>
     public static void ToXls(ViewModelBase viewModel)
     {
       try
@@ -36,9 +34,9 @@
 
         var row = 1;
 
-        if (viewModel is SchülerlisteViewModel)
+        if (viewModel is LerngruppeViewModel)
         {
-          var schülerliste = viewModel as SchülerlisteViewModel;
+          var schülerliste = viewModel as LerngruppeViewModel;
           ws.Cells[row, 1] = "Vorname";
           ws.Cells[row, 2] = "Nachname";
           row++;
@@ -88,30 +86,57 @@
           // the file is reached. 
           while ((line = streamReader.ReadLine()) != null)
           {
-            var items = line.Split('\t');
+            var items = line.Split(';');
             var nr = items[0];
             var nachname = items[1];
             var vorname = items[2];
-            var geschlecht = items[3] == "w";
-            var geburtstag = DateTime.Parse(items[4]);
+            Geschlecht geschlecht;
+            switch (items[3])
+            {
+              case "w":
+                geschlecht = Geschlecht.w;
+                break;
+              case "m":
+                geschlecht = Geschlecht.m;
+                break;
+              case "d":
+                geschlecht = Geschlecht.d;
+                break;
+              default:
+                geschlecht = Geschlecht.w;
+                break;
+            }
+            var hatGeburtstag = DateTime.TryParse(items[4], out DateTime geburtstag);
 
             var existiert =
               App.MainViewModel.Personen.FirstOrDefault(
-                o => o.PersonIstWeiblich == geschlecht && o.PersonVorname == vorname && o.PersonNachname == nachname);
+                o => o.PersonGeschlecht == geschlecht && o.PersonVorname == vorname && o.PersonNachname == nachname);
 
             if (existiert != null)
             {
-              existiert.PersonGeburtstag = geburtstag;
+              if (hatGeburtstag)
+              {
+                existiert.PersonGeburtstag = geburtstag;
+              }
+              else
+              {
+                existiert.PersonGeburtstag = null;
+              }
               returnList.Add(existiert);
               foundCounter++;
             }
             else
             {
-              var person = new Person();
-              person.Nachname = nachname;
-              person.Vorname = vorname;
-              person.Geschlecht = geschlecht;
-              person.Geburtstag = geburtstag;
+              var person = new Person
+              {
+                Nachname = nachname,
+                Vorname = vorname,
+                Geschlecht = geschlecht
+              };
+              if (hatGeburtstag)
+              {
+                person.Geburtstag = geburtstag;
+              }
               var vm = new PersonViewModel(person);
               App.MainViewModel.Personen.Add(vm);
               returnList.Add(vm);
@@ -121,7 +146,7 @@
         }
 
         InformationDialog.Show(
-          "Neue Personen",
+          "neue Personen",
           string.Format("{0} neue Personen angelegt und {1} bestehende Personen gefunden.", newCounter, foundCounter),
           false);
       }

@@ -17,10 +17,7 @@
 
 namespace SoftTeach.View.Noten
 {
-  using System;
   using System.Windows;
-
-  using SoftTeach.ViewModel.Personen;
 
   using MahApps.Metro.Controls.Dialogs;
 

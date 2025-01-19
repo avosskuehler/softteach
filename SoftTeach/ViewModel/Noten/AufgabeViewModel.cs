@@ -6,7 +6,7 @@
   using System.ComponentModel;
   using System.Linq;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Noten;
@@ -27,13 +27,16 @@
     /// </summary>
     public AufgabeViewModel()
     {
-      var aufgabe = new Aufgabe();
-      aufgabe.LfdNr = Selection.Instance.Arbeit.Aufgaben.Count;
-      aufgabe.MaxPunkte = 10;
-      aufgabe.Bezeichnung = string.Empty;
-      aufgabe.Arbeit = Selection.Instance.Arbeit.Model;
+      var aufgabe = new Aufgabe
+      {
+        LfdNr = Selection.Instance.Arbeit.Aufgaben.Count,
+        MaxPunkte = 10,
+        Bezeichnung = string.Empty,
+        Arbeit = Selection.Instance.Arbeit.Model
+      };
       this.Model = aufgabe;
-      App.MainViewModel.Aufgaben.Add(this);
+      //App.UnitOfWork.Context.Aufgaben.Add(aufgabe);
+      //App.MainViewModel.Aufgaben.Add(this);
     }
 
     /// <summary>
@@ -44,19 +47,14 @@
     /// </param>
     public AufgabeViewModel(Aufgabe aufgabe)
     {
-      if (aufgabe == null)
-      {
-        throw new ArgumentNullException("aufgabe");
-      }
-
-      this.Model = aufgabe;
+      this.Model = aufgabe ?? throw new ArgumentNullException(nameof(aufgabe));
 
       // Build data structures for ergebnisse
       this.Ergebnisse = new ObservableCollection<ErgebnisViewModel>();
       foreach (var ergebnis in aufgabe.Ergebnisse)
       {
         var vm = new ErgebnisViewModel(ergebnis);
-        App.MainViewModel.Ergebnisse.Add(vm);
+        //App.MainViewModel.Ergebnisse.Add(vm);
         vm.PropertyChanged += this.ErgebnisPropertyChanged;
         this.Ergebnisse.Add(vm);
       }
@@ -124,7 +122,7 @@
       set
       {
         if (value == this.Model.Bezeichnung) return;
-        this.UndoablePropertyChanging(this, "AufgabeBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(AufgabeBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("AufgabeBezeichnung");
       }
@@ -134,14 +132,14 @@
     /// Holt die Spaltenüberschrift für diese Aufgabe
     /// </summary>
     [DependsUpon("AufgabeBezeichnung")]
-    [DependsUpon("AbfolgeIndex")]
+    [DependsUpon("Reihenfolge")]
     [DependsUpon("AufgabeMaxPunkte")]
     public string AufgabeColumnHeader
     {
       get
       {
         var aufgabenName = this.AufgabeBezeichnung.Trim() == string.Empty
-                             ? "Nr." + this.AbfolgeIndex
+                             ? "Nr." + this.Reihenfolge
                              : this.AufgabeBezeichnung;
         var header = aufgabenName + " (" + this.AufgabeMaxPunkte + "P)";
         return header;
@@ -151,7 +149,7 @@
     /// <summary>
     /// Holt oder setzt die LfdNr
     /// </summary>
-    public int AbfolgeIndex
+    public int Reihenfolge
     {
       get
       {
@@ -161,16 +159,22 @@
       set
       {
         if (value == this.Model.LfdNr) return;
-        this.UndoablePropertyChanging(this, "AbfolgeIndex", this.Model.LfdNr, value);
+        this.UndoablePropertyChanging(this, nameof(Reihenfolge), this.Model.LfdNr, value);
         this.Model.LfdNr = value;
-        this.RaisePropertyChanged("AbfolgeIndex");
+        this.RaisePropertyChanged("Reihenfolge");
       }
     }
 
     /// <summary>
+    /// Holt oder setzt einen Wert, der angibt, ob die Reihenfolge Vorrang vor allen
+    /// anderer Reihenfolgen der gleichen Zahl hat.
+    /// </summary>
+    public bool IstZuerst { get; set; }
+
+    /// <summary>
     /// Holt oder setzt die MaxPunkte
     /// </summary>
-    public float AufgabeMaxPunkte
+    public double AufgabeMaxPunkte
     {
       get
       {
@@ -180,7 +184,7 @@
       set
       {
         if (value == this.Model.MaxPunkte) return;
-        this.UndoablePropertyChanging(this, "AufgabeMaxPunkte", this.Model.MaxPunkte, value);
+        this.UndoablePropertyChanging(this, nameof(AufgabeMaxPunkte), this.Model.MaxPunkte, value);
         this.Model.MaxPunkte = value;
         this.RaisePropertyChanged("AufgabeMaxPunkte");
       }
@@ -224,7 +228,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void ErgebnisseCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Ergebnisse", this.Ergebnisse, e, false, "Änderung der Ergebnisse");
+      UndoableCollectionChanged(this, nameof(Ergebnisse), this.Ergebnisse, e, true, "Änderung der Ergebnisse");
     }
 
     /// <summary>
@@ -243,7 +247,8 @@
     {
       using (new UndoBatch(App.MainViewModel, string.Format("Ergebnis {0} gelöscht.", ergebnisViewModel), false))
       {
-        App.MainViewModel.Ergebnisse.RemoveTest(ergebnisViewModel);
+        //App.UnitOfWork.Context.Ergebnisse.Remove(ergebnisViewModel.Model);
+        //App.MainViewModel.Ergebnisse.RemoveTest(ergebnisViewModel);
         ergebnisViewModel.PropertyChanged -= this.ErgebnisPropertyChanged;
         var result = this.Ergebnisse.RemoveTest(ergebnisViewModel);
       }
@@ -257,9 +262,10 @@
       using (new UndoBatch(App.MainViewModel, string.Format("Ergebnis erstellt."), false))
       {
         var ergebnis = new Ergebnis { Punktzahl = 0, Aufgabe = this.Model };
+        //App.UnitOfWork.Context.Ergebnisse.Add(ergebnis);
         var vm = new ErgebnisViewModel(ergebnis);
         vm.PropertyChanged += this.ErgebnisPropertyChanged;
-        App.MainViewModel.Ergebnisse.Add(vm);
+        //App.MainViewModel.Ergebnisse.Add(vm);
         this.Ergebnisse.Add(vm);
         this.CurrentErgebnis = vm;
       }

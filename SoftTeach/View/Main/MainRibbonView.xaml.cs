@@ -1,19 +1,14 @@
-﻿using SoftTeach.ExceptionHandling;
-
-namespace SoftTeach.View.Main
+﻿namespace SoftTeach.View.Main
 {
   using System;
-  using System.Collections;
   using System.Collections.Generic;
+  using System.Collections.ObjectModel;
   using System.Linq;
+  using System.Timers;
   using System.Windows;
   using System.Windows.Controls;
-  using System.Windows.Controls.Primitives;
-  using System.Windows.Controls.Ribbon;
-  using System.Windows.Documents;
-  using System.Windows.Media;
-
   using SoftTeach.ExceptionHandling;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Properties;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
@@ -21,86 +16,57 @@ namespace SoftTeach.View.Main
   using SoftTeach.View.Noten;
   using SoftTeach.View.Personen;
   using SoftTeach.View.Sitzpläne;
+  using SoftTeach.View.Stundenentwürfe;
   using SoftTeach.View.Stundenpläne;
   using SoftTeach.View.Termine;
+  using SoftTeach.ViewModel.Curricula;
   using SoftTeach.ViewModel.Helper;
+  using SoftTeach.ViewModel.Noten;
   using SoftTeach.ViewModel.Termine;
 
   /// <summary>
   /// Interaction logic for MainRibbonView.xaml
   /// </summary>
-  public partial class MainRibbonView : RibbonWindow
+  public partial class MainRibbonView
   {
+    /// <summary>
+    /// The noten timer
+    /// </summary>
+    private Timer notenTimer;
+
+    /// <summary>
+    /// Holt den Befehl, der aufgerufen werden soll, wenn das TrayIcon angeklickt wird.
+    /// </summary>
+    public static DelegateCommand TrayIconClickedCommand { get; private set; }
+
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="MainRibbonView"/> Klasse. 
     /// </summary>
     public MainRibbonView()
     {
       this.DataContext = App.MainViewModel;
-      var wochenplan = App.MainViewModel.WochenplanWorkspace;
+      TrayIconClickedCommand = new DelegateCommand(TrayIconClicked);
+
       this.InitializeComponent();
-    }
+      this.notenTimer = new Timer(10000);
+      this.notenTimer.Elapsed += this.NotenTimerElapsed;
 
-    private void WindowLoaded(object sender, RoutedEventArgs e)
-    {
-      this.ReplaceRibbonApplicationMenuButtonContent(this.AppMenu);
-    }
-
-    /// <summary>
-    /// Replaces the image and down arrow of a Ribbon Application Menu Button with the button's Label text.
-    /// </summary>
-    /// <param name="menu">The menu whose application button should show the label text.</param>
-    /// <remarks>
-    /// The method assumes the specific visual tree implementation of the October 2010 version of <see cref="RibbonApplicationMenu "/>.
-    /// Fortunately, since the application menu is high profile, breakage due to an version changes should be obvious.
-    /// Hopefully, the native support for text will be added before the implementation breaks.
-    /// </remarks>
-    void ReplaceRibbonApplicationMenuButtonContent(RibbonApplicationMenu menu)
-    {
-      Grid outerGrid = (Grid)VisualTreeHelper.GetChild(menu, 0);
-      RibbonToggleButton toggleButton = (RibbonToggleButton)outerGrid.Children[0];
-      ReplaceRibbonToggleButtonContent(toggleButton, menu.Label);
-
-      Popup popup = (Popup)outerGrid.Children[2];
-      EventHandler popupOpenedHandler = null;
-      popupOpenedHandler = new EventHandler(delegate
-      {
-        Decorator decorator = (Decorator)popup.Child;
-        Grid popupGrid = (Grid)decorator.Child;
-        Canvas canvas = (Canvas)popupGrid.Children[1];
-        RibbonToggleButton popupToggleButton = (RibbonToggleButton)canvas.Children[0];
-        ReplaceRibbonToggleButtonContent(popupToggleButton, menu.Label);
-        popup.Opened -= popupOpenedHandler;
-      });
-      popup.Opened += popupOpenedHandler;
-    }
-
-    void ReplaceRibbonToggleButtonContent(RibbonToggleButton toggleButton, string text)
-    {
-      // Subdues the aero highlighting to that the text has better contrast.
-      Grid grid = (Grid)VisualTreeHelper.GetChild(toggleButton, 0);
-      Border middleBorder = (Border)grid.Children[1];
-      middleBorder.Opacity = .5;
-
-      // Replaces the images with the label text.
-      StackPanel stackPanel = (StackPanel)grid.Children[2];
-      UIElementCollection children = stackPanel.Children;
-      children.RemoveRange(0, children.Count);
-      TextBlock textBlock = new TextBlock(new Run(text));
-      textBlock.Foreground = Brushes.White;
-      children.Add(textBlock);
+      this.NotenNotifyIcon.LeftClickCommand = TrayIconClickedCommand;
+      // Notenerinnerungstimer starten
+      this.notenTimer.Start();
     }
 
     private void MainRibbonViewClosing(object sender, System.ComponentModel.CancelEventArgs e)
     {
+
       Selection.Instance.UpdateUserSettings();
       Settings.Default.Save();
 
-      //// Check if there is nothing to change
-      //if (((Stack<ChangeSet>)App.MainViewModel.UndoStack).Count == 0)
-      //{
-      //  return;
-      //}
+      // Check if there is nothing to change
+      if (((Stack<ChangeSet>)ViewModel.MainViewModel.UndoStack).Count == 0)
+      {
+        return;
+      }
 
       var dlg = new AskForSavingChangesDialog();
       dlg.ShowDialog();
@@ -112,6 +78,104 @@ namespace SoftTeach.View.Main
       {
         App.UnitOfWork.SaveChanges();
       }
+
+      //clean up notifyicon (would otherwise stay open until application finishes)
+      this.NotenNotifyIcon.Dispose();
+    }
+
+    /// <summary>
+    /// Wird aufgerufen, wenn der noten timer abgelaufen ist.
+    /// Checkt, ob Noten eingegeben werden müssen.
+    /// </summary>
+    /// <param name="source">The source.</param>
+    /// <param name="e">The <see cref="ElapsedEventArgs"/> instance containing the event data.</param>
+    private void NotenTimerElapsed(object source, ElapsedEventArgs e)
+    {
+      Application.Current.Dispatcher.Invoke(new Action(() =>
+      {
+        var nochZuBenotendeStunden = HoleNochZuBenotendeStunden();
+        var anzahlNichtbenoteterStunden = nochZuBenotendeStunden.Count;
+        if (anzahlNichtbenoteterStunden > 0)
+        {
+          var text = string.Format("{0} {1} noch nicht benotet", anzahlNichtbenoteterStunden, anzahlNichtbenoteterStunden == 1 ? "Stunde" : "Stunden");
+          this.NotenNotifyIcon.ToolTipText = text;
+          this.NotenNotifyIcon.IconSource = ((Image)this.Resources["ErrorImage"]).Source;
+          this.NotenNotifyIcon.Visibility = Visibility.Visible;
+        }
+        else
+        {
+          //Application.Current.Dispatcher.Invoke(new Action(() =>
+          //{
+          this.NotenNotifyIcon.ToolTipText = "Keine offenen Bewertungen.";
+          this.NotenNotifyIcon.IconSource = ((Image)this.Resources["InactiveImage"]).Source;
+          this.NotenNotifyIcon.Visibility = Visibility.Collapsed;
+          //}));
+        }
+      }));
+    }
+
+    /// <summary>
+    /// Gibt eine Collection mit den noch zu benotenden Stunden aus.
+    /// </summary>
+    /// <returns>ObservableCollection&lt;StundeViewModel&gt;.</returns>
+    private static ObservableCollection<Stunde> HoleNochZuBenotendeStunden()
+    {
+      var nochZuBenotendeStunden = new ObservableCollection<Stunde>();
+
+      try
+      {
+        var von = DateTime.Now.AddDays(-30);
+        var bis = DateTime.Now;
+        var nichtBenoteteStundenderLetzten14Tage =
+          App.UnitOfWork.Context.Stunden.Where(
+            o =>
+            o.Datum > von && o.Datum <= bis && !o.IstBenotet
+            && (o.Fach.Bezeichnung == "Mathematik" || o.Fach.Bezeichnung == "Physik")).ToList();
+
+
+        foreach (var stundeViewModel in nichtBenoteteStundenderLetzten14Tage)
+        {
+          if (stundeViewModel.Datum.Date == bis.Date)
+          {
+            if (stundeViewModel.LetzteUnterrichtsstunde.Beginn > bis.TimeOfDay)
+            {
+              continue;
+            }
+          }
+
+          nochZuBenotendeStunden.Add(stundeViewModel);
+        }
+      }
+      catch (Exception)
+      {
+        // Ignore DBContext errors
+      }
+
+      return nochZuBenotendeStunden;
+    }
+
+    /// <summary>
+    /// Startet die noteneingabe.
+    /// </summary>
+    public static void StartNoteneingabe()
+    {
+      var nochZuBenotendeStunden = HoleNochZuBenotendeStunden();
+      if (!nochZuBenotendeStunden.Any())
+      {
+        return;
+      }
+
+      var viewModel = new StundennotenReminderWorkspaceViewModel(nochZuBenotendeStunden);
+      var dlg = new MetroStundennotenReminderWindow { DataContext = viewModel };
+      dlg.ShowDialog();
+    }
+
+    /// <summary>
+    /// Hier wird der Dialog zur Noteneingabe aufgerufen
+    /// </summary>
+    private static void TrayIconClicked()
+    {
+      StartNoteneingabe();
     }
 
     #region Ribbon
@@ -179,18 +243,6 @@ namespace SoftTeach.View.Main
     #region Curricula
 
     /// <summary>
-    /// Event handler for the curriculum button in the ribbon section database, ribbon group Curricula.
-    /// Shows a workspace for the curriculum.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void CurriculumButtonClick(object sender, RoutedEventArgs e)
-    {
-      var curriculumView = new CurriculumDBView();
-      curriculumView.ShowDialog();
-    }
-
-    /// <summary>
     /// Event handler for the reihe button in the ribbon section database, ribbon group Curricula.
     /// Shows a workspace for the reihe.
     /// </summary>
@@ -252,108 +304,7 @@ namespace SoftTeach.View.Main
 
     #endregion // Curricula
 
-    #region Planung
-
-    /// <summary>
-    /// Event handler for the Jahrespläne button in the ribbon section database, ribbon group Plänung.
-    /// Shows a workspace for Jahrespläne.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void JahrespläneButtonClick(object sender, RoutedEventArgs e)
-    {
-      var jahresplanView = new JahresplanWorkspaceView();
-      jahresplanView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Halbjahresplan button in the ribbon section database, ribbon group Plänung.
-    /// Shows a workspace for Halbjahresplan.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void HalbjahresplanButtonClick(object sender, RoutedEventArgs e)
-    {
-      var halbjahresplanView = new HalbjahresplanWorkspaceView();
-      halbjahresplanView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Monatsplan button in the ribbon section database, ribbon group Plänung.
-    /// Shows a workspace for Monatsplan.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void MonatsplanButtonClick(object sender, RoutedEventArgs e)
-    {
-      var monatsplanView = new MonatsplanWorkspaceView();
-      monatsplanView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Tagesplan button in the ribbon section database, ribbon group Plänung.
-    /// Shows a workspace for Tagesplan.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void TagesplanButtonClick(object sender, RoutedEventArgs e)
-    {
-      var tagesplanView = new TagesplanWorkspaceView();
-      tagesplanView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Schulwoche button in the ribbon section database, ribbon group Plänung.
-    /// Shows a workspace for Schulwoche.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void SchulwocheButtonClick(object sender, RoutedEventArgs e)
-    {
-      var schulwocheView = new SchulwocheWorkspaceView();
-      schulwocheView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Schultag button in the ribbon section database, ribbon group Plänung.
-    /// Shows a workspace for Schultag.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void SchultagButtonClick(object sender, RoutedEventArgs e)
-    {
-      var schultagView = new SchultagWorkspaceView();
-      schultagView.ShowDialog();
-    }
-
-    #endregion // Planung
-
     #region Stundenentwürfe
-
-    /// <summary>
-    /// Event handler for the Stundenentwuerfe button in the ribbon section database, ribbon group Stundenentwürfe.
-    /// Shows a workspace for Stundenentwuerfe.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void StundenentwuerfeButtonClick(object sender, RoutedEventArgs e)
-    {
-      var stundenentwurfView = new StundenentwurfWorkspaceView();
-      stundenentwurfView.DataContext = App.MainViewModel.StundenentwurfWorkspace;
-      stundenentwurfView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Phasen button in the ribbon section database, ribbon group Stundenentwürfe.
-    /// Shows a workspace for Phasen.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void PhasenButtonClick(object sender, RoutedEventArgs e)
-    {
-      var phaseView = new PhaseWorkspaceView();
-      phaseView.ShowDialog();
-    }
 
     /// <summary>
     /// Event handler for the Dateiverweis button in the ribbon section database, ribbon group Stundenentwürfe.
@@ -365,30 +316,6 @@ namespace SoftTeach.View.Main
     {
       var dateiverweisView = new DateiverweisWorkspaceView();
       dateiverweisView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Medien button in the ribbon section database, ribbon group Stundenentwürfe.
-    /// Shows a workspace for Medien.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void MedienButtonClick(object sender, RoutedEventArgs e)
-    {
-      var medienView = new MediumWorkspaceView { DataContext = App.MainViewModel.MediumWorkspace };
-      medienView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Sozialformen button in the ribbon section database, ribbon group Stundenentwürfe.
-    /// Shows a workspace for Sozialformen.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void SozialformenButtonClick(object sender, RoutedEventArgs e)
-    {
-      var sozialformenView = new SozialformWorkspaceView { DataContext = App.MainViewModel.SozialformWorkspace };
-      sozialformenView.ShowDialog();
     }
 
     /// <summary>
@@ -420,18 +347,6 @@ namespace SoftTeach.View.Main
     }
 
     /// <summary>
-    /// Event handler for the BetroffeneKlassen button in the ribbon section database, ribbon group Termine.
-    /// Shows a workspace for BetroffeneKlassen.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void BetroffeneKlassenButtonClick(object sender, RoutedEventArgs e)
-    {
-      var betroffeneKlasseView = new BetroffeneKlassenDBView();
-      betroffeneKlasseView.ShowDialog();
-    }
-
-    /// <summary>
     /// Event handler for the Ferien button in the ribbon section database, ribbon group Termine.
     /// Shows a workspace for Ferien.
     /// </summary>
@@ -444,18 +359,6 @@ namespace SoftTeach.View.Main
     }
 
     /// <summary>
-    /// Event handler for the Termintypen button in the ribbon section database, ribbon group Termine.
-    /// Shows a workspace for Termintypen.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void TermintypenButtonClick(object sender, RoutedEventArgs e)
-    {
-      var termintypenView = new TermintypenDBView { DataContext = App.MainViewModel.TermintypWorkspace };
-      termintypenView.ShowDialog();
-    }
-
-    /// <summary>
     /// Event handler for the Schuljahre button in the ribbon section database, ribbon group Termine.
     /// Shows a workspace for Schuljahre.
     /// </summary>
@@ -463,32 +366,8 @@ namespace SoftTeach.View.Main
     /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
     private void SchuljahreButtonClick(object sender, RoutedEventArgs e)
     {
-      var jahrtypView = new JahrtypWorkspaceView { DataContext = App.MainViewModel.JahrtypWorkspace };
-      jahrtypView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Halbjahrtyp button in the ribbon section database, ribbon group Termine.
-    /// Shows a workspace for Halbjahrtypen.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void HalbjahrtypButtonClick(object sender, RoutedEventArgs e)
-    {
-      var halbjahrtypView = new HalbjahrtypWorkspaceView();
-      halbjahrtypView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Monatstyp button in the ribbon section database, ribbon group Termine.
-    /// Shows a workspace for Monatstypen.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void MonatstypButtonClick(object sender, RoutedEventArgs e)
-    {
-      var monatstypView = new MonatstypWorkspaceView();
-      monatstypView.ShowDialog();
+      var schuljahrView = new SchuljahrWorkspaceView { DataContext = App.MainViewModel.SchuljahrWorkspace };
+      schuljahrView.ShowDialog();
     }
 
     #endregion // Termine
@@ -501,37 +380,37 @@ namespace SoftTeach.View.Main
     /// </summary>
     /// <param name="sender">Source of the event</param>
     /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void StundenpläneButtonClick(object sender, RoutedEventArgs e)
+    private void StundenplanButtonClick(object sender, RoutedEventArgs e)
     {
-      var stundenpläneView = new Datenbank.StundenplanWorkspaceView();
+      var stundenpläneView = new ShowStundenplanDialog();
       stundenpläneView.ShowDialog();
     }
 
-    /// <summary>
-    /// Event handler for the Stundenplaneintrag button in the ribbon section database, ribbon group Stundenplan.
-    /// Shows a workspace for Stundenplaneintrag.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void StundenplaneintragButtonClick(object sender, RoutedEventArgs e)
+    private void NeuerStundenplanButtonClick(object sender, RoutedEventArgs e)
     {
-      var stundenplaneintragView = new StundenplaneintragWorkspaceView();
-      stundenplaneintragView.ShowDialog();
+      var dlg = new AskForSchuljahr();
+      if (dlg.ShowDialog().GetValueOrDefault(false))
+      {
+        bool undo;
+        using (new UndoBatch(App.MainViewModel, string.Format("Stundenplan angelegt."), false))
+        {
+          // en Stundenplan anlegen
+          App.MainViewModel.StundenplanWorkspace.AddStundenplan(dlg.Schuljahr, dlg.Halbjahr, dlg.GültigAb);
+          var stundenplanView = new EditStundenplanDialog(App.MainViewModel.StundenplanWorkspace.CurrentStundenplan);
+          undo = !stundenplanView.ShowDialog().GetValueOrDefault(false);
+        }
+
+        if (undo)
+        {
+          App.MainViewModel.ExecuteUndoCommand();
+        }
+      }
     }
 
-    /// <summary>
-    /// Event handler for the Unterrichtsstunden button in the ribbon section database, ribbon group Stundenplan.
-    /// Shows a workspace for Unterrichtsstunden.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void UnterrichtsstundenButtonClick(object sender, RoutedEventArgs e)
+    private void StundenplanÄnderungButtonClick(object sender, RoutedEventArgs e)
     {
-      var unterrichtsstundenView = new UnterrichtsstundenDBView
-      {
-        DataContext = App.MainViewModel.UnterrichtsstundeWorkspace
-      };
-      unterrichtsstundenView.ShowDialog();
+      var aktuellerStundenplan = ViewModel.Stundenpläne.StundenplanWorkspaceViewModel.GetAktuellenStundenplan();
+      App.MainViewModel.StundenplanWorkspace.AddStundenplanÄnderung(aktuellerStundenplan);
     }
 
     #endregion // Stundenplan
@@ -539,154 +418,44 @@ namespace SoftTeach.View.Main
     #region Personen
 
     /// <summary>
-    /// Event handler for the Person button in the ribbon section database, ribbon group Personen.
-    /// Shows a database workspace for Personen.
+    /// Event handler for the Lerngruppe button in the ribbon section database, ribbon group Personen.
+    /// Shows a workspace for Lerngruppen.
     /// </summary>
     /// <param name="sender">Source of the event</param>
     /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void PersonDBButtonClick(object sender, RoutedEventArgs e)
+    private void LerngruppeButtonClick(object sender, RoutedEventArgs e)
     {
-      var personenView = new PersonenDBView();
-      personenView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Schülerliste button in the ribbon section database, ribbon group Personen.
-    /// Shows a workspace for Schülerlisten.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void SchülerlisteButtonClick(object sender, RoutedEventArgs e)
-    {
-      var schülerlisteView = new SchülerlisteWorkspace();
+      var schülerlisteView = new LerngruppeWorkspace();
       schülerlisteView.ShowDialog();
     }
 
-    /// <summary>
-    /// Event handler for the Schülereintrag button in the ribbon section database, ribbon group Personen.
-    /// Shows a workspace for Schülereinträge.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void SchülereintragButtonClick(object sender, RoutedEventArgs e)
-    {
-      var schülereintragView = new SchülereintragWorkspace();
-      schülereintragView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Jahrgangsstufen button in the ribbon section database, ribbon group Personen.
-    /// Shows a workspace for Jahrgangsstufen, Klassenstufen and Klassen.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void JahrgangsstufenButtonClick(object sender, RoutedEventArgs e)
-    {
-      var jahrgangsstufenView = new JahrgangsstufeWorkspaceView { DataContext = App.MainViewModel.JahrgangsstufeWorkspace };
-      jahrgangsstufenView.ShowDialog();
-    }
+    ///// <summary>
+    ///// Event handler for the Schülereintrag button in the ribbon section database, ribbon group Personen.
+    ///// Shows a workspace for Schülereinträge.
+    ///// </summary>
+    ///// <param name="sender">Source of the event</param>
+    ///// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
+    //private void SchülereintragButtonClick(object sender, RoutedEventArgs e)
+    //{
+    //  var schülereintragView = new SchülereintragWorkspace();
+    //  schülereintragView.ShowDialog();
+    //}
 
     #endregion // Personen
 
     #region Noten
 
-    /// <summary>
-    /// Event handler for the Noten button in the ribbon section database, ribbon group Noten.
-    /// Shows a workspace for Noten (which are Schülereinträge).
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void NotenButtonClick(object sender, RoutedEventArgs e)
-    {
-      var schülereintragView = new SchülereintragWorkspace();
-      schülereintragView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Notentendenzen button in the ribbon section database, ribbon group Noten.
-    /// Shows a workspace for Notentendenzen.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void NotentendenzenButtonClick(object sender, RoutedEventArgs e)
-    {
-
-    }
-
-    /// <summary>
-    /// Event handler for the Hausaufgaben button in the ribbon section database, ribbon group Noten.
-    /// Shows a workspace for Hausaufgaben.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void HausaufgabenButtonClick(object sender, RoutedEventArgs e)
-    {
-      var hausaufgabenView = new HausaufgabenDBView();
-      hausaufgabenView.ShowDialog();
-    }
-
-    private void ArbeitenButtonClick(object sender, RoutedEventArgs e)
-    {
-
-    }
-
-    private void AufgabenButtonClick(object sender, RoutedEventArgs e)
-    {
-
-    }
-
-    private void ErgebnisseButtonClick(object sender, RoutedEventArgs e)
-    {
-
-    }
-
-    /// <summary>
-    /// Event handler for the NotenWichtungen button in the ribbon section database, ribbon group Noten.
-    /// Shows a workspace for NotenWichtungen.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void NotenWichtungenButtonClick(object sender, RoutedEventArgs e)
-    {
-      var notenWichtungView = new NotenWichtungenDBView { DataContext = App.MainViewModel.NotenWichtungWorkspace };
-      notenWichtungView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Tendenztypen button in the ribbon section database, ribbon group Noten.
-    /// Shows a workspace for Tendenztypen.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void TendenztypenButtonClick(object sender, RoutedEventArgs e)
-    {
-      var tendenztypView = new TendenztypenDBView { DataContext = App.MainViewModel.TendenztypWorkspace };
-      tendenztypView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Tendenzen button in the ribbon section database, ribbon group Noten.
-    /// Shows a workspace for Tendenzen.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void TendenzenButtonClick(object sender, RoutedEventArgs e)
-    {
-      var tendenzenView = new TendenzenDBView { DataContext = App.MainViewModel.TendenzWorkspace };
-      tendenzenView.ShowDialog();
-    }
-
-    /// <summary>
-    /// Event handler for the Zensuren button in the ribbon section database, ribbon group Noten.
-    /// Shows a workspace for Zensuren.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void ZensurenButtonClick(object sender, RoutedEventArgs e)
-    {
-      var zensurenView = new ZensurenDBView { DataContext = App.MainViewModel.ZensurWorkspace };
-      zensurenView.ShowDialog();
-    }
+    ///// <summary>
+    ///// Event handler for the Noten button in the ribbon section database, ribbon group Noten.
+    ///// Shows a workspace for Noten (which are Schülereinträge).
+    ///// </summary>
+    ///// <param name="sender">Source of the event</param>
+    ///// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
+    //private void NotenButtonClick(object sender, RoutedEventArgs e)
+    //{
+    //  var schülereintragView = new SchülereintragWorkspace();
+    //  schülereintragView.ShowDialog();
+    //}
 
     /// <summary>
     /// Event handler for the Bewertungsschemata button in the ribbon section database, ribbon group Noten.
@@ -703,18 +472,6 @@ namespace SoftTeach.View.Main
     #endregion // Noten
 
     #region Sitzpläne
-
-    /// <summary>
-    /// Event handler for the Tendenzen button in the ribbon section database, ribbon group Noten.
-    /// Shows a workspace for Tendenzen.
-    /// </summary>
-    /// <param name="sender">Source of the event</param>
-    /// <param name="e">An <see cref="RoutedEventArgs"/> with the event data.</param>
-    private void RäumeDBButtonClick(object sender, RoutedEventArgs e)
-    {
-      var raumView = new RäumeDBView { DataContext = App.MainViewModel.RaumWorkspace };
-      raumView.ShowDialog();
-    }
 
     /// <summary>
     /// Event handler for the Tendenzen button in the ribbon section main, ribbon group Noten.
@@ -753,7 +510,7 @@ namespace SoftTeach.View.Main
       bool undo;
       using (new UndoBatch(App.MainViewModel, string.Format("Schultermine verändert"), false))
       {
-        var schultermineView = new AddSchulterminDialog();
+        var schultermineView = new SchulterminDialog();
         undo = !schultermineView.ShowDialog().GetValueOrDefault(false);
       }
 
@@ -765,7 +522,7 @@ namespace SoftTeach.View.Main
       {
         var dlg = new InformationDialog(
           "Jahrespläne aktualisieren?",
-          "Wollen Sie in allen betreffenden Jahresplänen die geänderten/neuen/gelöschten Termin aktualisieren?",
+          "Wollen Sie in allen betreffenden Jahresplänen die geänderten/en/gelöschten Termin aktualisieren?",
           true);
 
         if (dlg.ShowDialog().GetValueOrDefault(false))
@@ -775,36 +532,6 @@ namespace SoftTeach.View.Main
       }
     }
 
-    private void NeuerStundenplanButtonClick(object sender, RoutedEventArgs e)
-    {
-      var dlg = new AskForSchuljahr();
-      if (dlg.ShowDialog().GetValueOrDefault(false))
-      {
-        bool undo;
-        using (new UndoBatch(App.MainViewModel, string.Format("Stundenplan angelegt."), false))
-        {
-          var stundenplanView = new AddStundenplanDialog(dlg.Jahrtyp, dlg.Halbjahrtyp, dlg.GültigAb);
-          undo = !stundenplanView.ShowDialog().GetValueOrDefault(false);
-        }
-
-        if (undo)
-        {
-          App.MainViewModel.ExecuteUndoCommand();
-        }
-      }
-    }
-
-    private void StundenplanZeigenButtonClick(object sender, RoutedEventArgs e)
-    {
-      var stundenplanView = new ShowStundenplanDialog();
-      stundenplanView.ShowDialog();
-    }
-
-    private void StundenplanÄnderungButtonClick(object sender, RoutedEventArgs e)
-    {
-      var aktuellerStundenplan = App.MainViewModel.StundenplanWorkspace.GetAktuellenStundenplan();
-      App.MainViewModel.StundenplanWorkspace.AddStundenplanÄnderung(aktuellerStundenplan);
-    }
 
     #endregion // Ribbon
 
@@ -826,18 +553,18 @@ namespace SoftTeach.View.Main
 
     private void SpezialButtonClick(object sender, RoutedEventArgs e)
     {
-      //foreach (var schülerlisteViewModel in App.MainViewModel.Schülerlisten)
+      //foreach (var schülerlisteViewModel in App.MainViewModel.Lerngruppen)
       //{
       //  // Wenn Sommer
-      //  if (schülerlisteViewModel.SchülerlisteHalbjahrtyp.HalbjahrtypIndex == 2)
+      //  if (schülerlisteViewModel.LerngruppeHalbjahr.HalbjahrIndex == 2)
       //  {
       //    var winterListe =
-      //      App.MainViewModel.Schülerlisten.First(
+      //      App.MainViewModel.Lerngruppen.First(
       //        o =>
-      //        o.SchülerlisteJahrtyp == schülerlisteViewModel.SchülerlisteJahrtyp
-      //        && o.SchülerlisteFach == schülerlisteViewModel.SchülerlisteFach
-      //        && o.SchülerlisteKlasse == schülerlisteViewModel.SchülerlisteKlasse
-      //        && o.SchülerlisteHalbjahrtyp.HalbjahrtypIndex == 1);
+      //        o.LerngruppeSchuljahr == schülerlisteViewModel.LerngruppeSchuljahr
+      //        && o.LerngruppeFach == schülerlisteViewModel.LerngruppeFach
+      //        && o.LerngruppeKlasse == schülerlisteViewModel.LerngruppeKlasse
+      //        && o.LerngruppeHalbjahr.HalbjahrIndex == 1);
 
       //    foreach (var schülereintragViewModel in schülerlisteViewModel.Schülereinträge)
       //    {
@@ -882,11 +609,32 @@ namespace SoftTeach.View.Main
       //}
 
       //var deleteListen =
-      //  App.MainViewModel.Schülerlisten.Where(o => o.SchülerlisteHalbjahrtyp.HalbjahrtypIndex == 2).ToList();
+      //  App.MainViewModel.Lerngruppen.Where(o => o.LerngruppeHalbjahr.HalbjahrIndex == 2).ToList();
       //foreach (var schülerlisteViewModel in deleteListen)
       //{
-      //  App.MainViewModel.Schülerlisten.Remove(schülerlisteViewModel);
+      //  App.MainViewModel.Lerngruppen.Remove(schülerlisteViewModel);
       //}
     }
+
+    private void TabItemCurricula_Selected(object sender, RoutedEventArgs e)
+    {
+      App.MainViewModel.LoadCurricula();
+    }
+
+    private void TermintypenButtonClick(object sender, RoutedEventArgs e)
+    {
+
+    }
+
+    private void SozialformenButtonClick(object sender, RoutedEventArgs e)
+    {
+
+    }
+
+    private void MedienButtonClick(object sender, RoutedEventArgs e)
+    {
+
+    }
+
   }
 }

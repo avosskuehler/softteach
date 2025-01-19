@@ -3,11 +3,16 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:converter="clr-namespace:SoftTeach.Resources.Converter">
   <BooleanToVisibilityConverter x:Key="BoolVisibleConverter" />
+  <converter:DateTimeToStringConverter x:Key="DateTimeToStringConverter" />
   <converter:InverseBooleanConverter x:Key="InverseBooleanConverter" />
   <converter:InverseBooleanToVisibilityConverter x:Key="BoolVisibleConverterInverse" />
   <converter:WichtungProzentConverter x:Key="WichtungProzentConverter" />
   <converter:FloatProzentConverter x:Key="FloatProzentConverter" />
+  <converter:NachnameConverter x:Key="NachnameConverter" />
   <converter:WrapPanelWidthConverter x:Key="WrapPanelWidthConverter" />
   <converter:SitzplatzAngleConverter x:Key="SitzplatzAngleConverter" />
   <converter:EnumBooleanConverter x:Key="EnumBooleanConverter" />
+  <converter:StundeStundenzahlConverter x:Key="StundeStundenzahlConverter" />
+  <converter:StundePhasenKurzConverter x:Key="StundePhasenKurzConverter" />
+  <converter:DateConverter x:Key="DateConverter" />
 </ResourceDictionary>

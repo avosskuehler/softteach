@@ -1,17 +1,11 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="ZeitstrahlCollectionContainer.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
-
-namespace SoftTeach.ViewModel.Curricula
+﻿namespace SoftTeach.ViewModel.Curricula
 {
   using System.Collections.Generic;
 
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
-  /// TODO: Update summary.
+  /// ZeitstrahlCollection
   /// </summary>
   public class ZeitstrahlCollectionContainer
   {

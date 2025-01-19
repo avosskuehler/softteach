@@ -2,12 +2,27 @@
 {
   using System;
   using System.Collections.Generic;
-  using System.Data;
-  using System.Diagnostics;
   using System.Linq;
-
+  using System.Reflection;
+  using Microsoft.EntityFrameworkCore;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.UndoRedo.ChangeTypes;
   using SoftTeach.ViewModel.Helper;
+
+  //public static class MyExtensions
+  //{
+  //  public static IQueryable<object> Set(this DbContext _context, Type t)
+  //  {
+  //    return (IQueryable<object>)_context.GetType().GetMethod("Set").MakeGenericMethod(t).Invoke(_context, null);
+  //  }
+
+  //  public static DbSet<T> GetDbSet<T>(this DbContext _context) where T : class
+  //  {
+  //    return (DbSet<T>)_context.GetType().GetMethod("Set", types: Type.EmptyTypes).MakeGenericMethod(typeof(T)).Invoke(_context, null);
+  //  }
+
+
+  //}
 
   /// <summary>
   /// Tracks the ChangeSets and behavior for a single root object (or document).
@@ -212,7 +227,7 @@
     /// </summary>
     public void UpdateContextFromViewModelsInUndoStack()
     {
-      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = false;
+      App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = false;
       var addAndRemoveChanges = new List<CollectionAddRemoveChangeBase>();
       foreach (var changeSet in this.UndoStack.Reverse())
       {
@@ -275,8 +290,171 @@
               var viewModel = sameElementChange.Key as ViewModelBase;
               var modelProperty = viewModel.GetType().GetProperty("Model");
               var model = modelProperty.GetValue(viewModel);
-              var set = App.UnitOfWork.Context.Set(model.GetType());
-              set.Add(model);
+              var type = model.GetType().ToString();
+              if (type.StartsWith("Castle"))
+              {
+                type = type.Replace("Castle.Proxies.", String.Empty);
+                type = type.Replace("Proxy", String.Empty);
+              }
+              else if (type.StartsWith("SoftTeach"))
+              {
+                type = type.Replace("SoftTeach.Model.TeachyModel.", String.Empty);
+              }
+
+              switch (type)
+              {
+                case "Arbeit":
+                  var setArbeit = App.UnitOfWork.Context.Set<Arbeit>();
+                  setArbeit.Add(model as Arbeit);
+                  break;
+                case "Aufgabe":
+                  var setAufgabe = App.UnitOfWork.Context.Set<Aufgabe>();
+                  setAufgabe.Add(model as Aufgabe);
+                  break;
+                case "BetroffeneLerngruppe":
+                  var setBetroffeneLerngruppe = App.UnitOfWork.Context.Set<BetroffeneLerngruppe>();
+                  setBetroffeneLerngruppe.Add(model as BetroffeneLerngruppe);
+                  break;
+                case "Bewertungsschema":
+                  var setBewertungsschema = App.UnitOfWork.Context.Set<Bewertungsschema>();
+                  setBewertungsschema.Add(model as Bewertungsschema);
+                  break;
+                case "Curriculum":
+                  var setCurriculum = App.UnitOfWork.Context.Set<Curriculum>();
+                  setCurriculum.Add(model as Curriculum);
+                  break;
+                case "Dateityp":
+                  var setDateityp = App.UnitOfWork.Context.Set<Dateityp>();
+                  setDateityp.Add(model as Dateityp);
+                  break;
+                case "Dateiverweis":
+                  var setDateiverweis = App.UnitOfWork.Context.Set<Dateiverweis>();
+                  setDateiverweis.Add(model as Dateiverweis);
+                  break;
+                case "Ergebnis":
+                  var setErgebnis = App.UnitOfWork.Context.Set<Ergebnis>();
+                  setErgebnis.Add(model as Ergebnis);
+                  break;
+                case "Fach":
+                  var setFach = App.UnitOfWork.Context.Set<Fach>();
+                  setFach.Add(model as Fach);
+                  break;
+                case "Fachstundenanzahl":
+                  var setFachstundenanzahl = App.UnitOfWork.Context.Set<Fachstundenanzahl>();
+                  setFachstundenanzahl.Add(model as Fachstundenanzahl);
+                  break;
+                case "Ferien":
+                  var setFerien = App.UnitOfWork.Context.Set<Ferien>();
+                  setFerien.Add(model as Ferien);
+                  break;
+                case "Hausaufgabe":
+                  var setHausaufgabe = App.UnitOfWork.Context.Set<Hausaufgabe>();
+                  setHausaufgabe.Add(model as Hausaufgabe);
+                  break;
+                case "Lerngruppe":
+                  var setLerngruppe = App.UnitOfWork.Context.Set<Lerngruppe>();
+                  setLerngruppe.Add(model as Lerngruppe);
+                  break;
+                case "Lerngruppentermin":
+                  var setLerngruppentermin = App.UnitOfWork.Context.Set<Lerngruppentermin>();
+                  setLerngruppentermin.Add(model as Lerngruppentermin);
+                  break;
+                case "Modul":
+                  var setModul = App.UnitOfWork.Context.Set<Modul>();
+                  setModul.Add(model as Modul);
+                  break;
+                case "Note":
+                  var setNote = App.UnitOfWork.Context.Set<Note>();
+                  setNote.Add(model as Note);
+                  break;
+                case "Notentendenz":
+                  var setNotentendenz = App.UnitOfWork.Context.Set<Notentendenz>();
+                  setNotentendenz.Add(model as Notentendenz);
+                  break;
+                case "NotenWichtung":
+                  var setNotenWichtung = App.UnitOfWork.Context.Set<NotenWichtung>();
+                  setNotenWichtung.Add(model as NotenWichtung);
+                  break;
+                case "Person":
+                  var setPerson = App.UnitOfWork.Context.Set<Person>();
+                  setPerson.Add(model as Person);
+                  break;
+                case "Phase":
+                  var setPhase = App.UnitOfWork.Context.Set<Phase>();
+                  setPhase.Add(model as Phase);
+                  break;
+                case "Prozentbereich":
+                  var setProzentbereich = App.UnitOfWork.Context.Set<Prozentbereich>();
+                  setProzentbereich.Add(model as Prozentbereich);
+                  break;
+                case "Raum":
+                  var setRaum = App.UnitOfWork.Context.Set<Raum>();
+                  setRaum.Add(model as Raum);
+                  break;
+                case "Raumplan":
+                  var setRaumplan = App.UnitOfWork.Context.Set<Raumplan>();
+                  setRaumplan.Add(model as Raumplan);
+                  break;
+                case "Reihe":
+                  var setReihe = App.UnitOfWork.Context.Set<Reihe>();
+                  setReihe.Add(model as Reihe);
+                  break;
+                case "Schülereintrag":
+                  var setSchülereintrag = App.UnitOfWork.Context.Set<Schülereintrag>();
+                  setSchülereintrag.Add(model as Schülereintrag);
+                  break;
+                case "Schuljahr":
+                  var setSchuljahr = App.UnitOfWork.Context.Set<Schuljahr>();
+                  setSchuljahr.Add(model as Schuljahr);
+                  break;
+                case "Schultermin":
+                  var setSchultermin = App.UnitOfWork.Context.Set<Schultermin>();
+                  setSchultermin.Add(model as Schultermin);
+                  break;
+                case "Sequenz":
+                  var setSequenz = App.UnitOfWork.Context.Set<Sequenz>();
+                  setSequenz.Add(model as Sequenz);
+                  break;
+                case "Sitzplan":
+                  var setSitzplan = App.UnitOfWork.Context.Set<Sitzplan>();
+                  setSitzplan.Add(model as Sitzplan);
+                  break;
+                case "Sitzplaneintrag":
+                  var setSitzplaneintrag = App.UnitOfWork.Context.Set<Sitzplaneintrag>();
+                  setSitzplaneintrag.Add(model as Sitzplaneintrag);
+                  break;
+                case "Sitzplatz":
+                  var setSitzplatz = App.UnitOfWork.Context.Set<Sitzplatz>();
+                  setSitzplatz.Add(model as Sitzplatz);
+                  break;
+                case "Stunde":
+                  var setStunde = App.UnitOfWork.Context.Set<Stunde>();
+                  setStunde.Add(model as Stunde);
+                  break;
+                case "Stundenplan":
+                  var setStundenplan = App.UnitOfWork.Context.Set<Stundenplan>();
+                  setStundenplan.Add(model as Stundenplan);
+                  break;
+                case "Stundenplaneintrag":
+                  var setStundenplaneintrag = App.UnitOfWork.Context.Set<Stundenplaneintrag>();
+                  setStundenplaneintrag.Add(model as Stundenplaneintrag);
+                  break;
+                case "Termin":
+                  var setTermin = App.UnitOfWork.Context.Set<Termin>();
+                  setTermin.Add(model as Termin);
+                  break;
+                case "Unterrichtsstunde":
+                  var setUnterrichtsstunde = App.UnitOfWork.Context.Set<Unterrichtsstunde>();
+                  setUnterrichtsstunde.Add(model as Unterrichtsstunde);
+                  break;
+                case "Zensur":
+                  var setZensur = App.UnitOfWork.Context.Set<Zensur>();
+                  setZensur.Add(model as Zensur);
+                  break;
+                default:
+                  throw new ArgumentNullException(String.Format("Model Type: {0} not found", type));
+              }
+
               Console.WriteLine("Added to context: " + model);
             }
           }
@@ -287,8 +465,173 @@
               var viewModel = sameElementChange.Key as ViewModelBase;
               var modelProperty = viewModel.GetType().GetProperty("Model");
               var model = modelProperty.GetValue(viewModel);
-              var set = App.UnitOfWork.Context.Set(model.GetType());
-              set.Remove(model);
+
+              //var set = App.UnitOfWork.Context.Set<Arbeit>(model.GetType());
+              //set.Remove(model);
+              var type = model.GetType().ToString();
+              if (type.StartsWith("Castle"))
+              {
+                type = type.Replace("Castle.Proxies.", String.Empty);
+                type = type.Replace("Proxy", String.Empty);
+              }
+              else if (type.StartsWith("SoftTeach"))
+              {
+                type = type.Replace("SoftTeach.Model.TeachyModel.", String.Empty);
+              }
+
+              switch (type)
+              {
+                case "Arbeit":
+                  var setArbeit = App.UnitOfWork.Context.Set<Arbeit>();
+                  setArbeit.Remove(model as Arbeit);
+                  break;
+                case "Aufgabe":
+                  var setAufgabe = App.UnitOfWork.Context.Set<Aufgabe>();
+                  setAufgabe.Remove(model as Aufgabe);
+                  break;
+                case "BetroffeneLerngruppe":
+                  var setBetroffeneLerngruppe = App.UnitOfWork.Context.Set<BetroffeneLerngruppe>();
+                  setBetroffeneLerngruppe.Remove(model as BetroffeneLerngruppe);
+                  break;
+                case "Bewertungsschema":
+                  var setBewertungsschema = App.UnitOfWork.Context.Set<Bewertungsschema>();
+                  setBewertungsschema.Remove(model as Bewertungsschema);
+                  break;
+                case "Curriculum":
+                  var setCurriculum = App.UnitOfWork.Context.Set<Curriculum>();
+                  setCurriculum.Remove(model as Curriculum);
+                  break;
+                case "Dateityp":
+                  var setDateityp = App.UnitOfWork.Context.Set<Dateityp>();
+                  setDateityp.Remove(model as Dateityp);
+                  break;
+                case "Dateiverweis":
+                  var setDateiverweis = App.UnitOfWork.Context.Set<Dateiverweis>();
+                  setDateiverweis.Remove(model as Dateiverweis);
+                  break;
+                case "Ergebnis":
+                  var setErgebnis = App.UnitOfWork.Context.Set<Ergebnis>();
+                  setErgebnis.Remove(model as Ergebnis);
+                  break;
+                case "Fach":
+                  var setFach = App.UnitOfWork.Context.Set<Fach>();
+                  setFach.Remove(model as Fach);
+                  break;
+                case "Fachstundenanzahl":
+                  var setFachstundenanzahl = App.UnitOfWork.Context.Set<Fachstundenanzahl>();
+                  setFachstundenanzahl.Remove(model as Fachstundenanzahl);
+                  break;
+                case "Ferien":
+                  var setFerien = App.UnitOfWork.Context.Set<Ferien>();
+                  setFerien.Remove(model as Ferien);
+                  break;
+                case "Hausaufgabe":
+                  var setHausaufgabe = App.UnitOfWork.Context.Set<Hausaufgabe>();
+                  setHausaufgabe.Remove(model as Hausaufgabe);
+                  break;
+                case "Lerngruppe":
+                  var setLerngruppe = App.UnitOfWork.Context.Set<Lerngruppe>();
+                  setLerngruppe.Remove(model as Lerngruppe);
+                  break;
+                case "Lerngruppentermin":
+                  var setLerngruppentermin = App.UnitOfWork.Context.Set<Lerngruppentermin>();
+                  setLerngruppentermin.Remove(model as Lerngruppentermin);
+                  break;
+                case "Modul":
+                  var setModul = App.UnitOfWork.Context.Set<Modul>();
+                  setModul.Remove(model as Modul);
+                  break;
+                case "Note":
+                  var setNote = App.UnitOfWork.Context.Set<Note>();
+                  setNote.Remove(model as Note);
+                  break;
+                case "Notentendenz":
+                  var setNotentendenz = App.UnitOfWork.Context.Set<Notentendenz>();
+                  setNotentendenz.Remove(model as Notentendenz);
+                  break;
+                case "NotenWichtung":
+                  var setNotenWichtung = App.UnitOfWork.Context.Set<NotenWichtung>();
+                  setNotenWichtung.Remove(model as NotenWichtung);
+                  break;
+                case "Person":
+                  var setPerson = App.UnitOfWork.Context.Set<Person>();
+                  setPerson.Remove(model as Person);
+                  break;
+                case "Phase":
+                  var setPhase = App.UnitOfWork.Context.Set<Phase>();
+                  setPhase.Remove(model as Phase);
+                  break;
+                case "Prozentbereich":
+                  var setProzentbereich = App.UnitOfWork.Context.Set<Prozentbereich>();
+                  setProzentbereich.Remove(model as Prozentbereich);
+                  break;
+                case "Raum":
+                  var setRaum = App.UnitOfWork.Context.Set<Raum>();
+                  setRaum.Remove(model as Raum);
+                  break;
+                case "Raumplan":
+                  var setRaumplan = App.UnitOfWork.Context.Set<Raumplan>();
+                  setRaumplan.Remove(model as Raumplan);
+                  break;
+                case "Reihe":
+                  var setReihe = App.UnitOfWork.Context.Set<Reihe>();
+                  setReihe.Remove(model as Reihe);
+                  break;
+                case "Schülereintrag":
+                  var setSchülereintrag = App.UnitOfWork.Context.Set<Schülereintrag>();
+                  setSchülereintrag.Remove(model as Schülereintrag);
+                  break;
+                case "Schuljahr":
+                  var setSchuljahr = App.UnitOfWork.Context.Set<Schuljahr>();
+                  setSchuljahr.Remove(model as Schuljahr);
+                  break;
+                case "Schultermin":
+                  var setSchultermin = App.UnitOfWork.Context.Set<Schultermin>();
+                  setSchultermin.Remove(model as Schultermin);
+                  break;
+                case "Sequenz":
+                  var setSequenz = App.UnitOfWork.Context.Set<Sequenz>();
+                  setSequenz.Remove(model as Sequenz);
+                  break;
+                case "Sitzplan":
+                  var setSitzplan = App.UnitOfWork.Context.Set<Sitzplan>();
+                  setSitzplan.Remove(model as Sitzplan);
+                  break;
+                case "Sitzplaneintrag":
+                  var setSitzplaneintrag = App.UnitOfWork.Context.Set<Sitzplaneintrag>();
+                  setSitzplaneintrag.Remove(model as Sitzplaneintrag);
+                  break;
+                case "Sitzplatz":
+                  var setSitzplatz = App.UnitOfWork.Context.Set<Sitzplatz>();
+                  setSitzplatz.Remove(model as Sitzplatz);
+                  break;
+                case "Stunde":
+                  var setStunde = App.UnitOfWork.Context.Set<Stunde>();
+                  setStunde.Remove(model as Stunde);
+                  break;
+                case "Stundenplan":
+                  var setStundenplan = App.UnitOfWork.Context.Set<Stundenplan>();
+                  setStundenplan.Remove(model as Stundenplan);
+                  break;
+                case "Stundenplaneintrag":
+                  var setStundenplaneintrag = App.UnitOfWork.Context.Set<Stundenplaneintrag>();
+                  setStundenplaneintrag.Remove(model as Stundenplaneintrag);
+                  break;
+                case "Termin":
+                  var setTermin = App.UnitOfWork.Context.Set<Termin>();
+                  setTermin.Remove(model as Termin);
+                  break;
+                case "Unterrichtsstunde":
+                  var setUnterrichtsstunde = App.UnitOfWork.Context.Set<Unterrichtsstunde>();
+                  setUnterrichtsstunde.Remove(model as Unterrichtsstunde);
+                  break;
+                case "Zensur":
+                  var setZensur = App.UnitOfWork.Context.Set<Zensur>();
+                  setZensur.Remove(model as Zensur);
+                  break;
+                default:
+                  throw new ArgumentNullException(String.Format("Model Type: {0} not found", type));
+              }
               Console.WriteLine("Removed from context: " + model);
             }
           }
@@ -300,8 +643,52 @@
         }
       }
 
-      App.UnitOfWork.Context.Configuration.AutoDetectChangesEnabled = true;
+      App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = true;
     }
+
+    //public DbSet<TEntity> Set<TEntity>(TEntity example) where TEntity : class
+    //{
+    //  // if the type is on the original context, 
+    //  // then don't initialize the dynamic context
+    //  if (App.UnitOfWork.Context.Model.FindEntityType(typeof(TEntity)) != null)
+    //  {
+    //    return App.UnitOfWork.Context.Set<TEntity>();
+    //  }
+
+    //  return null;
+    //}
+
+    //public static DbSet<T> GetDbSet<T>(this DbContext _context) where T : class
+    //{
+    //  return (DbSet<T>)_context.GetType().GetMethod("Set", types: Type.EmptyTypes).MakeGenericMethod(typeof(T)).Invoke(_context, null);
+    //}
+
+    //public void GetDbSet<T>(DbContext db) where T : class
+    //{
+    //  db.Set<T>();
+    //}
+
+    //public static DbSet Set(this DbContext context, Type T)
+    //{
+    //  // Get the generic type definition
+    //  MethodInfo method = typeof(DbContext).GetMethod(nameof(DbContext.Set), BindingFlags.Public | BindingFlags.Instance);
+
+    //  // Build a method with the specific type argument you're interested in
+    //  method = method.MakeGenericMethod(T);
+
+    //  return method.Invoke(context, null) as IQueryable;
+    //}
+
+    //public static IQueryable<T> Set<T>(this DbContext context)
+    //{
+    //  // Get the generic type definition 
+    //  MethodInfo method = typeof(DbContext).GetMethod(nameof(DbContext.Set), BindingFlags.Public | BindingFlags.Instance);
+
+    //  // Build a method with the specific type argument you're interested in 
+    //  method = method.MakeGenericMethod(typeof(T));
+
+    //  return method.Invoke(context, null) as IQueryable<T>;
+    //}
 
     /// <summary>
     /// Undo all changesets up to and including the lastChangeToUndo.

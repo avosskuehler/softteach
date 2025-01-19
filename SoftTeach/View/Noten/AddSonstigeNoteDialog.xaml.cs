@@ -19,8 +19,7 @@ namespace SoftTeach.View.Noten
 {
   using System;
   using System.Windows;
-
-  using SoftTeach.Model;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Noten;
 
   /// <summary>

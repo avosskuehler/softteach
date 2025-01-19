@@ -3,12 +3,11 @@
   using System;
   using System.Globalization;
   using System.Windows;
-  using System.Windows.Input;
   using System.Windows.Media;
 
   using MahApps.Metro.Controls.Dialogs;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Noten;
@@ -24,12 +23,15 @@
     /// </summary>
     public HausaufgabeViewModel()
     {
-      var hausaufgabe = new Hausaufgabe();
-      hausaufgabe.Datum = DateTime.Now;
-      hausaufgabe.Bezeichnung = string.Empty;
-      hausaufgabe.IstNachgereicht = false;
+      var hausaufgabe = new Hausaufgabe
+      {
+        Datum = DateTime.Now,
+        Bezeichnung = string.Empty,
+        IstNachgereicht = false
+      };
       this.Model = hausaufgabe;
-      App.MainViewModel.Hausaufgaben.Add(this);
+      //App.UnitOfWork.Context.Hausaufgaben.Add(hausaufgabe);
+      //App.MainViewModel.Hausaufgaben.Add(this);
     }
 
     /// <summary>
@@ -40,12 +42,7 @@
     /// </param>
     public HausaufgabeViewModel(Hausaufgabe hausaufgabe)
     {
-      if (hausaufgabe == null)
-      {
-        throw new ArgumentNullException("hausaufgabe");
-      }
-
-      this.Model = hausaufgabe;
+      this.Model = hausaufgabe ?? throw new ArgumentNullException(nameof(hausaufgabe));
 
       this.EditHausaufgabeCommand = new DelegateCommand(this.EditHausaufgabe);
       this.ChangeHausaufgabeNichtGemachtCommand = new DelegateCommand(this.ChangeHausaufgabeNichtGemacht);
@@ -79,7 +76,7 @@
       set
       {
         if (value == this.Model.Datum) return;
-        this.UndoablePropertyChanging(this, "HausaufgabeDatum", this.Model.Datum, value);
+        this.UndoablePropertyChanging(this, nameof(HausaufgabeDatum), this.Model.Datum, value);
         this.Model.Datum = value;
         this.RaisePropertyChanged("HausaufgabeDatum");
       }
@@ -122,7 +119,7 @@
       set
       {
         if (value == this.Model.Bezeichnung) return;
-        this.UndoablePropertyChanging(this, "HausaufgabeBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(HausaufgabeBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("HausaufgabeBezeichnung");
       }
@@ -141,7 +138,7 @@
       set
       {
         if (value == this.Model.IstNachgereicht) return;
-        this.UndoablePropertyChanging(this, "HausaufgabeIstNachgereicht", this.Model.IstNachgereicht, value);
+        this.UndoablePropertyChanging(this, nameof(HausaufgabeIstNachgereicht), this.Model.IstNachgereicht, value);
         this.Model.IstNachgereicht = value;
         this.RaisePropertyChanged("HausaufgabeIstNachgereicht");
       }
@@ -169,7 +166,7 @@
       get
       {
         return
-          this.Model.Schülereintrag.Schülerliste.Fach.Bezeichnung +
+          this.Model.Schülereintrag.Lerngruppe.Fach.Bezeichnung +
           "hausaufgabe von " +
           this.Model.Schülereintrag.Person.Vorname +
           " " +
@@ -217,9 +214,11 @@
         return;
       }
 
-      var dlg = new AddHausaufgabeDialog();
-      dlg.Datum = this.HausaufgabeDatum;
-      dlg.Bezeichnung = this.HausaufgabeBezeichnung;
+      var dlg = new AddHausaufgabeDialog
+      {
+        Datum = this.HausaufgabeDatum,
+        Bezeichnung = this.HausaufgabeBezeichnung
+      };
       using (new UndoBatch(App.MainViewModel, string.Format("Hausaufgabe {0} geändert.", this), false))
       {
         if (dlg.ShowDialog().GetValueOrDefault(false))

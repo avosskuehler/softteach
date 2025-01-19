@@ -1,11 +1,12 @@
 ﻿<UserControl x:Class="SoftTeach.View.Wochenpläne.TerminplaneintragDetailView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="200">
-  <Border Background="{Binding Path=TerminplaneintragBackground}" CornerRadius="3">
+  <Border Background="{Binding Path=TerminplaneintragBackground}">
     <Border.Triggers>
       <EventTrigger RoutedEvent="UIElement.MouseEnter">
         <BeginStoryboard>
@@ -48,18 +49,17 @@
           <StackPanel Orientation="Horizontal" Visibility="Hidden" HorizontalAlignment="Right" 
                       x:Name="EditButtons">
             <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=EditTerminplaneintragCommand}">
-              <Image Source="/SoftTeach;component/Images/Edit16.png"/>
+              <fa:IconBlock Style="{StaticResource Edit16}"/>
             </Button>
             <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=RemoveTerminplaneintragCommand}">
-              <Image Source="/SoftTeach;component/Images/Remove16.png"/>
+              <fa:IconBlock Style="{StaticResource Schließen16}"/>
             </Button>
             <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddNotenCommand}">
-              <Image Source="/SoftTeach;component/Images/Note16.png"/>
+              <fa:IconBlock Style="{StaticResource Note16}"/>
             </Button>
           </StackPanel>
-          <Button Command="{Binding Path=ProofTerminplaneintragCommand}" 
-                    Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-            <Image Source="{Binding Path=ProofImage}"/>
+          <Button Command="{Binding Path=ProofTerminplaneintragCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+              <fa:IconBlock Style="{Binding Path=ProofImage}"/>
           </Button>
         </StackPanel>
       </Border>

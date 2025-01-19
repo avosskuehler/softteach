@@ -1,13 +1,16 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-                    xmlns:system="clr-namespace:System;assembly=mscorlib"
-                    xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
-                    xmlns:converter="clr-namespace:SoftTeach.Resources.Converter"
-                    xmlns:controls="clr-namespace:SoftTeach.Resources.Controls">
+﻿<ResourceDictionary 
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+  xmlns:system="clr-namespace:System;assembly=mscorlib"  
+  xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
+  xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
+  xmlns:converter="clr-namespace:SoftTeach.Resources.Converter"
+  xmlns:controls="clr-namespace:SoftTeach.Resources.Controls">
 
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="..\Controls\NumericUpDown.xaml"/>
     <ResourceDictionary Source="..\Controls\HausaufgabeButton.xaml"/>
+    <ResourceDictionary Source="Farben.xaml"/>
     <ResourceDictionary Source="TextStyles.xaml"/>
   </ResourceDictionary.MergedDictionaries>
 
@@ -17,6 +20,16 @@
         <Setter Property="UIElement.Visibility" Value="Hidden"/>
       </DataTrigger>
     </Style.Triggers>
+  </Style>
+
+  <Style TargetType="{x:Type ListBoxItem}">
+    <Setter Property="HorizontalContentAlignment" Value="Left" />
+    <Setter Property="VerticalContentAlignment" Value="Top" />
+  </Style>
+
+  <Style x:Key="ItemContainerDefaultStyle" TargetType="{x:Type ListBoxItem}">
+    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+    <Setter Property="VerticalContentAlignment" Value="Top"/>
   </Style>
 
   <!--MouseEnter="SurroundBorderMouseEnter" 
@@ -66,13 +79,13 @@
             <StackPanel Orientation="Horizontal">
               <StackPanel Orientation="Horizontal" Visibility="Hidden" HorizontalAlignment="Right" x:Name="EditButtons">
                 <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=EditTerminplaneintragCommand}">
-                  <Image Source="/SoftTeach;component/Images/Edit16.png"/>
+                  <fa:IconBlock Style="{StaticResource Edit16}"/>
                 </Button>
                 <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=RemoveTerminplaneintragCommand}">
-                  <Image Source="/SoftTeach;component/Images/Remove16.png"/>
+                  <fa:IconBlock Style="{StaticResource Remove16}"/>
                 </Button>
                 <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddNotenCommand}">
-                  <Image Source="/SoftTeach;component/Images/Note16.png"/>
+                  <fa:IconBlock Style="{StaticResource Note16}"/>
                 </Button>
               </StackPanel>
               <Button Command="{Binding Path=ProofTerminplaneintragCommand}" 
@@ -94,42 +107,65 @@
 
   <DataTemplate x:Key="SequenzDragAdorner">
     <Border Background="Silver" BorderBrush="Gray" BorderThickness="1" CornerRadius="2" Margin="1">
-      <Grid Width="{Binding Path=SequenzBreite}" Background="{StaticResource SequenzBackgroundBrush}" Margin="3" Height="40">
+      <Grid Width="{Binding Path=Breite}" Background="{StaticResource SequenzBackgroundBrush}" Margin="3" Height="40">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*"/>
           <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Column="0"
-                 Text="{Binding Path=SequenzThema}" 
+                 Text="{Binding Path=Thema}" 
                  FontSize="11"
                  HorizontalAlignment="Left" 
                  TextWrapping="WrapWithOverflow"              
                  Margin="1,0,0,1" 
                  Padding="3"/>
         <TextBlock Grid.Column="1"
-                 Text="{Binding Path=SequenzStundenbedarfString}" 
+                 Text="{Binding Path=StundenbedarfString}" 
                  FontSize="11" HorizontalAlignment="Right" Margin="0,0,1,1" 
                  Padding="3"/>
       </Grid>
     </Border>
   </DataTemplate>
 
-  <DataTemplate x:Key="ReiheDragAdorner">
+  <DataTemplate x:Key="BausteinDragAdorner">
     <Border Background="Silver" BorderBrush="Gray" BorderThickness="1" CornerRadius="2" Margin="1">
-      <Grid Width="{Binding Path=ReiheBreite}" Background="{StaticResource ReiheBackgroundBrush}" Margin="3" Height="40">
+      <Grid Width="{Binding Path=Breite}" Background="{Binding Path=BackgroundBrush}" Margin="3" Height="40">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*"/>
           <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Column="0"
-                 Text="{Binding Path=ReiheThema}" 
+                 Text="{Binding Path=Thema}" 
                  FontSize="11"
                  HorizontalAlignment="Left" 
                  TextWrapping="WrapWithOverflow"              
                  Margin="1,0,0,1" 
                  Padding="3"/>
         <TextBlock Grid.Column="1"
-                 Text="{Binding Path=ReiheStundenbedarfString}" 
+                 Text="{Binding Path=StundenbedarfString}" 
+                 FontSize="11" HorizontalAlignment="Right" Margin="0,0,1,1" 
+                 Padding="3"/>
+      </Grid>
+    </Border>
+  </DataTemplate>
+
+
+  <DataTemplate x:Key="ReiheDragAdorner">
+    <Border Background="Silver" BorderBrush="Gray" BorderThickness="1" CornerRadius="2" Margin="1">
+      <Grid Width="{Binding Path=Breite}" Background="{StaticResource ReiheBackgroundBrush}" Margin="3" Height="40">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0"
+                 Text="{Binding Path=Thema}" 
+                 FontSize="11"
+                 HorizontalAlignment="Left" 
+                 TextWrapping="WrapWithOverflow"              
+                 Margin="1,0,0,1" 
+                 Padding="3"/>
+        <TextBlock Grid.Column="1"
+                 Text="{Binding Path=StundenbedarfString}" 
                  FontSize="11" HorizontalAlignment="Right" Margin="0,0,1,1" 
                  Padding="3"/>
       </Grid>
@@ -160,13 +196,13 @@
 
   <DataTemplate x:Key="StundeDragAdorner">
     <Border Background="Silver" BorderBrush="Gray" BorderThickness="1" CornerRadius="2" Margin="1">
-      <Grid Width="{Binding Path=StundeBreite}" Background="{StaticResource StundeBackgroundBrush}" Margin="3" Height="40">
+      <Grid Width="{Binding Path=StundeBreite}" Background="{Binding Path=LerngruppenterminFarbe}" Margin="3" Height="40">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*"/>
           <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Column="0"
-                 Text="{Binding Path=StundeStundenentwurfTitel}" 
+                 Text="{Binding Path=TerminBeschreibung}" 
                  FontSize="11"
                  HorizontalAlignment="Left" 
                  TextWrapping="WrapWithOverflow"              
@@ -182,16 +218,16 @@
 
   <DataTemplate x:Key="StundenGroupView">
     <Border CornerRadius="5">
-      <Grid Width="{Binding Path=StundeDetailBreite}" Background="{StaticResource StundeBackgroundBrush}" Margin="3" Height="40">
+      <Grid Width="{Binding Path=StundeDetailBreite}" Background="{Binding Path=LerngruppenterminFarbe}" Margin="3" Height="40">
         <Grid.InputBindings>
-          <!--<MouseBinding MouseAction="RightClick" Command="{Binding Path=EditSequenzCommand}"/>-->
+          <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding Path=EditStundeCommand}"/>
         </Grid.InputBindings>
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*"/>
           <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Column="0"
-                 Text="{Binding Path=StundeStundenentwurfTitel}" 
+                 Text="{Binding Path=TerminBeschreibung}" 
                  FontSize="11"
                  HorizontalAlignment="Left" 
                  TextWrapping="WrapWithOverflow"              
@@ -206,24 +242,24 @@
   </DataTemplate>
 
   <DataTemplate x:Key="SequenzenGroupView">
-    <Border CornerRadius="5">
-      <Grid Width="{Binding Path=SequenzDetailBreite}" Background="{StaticResource SequenzBackgroundBrush}" Margin="3" Height="40">
-        <Grid.InputBindings>
-          <MouseBinding MouseAction="RightClick" Command="{Binding Path=EditSequenzCommand}"/>
-        </Grid.InputBindings>
+    <Border Margin="0,3" Background="{StaticResource SequenzBackgroundBrush}">
+      <Border.InputBindings>
+        <MouseBinding MouseAction="RightClick" Command="{Binding Path=EditSequenzCommand}"/>
+      </Border.InputBindings>
+      <Grid Height="40" Width="200">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*"/>
           <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Column="0"
-                 Text="{Binding Path=SequenzThema}" 
+                 Text="{Binding Path=Thema}" 
                  FontSize="11"
                  HorizontalAlignment="Left" 
                  TextWrapping="WrapWithOverflow"              
                  Margin="1,0,0,1" 
                  Padding="3"/>
         <TextBlock Grid.Column="1"
-                 Text="{Binding Path=SequenzStundenbedarfString}" 
+                 Text="{Binding Path=StundenbedarfString}" 
                  FontSize="11" HorizontalAlignment="Right" Margin="0,0,1,1" 
                  Padding="3"/>
       </Grid>
@@ -231,7 +267,7 @@
   </DataTemplate>
 
   <DataTemplate x:Key="SequenzenView">
-    <Grid Width="{Binding Path=SequenzBreite}" Background="{StaticResource SequenzBackgroundBrush}" Margin="3" Height="40">
+    <Grid Width="{Binding Path=Breite}" Background="{StaticResource SequenzBackgroundBrush}" Margin="3" Height="40">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="*"/>
         <ColumnDefinition Width="Auto"/>
@@ -241,14 +277,14 @@
         <RowDefinition/>
       </Grid.RowDefinitions>
       <TextBlock Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
-                 Text="{Binding Path=SequenzThema}" 
+                 Text="{Binding Path=Thema}" 
                  FontSize="11"
                  HorizontalAlignment="Left" 
                  TextWrapping="WrapWithOverflow"              
                  Margin="1,0,0,1" 
                  Padding="3"/>
       <TextBlock Grid.Column="1" Grid.Row="1"
-                 Text="{Binding Path=SequenzStundenbedarfString}" 
+                 Text="{Binding Path=StundenbedarfString}" 
                  FontSize="11" HorizontalAlignment="Right" Margin="0,0,1,1" 
                  Padding="3"/>
       <Label Grid.Column="1" Grid.Row="0" Content="{Binding Path=SequenzModulAbkürzung}" HorizontalAlignment="Right"
@@ -281,12 +317,12 @@
     </Setter>
   </Style>
 
-  <Style x:Key="JahrtypenHeaderStyle" TargetType="{x:Type GroupItem}">
+  <Style x:Key="SchuljahreHeaderStyle" TargetType="{x:Type GroupItem}">
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type GroupItem}" >
           <Border BorderThickness="3" BorderBrush="Transparent">
-            <HeaderedContentControl Header="{Binding Path=Name}" HeaderTemplate="{StaticResource JahrtypHeaderControlHeader}">
+            <HeaderedContentControl Header="{Binding Path=Name}" HeaderTemplate="{StaticResource SchuljahrHeaderControlHeader}">
               <ItemsPresenter Margin="0"/>
             </HeaderedContentControl>
           </Border>
@@ -312,23 +348,6 @@
 
   <converter:InverseBooleanToVisibilityConverter x:Key="BoolVisibleConverterInverse2" />
 
-  <DataTemplate x:Key="TagespläneView">
-    <Grid Width="{Binding Path=TagesplanBreite}" Background="{Binding Path=TagesplanKalenderfarbe}" Margin="0" Height="40">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="1"/>
-        <ColumnDefinition Width="*"/>
-      </Grid.ColumnDefinitions>
-      <Rectangle Fill="Gray" Grid.Column="0" Visibility="{Binding Path=KeineLerngruppentermine, Converter={StaticResource BoolVisibleConverterInverse2}}"/>
-      <TextBlock Grid.Column="1" 
-                 Text="{Binding Path=TagesplanBeschreibung}" 
-                 FontSize="8"
-                 HorizontalAlignment="Left" 
-                 TextWrapping="WrapWithOverflow"              
-                 Margin="0" 
-                 Padding="3"/>
-    </Grid>
-  </DataTemplate>
-
   <DataTemplate x:Key="SchulwochenView">
     <Border CornerRadius="5" BorderBrush="Gray" BorderThickness="0">
       <Grid Width="{Binding Path=SchulwocheBreite}" Margin="0" Height="30">
@@ -353,8 +372,50 @@
     </Border>
   </DataTemplate>
 
+  <DataTemplate x:Key="ReihenCurriculumView">
+    <Grid Width="{Binding Path=ReiheStundenbreite}" Background="{StaticResource ReiheBackgroundBrush}" Margin="0" Height="30">
+      <Grid.InputBindings>
+        <MouseBinding MouseAction="RightClick" Command="{Binding Path=EditReiheCommand}"/>
+      </Grid.InputBindings>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="1"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="15"/>
+        <RowDefinition Height="15"/>
+      </Grid.RowDefinitions>
+      <Rectangle Fill="Gray" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"/>
+      <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Visibility="Visible" 
+                  HorizontalAlignment="Left" x:Name="EditButtons" Margin="2,0,0,0">
+        <Button Command="{Binding Path=LengthenReiheCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+          <fa:IconBlock Style="{StaticResource Plus7}"/>
+        </Button>
+        <Button Command="{Binding Path=ShortenReiheCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+          <fa:IconBlock Style="{StaticResource Minus7}"/>
+        </Button>
+      </StackPanel>
+      <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2"
+                 Text="{Binding Path=Thema}" 
+                 FontSize="10"
+                 HorizontalAlignment="Left" 
+                 TextWrapping="WrapWithOverflow"              
+                 Margin="0" 
+                 Padding="1" TextTrimming="CharacterEllipsis">
+        <TextBlock.ToolTip>
+          <Label Content="{Binding Path=Thema}"/>
+        </TextBlock.ToolTip>
+      </TextBlock>
+      <TextBlock Grid.Column="2" Grid.Row="1"
+                 Text="{Binding Path=StundenbedarfString}" 
+                 FontSize="10" HorizontalAlignment="Right" Margin="0" 
+                 Padding="1"/>
+    </Grid>
+  </DataTemplate>
+
   <DataTemplate x:Key="ReihenNarrowView">
-    <Grid Width="{Binding Path=ReiheBreite}" Name="BaseGrid"  Background="{StaticResource ReiheBackgroundBrush}" Margin="0">
+    <Grid Width="{Binding Path=Breite}" Name="BaseGrid"  Background="{StaticResource ReiheBackgroundBrush}" Margin="0">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="1"/>
         <ColumnDefinition Width="Auto"/>
@@ -367,20 +428,20 @@
       </Grid.RowDefinitions>
       <Rectangle Fill="Gray" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"/>
       <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Visibility="Visible" 
-                  HorizontalAlignment="Left" x:Name="EditButtons" Margin="1,0,1,0">
-        <Button Width="13" Height="13" Command="{Binding Path=LengthenReiheCommand}" 
+                  HorizontalAlignment="Left" x:Name="EditButtons" Margin="1">
+        <Button Command="{Binding Path=LengthenReiheCommand}" 
                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                 VerticalAlignment="Bottom">
-          <Image Source="/SoftTeach;component/Images/Plus7.png"/>
+          <fa:IconBlock Style="{StaticResource Plus7}"/>
         </Button>
-        <Button  Width="12" Height="12" Command="{Binding Path=ShortenReiheCommand}" 
-                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-                 VerticalAlignment="Bottom">
-          <Image Source="/SoftTeach;component/Images/Minus7.png"/>
+        <Button Command="{Binding Path=ShortenReiheCommand}" 
+                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                VerticalAlignment="Bottom">
+          <fa:IconBlock Style="{StaticResource Minus7}"/>
         </Button>
       </StackPanel>
       <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2"
-                 Text="{Binding Path=ReiheThema}" 
+                 Text="{Binding Path=Thema}" 
                  FontSize="11"
                  HorizontalAlignment="Left" 
                  TextWrapping="WrapWithOverflow"              
@@ -394,7 +455,7 @@
                  Margin="0" 
                  Padding="3" TextTrimming="CharacterEllipsis" />
       <TextBlock Grid.Column="3" Grid.Row="1"
-                 Text="{Binding Path=ReiheStundenbedarfString}" 
+                 Text="{Binding Path=StundenbedarfString}" 
                  FontSize="11" HorizontalAlignment="Right" Margin="0" 
                  Padding="3"/>
     </Grid>
@@ -409,21 +470,24 @@
   </DataTemplate>
 
   <DataTemplate x:Key="ReihenGroupView">
-    <Border CornerRadius="5" Margin="3" Background="{StaticResource ReiheBackgroundBrush}">
-      <Grid Margin="1" Height="40" Width="200">
+    <Border Margin="0,3" Background="{StaticResource ReiheBackgroundBrush}">
+      <Grid Height="40" Width="200">
+        <Grid.InputBindings>
+          <MouseBinding MouseAction="RightClick" Command="{Binding Path=EditReiheCommand}"/>
+        </Grid.InputBindings>
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*"/>
           <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Column="0"
-                 Text="{Binding Path=ReiheThema}" 
+                 Text="{Binding Path=Thema}" 
                  FontSize="11"
                  HorizontalAlignment="Left" 
                  TextWrapping="WrapWithOverflow"              
                  Margin="1,0,0,1" 
                  Padding="3"/>
         <TextBlock Grid.Column="1"
-                 Text="{Binding Path=ReiheStundenbedarfString}" 
+                 Text="{Binding Path=StundenbedarfString}" 
                  FontSize="11" HorizontalAlignment="Right" Margin="0,0,1,1" 
                  Padding="3"/>
       </Grid>
@@ -431,7 +495,7 @@
   </DataTemplate>
 
   <DataTemplate x:Key="SequenzenNarrowView">
-    <Grid Width="{Binding Path=SequenzBreite}" Background="{StaticResource SequenzBackgroundBrush}" Margin="0" Height="30">
+    <Grid Width="{Binding Path=Breite}" Background="{StaticResource SequenzBackgroundBrush}" Margin="0" Height="30">
       <Grid.InputBindings>
         <MouseBinding MouseAction="RightClick" Command="{Binding Path=EditSequenzCommand}"/>
       </Grid.InputBindings>
@@ -447,11 +511,11 @@
       <Rectangle Fill="Gray" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"/>
       <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Visibility="Visible" 
                   HorizontalAlignment="Left" x:Name="EditButtons" Margin="2,0,0,0">
-        <Button Width="12" Height="12" Command="{Binding Path=LengthenSequenzCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-          <Image Source="/SoftTeach;component/Images/Plus7.png"/>
+        <Button Padding="0" Command="{Binding Path=LengthenSequenzCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+          <fa:IconBlock Style="{StaticResource Plus7}"/>
         </Button>
-        <Button  Width="12" Height="12" Command="{Binding Path=ShortenSequenzCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-          <Image Source="/SoftTeach;component/Images/Minus7.png"/>
+        <Button Padding="0" Command="{Binding Path=ShortenSequenzCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+          <fa:IconBlock Style="{StaticResource Minus7}"/>
         </Button>
       </StackPanel>
       <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2"
@@ -466,14 +530,14 @@
         </TextBlock.ToolTip>
       </TextBlock>
       <TextBlock Grid.Column="2" Grid.Row="1"
-                 Text="{Binding Path=SequenzStundenbedarfString}" 
+                 Text="{Binding Path=StundenbedarfString}" 
                  FontSize="10" HorizontalAlignment="Right" Margin="0" 
                  Padding="1"/>
     </Grid>
 
   </DataTemplate>
 
-  <DataTemplate x:Key="SequenzenTagesplanView">
+  <DataTemplate x:Key="SequenzenCurriculumView">
     <Grid Width="{Binding Path=SequenzStundenbreite}" Background="{StaticResource SequenzBackgroundBrush}" Margin="0" Height="30">
       <Grid.InputBindings>
         <MouseBinding MouseAction="RightClick" Command="{Binding Path=EditSequenzCommand}"/>
@@ -490,11 +554,11 @@
       <Rectangle Fill="Gray" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"/>
       <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Visibility="Visible" 
                   HorizontalAlignment="Left" x:Name="EditButtons" Margin="2,0,0,0">
-        <Button Width="12" Height="12" Command="{Binding Path=LengthenSequenzCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-          <Image Source="/SoftTeach;component/Images/Plus7.png"/>
+        <Button Padding="0" Command="{Binding Path=LengthenSequenzCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+          <fa:IconBlock Style="{StaticResource Plus7}"/>
         </Button>
-        <Button  Width="12" Height="12" Command="{Binding Path=ShortenSequenzCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-          <Image Source="/SoftTeach;component/Images/Minus7.png"/>
+        <Button Padding="0" Command="{Binding Path=ShortenSequenzCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+          <fa:IconBlock Style="{StaticResource Minus7}"/>
         </Button>
       </StackPanel>
       <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2"
@@ -509,17 +573,42 @@
         </TextBlock.ToolTip>
       </TextBlock>
       <TextBlock Grid.Column="2" Grid.Row="1"
-                 Text="{Binding Path=SequenzStundenbedarfString}" 
+                 Text="{Binding Path=StundenbedarfString}" 
                  FontSize="10" HorizontalAlignment="Right" Margin="0" 
                  Padding="1"/>
     </Grid>
-
   </DataTemplate>
 
-  <DataTemplate x:Key="StundenTagesplanView">
-    <Grid Width="{Binding Path=StundeBreite}" Background="{StaticResource StundeBackgroundBrush}" Margin="0" Height="30">
+  <DataTemplate x:Key="FerienViewModelTagesplanView">
+    <Grid Width="80" Background="{Binding LerngruppenterminFarbe}" Margin="0" Height="30">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="1"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="15"/>
+        <RowDefinition Height="15"/>
+      </Grid.RowDefinitions>
+      <Rectangle Fill="Gray" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"/>
+      <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2"
+                 Text="{Binding Path=TerminBeschreibung}" 
+                 FontSize="10"
+                 HorizontalAlignment="Left" 
+                 TextWrapping="WrapWithOverflow"              
+                 Margin="0" 
+                 Padding="1" TextTrimming="CharacterEllipsis">
+        <TextBlock.ToolTip>
+          <Label Content="{Binding Path=TerminBeschreibung}"/>
+        </TextBlock.ToolTip>
+      </TextBlock>
+    </Grid>
+  </DataTemplate>
+
+  <DataTemplate x:Key="StundenViewModelTagesplanView">
+    <Grid Width="{Binding Path=StundeBreite}" Background="{Binding Path=LerngruppenterminFarbe}" Margin="0" Height="30">
       <Grid.InputBindings>
-        <!--<MouseBinding MouseAction="LeftDoubleClick" Command="{Binding Path=EditSequenzCommand}"/>-->
+        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding Path=EditStundeCommand}"/>
       </Grid.InputBindings>
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="1"/>
@@ -531,24 +620,15 @@
         <RowDefinition Height="15"/>
       </Grid.RowDefinitions>
       <Rectangle Fill="Gray" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"/>
-      <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Visibility="Visible" 
-                  HorizontalAlignment="Left" x:Name="EditButtons" Margin="2,0,0,0">
-        <!--<Button Width="12" Height="12" Command="{Binding Path=LengthenSequenzCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-          <Image Source="/SoftTeach;component/Images/Plus7.png"/>
-        </Button>
-        <Button  Width="12" Height="12" Command="{Binding Path=ShortenSequenzCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-          <Image Source="/SoftTeach;component/Images/Minus7.png"/>
-        </Button>-->
-      </StackPanel>
       <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2"
-                 Text="{Binding Path=StundeStundenentwurfTitel}" 
+                 Text="{Binding Path=TerminBeschreibung}" 
                  FontSize="10"
                  HorizontalAlignment="Left" 
                  TextWrapping="WrapWithOverflow"              
                  Margin="0" 
                  Padding="1" TextTrimming="CharacterEllipsis">
         <TextBlock.ToolTip>
-          <Label Content="{Binding Path=StundeStundenentwurfTitel}"/>
+          <Label Content="{Binding Path=TerminBeschreibung}"/>
         </TextBlock.ToolTip>
       </TextBlock>
       <TextBlock Grid.Column="2" Grid.Row="1"
@@ -558,6 +638,7 @@
     </Grid>
 
   </DataTemplate>
+
 
   <Style x:Key="NotenGroupHeaderStyle" TargetType="{x:Type GroupItem}">
     <Setter Property="Template">
@@ -671,7 +752,7 @@
       </Grid>
     </Border>
   </DataTemplate>
-  
+
   <DataTemplate x:Key="NotenstandDetailView">
     <Border Style="{StaticResource NotenBorderStyle}" Background="{StaticResource StandBrush}">
       <Grid>
@@ -819,15 +900,6 @@
                FontSize="8" Content="{Binding Path=NotentendenzDatumString}"/>
         <Label Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="3,0,0,0"
              FontSize="14" FontFamily="Arial" Content="{Binding Path=NotentendenzTendenz.TendenzBezeichnung}"/>
-        <!--<Border Grid.Row="0" Grid.Column="2" Grid.RowSpan="3">
-          <StackPanel Visibility="Hidden" HorizontalAlignment="Right" x:Name="EditButtons">
-            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=EditNotentendenzCommand}">
-              <Image Source="/SoftTeach;component/Images/Edit16.png"/>
-            </Button>
-            <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=RemoveNotentendenzCommand}">
-              <Image Source="/SoftTeach;component/Images/Remove16.png"/>
-            </Button>
-          </StackPanel>-->
       </Grid>
     </Border>
   </DataTemplate>
@@ -889,9 +961,9 @@
           <Label Style="{StaticResource ZeugnisnotenHeader}" Content="{Binding Path=SchülereintragPerson.PersonNachname}"/>
         </StackPanel>
         <Label Grid.Row="1" Grid.Column="0">HA</Label>
-        <Image Grid.Row="1" Grid.Column="1" Source="{Binding Path=HausaufgabenTendenzImage}" Height="16"/>
+        <fa:IconBlock Grid.Row="1" Grid.Column="1" Style="{Binding HausaufgabenTendenzStyle}"/>
         <Label Grid.Row="2" Grid.Column="0">Tendenzen</Label>
-        <Image Grid.Row="2" Grid.Column="1" Source="{Binding Path=TendenzenTendenzImage}" Height="16"/>
+        <fa:IconBlock Grid.Row="2" Grid.Column="1" Style="{Binding TendenzenTendenzStyle}"/>
       </Grid>
       <Grid Grid.Column="2">
         <Grid.ColumnDefinitions>
@@ -1034,14 +1106,8 @@
     </Grid>
   </DataTemplate>
 
-  <DataTemplate x:Key="SchülerlisteSingleView">
-    <StackPanel Orientation="Horizontal" Margin="0">
-      <Label Margin="0" Padding="1" Content="{Binding Path=SchülereintragPerson.PersonVorname}"/>
-      <Label Margin="0" Padding="1" Content="{Binding Path=SchülereintragPerson.PersonNachname}"/>
-    </StackPanel>
-  </DataTemplate>
 
-  <DataTemplate x:Key="SchülerlisteGruppenView">
+  <DataTemplate x:Key="LerngruppeGruppenView">
     <Border Background="LightBlue" CornerRadius="10" Padding="2,2,2,2">
       <Grid>
         <Grid.RowDefinitions>
@@ -1051,8 +1117,15 @@
         <TextBlock Grid.Row="0" Text="{Binding Path=Key}" FontSize="14" Margin="6,2,6,2"/>
         <ListBox Grid.Row="1" ItemsSource="{Binding}"
                  BorderThickness="0"
-                 ItemTemplate="{StaticResource SchülerlisteSingleView}"
                  ItemContainerStyle="{StaticResource UnselectableListBoxItem}">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <StackPanel Orientation="Horizontal" Margin="0">
+                <Label Margin="0" Padding="1" Content="{Binding Path=SchülereintragPerson.PersonVorname}"/>
+                <Label Margin="0" Padding="1" Content="{Binding Path=SchülereintragPerson.PersonNachname}"/>
+              </StackPanel>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
           <ListBox.ItemsPanel>
             <ItemsPanelTemplate>
               <StackPanel/>

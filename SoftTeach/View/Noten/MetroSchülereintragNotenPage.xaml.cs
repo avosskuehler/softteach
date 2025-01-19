@@ -1,8 +1,6 @@
 ﻿namespace SoftTeach.View.Noten
 {
-  using System;
   using System.ComponentModel;
-  using System.Linq;
   using System.Windows;
   using System.Windows.Controls;
   using System.Windows.Input;
@@ -31,13 +29,13 @@
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="MetroSchülereintragNotenPage"/> Klasse.
     /// </summary>
-    public MetroSchülereintragNotenPage()
+    public MetroSchülereintragNotenPage(SchülereintragViewModel vm)
     {
       this.InitializeComponent();
-      var schülereintragViewModel = this.DataContext as SchülereintragViewModel;
-      if (schülereintragViewModel != null)
+      this.DataContext = vm;
+      if (vm != null)
       {
-        schülereintragViewModel.PropertyChanged += this.SchülereintragViewModelPropertyChanged;
+        vm.PropertyChanged += this.SchülereintragViewModelPropertyChanged;
       }
     }
 
@@ -52,7 +50,6 @@
       // der Check ist nur damit nur einmal geupdated wird
       if (e.PropertyName == "Gesamtnote")
       {
-        // TODO
         // Refresh the plot view
         this.QualitätPlot.InvalidatePlot();
         this.QuantitätPlot.InvalidatePlot();
@@ -80,7 +77,9 @@
       if (border != null)
       {
         var points = e.TouchDevice.GetTouchPoint(this);
-        var distance = this.touchPoint.DistanceTo(points.Position);
+
+        var distance = Point.Subtract(this.touchPoint, points.Position).Length;
+        //var distance = this.touchPoint.DistanceTo(points.Position);
         if (distance > DeleteDistance)
         {
           var schülereintragViewModel = this.DataContext as SchülereintragViewModel;

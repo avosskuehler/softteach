@@ -1,11 +1,12 @@
-﻿<Window x:Class="SoftTeach.View.Personen.AskForSchülerlisteToAddDialog"
+﻿<Window x:Class="SoftTeach.View.Personen.AskForLerngruppeToAddDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:resources="clr-namespace:SoftTeach.Resources" xmlns:softTeach="clr-namespace:SoftTeach"
+        xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
         xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
         Title="Frage ..." 
-        Height="251" 
-        Width="351" 
+        Height="300" 
+        Width="300" 
         ResizeMode="NoResize" 
         WindowStyle="SingleBorderWindow">
   <Grid>
@@ -14,11 +15,18 @@
       <RowDefinition/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader Grid.Row="0" Title="Welche Schülerliste soll angelegt werden?"
-                                      Icon="/SoftTeach;component/Images/Schülerliste32.png"/>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Welche Lerngruppe soll angelegt werden?">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Lerngruppe48}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
 
     <Grid Grid.Row="1" Background="{x:Static SystemColors.MenuBarBrush}">
       <Grid.RowDefinitions>
+        <RowDefinition/>
+        <RowDefinition/>
         <RowDefinition/>
         <RowDefinition/>
         <RowDefinition/>
@@ -27,43 +35,43 @@
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="*"/>
-        <ColumnDefinition Width="Auto"/>
       </Grid.ColumnDefinitions>
-      <Label Grid.Column="0" Grid.Row="0" Content="Zeitraum" VerticalAlignment="Center"/>
+      <Label Grid.Column="0" Grid.Row="0" Content="Schuljahr" VerticalAlignment="Center"/>
       <ComboBox Grid.Column="1" Grid.Row="0" Margin="3" TabIndex="1"
-                ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Halbjahrtypen}" 
-                SelectedItem="{Binding Path=Halbjahrtyp}"
-                DisplayMemberPath="HalbjahrtypBezeichnung"
-                Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" Width="100"/>
-      <ComboBox Grid.Column="2" Grid.Row="0" Margin="3" TabIndex="1"
-                ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Jahrtypen}" 
-                SelectedItem="{Binding Path=Jahrtyp}"
-                DisplayMemberPath="JahrtypBezeichnung"
-                Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" Width="100"/>
-      <Label Grid.Column="0" Grid.Row="1" Content="Klasse" VerticalAlignment="Center"/>
-      <ComboBox Grid.Column="1" Grid.Row="1"  Margin="3" TabIndex="1"
-                ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Klassen}" 
-                SelectedItem="{Binding Path=Klasse}"
-                DisplayMemberPath="KlasseBezeichnung"
-                Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" Width="100"/>
+                ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Schuljahre}" 
+                SelectedItem="{Binding Path=Schuljahr}"
+                DisplayMemberPath="SchuljahrBezeichnung"
+                Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" Width="120"/>
+      <Label Grid.Column="0" Grid.Row="1" Content="Jahrgang" VerticalAlignment="Center"/>
+      <ComboBox Grid.Column="1" Grid.Row="1"  Margin="3" TabIndex="2"
+                ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Jahrgänge}" 
+                SelectedItem="{Binding Path=Jahrgang}"
+                Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" Width="120"/>
       <Label Grid.Column="0" Grid.Row="2" Content="Fach" VerticalAlignment="Center"/>
-      <ComboBox Grid.Column="1" Grid.Row="2"  Margin="3" TabIndex="1"
+      <ComboBox Grid.Column="1" Grid.Row="2"  Margin="3" TabIndex="3"
                 ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Fächer}" 
                 SelectedItem="{Binding Path=Fach}"
                 DisplayMemberPath="FachBezeichnung"
-                Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" Width="100"/>
+                Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" Width="120"/>
       <Label Grid.Column="0" Grid.Row="3" Content="Noten Gewichtung" VerticalAlignment="Center"/>
-      <ComboBox Grid.Column="1" Grid.Row="3"  Margin="3" TabIndex="1"
+      <ComboBox Grid.Column="1" Grid.Row="3"  Margin="3" TabIndex="4"
                 ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=NotenWichtungen}" 
                 SelectedItem="{Binding Path=NotenWichtung}"
                 DisplayMemberPath="NotenWichtungBezeichnung"
-                Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" Width="100"/>
+                Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" Width="120"/>
+      <Label Grid.Column="0" Grid.Row="4" Content="Bepunktungstyp" VerticalAlignment="Center"/>
+      <ComboBox Grid.Column="1" Grid.Row="4"  Margin="3" TabIndex="5"
+                ItemsSource="{Binding Source={StaticResource Bepunktungstypen}}" 
+                SelectedItem="{Binding Path=Bepunktungstyp}"
+                Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" Width="120"/>
+      <Label Grid.Column="0" Grid.Row="5" Content="Bezeichnung" VerticalAlignment="Center"/>
+      <TextBox Grid.Column="1" Grid.Row="5"  Margin="3" TabIndex="6" Style="{StaticResource {x:Static ToolBar.TextBoxStyleKey}}" Width="120" Text="{Binding Path=Bezeichnung}"/>
     </Grid>
     <Grid Background="{StaticResource DefaultButtonsBackgroundBrush}" Grid.Row="2">
-      <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-        <Button Width="100" IsDefault="True" Click="OkClick" TabIndex="2">OK</Button>
-        <Button Width="100" IsCancel="True" Click="CancelClick" TabIndex="2" Margin="10,0,0,0">Abbruch</Button>
-      </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+          <Button Width="100" IsDefault="True" Click="OkClick" TabIndex="2">OK</Button>
+          <Button Width="100" IsCancel="True" Click="CancelClick" TabIndex="2" Margin="10,0,0,0">Abbruch</Button>
+        </StackPanel>
     </Grid>
   </Grid>
 </Window>

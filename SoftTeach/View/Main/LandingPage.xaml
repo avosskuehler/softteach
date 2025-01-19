@@ -1,16 +1,17 @@
 ﻿<Page x:Class="SoftTeach.View.Main.LandingPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="800"
+      d:DesignHeight="600" d:DesignWidth="1000"
 	    Title="Willkommen bei SoftTeach"
       Loaded="LandingPage_OnLoaded">
   <Page.Resources>
     <ResourceDictionary Source="/SoftTeach;component/Resources/MetroResources.xaml"/>
   </Page.Resources>
-  <Grid Margin="0,0,-72,0">
+  <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
@@ -18,30 +19,28 @@
     </Grid.RowDefinitions>
     <WrapPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Stylus.IsPressAndHoldEnabled="False">
       <Button Background="Yellow" Width="200" Height="200"  Click="TagesplanOnClick" Margin="5">
-        <Label Content="Tagesplan" FontSize="20"/>
+        <fa:IconBlock Style="{StaticResource Tagesplan48}" FontSize="80" Width="Auto"/>
       </Button>
       <Button Background="CornflowerBlue" Width="200" Height="200" Click="GruppenOnClick" Margin="5">
-        <Label Content="Gruppen" FontSize="20"/>
+        <fa:IconBlock Style="{StaticResource Gruppe48}" FontSize="80" Width="Auto"/>
       </Button>
       <Button Background="LightSteelBlue" Width="200" Height="200" Click="SitzpläneOnClick" Margin="5">
-        <Label Content="Sitzpläne" FontSize="20"/>
+        <fa:IconBlock Style="{StaticResource Sitzplan48}" FontSize="80" Width="Auto"/>
       </Button>
       <Button Background="Crimson" Width="200" Height="200" Click="NotenOnClick" Margin="5">
-        <Label Content="Noten" FontSize="20"/>
+        <fa:IconBlock Style="{StaticResource Note32}" FontSize="80" Width="Auto"/>
       </Button>
     </WrapPanel>
     <WrapPanel Grid.Row="1">
       <Button Background="DarkGray" Width="100" Height="100" Click="DesktopOnClick" Margin="5" >
-        <StackPanel>
-          <Image Source="/SoftTeach;component/Images/Desktop48.png" Height="48"/>
-        </StackPanel>
+        <fa:IconBlock Style="{StaticResource Desktop48}"/>
       </Button>
       <Button Background="DarkGray" Width="100" Height="100" Click="SpeichernOnClick" Margin="5">
-        <Image Source="/SoftTeach;component/Images/Save48.png" Height="48"/>
+        <fa:IconBlock Style="{StaticResource Save48}"/>
       </Button>
       <Button Background="DarkGray" Width="100" Height="100" Click="ExitOnClick" Margin="5">
-        <Image Source="/SoftTeach;component/Images/Remove48.png" Height="48"/>
+        <fa:IconBlock Style="{StaticResource Schließen48}"/>
       </Button>
     </WrapPanel>
-   </Grid>
+  </Grid>
 </Page>

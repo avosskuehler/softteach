@@ -1,7 +1,7 @@
 ﻿namespace SoftTeach.ViewModel.Noten
 {
   using System;
-
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Datenbank;
 
   /// <summary>
@@ -14,9 +14,9 @@
     /// <param name="notenTermintyp">Der zeugnisnotentyp.</param>
     /// <param name="jahresplanViewModel">The jahresplan view model.</param>
     /// <param name="termin">Der Termin des Zeugnisses.</param>
-    public NotenlistenEintrag(NotenTermintyp notenTermintyp, JahrtypViewModel jahrtyp, DateTime termin)
+    public NotenlistenEintrag(NotenTermintyp notenTermintyp, SchuljahrViewModel schuljahr, DateTime termin)
     {
-      this.Jahrtyp = jahrtyp;
+      this.Schuljahr = schuljahr;
       this.NotenTermintyp = notenTermintyp;
       this.Termin = termin;
     }
@@ -24,7 +24,7 @@
     /// <summary>
     /// Holt oder setzt den Jahresplan.
     /// </summary>
-    public JahrtypViewModel Jahrtyp { get; set; }
+    public SchuljahrViewModel Schuljahr { get; set; }
 
     /// <summary>
     /// Holt oder setzt den Stundenentwurf

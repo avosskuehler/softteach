@@ -2,9 +2,8 @@
 {
   using System;
   using System.Linq;
-  using System.Windows.Input;
-
-  using SoftTeach.Model.EntityFramework;
+  using System.Windows.Media;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.View.Curricula;
   using SoftTeach.ViewModel.Helper;
@@ -14,6 +13,8 @@
   /// </summary>
   public class SequenzViewModel : SequencedViewModel
   {
+    private bool istZuerst;
+
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="SequenzViewModel"/> Klasse. 
     /// </summary>
@@ -22,12 +23,7 @@
     /// </param>
     public SequenzViewModel(Sequenz sequenz)
     {
-      if (sequenz == null)
-      {
-        throw new ArgumentNullException("sequenz");
-      }
-
-      this.Model = sequenz;
+      this.Model = sequenz ?? throw new ArgumentNullException(nameof(sequenz));
     }
 
     /// <summary>
@@ -41,12 +37,7 @@
     /// </param>
     public SequenzViewModel(ReiheViewModel reihe, Sequenz sequenz)
     {
-      if (sequenz == null)
-      {
-        throw new ArgumentNullException("sequenz");
-      }
-
-      this.Model = sequenz;
+      this.Model = sequenz ?? throw new ArgumentNullException(nameof(sequenz));
       this.SequenzReihe = reihe;
 
       this.EditSequenzCommand = new DelegateCommand(this.EditSequenz);
@@ -82,23 +73,59 @@
     /// <summary>
     /// Holt oder setzt die index for the abfolge in this sequenz
     /// </summary>
-    public override int AbfolgeIndex
+    public override int Reihenfolge
     {
       get
       {
-        return this.Model.AbfolgeIndex;
+        return this.Model.Reihenfolge;
       }
 
       set
       {
-        if (value == this.Model.AbfolgeIndex)
+        if (value == this.Model.Reihenfolge)
         {
           return;
         }
 
-        this.UndoablePropertyChanging(this, "AbfolgeIndex", this.Model.AbfolgeIndex, value);
-        this.Model.AbfolgeIndex = value;
-        this.RaisePropertyChanged("AbfolgeIndex");
+        this.UndoablePropertyChanging(this, nameof(Reihenfolge), this.Model.Reihenfolge, value);
+        this.Model.Reihenfolge = value;
+        this.RaisePropertyChanged("Reihenfolge");
+      }
+    }
+
+    /// <summary>
+    /// Holt oder setzt einen Wert, der angibt, ob die Reihenfolge Vorrang vor allen
+    /// anderer Reihenfolgen der gleichen Zahl hat.
+    /// </summary>
+    public override bool IstZuerst
+    {
+      get
+      {
+        return this.istZuerst;
+      }
+
+      set
+      {
+        if (value == this.istZuerst)
+        {
+          return;
+        }
+
+        this.UndoablePropertyChanging(this, nameof(IstZuerst), this.istZuerst, value);
+        this.istZuerst = value;
+        this.RaisePropertyChanged("IstZuerst");
+      }
+    }
+
+    /// <summary>
+    /// Holt einen Wert der angibt, ob diese Sequenz im Curriculum verwendet wird.
+    /// Das ist der Fall wenn die Sequenzreihenfolge ungleich -1 ist.
+    /// </summary>
+    public bool SequenzWirdinCurriculumBenutzt
+    {
+      get
+      {
+        return this.Reihenfolge != -1;
       }
     }
 
@@ -119,7 +146,7 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "SequenzStundenbedarf", this.Model.Stundenbedarf, value);
+        this.UndoablePropertyChanging(this, nameof(SequenzStundenbedarf), this.Model.Stundenbedarf, value);
         this.Model.Stundenbedarf = value;
         this.RaisePropertyChanged("SequenzStundenbedarf");
         var vm = App.MainViewModel.Curricula.FirstOrDefault(o => o.Model == this.Model.Reihe.Curriculum);
@@ -137,7 +164,7 @@
     /// Holt den Stundenbedarf as a string
     /// </summary>
     [DependsUpon("SequenzStundenbedarf")]
-    public string SequenzStundenbedarfString
+    public string StundenbedarfString
     {
       get
       {
@@ -149,18 +176,27 @@
     /// Holt den stundenbedarf als breite
     /// </summary>
     [DependsUpon("SequenzStundenbedarf")]
-    public int SequenzBreite
+    public float Breite
     {
       get
       {
+        var fachBezeichnung = this.Model.Reihe.Curriculum.Fach.Bezeichnung;
+        var jahrgang = this.Model.Reihe.Curriculum.Jahrgang;
         var fachstundenanzahl =
-  App.MainViewModel.Fachstundenanzahl.First(
-    o =>
-    o.FachstundenanzahlFach.FachBezeichnung == Selection.Instance.Fach.FachBezeichnung
-    && o.FachstundenanzahlKlassenstufe.Model == Selection.Instance.Klasse.Model.Klassenstufe);
+          App.MainViewModel.Fachstundenanzahl.FirstOrDefault(
+            o =>
+            o.FachstundenanzahlFach.FachBezeichnung == fachBezeichnung
+            && o.FachstundenanzahlJahrgang == jahrgang);
+
+        if (fachstundenanzahl == null)
+        {
+          Console.WriteLine("Keine Fachstundenanzahl gefunden für {0} {1}", fachBezeichnung, jahrgang);
+          return 40;
+        }
+
         var wochenstunden = fachstundenanzahl.FachstundenanzahlStundenzahl
                             + fachstundenanzahl.FachstundenanzahlTeilungsstundenzahl;
-        return (int)(this.SequenzStundenbedarf / (float)wochenstunden * Properties.Settings.Default.Wochenbreite);
+        return (float)(this.SequenzStundenbedarf / (float)wochenstunden * Properties.Settings.Default.Wochenbreite);
       }
     }
 
@@ -168,16 +204,16 @@
     /// Holt den stundenbedarf als breite
     /// </summary>
     [DependsUpon("SequenzStundenbedarf")]
-    public int SequenzDetailBreite
+    public float SequenzDetailBreite
     {
       get
       {
-        return this.SequenzBreite * 4;
+        return this.Breite * 4;
       }
     }
 
     /// <summary>
-    /// Holt die Breite der Sequenz für den Tagesplanvergleich
+    /// Holt die Breite der Sequenz für die Curriculumsanpassung
     /// </summary>
     [DependsUpon("SequenzStundenbedarf")]
     public int SequenzStundenbreite
@@ -189,9 +225,9 @@
     }
 
     /// <summary>
-    /// Holt oder setzt das Thema der Reihe
+    /// Holt oder setzt das Thema der Sequenz
     /// </summary>
-    public string SequenzThema
+    public string Thema
     {
       get
       {
@@ -205,9 +241,9 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "SequenzThema", this.Model.Thema, value);
+        this.UndoablePropertyChanging(this, nameof(Thema), this.Model.Thema, value);
         this.Model.Thema = value;
-        this.RaisePropertyChanged("SequenzThema");
+        this.RaisePropertyChanged("Thema");
       }
     }
 
@@ -226,12 +262,45 @@
     /// <summary>
     /// Holt eine Kurzbezeichnung für das Thema der Sequenz
     /// </summary>
-    [DependsUpon("SequenzThema")]
+    [DependsUpon("Thema")]
     public string SequenzKurzbezeichnung
     {
       get
       {
-        return this.SequenzThema;
+        return this.Thema;
+      }
+    }
+
+    /// <summary>
+    /// Holt die passende Hintergrundfarbe
+    /// </summary>
+    public SolidColorBrush BackgroundBrush
+    {
+      get
+      {
+        return App.Current.FindResource("SequenzBackgroundBrush") as SolidColorBrush;
+      }
+    }
+
+    /// <summary>
+    /// Dummy, um Binding-Fehlermeldungen beim Zuweisen von Curricula zu Stunden zu vermeiden
+    /// </summary>
+    public static string LerngruppenterminMonat
+    {
+      get
+      {
+        return string.Empty;
+      }
+    }
+
+    /// <summary>
+    /// Dummy, um Binding-Fehlermeldungen beim Zuweisen von Curricula zu Stunden zu vermeiden
+    /// </summary>
+    public static DateTime LerngruppenterminDatum
+    {
+      get
+      {
+        return new DateTime(2020, 1, 1);
       }
     }
 

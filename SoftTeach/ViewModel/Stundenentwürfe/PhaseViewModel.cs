@@ -3,7 +3,7 @@
   using System;
   using System.Linq;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Helper;
@@ -14,30 +14,22 @@
   public class PhaseViewModel : ViewModelBase, ISequencedObject, ICloneable
   {
     /// <summary>
-    /// The medium currently assigned to this phase
-    /// </summary>
-    private MediumViewModel medium;
-
-    /// <summary>
-    /// The sozialform currently assigned to this phase
-    /// </summary>
-    private SozialformViewModel sozialform;
-
-    /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="PhaseViewModel"/> Klasse. 
     /// </summary>
     public PhaseViewModel()
     {
-      var phase = new Phase();
-      phase.AbfolgeIndex = Selection.Instance.Stundenentwurf.Phasen.Count + 1;
-      phase.Zeit = 10;
-      phase.Inhalt = string.Empty;
-      phase.Medium = App.MainViewModel.Medien.First().Model;
-      phase.Sozialform = App.MainViewModel.Sozialformen.First().Model;
-      phase.Stundenentwurf = Selection.Instance.Stundenentwurf.Model;
+      var phase = new Phase
+      {
+        Reihenfolge = Selection.Instance.Stunde.Phasen.Count + 1,
+        Zeit = 10,
+        Inhalt = string.Empty,
+        Medium = Medium.Tafel,
+        Sozialform = Sozialform.UG,
+        Stunde = Selection.Instance.Stunde.Model as Stunde
+      };
       this.Model = phase;
-      App.MainViewModel.Phasen.Add(this);
-      Selection.Instance.Stundenentwurf.AttachPhaseChangedEvent(this);
+      //App.UnitOfWork.Context.Phasen.Add(phase);
+      //App.MainViewModel.Phasen.Add(this);
       //Selection.Instance.Stundenentwurf.Phasen.Add(this);
     }
 
@@ -49,29 +41,7 @@
     /// </param>
     public PhaseViewModel(Phase phase)
     {
-      if (phase == null)
-      {
-        throw new ArgumentNullException("phase");
-      }
-
-      this.Model = phase;
-
-      // Re-act to any changes from outside this ViewModel
-      App.MainViewModel.Medien.CollectionChanged += (sender, e) =>
-      {
-        if (e.OldItems != null && e.OldItems.Contains(this.PhaseMedium))
-        {
-          this.PhaseMedium = App.MainViewModel.Medien.FirstOrDefault();
-        }
-      };
-
-      App.MainViewModel.Sozialformen.CollectionChanged += (sender, e) =>
-      {
-        if (e.OldItems != null && e.OldItems.Contains(this.PhaseSozialform))
-        {
-          this.PhaseSozialform = App.MainViewModel.Sozialformen.FirstOrDefault();
-        }
-      };
+      this.Model = phase ?? throw new ArgumentNullException(nameof(phase));
     }
 
     /// <summary>
@@ -92,7 +62,7 @@
       set
       {
         if (value == this.Model.Inhalt) return;
-        this.UndoablePropertyChanging(this, "PhaseInhalt", this.Model.Inhalt, value);
+        this.UndoablePropertyChanging(this, nameof(PhaseInhalt), this.Model.Inhalt, value);
         this.Model.Inhalt = value;
         this.RaisePropertyChanged("PhaseInhalt");
       }
@@ -117,63 +87,39 @@
     }
 
     /// <summary>
-    /// Holt oder setzt die halbjahr currently assigned to this Termin
+    /// Holt oder setzt das Medium halbjahr currently assigned to this Phase
     /// </summary>
-    public MediumViewModel PhaseMedium
+    public Medium PhaseMedium
     {
       get
       {
-        // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Medium == null)
-        {
-          return null;
-        }
-
-        if (this.medium == null || this.medium.Model != this.Model.Medium)
-        {
-          this.medium = App.MainViewModel.Medien.SingleOrDefault(d => d.Model.Bezeichnung == this.Model.Medium.Bezeichnung);
-        }
-
-        return this.medium;
+        return this.Model.Medium;
       }
 
       set
       {
-        if (value.MediumBezeichnung == this.medium.MediumBezeichnung) return;
-        this.UndoablePropertyChanging(this, "PhaseMedium", this.medium, value);
-        this.medium = value;
-        this.Model.Medium = value.Model;
+        if (value == this.Model.Medium) return;
+        this.UndoablePropertyChanging(this, nameof(PhaseMedium), this.Model.Medium, value);
+        this.Model.Medium = value;
         this.RaisePropertyChanged("PhaseMedium");
       }
     }
 
     /// <summary>
-    /// Holt oder setzt die halbjahr currently assigned to this Termin
+    /// Holt oder setzt die Sozialform currently assigned to this Phase
     /// </summary>
-    public SozialformViewModel PhaseSozialform
+    public Sozialform PhaseSozialform
     {
       get
       {
-        // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Sozialform == null)
-        {
-          return null;
-        }
-
-        if (this.sozialform == null || this.sozialform.Model != this.Model.Sozialform)
-        {
-          this.sozialform = App.MainViewModel.Sozialformen.SingleOrDefault(d => d.Model.Bezeichnung == this.Model.Sozialform.Bezeichnung);
-        }
-
-        return this.sozialform;
+        return this.Model.Sozialform;
       }
 
       set
       {
-        if (value.SozialformBezeichnung == this.PhaseSozialform.SozialformBezeichnung) return;
-        this.UndoablePropertyChanging(this, "PhaseSozialform", this.sozialform, value);
-        this.sozialform = value;
-        this.Model.Sozialform = value.Model;
+        if (value == this.Model.Sozialform) return;
+        this.UndoablePropertyChanging(this, nameof(PhaseSozialform), this.Model.Sozialform, value);
+        this.Model.Sozialform = value;
         this.RaisePropertyChanged("PhaseSozialform");
       }
     }
@@ -191,9 +137,10 @@
       set
       {
         if (value == this.Model.Zeit) return;
-        this.UndoablePropertyChanging(this, "PhaseZeit", this.Model.Zeit, value);
+        this.UndoablePropertyChanging(this, nameof(PhaseZeit), this.Model.Zeit, value);
         this.Model.Zeit = value;
         this.RaisePropertyChanged("PhaseZeit");
+        Selection.Instance.Stunde.NotifyPhaseZeitChanged();
       }
     }
 
@@ -209,28 +156,34 @@
     }
 
     /// <summary>
-    /// Holt oder setzt die AbfolgeIndex
+    /// Holt oder setzt die Reihenfolge
     /// </summary>
-    public int AbfolgeIndex
+    public int Reihenfolge
     {
       get
       {
-        return this.Model.AbfolgeIndex;
+        return this.Model.Reihenfolge;
       }
 
       set
       {
-        if (value == this.Model.AbfolgeIndex) return;
-        this.UndoablePropertyChanging(this, "AbfolgeIndex", this.Model.AbfolgeIndex, value);
-        this.Model.AbfolgeIndex = value;
-        this.RaisePropertyChanged("AbfolgeIndex");
+        if (value == this.Model.Reihenfolge) return;
+        this.UndoablePropertyChanging(this, nameof(Reihenfolge), this.Model.Reihenfolge, value);
+        this.Model.Reihenfolge = value;
+        this.RaisePropertyChanged("Reihenfolge");
       }
     }
 
     /// <summary>
-    /// Holt oder setzt die Zeitraum of this phase (using a specific start time)
+    /// Holt oder setzt einen Wert, der angibt, ob die Reihenfolge Vorrang vor allen
+    /// anderer Reihenfolgen der gleichen Zahl hat.
     /// </summary>
-    public string PhaseZeitraum { get; set; }
+    public bool IstZuerst { get; set; }
+
+  /// <summary>
+  /// Holt oder setzt die Zeitraum of this phase (using a specific start time)
+  /// </summary>
+  public string PhaseZeitraum { get; set; }
 
     /// <summary>
     /// Gibt eine lesbare Repräsentation des ViewModels
@@ -238,7 +191,7 @@
     /// <returns>Ein <see cref="string"/> mit einer Kurzform des ViewModels.</returns>
     public override string ToString()
     {
-      return "Phase: " + this.PhaseInhalt + ", Index:" + this.AbfolgeIndex;
+      return "Phase: " + this.PhaseInhalt + ", Index:" + this.Reihenfolge;
     }
 
     /// <summary>
@@ -247,16 +200,19 @@
     /// <returns>A cloned <see cref="PhaseViewModel"/></returns>
     public object Clone()
     {
-      var phaseClone = new Phase();
-      phaseClone.AbfolgeIndex = this.Model.AbfolgeIndex;
-      phaseClone.Inhalt = this.Model.Inhalt;
-      phaseClone.Medium = this.Model.Medium;
-      phaseClone.Sozialform = this.Model.Sozialform;
-      phaseClone.Zeit = this.Model.Zeit;
-      phaseClone.Stundenentwurf = this.Model.Stundenentwurf;
+      var phaseClone = new Phase
+      {
+        Reihenfolge = this.Model.Reihenfolge,
+        Inhalt = this.Model.Inhalt,
+        Medium = this.Model.Medium,
+        Sozialform = this.Model.Sozialform,
+        Zeit = this.Model.Zeit,
+        Stunde = this.Model.Stunde
+      };
+      //App.UnitOfWork.Context.Phasen.Add(phaseClone);
 
       var vm = new PhaseViewModel(phaseClone);
-      App.MainViewModel.Phasen.Add(vm);
+      //App.MainViewModel.Phasen.Add(vm);
 
       return vm;
     }

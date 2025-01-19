@@ -1,35 +1,55 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="CurriculumAdaptViewDataTemplateSelector.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
-
-namespace SoftTeach.ViewModel.Curricula
+﻿namespace SoftTeach.ViewModel.Curricula
 {
   using System.Windows;
   using System.Windows.Controls;
 
   using SoftTeach.ViewModel.Jahrespläne;
+  using SoftTeach.ViewModel.Termine;
 
   /// <summary>
-  /// TODO: Update summary.
+  /// Ein <see cref="DataTemplateSelector"/> der im Curriculum Zuweisen Dialog sicherstellt,
+  /// dass Stunden und Sequenzen das richtige Template zugewiesen bekommen.
   /// </summary>
   public class CurriculumAdaptViewDataTemplateSelector : DataTemplateSelector
   {
+    private DataTemplate stundeTemplate;
+    private DataTemplate sequenzTemplate;
+    private DataTemplate reiheTemplate;
+    private DataTemplate ferienTemplate;
+
+    public CurriculumAdaptViewDataTemplateSelector()
+    {
+      this.stundeTemplate = App.Current.FindResource("StundenViewModelTagesplanView") as DataTemplate;
+      this.sequenzTemplate = App.Current.FindResource("SequenzenCurriculumView") as DataTemplate;
+      this.reiheTemplate = App.Current.FindResource("ReihenCurriculumView") as DataTemplate;
+      this.ferienTemplate = App.Current.FindResource("FerienViewModelTagesplanView") as DataTemplate;
+    }
+
     public override DataTemplate SelectTemplate(object item, DependencyObject container)
     {
       var element = container as FrameworkElement;
 
       if (element != null && item != null)
       {
-        if (item is TagesplanViewModel)
+        if (item is StundeViewModel)
         {
-          return element.FindResource("TagespläneView") as DataTemplate;
+          var stunde = item as StundeViewModel;
+          if (stunde.TerminTermintyp == Model.TeachyModel.Termintyp.Ferien)
+          {
+            return this.ferienTemplate;
+          }
+
+          return this.stundeTemplate;
         }
-        
+
+        if (item is ReiheViewModel)
+        {
+          return this.reiheTemplate;
+        }
+
         if (item is SequenzViewModel)
         {
-          return element.FindResource("SequenzenTagesplanView") as DataTemplate;
+          return this.sequenzTemplate;
         }
       }
 

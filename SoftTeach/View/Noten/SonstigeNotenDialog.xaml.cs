@@ -40,7 +40,7 @@ namespace SoftTeach.View.Noten
 
     #endregion
 
-    public SchülerlisteViewModel Schülerliste { get; set; }
+    public LerngruppeViewModel Lerngruppe { get; set; }
     
     private void OkClick(object sender, RoutedEventArgs e)
     {

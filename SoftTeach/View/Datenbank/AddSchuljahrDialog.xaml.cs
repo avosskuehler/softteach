@@ -17,17 +17,7 @@
 
 namespace SoftTeach.View.Datenbank
 {
-  using System;
-  using System.Linq;
   using System.Windows;
-
-  using SoftTeach.ExceptionHandling;
-  using SoftTeach.Model.EntityFramework;
-  using SoftTeach.Setting;
-  using SoftTeach.UndoRedo;
-  using SoftTeach.ViewModel;
-  using SoftTeach.ViewModel.Datenbank;
-  using SoftTeach.ViewModel.Helper;
 
   /// <summary>
   /// Interaction logic for AddSchuljahrDialog.xaml

@@ -3,10 +3,7 @@
   using System;
   using System.Collections.ObjectModel;
   using System.Collections.Specialized;
-  using System.Windows.Input;
-
-  using SoftTeach.Model;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.UndoRedo;
   using SoftTeach.ViewModel.Helper;
 
@@ -28,12 +25,7 @@
     /// </param>
     public BewertungsschemaViewModel(Bewertungsschema bewertungsschema)
     {
-      if (bewertungsschema == null)
-      {
-        throw new ArgumentNullException("bewertungsschema");
-      }
-
-      this.Model = bewertungsschema;
+      this.Model = bewertungsschema ?? throw new ArgumentNullException(nameof(bewertungsschema));
 
       this.AddProzentbereichCommand = new DelegateCommand(this.AddProzentbereich);
       this.AddProzentbereicheCommand = new DelegateCommand(this.AddProzentbereiche);
@@ -102,7 +94,7 @@
       set
       {
         if (value == this.Model.Bezeichnung) return;
-        this.UndoablePropertyChanging(this, "BewertungsschemaBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(BewertungsschemaBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("BewertungsschemaBezeichnung");
       }
@@ -148,7 +140,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void ProzentbereicheCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Prozentbereiche", this.Prozentbereiche, e, false, "Änderung der Prozentbereiche");
+      UndoableCollectionChanged(this, nameof(Prozentbereiche), this.Prozentbereiche, e, true, "Änderung der Prozentbereiche");
     }
 
     /// <summary>
@@ -156,11 +148,13 @@
     /// </summary>
     private void AddProzentbereich()
     {
-      var prozentbereich = new Prozentbereich();
-      prozentbereich.BisProzent = 0.05f;
-      prozentbereich.VonProzent = 0f;
-      prozentbereich.Zensur = App.MainViewModel.Zensuren[0].Model;
-      prozentbereich.Bewertungsschema = this.Model;
+      var prozentbereich = new Prozentbereich
+      {
+        BisProzent = 0.05f,
+        VonProzent = 0f,
+        Zensur = App.MainViewModel.Zensuren[0].Model,
+        Bewertungsschema = this.Model
+      };
       var vm = new ProzentbereichViewModel(prozentbereich);
 
       using (new UndoBatch(App.MainViewModel, string.Format("Neuer Prozentbereich {0} erstellt.", vm), false))
@@ -182,11 +176,13 @@
         var startProzent = 0f;
         foreach (var zensurViewModel in zensuren)
         {
-          var prozentbereich = new Prozentbereich();
-          prozentbereich.BisProzent = startProzent + 0.05f;
-          prozentbereich.VonProzent = startProzent;
-          prozentbereich.Zensur = zensurViewModel.Model;
-          prozentbereich.Bewertungsschema = this.Model;
+          var prozentbereich = new Prozentbereich
+          {
+            BisProzent = startProzent + 0.05f,
+            VonProzent = startProzent,
+            Zensur = zensurViewModel.Model,
+            Bewertungsschema = this.Model
+          };
           startProzent += 0.05f;
 
           var vm = new ProzentbereichViewModel(prozentbereich);

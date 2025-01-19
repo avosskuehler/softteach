@@ -1,4 +1,4 @@
-﻿// <copyright file="AskForSchülerlisteToAddDialog.xaml.cs" company="Paul Natorp Gymnasium, Berlin">        
+﻿// <copyright file="AskForLerngruppeToAddDialog.xaml.cs" company="Paul Natorp Gymnasium, Berlin">        
 // SoftTeach - Lehrerunterrichtsdatenbank
 // Copyright (C) 2013 Dr. Adrian Voßkühler
 // -----------------------------------------------------------------------
@@ -20,17 +20,12 @@ namespace SoftTeach.View.Sitzpläne
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
-  using System.Drawing;
-  using System.Linq;
   using System.Windows;
   using System.Windows.Controls;
-  using System.Windows.Documents;
   using System.Windows.Input;
   using System.Windows.Media;
-
+  using SoftTeach.Resources.Controls;
   using SoftTeach.ViewModel.Sitzpläne;
-
-  using Brush = System.Windows.Media.Brush;
   using Point = System.Windows.Point;
   using Rectangle = System.Windows.Shapes.Rectangle;
 
@@ -65,7 +60,7 @@ namespace SoftTeach.View.Sitzpläne
     private SitzplatzViewModel currentSitzplatz;
 
     /// <summary>
-    /// Gibt an, ob ein Sitzplatz neu erstellt wird.
+    /// Gibt an, ob ein Sitzplatz  erstellt wird.
     /// </summary>
     private bool isCreatingSitzplatz;
 
@@ -79,10 +74,10 @@ namespace SoftTeach.View.Sitzpläne
     /// </summary>
     private bool hasCopiedSitzplatz;
 
-    /// <summary>
-    /// Die Liste der Sitzplanrechtecke
-    /// </summary>
-    private List<Rectangle> sitzplatzShapes;
+    ///// <summary>
+    ///// Die Liste der Sitzplanrechtecke
+    ///// </summary>
+    //private List<Border> sitzplatzShapes;
 
     #region Constructors and Destructors
 
@@ -149,7 +144,7 @@ namespace SoftTeach.View.Sitzpläne
       this.mouseDownPoint = clickLocation;
       if (this.currentSitzplatz == null)
       {
-        // Sitzplatz neu erstellen
+        // Sitzplatz  erstellen
         this.isCreatingSitzplatz = true;
         this.Raumplan.AddSitzplatz(clickLocation.X, clickLocation.Y, 0, 0, 0);
         this.RaumplanCanvas.Children.Add(this.Raumplan.CurrentSitzplatz.Shape);
@@ -207,6 +202,20 @@ namespace SoftTeach.View.Sitzpläne
       if (this.currentSitzplatz == null)
       {
         return;
+      }
+
+      if (e.Key == Key.Add && !this.isDragging)
+      {
+        this.currentSitzplatz.Reihenfolge++;
+        e.Handled = true;
+      }
+      if (e.Key == Key.Subtract && !this.isDragging)
+      {
+        if (this.currentSitzplatz.Reihenfolge > 1)
+        {
+          this.currentSitzplatz.Reihenfolge--;
+        }
+        e.Handled = true;
       }
 
       if ((Keyboard.Modifiers & ModifierKeys.Alt) > 0)
@@ -374,13 +383,13 @@ namespace SoftTeach.View.Sitzpläne
         return null;
       }
 
-      var rect = result.VisualHit as Rectangle;
+      var rect = result.VisualHit as SitzplatzShape;
       if (rect == null)
       {
         return null;
       }
 
-      var viewModel = rect.Tag as SitzplatzViewModel;
+      var viewModel = rect.Sitzplatz as SitzplatzViewModel;
       return viewModel;
     }
 

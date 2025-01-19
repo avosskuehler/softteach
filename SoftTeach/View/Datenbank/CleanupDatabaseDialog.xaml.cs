@@ -17,17 +17,16 @@
 
 namespace SoftTeach.View.Datenbank
 {
-  using System;
   using System.Linq;
   using System.Windows;
 
-  using SoftTeach.ExceptionHandling;
-  using SoftTeach.Setting;
-
   using SoftTeach.ViewModel.Helper;
-  using SoftTeach.ViewModel.Noten;
 
   using SoftTeach.ViewModel.Datenbank;
+  using SoftTeach.Model.TeachyModel;
+  using System.Windows.Documents;
+  using SoftTeach.ViewModel.Termine;
+  using System.Collections.Generic;
 
   /// <summary>
   /// Ein Dialog um nicht gemachte Arbeiten einzutragen.
@@ -48,14 +47,14 @@ namespace SoftTeach.View.Datenbank
     #endregion
 
     /// <summary>
-    /// Holt oder setzt den Jahrtyp für die Arbeit
+    /// Holt oder setzt den Schuljahr für die Arbeit
     /// </summary>
-    public JahrtypViewModel Jahrtyp { get; set; }
+    public SchuljahrViewModel Schuljahr { get; set; }
 
     /// <summary>
-    /// Holt oder setzt den Halbjahrtyp für die Arbeit
+    /// Holt oder setzt den Halbjahr für die Arbeit
     /// </summary>
-    public HalbjahrtypViewModel Halbjahrtyp { get; set; }
+    public Halbjahr Halbjahr { get; set; }
 
     /// <summary>
     /// Holt oder setzt das Fach für die Arbeit
@@ -88,7 +87,7 @@ namespace SoftTeach.View.Datenbank
     /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
     private void DeleteSchuljahrClick(object sender, RoutedEventArgs e)
     {
-      App.MainViewModel.Jahrtypen.RemoveTest(this.Jahrtyp);
+      App.MainViewModel.Schuljahre.RemoveTest(this.Schuljahr);
       App.UnitOfWork.SaveChanges();
     }
 
@@ -112,12 +111,68 @@ namespace SoftTeach.View.Datenbank
     {
       var personenUnused =
         App.MainViewModel.Personen.Where(o => o.PersonIstSchüler)
-          .Where(personViewModel => !personViewModel.Model.Schülereintrag.Any()).ToList();
+          .Where(personViewModel => !personViewModel.Model.Schülereinträge.Any()).ToList();
 
       foreach (var personViewModel in personenUnused)
       {
         App.MainViewModel.Personen.RemoveTest(personViewModel);
       }
+
+      App.UnitOfWork.SaveChanges();
+    }
+
+    private void DeleteLeereStundenClick(object sender, RoutedEventArgs e)
+    {
+      App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = false;
+
+      // Stunden ohne Stundenentwürfe löschen
+      var leereStunden = App.UnitOfWork.Context.Termine.OfType<Stunde>().Where(o => !o.Phasen.Any()).ToList();
+
+      App.UnitOfWork.Context.Termine.RemoveRange(leereStunden);
+
+      App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = true;
+
+      App.UnitOfWork.SaveChanges();
+    }
+
+    private void DeleteLeereCurriculaClick(object sender, RoutedEventArgs e)
+    {
+      App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = false;
+
+      // Curricula ohne Reihen löschen
+      var leereCurricula = App.UnitOfWork.Context.Curricula.Where(o => !o.Reihen.Any(a => a.Reihenfolge != -1)).ToList();
+
+      App.UnitOfWork.Context.Curricula.RemoveRange(leereCurricula);
+
+      App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = true;
+
+      App.UnitOfWork.SaveChanges();
+    }
+
+    private void DeleteDoppelteStundenClick(object sender, RoutedEventArgs e)
+    {
+      App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = false;
+
+      var zulöschendeStunden = new List<Lerngruppentermin>();
+
+      // Von identischen, aber mehrfach vorhandenen Lerngruppentermine, die überzähligen löschen
+      var stundenGruppen = App.UnitOfWork.Context.Termine.OfType<Lerngruppentermin>().GroupBy(o => o.Datum.ToString() + "#" + o.LerngruppeId + "#" + o.ErsteUnterrichtsstundeId).ToList().Where(o => o.Count() > 1);
+      foreach (var gruppe in stundenGruppen)
+      {
+        if (gruppe.Count() == 1)
+        {
+          continue;
+        }
+
+        foreach (var einzelstunde in gruppe.Skip(1))
+        {
+          zulöschendeStunden.Add(einzelstunde);
+        }
+      }
+
+      App.UnitOfWork.Context.Termine.RemoveRange(zulöschendeStunden);
+
+      App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = true;
 
       App.UnitOfWork.SaveChanges();
     }

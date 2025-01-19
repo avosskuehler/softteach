@@ -1,13 +1,7 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="PropertyChangingEventHandler.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
-
-namespace SoftTeach.ViewModel.Helper
+﻿namespace SoftTeach.ViewModel.Helper
 {
   /// <summary>
-  /// Represents the method that will handle the INotifyPropertyChangedExtended.PropertyChanging
+  /// Represents the method that will handle the INotifyPropertyChanged.PropertyChanging
   /// event raised when a property is changed on a component.
   /// </summary>
   /// <param name="sender">The source of the event.</param>

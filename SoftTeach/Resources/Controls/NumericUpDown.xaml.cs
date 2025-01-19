@@ -855,7 +855,7 @@
       var val = (decimal)value;
       if (val < this.MyOwner.Minimum || val > this.MyOwner.Maximum)
       {
-        throw new ArgumentOutOfRangeException("value");
+        throw new ArgumentOutOfRangeException(nameof(value));
       }
 
       this.MyOwner.Value = val;

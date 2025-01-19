@@ -2,9 +2,7 @@
 {
   using System;
   using System.Windows.Media;
-
-  using SoftTeach.Model;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
@@ -20,12 +18,7 @@
     /// </param>
     public FachViewModel(Fach fach)
     {
-      if (fach == null)
-      {
-        throw new ArgumentNullException("fach");
-      }
-
-      this.Model = fach;
+      this.Model = fach ?? throw new ArgumentNullException(nameof(fach));
     }
 
     /// <summary>
@@ -46,11 +39,31 @@
       set
       {
         if (value == this.Model.Bezeichnung) return;
-        this.UndoablePropertyChanging(this, "FachBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(FachBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("FachBezeichnung");
       }
     }
+
+    /// <summary>
+    /// Holt oder setzt einen Wert, der angibt, ob das Fach benotet wird
+    /// </summary>
+    public bool FachMitNoten
+    {
+      get
+      {
+        return this.Model.MitNoten;
+      }
+
+      set
+      {
+        if (value == this.Model.MitNoten) return;
+        this.UndoablePropertyChanging(this, nameof(FachMitNoten), this.Model.MitNoten, value);
+        this.Model.MitNoten = value;
+        this.RaisePropertyChanged("FachMitNoten");
+      }
+    }
+
 
     /// <summary>
     /// Holt eine zweibuchstabige Kurzbezeichnung des Fachs
@@ -82,7 +95,7 @@
       set
       {
         if (value.ToString() == this.Model.Farbe) return;
-        this.UndoablePropertyChanging(this, "FachFarbe", this.Model.Farbe, value);
+        this.UndoablePropertyChanging(this, nameof(FachFarbe), this.Model.Farbe, value);
         this.Model.Farbe = value.ToString();
         this.RaisePropertyChanged("FachFarbe");
       }

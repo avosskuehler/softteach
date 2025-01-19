@@ -19,10 +19,8 @@ namespace SoftTeach.View.Noten
 {
   using System.Windows;
 
-  using SoftTeach.Model.EntityFramework;
-
   using MahApps.Metro.Controls.Dialogs;
-
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.ViewModel.Noten;
 

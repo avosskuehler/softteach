@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
+            xmlns:pb="clr-namespace:SoftTeach.ViewModel.Helper.PushBinding"
              xmlns:curriculumView="clr-namespace:SoftTeach.View.Curricula"
              xmlns:curricula="clr-namespace:SoftTeach.ViewModel.Curricula"
              xmlns:softTeach="clr-namespace:SoftTeach"
@@ -21,11 +23,11 @@
           <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddCurriculumCommand}" ToolTip="Neuen Curriculum erstellen">
+          <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddCurriculumCommand}" ToolTip="en Curriculum erstellen">
             <StackPanel Orientation="Horizontal">
               <Grid>
-                <Image Source="/SoftTeach;component/Images/Curriculum32.png"/>
-                <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
+                <fa:IconBlock Style="{StaticResource Curriculum32}"/>
+                <fa:IconBlock Style="{StaticResource AddOverlay32}"/>
               </Grid>
               <!--<Label Padding="5,0,0,0" VerticalContentAlignment="Center">Neues Curriculum erstellen</Label>-->
             </StackPanel>
@@ -33,8 +35,8 @@
           <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=DeleteCurriculumCommand}" ToolTip="Curriculum löschen" >
             <StackPanel Orientation="Horizontal">
               <Grid>
-                <Image Source="/SoftTeach;component/Images/Curriculum32.png" />
-                <Image Source="/SoftTeach;component/Images/RemoveOverlay32.png"/>
+                <fa:IconBlock Style="{StaticResource Curriculum32}"/>
+                <fa:IconBlock Style="{StaticResource RemoveOverlay32}"/>
               </Grid>
               <!--<Label Padding="5,0,0,0" VerticalContentAlignment="Center">Dieses Curriculum löschen</Label>-->
             </StackPanel>
@@ -42,8 +44,8 @@
           <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=CopyCurriculumCommand}" ToolTip="Curriculum kopieren" >
             <StackPanel Orientation="Horizontal">
               <Grid>
-                <Image Source="/SoftTeach;component/Images/Curriculum32.png" />
-                <Image Source="/SoftTeach;component/Images/CopyOverlay32.png"/>
+                <fa:IconBlock Style="{StaticResource Curriculum32}"/>
+                <fa:IconBlock Style="{StaticResource CopyOverlay32}"/>
               </Grid>
             </StackPanel>
           </Button>
@@ -60,15 +62,15 @@
               <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Padding="3" VerticalAlignment="Center">Schuljahr</Label>
-            <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Jahrtypen}"
-                              SelectedValue="{Binding Path=JahrtypFilter}" 
+            <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Schuljahre}"
+                              SelectedValue="{Binding Path=SchuljahrFilter}" 
                               SelectedValuePath="." 
-                              DisplayMemberPath="JahrtypBezeichnung"
+                              DisplayMemberPath="SchuljahrBezeichnung"
                         Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"
                       HorizontalAlignment="Stretch"/>
             <Button Grid.Row="0" Grid.Column="2" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-                Command="{Binding Path=ResetJahrtypFilterCommand}">
-              <Image Source="/SoftTeach;component/Images/Remove16.png"/>
+                Command="{Binding Path=ResetSchuljahrFilterCommand}">
+              <fa:IconBlock Style="{StaticResource Remove16}"/>
             </Button>
             <Label Grid.Row="1" Grid.Column="0" Padding="3" VerticalAlignment="Center">Fach</Label>
             <ComboBox Grid.Row="1" Grid.Column="1" MinWidth="100" ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Fächer}"
@@ -79,25 +81,31 @@
                                           HorizontalAlignment="Stretch"/>
             <Button Grid.Row="1" Grid.Column="2" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                 Command="{Binding Path=ResetFachFilterCommand}">
-              <Image Source="/SoftTeach;component/Images/Remove16.png"/>
+              <fa:IconBlock Style="{StaticResource Remove16}"/>
             </Button>
           </Grid>
         </GroupBox>
-        <DataGrid Grid.Row="2" Margin="5" SelectedItem="{Binding Path=CurrentCurriculum, Mode=TwoWay}" 
-                  ItemsSource="{Binding Path=CurriculaView}" AutoGenerateColumns="False">
+        <DataGrid 
+          Grid.Row="2" Margin="5" 
+          SelectedItem="{Binding Path=CurrentCurriculum, Mode=TwoWay}" 
+          ItemsSource="{Binding Path=CurriculaView}" 
+          AutoGenerateColumns="False"
+          SelectionMode="Extended">
+          <pb:PushBindingManager.PushBindings>
+            <pb:PushBinding TargetProperty="SelectedItems" Path="SelectedCurricula"/>
+          </pb:PushBindingManager.PushBindings>
           <DataGrid.Columns>
             <DataGridTextColumn Header="Fach" Binding="{Binding Path=CurriculumFach.FachKurzbezeichnung}" Width="Auto"
                                   SortMemberPath="CurriculumFach.FachBezeichnung" IsReadOnly="True"/>
-            <DataGridTextColumn Header="Schuljahr" Binding="{Binding Path=CurriculumJahrtyp.JahrtypKurzbezeichnung}"
-                                  Width="Auto" SortMemberPath="CurriculumJahrtyp.JahrtypBezeichnung" IsReadOnly="True"/>
+            <DataGridTextColumn Header="Schuljahr" Binding="{Binding Path=CurriculumSchuljahr.SchuljahrKurzbezeichnung}"
+                                  Width="Auto" SortMemberPath="CurriculumSchuljahr.SchuljahrBezeichnung" IsReadOnly="True"/>
             <DataGridComboBoxColumn 
                         Header="Halbjahr" 
-                        ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Halbjahrtypen}"
-                        SelectedItemBinding="{Binding Path=CurriculumHalbjahrtyp}" 
-                        DisplayMemberPath="HalbjahrtypBezeichnung" SortMemberPath="CurriculumHalbjahrtyp.HalbjahrtypBezeichnung"
+                        ItemsSource="{Binding Source={StaticResource Halbjahre}}"
+                        SelectedItemBinding="{Binding Path=CurriculumHalbjahr}" 
+                        SortMemberPath="CurriculumHalbjahr"
                         EditingElementStyle="{StaticResource DatagridComboBoxElementStyle}"/>
-            <DataGridTextColumn Header="Klasse" Binding="{Binding Path=CurriculumKlassenstufe.KlassenstufeBezeichnung}"
-                                  SortMemberPath="CurriculumKlassenstufe.KlassenstufeBezeichnung" Width="Auto" IsReadOnly="True"/>
+            <DataGridTextColumn Header="Klasse" Binding="{Binding Path=CurriculumJahrgang}" Width="Auto"/>
             <DataGridTextColumn Header="Bezeichnung" Binding="{Binding Path=CurriculumBezeichnung}" 
                                   SortMemberPath="CurriculumBezeichnung" Width="*"/>
           </DataGrid.Columns>

@@ -2,9 +2,7 @@
 {
   using System;
   using System.Linq;
-
-  using SoftTeach.Model;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
@@ -12,10 +10,10 @@
   /// </summary>
   public class FachstundenanzahlViewModel : ViewModelBase
   {
-    /// <summary>
-    /// The klassenstufe currently assigned to this FachstundenanzahlViewModel
-    /// </summary>
-    private KlassenstufeViewModel klassenstufe;
+    ///// <summary>
+    ///// The klassenstufe currently assigned to this FachstundenanzahlViewModel
+    ///// </summary>
+    //private int jahrgang;
 
     /// <summary>
     /// The fach currently assigned to this FachstundenanzahlViewModel
@@ -30,12 +28,7 @@
     /// </param>
     public FachstundenanzahlViewModel(Fachstundenanzahl fachstundenanzahl)
     {
-      if (fachstundenanzahl == null)
-      {
-        throw new ArgumentNullException("fachstundenanzahl");
-      }
-
-      this.Model = fachstundenanzahl;
+      this.Model = fachstundenanzahl ?? throw new ArgumentNullException(nameof(fachstundenanzahl));
     }
 
     /// <summary>
@@ -56,7 +49,7 @@
       set
       {
         if (value == this.Model.Stundenzahl) return;
-        this.UndoablePropertyChanging(this, "FachstundenanzahlStundenzahl", this.Model.Stundenzahl, value);
+        this.UndoablePropertyChanging(this, nameof(FachstundenanzahlStundenzahl), this.Model.Stundenzahl, value);
         this.Model.Stundenzahl = value;
         this.RaisePropertyChanged("FachstundenanzahlStundenzahl");
       }
@@ -75,7 +68,7 @@
       set
       {
         if (value == this.Model.Teilungsstundenzahl) return;
-        this.UndoablePropertyChanging(this, "FachstundenanzahlTeilungsstundenzahl", this.Model.Teilungsstundenzahl, value);
+        this.UndoablePropertyChanging(this, nameof(FachstundenanzahlTeilungsstundenzahl), this.Model.Teilungsstundenzahl, value);
         this.Model.Teilungsstundenzahl = value;
         this.RaisePropertyChanged("FachstundenanzahlTeilungsstundenzahl");
       }
@@ -84,31 +77,19 @@
     /// <summary>
     /// Holt oder setzt die klassenstufeViewModel currently assigned to this Stundenentwurf
     /// </summary>
-    public KlassenstufeViewModel FachstundenanzahlKlassenstufe
+    public int FachstundenanzahlJahrgang
     {
       get
       {
-        // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Klassenstufe == null)
-        {
-          return null;
-        }
-
-        if (this.klassenstufe == null || this.klassenstufe.Model != this.Model.Klassenstufe)
-        {
-          this.klassenstufe = App.MainViewModel.Klassenstufen.SingleOrDefault(d => d.Model == this.Model.Klassenstufe);
-        }
-
-        return this.klassenstufe;
+        return this.Model.Jahrgang;
       }
 
       set
       {
-        if (value.KlassenstufeBezeichnung == this.klassenstufe.KlassenstufeBezeichnung) return;
-        this.UndoablePropertyChanging(this, "FachstundenanzahlKlassenstufe", this.klassenstufe, value);
-        this.klassenstufe = value;
-        this.Model.Klassenstufe = value.Model;
-        this.RaisePropertyChanged("FachstundenanzahlKlassenstufe");
+        if (value == this.Model.Jahrgang) return;
+        this.UndoablePropertyChanging(this, nameof(FachstundenanzahlJahrgang), this.Model.Jahrgang, value);
+        this.Model.Jahrgang = value;
+        this.RaisePropertyChanged("FachstundenanzahlJahrgang");
       }
     }
 
@@ -125,7 +106,7 @@
           return null;
         }
 
-        if (this.klassenstufe == null || this.fach.Model != this.Model.Fach)
+        if (this.fach == null || this.fach.Model != this.Model.Fach)
         {
           this.fach = App.MainViewModel.Fächer.SingleOrDefault(d => d.Model == this.Model.Fach);
         }
@@ -136,7 +117,7 @@
       set
       {
         if (value.FachBezeichnung == this.fach.FachBezeichnung) return;
-        this.UndoablePropertyChanging(this, "FachstundenanzahlFach", this.fach, value);
+        this.UndoablePropertyChanging(this, nameof(FachstundenanzahlFach), this.fach, value);
         this.fach = value;
         this.Model.Fach = value.Model;
         this.RaisePropertyChanged("FachstundenanzahlFach");
@@ -149,7 +130,7 @@
     /// <returns>Ein <see cref="string"/> mit einer Kurzform des ViewModels.</returns>
     public override string ToString()
     {
-      return this.FachstundenanzahlFach.FachBezeichnung + " " + this.FachstundenanzahlKlassenstufe.KlassenstufeBezeichnung;
+      return this.FachstundenanzahlFach.FachBezeichnung + " " + this.FachstundenanzahlJahrgang;
     }
   }
 }

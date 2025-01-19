@@ -1,54 +1,63 @@
 ﻿<Window x:Class="SoftTeach.View.Termine.AddLerngruppenterminDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:resources="clr-namespace:SoftTeach.Resources" xmlns:SoftTeach="clr-namespace:SoftTeach"
+        xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
+        xmlns:SoftTeach="clr-namespace:SoftTeach"
         xmlns:controls="clr-namespace:SoftTeach.Resources.Controls" Title="Lerngruppentermin ..." 
-        Height="445" 
+        Height="480" 
         Width="402" 
         ResizeMode="NoResize" 
         WindowStyle="SingleBorderWindow">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <controls:SmallDialogHeader Grid.Row="0" Title="Neuen Termin für diese Lerngruppe anlegen?"
-                                      Icon="/SoftTeach;component/Images/Lerngruppentermin32.png"/>
-        <StackPanel Grid.Row="1" Margin="10">
-            <TextBlock TextWrapping="Wrap">Bitte geben Sie eine Bezeichnung für den Termin ein, z.B. Wandertag, Cooper-Test etc.
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Lerngruppentermin anlegen...">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Lerngruppe48}" Foreground="{DynamicResource Iconfarbe}"/>
+          <fa:IconBlock Style="{StaticResource TerminOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
+    <StackPanel Grid.Row="1" Margin="10">
+      <TextBlock TextWrapping="Wrap">Bitte geben Sie eine Bezeichnung für den Termin ein, z.B. Wandertag, Cooper-Test etc.
       Bitte beachten Sie, dass dieser Termin nur für diese Lerngruppe gilt. Wenn Sie einen für mehrere Lerngruppen geltenden 
         Termin anlegen wollen (z.B. Abitur/Projekttag), verwenden Sie bitte den Menüpunkt "Schultermin".</TextBlock>
-            <TextBox Margin="10" Name="TerminBezeichnung"  BorderThickness="2" TabIndex="0" />
-            <TextBlock TextWrapping="Wrap">Bitte wählen Sie hier den Typ des Termins aus. Damit
+      <TextBox Margin="0,10" Name="TerminBezeichnungTextBox"  BorderThickness="2" TabIndex="0" />
+      <TextBlock TextWrapping="Wrap">Bitte wählen Sie hier den Typ des Termins aus. Damit
             bestimmen Sie auch die Farbe, in der der Termin auf dem Plan erscheint
             (Eine neue Terminsorte können Sie, falls erforderlich, in der Datenbank erstellen).</TextBlock>
-            <ComboBox Margin="10"  TabIndex="1"
-                ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Termintypen}" 
+      <ComboBox Margin="10"  TabIndex="1"
+                ItemsSource="{Binding Source={StaticResource Termintypen}}" 
                 SelectedItem="{Binding Path=TerminTermintyp}"
-                DisplayMemberPath="TermintypBezeichnung"
                 Style="{StaticResource DatagridComboBoxElementStyle}"/>
-            <TextBlock TextWrapping="Wrap">Bitte geben Sie die betroffenen Unterrichtsstunden an.</TextBlock>
-            <StackPanel Orientation="Horizontal" Margin="10">
-                <Label>Von</Label>
-                <ComboBox TabIndex="2"
+      <TextBlock TextWrapping="Wrap">Bitte geben Sie die betroffenen Unterrichtsstunden an.</TextBlock>
+      <StackPanel Orientation="Horizontal" Margin="10">
+        <Label>Von</Label>
+        <ComboBox TabIndex="2"
                 ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Unterrichtsstunden}" 
                 SelectedItem="{Binding Path=TerminErsteUnterrichtsstunde}"
                 DisplayMemberPath="UnterrichtsstundeBezeichnung"
                 Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"/>
-                <Label>bis</Label>
-                <ComboBox TabIndex="2"
+        <Label>bis</Label>
+        <ComboBox TabIndex="3"
                 ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Unterrichtsstunden}" 
                 SelectedItem="{Binding Path=TerminLetzteUnterrichtsstunde}"
                 DisplayMemberPath="UnterrichtsstundeBezeichnung"
                 Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"/>
-                <Label>Stunde</Label>
-            </StackPanel>
-        </StackPanel>
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-            <Button Width="100" HorizontalAlignment="Right" IsDefault="True" Click="OkClick" TabIndex="2">OK</Button>
-            <Label></Label>
-            <Button Width="100" HorizontalAlignment="Right" IsDefault="True" Click="CancelClick">Abbrechen</Button>
-        </StackPanel>
-    </Grid>
+        <Label>Stunde</Label>
+      </StackPanel>
+      <TextBlock TextWrapping="Wrap">Bitte geben Sie einen Ort für den Termin ein.</TextBlock>
+      <TextBox Margin="0,10" Name="TerminOrtTextBox"  BorderThickness="2" TabIndex="4" />
+
+    </StackPanel>
+    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+      <Button Width="100" HorizontalAlignment="Right" IsDefault="True" Click="OkClick" TabIndex="5">OK</Button>
+      <Label></Label>
+      <Button Width="100" HorizontalAlignment="Right" IsDefault="True" Click="CancelClick">Abbrechen</Button>
+    </StackPanel>
+  </Grid>
 </Window>

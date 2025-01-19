@@ -2,9 +2,8 @@
 {
   using System;
   using System.Linq;
-  using System.Windows.Input;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Helper;
 
@@ -13,11 +12,6 @@
   /// </summary>
   public abstract class TerminViewModel : ViewModelBase
   {
-    /// <summary>
-    /// The termintyp currently assigned to this termin
-    /// </summary>
-    private TermintypViewModel termintyp;
-
     /// <summary>
     /// The ersteUnterrichtsstunde currently assigned to this termin
     /// </summary>
@@ -36,20 +30,7 @@
     /// </param>
     protected TerminViewModel(Termin termin)
     {
-      if (termin == null)
-      {
-        throw new ArgumentNullException("termin");
-      }
-
-      this.Model = termin;
-
-      App.MainViewModel.Termintypen.CollectionChanged += (sender, e) =>
-      {
-        if (e.OldItems != null && e.OldItems.Contains(this.TerminTermintyp))
-        {
-          this.TerminTermintyp = null;
-        }
-      };
+      this.Model = termin ?? throw new ArgumentNullException(nameof(termin));
 
       App.MainViewModel.Unterrichtsstunden.CollectionChanged += (sender, e) =>
       {
@@ -75,39 +56,27 @@
     /// <summary>
     /// Holt den underlying Termin this ViewModel is based on
     /// </summary>
-    public Termin Model { get; private set; }
+    public Termin Model { get; protected set; }
 
     /// <summary>
-    /// Holt oder setzt die termintyp currently assigned to this Termin
+    /// Holt oder setzt den termintyp currently assigned to this Termin
     /// </summary>
-    public TermintypViewModel TerminTermintyp
+    public Termintyp TerminTermintyp
     {
       get
       {
-        // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Termintyp == null)
-        {
-          return null;
-        }
-
-        if (this.termintyp == null || this.termintyp.Model != this.Model.Termintyp)
-        {
-          this.termintyp = App.MainViewModel.Termintypen.SingleOrDefault(d => d.Model == this.Model.Termintyp);
-        }
-
-        return this.termintyp;
+        return this.Model.Termintyp;
       }
 
       set
       {
-        if (value.TermintypBezeichnung == this.Model.Termintyp.Bezeichnung)
+        if (value == this.Model.Termintyp)
         {
           return;
         }
 
-        this.UndoablePropertyChanging(this, "TerminTermintyp", this.TerminTermintyp, value);
-        this.termintyp = value;
-        this.Model.Termintyp = value.Model;
+        this.UndoablePropertyChanging(this, nameof(TerminTermintyp), this.Model.Termintyp, value);
+        this.Model.Termintyp = value;
         this.RaisePropertyChanged("TerminTermintyp");
       }
     }
@@ -129,7 +98,7 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "TerminBeschreibung", this.Model.Beschreibung, value);
+        this.UndoablePropertyChanging(this, nameof(TerminBeschreibung), this.Model.Beschreibung, value);
         this.Model.Beschreibung = value;
         this.RaisePropertyChanged("TerminBeschreibung");
       }
@@ -163,12 +132,10 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "TerminErsteUnterrichtsstunde", this.TerminErsteUnterrichtsstunde, value);
+        this.UndoablePropertyChanging(this, nameof(TerminErsteUnterrichtsstunde), this.TerminErsteUnterrichtsstunde, value);
         this.ersteUnterrichtsstunde = value;
         this.Model.ErsteUnterrichtsstunde = value.Model;
         this.RaisePropertyChanged("TerminErsteUnterrichtsstunde");
-
-        this.UpdateStundenentwurfStundenzahl();
       }
     }
 
@@ -200,11 +167,10 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "TerminLetzteUnterrichtsstunde", this.TerminLetzteUnterrichtsstunde, value);
+        this.UndoablePropertyChanging(this, nameof(TerminLetzteUnterrichtsstunde), this.TerminLetzteUnterrichtsstunde, value);
         this.letzteUnterrichtsstunde = value;
         this.Model.LetzteUnterrichtsstunde = value.Model;
         this.RaisePropertyChanged("TerminLetzteUnterrichtsstunde");
-        this.UpdateStundenentwurfStundenzahl();
       }
     }
 
@@ -225,7 +191,7 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "TerminOrt", this.Model.Ort, value);
+        this.UndoablePropertyChanging(this, nameof(TerminOrt), this.Model.Ort, value);
         this.Model.Ort = value;
         this.RaisePropertyChanged("TerminOrt");
       }
@@ -249,7 +215,7 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "TerminIstGeprüft", this.Model.IstGeprüft, value);
+        this.UndoablePropertyChanging(this, nameof(TerminIstGeprüft), this.Model.IstGeprüft, value);
         this.Model.IstGeprüft = value;
         this.RaisePropertyChanged("TerminIstGeprüft");
       }
@@ -297,21 +263,5 @@
     /// Handles deletion of the current termin
     /// </summary>
     protected abstract void DeleteTermin();
-
-    /// <summary>
-    /// Updates the stundezahl of the contained stundenentwurf, if this is a stunde
-    /// and there is any stundenentwurf created already.
-    /// </summary>
-    protected void UpdateStundenentwurfStundenzahl()
-    {
-      if (this is StundeViewModel)
-      {
-        var stunde = this as StundeViewModel;
-        if (stunde != null && stunde.StundeStundenentwurf != null)
-        {
-          stunde.StundeStundenentwurf.StundenentwurfStundenzahl = this.TerminStundenanzahl;
-        }
-      }
-    }
   }
 }

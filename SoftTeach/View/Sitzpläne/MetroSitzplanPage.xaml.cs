@@ -2,9 +2,7 @@
 {
   using System.Collections.Generic;
   using System.Windows;
-  using System.Windows.Controls;
   using System.Windows.Input;
-  using System.Windows.Media;
   using System.Windows.Shapes;
 
   using SoftTeach.ViewModel.Sitzpläne;
@@ -14,35 +12,35 @@
   /// </summary>
   public partial class MetroSitzplanPage
   {
-    /// <summary>
-    /// Die Position den Mausklicks
-    /// </summary>
-    private Point mouseDownPoint;
+    ///// <summary>
+    ///// Die Position den Mausklicks
+    ///// </summary>
+    //private Point mouseDownPoint;
 
-    /// <summary>
-    /// Der Abstand zwischen linker oberer Ecke und Klickort
-    /// </summary>
-    private Point topLeftOffset;
+    ///// <summary>
+    ///// Der Abstand zwischen linker oberer Ecke und Klickort
+    ///// </summary>
+    //private Point topLeftOffset;
 
-    /// <summary>
-    /// Der momentan bearbeitete Sitzplaneintrag
-    /// </summary>
-    private SitzplaneintragViewModel currentSitzplaneintrag;
+    ///// <summary>
+    ///// Der momentan bearbeitete Sitzplaneintrag
+    ///// </summary>
+    //private SitzplaneintragViewModel currentSitzplaneintrag;
 
-    /// <summary>
-    /// Gibt an, ob ein Sitzplaneintrag verschoben wird
-    /// </summary>
-    private bool isMovingSitzplaneintrag;
+    ///// <summary>
+    ///// Gibt an, ob ein Sitzplaneintrag verschoben wird
+    ///// </summary>
+    //private bool isMovingSitzplaneintrag;
 
-    /// <summary>
-    /// Gibt an, dass der Sitzplaneintrag auch kopiert werden kann
-    /// </summary>
-    private bool canCopySitzplaneintrag;
+    ///// <summary>
+    ///// Gibt an, dass der Sitzplaneintrag auch kopiert werden kann
+    ///// </summary>
+    //private bool canCopySitzplaneintrag;
 
-    /// <summary>
-    /// Die Liste der Sitzplanrechtecke
-    /// </summary>
-    private List<Rectangle> sitzplatzShapes;
+    ///// <summary>
+    ///// Die Liste der Sitzplanrechtecke
+    ///// </summary>
+    //private List<Rectangle> sitzplatzShapes;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="MetroSitzplanPage"/> Klasse.
@@ -180,10 +178,10 @@
         return;
       }
 
-      if (this.currentSitzplaneintrag == null)
-      {
-        return;
-      }
+      //if (this.currentSitzplaneintrag == null)
+      //{
+      //  return;
+      //}
 
       //var upLocation = e.GetPosition(this.SitzplanCanvas);
       //if (this.isMovingSitzplaneintrag)
@@ -203,7 +201,7 @@
     /// </summary>
     /// <param name="mouseLocation">The mouse location.</param>
     /// <returns>Das <see cref="SitzplaneintragViewModel"/> oder null, wenn kein Sitzplaneintrag unter der Maus.</returns>
-    private SitzplaneintragViewModel GetSitzplaneintragUnderCursor(Point mouseLocation)
+    private static SitzplaneintragViewModel GetSitzplaneintragUnderCursor(Point mouseLocation)
     {
       //var result = VisualTreeHelper.HitTest(this.SitzplanCanvas, mouseLocation);
 
@@ -226,7 +224,7 @@
     /// <summary>
     /// Adds the sitzplaneintrag shapes.
     /// </summary>
-    private void AddSitzplaneintragShapes()
+    private static void AddSitzplaneintragShapes()
     {
       //var sitzplan = this.DataContext as SitzplanViewModel;
       //if (sitzplan == null)

@@ -6,7 +6,7 @@
   using System.Linq;
   using System.Windows.Media;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
 
   using MahApps.Metro.Controls.Dialogs;
 
@@ -16,6 +16,7 @@
   using SoftTeach.ViewModel.Helper;
   using SoftTeach.ViewModel.Noten;
   using SoftTeach.ViewModel.Termine;
+  using System.Windows;
 
   /// <summary>
   /// Für jeden Termin der Woche (Unterrichtsstunde, AG, Treffen) wird ein Terminplaneintrag erstellt.
@@ -50,13 +51,8 @@
     /// <param name="terminViewModel"> The termin View Model. </param>
     public TerminplanEintrag(TerminplanWorkspaceViewModel parent, TerminViewModel terminViewModel)
     {
-      if (parent == null)
-      {
-        throw new ArgumentNullException("parent");
-      }
-
       this.TerminViewModel = terminViewModel;
-      this.Parent = parent;
+      this.Parent = parent ?? throw new ArgumentNullException(nameof(parent));
       this.ViewTerminplaneintragCommand = new DelegateCommand(this.ViewTerminplaneintrag, () => this.TerminViewModel != null);
       this.EditTerminplaneintragCommand = new DelegateCommand(this.EditTerminplaneintrag, () => this.TerminViewModel != null);
       this.RemoveTerminplaneintragCommand = new DelegateCommand(this.RemoveTerminplaneintrag, () => this.TerminViewModel != null);
@@ -173,7 +169,7 @@
       {
         if (!this.IsDummy)
         {
-          throw new ArgumentOutOfRangeException("value", "Der Wochentagindex kann nicht zugewiesen werden.");
+          throw new ArgumentOutOfRangeException(nameof(value), "Der Wochentagindex kann nicht zugewiesen werden.");
         }
 
         this.wochentagIndex = value;
@@ -200,7 +196,7 @@
       {
         if (!this.IsDummy)
         {
-          throw new ArgumentOutOfRangeException("value", "Der StundenplaneintragErsteUnterrichtsstundeIndex kann nicht zugewiesen werden.");
+          throw new ArgumentOutOfRangeException(nameof(value), "Der StundenplaneintragErsteUnterrichtsstundeIndex kann nicht zugewiesen werden.");
         }
 
         this.ersteUnterrichtsstundeIndex = value;
@@ -227,7 +223,7 @@
       {
         if (!this.IsDummy)
         {
-          throw new ArgumentOutOfRangeException("value", "Der StundenplaneintragLetzteUnterrichtsstundeIndex kann nicht zugewiesen werden.");
+          throw new ArgumentOutOfRangeException(nameof(value), "Der StundenplaneintragLetzteUnterrichtsstundeIndex kann nicht zugewiesen werden.");
         }
 
         this.letzteUnterrichtsstundeIndex = value;
@@ -248,7 +244,7 @@
       }
     }
 
-    public int RowIndex
+    public static int RowIndex
     {
       get
       {
@@ -266,7 +262,7 @@
       }
     }
 
-    public int ColumnSpan
+    public static int ColumnSpan
     {
       get
       {
@@ -325,7 +321,7 @@
               return "Vertretung";
             }
 
-            return stunde.LerngruppenterminKlasse + "-" + stunde.LerngruppenterminFach;
+            return stunde.LerngruppenterminLerngruppe.LerngruppeBezeichnung + "-" + stunde.LerngruppenterminFach;
           }
 
           if (this.TerminViewModel is LerngruppenterminViewModel)
@@ -333,7 +329,7 @@
             var lerngruppentermin = this.TerminViewModel as LerngruppenterminViewModel;
             if (lerngruppentermin.LerngruppenterminFach == "Vertretungsstunden")
             {
-              return "Termin";
+              return lerngruppentermin.TerminTermintyp.ToString();
             }
           }
 
@@ -341,9 +337,9 @@
           {
             var schultermin = this.TerminViewModel as SchulterminViewModel;
             var klassenstring = string.Empty;
-            foreach (var betroffeneKlasseViewModel in schultermin.BetroffeneKlassen)
+            foreach (var betroffeneLerngruppeViewModel in schultermin.BetroffeneLerngruppen)
             {
-              klassenstring += betroffeneKlasseViewModel.BetroffeneKlasseKlasse.KlasseBezeichnung + ",";
+              klassenstring += betroffeneLerngruppeViewModel.BetroffeneLerngruppeLerngruppe.LerngruppeBezeichnung + ",";
             }
 
             return klassenstring;
@@ -366,7 +362,71 @@
       {
         if (this.TerminViewModel != null)
         {
-          var color = this.TerminViewModel.TerminTermintyp.TermintypKalenderfarbe;
+          var color = Colors.Transparent;
+          switch (this.TerminViewModel.TerminTermintyp)
+          {
+            case Termintyp.Klausur:
+              color = Colors.Yellow;
+              break;
+            case Termintyp.TagDerOffenenTür:
+              color = Colors.Blue;
+              break;
+            case Termintyp.Wandertag:
+              color = Colors.Magenta;
+              break;
+            case Termintyp.Abitur:
+              color = Colors.Red;
+              break;
+            case Termintyp.MSA:
+              color = Colors.Red;
+              break;
+            case Termintyp.Unterricht:
+              color = Colors.LightBlue;
+              break;
+            case Termintyp.Vertretung:
+              color = Colors.LightGray;
+              break;
+            case Termintyp.Besprechung:
+              color = Colors.Orange;
+              break;
+            case Termintyp.Sondertermin:
+              color = Colors.Orange;
+              break;
+            case Termintyp.Ferien:
+              color = Colors.Green;
+              break;
+            case Termintyp.Kursfahrt:
+              color = Colors.Fuchsia;
+              break;
+            case Termintyp.Klassenfahrt:
+              color = Colors.Fuchsia;
+              break;
+            case Termintyp.Projekttag:
+              color = Colors.Orange;
+              break;
+            case Termintyp.Praktikum:
+              color = Colors.Orange;
+              break;
+            case Termintyp.Geburtstag:
+              color = Colors.SteelBlue;
+              break;
+            case Termintyp.Veranstaltung:
+              color = Colors.Maroon;
+              break;
+            case Termintyp.PSE:
+              color = Colors.Fuchsia;
+              break;
+            case Termintyp.Feiertag:
+              color = Colors.Green;
+              break;
+            case Termintyp.Sportveranstaltung:
+              color = Colors.Orange;
+              break;
+            default:
+              color = Colors.Transparent;
+              break;
+          }
+
           color.A = 200;
           return new SolidColorBrush(color);
         }
@@ -406,11 +466,11 @@
     /// Holt die imagesource for the proof icon
     /// </summary>
     [DependsUpon("WochenplaneintragIstGeprüft")]
-    public ImageSource ProofImage
+    public Style ProofImage
     {
       get
       {
-        return App.GetImageSource(this.TerminplaneintragIstGeprüft ? "ProofValid16.png" : "ProofOpen16.png");
+        return App.Current.FindResource(this.TerminplaneintragIstGeprüft ? "Ok16" : "Ok16Check") as Style;
       }
     }
 
@@ -418,11 +478,11 @@
     /// Holt die imagesource for the proof icon
     /// </summary>
     [DependsUpon("WochenplaneintragIstGeprüft")]
-    public ImageSource ProofImage48
+    public Style ProofImage48
     {
       get
       {
-        return App.GetImageSource(this.TerminplaneintragIstGeprüft ? "ProofValid48.png" : "ProofOpen48.png");
+        return App.Current.FindResource(this.TerminplaneintragIstGeprüft ? "Ok48" : "Ok48Check") as Style;
       }
     }
 
@@ -442,7 +502,7 @@
     /// <param name="e">An <see cref="PropertyChangedEventArgs"/> with the events data</param>
     private void TerminViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-      if (e.PropertyName == "StundeStundenentwurf" || e.PropertyName == "TerminBeschreibung")
+      if (e.PropertyName == "TerminBeschreibung")
       {
         this.Parent.UpdateProperties(this.wochentagIndex, this.ErsteUnterrichtsstundeIndex, this.Stundenanzahl);
         this.RaisePropertyChanged("TerminplaneintragThema");
@@ -481,25 +541,15 @@
         return;
       }
 
-
-      //using (new UndoBatch(App.MainViewModel, string.Format("Wochenplaneintrag {0} editiert.", this), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("Wochenplaneintrag {0} editiert.", this), false))
       {
         if (this.TerminViewModel is LerngruppenterminViewModel)
         {
           var lerngruppentermin = this.TerminViewModel as LerngruppenterminViewModel;
           Selection.Instance.Fach =
             App.MainViewModel.Fächer.First(o => o.FachBezeichnung == lerngruppentermin.LerngruppenterminFach);
-          Selection.Instance.Klasse =
-            App.MainViewModel.Klassen.First(o => o.KlasseBezeichnung == lerngruppentermin.LerngruppenterminKlasse);
-          if (lerngruppentermin is StundeViewModel)
-          {
-            var stunde = lerngruppentermin as StundeViewModel;
-            if (stunde.StundeStundenentwurf != null && stunde.StundeStundenentwurf.StundenentwurfModul != null)
-            {
-              Selection.Instance.Modul = stunde.StundeStundenentwurf.StundenentwurfModul;
-            }
-          }
-
+          Selection.Instance.Lerngruppe =
+            App.MainViewModel.Lerngruppen.First(o => o.LerngruppeBezeichnung == lerngruppentermin.LerngruppenterminLerngruppe.LerngruppeBezeichnung);
           lerngruppentermin.ViewLerngruppenterminCommand.Execute(null);
         }
         else if (this.TerminViewModel is SchulterminViewModel)
@@ -530,17 +580,7 @@
           var lerngruppentermin = this.TerminViewModel as LerngruppenterminViewModel;
           Selection.Instance.Fach =
             App.MainViewModel.Fächer.First(o => o.FachBezeichnung == lerngruppentermin.LerngruppenterminFach);
-          Selection.Instance.Klasse =
-            App.MainViewModel.Klassen.First(o => o.KlasseBezeichnung == lerngruppentermin.LerngruppenterminKlasse);
-          if (lerngruppentermin is StundeViewModel)
-          {
-            var stunde = lerngruppentermin as StundeViewModel;
-            if (stunde.StundeStundenentwurf != null && stunde.StundeStundenentwurf.StundenentwurfModul != null)
-            {
-              Selection.Instance.Modul = stunde.StundeStundenentwurf.StundenentwurfModul;
-            }
-          }
-
+          Selection.Instance.Lerngruppe = App.MainViewModel.Lerngruppen.First(o => o.Model.Id == lerngruppentermin.LerngruppenterminLerngruppe.Model.Id);
           lerngruppentermin.EditLerngruppenterminCommand.Execute(null);
         }
         else if (this.TerminViewModel is SchulterminViewModel)
@@ -564,24 +604,17 @@
         return;
       }
 
-      if (!(this.TerminViewModel is StundeViewModel))
+      if (this.TerminViewModel is not StundeViewModel)
       {
         return;
       }
 
       var stunde = this.TerminViewModel as StundeViewModel;
-      stunde.StundeStundenentwurf.StundenentwurfDatum = stunde.LerngruppenterminDatum;
       Selection.Instance.Fach = App.MainViewModel.Fächer.First(o => o.FachBezeichnung == stunde.LerngruppenterminFach);
-      Selection.Instance.Klasse = App.MainViewModel.Klassen.First(o => o.KlasseBezeichnung == stunde.LerngruppenterminKlasse);
+      Selection.Instance.Lerngruppe = App.MainViewModel.Lerngruppen.First(o => o.Model.Id == ((Stunde)stunde.Model).Lerngruppe.Id);
       Selection.Instance.Stunde = stunde;
-      Selection.Instance.Stundenentwurf = stunde.StundeStundenentwurf;
 
-      var schülerliste =
-        App.MainViewModel.Schülerlisten.FirstOrDefault(
-          o =>
-          o.SchülerlisteFach.FachBezeichnung == stunde.LerngruppenterminFach
-          && o.SchülerlisteJahrtyp.JahrtypBezeichnung == stunde.LerngruppenterminSchuljahr
-          && o.SchülerlisteKlasse.KlasseBezeichnung == stunde.LerngruppenterminKlasse);
+      var schülerliste = Selection.Instance.Lerngruppe;
 
       if (schülerliste == null)
       {
@@ -599,16 +632,20 @@
           //  notenPage.DataContext = viewModel;
           //  Configuration.Instance.NavigationService.Navigate(notenPage);
           //
-          var stunden = new ObservableCollection<StundeViewModel>();
-          stunden.Add(stunde);
+          var stunden = new ObservableCollection<Stunde>
+          {
+            stunde.Model as Stunde
+          };
           var viewModelReminder = new StundennotenReminderWorkspaceViewModel(stunden);
           var dlg = new MetroStundennotenReminderWindow { DataContext = viewModelReminder };
           dlg.ShowDialog();
         }
         else
         {
-          var dlg = new StundennotenDialog();
-          dlg.DataContext = viewModel;
+          var dlg = new StundennotenDialog
+          {
+            DataContext = viewModel
+          };
           undo = !dlg.ShowDialog().GetValueOrDefault(false);
         }
 
@@ -632,18 +669,15 @@
         return;
       }
 
-      if (!(this.TerminViewModel is StundeViewModel))
+      if (this.TerminViewModel is not StundeViewModel)
       {
         return;
       }
 
       var stunde = this.TerminViewModel as StundeViewModel;
-      var schülerliste =
-        App.MainViewModel.Schülerlisten.First(
-          o =>
-          o.SchülerlisteFach.FachBezeichnung == stunde.LerngruppenterminFach
-          && o.SchülerlisteJahrtyp.JahrtypBezeichnung == stunde.LerngruppenterminSchuljahr
-          && o.SchülerlisteKlasse.KlasseBezeichnung == stunde.LerngruppenterminKlasse);
+      var schülerliste = App.MainViewModel.Lerngruppen.First(o => o.Model.Id == ((Stunde)stunde.Model).Lerngruppe.Id);
+
+      Selection.Instance.Lerngruppe = schülerliste;
 
       if (Configuration.Instance.IsMetroMode)
       {
@@ -668,7 +702,7 @@
             schülereintragViewModel.CurrentHausaufgabe = null;
           }
 
-          var dlg = new HausaufgabenDialog { Schülerliste = schülerliste };
+          var dlg = new HausaufgabenDialog { Lerngruppe = schülerliste };
           undo = !dlg.ShowDialog().GetValueOrDefault(false);
         }
       }
@@ -682,25 +716,21 @@
     /// <summary>
     /// Hier wird der Dialog zur Hausaufgabenkontrolle aufgerufen
     /// </summary>
-    private async void AddSonstigeNoten()
+    private void AddSonstigeNoten()
     {
       if (this.TerminViewModel == null)
       {
         return;
       }
 
-      if (!(this.TerminViewModel is StundeViewModel))
+      if (this.TerminViewModel is not StundeViewModel)
       {
         return;
       }
 
       var stunde = this.TerminViewModel as StundeViewModel;
-      var schülerliste =
-        App.MainViewModel.Schülerlisten.First(
-          o =>
-          o.SchülerlisteFach.FachBezeichnung == stunde.LerngruppenterminFach
-          && o.SchülerlisteJahrtyp.JahrtypBezeichnung == stunde.LerngruppenterminSchuljahr
-          && o.SchülerlisteKlasse.KlasseBezeichnung == stunde.LerngruppenterminKlasse);
+      var schülerliste = App.MainViewModel.Lerngruppen.First(o => o.Model.Id == ((Stunde)stunde.Model).Lerngruppe.Id);
+
 
       if (Configuration.Instance.IsMetroMode)
       {
@@ -727,7 +757,7 @@
             schülereintragViewModel.CurrentNote = null;
           }
 
-          var dlg = new SonstigeNotenDialog() { Schülerliste = schülerliste };
+          var dlg = new SonstigeNotenDialog() { Lerngruppe = schülerliste };
           undo = !dlg.ShowDialog().GetValueOrDefault(false);
         }
       }

@@ -3,9 +3,7 @@
   using System;
   using System.Collections.ObjectModel;
   using System.Collections.Specialized;
-
-  using SoftTeach.ViewModel.Datenbank;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Sitzpläne;
   using SoftTeach.ViewModel.Helper;
@@ -28,12 +26,7 @@
     /// </param>
     public RaumViewModel(Raum raum)
     {
-      if (raum == null)
-      {
-        throw new ArgumentNullException("raum");
-      }
-
-      this.Model = raum;
+      this.Model = raum ?? throw new ArgumentNullException(nameof(raum));
 
       this.AddRaumplanCommand = new DelegateCommand(this.AddRaumplan);
       this.EditRaumplanCommand = new DelegateCommand(this.EditRaumplan, () => this.CurrentRaumplan != null);
@@ -51,7 +44,7 @@
     }
 
     /// <summary>
-    /// Holt den Befehl zur Erstellung eines neuen Raumplanes
+    /// Holt den Befehl zur Erstellung eines en Raumplanes
     /// </summary>
     public DelegateCommand AddRaumplanCommand { get; private set; }
 
@@ -106,9 +99,17 @@
       set
       {
         if (value == this.Model.Bezeichnung) return;
-        this.UndoablePropertyChanging(this, "RaumBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(RaumBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("RaumBezeichnung");
+      }
+    }
+
+    public int RaumID
+    {
+      get
+      {
+        return this.Model.Id;
       }
     }
 
@@ -144,20 +145,33 @@
     /// </summary>
     private void AddRaumplan()
     {
-      var raumplan = new Raumplan();
-      raumplan.Raum = this.Model;
-      var raumplanViewModel = new RaumplanViewModel(raumplan);
-      var dlg = new EditRaumplanDialog(raumplanViewModel);
-      if (!dlg.ShowDialog().GetValueOrDefault(false))
+      var raumplan = new Raumplan
       {
-        return;
-      }
-
+        Raum = this.Model,
+        Bezeichnung = "Neuer Raumplan"
+      };
+      var raumplanViewModel = new RaumplanViewModel(raumplan);
+      bool undo = false;
       using (new UndoBatch(App.MainViewModel, string.Format("Neuer Raumplan {0} erstellt.", raumplanViewModel), false))
       {
-        //App.MainViewModel.Raumpläne.Add(raumplanViewModel);
-        this.Raumpläne.Add(raumplanViewModel);
-        this.CurrentRaumplan = raumplanViewModel;
+        var dlg = new EditRaumplanDialog(raumplanViewModel);
+        if (!dlg.ShowDialog().GetValueOrDefault(false))
+        {
+          undo = true;
+        }
+
+        if (!undo)
+        {
+          //App.UnitOfWork.Context.Raumpläne.Add(raumplanViewModel.Model);
+          //App.MainViewModel.Raumpläne.Add(raumplanViewModel);
+          this.Raumpläne.Add(raumplanViewModel);
+          this.CurrentRaumplan = raumplanViewModel;
+        }
+      }
+
+      if (undo)
+      {
+        App.MainViewModel.ExecuteUndoCommand();
       }
     }
 
@@ -197,7 +211,7 @@
       using (new UndoBatch(App.MainViewModel, string.Format("Raumplan {0} gelöscht.", raumplanViewModel), false))
       {
         //App.MainViewModel.Raumpläne.RemoveTest(raumplanViewModel);
-        App.UnitOfWork.Context.Raumpläne.Remove(raumplanViewModel.Model);
+        //App.UnitOfWork.Context.Raumpläne.Remove(raumplanViewModel.Model);
         var result = this.Raumpläne.RemoveTest(raumplanViewModel);
       }
     }
@@ -210,7 +224,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void RaumpläneCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Raumpläne", this.Raumpläne, e, false, "Änderung der Raumpläne");
+      UndoableCollectionChanged(this, nameof(Raumpläne), this.Raumpläne, e, true, "Änderung der Raumpläne");
     }
   }
 }

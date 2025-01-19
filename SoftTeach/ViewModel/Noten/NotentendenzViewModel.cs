@@ -3,12 +3,10 @@
   using System;
   using System.Globalization;
   using System.Linq;
-  using System.Windows;
-  using System.Windows.Input;
 
   using MahApps.Metro.Controls.Dialogs;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Noten;
@@ -21,26 +19,17 @@
   public class NotentendenzViewModel : ViewModelBase
   {
     /// <summary>
-    /// The tendenztyp currently assigned to this Notentendenz
-    /// </summary>
-    private TendenztypViewModel tendenztyp;
-
-    /// <summary>
-    /// The tendenz currently assigned to this Notentendenz
-    /// </summary>
-    private TendenzViewModel tendenz;
-
-    /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="NotentendenzViewModel"/> Klasse. 
     /// </summary>
     public NotentendenzViewModel()
     {
-      var notentendenz = new Notentendenz();
-      notentendenz.Datum = DateTime.Now;
-      notentendenz.Tendenztyp = App.MainViewModel.Tendenztypen.First().Model;
-      notentendenz.Tendenz = App.MainViewModel.Tendenzen.First().Model;
+      var notentendenz = new Notentendenz
+      {
+        Datum = DateTime.Now,
+        Tendenztyp = Tendenztyp.Leistung,
+        Tendenz = Tendenz.Null
+      };
       this.Model = notentendenz;
-      App.MainViewModel.Notentendenzen.Add(this);
     }
 
     /// <summary>
@@ -51,12 +40,7 @@
     /// </param>
     public NotentendenzViewModel(Notentendenz note)
     {
-      if (note == null)
-      {
-        throw new ArgumentNullException("note");
-      }
-
-      this.Model = note;
+      this.Model = note ?? throw new ArgumentNullException(nameof(note));
 
       this.EditNotentendenzCommand = new DelegateCommand(this.EditNotentendenz);
     }
@@ -84,7 +68,7 @@
       set
       {
         if (value == this.Model.Bezeichnung) return;
-        this.UndoablePropertyChanging(this, "NotentendenzBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(NotentendenzBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("NotentendenzBezeichnung");
       }
@@ -103,9 +87,47 @@
       set
       {
         if (value == this.Model.Datum) return;
-        this.UndoablePropertyChanging(this, "NotentendenzDatum", this.Model.Datum, value);
+        this.UndoablePropertyChanging(this, nameof(NotentendenzDatum), this.Model.Datum, value);
         this.Model.Datum = value;
         this.RaisePropertyChanged("NotentendenzDatum");
+      }
+    }
+
+    /// <summary>
+    /// Holt oder setzt die Notentendenz Tendenz
+    /// </summary>
+    public Tendenz NotentendenzTendenz
+    {
+      get
+      {
+        return this.Model.Tendenz;
+      }
+
+      set
+      {
+        if (value == this.Model.Tendenz) return;
+        this.UndoablePropertyChanging(this, nameof(NotentendenzTendenz), this.Model.Tendenz, value);
+        this.Model.Tendenz = value;
+        this.RaisePropertyChanged("NotentendenzTendenz");
+      }
+    }
+
+    /// <summary>
+    /// Holt oder setzt die Notentendenz Tendenz
+    /// </summary>
+    public Tendenztyp NotentendenzTendenztyp
+    {
+      get
+      {
+        return this.Model.Tendenztyp;
+      }
+
+      set
+      {
+        if (value == this.Model.Tendenztyp) return;
+        this.UndoablePropertyChanging(this, nameof(NotentendenzTendenztyp), this.Model.Tendenztyp, value);
+        this.Model.Tendenztyp = value;
+        this.RaisePropertyChanged("NotentendenzTendenztyp");
       }
     }
 
@@ -134,68 +156,6 @@
     }
 
     /// <summary>
-    /// Holt oder setzt die Tendenztyp currently assigned to this note
-    /// </summary>
-    public TendenztypViewModel NotentendenzTendenztyp
-    {
-      get
-      {
-        // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Tendenztyp == null)
-        {
-          return null;
-        }
-
-        if (this.tendenztyp == null || this.tendenztyp.Model != this.Model.Tendenztyp)
-        {
-          this.tendenztyp = App.MainViewModel.Tendenztypen.SingleOrDefault(d => d.Model == this.Model.Tendenztyp);
-        }
-
-        return this.tendenztyp;
-      }
-
-      set
-      {
-        if (value.TendenztypBezeichnung == this.tendenztyp.TendenztypBezeichnung) return;
-        this.UndoablePropertyChanging(this, "NotentendenzTendenztyp", this.tendenztyp, value);
-        this.tendenztyp = value;
-        this.Model.Tendenztyp = value.Model;
-        this.RaisePropertyChanged("NotentendenzTendenztyp");
-      }
-    }
-
-    /// <summary>
-    /// Holt oder setzt die halbjahr currently assigned to this Termin
-    /// </summary>
-    public TendenzViewModel NotentendenzTendenz
-    {
-      get
-      {
-        // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Tendenz == null)
-        {
-          return null;
-        }
-
-        if (this.tendenz == null || this.tendenz.Model != this.Model.Tendenz)
-        {
-          this.tendenz = App.MainViewModel.Tendenzen.SingleOrDefault(d => d.Model == this.Model.Tendenz);
-        }
-
-        return this.tendenz;
-      }
-
-      set
-      {
-        if (value.TendenzBezeichnung == this.tendenz.TendenzBezeichnung) return;
-        this.UndoablePropertyChanging(this, "NotentendenzTendenz", this.tendenz, value);
-        this.tendenz = value;
-        this.Model.Tendenz = value.Model;
-        this.RaisePropertyChanged("NotentendenzTendenz");
-      }
-    }
-
-    /// <summary>
     /// Gibt eine lesbare Repräsentation des ViewModels
     /// </summary>
     /// <returns>Ein <see cref="string"/> mit einer Kurzform des ViewModels.</returns>
@@ -215,7 +175,7 @@
       get
       {
         return
-          this.Model.Schülereintrag.Schülerliste.Fach.Bezeichnung +
+          this.Model.Schülereintrag.Lerngruppe.Fach.Bezeichnung +
           " Tendenz von " +
           this.Model.Schülereintrag.Person.Vorname +
           " " +

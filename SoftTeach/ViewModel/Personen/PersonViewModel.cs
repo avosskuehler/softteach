@@ -7,14 +7,14 @@
   using System.Linq;
   using System.Text;
   using System.Windows;
-  using System.Windows.Interop;
   using System.Windows.Media.Imaging;
 
   using GongSolutions.Wpf.DragDrop;
 
   using SoftTeach.ExceptionHandling;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Resources.Controls;
+  using SoftTeach.UndoRedo;
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
@@ -35,7 +35,11 @@
       this.DeletePersonCommand = new DelegateCommand(this.DeletePerson);
       var person = new Person();
       this.Model = person;
-      App.MainViewModel.Personen.Add(this);
+      //App.UnitOfWork.Context.Personen.Add(person);
+      using (new UndoBatch(App.MainViewModel, string.Format("neue Person angelegt"), false))
+      {
+        App.MainViewModel.Personen.Add(this);
+      }
     }
 
     /// <summary>
@@ -46,12 +50,7 @@
     /// </param>
     public PersonViewModel(Person person)
     {
-      if (person == null)
-      {
-        throw new ArgumentNullException("person");
-      }
-
-      this.Model = person;
+      this.Model = person ?? throw new ArgumentNullException(nameof(person));
       this.DeletePersonCommand = new DelegateCommand(this.DeletePerson);
     }
 
@@ -78,7 +77,7 @@
       set
       {
         if (value == this.Model.Vorname) return;
-        this.UndoablePropertyChanging(this, "PersonVorname", this.Model.Vorname, value);
+        this.UndoablePropertyChanging(this, nameof(PersonVorname), this.Model.Vorname, value);
         this.Model.Vorname = value;
         this.RaisePropertyChanged("PersonVorname");
       }
@@ -87,13 +86,13 @@
     /// <summary>
     /// Holt den Vornamen in Kurzform
     /// </summary>
-    public string PersonVornameKurz
+    public string VornameKurz
     {
       get
       {
         var split = this.PersonVorname.Split(' ');
         var split2 = split[0].Split('-');
-        if (split2.Count() > 1)
+        if (split2.Length > 1)
         {
           var posBindestrich = this.PersonVorname.IndexOf('-');
           return this.PersonVorname.Substring(0, posBindestrich + 2);
@@ -116,16 +115,16 @@
       set
       {
         if (value == this.Model.Nachname) return;
-        this.UndoablePropertyChanging(this, "PersonNachname", this.Model.Nachname, value);
+        this.UndoablePropertyChanging(this, nameof(PersonNachname), this.Model.Nachname, value);
         this.Model.Nachname = value;
         this.RaisePropertyChanged("PersonNachname");
       }
     }
 
     /// <summary>
-    /// Holt oder setzt einen Wert, der angibt, ob die Person weiblich ist
+    /// Holt oder setzt das Geschlecht
     /// </summary>
-    public bool PersonIstWeiblich
+    public Geschlecht PersonGeschlecht
     {
       get
       {
@@ -135,28 +134,33 @@
       set
       {
         if (value == this.Model.Geschlecht) return;
-        this.UndoablePropertyChanging(this, "PersonIstWeiblich", this.Model.Geschlecht, value);
+        this.UndoablePropertyChanging(this, nameof(PersonGeschlecht), this.Model.Geschlecht, value);
         this.Model.Geschlecht = value;
-        this.RaisePropertyChanged("PersonIstWeiblich");
+        this.RaisePropertyChanged("PersonGeschlecht");
       }
     }
 
-    ///// <summary>
-    ///// Holt oder setzt einen Wert, der angibt, ob die Person männlich ist
-    ///// </summary>
-    //[DependsUpon("PersonIstWeiblich")]
-    //public bool PersonIstMännlich
-    //{
-    //  get
-    //  {
-    //    return !this.PersonIstWeiblich;
-    //  }
-
-    //  set
-    //  {
-    //    this.PersonIstWeiblich = !value;
-    //  }
-    //}
+    /// <summary>
+    /// Holt oder setzt einen Wert, der angibt, ob die Person weiblich ist
+    /// </summary>
+    [DependsUpon("Geschlecht")]
+    public bool PersonIstWeiblich
+    {
+      get
+      {
+        switch (this.Model.Geschlecht)
+        {
+          case Geschlecht.m:
+            return false;
+          case Geschlecht.w:
+            return true;
+          case Geschlecht.d:
+            return false;
+          default:
+            return false;
+        }
+      }
+    }
 
     /// <summary>
     /// Holt oder setzt einen Wert, der angibt, ob diese Person ein Lehrer ist.
@@ -171,7 +175,7 @@
       set
       {
         if (value == this.Model.IstLehrer) return;
-        this.UndoablePropertyChanging(this, "PersonIstLehrer", this.Model.IstLehrer, value);
+        this.UndoablePropertyChanging(this, nameof(PersonIstLehrer), this.Model.IstLehrer, value);
         this.Model.IstLehrer = value;
         this.RaisePropertyChanged("PersonIstLehrer");
       }
@@ -195,6 +199,18 @@
     }
 
     /// <summary>
+    /// Holt einen String, der angibt, ob diese Person ein Schüler ist.
+    /// </summary>
+    [DependsUpon("PersonIstLehrer")]
+    public string PersonStatus
+    {
+      get
+      {
+        return this.PersonIstLehrer ? "Lehrer" : "Schüler";
+      }
+    }
+
+    /// <summary>
     /// Holt oder setzt die Geburtstag
     /// </summary>
     public DateTime? PersonGeburtstag
@@ -207,7 +223,7 @@
       set
       {
         if (value == this.Model.Geburtstag) return;
-        this.UndoablePropertyChanging(this, "PersonGeburtstag", this.Model.Geburtstag, value);
+        this.UndoablePropertyChanging(this, nameof(PersonGeburtstag), this.Model.Geburtstag, value);
         this.Model.Geburtstag = value;
         this.RaisePropertyChanged("PersonGeburtstag");
       }
@@ -256,7 +272,7 @@
       set
       {
         if (value == this.Model.Titel) return;
-        this.UndoablePropertyChanging(this, "PersonTitel", this.Model.Titel, value);
+        this.UndoablePropertyChanging(this, nameof(PersonTitel), this.Model.Titel, value);
         this.Model.Titel = value;
         this.RaisePropertyChanged("PersonTitel");
       }
@@ -275,7 +291,7 @@
       set
       {
         if (value == this.Model.Telefon) return;
-        this.UndoablePropertyChanging(this, "PersonTelefon", this.Model.Telefon, value);
+        this.UndoablePropertyChanging(this, nameof(PersonTelefon), this.Model.Telefon, value);
         this.Model.Telefon = value;
         this.RaisePropertyChanged("PersonTelefon");
       }
@@ -295,7 +311,7 @@
       set
       {
         if (value == this.Model.Fax) return;
-        this.UndoablePropertyChanging(this, "PersonFax", this.Model.Fax, value);
+        this.UndoablePropertyChanging(this, nameof(PersonFax), this.Model.Fax, value);
         this.Model.Fax = value;
         this.RaisePropertyChanged("PersonFax");
       }
@@ -314,7 +330,7 @@
       set
       {
         if (value == this.Model.Handy) return;
-        this.UndoablePropertyChanging(this, "PersonHandy", this.Model.Handy, value);
+        this.UndoablePropertyChanging(this, nameof(PersonHandy), this.Model.Handy, value);
         this.Model.Handy = value;
         this.RaisePropertyChanged("PersonHandy");
       }
@@ -333,7 +349,7 @@
       set
       {
         if (value == this.Model.EMail) return;
-        this.UndoablePropertyChanging(this, "PersonEMail", this.Model.EMail, value);
+        this.UndoablePropertyChanging(this, nameof(PersonEMail), this.Model.EMail, value);
         this.Model.EMail = value;
         this.RaisePropertyChanged("PersonEMail");
       }
@@ -352,7 +368,7 @@
       set
       {
         if (value == this.Model.PLZ) return;
-        this.UndoablePropertyChanging(this, "PersonPLZ", this.Model.PLZ, value);
+        this.UndoablePropertyChanging(this, nameof(PersonPLZ), this.Model.PLZ, value);
         this.Model.PLZ = value;
         this.RaisePropertyChanged("PersonPLZ");
       }
@@ -372,7 +388,7 @@
       set
       {
         if (value == this.Model.Straße) return;
-        this.UndoablePropertyChanging(this, "PersonStraße", this.Model.Straße, value);
+        this.UndoablePropertyChanging(this, nameof(PersonStraße), this.Model.Straße, value);
         this.Model.Straße = value;
         this.RaisePropertyChanged("PersonStraße");
       }
@@ -391,7 +407,7 @@
       set
       {
         if (value == this.Model.Hausnummer) return;
-        this.UndoablePropertyChanging(this, "PersonHausnummer", this.Model.Hausnummer, value);
+        this.UndoablePropertyChanging(this, nameof(PersonHausnummer), this.Model.Hausnummer, value);
         this.Model.Hausnummer = value;
         this.RaisePropertyChanged("PersonHausnummer");
       }
@@ -410,7 +426,7 @@
       set
       {
         if (value == this.Model.Ort) return;
-        this.UndoablePropertyChanging(this, "PersonOrt", this.Model.Ort, value);
+        this.UndoablePropertyChanging(this, nameof(PersonOrt), this.Model.Ort, value);
         this.Model.Ort = value;
         this.RaisePropertyChanged("PersonOrt");
       }
@@ -429,7 +445,7 @@
       set
       {
         if (value == this.Model.Foto) return;
-        this.UndoablePropertyChanging(this, "PersonFoto", this.Model.Foto, value);
+        this.UndoablePropertyChanging(this, nameof(PersonFoto), this.Model.Foto, value);
         this.Model.Foto = value;
         this.RaisePropertyChanged("PersonFoto");
       }
@@ -604,7 +620,7 @@
       this.PersonBild = image;
     }
 
-    // TODO Check this
+    //// TODO Check this
     //protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
     //{
     //  base.OnPropertyChanged(e);

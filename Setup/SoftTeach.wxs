@@ -1,51 +1,46 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
   <?include $(sys.CURRENTDIR)Config.wxi?>
   <Fragment>
-    <Directory Id="TARGETDIR" Name="SourceDir">
-      <Directory Id="DesktopFolder" SourceName="User's Desktop">
-        <!--<Component Id="C_ShortCutDesktop" Guid="{D8DFF141-B56E-41C8-8A41-3E967B1494E2}" Transitive="yes" Win64="$(var.Win64)">
-          <Shortcut Id="ShortCutDesktop" Name="$(var.ProductName)" Description="$(var.ProductName) Verknüpfung" Target="[INSTALLLOCATION]SoftTeach.exe"></Shortcut>
-        </Component>-->
-      </Directory>
-
-      <Directory Id="ProgramMenuFolder" SourceName="User's Programs Menu">
-        <Directory Id="SoftTeach" Name="$(var.ProductName)">
-          <Component Id="C_ShortCutMenu" Guid="{BA432F39-4E9D-4DFC-B535-455249EAA452}" Transitive="yes" Win64="$(var.Win64)">
-            <Shortcut Id="ProgShortCut" Name="$(var.ProductName)" Description="$(var.ProductName) Verknüpfung" Target="[INSTALLLOCATION]SoftTeach.exe"></Shortcut>
-            <?if $(sys.BUILDARCH)=x64?>
-            <Shortcut Id="UninstallShortCut" Name="Uninstall $(var.ProductName)" Target="[System64Folder]msiexec.exe" Arguments="/x [ProductCode]"/>
-            <?else?>
-            <Shortcut Id="UninstallShortCut" Name="Uninstall $(var.ProductName)" Target="[SystemFolder]msiexec.exe" Arguments="/x [ProductCode]"/>
-            <?endif?>
-            <CreateFolder Directory="SoftTeach" />
-            <RegistryValue Id="R_Software" Root="HKCU" Key="Software\$(var.Manufactor)\$(var.ProductName)\{F771CAA8-A3CC-4970-879B-468E11304EB3}" Name="SoftTeach" Value="[SoftTeach]" Type="string" KeyPath="yes" />
-            <RemoveFolder Id="Remove" Directory="SoftTeach" On="uninstall" />
-          </Component>
-        </Directory>
-      </Directory>
-
-      <Directory Id="$(var.PlatformProgramFilesFolder)">
-        <Directory Id="INSTALLLOCATION" Name="$(var.ProductName)">
-          <Component Id="C_SoftTeachExe" Guid="{EA946B47-C5A4-4C80-A979-A5C98E615924}" Win64="$(var.Win64)">
-            <File Id="SoftTeachExe" Name="SoftTeach.exe" KeyPath="yes" Assembly=".net" AssemblyManifest="SoftTeachExe" AssemblyApplication="SoftTeachExe" DiskId="1"
-                  Source="$(var.SoftTeach.TargetDir)" />
-            <Shortcut Id="_A07C5294E7E24F4CB7D6F426AE6326AB" Directory="DesktopFolder" Name="SoftTeach" Description="Startet SoftTeach" Icon="SoftTeach.ico" IconIndex="0" Show="normal" WorkingDirectory="TARGETDIR" Advertise="yes" />
-            <Shortcut Id="_A2BF88A82C6947B294A261A87EBACFC4" Directory="SoftTeach" Name="SoftTeach" Description="Startet SoftTeach" Icon="SoftTeach.ico" IconIndex="0" Show="normal" WorkingDirectory="TARGETDIR" Advertise="yes" />
-          </Component>
-          <Component Id="C_SoftTeachConfig" Guid="{41445AB6-D11E-46A3-8769-24E4D168FF6F}" Win64="$(var.Win64)">
-            <File Id="SoftTeachConfig" Name="SoftTeach.exe.config" KeyPath="yes" DiskId="1"
-                  Source="$(var.SoftTeach.TargetDir)" />
-          </Component>
-        </Directory>
-      </Directory>
-    </Directory>
-    
-    <Feature Id='SoftTeachMainApplicationFeature' Title='SoftTeach application' Description='Installs softTeach core components.' Level='1'>
-      <ComponentRef Id='C_SoftTeachExe' />
+    <Feature Id="SoftTeachMainApplicationFeature" Title="SoftTeach application" Description="Installs softTeach core components." Level="1">
+      <ComponentRef Id="C_SoftTeachExe" />
       <!--<ComponentRef Id="C_ShortCutDesktop" />-->
       <ComponentRef Id="C_ShortCutMenu" />
       <ComponentRef Id="C_SoftTeachConfig" />
     </Feature>
+
+    <StandardDirectory Id="DesktopFolder">
+      <!--<Component Id="C_ShortCutDesktop" Guid="{D8DFF141-B56E-41C8-8A41-3E967B1494E2}" Transitive="yes" Win64="$(var.Win64)">
+          <Shortcut Id="ShortCutDesktop" Name="$(var.ProductName)" Description="$(var.ProductName) Verknüpfung" Target="[INSTALLLOCATION]SoftTeach.exe"></Shortcut>
+        </Component>-->
+    </StandardDirectory>
+
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Directory Id="SoftTeach" Name="$(var.ProductName)">
+        <Component Id="C_ShortCutMenu" Guid="{BA432F39-4E9D-4DFC-B535-455249EAA452}" Transitive="yes">
+          <Shortcut Id="ProgShortCut" Name="$(var.ProductName)" Description="$(var.ProductName) Verknüpfung" Target="[INSTALLLOCATION]SoftTeach.exe"></Shortcut>
+          <?if $(sys.BUILDARCH)=x64?>
+          <Shortcut Id="UninstallShortCut" Name="Uninstall $(var.ProductName)" Target="[System64Folder]msiexec.exe" Arguments="/x [ProductCode]" />
+          <?else?>
+          <Shortcut Id="UninstallShortCut" Name="Uninstall $(var.ProductName)" Target="[SystemFolder]msiexec.exe" Arguments="/x [ProductCode]" />
+          <?endif?>
+          <CreateFolder Directory="SoftTeach" />
+          <RegistryValue Id="R_Software" Root="HKCU" Key="Software\$(var.Manufactor)\$(var.ProductName)\{F771CAA8-A3CC-4970-879B-468E11304EB3}" Name="SoftTeach" Value="[SoftTeach]" Type="string" KeyPath="yes" />
+          <RemoveFolder Id="Remove" Directory="SoftTeach" On="uninstall" />
+        </Component>
+      </Directory>
+    </StandardDirectory>
+
+    <StandardDirectory Id="ProgramFiles6432Folder">
+      <Directory Id="INSTALLLOCATION" Name="$(var.ProductName)">
+        <Component Id="C_SoftTeachExe" Guid="{EA946B47-C5A4-4C80-A979-A5C98E615924}">
+          <File Id="SoftTeachExe" Name="SoftTeach.exe" KeyPath="yes" Assembly=".net" AssemblyManifest="SoftTeachExe" AssemblyApplication="SoftTeachExe" DiskId="1" Source="$(var.SoftTeach.TargetDir)" />
+          <Shortcut Id="_A07C5294E7E24F4CB7D6F426AE6326AB" Directory="DesktopFolder" Name="SoftTeach" Description="Startet SoftTeach" Icon="SoftTeach.ico" IconIndex="0" Show="normal" WorkingDirectory="TARGETDIR" Advertise="yes" />
+          <Shortcut Id="_A2BF88A82C6947B294A261A87EBACFC4" Directory="SoftTeach" Name="SoftTeach" Description="Startet SoftTeach" Icon="SoftTeach.ico" IconIndex="0" Show="normal" WorkingDirectory="TARGETDIR" Advertise="yes" />
+        </Component>
+        <Component Id="C_SoftTeachConfig" Guid="{41445AB6-D11E-46A3-8769-24E4D168FF6F}">
+          <File Id="SoftTeachConfig" Name="SoftTeach.dll.config" KeyPath="yes" DiskId="1" Source="$(var.SoftTeach.TargetDir)" />
+        </Component>
+      </Directory>
+    </StandardDirectory>
   </Fragment>
 </Wix>

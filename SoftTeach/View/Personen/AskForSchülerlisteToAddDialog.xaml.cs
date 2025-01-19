@@ -1,4 +1,4 @@
-﻿// <copyright file="AskForSchülerlisteToAddDialog.xaml.cs" company="Paul Natorp Gymnasium, Berlin">        
+﻿// <copyright file="AskForLerngruppeToAddDialog.xaml.cs" company="Paul Natorp Gymnasium, Berlin">        
 // SoftTeach - Lehrerunterrichtsdatenbank
 // Copyright (C) 2013 Dr. Adrian Voßkühler
 // -----------------------------------------------------------------------
@@ -20,55 +20,62 @@ namespace SoftTeach.View.Personen
   using System.Linq;
   using System.Windows;
   using Setting;
+  using SoftTeach.Model.TeachyModel;
   using ViewModel.Datenbank;
 
   /// <summary>
   /// Interaction logic for AskForHalbjahresplanToAdaptDialog.xaml
   /// </summary>
-  public partial class AskForSchülerlisteToAddDialog
+  public partial class AskForLerngruppeToAddDialog
   {
     #region Constructors and Destructors
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="AskForSchülerlisteToAddDialog"/> Klasse. 
+    /// Initialisiert eine neue Instanz der <see cref="AskForLerngruppeToAddDialog"/> Klasse. 
     /// </summary>
-    public AskForSchülerlisteToAddDialog()
+    public AskForLerngruppeToAddDialog()
     {
       this.InitializeComponent();
       this.DataContext = this;
-      this.Halbjahrtyp = Selection.Instance.Halbjahr;
-      this.Jahrtyp = Selection.Instance.Jahrtyp;
-      this.Klasse = Selection.Instance.Klasse;
+      this.Schuljahr = Selection.Instance.Schuljahr;
+      this.Jahrgang = Selection.Instance.Jahrgang;
       this.Fach = Selection.Instance.Fach;
       this.NotenWichtung = App.MainViewModel.NotenWichtungen.FirstOrDefault();
+      this.Bepunktungstyp = Bepunktungstyp.NoteMitTendenz;
+      this.Bezeichnung = "neue Lerngruppe";
     }
 
     #endregion
 
     /// <summary>
-    /// Holt oder setzt das Schuljahr für die Schülerliste
+    /// Holt oder setzt das Schuljahr für die Lerngruppe
     /// </summary>
-    public JahrtypViewModel Jahrtyp { get; set; }
+    public SchuljahrViewModel Schuljahr { get; set; }
 
     /// <summary>
-    /// Holt oder setzt das Halbjahr für die Schülerliste
+    /// Holt oder setzt die Bezeichnung für die Lerngruppe
     /// </summary>
-    public HalbjahrtypViewModel Halbjahrtyp { get; set; }
+    public string Bezeichnung { get; set; }
 
     /// <summary>
-    /// Holt oder setzt die Klasse für die Schülerliste
+    /// Holt oder setzt die Klasse für die Lerngruppe
     /// </summary>
-    public KlasseViewModel Klasse { get; set; }
+    public int Jahrgang { get; set; }
 
     /// <summary>
-    /// Holt oder setzt das Fach für die Schülerliste
+    /// Holt oder setzt das Fach für die Lerngruppe
     /// </summary>
     public FachViewModel Fach { get; set; }
 
     /// <summary>
-    /// Holt oder setzt die NotenWichtung für die Schülerliste
+    /// Holt oder setzt die NotenWichtung für die Lerngruppe
     /// </summary>
     public NotenWichtungViewModel NotenWichtung { get; set; }
+
+    /// <summary>
+    /// Holt oder setzt den Bepunktungstyp für die Lerngruppe
+    /// </summary>
+    public Bepunktungstyp Bepunktungstyp { get; set; }
 
     private void OkClick(object sender, RoutedEventArgs e)
     {

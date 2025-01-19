@@ -2,7 +2,7 @@
 {
   using System;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.ViewModel.Helper;
 
@@ -19,12 +19,7 @@
     /// </param>
     public ErgebnisViewModel(Ergebnis ergebnis)
     {
-      if (ergebnis == null)
-      {
-        throw new ArgumentNullException("ergebnis");
-      }
-
-      this.Model = ergebnis;
+      this.Model = ergebnis ?? throw new ArgumentNullException(nameof(ergebnis));
     }
 
     /// <summary>
@@ -35,7 +30,7 @@
     /// <summary>
     /// Holt oder setzt die Punktzahl
     /// </summary>
-    public float? ErgebnisPunktzahl
+    public double? ErgebnisPunktzahl
     {
       get
       {
@@ -45,7 +40,7 @@
       set
       {
         if (value == this.Model.Punktzahl) return;
-        this.UndoablePropertyChanging(this, "ErgebnisPunktzahl", this.Model.Punktzahl, value);
+        this.UndoablePropertyChanging(this, nameof(ErgebnisPunktzahl), this.Model.Punktzahl, value);
         this.Model.Punktzahl = value;
         this.RaisePropertyChanged("ErgebnisPunktzahl");
         Selection.Instance.Schülereintrag.UpdateNoten();

@@ -15,7 +15,6 @@
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/SoftTeach;component/Resources/MetroResources.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatSlider.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/Dialogs/BaseMetroDialog.xaml" />
        </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
@@ -61,7 +60,7 @@
           </ItemsPanelTemplate>
         </ListBox.ItemsPanel>
       </ListBox>
-      <Button Width="100" FontSize="20" Margin="10" Content="Fertig" Style="{DynamicResource AccentedSquareButtonStyle}" Click="FertigButtonOnClick"/>
+      <Button Width="100" FontSize="20" Margin="10" Content="Fertig" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Click="FertigButtonOnClick"/>
     </StackPanel>
   </Grid>
 </dialogs:BaseMetroDialog>

@@ -2,9 +2,7 @@
 {
   using Helper;
 
-  using SoftTeach.UndoRedo;
-
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
 
   /// <summary>
   /// ViewModel for managing Bewertungsschema
@@ -59,8 +57,10 @@
     /// </summary>
     private void AddBewertungsschema()
     {
-      var bewertungsschema = new Bewertungsschema();
-      bewertungsschema.Bezeichnung = "Neues Bewertungsschema";
+      var bewertungsschema = new Bewertungsschema
+      {
+        Bezeichnung = "Neues Bewertungsschema"
+      };
       var vm = new BewertungsschemaViewModel(bewertungsschema);
       App.MainViewModel.Bewertungsschemata.Add(vm);
       this.CurrentBewertungsschema = vm;

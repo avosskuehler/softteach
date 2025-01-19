@@ -3,25 +3,25 @@
   <Profiles />
   <Settings>
     <Setting Name="Schuljahr" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">2024/2025</Value>
     </Setting>
     <Setting Name="Halbjahr" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Winter</Value>
     </Setting>
     <Setting Name="Fach" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Physik</Value>
     </Setting>
-    <Setting Name="Jahrgangsstufe" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="Jahrgang" Type="System.String" Scope="User">
+      <Value Profile="(Default)">7</Value>
     </Setting>
-    <Setting Name="Klasse" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="Lerngruppe" Type="System.String" Scope="User">
+      <Value Profile="(Default)">7D</Value>
     </Setting>
     <Setting Name="Modul" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="LogfilePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">c:\temp</Value>
     </Setting>
     <Setting Name="FerienColor" Type="System.Windows.Media.SolidColorBrush" Scope="User">
       <Value Profile="(Default)">#FF006400</Value>
@@ -31,6 +31,12 @@
     </Setting>
     <Setting Name="Wochenbreite" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">80</Value>
+    </Setting>
+    <Setting Name="Jahrgangsstufe" Type="System.String" Scope="User">
+      <Value Profile="(Default)">7</Value>
+    </Setting>
+    <Setting Name="Klasse" Type="System.String" Scope="User">
+      <Value Profile="(Default)">7D</Value>
     </Setting>
     <Setting Name="Stundenbreite" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">20</Value>

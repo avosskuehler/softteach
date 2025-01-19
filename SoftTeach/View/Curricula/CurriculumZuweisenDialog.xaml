@@ -1,29 +1,29 @@
 ﻿<Window x:Class="SoftTeach.View.Curricula.CurriculumZuweisenDialog"
+                xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:resources="clr-namespace:SoftTeach.Resources"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
         xmlns:curricula="clr-namespace:SoftTeach.ViewModel.Curricula"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:controls="clr-namespace:SoftTeach.Resources.Controls" mc:Ignorable="d" 
-             d:DesignHeight="465" d:DesignWidth="741" SizeToContent="WidthAndHeight"
-        Icon="/SoftTeach;component/Images/Curriculum32.png">
+             d:DesignHeight="465" d:DesignWidth="741" SizeToContent="WidthAndHeight">
   <Window.Resources>
     <CollectionViewSource x:Key="GroupedAvailableSequenzenViewSource" Source="{Binding AvailableSequenzenDesCurriculums}">
       <CollectionViewSource.GroupDescriptions>
         <PropertyGroupDescription PropertyName="SequenzModul"/>
       </CollectionViewSource.GroupDescriptions>
     </CollectionViewSource>
-    <CollectionViewSource x:Key="GroupedTagespläneundSequenzenViewSource" Source="{Binding TagespläneAndSequenzenCollection}">
+    <CollectionViewSource x:Key="GroupedStundenAndSequenzenViewSource" Source="{Binding StundenAndSequenzenCollection}">
       <CollectionViewSource.SortDescriptions>
         <scm:SortDescription PropertyName="ViewModelType" Direction="Ascending" />
-        <scm:SortDescription PropertyName="TagesplanDatum" Direction="Ascending" />
-        <scm:SortDescription PropertyName="AbfolgeIndex" Direction="Ascending" />
+        <scm:SortDescription PropertyName="LerngruppenterminDatum" Direction="Ascending" />
+        <scm:SortDescription PropertyName="Reihenfolge" Direction="Ascending" />
       </CollectionViewSource.SortDescriptions>
       <CollectionViewSource.GroupDescriptions>
         <PropertyGroupDescription PropertyName="ViewModelType"/>
-        <PropertyGroupDescription PropertyName="TagesplanMonat"/>
+        <PropertyGroupDescription PropertyName="LerngruppenterminMonat"/>
         <!--<PropertyGroupDescription PropertyName="SequenzModul"/>-->
       </CollectionViewSource.GroupDescriptions>
     </CollectionViewSource>
@@ -32,19 +32,35 @@
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
       <RowDefinition/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader Grid.Row="0" Title="Passen Sie hier das Curriculum so an, dass es in den Jahresplan passt"
-                                      Icon="/SoftTeach;component/Images/Curriculum32.png"/>
-    <Grid Grid.Row="1">
+    <controls:SmallDialogHeader Grid.Row="0" Title="Passen Sie hier das Curriculum so an, dass es in den Jahresplan passt">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Curriculum48}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
+    <StackPanel Grid.Row="1" Orientation="Horizontal">
+      <ToggleButton Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}" IsChecked="{Binding ShowFerien}" ToolTip="Ferien anzeigen/verbergen">
+        <StackPanel Orientation="Horizontal">
+          <Grid>
+            <fa:IconBlock Style="{StaticResource Ferien32}"/>
+            <fa:IconBlock Style="{StaticResource VorschauOverlay32}"/>
+          </Grid>
+        </StackPanel>
+      </ToggleButton>
+    </StackPanel>
+    <Grid Grid.Row="2">
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto" MinHeight="100"/>
         <RowDefinition Height="3"/>
         <RowDefinition Height="*" />
       </Grid.RowDefinitions>
       <HeaderedContentControl Grid.Row="0" Header="Jahresplan" Margin="5">
-        <ListBox ItemsSource="{Binding Source={StaticResource GroupedTagespläneundSequenzenViewSource}}" 
+        <ListBox ItemsSource="{Binding Source={StaticResource GroupedStundenAndSequenzenViewSource}}" 
                 ItemTemplateSelector="{StaticResource CurriculumAdaptViewDataTemplateSelector}" 
                  ItemContainerStyle="{StaticResource NoBorderListBoxItemStyle}"
                 dd:DragDrop.IsDragSource="True" 
@@ -53,7 +69,7 @@
                   dd:DragDrop.DragAdornerTemplate="{StaticResource SequenzDragAdorner}"
                   Name="CurriculumItemsListBox"
                   BorderThickness="0"
-                  MinHeight="120">
+                  MinHeight="200">
           <ListBox.ItemsPanel>
             <ItemsPanelTemplate>
               <StackPanel Orientation="Horizontal"/>
@@ -67,7 +83,7 @@
                 </ItemsPanelTemplate>
               </GroupStyle.Panel>
             </GroupStyle>
-            <GroupStyle ContainerStyle="{StaticResource GroupHeaderStyleBoth}">
+            <GroupStyle ContainerStyle="{StaticResource MonateGroupHeaderStyle}">
               <GroupStyle.Panel>
                 <ItemsPanelTemplate>
                   <StackPanel Orientation="Horizontal"/>
@@ -79,7 +95,7 @@
         </ListBox>
       </HeaderedContentControl>
       <Line Grid.Row="1" Fill="{StaticResource DefaultButtonsBackgroundBrush}"/>
-      <HeaderedContentControl Grid.Row="2" Header="Verfügbare Module" Margin="5">
+      <HeaderedContentControl Grid.Row="3" Header="Verfügbare Module" Margin="5">
         <ListBox ItemsSource="{Binding Source={StaticResource GroupedAvailableSequenzenViewSource}}" 
                   ItemTemplate="{StaticResource SequenzenGroupView}" 
                   dd:DragDrop.IsDragSource="True" 
@@ -106,10 +122,10 @@
         </ListBox>
       </HeaderedContentControl>
     </Grid>
-    <Grid Background="{StaticResource DefaultButtonsBackgroundBrush}" Grid.Row="2">
-      <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+    <Grid Background="{StaticResource DefaultButtonsBackgroundBrush}" Grid.Row="3">
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
         <Button Command="{Binding Path=UpdateHalbjahresplanWithCurriculumCommand}" 
-                ToolTip="Jahresplan der Klasse mit Vorgaben aus diesem Curriculum aktualisieren.">Jahresplan aktualisieren
+                ToolTip="Jahresplan der Klasse mit Vorgaben aus diesem Curriculum aktualisieren." Padding="6,3">Jahresplan aktualisieren
         </Button>
         <Rectangle Width="30"/>
         <Button Width="100" HorizontalAlignment="Right" IsDefault="True" Click="OkClick" TabIndex="2">Fertig</Button>

@@ -2,9 +2,7 @@
 {
   using System;
   using System.Linq;
-
-  using SoftTeach.Model;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.ViewModel.Helper;
 
@@ -14,20 +12,23 @@
   public class FerienViewModel : ViewModelBase, IComparable
   {
     /// <summary>
-    /// The jahrtyp currently assigned to this ferien
+    /// The schuljahr currently assigned to this ferien
     /// </summary>
-    private JahrtypViewModel jahrtyp;
+    private SchuljahrViewModel schuljahr;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="FerienViewModel"/> Klasse. 
     /// </summary>
     public FerienViewModel()
     {
-      var ferien = new Ferien();
-      ferien.Jahrtyp = Selection.Instance.Jahrtyp.Model;
-      ferien.Bezeichnung = "Neue Ferien";
-      ferien.ErsterFerientag = DateTime.Now;
-      ferien.LetzterFerientag = DateTime.Now;
+      var ferien = new Ferien
+      {
+        Schuljahr = Selection.Instance.Schuljahr.Model,
+        Bezeichnung = "neue Ferien",
+        ErsterFerientag = DateTime.Now,
+        LetzterFerientag = DateTime.Now
+      };
+      App.UnitOfWork.Context.Ferien.Add(ferien);
       this.Model = ferien;
     }
 
@@ -39,12 +40,7 @@
     /// </param>
     public FerienViewModel(Ferien ferien)
     {
-      if (ferien == null)
-      {
-        throw new ArgumentNullException("ferien");
-      }
-
-      this.Model = ferien;
+      this.Model = ferien ?? throw new ArgumentNullException(nameof(ferien));
     }
 
     /// <summary>
@@ -65,7 +61,7 @@
       set
       {
         if (value == this.Model.Bezeichnung) return;
-        this.UndoablePropertyChanging(this, "FerienBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(FerienBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("FerienBezeichnung");
       }
@@ -84,7 +80,7 @@
       set
       {
         if (value == this.Model.ErsterFerientag) return;
-        this.UndoablePropertyChanging(this, "FerienErsterFerientag", this.Model.ErsterFerientag, value);
+        this.UndoablePropertyChanging(this, nameof(FerienErsterFerientag), this.Model.ErsterFerientag, value);
         this.Model.ErsterFerientag = value;
         this.RaisePropertyChanged("FerienErsterFerientag");
       }
@@ -103,7 +99,7 @@
       set
       {
         if (value == this.Model.LetzterFerientag) return;
-        this.UndoablePropertyChanging(this, "FerienLetzterFerientag", this.Model.LetzterFerientag, value);
+        this.UndoablePropertyChanging(this, nameof(FerienLetzterFerientag), this.Model.LetzterFerientag, value);
         this.Model.LetzterFerientag = value;
         this.RaisePropertyChanged("FerienLetzterFerientag");
       }
@@ -112,35 +108,35 @@
     /// <summary>
     /// Holt oder setzt die fach currently assigned to this Stundenentwurf
     /// </summary>
-    public JahrtypViewModel FerienJahrtyp
+    public SchuljahrViewModel FerienSchuljahr
     {
       get
       {
         // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Jahrtyp == null)
+        if (this.Model.Schuljahr == null)
         {
           return null;
         }
 
-        if (this.jahrtyp == null || this.jahrtyp.Model != this.Model.Jahrtyp)
+        if (this.schuljahr == null || this.schuljahr.Model != this.Model.Schuljahr)
         {
-          this.jahrtyp = App.MainViewModel.Jahrtypen.SingleOrDefault(d => d.Model == this.Model.Jahrtyp);
+          this.schuljahr = App.MainViewModel.Schuljahre.SingleOrDefault(d => d.Model == this.Model.Schuljahr);
         }
 
-        return this.jahrtyp;
+        return this.schuljahr;
       }
 
       set
       {
-        if (this.jahrtyp != null)
+        if (this.schuljahr != null)
         {
-          if (value.JahrtypBezeichnung == this.jahrtyp.JahrtypBezeichnung) return;
+          if (value.SchuljahrBezeichnung == this.schuljahr.SchuljahrBezeichnung) return;
         }
 
-        this.UndoablePropertyChanging(this, "FerienJahrtyp", this.jahrtyp, value);
-        this.jahrtyp = value;
-        this.Model.Jahrtyp = value.Model;
-        this.RaisePropertyChanged("FerienJahrtyp");
+        this.UndoablePropertyChanging(this, nameof(FerienSchuljahr), this.schuljahr, value);
+        this.schuljahr = value;
+        this.Model.Schuljahr = value.Model;
+        this.RaisePropertyChanged("FerienSchuljahr");
       }
     }
 
@@ -150,7 +146,7 @@
     /// <returns>Ein <see cref="string"/> mit einer Kurzform des ViewModels.</returns>
     public override string ToString()
     {
-      return this.FerienBezeichnung + " " + this.FerienJahrtyp.JahrtypBezeichnung;
+      return this.FerienBezeichnung + " " + this.FerienSchuljahr.SchuljahrBezeichnung;
     }
 
     /// <summary>

@@ -1,10 +1,12 @@
-﻿<UserControl x:Class="SoftTeach.View.Stundenpläne.StundenplaneintragDetailView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="200" >
+﻿<UserControl 
+  x:Class="SoftTeach.View.Stundenpläne.StundenplaneintragDetailView"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"        
+  xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
+  mc:Ignorable="d" 
+  d:DesignHeight="100" d:DesignWidth="200" >
   <UserControl.Resources>
     <Style x:Key="DisplayStyle">
       <Style.Triggers>
@@ -18,7 +20,7 @@
     </Style>
   </UserControl.Resources>
 
-  <Border x:Name="SurroundBorder" BorderThickness="2" CornerRadius="3"
+  <Border x:Name="SurroundBorder" BorderThickness="1"
           MouseEnter="SurroundBorderMouseEnter" 
           MouseLeave="SurroundBorderMouseLeave"
           MouseLeftButtonDown="SurroundBorderMouseLeftButtonDown"
@@ -27,7 +29,7 @@
           AllowDrop="True" 
           DragEnter="SurroundBorderDragEnter" 
           DragLeave="SurroundBorderDragLeave">
-    <Border Background="{Binding Path=StundenplaneintragBackground}" CornerRadius="3">
+    <Border Background="{Binding Path=StundenplaneintragBackground}">
       <!--<Border.BorderBrush>
       <SolidColorBrush x:Name="animatedBrush" Color="Transparent" />
     </Border.BorderBrush>-->
@@ -88,15 +90,15 @@
           <RowDefinition Height="Auto" MinHeight="20"/>
           <RowDefinition Height="Auto" MinHeight="20"/>
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Grid.Column="0" Padding="1" VerticalAlignment="Center" Content="{Binding Path=StundenplaneintragKlasse.KlasseBezeichnung}"/>
-        <Label Grid.Row="0" Grid.Column="1" Padding="1" VerticalAlignment="Center" Content="{Binding Path=StundenplaneintragFach.FachBezeichnung}"/>
+        <Label Grid.Row="0" Grid.Column="0" Padding="1" VerticalAlignment="Center" Content="{Binding Path=StundenplaneintragLerngruppe.LerngruppeBezeichnung}"/>
+        <Label Grid.Row="0" Grid.Column="1" Padding="1" VerticalAlignment="Center" Content="{Binding Path=StundenplaneintragLerngruppe.LerngruppeFach.FachBezeichnung}"/>
         <Border Grid.Row="0" Grid.Column="2" Style="{StaticResource DisplayStyle}">
           <StackPanel Orientation="Horizontal" Visibility="Hidden" HorizontalAlignment="Right" x:Name="EditButtons">
             <Button  Command="{Binding Path=EditStundenplaneintragCommand}">
-              <Image Source="/SoftTeach;component/Images/Edit16.png"/>
+              <fa:IconBlock Style="{StaticResource Edit16}"/>
             </Button>
             <Button Command="{Binding Path=RemoveStundenplaneintragCommand}">
-              <Image Source="/SoftTeach;component/Images/Remove16.png"/>
+              <fa:IconBlock Style="{StaticResource Remove16}"/>
             </Button>
           </StackPanel>
         </Border>

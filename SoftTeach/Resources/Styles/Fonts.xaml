@@ -1,0 +1,1200 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome">
+  <FontFamily x:Key="FontAwesomeLight">/SoftTeach;component/Fonts/FontAwesome6Pro-Light-300.otf#Font Awesome 6 Pro Light</FontFamily>
+  <FontFamily x:Key="FontAwesomeRegular">/SoftTeach;component/Fonts/FontAwesome6Pro-Regular-400.otf#Font Awesome 6 Pro Regular</FontFamily>
+  <FontFamily x:Key="FontAwesomeSolid">/SoftTeach;component/Fonts/FontAwesome6Pro-Solid-900.otf#Font Awesome 6 Pro Solid</FontFamily>
+  <FontFamily x:Key="FontAwesomeBrands">/SoftTeach;component/Fonts/FontAwesome6Brands-Regular-400.otf#Font Awesome 6 Brands Regular</FontFamily>
+  <FontFamily x:Key="FontAwesomeThin">/SoftTeach;component/Fonts/FontAwesome6Pro-Thin-100.otf#Font Awesome 6 Pro Thin</FontFamily>
+  <FontFamily x:Key="FontAwesomeDuotone">/SoftTeach;component/Fonts/FontAwesome6Duotone-Solid-900.otf#Font Awesome 6 Duotone Solid</FontFamily>
+
+  <Style x:Key="Ok12" TargetType="{x:Type fa:IconBlock}">
+    <Setter Property="Icon" Value="Check"/>
+    <Setter Property="Foreground" Value="Green"/>
+    <Setter Property="FontSize" Value="12"/>
+  </Style>
+  <Style x:Key="Ok16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Ok12}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+  <Style x:Key="Ok16Check" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Ok12}">
+    <Setter Property="FontSize" Value="16"/>
+    <Setter Property="Foreground" Value="DarkGray"/>
+  </Style>
+  <Style x:Key="Ok48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Ok12}">
+    <Setter Property="FontSize" Value="30"/>
+  </Style>
+  <Style x:Key="Ok48Check" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Ok12}">
+    <Setter Property="FontSize" Value="30"/>
+    <Setter Property="Foreground" Value="DarkGray"/>
+  </Style>
+  <Style x:Key="Ok20" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Ok12}">
+    <Setter Property="FontSize" Value="20"/>
+  </Style>
+  <Style x:Key="Fehler12" TargetType="{x:Type fa:IconBlock}">
+    <Setter Property="Icon" Value="Times"/>
+    <Setter Property="Foreground" Value="Red"/>
+    <Setter Property="FontSize" Value="12"/>
+  </Style>
+  <Style x:Key="Warnung12" TargetType="{x:Type fa:IconBlock}">
+    <Setter Property="Icon" Value="Check"/>
+    <Setter Property="Foreground" Value="Orange"/>
+    <Setter Property="FontSize" Value="12"/>
+  </Style>
+
+  <Style x:Key="Overlay" TargetType="{x:Type fa:IconBlock}">
+    <Setter Property="Stroke" Value="WhiteSmoke"/>
+    <Setter Property="StrokeThickness" Value="3"/>
+    <Setter Property="HorizontalAlignment" Value="Right"/>
+    <Setter Property="VerticalAlignment" Value="Bottom"/>
+    <Setter Property="FontType" Value="Solid"/>
+    <Setter Property="Foreground" Value="{DynamicResource Iconfarbe}"/>
+  </Style>
+
+  <Style x:Key="AddOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="Plus"/>
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="AddOverlay24" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource AddOverlay16}">
+    <Setter Property="FontSize" Value="12"/>
+  </Style>
+
+  <Style x:Key="AddOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource AddOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+  
+  <Style x:Key="AddOverlay48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource AddOverlay16}">
+    <Setter Property="FontSize" Value="32"/>
+  </Style>
+
+  <Style x:Key="RemoveOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="Times"/>
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="RemoveOverlay24" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource RemoveOverlay16}">
+    <Setter Property="FontSize" Value="12"/>
+  </Style>
+
+  <Style x:Key="RemoveOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource RemoveOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+
+  <Style x:Key="SearchOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="Search"/>
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="SearchOverlay24" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SearchOverlay16}">
+    <Setter Property="FontSize" Value="12"/>
+  </Style>
+
+  <Style x:Key="SearchOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SearchOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+
+  <Style x:Key="VorschauOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="Search"/>
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="VorschauOverlay24" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource VorschauOverlay16}">
+    <Setter Property="FontSize" Value="12"/>
+  </Style>
+
+  <Style x:Key="VorschauOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource VorschauOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+
+  <Style x:Key="VorschauOverlay48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource VorschauOverlay16}">
+    <Setter Property="FontSize" Value="24"/>
+  </Style>
+
+  <Style x:Key="PrintOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="Print"/>
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="PrintOverlay24" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource PrintOverlay16}">
+    <Setter Property="FontSize" Value="12"/>
+  </Style>
+
+  <Style x:Key="PrintOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource PrintOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+
+  <Style x:Key="PrintOverlay48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource PrintOverlay16}">
+    <Setter Property="FontSize" Value="24"/>
+  </Style>
+  
+  <Style x:Key="SaveOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="Save"/>
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="SaveOverlay24" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SaveOverlay16}">
+    <Setter Property="FontSize" Value="12"/>
+  </Style>
+
+  <Style x:Key="SaveOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SaveOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+
+  <Style x:Key="SaveOverlay48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SaveOverlay16}">
+    <Setter Property="FontSize" Value="24"/>
+  </Style>
+
+  <Style x:Key="PDFOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="FilePdf"/>
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="PDFOverlay24" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource PDFOverlay16}">
+    <Setter Property="FontSize" Value="12"/>
+  </Style>
+
+  <Style x:Key="PDFOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource PDFOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+
+  <Style x:Key="WordOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="FileWord"/>
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="WordOverlay24" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource WordOverlay16}">
+    <Setter Property="FontSize" Value="12"/>
+  </Style>
+
+  <Style x:Key="WordOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource WordOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+
+
+  <Style x:Key="NewOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="Asterisk"/>
+    <!--<Setter Property="Foreground" Value="Yellow"/>-->
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="NewOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource NewOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+
+  <Style x:Key="NewOverlay48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource NewOverlay16}">
+    <Setter Property="FontSize" Value="24"/>
+  </Style>
+
+  <Style x:Key="EditOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="Pen"/>
+    <!--<Setter Property="Foreground" Value="Orange"/>-->
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="EditOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource EditOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+
+  <Style x:Key="DeleteOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="Times"/>
+    <!--<Setter Property="Foreground" Value="Red"/>-->
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="DeleteOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource DeleteOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+
+  <Style x:Key="DeleteOverlay48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource DeleteOverlay16}">
+    <Setter Property="FontSize" Value="24"/>
+  </Style>
+
+  <Style x:Key="UpdateOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="Sync"/>
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="UpdateOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource UpdateOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+
+  <Style x:Key="ImportOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="ArrowAltDown"/>
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="ImportOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource ImportOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+
+  <Style x:Key="ImportOverlay48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource ImportOverlay16}">
+    <Setter Property="FontSize" Value="24"/>
+  </Style>
+
+  <Style x:Key="EinstellungenOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="Cog"/>
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="EinstellungenOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource EinstellungenOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+
+  <Style x:Key="EinstellungenOverlay48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource EinstellungenOverlay16}">
+    <Setter Property="FontSize" Value="24"/>
+  </Style>
+
+  <Style x:Key="WuerfelOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="Dice"/>
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="WuerfelOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource WuerfelOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+
+  <Style x:Key="WuerfelOverlay48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource WuerfelOverlay16}">
+    <Setter Property="FontSize" Value="24"/>
+  </Style>
+
+  <Style x:Key="BerechnenOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="Calculator"/>
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="BerechnenOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource BerechnenOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+
+  <Style x:Key="BerechnenOverlay48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource BerechnenOverlay16}">
+    <Setter Property="FontSize" Value="24"/>
+  </Style>
+  
+  <Style x:Key="VerweisOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="SquareArrowUpRight"/>
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="VerweisOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource VerweisOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+
+  <Style x:Key="VerweisOverlay48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource VerweisOverlay16}">
+    <Setter Property="FontSize" Value="24"/>
+  </Style>
+
+  <Style x:Key="ExportOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="ArrowAltRight"/>
+    <!--<Setter Property="Foreground" Value="CornflowerBlue"/>-->
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="ExportOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource ExportOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+
+  <Style x:Key="ExportOverlay48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource ExportOverlay16}">
+    <Setter Property="FontSize" Value="24"/>
+  </Style>
+
+  <Style x:Key="ExcelOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="FileExcel"/>
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="ExcelOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource ExcelOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+
+  <Style x:Key="NextcloudOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="Cloud"/>
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="NextcloudOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource NextcloudOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+
+  <Style x:Key="NextcloudOverlay48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource NextcloudOverlay16}">
+    <Setter Property="FontSize" Value="24"/>
+  </Style>
+  
+  <Style x:Key="MoveForwardOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="ArrowAltRight"/>
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="MoveForwardOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource MoveForwardOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+
+  <Style x:Key="MoveForwardOverlay48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource MoveForwardOverlay16}">
+    <Setter Property="FontSize" Value="24"/>
+  </Style>
+  
+  <Style x:Key="MoveBackwardOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="ArrowAltLeft"/>
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="MoveBackwardOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource MoveBackwardOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+
+  <Style x:Key="MoveBackwardOverlay48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource MoveBackwardOverlay16}">
+    <Setter Property="FontSize" Value="24"/>
+  </Style>
+
+  <Style x:Key="ListeOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="List"/>
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="ListeOverlay24" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource ListeOverlay16}">
+    <Setter Property="FontSize" Value="12"/>
+  </Style>
+
+  <Style x:Key="ListeOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource ListeOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+  
+  <Style x:Key="CopyOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="Clone"/>
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="CopyOverlay24" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource CopyOverlay16}">
+    <Setter Property="FontSize" Value="12"/>
+  </Style>
+
+  <Style x:Key="CopyOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource CopyOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+
+  <Style x:Key="TerminOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="Clock"/>
+    <Setter Property="FontSize" Value="10"/>
+  </Style>
+
+  <Style x:Key="TerminOverlay24" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource TerminOverlay16}">
+    <Setter Property="FontSize" Value="12"/>
+  </Style>
+
+  <Style x:Key="TerminOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource TerminOverlay16}">
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+
+  <Style x:Key="AdobeOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="FilePdf"/>
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+  <Style x:Key="PowerpointOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="FilePowerpoint"/>
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+  <Style x:Key="OpenTextOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="FileWord"/>
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+  <Style x:Key="OpenPräsentationOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="FilePowerpoint"/>
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+  <Style x:Key="GeogebraOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="CompassDrafting"/>
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+  <Style x:Key="PhotoshopOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="FileImage"/>
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+  <Style x:Key="ImageOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="FileImage"/>
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+  <Style x:Key="VideoOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="FileVideo"/>
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+  <Style x:Key="InternetOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="Globe"/>
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+  <Style x:Key="UnbekanntOverlay32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
+    <Setter Property="Icon" Value="SquareQuestion"/>
+    <Setter Property="FontSize" Value="16"/>
+  </Style>
+
+
+  <Style x:Key="SizeSmall" TargetType="{x:Type fa:IconBlock}">
+    <Setter Property="Foreground" Value="{DynamicResource Iconfarbe}"/>
+    <Setter Property="FontSize" Value="14"/>
+    <Setter Property="Width" Value="16"/>
+  </Style>
+
+  <Style x:Key="SizeMedium" TargetType="{x:Type fa:IconBlock}">
+    <Setter Property="Foreground" Value="{DynamicResource Iconfarbe}"/>
+    <Setter Property="FontSize" Value="20"/>
+    <Setter Property="Width" Value="24"/>
+  </Style>
+
+  <Style x:Key="SizeBig" TargetType="{x:Type fa:IconBlock}">
+    <Setter Property="Foreground" Value="{DynamicResource Iconfarbe}"/>
+    <Setter Property="FontSize" Value="26"/>
+    <Setter Property="Width" Value="32"/>
+  </Style>
+
+  <Style x:Key="SizeHeader" TargetType="{x:Type fa:IconBlock}">
+    <Setter Property="Foreground" Value="{DynamicResource Iconfarbe}"/>
+    <Setter Property="FontSize" Value="30"/>
+    <Setter Property="Width" Value="48"/>
+  </Style>
+
+  <Style x:Key="Desktop16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Desktop"/>
+  </Style>
+
+  <Style x:Key="Desktop32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Desktop"/>
+  </Style>
+
+  <Style x:Key="Desktop48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Desktop"/>
+  </Style>
+  
+  <Style x:Key="Save16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Save"/>
+  </Style>
+
+  <Style x:Key="Save32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Save"/>
+  </Style>
+
+  <Style x:Key="Save48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Save"/>
+  </Style>
+  
+  <Style x:Key="Schließen16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Times"/>
+  </Style>
+
+  <Style x:Key="Schließen32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Times"/>
+  </Style>
+
+  <Style x:Key="Schließen48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Times"/>
+  </Style>
+
+  <Style x:Key="Tagesplan16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="CalendarDay"/>
+  </Style>
+
+  <Style x:Key="Tagesplan32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="CalendarDay"/>
+  </Style>
+
+  <Style x:Key="Tagesplan48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="CalendarDay"/>
+  </Style>
+  
+  <Style x:Key="Gruppe16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Users"/>
+  </Style>
+
+  <Style x:Key="Gruppe32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Users"/>
+  </Style>
+
+  <Style x:Key="Gruppe48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Users"/>
+  </Style>
+  
+  <Style x:Key="Sitzplan16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Loveseat"/>
+  </Style>
+
+  <Style x:Key="Sitzplan32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Loveseat"/>
+  </Style>
+
+  <Style x:Key="Sitzplan48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Loveseat"/>
+  </Style>
+  
+  <Style x:Key="Note16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Brightness"/>
+  </Style>
+
+  <Style x:Key="Note32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Brightness"/>
+  </Style>
+
+  <Style x:Key="Note48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Brightness"/>
+  </Style>
+  
+  <Style x:Key="Fach16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="FolderOpen"/>
+  </Style>
+
+  <Style x:Key="Fach32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="FolderOpen"/>
+  </Style>
+
+  <Style x:Key="Fach48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="FolderOpen"/>
+  </Style>
+  
+  <Style x:Key="Termin16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Clock"/>
+  </Style>
+
+  <Style x:Key="Termin32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Clock"/>
+  </Style>
+
+  <Style x:Key="Termin48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Clock"/>
+  </Style>
+
+  <Style x:Key="Person16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="User"/>
+  </Style>
+
+  <Style x:Key="Person32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="User"/>
+  </Style>
+
+  <Style x:Key="Person48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="User"/>
+  </Style>
+
+  <Style x:Key="Stundenplan16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="CalendarAlt"/>
+  </Style>
+
+  <Style x:Key="Stundenplan32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="CalendarAlt"/>
+  </Style>
+
+  <Style x:Key="Stundenplan48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="CalendarAlt"/>
+  </Style>
+
+  <Style x:Key="Arbeit16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="FileEdit"/>
+  </Style>
+
+  <Style x:Key="Arbeit32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="FileEdit"/>
+  </Style>
+
+  <Style x:Key="Arbeit48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="FileEdit"/>
+  </Style>
+  
+  <Style x:Key="Spezial16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Sparkles"/>
+  </Style>
+
+  <Style x:Key="Spezial32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Sparkles"/>
+  </Style>
+
+  <Style x:Key="Spezial48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Sparkles"/>
+  </Style>
+
+  <Style x:Key="Undo16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Undo"/>
+  </Style>
+
+  <Style x:Key="Undo32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Undo"/>
+  </Style>
+
+  <Style x:Key="Undo48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Undo"/>
+  </Style>
+
+  <Style x:Key="Redo16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Redo"/>
+  </Style>
+
+  <Style x:Key="Redo32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Redo"/>
+  </Style>
+
+  <Style x:Key="Redo48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Redo"/>
+  </Style>
+  
+  <Style x:Key="Würfel16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="DiceFour"/>
+  </Style>
+
+  <Style x:Key="Würfel32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="DiceFour"/>
+  </Style>
+
+  <Style x:Key="Würfel48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="DiceFour"/>
+  </Style>
+  
+  <Style x:Key="Drucken16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Print"/>
+  </Style>
+
+  <Style x:Key="Drucken32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Print"/>
+  </Style>
+
+  <Style x:Key="Drucken48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Print"/>
+  </Style>
+
+  <Style x:Key="Stundenentwurf16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="FileInvoice"/>
+  </Style>
+
+  <Style x:Key="Stundenentwurf32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="FileInvoice"/>
+  </Style>
+
+  <Style x:Key="Stundenentwurf48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="FileInvoice"/>
+  </Style>
+  
+  <Style x:Key="Dateityp16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="File"/>
+  </Style>
+
+  <Style x:Key="Dateityp32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="File"/>
+  </Style>
+
+  <Style x:Key="Dateityp48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="File"/>
+  </Style>
+  
+  <Style x:Key="Edit16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Pen"/>
+  </Style>
+
+  <Style x:Key="Edit32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Pen"/>
+  </Style>
+
+  <Style x:Key="Edit48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Pen"/>
+  </Style>
+  
+  <Style x:Key="Hausaufgabe16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="HouseUser"/>
+  </Style>
+
+  <Style x:Key="Hausaufgabe32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="HouseUser"/>
+  </Style>
+
+  <Style x:Key="Hausaufgabe48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="HouseUser"/>
+  </Style>
+
+  <Style x:Key="Ansehen16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="WindowMaximize"/>
+  </Style>
+
+  <Style x:Key="Ansehen32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="WindowMaximize"/>
+  </Style>
+
+  <Style x:Key="Ansehen48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="WindowMaximize"/>
+  </Style>
+  
+ <Style x:Key="Datenbank16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Database"/>
+  </Style>
+
+  <Style x:Key="Datenbank32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Database"/>
+  </Style>
+
+  <Style x:Key="Datenbank48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Database"/>
+  </Style>
+  
+  <Style x:Key="Phase16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="List"/>
+  </Style>
+
+  <Style x:Key="Phase32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="List"/>
+  </Style>
+
+  <Style x:Key="Phase48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="List"/>
+  </Style>
+  
+  <Style x:Key="Datei16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="File"/>
+  </Style>
+
+  <Style x:Key="Datei32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="File"/>
+  </Style>
+
+  <Style x:Key="Datei48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="File"/>
+  </Style>
+  
+  <Style x:Key="Einstellungen16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Cogs"/>
+  </Style>
+
+  <Style x:Key="Einstellungen32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Cogs"/>
+  </Style>
+
+  <Style x:Key="Einstellungen48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Cogs"/>
+  </Style>
+  
+  <Style x:Key="Fehler16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Bug"/>
+  </Style>
+
+  <Style x:Key="Fehler32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Bug"/>
+  </Style>
+
+  <Style x:Key="Fehler48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Bug"/>
+  </Style>
+
+  <Style x:Key="Curriculum16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Books"/>
+  </Style>
+
+  <Style x:Key="Curriculum32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Books"/>
+  </Style>
+
+  <Style x:Key="Curriculum48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Books"/>
+  </Style>
+
+  <Style x:Key="Jahresplan16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="CalendarStar"/>
+  </Style>
+
+  <Style x:Key="Jahresplan32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="CalendarStar"/>
+  </Style>
+
+  <Style x:Key="Jahresplan48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="CalendarStar"/>
+  </Style>
+  
+  <Style x:Key="Jahrgangsstufe16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="TachometerSlow"/>
+  </Style>
+
+  <Style x:Key="Jahrgangsstufe32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="TachometerSlow"/>
+  </Style>
+
+  <Style x:Key="Jahrgangsstufe48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="TachometerSlow"/>
+  </Style>
+
+  <Style x:Key="Remove16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Times"/>
+  </Style>
+
+  <Style x:Key="Remove32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Times"/>
+  </Style>
+
+  <Style x:Key="Remove48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Times"/>
+  </Style>
+
+  <Style x:Key="Modul16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="BookOpen"/>
+  </Style>
+
+  <Style x:Key="Modul32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="BookOpen"/>
+  </Style>
+
+  <Style x:Key="Modul48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="BookOpen"/>
+  </Style>
+  
+  <Style x:Key="Tendenz16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="ThumbsUp"/>
+  </Style>
+
+  <Style x:Key="Tendenz32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="ThumbsUp"/>
+  </Style>
+
+  <Style x:Key="Tendenz48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="ThumbsUp"/>
+  </Style>
+  
+  <Style x:Key="Raum16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="House"/>
+  </Style>
+
+  <Style x:Key="Raum32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="House"/>
+  </Style>
+
+  <Style x:Key="Raum48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="House"/>
+  </Style>
+
+  <Style x:Key="Bewertungsschema16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="ScaleBalanced"/>
+  </Style>
+
+  <Style x:Key="Bewertungsschema32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="ScaleBalanced"/>
+  </Style>
+
+  <Style x:Key="Bewertungsschema48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="ScaleBalanced"/>
+  </Style>
+
+  <Style x:Key="Prozentbereich16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Percent"/>
+  </Style>
+
+  <Style x:Key="Prozentbereich32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Percent"/>
+  </Style>
+
+  <Style x:Key="Prozentbereich48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Percent"/>
+  </Style>
+
+  <Style x:Key="Notenwichtung16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="RulerHorizontal"/>
+  </Style>
+
+  <Style x:Key="Notenwichtung32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="RulerHorizontal"/>
+  </Style>
+
+  <Style x:Key="Notenwichtung48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="RulerHorizontal"/>
+  </Style>
+
+  <RotateTransform x:Key="DiagonalTransform" Angle="45"/>
+
+  <Style x:Key="Tendenztyp16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="ArrowUp"/>
+    <!--<Setter Property="LayoutTransform" Value="{StaticResource DiagonalTransform}"></Setter>-->
+  </Style>
+
+  <Style x:Key="Tendenztyp32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="ArrowUp"/>
+    <!--<Setter Property="LayoutTransform" Value="{StaticResource DiagonalTransform}"></Setter>-->
+  </Style>
+
+  <Style x:Key="Tendenztyp48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="ArrowUp"/>
+    <!--<Setter Property="LayoutTransform" Value="{StaticResource DiagonalTransform}"></Setter>-->
+  </Style>
+  
+  <Style x:Key="Aufgabe16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Tasks"/>
+  </Style>
+
+  <Style x:Key="Aufgabe32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Tasks"/>
+  </Style>
+
+  <Style x:Key="Aufgabe48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Tasks"/>
+  </Style>
+
+  <Style x:Key="Lerngruppe16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="ScreenUsers"/>
+  </Style>
+
+  <Style x:Key="Lerngruppe32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="ScreenUsers"/>
+  </Style>
+
+  <Style x:Key="Lerngruppe48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="ScreenUsers"/>
+  </Style>
+  
+  <Style x:Key="Ferien16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="IslandTropical"/>
+  </Style>
+
+  <Style x:Key="Ferien32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="IslandTropical"/>
+  </Style>
+
+  <Style x:Key="Ferien48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="IslandTropical"/>
+  </Style>
+
+  <Style x:Key="Sequenz16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Map"/>
+  </Style>
+
+  <Style x:Key="Sequenz32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Map"/>
+  </Style>
+
+  <Style x:Key="Sequenz48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Map"/>
+  </Style>
+
+  <Style x:Key="Plus7" TargetType="{x:Type fa:IconBlock}">
+    <Setter Property="Foreground" Value="{DynamicResource Iconfarbe}"/>
+    <Setter Property="FontSize" Value="7"/>
+    <Setter Property="Icon" Value="Plus"/>
+  </Style>
+
+  <Style x:Key="Plus12" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="FontSize" Value="12"/>
+    <Setter Property="Icon" Value="Plus"/>
+  </Style>
+
+  <Style x:Key="Plus16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Plus"/>
+  </Style>
+
+  <Style x:Key="Plus32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Plus"/>
+  </Style>
+
+  <Style x:Key="Plus48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Plus"/>
+  </Style>
+
+  <Style x:Key="Minus7" TargetType="{x:Type fa:IconBlock}">
+    <Setter Property="Foreground" Value="{DynamicResource Iconfarbe}"/>
+    <Setter Property="FontSize" Value="7"/>
+    <Setter Property="Icon" Value="Minus"/>
+  </Style>
+
+  <Style x:Key="Minus12" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="FontSize" Value="12"/>
+    <Setter Property="Icon" Value="Minus"/>
+  </Style>
+  
+  <Style x:Key="Minus16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Minus"/>
+  </Style>
+
+  <Style x:Key="Minus32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Minus"/>
+  </Style>
+
+  <Style x:Key="Minus48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Minus"/>
+  </Style>
+  
+  <Style x:Key="Schuljahr16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="CalendarStar"/>
+  </Style>
+
+  <Style x:Key="Schuljahr32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="CalendarStar"/>
+  </Style>
+
+  <Style x:Key="Schuljahr48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="CalendarStar"/>
+  </Style>
+  
+  <Style x:Key="Fachstunden16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Abacus"/>
+  </Style>
+
+  <Style x:Key="Fachstunden32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Abacus"/>
+  </Style>
+
+  <Style x:Key="Fachstunden48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Abacus"/>
+  </Style>
+  
+  <Style x:Key="Medien16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="PhotoVideo"/>
+  </Style>
+
+  <Style x:Key="Medien32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="PhotoVideo"/>
+  </Style>
+
+  <Style x:Key="Medien48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="PhotoVideo"/>
+  </Style>
+
+  <Style x:Key="Sozialformen16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="UserChart"/>
+  </Style>
+
+  <Style x:Key="Sozialformen32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="UserChart"/>
+  </Style>
+
+  <Style x:Key="Sozialformen48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="UserChart"/>
+  </Style> 
+  
+  <Style x:Key="Termintypen16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Chalkboard"/>
+  </Style>
+
+  <Style x:Key="Termintypen32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Chalkboard"/>
+  </Style>
+
+  <Style x:Key="Termintypen48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Chalkboard"/>
+  </Style>
+  
+ <Style x:Key="LineChart16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="ChartLine"/>
+  </Style>
+
+  <Style x:Key="LineChart32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="ChartLine"/>
+  </Style>
+
+  <Style x:Key="LineChart48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="ChartLine"/>
+  </Style>
+  
+  <Style x:Key="Halbjahr16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="CalendarRange"/>
+  </Style>
+
+  <Style x:Key="Halbjahr32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="CalendarRange"/>
+  </Style>
+
+  <Style x:Key="Halbjahr48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="CalendarRange"/>
+  </Style>
+  
+  <Style x:Key="Raumplan16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Compress"/>
+  </Style>
+
+  <Style x:Key="Raumplan32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Compress"/>
+  </Style>
+
+  <Style x:Key="Raumplan48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Compress"/>
+  </Style>
+
+  <Style x:Key="FolderOpen16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="FolderOpen"/>
+  </Style>
+
+  <Style x:Key="FolderOpen32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="FolderOpen"/>
+  </Style>
+
+  <Style x:Key="FolderOpen48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="FolderOpen"/>
+  </Style>
+  
+  <Style x:Key="Printer16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Print"/>
+  </Style>
+
+  <Style x:Key="Printer32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Print"/>
+  </Style>
+
+  <Style x:Key="Printer48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Print"/>
+  </Style>
+
+  <Style x:Key="Laptop16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Laptop"/>
+  </Style>
+
+  <Style x:Key="Laptop32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Laptop"/>
+  </Style>
+
+  <Style x:Key="Laptop48" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeHeader}">
+    <Setter Property="Icon" Value="Laptop"/>
+  </Style>
+
+  <Style x:Key="PfeilRechts32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="ArrowRightLong"/>
+  </Style>
+  <Style x:Key="PfeilRechtsUnten32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="ArrowDownRight"/>
+  </Style>
+  <Style x:Key="PfeilUnten32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="ArrowDownLong"/>
+  </Style>
+  <Style x:Key="PfeilOben32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="ArrowUpLong"/>
+  </Style>
+  <Style x:Key="PfeilRechtsOben32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="ArrowUpRight"/>
+  </Style>
+
+  <Style x:Key="Projektor32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Projector"/>
+  </Style>
+  <Style x:Key="Spiel32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="Dice"/>
+  </Style>
+  <Style x:Key="Arbeitsblatt32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="FileSignature"/>
+  </Style>
+  <Style x:Key="Klausur32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="FileExclamation"/>
+  </Style>
+  <Style x:Key="TäglicheÜbungen32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="FileSpreadsheet"/>
+  </Style>
+  <Style x:Key="Tandembogen32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="MemoPad"/>
+  </Style>
+  <Style x:Key="Projekt32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="DiagramProject"/>
+  </Style>
+  <Style x:Key="Präsentation32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="FilePowerpoint"/>
+  </Style>
+  <Style x:Key="Wochenplan32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="CalendarWeek"/>
+  </Style>
+  <Style x:Key="Unterrichtsentwurf32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="FileZipper"/>
+  </Style>
+  <Style x:Key="Unbekannt32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="File"/>
+  </Style>
+
+  <Style x:Key="Vertretung16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Bolt"/>
+  </Style>
+  <Style x:Key="Besprechung16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Users"/>
+  </Style>
+  <Style x:Key="Sondertermin16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeSmall}">
+    <Setter Property="Icon" Value="Trophy"/>
+  </Style>
+  
+</ResourceDictionary>

@@ -8,6 +8,7 @@
     /// <summary>
     /// The sequence number of the object
     /// </summary>
-    int AbfolgeIndex { get; set; }
+    int Reihenfolge { get; set; }
+    bool IstZuerst { get; set; }
   }
 }

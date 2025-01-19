@@ -2,14 +2,14 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
-        xmlns:local="clr-namespace:SoftTeach.ViewModel.Noten"
+        xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
         xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         Title="Noten eingeben ..." 
         Height="660" 
         Width="765"
         WindowState="Maximized">
   <Window.Resources>
-    <CollectionViewSource x:Key="SchülerViewSource" Source="{Binding Path=CurrentSchülerliste.Schülereinträge}">
+    <CollectionViewSource x:Key="SchülerViewSource" Source="{Binding Path=CurrentLerngruppe.Schülereinträge}">
       <CollectionViewSource.SortDescriptions>
         <componentModel:SortDescription PropertyName="SchülereintragSortByNachnameProperty" Direction="Ascending" />
       </CollectionViewSource.SortDescriptions>
@@ -28,44 +28,41 @@
       <RowDefinition/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <Border Name="SurroundBorder" Grid.Row="0" CornerRadius="2" BorderBrush="White" BorderThickness="1" Background="{StaticResource BannerBackgroundBrush}">
-      <Grid>
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="48"/>
-          <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Image VerticalAlignment="Center" Grid.Column="0" Name="icon" Width="32" Height="32" Margin="8" Source="/SoftTeach;component/Images/Logo64.png" />
-        <TextBlock VerticalAlignment="Center" Grid.Column="1" Text="{Binding Path=DialogTitle}" Foreground="White" FontSize="14" TextWrapping="Wrap" Margin="5"/>
-      </Grid>
-    </Border>
+    <controls:SmallDialogHeader Grid.Row="0" Title="{Binding Path=DialogTitle}">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Note48}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
     <ToolBarTray Grid.Row="1" IsLocked="True">
       <ToolBar>
-        <RadioButton Style="{StaticResource {x:Static ToolBar.RadioButtonStyleKey}}" Click="ZwischenstandClick" ToolTip="Zwischenstand anlegen" 
-                     IsChecked="{Binding Path=NotenTermintyp, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:NotenTermintyp.Zwischenstand}}">
+        <RadioButton Style="{StaticResource {x:Static ToolBar.RadioButtonStyleKey}}" Click="ZwischenstandClick" ToolTip="Zwischenstand anlegen" >
+          <!--IsChecked="{Binding Path=NotenTermintyp, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:NotenTermintyp.Zwischenstand}}">-->
           <StackPanel Orientation="Horizontal">
             <Grid>
-              <Image Source="/SoftTeach;component/Images/Note32.png" />
-              <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
+              <fa:IconBlock Style="{StaticResource Note32}"/>
+              <fa:IconBlock Style="{StaticResource AddOverlay32}"/>
             </Grid>
             <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Zwischenstand anlegen</Label>
           </StackPanel>
         </RadioButton>
-        <RadioButton Style="{StaticResource {x:Static ToolBar.RadioButtonStyleKey}}" Click="HalbjahrClick"  ToolTip="Halbjahreszeugnis anlegen" 
-                     IsChecked="{Binding Path=NotenTermintyp, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:NotenTermintyp.Halbjahr}}">
+        <RadioButton Style="{StaticResource {x:Static ToolBar.RadioButtonStyleKey}}" Click="HalbjahrClick"  ToolTip="Halbjahreszeugnis anlegen" >
+          <!--IsChecked="{Binding Path=NotenTermintyp, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:NotenTermintyp.Halbjahr}}">-->
           <StackPanel Orientation="Horizontal">
             <Grid>
-              <Image Source="/SoftTeach;component/Images/Halbjahre32.png" />
-              <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
+              <fa:IconBlock Style="{StaticResource Halbjahr32}"/>
+              <fa:IconBlock Style="{StaticResource AddOverlay32}"/>
             </Grid>
             <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Halbjahreszeugnis anlegen</Label>
           </StackPanel>
         </RadioButton>
-        <RadioButton Style="{StaticResource {x:Static ToolBar.RadioButtonStyleKey}}" Click="GanzjahrClick" ToolTip="Jahreszeugnis anlegen"
-                     IsChecked="{Binding Path=NotenTermintyp, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:NotenTermintyp.Ganzjahr}}">
+        <RadioButton Style="{StaticResource {x:Static ToolBar.RadioButtonStyleKey}}" Click="GanzjahrClick" ToolTip="Jahreszeugnis anlegen">
+          <!--IsChecked="{Binding Path=NotenTermintyp, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:NotenTermintyp.Ganzjahr}}">-->
           <StackPanel Orientation="Horizontal">
             <Grid>
-              <Image Source="/SoftTeach;component/Images/Schuljahr32.png" />
-              <Image Source="/SoftTeach;component/Images/AddOverlay32.png"/>
+              <fa:IconBlock Style="{StaticResource Schuljahr32}"/>
+              <fa:IconBlock Style="{StaticResource AddOverlay32}"/>
             </Grid>
             <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Jahreszeugnis anlegen</Label>
           </StackPanel>
@@ -74,8 +71,8 @@
         <RadioButton Style="{StaticResource {x:Static ToolBar.RadioButtonStyleKey}}" Click="ModifyClick" ToolTip="Notenlisten ändern">
           <StackPanel Orientation="Horizontal">
             <Grid>
-              <Image Source="/SoftTeach;component/Images/Note32.png" />
-              <Image Source="/SoftTeach;component/Images/EditOverlay32.png"/>
+              <fa:IconBlock Style="{StaticResource Note32}"/>
+              <fa:IconBlock Style="{StaticResource EditOverlay32}"/>
             </Grid>
             <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Notenlisten ändern</Label>
           </StackPanel>
@@ -84,8 +81,8 @@
         <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=PrintNotenlisteCommand}" ToolTip="Notenliste drucken.">
           <StackPanel Orientation="Horizontal">
             <Grid>
-              <Image Source="/SoftTeach;component/Images/Note32.png"/>
-              <Image Source="/SoftTeach;component/Images/PrintOverlay32.png"/>
+              <fa:IconBlock Style="{StaticResource Note32}"/>
+              <fa:IconBlock Style="{StaticResource PrintOverlay32}"/>
             </Grid>
             <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Notenliste drucken</Label>
           </StackPanel>
@@ -93,7 +90,7 @@
 
       </ToolBar>
     </ToolBarTray>
-    <Grid Grid.Row="2" Background="{StaticResource DefaultOfficeBackgroundBrush}">
+    <Grid Grid.Row="2">
       <Grid Margin="10">
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto"/>
@@ -149,7 +146,7 @@
     </Grid>
     <Grid Background="{StaticResource DefaultButtonsBackgroundBrush}" Grid.Row="3">
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-        <Button Name="NeuButton" Width="100" HorizontalAlignment="Right" Click="NeuClick" TabIndex="2">Neu anlegen</Button>
+        <Button Name="Button" Width="100" HorizontalAlignment="Right" Click="Click" TabIndex="2"> anlegen</Button>
         <Button Name="ÄndernButton" Width="100" Margin="5,0,0,0" HorizontalAlignment="Right" Click="ÄndernClick" TabIndex="2" Visibility="Collapsed">Ändern</Button>
         <Button Width="100" Margin="5,0,0,0" HorizontalAlignment="Right" IsCancel="True" Click="CancelClick" TabIndex="3">Abbruch</Button>
       </StackPanel>

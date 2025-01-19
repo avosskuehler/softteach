@@ -1,10 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="TerminUpdateType.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
-
-namespace SoftTeach.ViewModel.Termine
+﻿namespace SoftTeach.ViewModel.Termine
 {
   /// <summary>
   /// This enumeration list the possibilities for termin updates

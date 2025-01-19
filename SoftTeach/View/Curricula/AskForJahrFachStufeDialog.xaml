@@ -3,34 +3,38 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:SoftTeach="clr-namespace:SoftTeach"
         xmlns:controls="clr-namespace:SoftTeach.Resources.Controls" Title="Frage ..." 
-        Height="344" 
+         xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
+      Height="344" 
         Width="360" 
         ResizeMode="NoResize" 
-        WindowStyle="SingleBorderWindow"
-        Icon="/SoftTeach;component/Images/Curriculum32.png">
+        WindowStyle="SingleBorderWindow">
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
       <RowDefinition/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader Grid.Row="0" Title="Für welches Fach und welche Altersgruppe soll das Curriculum erstellt werden?"
-                                      Icon="/SoftTeach;component/Images/Curriculum32.png"/>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Für welches Fach und welche Altersgruppe soll das Curriculum erstellt werden?">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Curriculum48}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
 
     <Grid Grid.Row="1" Background="{x:Static SystemColors.MenuBarBrush}">
       <StackPanel Margin="10">
         <TextBlock TextWrapping="Wrap">Für welches Schuljahr soll das Curriculum erstellt werden?</TextBlock>
         <StackPanel Orientation="Horizontal">
           <ComboBox Margin="3" TabIndex="1"
-                ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Halbjahrtypen}" 
-                SelectedItem="{Binding Path=Halbjahrtyp}"
-                DisplayMemberPath="HalbjahrtypBezeichnung"
+                ItemsSource="{Binding Source={StaticResource Halbjahre}}" 
+                SelectedItem="{Binding Path=Halbjahr}"
                 Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" Width="100"
                   HorizontalAlignment="Left"/>
           <ComboBox Margin="3" TabIndex="1"
-                ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Jahrtypen}" 
-                SelectedItem="{Binding Path=Jahrtyp}"
-                DisplayMemberPath="JahrtypBezeichnung"
+                ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Schuljahre}" 
+                SelectedItem="{Binding Path=Schuljahr}"
+                DisplayMemberPath="SchuljahrBezeichnung"
                 Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" Width="125"
                   HorizontalAlignment="Left"/>
 
@@ -44,9 +48,8 @@
                   HorizontalAlignment="Left"/>
         <TextBlock TextWrapping="Wrap">Geben Sie hier die Klassenstufe an.</TextBlock>
         <ComboBox Margin="3" TabIndex="1"
-                ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Klassenstufen}" 
-                SelectedItem="{Binding Path=Klassenstufe}"
-                DisplayMemberPath="KlassenstufeBezeichnung"
+                ItemsSource="{Binding Source={x:Static SoftTeach:App.MainViewModel}, Path=Jahrgänge}" 
+                SelectedItem="{Binding Path=Jahrgang}"
                 Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" Width="230"
                   HorizontalAlignment="Left"/>
         <TextBlock TextWrapping="Wrap">Geben Sie bitte auch eine hilfreiche Bezeichnung für das Curriculum an, z.B. Genetischer Lehrgang.</TextBlock>

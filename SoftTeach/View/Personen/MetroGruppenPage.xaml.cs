@@ -13,7 +13,7 @@
     public MetroGruppenPage()
     {
       this.InitializeComponent();
-      Selection.Instance.Schülerliste.GruppenNeuEinteilenCommand.Execute(null);
+      Selection.Instance.Lerngruppe.GruppenEinteilenCommand.Execute(null);
     }
   }
 }

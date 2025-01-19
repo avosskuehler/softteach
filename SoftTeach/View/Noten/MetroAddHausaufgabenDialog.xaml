@@ -6,16 +6,16 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:setting="clr-namespace:SoftTeach.Setting"
+  xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/shared"
   xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
   mc:Ignorable="d"
   d:DesignWidth="991.045" d:DesignHeight="479.114"
-  DataContext="{Binding Source={x:Static setting:Selection.Instance}, Path=Schülerliste}">
+  DataContext="{Binding Source={x:Static setting:Selection.Instance}, Path=Lerngruppe}">
   <dialogs:BaseMetroDialog.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/SoftTeach;component/Resources/MetroResources.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/Dialogs/BaseMetroDialog.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatSlider.xaml" />
         <ResourceDictionary >
           <CollectionViewSource x:Key="SortierteKlassenlisteViewSource" Source="{Binding Path=Schülereinträge}">
             <CollectionViewSource.SortDescriptions>
@@ -60,16 +60,16 @@
             </Style>
           </ListBox.ItemContainerStyle>-->
         </ListBox>
-        <!--<DataGrid Grid.Row="1" ItemsSource="{Binding Path=CurrentSchülerliste.Schülereinträge}" AutoGenerateColumns="False" >
+        <!--<DataGrid Grid.Row="1" ItemsSource="{Binding Path=CurrentLerngruppe.Schülereinträge}" AutoGenerateColumns="False" >
           <DataGrid.Columns>
-            <DataGridTextColumn Header="Klasse" Binding="{Binding Path=Model.Schülerliste.Klasse.Bezeichnung}" SortMemberPath="Bezeichnung"/>
+            <DataGridTextColumn Header="Klasse" Binding="{Binding Path=Model.Lerngruppe.Klasse.Bezeichnung}" SortMemberPath="Bezeichnung"/>
             <DataGridTextColumn Header="Vorname" Binding="{Binding Path=SchülereintragPerson.PersonVorname}" SortMemberPath="PersonVorname"/>
             <DataGridTextColumn Header="Nachname" Binding="{Binding Path=SchülereintragPerson.PersonNachname}" SortMemberPath="PersonNachname"/>
             <DataGridCheckBoxColumn Header="HA nicht gemacht"/>
           </DataGrid.Columns>
         </DataGrid>-->
       </Grid>
-      <Button Width="100" FontSize="20" Margin="10" Content="Fertig" Style="{DynamicResource AccentedSquareButtonStyle}" Click="FertigButtonOnClick"/>
+      <Button Width="100" FontSize="20" Margin="10" Content="Fertig" Style="{DynamicResource MahApps.Styles.Button.AccentedSquare}" Click="FertigButtonOnClick"/>
     </StackPanel>
   </Grid>
 </dialogs:BaseMetroDialog>

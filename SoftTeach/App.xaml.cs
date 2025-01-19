@@ -18,14 +18,13 @@
 namespace SoftTeach
 {
   using System;
+  using System.Collections.Generic;
   using System.Diagnostics;
   using System.Globalization;
   using System.IO;
-  using System.Linq;
   using System.Printing;
   using System.Windows;
   using System.Windows.Controls;
-  using System.Windows.Forms;
   using System.Windows.Input;
   using System.Windows.Markup;
   using System.Windows.Media;
@@ -39,7 +38,9 @@ namespace SoftTeach
   using SoftTeach.ExceptionHandling;
   using SoftTeach.Model;
   using SoftTeach.Properties;
+  using SoftTeach.Resources.FontAwesome;
   using SoftTeach.Setting;
+  using SoftTeach.UndoRedo;
   using SoftTeach.View.Main;
   using SoftTeach.ViewModel;
   using SoftTeach.ViewModel.Helper;
@@ -63,36 +64,6 @@ namespace SoftTeach
     public static UnitOfWork UnitOfWork { get; private set; }
 
     /// <summary>
-    /// Gets the noten erinnerungs icon.
-    /// </summary>
-    /// <value>The noten erinnerungs icon.</value>
-    public static TaskbarIcon NotenErinnerungsIcon { get; private set; }
-
-    /// <summary>
-    /// Holt den Befehl, der aufgerufen werden soll, wenn das TrayIcon angeklickt wird.
-    /// </summary>
-    public DelegateCommand TrayIconClickedCommand { get; private set; }
-
-    /// <summary>
-    /// This static mehtod returns an <see cref="Image"/>
-    /// for the given filename string, if the image is in the Images
-    /// subfolder of the solution.
-    /// </summary>
-    /// <param name="imageName">A <see cref="String"/> with the images file name</param>
-    /// <returns>The <see cref="Image"/> that can be used as a source for
-    /// an icon property.</returns>
-    public static Image GetImage(string imageName)
-    {
-      var terminMenuentryIcon = new Image();
-      var terminMenuentryIconImage = new BitmapImage();
-      terminMenuentryIconImage.BeginInit();
-      terminMenuentryIconImage.UriSource = new Uri("pack://application:,,,/Images/" + imageName);
-      terminMenuentryIconImage.EndInit();
-      terminMenuentryIcon.Source = terminMenuentryIconImage;
-      return terminMenuentryIcon;
-    }
-
-    /// <summary>
     /// Setzt den Cursor für die gesamte Anwendung.
     /// </summary>
     /// <param name="cursor"> The cursor to be set, null if reset to default.</param>
@@ -106,13 +77,21 @@ namespace SoftTeach
         });
     }
 
-    public static ImageSource GetImageSource(string imageName)
+    public static Style GetIconStyle(string imageName)
     {
-      var terminMenuentryIconImage = new BitmapImage();
-      terminMenuentryIconImage.BeginInit();
-      terminMenuentryIconImage.UriSource = new Uri("pack://application:,,,/Images/" + imageName);
-      terminMenuentryIconImage.EndInit();
-      return terminMenuentryIconImage;
+      return App.Current.FindResource(imageName) as Style;
+    }
+
+    public static IconBlock GetIcon(string imageName)
+    {
+      var icon = new IconBlock
+      {
+        VerticalAlignment = VerticalAlignment.Center
+      };
+
+      icon.Style = App.Current.FindResource(imageName) as Style;
+
+      return icon;
     }
 
     /// <summary>
@@ -129,9 +108,13 @@ namespace SoftTeach
           "Datei nicht gefunden", "Die zu öffnende Datei " + fullPath + " wurde nicht gefunden.", false);
         return;
       }
-
-      var openProcess = new Process { StartInfo = { FileName = fullPath } };
-      openProcess.Start();
+      
+      ProcessStartInfo psi = new ProcessStartInfo
+      {
+        FileName = fullPath,
+        UseShellExecute = true
+      };
+      Process.Start(psi);
     }
 
     /// <summary>
@@ -149,14 +132,14 @@ namespace SoftTeach
       }
 
       var printProcess = new Process
-        {
-          StartInfo =
+      {
+        StartInfo =
             {
               FileName = fullPath,
               UseShellExecute = true,
               Verb = "print"
             }
-        };
+      };
 
       printProcess.Start();
     }
@@ -208,32 +191,22 @@ namespace SoftTeach
     protected override void OnStartup(StartupEventArgs e)
     {
       base.OnStartup(e);
-      this.TrayIconClickedCommand = new DelegateCommand(this.TrayIconClicked);
-
-      NotenErinnerungsIcon = (TaskbarIcon)FindResource("NotenNotifyIcon");
-      if (NotenErinnerungsIcon != null)
-      {
-        NotenErinnerungsIcon.LeftClickCommand = this.TrayIconClickedCommand;
-      }
 
       UnitOfWork = new UnitOfWork();
       MainViewModel = new MainViewModel();
       MainViewModel.Populate();
-      //var window = new MainRibbonView { DataContext = MainViewModel };
-      //window.Show();
-
 
       var navWin = new MetroNavigationWindow();
       navWin.Closing += navWin_Closing;
       navWin.Title = "SoftTeach";
       navWin.ShowTitleBar = false;
       navWin.WindowState = WindowState.Maximized;
-      navWin.Icon = GetImageSource("Logo64.png");
       navWin.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/SoftTeach;component/Resources/MetroResources.xaml", UriKind.Absolute) });
       //uncomment the next two lines if you want the clean style.
       //navWin.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/MahApps.Metro;component/Styles/Clean/CleanWindow.xaml", UriKind.Absolute) });
       //navWin.SetResourceReference(FrameworkElement.StyleProperty, "CleanWindowStyleKey");
       // Sprache der UI auf Current Culture setzen
+      
 
       FrameworkElement.LanguageProperty.OverrideMetadata(
         typeof(FrameworkElement),
@@ -245,13 +218,6 @@ namespace SoftTeach
       navWin.Navigate(new LandingPage());
     }
 
-    /// <summary>
-    /// Hier wird der Dialog zur Noteneingabe aufgerufen
-    /// </summary>
-    private void TrayIconClicked()
-    {
-      MainViewModel.StartNoteneingabe();
-    }
 
     /// <summary>
     /// Handles the Closing event of the navWin control.
@@ -263,11 +229,11 @@ namespace SoftTeach
       Selection.Instance.UpdateUserSettings();
       Settings.Default.Save();
 
-      //// Check if there is nothing to change
-      //if (((Stack<ChangeSet>)App.MainViewModel.UndoStack).Count == 0)
-      //{
-      //  return;
-      //}
+      // Check if there is nothing to change
+      if (((Stack<ChangeSet>)MainViewModel.UndoStack).Count == 0)
+      {
+        return;
+      }
 
       var dlg = new AskForSavingChangesDialog();
       dlg.ShowDialog();
@@ -279,17 +245,6 @@ namespace SoftTeach
       {
         App.UnitOfWork.SaveChanges();
       }
-    }
-
-    /// <summary>
-    /// Cleans up any resources on exit
-    /// </summary>
-    /// <param name="e">Arguments of the exit event</param>
-    protected override void OnExit(ExitEventArgs e)
-    {
-      UnitOfWork.Dispose();
-      NotenErinnerungsIcon.Dispose();
-      base.OnExit(e);
     }
 
     /// <summary>

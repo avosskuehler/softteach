@@ -175,11 +175,11 @@
           break;
         case NotifyCollectionChangedAction.Reset:
           break;
-          //if (this.ThrowExceptionOnCollectionResets) var ok=true;
-          //  // throw new NotSupportedException("Undoing collection resets is not supported via the CollectionChanged event. The collection is already null, so the Undo system has no way to capture the set
-          //  // of elements that were previously in the collection.");
-          //else
-          //  break;
+        //if (this.ThrowExceptionOnCollectionResets) var ok=true;
+        //  // throw new NotSupportedException("Undoing collection resets is not supported via the CollectionChanged event. The collection is already null, so the Undo system has no way to capture the set
+        //  // of elements that were previously in the collection.");
+        //else
+        //  break;
 
         //IList collectionClone = collection.GetType().GetConstructor(new Type[] { collection.GetType() }).Invoke(new object[] { collection }) as IList;
 

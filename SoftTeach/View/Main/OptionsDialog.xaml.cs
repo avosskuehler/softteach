@@ -26,7 +26,7 @@
     private void SaveButtonClick(object sender, RoutedEventArgs e)
     {
       this.DialogResult = true;
-      Configuration.Instance.Serialize();
+      Configuration.Serialize();
       this.Close();
     }
 

@@ -1,9 +1,7 @@
 ﻿namespace SoftTeach.ViewModel.Datenbank
 {
   using System;
-
-  using SoftTeach.Model;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
@@ -19,12 +17,7 @@
     /// </param>
     public UnterrichtsstundeViewModel(Unterrichtsstunde unterrichtsstunde)
     {
-      if (unterrichtsstunde == null)
-      {
-        throw new ArgumentNullException("unterrichtsstunde");
-      }
-
-      this.Model = unterrichtsstunde;
+      this.Model = unterrichtsstunde ?? throw new ArgumentNullException(nameof(unterrichtsstunde));
     }
 
     /// <summary>
@@ -45,7 +38,7 @@
       set
       {
         if (value == this.Model.Bezeichnung) return;
-        this.UndoablePropertyChanging(this, "UnterrichtsstundeBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(UnterrichtsstundeBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("UnterrichtsstundeBezeichnung");
       }
@@ -64,7 +57,7 @@
       set
       {
         if (value == this.Model.Beginn) return;
-        this.UndoablePropertyChanging(this, "UnterrichtsstundeBeginn", this.Model.Beginn, value);
+        this.UndoablePropertyChanging(this, nameof(UnterrichtsstundeBeginn), this.Model.Beginn, value);
         this.Model.Beginn = value;
         this.RaisePropertyChanged("UnterrichtsstundeBeginn");
       }
@@ -83,7 +76,7 @@
       set
       {
         if (value == this.Model.Ende) return;
-        this.UndoablePropertyChanging(this, "UnterrichtsstundeEnde", this.Model.Ende, value);
+        this.UndoablePropertyChanging(this, nameof(UnterrichtsstundeEnde), this.Model.Ende, value);
         this.Model.Ende = value;
         this.RaisePropertyChanged("UnterrichtsstundeEnde");
       }
@@ -102,7 +95,7 @@
       set
       {
         if (value == this.Model.Stundenindex) return;
-        this.UndoablePropertyChanging(this, "UnterrichtsstundeIndex", this.Model.Stundenindex, value);
+        this.UndoablePropertyChanging(this, nameof(UnterrichtsstundeIndex), this.Model.Stundenindex, value);
         this.Model.Stundenindex = value;
         this.RaisePropertyChanged("UnterrichtsstundeIndex");
       }

@@ -1,6 +1,7 @@
 ﻿<Window x:Class="SoftTeach.View.Noten.AddNoteDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
         xmlns:resources="clr-namespace:SoftTeach.Resources" xmlns:softTeach="clr-namespace:SoftTeach"
         xmlns:noten="clr-namespace:SoftTeach.ViewModel.Noten" xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
@@ -17,8 +18,13 @@
       <RowDefinition/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader Grid.Row="0" Title="Bitte geben Sie einen Note ein."
-                                      Icon="/SoftTeach;component/Images/Note32.png"/>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Bitte geben Sie einen Note ein.">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Note32}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
     <Grid Grid.Row="1" Background="{x:Static SystemColors.MenuBarBrush}">
       <StackPanel Margin="10">
         <UniformGrid Columns="2">

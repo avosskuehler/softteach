@@ -1,9 +1,9 @@
 ﻿namespace SoftTeach.ViewModel.Stundenpläne
 {
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
 
   /// <summary>
-  /// TODO: Update summary.
+  /// Klasse um Stundenplanänderungen zu speichern
   /// </summary>
   public class StundenplanÄnderung
   {

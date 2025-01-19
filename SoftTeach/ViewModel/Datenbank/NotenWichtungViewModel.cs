@@ -1,9 +1,7 @@
 ﻿namespace SoftTeach.ViewModel.Datenbank
 {
   using System;
-
-  using SoftTeach.Model;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
@@ -19,12 +17,7 @@
     /// </param>
     public NotenWichtungViewModel(NotenWichtung notenWichtung)
     {
-      if (notenWichtung == null)
-      {
-        throw new ArgumentNullException("notenWichtung");
-      }
-
-      this.Model = notenWichtung;
+      this.Model = notenWichtung ?? throw new ArgumentNullException(nameof(notenWichtung));
     }
 
     /// <summary>
@@ -45,7 +38,7 @@
       set
       {
         if (value == this.Model.Bezeichnung) return;
-        this.UndoablePropertyChanging(this, "NotenWichtungBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(NotenWichtungBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("NotenWichtungBezeichnung");
       }
@@ -64,7 +57,7 @@
       set
       {
         if (value == this.Model.MündlichGesamt) return;
-        this.UndoablePropertyChanging(this, "NotenWichtungMündlichGesamt", this.Model.MündlichGesamt, value);
+        this.UndoablePropertyChanging(this, nameof(NotenWichtungMündlichGesamt), this.Model.MündlichGesamt, value);
         this.Model.MündlichGesamt = value;
         this.RaisePropertyChanged("NotenWichtungMündlichGesamt");
       }
@@ -84,7 +77,7 @@
       set
       {
         if (value == this.Model.MündlichQualität) return;
-        this.UndoablePropertyChanging(this, "NotenWichtungMündlichQualität", this.Model.MündlichQualität, value);
+        this.UndoablePropertyChanging(this, nameof(NotenWichtungMündlichQualität), this.Model.MündlichQualität, value);
         this.Model.MündlichQualität = value;
         this.RaisePropertyChanged("NotenWichtungMündlichQualität");
       }
@@ -103,7 +96,7 @@
       set
       {
         if (value == this.Model.MündlichQuantität) return;
-        this.UndoablePropertyChanging(this, "NotenWichtungMündlichQuantität", this.Model.MündlichQuantität, value);
+        this.UndoablePropertyChanging(this, nameof(NotenWichtungMündlichQuantität), this.Model.MündlichQuantität, value);
         this.Model.MündlichQuantität = value;
         this.RaisePropertyChanged("NotenWichtungMündlichQuantität");
       }
@@ -122,7 +115,7 @@
       set
       {
         if (value == this.Model.MündlichSonstige) return;
-        this.UndoablePropertyChanging(this, "NotenWichtungMündlichSonstige", this.Model.MündlichSonstige, value);
+        this.UndoablePropertyChanging(this, nameof(NotenWichtungMündlichSonstige), this.Model.MündlichSonstige, value);
         this.Model.MündlichSonstige = value;
         this.RaisePropertyChanged("NotenWichtungMündlichSonstige");
       }
@@ -141,7 +134,7 @@
       set
       {
         if (value == this.Model.SchriftlichGesamt) return;
-        this.UndoablePropertyChanging(this, "NotenWichtungSchriftlichGesamt", this.Model.SchriftlichGesamt, value);
+        this.UndoablePropertyChanging(this, nameof(NotenWichtungSchriftlichGesamt), this.Model.SchriftlichGesamt, value);
         this.Model.SchriftlichGesamt = value;
         this.RaisePropertyChanged("NotenWichtungSchriftlichGesamt");
       }
@@ -160,7 +153,7 @@
       set
       {
         if (value == this.Model.SchriftlichKlassenarbeit) return;
-        this.UndoablePropertyChanging(this, "NotenWichtungSchriftlichKlassenarbeit", this.Model.SchriftlichKlassenarbeit, value);
+        this.UndoablePropertyChanging(this, nameof(NotenWichtungSchriftlichKlassenarbeit), this.Model.SchriftlichKlassenarbeit, value);
         this.Model.SchriftlichKlassenarbeit = value;
         this.RaisePropertyChanged("NotenWichtungSchriftlichKlassenarbeit");
       }
@@ -179,7 +172,7 @@
       set
       {
         if (value == this.Model.SchriftlichSonstige) return;
-        this.UndoablePropertyChanging(this, "NotenWichtungSchriftlichSonstige", this.Model.SchriftlichSonstige, value);
+        this.UndoablePropertyChanging(this, nameof(NotenWichtungSchriftlichSonstige), this.Model.SchriftlichSonstige, value);
         this.Model.SchriftlichSonstige = value;
         this.RaisePropertyChanged("NotenWichtungSchriftlichSonstige");
       }

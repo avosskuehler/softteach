@@ -1,0 +1,37 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib"
+                    xmlns:Data="clr-namespace:SoftTeach.Model.TeachyModel">
+  <ObjectDataProvider x:Key="Bepunktungstypen" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+    <ObjectDataProvider.MethodParameters>
+      <x:Type TypeName="Data:Bepunktungstyp"/>
+    </ObjectDataProvider.MethodParameters>
+  </ObjectDataProvider>
+  <ObjectDataProvider x:Key="Medien" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+    <ObjectDataProvider.MethodParameters>
+      <x:Type TypeName="Data:Medium"/>
+    </ObjectDataProvider.MethodParameters>
+  </ObjectDataProvider>
+  <ObjectDataProvider x:Key="Sozialformen" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+    <ObjectDataProvider.MethodParameters>
+      <x:Type TypeName="Data:Sozialform"/>
+    </ObjectDataProvider.MethodParameters>
+  </ObjectDataProvider>
+  <ObjectDataProvider x:Key="Halbjahre" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+    <ObjectDataProvider.MethodParameters>
+      <x:Type TypeName="Data:Halbjahr"/>
+    </ObjectDataProvider.MethodParameters>
+  </ObjectDataProvider>
+  <ObjectDataProvider x:Key="Termintypen" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+    <ObjectDataProvider.MethodParameters>
+      <x:Type TypeName="Data:Termintyp"/>
+    </ObjectDataProvider.MethodParameters>
+  </ObjectDataProvider>
+  <ObjectDataProvider x:Key="Geschlecht" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+    <ObjectDataProvider.MethodParameters>
+      <x:Type TypeName="Data:Geschlecht"/>
+    </ObjectDataProvider.MethodParameters>
+  </ObjectDataProvider>
+
+
+</ResourceDictionary>

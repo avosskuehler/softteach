@@ -9,8 +9,6 @@
 
 namespace SoftTeach.View.Noten
 {
-  using System.Windows.Controls;
-
   /// <summary>
   /// Interaction logic for NotenlisteDetailPrintView.xaml
   /// </summary>

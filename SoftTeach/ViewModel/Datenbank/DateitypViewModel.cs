@@ -1,9 +1,7 @@
 ﻿namespace SoftTeach.ViewModel.Datenbank
 {
   using System;
-
-  using SoftTeach.Model;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
@@ -19,12 +17,7 @@
     /// </param>
     public DateitypViewModel(Dateityp dateityp)
     {
-      if (dateityp == null)
-      {
-        throw new ArgumentNullException("dateityp");
-      }
-
-      this.Model = dateityp;
+      this.Model = dateityp ?? throw new ArgumentNullException(nameof(dateityp));
     }
 
     /// <summary>
@@ -49,7 +42,7 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "DateitypBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(DateitypBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("DateitypBezeichnung");
       }
@@ -72,7 +65,7 @@
           return;
         }
 
-        this.UndoablePropertyChanging(this, "DateitypKürzel", this.Model.Kürzel, value);
+        this.UndoablePropertyChanging(this, nameof(DateitypKürzel), this.Model.Kürzel, value);
         this.Model.Kürzel = value;
         this.RaisePropertyChanged("DateitypKürzel");
       }

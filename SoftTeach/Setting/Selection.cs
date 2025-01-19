@@ -22,10 +22,9 @@ namespace SoftTeach.Setting
   using System.Linq;
 
   using Properties;
-
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Sitzpläne;
   using SoftTeach.ViewModel.Termine;
-
   using ViewModel.Datenbank;
   using ViewModel.Noten;
   using ViewModel.Personen;
@@ -40,13 +39,12 @@ namespace SoftTeach.Setting
     private RaumViewModel raum;
     private RaumplanViewModel raumplan;
     private FachViewModel fach;
-    private HalbjahrtypViewModel halbjahr;
-    private SchülerlisteViewModel schülerliste;
-    private JahrtypViewModel jahrtyp;
-    private KlasseViewModel klasse;
+    private Halbjahr halbjahr;
+    private int jahrgang;
+    private LerngruppeViewModel lerngruppe;
+    private SchuljahrViewModel schuljahr;
     private ModulViewModel modul;
     private StundeViewModel stunde;
-    private StundenentwurfViewModel stundenentwurf;
     private SchülereintragViewModel schülereintrag;
     private ArbeitViewModel arbeit;
     private BewertungsschemaViewModel bewertungsschema;
@@ -101,14 +99,14 @@ namespace SoftTeach.Setting
       set
       {
         this.fach = value;
-        this.OnPropertyChanged("Fach");
+        this.OnPropertyChanged(nameof(Fach));
       }
     }
 
     /// <summary>
     /// Holt oder setzt das Halbjahr.
     /// </summary>
-    public HalbjahrtypViewModel Halbjahr
+    public Halbjahr Halbjahr
     {
       get
       {
@@ -118,41 +116,30 @@ namespace SoftTeach.Setting
       set
       {
         this.halbjahr = value;
-        this.OnPropertyChanged("Halbjahr");
-      }
-    }
-
-    /// <summary>
-    /// Holt oder setzt die Klasse.
-    /// </summary>
-    public KlasseViewModel Klasse
-    {
-      get
-      {
-        return this.klasse;
-      }
-
-      set
-      {
-        this.klasse = value;
-        this.OnPropertyChanged("Klasse");
+        this.OnPropertyChanged(nameof(Halbjahr));
       }
     }
 
     /// <summary>
     /// Holt oder setzt das Schuljahr.
     /// </summary>
-    public JahrtypViewModel Jahrtyp
+    public SchuljahrViewModel Schuljahr
     {
       get
       {
-        return this.jahrtyp;
+        if (this.schuljahr == null)
+        {
+          this.schuljahr = App.MainViewModel.Schuljahre.FirstOrDefault(o => o.SchuljahrBezeichnung == "2021/2022");
+        }
+
+        return this.schuljahr;
       }
 
       set
       {
-        this.jahrtyp = value;
-        this.OnPropertyChanged("Schuljahr");
+        if (this.schuljahr == value) return;
+        this.schuljahr = value;
+        this.OnPropertyChanged(nameof(Schuljahr));
       }
     }
 
@@ -169,7 +156,7 @@ namespace SoftTeach.Setting
       set
       {
         this.modul = value;
-        this.OnPropertyChanged("Modul");
+        this.OnPropertyChanged(nameof(Modul));
       }
     }
 
@@ -186,41 +173,41 @@ namespace SoftTeach.Setting
       set
       {
         this.stunde = value;
-        this.OnPropertyChanged("Stunde");
+        this.OnPropertyChanged(nameof(Stunde));
       }
     }
 
     /// <summary>
-    /// Holt oder setzt den Stundenentwurf.
+    /// Holt oder setzt den Jahrgang
     /// </summary>
-    public StundenentwurfViewModel Stundenentwurf
+    public int Jahrgang
     {
       get
       {
-        return this.stundenentwurf;
+        return this.jahrgang;
       }
 
       set
       {
-        this.stundenentwurf = value;
-        this.OnPropertyChanged("Stundenentwurf");
+        this.jahrgang = value;
+        this.OnPropertyChanged(nameof(Jahrgang));
       }
     }
 
     /// <summary>
-    /// Holt oder setzt die Schülerliste.
+    /// Holt oder setzt die Lerngruppe.
     /// </summary>
-    public SchülerlisteViewModel Schülerliste
+    public LerngruppeViewModel Lerngruppe
     {
       get
       {
-        return this.schülerliste;
+        return this.lerngruppe;
       }
 
       set
       {
-        this.schülerliste = value;
-        this.OnPropertyChanged("Schülerliste");
+        this.lerngruppe = value;
+        this.OnPropertyChanged(nameof(Lerngruppe));
       }
     }
 
@@ -237,7 +224,7 @@ namespace SoftTeach.Setting
       set
       {
         this.schülereintrag = value;
-        this.OnPropertyChanged("Schülereintrag");
+        this.OnPropertyChanged(nameof(Schülereintrag));
       }
     }
 
@@ -254,7 +241,7 @@ namespace SoftTeach.Setting
       set
       {
         this.arbeit = value;
-        this.OnPropertyChanged("Arbeit");
+        this.OnPropertyChanged(nameof(Arbeit));
       }
     }
 
@@ -271,7 +258,7 @@ namespace SoftTeach.Setting
       set
       {
         this.bewertungsschema = value;
-        this.OnPropertyChanged("Bewertungsschema");
+        this.OnPropertyChanged(nameof(Bewertungsschema));
       }
     }
 
@@ -288,7 +275,7 @@ namespace SoftTeach.Setting
       set
       {
         this.raum = value;
-        this.OnPropertyChanged("Raum");
+        this.OnPropertyChanged(nameof(Raum));
       }
     }
 
@@ -305,7 +292,7 @@ namespace SoftTeach.Setting
       set
       {
         this.raumplan = value;
-        this.OnPropertyChanged("Raumplan");
+        this.OnPropertyChanged(nameof(Raumplan));
       }
     }
 
@@ -322,7 +309,7 @@ namespace SoftTeach.Setting
       set
       {
         this.sitzplan = value;
-        this.OnPropertyChanged("Sitzplan");
+        this.OnPropertyChanged(nameof(Sitzplan));
       }
     }
 
@@ -339,7 +326,7 @@ namespace SoftTeach.Setting
       set
       {
         this.hausaufgabeDatum = value;
-        this.OnPropertyChanged("HausaufgabeDatum");
+        this.OnPropertyChanged(nameof(HausaufgabeDatum));
       }
     }
 
@@ -356,7 +343,7 @@ namespace SoftTeach.Setting
       set
       {
         this.hausaufgabeBezeichnung = value;
-        this.OnPropertyChanged("HausaufgabeBezeichnung");
+        this.OnPropertyChanged(nameof(HausaufgabeBezeichnung));
       }
     }
 
@@ -384,7 +371,7 @@ namespace SoftTeach.Setting
       set
       {
         this.sonstigeNoteDatum = value;
-        this.OnPropertyChanged("SonstigeNoteDatum");
+        this.OnPropertyChanged(nameof(SonstigeNoteDatum));
       }
     }
 
@@ -401,7 +388,7 @@ namespace SoftTeach.Setting
       set
       {
         this.sonstigeNoteBezeichnung = value;
-        this.OnPropertyChanged("SonstigeNoteBezeichnung");
+        this.OnPropertyChanged(nameof(SonstigeNoteBezeichnung));
       }
     }
 
@@ -418,7 +405,7 @@ namespace SoftTeach.Setting
       set
       {
         this.sonstigeNoteNotentyp = value;
-        this.OnPropertyChanged("SonstigeNoteNotentyp");
+        this.OnPropertyChanged(nameof(SonstigeNoteNotentyp));
       }
     }
 
@@ -435,7 +422,7 @@ namespace SoftTeach.Setting
       set
       {
         this.sonstigeNoteWichtung = value;
-        this.OnPropertyChanged("SonstigeNoteWichtung");
+        this.OnPropertyChanged(nameof(SonstigeNoteWichtung));
       }
     }
 
@@ -456,7 +443,7 @@ namespace SoftTeach.Setting
     /// </summary>
     public void ReNotifySchuljahr()
     {
-      this.OnPropertyChanged("Schuljahr");
+      this.OnPropertyChanged(nameof(Schuljahr));
     }
 
     /// <summary>
@@ -464,33 +451,40 @@ namespace SoftTeach.Setting
     /// </summary>
     public void PopulateFromSettings()
     {
-      this.SetSelection(Settings.Default.Schuljahr, Settings.Default.Halbjahr, Settings.Default.Fach, Settings.Default.Klasse, Settings.Default.Modul);
-      if (this.Jahrtyp == null)
+      this.SetSelectionSilent(Settings.Default.Schuljahr, Settings.Default.Halbjahr, Settings.Default.Fach, Settings.Default.Lerngruppe, Settings.Default.Modul);
+      if (this.Schuljahr == null)
       {
-        if (App.MainViewModel.Jahrtypen.Count == 0)
+        if (App.MainViewModel.Schuljahre.Count == 0)
         {
 
         }
-        this.Jahrtyp = App.MainViewModel.Jahrtypen.Last();
+        this.Schuljahr = App.MainViewModel.Schuljahre.Last();
       }
-      if (this.Halbjahr == null)
+      else
       {
-        if (DateTime.Now.Month > 7 || DateTime.Now.Month == 1)
-        {
-          this.Halbjahr = App.MainViewModel.Halbjahrtypen[0];
-        }
-        else
-        {
-          this.Halbjahr = App.MainViewModel.Halbjahrtypen[1];
-        }
+        this.OnPropertyChanged(nameof(Schuljahr));
       }
+
+      //if (this.Halbjahr == null)
+      //{
+      //  if (DateTime.Now.Month > 7 || DateTime.Now.Month == 1)
+      //  {
+      //    this.Halbjahr = Halbjahr.Winter;
+      //  }
+      //  else
+      //  {
+      //    this.Halbjahr = Halbjahr.Sommer;
+      //  }
+      //}
+
       if (this.Fach == null)
       {
         this.Fach = App.MainViewModel.Fächer.First();
       }
-      if (this.Klasse == null)
+
+      if (this.Lerngruppe == null)
       {
-        this.Klasse = App.MainViewModel.Klassen.First();
+        this.Lerngruppe = App.MainViewModel.Lerngruppen.FirstOrDefault();
       }
     }
 
@@ -500,9 +494,9 @@ namespace SoftTeach.Setting
     public void UpdateUserSettings()
     {
       Settings.Default.Fach = this.Fach != null ? this.Fach.FachBezeichnung : string.Empty;
-      Settings.Default.Klasse = this.Klasse != null ? this.Klasse.KlasseBezeichnung : string.Empty;
-      Settings.Default.Schuljahr = this.Jahrtyp != null ? this.Jahrtyp.JahrtypBezeichnung : string.Empty;
-      Settings.Default.Halbjahr = this.Halbjahr != null ? this.Halbjahr.HalbjahrtypBezeichnung : string.Empty;
+      Settings.Default.Lerngruppe = this.Lerngruppe != null ? this.Lerngruppe.LerngruppeBezeichnung : string.Empty;
+      Settings.Default.Schuljahr = this.Schuljahr != null ? this.Schuljahr.SchuljahrBezeichnung : string.Empty;
+      Settings.Default.Halbjahr = this.Halbjahr.ToString();
       Settings.Default.Modul = this.Modul != null ? this.Modul.ModulBezeichnung : string.Empty;
     }
 
@@ -526,20 +520,42 @@ namespace SoftTeach.Setting
     /// <param name="newSchuljahr"> The schuljahr. </param>
     /// <param name="newHalbjahr"> The halbjahr. </param>
     /// <param name="newFach">The fach. </param>
-    /// <param name="newKlasse"> The klasse. </param>
+    /// <param name="newLerngruppe"> The klasse. </param>
     /// <param name="newModul"> The modul. </param>    
     private void SetSelection(
       string newSchuljahr,
       string newHalbjahr,
       string newFach,
-      string newKlasse,
+      string newLerngruppe,
       string newModul)
     {
-      this.Jahrtyp = App.MainViewModel.Jahrtypen.FirstOrDefault(o => o.JahrtypBezeichnung == newSchuljahr);
-      this.Halbjahr = App.MainViewModel.Halbjahrtypen.FirstOrDefault(o => o.HalbjahrtypBezeichnung == newHalbjahr);
+      this.Schuljahr = App.MainViewModel.Schuljahre.FirstOrDefault(o => o.SchuljahrBezeichnung == newSchuljahr);
+      this.Halbjahr = (Halbjahr)Enum.Parse(typeof(Halbjahr), newHalbjahr);
       this.Fach = App.MainViewModel.Fächer.FirstOrDefault(o => o.FachBezeichnung == newFach);
-      this.Klasse = App.MainViewModel.Klassen.FirstOrDefault(o => o.KlasseBezeichnung == newKlasse);
+      this.Lerngruppe = App.MainViewModel.Lerngruppen.FirstOrDefault(o => o.LerngruppeBezeichnung == newLerngruppe);
       this.Modul = App.MainViewModel.Module.FirstOrDefault(o => o.ModulBezeichnung == newModul);
+    }
+
+    /// <summary>
+    /// The set selection.
+    /// </summary>
+    /// <param name="newSchuljahr"> The schuljahr. </param>
+    /// <param name="newHalbjahr"> The halbjahr. </param>
+    /// <param name="newFach">The fach. </param>
+    /// <param name="newKlasse"> The klasse. </param>
+    /// <param name="newModul"> The modul. </param>    
+    private void SetSelectionSilent(
+      string newSchuljahr,
+      string newHalbjahr,
+      string newFach,
+      string newLerngruppe,
+      string newModul)
+    {
+      this.schuljahr = App.MainViewModel.Schuljahre.FirstOrDefault(o => o.SchuljahrBezeichnung == newSchuljahr);
+      this.halbjahr = (Halbjahr)Enum.Parse(typeof(Halbjahr), newHalbjahr);
+      this.fach = App.MainViewModel.Fächer.FirstOrDefault(o => o.FachBezeichnung == newFach);
+      this.lerngruppe = App.MainViewModel.Lerngruppen.FirstOrDefault(o => o.LerngruppeBezeichnung == newLerngruppe);
+      this.modul = App.MainViewModel.Module.FirstOrDefault(o => o.ModulBezeichnung == newModul);
     }
 
   }

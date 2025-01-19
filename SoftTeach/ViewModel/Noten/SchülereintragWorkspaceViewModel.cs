@@ -1,9 +1,11 @@
 ﻿namespace SoftTeach.ViewModel.Noten
 {
   using System;
+  using System.ComponentModel;
   using System.Linq;
   using System.Windows;
   using System.Windows.Controls;
+  using System.Windows.Data;
   using System.Windows.Documents;
 
   using Helper;
@@ -22,9 +24,9 @@
   public class SchülereintragWorkspaceViewModel : ViewModelBase
   {
     /// <summary>
-    /// The Schülerliste currently selected
+    /// The Lerngruppe currently selected
     /// </summary>
-    private SchülerlisteViewModel currentSchülerliste;
+    private LerngruppeViewModel currentLerngruppe;
 
     /// <summary>
     /// The Schülereintrag currently selected
@@ -36,25 +38,28 @@
     /// </summary>
     public SchülereintragWorkspaceViewModel()
     {
-      this.CurrentSchülerliste = App.MainViewModel.Schülerlisten.Count > 0 ? App.MainViewModel.Schülerlisten[0] : null;
-      if (this.CurrentSchülerliste != null)
-      {
-        this.CurrentSchülereintrag = this.currentSchülerliste.CurrentSchülereintrag;
-      }
 
-      // Re-act to any changes from outside this ViewModel
-      App.MainViewModel.Schülereinträge.CollectionChanged += (sender, e) =>
+      this.LerngruppenViewSource = new CollectionViewSource() { Source = App.MainViewModel.Lerngruppen };
+      using (this.LerngruppenViewSource.DeferRefresh())
       {
-        if (e.OldItems != null && e.OldItems.Contains(this.CurrentSchülereintrag))
-        {
-          this.CurrentSchülereintrag = null;
-        }
-      };
+        this.LerngruppenViewSource.Filter += this.LerngruppenViewSource_Filter;
+        this.LerngruppenViewSource.SortDescriptions.Add(new SortDescription("LerngruppeSchuljahr", ListSortDirection.Ascending));
+        this.LerngruppenViewSource.SortDescriptions.Add(new SortDescription("LerngruppeFach", ListSortDirection.Ascending));
+      }
 
       this.AddHausaufgabenCommand = new DelegateCommand(this.AddHausaufgaben);
       this.AddSonstigeNotenCommand = new DelegateCommand(this.AddSonstigeNoten);
       this.PrintNotenlisteCommand = new DelegateCommand(this.PrintNotenliste);
       this.AddZeugnisnotenCommand = new DelegateCommand(this.AddZeugnisnoten);
+
+      // Erste Lerngruppe laden      
+      var enumerator = this.LerngruppenView.GetEnumerator();
+      enumerator.MoveNext(); // sets it to the first element
+
+      if (App.MainViewModel.Lerngruppen.Any())
+      {
+        this.CurrentLerngruppe = (LerngruppeViewModel)enumerator.Current;
+      }
     }
 
     /// <summary>
@@ -68,7 +73,7 @@
     public DelegateCommand AddSonstigeNotenCommand { get; private set; }
 
     /// <summary>
-    /// Holt den Befehl, um die Notenliste der aktuellen Schülerliste auszudrucken
+    /// Holt den Befehl, um die Notenliste der aktuellen Lerngruppe auszudrucken
     /// </summary>
     public DelegateCommand PrintNotenlisteCommand { get; private set; }
 
@@ -76,6 +81,16 @@
     /// Holt den Befehl, um Zeugnisnoten zu machen
     /// </summary>
     public DelegateCommand AddZeugnisnotenCommand { get; private set; }
+
+    /// <summary>
+    /// Holt oder setzt die LerngruppenViewSource
+    /// </summary>
+    public CollectionViewSource LerngruppenViewSource { get; set; }
+
+    /// <summary>
+    /// Holt oder setzt ein gefiltertes View der Lerngruppen
+    /// </summary>
+    public ICollectionView LerngruppenView => this.LerngruppenViewSource.View;
 
     /// <summary>
     /// Holt oder setzt die Schülereintrag currently selected in this workspace
@@ -96,25 +111,25 @@
     }
 
     /// <summary>
-    /// Holt oder setzt die Schülerliste currently selected in this workspace
+    /// Holt oder setzt die Lerngruppe currently selected in this workspace
     /// </summary>
-    public SchülerlisteViewModel CurrentSchülerliste
+    public LerngruppeViewModel CurrentLerngruppe
     {
       get
       {
-        return this.currentSchülerliste;
+        return this.currentLerngruppe;
       }
 
       set
       {
-        this.currentSchülerliste = value;
-        if (this.currentSchülerliste != null)
+        this.currentLerngruppe = value;
+        if (this.currentLerngruppe != null)
         {
-          this.currentSchülerliste.NotenDatum = DateTime.Now;
+          this.currentLerngruppe.NotenDatum = DateTime.Now;
         }
 
-        Selection.Instance.Schülerliste = value;
-        this.RaisePropertyChanged("CurrentSchülerliste");
+        Selection.Instance.Lerngruppe = value;
+        this.RaisePropertyChanged("CurrentLerngruppe");
       }
     }
 
@@ -123,7 +138,7 @@
     /// </summary>
     private async void AddHausaufgaben()
     {
-      Selection.Instance.Schülerliste = this.CurrentSchülerliste;
+      Selection.Instance.Lerngruppe = this.CurrentLerngruppe;
 
       if (Configuration.Instance.IsMetroMode)
       {
@@ -143,12 +158,12 @@
           Selection.Instance.HausaufgabeBezeichnung = addDlg.Bezeichnung;
 
           // Reset currently selected hausaufgaben
-          foreach (var schülereintragViewModel in this.currentSchülerliste.Schülereinträge)
+          foreach (var schülereintragViewModel in this.currentLerngruppe.Schülereinträge)
           {
             schülereintragViewModel.CurrentHausaufgabe = null;
           }
 
-          var dlg = new HausaufgabenDialog { Schülerliste = this.currentSchülerliste };
+          var dlg = new HausaufgabenDialog { Lerngruppe = this.currentLerngruppe };
           undo = !dlg.ShowDialog().GetValueOrDefault(false);
         }
       }
@@ -162,9 +177,9 @@
     /// <summary>
     /// Hier wird der Dialog zur Hausaufgabenkontrolle aufgerufen
     /// </summary>
-    private async void AddSonstigeNoten()
+    private void AddSonstigeNoten()
     {
-      Selection.Instance.Schülerliste = this.CurrentSchülerliste;
+      Selection.Instance.Lerngruppe = this.CurrentLerngruppe;
 
       if (Configuration.Instance.IsMetroMode)
       {
@@ -186,12 +201,12 @@
           Selection.Instance.SonstigeNoteWichtung = addDlg.Wichtung;
 
           // Reset currently selected note
-          foreach (var schülereintragViewModel in this.CurrentSchülerliste.Schülereinträge)
+          foreach (var schülereintragViewModel in this.CurrentLerngruppe.Schülereinträge)
           {
             schülereintragViewModel.CurrentNote = null;
           }
 
-          var dlg = new SonstigeNotenDialog() { Schülerliste = this.CurrentSchülerliste };
+          var dlg = new SonstigeNotenDialog() { Lerngruppe = this.CurrentLerngruppe };
           undo = !dlg.ShowDialog().GetValueOrDefault(false);
         }
       }
@@ -228,7 +243,7 @@
       // create the print output usercontrol
       var content = new NotenlistePrintView
       {
-        DataContext = this.CurrentSchülerliste,
+        DataContext = this.CurrentLerngruppe,
         Width = fixedPage.Width,
         Height = fixedPage.Height
       };
@@ -242,7 +257,7 @@
       fixedPage.UpdateLayout();
 
       // print it out
-      var title = "Noten" + this.CurrentSchülerliste.SchülerlisteKlasse.KlasseBezeichnung + this.CurrentSchülerliste.SchülerlisteFach.FachBezeichnung;
+      var title = "Noten" + this.CurrentLerngruppe.LerngruppeBezeichnung + this.CurrentLerngruppe.LerngruppeFach.FachBezeichnung;
       pd.PrintVisual(fixedPage, title);
     }
 
@@ -251,9 +266,9 @@
     /// </summary>
     private void AddZeugnisnoten()
     {
-      using (new UndoBatch(App.MainViewModel, string.Format("Neue Zeugnisnoten erstellt"), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("neue Zeugnisnoten erstellt"), false))
       {
-        var workspace = new NotenlistenWorkspaceViewModel(this.CurrentSchülerliste);
+        var workspace = new NotenlistenWorkspaceViewModel(this.CurrentLerngruppe);
         var dlg = new NotenlistenDialog { DataContext = workspace };
         dlg.ShowDialog();
       }
@@ -285,7 +300,7 @@
       // create the print output usercontrol
       var content = new NotenlisteDetailPrintView
       {
-        DataContext = this.CurrentSchülerliste,
+        DataContext = this.CurrentLerngruppe,
         Width = fixedPage.Width,
         Height = fixedPage.Height
       };
@@ -299,8 +314,31 @@
       fixedPage.UpdateLayout();
 
       // print it out
-      var title = "Noten" + this.CurrentSchülerliste.SchülerlisteKlasse.KlasseBezeichnung + this.CurrentSchülerliste.SchülerlisteFach.FachBezeichnung;
+      var title = "Noten" + this.CurrentLerngruppe.LerngruppeBezeichnung + this.CurrentLerngruppe.LerngruppeFach.FachBezeichnung;
       pd.PrintVisual(fixedPage, title);
+    }
+
+    /// <summary>
+    /// Filtert die Lerngruppen, so dass nur zu benotende Lerngruppen erscheinen
+    /// </summary>
+    /// <param name="item">Das LerngruppeViewModel, das gefiltert werden soll</param>
+    /// <returns>True, wenn das Objekt in der Liste bleiben soll.</returns>
+    private void LerngruppenViewSource_Filter(object sender, FilterEventArgs e)
+    {
+      var lerngruppeViewModel = e.Item as LerngruppeViewModel;
+      if (lerngruppeViewModel == null)
+      {
+        e.Accepted = false;
+        return;
+      }
+
+      if (!lerngruppeViewModel.LerngruppeFach.FachMitNoten)
+      {
+        e.Accepted = false;
+        return;
+      }
+
+      e.Accepted = true;
     }
 
     ///// <summary>
@@ -315,8 +353,8 @@
     //    return;
     //  }
 
-    //  if (App.MainViewModel.Schülereinträge.Any(o => o.SchülereintragHalbjahrtyp == dlg.Halbjahrtyp
-    //                                               && o.SchülereintragJahrtyp == dlg.Jahrtyp
+    //  if (App.MainViewModel.Schülereinträge.Any(o => o.SchülereintragHalbjahr == dlg.Halbjahr
+    //                                               && o.SchülereintragSchuljahr == dlg.Schuljahr
     //                                               && o.SchülereintragKlasse == dlg.Klasse))
     //  {
     //    ExceptionMethods.ProcessMessage(
@@ -328,8 +366,8 @@
     //  var schülerliste = new Schülereintrag>();
     //  App.UnitOfWork.Schülereintrag.Add(schülerliste);
     //  schülerliste.Klasse = dlg.Klasse.Model;
-    //  schülerliste.Jahrtyp = dlg.Jahrtyp.Model;
-    //  schülerliste.Halbjahrtyp = dlg.Halbjahrtyp.Model;
+    //  schülerliste.Schuljahr = dlg.Schuljahr.Model;
+    //  schülerliste.Halbjahr = dlg.Halbjahr.Model;
     //  if (dlg.Fach != null)
     //  {
     //    schülerliste.Fach = dlg.Fach.Model;

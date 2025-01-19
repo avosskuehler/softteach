@@ -61,9 +61,8 @@
   <!--TagesplanStyles-->
   <Style x:Key="TagesplanRowHeaderBorder">
     <Setter Property="Border.Padding" Value="5,5,0,0"/>
-    <!--<Setter Property="Border.Background" Value="LightGray"/>
-    <Setter Property="Border.BorderBrush" Value="Gray"/>
-    <Setter Property="Border.BorderThickness" Value="1, 0, 0, 2"/>-->
+    <Setter Property="Border.Background" Value="LightGray"/>
+    <Setter Property="Border.Margin" Value="1"/>
   </Style>
 
   <Style x:Key="WochenplanRowHeaderBorder">
@@ -90,7 +89,7 @@
   <Color x:Key="MouseOverColor" A="255" R="211" G="211" B="211"/>
   <Color x:Key="DisabledColor" A="255" R="169" G="169" B="169"/>
   <Color x:Key="SelectionColor" A="160" R="70" G="130" B="180"/>
-  <Color x:Key="NeutralColor" A="0" R="255" G="255" B="255"/>
+  <Color x:Key="tralColor" A="0" R="255" G="255" B="255"/>
 
 
   <SolidColorBrush x:Key="CheckBoxFillNormal" Color="#F4F4F4"/>
@@ -107,15 +106,15 @@
             <BulletDecorator.Bullet>
               <Grid x:Name="ParentGrid">
                 <Grid.Background>
-                  <SolidColorBrush Color="{StaticResource NeutralColor}"/>
+                  <SolidColorBrush Color="{StaticResource tralColor}"/>
                 </Grid.Background>
                 <Border x:Name="CheckMark" Margin="2" Height="{TemplateBinding Height}" MinWidth="{TemplateBinding MinWidth}">
                   <Border.Background>
                     <SolidColorBrush Color="{StaticResource ToggleButtonBackColor}"/>
                   </Border.Background>
                   <ContentPresenter Margin="{TemplateBinding Padding}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                           RecognizesAccessKey="True"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                 </Border>
@@ -130,7 +129,7 @@
                 </VisualState>
                 <VisualState x:Name="Unchecked">
                   <Storyboard>
-                    <ColorAnimation Duration="0:0:0.10" Storyboard.TargetName="CheckMark" Storyboard.TargetProperty="Background.Color" To="{StaticResource NeutralColor}"/>
+                    <ColorAnimation Duration="0:0:0.10" Storyboard.TargetName="CheckMark" Storyboard.TargetProperty="Background.Color" To="{StaticResource tralColor}"/>
                   </Storyboard>
                 </VisualState>
               </VisualStateGroup>
@@ -160,7 +159,7 @@
             <BulletDecorator.Bullet>
               <Grid x:Name="ParentGrid">
                 <Grid.Background>
-                  <SolidColorBrush Color="{StaticResource NeutralColor}"/>
+                  <SolidColorBrush Color="{StaticResource tralColor}"/>
                 </Grid.Background>
                 <Border x:Name="CheckMark" Margin="2" Height="{TemplateBinding Height}" MinWidth="{TemplateBinding MinWidth}">
                   <Border.Background>
@@ -173,7 +172,7 @@
                 </Border>
                 <!--<Border x:Name="CheckMarkLayer" Margin="2" Height="{TemplateBinding Height}" MinWidth="{TemplateBinding MinWidth}">
                   <Border.Background>
-                    <SolidColorBrush Color="{StaticResource NeutralColor}"/>
+                    <SolidColorBrush Color="{StaticResource tralColor}"/>
                   </Border.Background>
                 </Border>-->
               </Grid>
@@ -253,37 +252,10 @@
     </Grid>
   </DataTemplate>
 
-  <DataTemplate x:Key="MetroRaumplanDataTemplate">
-    <StackPanel Margin="5">
-      <TextBlock Style="{StaticResource MetroLabelStyle}" Text="{Binding Path=RaumplanBezeichnung}"/>
-      <Image Source="{Binding Path=RaumplanImage}" Height="180"/>
-    </StackPanel>
-  </DataTemplate>
-
-  <DataTemplate x:Key="MetroSitzplanDataTemplate">
-    <StackPanel Margin="5">
-      <TextBlock Style="{StaticResource MetroLabelStyle}" Text="{Binding Path=SitzplanBezeichnung}"/>
-      <Image Source="{Binding Path=SitzplanRaumplan.RaumplanImage}" Height="180"/>
-      <TextBlock Style="{StaticResource MetroLabelStyle}" Text="{Binding Path=SitzplanGültigAbString}"/>
-    </StackPanel>
-  </DataTemplate>
-
   <Style TargetType="{x:Type RadioButton}" x:Key="MetroPersonToggleRadioButton" BasedOn="{StaticResource MetroToggleRadioButton}">
     <Setter Property="Height" Value="79"/>
     <Setter Property="Margin" Value="0"/>
     <Setter Property="ContentTemplate" Value="{StaticResource PersonDataTemplate}" />
-  </Style>
-
-  <Style TargetType="{x:Type RadioButton}" x:Key="MetroRaumplanToggleRadioButton" BasedOn="{StaticResource MetroToggleRadioButton}">
-    <Setter Property="Height" Value="Auto"/>
-    <Setter Property="Margin" Value="0"/>
-    <Setter Property="ContentTemplate" Value="{StaticResource MetroRaumplanDataTemplate}" />
-  </Style>
-
-  <Style TargetType="{x:Type RadioButton}" x:Key="MetroSitzplanToggleRadioButton" BasedOn="{StaticResource MetroToggleRadioButton}">
-    <Setter Property="Height" Value="Auto"/>
-    <Setter Property="Margin" Value="0"/>
-    <Setter Property="ContentTemplate" Value="{StaticResource MetroSitzplanDataTemplate}" />
   </Style>
 
   <Style x:Key="MetroNotenBorderStyle" TargetType="{x:Type Border}">
@@ -372,8 +344,8 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Padding="{TemplateBinding Padding}"
                             SnapsToDevicePixels="true">
-            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
             <VisualStateManager.VisualStateGroups>
               <VisualStateGroup x:Name="CommonStates">
@@ -597,6 +569,19 @@
           <ColumnDefinition Width="Auto"/>
           <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
+        <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="0" Margin="5" Padding="0" Content="{Binding Path=Person.Vorname}"/>
+        <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="1" Margin="5" Padding="0" Content="{Binding Path=Person.Nachname}"/>
+      </Grid>
+    </Border>
+  </DataTemplate>
+  
+  <DataTemplate x:Key="SchülereintragViewModelDragAdorner">
+    <Border BorderThickness="1" Margin="1" Background="LightGray">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
         <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="0" Margin="5" Padding="0" Content="{Binding Path=SchülereintragPerson.PersonVorname}"/>
         <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="1" Margin="5" Padding="0" Content="{Binding Path=SchülereintragPerson.PersonNachname}"/>
       </Grid>
@@ -610,22 +595,12 @@
           <ColumnDefinition Width="Auto"/>
           <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="0" Margin="5" Padding="0" Content="{Binding Path=SitzplaneintragSchülereintrag.SchülereintragPerson.PersonVorname}"/>
-        <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="1" Margin="5" Padding="0" Content="{Binding Path=SitzplaneintragSchülereintrag.SchülereintragPerson.PersonNachname}"/>
+        <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="0" Margin="5" Padding="0" Content="{Binding Path=SitzplaneintragSchülereintrag.Person.Vorname}"/>
+        <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="1" Margin="5" Padding="0" Content="{Binding Path=SitzplaneintragSchülereintrag.Person.Nachname}"/>
       </Grid>
     </Border>
   </DataTemplate>
 
-  <DataTemplate x:Key="MetroSchülereintragGruppenView">
-    <Grid>
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto"/>
-        <ColumnDefinition Width="Auto"/>
-      </Grid.ColumnDefinitions>
-      <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="0" Margin="5" Padding="0" Content="{Binding Path=SchülereintragPerson.PersonVorname}"/>
-      <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="1" Margin="5" Padding="0" Content="{Binding Path=SchülereintragPerson.PersonNachname}"/>
-    </Grid>
-  </DataTemplate>
 
   <DataTemplate x:Key="MetroPrintSchülereintragGruppenView">
     <Grid>
@@ -638,15 +613,6 @@
     </Grid>
   </DataTemplate>
 
-  <DataTemplate x:Key="MetroSchülereintragSitzplanView">
-    <Grid>
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto"/>
-        <ColumnDefinition Width="Auto"/>
-      </Grid.ColumnDefinitions>
-      <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="0" Margin="5" Padding="0" Content="{Binding Path=SchülereintragPerson.PersonVorname}"/>
-    </Grid>
-  </DataTemplate>
 
   <DataTemplate x:Key="MetroSchülereintragGruppenOverview">
     <Button Style="{StaticResource HausaufgabeButton}" Name="SchülerButton" Command="{Binding Path=MarkAsKrankCommand}">
@@ -677,7 +643,7 @@
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type GroupItem}">
-          <Border BorderThickness="1" Margin="3" CornerRadius="10" BorderBrush="{StaticResource MetroHeaderBackground}">
+          <Border BorderThickness="1" Margin="3" BorderBrush="{StaticResource MetroHeaderBackground}">
             <HeaderedContentControl>
               <HeaderedContentControl.Header>
                 <StackPanel Orientation="Horizontal" Margin="5,3">
@@ -697,7 +663,7 @@
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type GroupItem}">
-          <Border Margin="3" BorderThickness="1" CornerRadius="10" BorderBrush="Black">
+          <Border Margin="3" BorderThickness="1" BorderBrush="Black">
             <HeaderedContentControl>
               <HeaderedContentControl.Header>
                 <StackPanel Orientation="Horizontal">

@@ -2,8 +2,6 @@
 {
   using System;
   using System.Windows;
-
-  using SoftTeach.Setting;
   using System.Text;
   using System.IO;
   using System.Windows.Documents;
@@ -36,8 +34,10 @@
       mailtoStatement.Append("mailto:adrian.vosskuehler@physik.fu-berlin.de");
       mailtoStatement.Append("?subject=OGAMA%20error%20report");
       mailtoStatement.Append("&body=Please insert a copy of the logfile here by pressing Ctrl+V.");
-      Hyperlink link = new Hyperlink();
-      link.NavigateUri = new Uri(mailtoStatement.ToString());
+      Hyperlink link = new Hyperlink
+      {
+        NavigateUri = new Uri(mailtoStatement.ToString())
+      };
       link.DoClick();
       this.Close();
     }

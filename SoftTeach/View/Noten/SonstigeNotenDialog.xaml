@@ -4,13 +4,14 @@
         xmlns:resources="clr-namespace:SoftTeach.Resources" 
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:setting="clr-namespace:SoftTeach.Setting"
+        xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
         xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
         xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
         Title="Frage ..." 
         Height="431" 
         Width="624">
   <Window.Resources>
-    <CollectionViewSource x:Key="SortierteKlassenlisteViewSource" Source="{Binding Path=Schülerliste.Schülereinträge}">
+    <CollectionViewSource x:Key="SortierteKlassenlisteViewSource" Source="{Binding Path=Lerngruppe.Schülereinträge}">
       <CollectionViewSource.SortDescriptions>
         <scm:SortDescription PropertyName="SchülereintragPerson.PersonVorname" Direction="Ascending" />
       </CollectionViewSource.SortDescriptions>
@@ -22,8 +23,13 @@
       <RowDefinition/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <controls:SmallDialogHeader Grid.Row="0" Title="Bitte geben Sie die sonstige Note."
-                                      Icon="/SoftTeach;component/Images/Notentendenz32.png"/>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Bitte geben Sie die sonstige Note.">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Modul48}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
     <Grid Grid.Row="1" Background="{x:Static SystemColors.MenuBarBrush}">
       <Grid Margin="10">
         <Grid.RowDefinitions>
@@ -58,9 +64,9 @@
             </Style>
           </ListBox.ItemContainerStyle>-->
         </ListBox>
-        <!--<DataGrid Grid.Row="1" ItemsSource="{Binding Path=CurrentSchülerliste.Schülereinträge}" AutoGenerateColumns="False" >
+        <!--<DataGrid Grid.Row="1" ItemsSource="{Binding Path=CurrentLerngruppe.Schülereinträge}" AutoGenerateColumns="False" >
           <DataGrid.Columns>
-            <DataGridTextColumn Header="Klasse" Binding="{Binding Path=Model.Schülerliste.Klasse.Bezeichnung}" SortMemberPath="Bezeichnung"/>
+            <DataGridTextColumn Header="Klasse" Binding="{Binding Path=Model.Lerngruppe.Klasse.Bezeichnung}" SortMemberPath="Bezeichnung"/>
             <DataGridTextColumn Header="Vorname" Binding="{Binding Path=SchülereintragPerson.PersonVorname}" SortMemberPath="PersonVorname"/>
             <DataGridTextColumn Header="Nachname" Binding="{Binding Path=SchülereintragPerson.PersonNachname}" SortMemberPath="PersonNachname"/>
             <DataGridCheckBoxColumn Header="HA nicht gemacht"/>

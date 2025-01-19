@@ -1,12 +1,7 @@
 ﻿namespace SoftTeach.ViewModel.Datenbank
 {
   using System;
-  using System.Linq;
-  using System.Windows.Input;
-
-  using SoftTeach.ExceptionHandling;
-  using SoftTeach.Model;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.ViewModel.Helper;
 
@@ -73,13 +68,14 @@
     /// </summary>
     private void AddFerien()
     {
-      var ferien = new Ferien();
-      ferien.Jahrtyp = Selection.Instance.Jahrtyp.Model;
-      ferien.Bezeichnung = "Sommerferien";
-      ferien.ErsterFerientag = DateTime.Now;
-      ferien.LetzterFerientag = DateTime.Now;
+      var ferien = new Ferien
+      {
+        Schuljahr = Selection.Instance.Schuljahr.Model,
+        Bezeichnung = "Sommerferien",
+        ErsterFerientag = DateTime.Now,
+        LetzterFerientag = DateTime.Now
+      };
 
-      // App.UnitOfWork.GetRepository<Ferien>().Add(ferien);
       var vm = new FerienViewModel(ferien);
 
       App.MainViewModel.Ferien.Add(vm);
@@ -91,7 +87,6 @@
     /// </summary>
     private void DeleteCurrentFerien()
     {
-      // App.UnitOfWork.GetRepository<Ferien>().RemoveTest(this.CurrentFerien.Model);
       App.MainViewModel.Ferien.RemoveTest(this.CurrentFerien);
       this.CurrentFerien = null;
     }

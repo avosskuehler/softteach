@@ -4,20 +4,26 @@
   using System.Collections.Generic;
   using System.Collections.ObjectModel;
   using System.Collections.Specialized;
+  using System.ComponentModel;
   using System.Globalization;
   using System.Linq;
-  using System.Windows.Markup;
+  using System.Windows;
+  using System.Windows.Data;
   using System.Windows.Media;
 
   using MahApps.Metro.Controls.Dialogs;
-
-  using SoftTeach.Model.EntityFramework;
+  using OxyPlot;
+  using OxyPlot.Axes;
+  using OxyPlot.Series;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Noten;
+  using SoftTeach.View.Termine;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Helper;
   using SoftTeach.ViewModel.Personen;
+  using Selection = Setting.Selection;
 
   /// <summary>
   /// ViewModel of an individual schülereintrag
@@ -59,10 +65,10 @@
     /// </summary>
     private NotentendenzViewModel currentNotentendenz;
 
-    /// <summary>
-    /// Das momentane Ergebnis
-    /// </summary>
-    private ErgebnisViewModel currentErgebnis;
+    ///// <summary>
+    ///// Das momentane Ergebnis
+    ///// </summary>
+    //private ErgebnisViewModel currentErgebnis;
 
     /// <summary>
     /// Gibt an, ob dieser Schüler zufällig ausgewählt ist.
@@ -80,15 +86,22 @@
 
     private int schriftlicheAnpassung;
 
+    private PlotModel plotModelQualität;
+
+    private PlotModel plotModelQuantität;
+
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="SchülereintragViewModel"/> Klasse. 
     /// </summary>
     public SchülereintragViewModel()
     {
-      var schülereintrag = new Schülereintrag();
-      schülereintrag.Schülerliste = Selection.Instance.Schülerliste.Model;
+      var schülereintrag = new Schülereintrag
+      {
+        Lerngruppe = Selection.Instance.Lerngruppe.Model
+      };
+      //App.UnitOfWork.Context.Schülereinträge.Add(schülereintrag);
       this.Model = schülereintrag;
-      App.MainViewModel.Schülereinträge.Add(this);
+      //App.MainViewModel.Schülereinträge.Add(this);
     }
 
     /// <summary>
@@ -99,19 +112,14 @@
     /// </param>
     public SchülereintragViewModel(Schülereintrag schülereintrag)
     {
-      if (schülereintrag == null)
-      {
-        throw new ArgumentNullException("schülereintrag");
-      }
-
-      this.Model = schülereintrag;
+      this.Model = schülereintrag ?? throw new ArgumentNullException(nameof(schülereintrag));
 
       // Build data structures for Hausaufgaben
       this.Hausaufgaben = new ObservableCollection<HausaufgabeViewModel>();
       foreach (var hausaufgabe in schülereintrag.Hausaufgaben)
       {
         var vm = new HausaufgabeViewModel(hausaufgabe);
-        App.MainViewModel.Hausaufgaben.Add(vm);
+        //App.MainViewModel.Hausaufgaben.Add(vm);
         this.Hausaufgaben.Add(vm);
       }
 
@@ -122,7 +130,7 @@
       foreach (var note in schülereintrag.Noten)
       {
         var vm = new NoteViewModel(note);
-        App.MainViewModel.Noten.Add(vm);
+        //App.MainViewModel.Noten.Add(vm);
         this.Noten.Add(vm);
       }
 
@@ -133,14 +141,18 @@
       foreach (var notentendenz in schülereintrag.Notentendenzen)
       {
         var vm = new NotentendenzViewModel(notentendenz);
-        App.MainViewModel.Notentendenzen.Add(vm);
+        //App.MainViewModel.Notentendenzen.Add(vm);
         this.Notentendenzen.Add(vm);
       }
 
       this.Notentendenzen.CollectionChanged += this.NotentendenzenCollectionChanged;
 
       this.Ergebnisse = new ObservableCollection<ErgebnisViewModel>();
-      this.CurrentArbeitErgebnisse = new ObservableCollection<ErgebnisViewModel>();
+      this.CurrentArbeitErgebnisseViewSource = new CollectionViewSource() { Source = this.Ergebnisse };
+      using (this.CurrentArbeitErgebnisseViewSource.DeferRefresh())
+      {
+        this.CurrentArbeitErgebnisseViewSource.Filter += this.CurrentArbeitErgebnisseViewSource_Filter;
+      }
 
       foreach (var ergebnis in schülereintrag.Ergebnisse)
       {
@@ -339,6 +351,16 @@
     public ObservableCollection<ErgebnisViewModel> Ergebnisse { get; set; }
 
     /// <summary>
+    /// Holt oder setzt die CurrentArbeitErgebnisseViewSource
+    /// </summary>
+    public CollectionViewSource CurrentArbeitErgebnisseViewSource { get; set; }
+
+    /// <summary>
+    /// Holt oder setzt ein View der Ergebnisse der aktuellen Arbeit
+    /// </summary>
+    public ICollectionView CurrentArbeitErgebnisseView => this.CurrentArbeitErgebnisseViewSource.View;
+
+    /// <summary>
     /// Holt oder setzt die currently selected Hausaufgabe
     /// </summary>
     public HausaufgabeViewModel CurrentHausaufgabe
@@ -416,7 +438,7 @@
       set
       {
         if (value == this.person) return;
-        this.UndoablePropertyChanging(this, "SchülereintragPerson", this.person, value);
+        this.UndoablePropertyChanging(this, nameof(SchülereintragPerson), this.person, value);
         this.person = value;
         this.Model.Person = value.Model;
         this.RaisePropertyChanged("SchülereintragPerson");
@@ -434,7 +456,7 @@
     {
       get
       {
-        return this.SchülereintragPerson.PersonNachname;
+        return this.Model.Person.Nachname;
       }
     }
 
@@ -449,7 +471,7 @@
     {
       get
       {
-        return this.SchülereintragPerson.PersonVorname;
+        return this.Model.Person.Vorname;
       }
     }
 
@@ -464,7 +486,7 @@
     {
       get
       {
-        return this.SchülereintragPerson.Gruppennummer;
+        return this.SchülereintragPerson == null ? 0 : this.SchülereintragPerson.Gruppennummer;
       }
     }
 
@@ -477,8 +499,40 @@
     {
       get
       {
-        return this.Model.Schülerliste.Fach.Bezeichnung + ": Noten für " + this.SchülereintragPerson.PersonVorname + " "
-               + this.SchülereintragPerson.PersonNachname;
+        return this.Model.Lerngruppe.Fach.Bezeichnung + ": Noten für " + this.Model.Person.Vorname + " "
+               + this.Model.Person.Nachname;
+      }
+    }
+
+    /// <summary>
+    /// Holt das <see cref="PlotModel"/> für das Diagramm der Qualitätsnoten
+    /// </summary>
+    public PlotModel PlotModelQualität
+    {
+      get
+      {
+        if (plotModelQualität == null)
+        {
+          CreateQualitätPlotModel();
+        }
+
+        return plotModelQualität;
+      }
+    }
+
+    /// <summary>
+    /// Holt das <see cref="PlotModel"/> für das Diagramm der Quantitätsnoten
+    /// </summary>
+    public PlotModel PlotModelQuantität
+    {
+      get
+      {
+        if (plotModelQuantität == null)
+        {
+          CreateQuanitätPlotModel();
+        }
+
+        return plotModelQuantität;
       }
     }
 
@@ -533,7 +587,7 @@
       get
       {
         var stand = this.Noten.Where(
-          o => o.NoteNotentyp == Notentyp.GesamtStand && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+          o => o.NoteNotentyp == Notentyp.GesamtStand && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
         return stand;
       }
     }
@@ -591,7 +645,7 @@
     {
       get
       {
-        return this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+        return this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
       }
     }
 
@@ -602,7 +656,7 @@
     {
       get
       {
-        return this.Noten.Where(o => o.NoteNotentyp == Notentyp.MündlichQualität && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+        return this.Noten.Where(o => o.NoteNotentyp == Notentyp.MündlichQualität && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
       }
     }
 
@@ -686,7 +740,7 @@
     {
       get
       {
-        return this.Noten.Where(o => o.NoteNotentyp == Notentyp.MündlichQuantität && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+        return this.Noten.Where(o => o.NoteNotentyp == Notentyp.MündlichQuantität && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
       }
     }
 
@@ -698,7 +752,7 @@
       get
       {
         var qualitätsNoten =
-          this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichQualität && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+          this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichQualität && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
         return this.BerechneDurchschnittsNote(qualitätsNoten);
       }
     }
@@ -710,7 +764,7 @@
     {
       get
       {
-        return this.Model.Schülerliste.NotenWichtung.MündlichQualität;
+        return this.Model.Lerngruppe.NotenWichtung.MündlichQualität;
       }
     }
 
@@ -722,44 +776,44 @@
       get
       {
         var quantitätsNoten =
-          this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichQuantität && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+          this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichQuantität && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
         return this.BerechneDurchschnittsNote(quantitätsNoten);
       }
     }
 
     /// <summary>
     /// Holt den Gewichtungsanteil der mündlichen Qualität für
-    /// die aktuelle Schülerliste
+    /// die aktuelle Lerngruppe
     /// </summary>
     public float MündlicheQuantitätWichtung
     {
       get
       {
-        return this.Model.Schülerliste.NotenWichtung.MündlichQuantität;
+        return this.Model.Lerngruppe.NotenWichtung.MündlichQuantität;
       }
     }
 
     /// <summary>
     /// Holt den Gewichtungsanteil der mündlichen Note für
-    /// die aktuelle Schülerliste
+    /// die aktuelle Lerngruppe
     /// </summary>
     public float MündlicheNotenWichtung
     {
       get
       {
-        return this.Model.Schülerliste.NotenWichtung.MündlichGesamt;
+        return this.Model.Lerngruppe.NotenWichtung.MündlichGesamt;
       }
     }
 
     /// <summary>
     /// Holt den Gewichtungsanteil der schriftlichen Note für
-    /// die aktuelle Schülerliste
+    /// die aktuelle Lerngruppe
     /// </summary>
     public float SchriftlicheNotenWichtung
     {
       get
       {
-        return this.Model.Schülerliste.NotenWichtung.SchriftlichGesamt;
+        return this.Model.Lerngruppe.NotenWichtung.SchriftlichGesamt;
       }
     }
 
@@ -771,7 +825,7 @@
       get
       {
         var weitere = this.Noten.Where(
-          o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichSonstige && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+          o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichSonstige && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
         return weitere;
       }
     }
@@ -785,20 +839,20 @@
       get
       {
         var sonstigeNoten =
-          this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichSonstige && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+          this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichSonstige && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
         return this.BerechneDurchschnittsNote(sonstigeNoten);
       }
     }
 
     /// <summary>
     /// Holt den Gewichtungsanteil der weiteren mündlichen Noten für
-    /// die aktuelle Schülerliste
+    /// die aktuelle Lerngruppe
     /// </summary>
     public float MündlicheWeitereNotenWichtung
     {
       get
       {
-        return this.Model.Schülerliste.NotenWichtung.MündlichSonstige;
+        return this.Model.Lerngruppe.NotenWichtung.MündlichSonstige;
       }
     }
 
@@ -810,7 +864,7 @@
       get
       {
         var stand = this.Noten.Where(
-          o => o.NoteNotentyp == Notentyp.MündlichStand && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+          o => o.NoteNotentyp == Notentyp.MündlichStand && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
         return stand;
       }
     }
@@ -869,7 +923,8 @@
     {
       get
       {
-        return this.Noten.Where(o => o.NoteIstSchriftlich && o.NoteNotentyp == Notentyp.SchriftlichKlassenarbeit && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+        var test = this.Noten.Where(o => o.NoteIstSchriftlich && o.NoteNotentyp == Notentyp.SchriftlichKlassenarbeit && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
+        return test;
       }
     }
 
@@ -881,20 +936,20 @@
       get
       {
         var klassenarbeitNoten =
-          this.Noten.Where(o => o.NoteIstSchriftlich && o.NoteNotentyp == Notentyp.SchriftlichKlassenarbeit && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+          this.Noten.Where(o => o.NoteIstSchriftlich && o.NoteNotentyp == Notentyp.SchriftlichKlassenarbeit && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
         return this.BerechneDurchschnittsNote(klassenarbeitNoten);
       }
     }
 
     /// <summary>
     /// Holt den Gewichtungsanteil der schriftlichen Klausuren und
-    /// Klassenarbeiten für die aktuelle Schülerliste
+    /// Klassenarbeiten für die aktuelle Lerngruppe
     /// </summary>
     public float SchriftlichKlausurenWichtung
     {
       get
       {
-        return this.Model.Schülerliste.NotenWichtung.SchriftlichKlassenarbeit;
+        return this.Model.Lerngruppe.NotenWichtung.SchriftlichKlassenarbeit;
       }
     }
 
@@ -906,7 +961,7 @@
     {
       get
       {
-        var weitere = this.Noten.Where(o => o.NoteIstSchriftlich && o.NoteNotentyp == Notentyp.SchriftlichSonstige && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+        var weitere = this.Noten.Where(o => o.NoteIstSchriftlich && o.NoteNotentyp == Notentyp.SchriftlichSonstige && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
         return weitere;
       }
     }
@@ -920,20 +975,20 @@
       get
       {
         var sonstigeNoten = this.Noten.Where(
-          o => o.NoteIstSchriftlich && o.NoteNotentyp == Notentyp.SchriftlichSonstige && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+          o => o.NoteIstSchriftlich && o.NoteNotentyp == Notentyp.SchriftlichSonstige && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
         return this.BerechneDurchschnittsNote(sonstigeNoten);
       }
     }
 
     /// <summary>
     /// Holt den Gewichtungsanteil der weiteren schriftlichen Noten für
-    /// die aktuelle Schülerliste
+    /// die aktuelle Lerngruppe
     /// </summary>
     public float SchriftlichWeitereNotenWichtung
     {
       get
       {
-        return this.Model.Schülerliste.NotenWichtung.SchriftlichSonstige;
+        return this.Model.Lerngruppe.NotenWichtung.SchriftlichSonstige;
       }
     }
 
@@ -945,7 +1000,7 @@
       get
       {
         var stand = this.Noten.Where(
-          o => o.NoteNotentyp == Notentyp.SchriftlichStand && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
+          o => o.NoteNotentyp == Notentyp.SchriftlichStand && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
         return stand;
       }
     }
@@ -1015,7 +1070,7 @@
     /// <summary>
     /// Holt das passende Pfeilbild zur Tendenz der gemachten Hausaufgaben.
     /// </summary>
-    public ImageSource HausaufgabenTendenzImage
+    public Style HausaufgabenTendenzStyle
     {
       get
       {
@@ -1023,11 +1078,11 @@
         {
           default:
           case 0:
-            return App.GetImageSource("PfeilO32.png");
+            return App.GetIconStyle("PfeilRechts32");
           case -1:
-            return App.GetImageSource("PfeilSO32.png");
+            return App.GetIconStyle("PfeilRechtsUnten32");
           case -2:
-            return App.GetImageSource("PfeilS32.png");
+            return App.GetIconStyle("PfeilUnten32");
         }
       }
     }
@@ -1035,23 +1090,23 @@
     /// <summary>
     /// Holt ein Bild, dass die Notentendenzen zusammenfasst.
     /// </summary>
-    public ImageSource TendenzenTendenzImage
+    public Style TendenzenTendenzStyle
     {
       get
       {
         switch (this.BerechneTendenzBepunktung())
         {
           case 2:
-            return App.GetImageSource("PfeilN32.png");
+            return App.GetIconStyle("PfeilOben32");
           case 1:
-            return App.GetImageSource("PfeilNO32.png");
+            return App.GetIconStyle("PfeilRechtsOben32");
           default:
           case 0:
-            return App.GetImageSource("PfeilO32.png");
+            return App.GetIconStyle("PfeilRechts32");
           case -1:
-            return App.GetImageSource("PfeilSO32.png");
+            return App.GetIconStyle("PfeilRechtsUnten32");
           case -2:
-            return App.GetImageSource("PfeilS32.png");
+            return App.GetIconStyle("PfeilUnten32");
         }
       }
     }
@@ -1090,15 +1145,15 @@
       }
     }
 
-    /// <summary>
-    /// Holt oder setzt die Ergebnisse für diesen Schülereintrag
-    /// </summary>
-    public ObservableCollection<ErgebnisViewModel> CurrentArbeitErgebnisse { get; set; }
+    ///// <summary>
+    ///// Holt oder setzt die Ergebnisse für diesen Schülereintrag
+    ///// </summary>
+    //public ObservableCollection<ErgebnisViewModel> CurrentArbeitErgebnisse { get; set; }
 
     /// <summary>
     /// Holt die berechnete Summe aller Punkte der aktuellen Arbeit
     /// </summary>
-    public float CurrentArbeitPunktsumme
+    public double CurrentArbeitPunktsumme
     {
       get
       {
@@ -1162,26 +1217,45 @@
         // Note des Schülereintrags für die Arbeit wird aus der Arbeitsnote erzeugt,
         // bzw. aktualisiert
         var existingNotes =
-          this.Noten.Where(o => o.NoteIstSchriftlich && o.NoteDatum == Selection.Instance.Arbeit.ArbeitDatum);
+          this.Noten.Where(o => o.NoteIstSchriftlich && o.NoteDatum.Date == Selection.Instance.Arbeit.ArbeitDatum.Date);
+
+        // Altlasten der Datenbank aufräumen, wenn mehrere Noten für die gleiche Arbeit existieren, einfach alle löschen
+        // sie werden dann beim nächsten Aufruf neu angelegt
+        if (existingNotes.Count() > 1)
+        {
+          foreach (var note in existingNotes.ToList())
+          {
+            this.Noten.Remove(note);
+          }
+
+          return string.Empty;
+        }
 
         var noteViewModels = existingNotes as IList<NoteViewModel> ?? existingNotes.ToList();
         if (!noteViewModels.Any())
         {
-          var note = new Note();
-          note.Arbeit = Selection.Instance.Arbeit.Model;
-          note.Bezeichnung = Selection.Instance.Arbeit.ArbeitBezeichnung;
-          note.Datum = Selection.Instance.Arbeit.ArbeitDatum;
-          note.IstSchriftlich = true;
-          note.Notentyp = Selection.Instance.Arbeit.ArbeitIstKlausur
-                            ? Notentyp.SchriftlichKlassenarbeit.ToString()
-                            : Notentyp.SchriftlichSonstige.ToString();
-          note.Wichtung = 1;
-          note.Zensur = zensur.Model;
-          note.Schülereintrag = this.Model;
-          var vm = new NoteViewModel(note);
-          App.MainViewModel.Noten.Add(vm);
-          this.Noten.Add(vm);
-          this.currentNote = vm;
+          using (new UndoBatch(App.MainViewModel, string.Format("Note angelegt"), false))
+          {
+
+            var note = new Note
+            {
+              Arbeit = Selection.Instance.Arbeit.Model,
+              Bezeichnung = Selection.Instance.Arbeit.ArbeitBezeichnung,
+              Datum = Selection.Instance.Arbeit.ArbeitDatum,
+              IstSchriftlich = true,
+              Notentyp = Selection.Instance.Arbeit.ArbeitIstKlausur
+                              ? Notentyp.SchriftlichKlassenarbeit
+                              : Notentyp.SchriftlichSonstige,
+              Wichtung = 1,
+              Zensur = zensur.Model,
+              Schülereintrag = this.Model
+            };
+            //App.UnitOfWork.Context.Noten.Add(note);
+            var vm = new NoteViewModel(note);
+            //App.MainViewModel.Noten.Add(vm);
+            this.Noten.Add(vm);
+            this.currentNote = vm;
+          }
         }
         else
         {
@@ -1234,10 +1308,10 @@
       this.RaisePropertyChanged("NachgereichteHausaufgaben");
       this.RaisePropertyChanged("NichtgemachteHausaufgaben");
       this.RaisePropertyChanged("NichtGemachteHausaufgabenAnzahl");
-      this.RaisePropertyChanged("HausaufgabenTendenzImage");
+      this.RaisePropertyChanged("HausaufgabenTendenzStyle");
 
       this.RaisePropertyChanged("Notentendenzen");
-      this.RaisePropertyChanged("TendenzenTendenzImage");
+      this.RaisePropertyChanged("TendenzenTendenzStyle");
 
       this.RaisePropertyChanged("MündlicheStandNotenCollection");
       this.RaisePropertyChanged("MündlicheNotenCollection");
@@ -1266,15 +1340,16 @@
     /// </summary>
     public void UpdateErgebnisse()
     {
-      this.CurrentArbeitErgebnisse.Clear();
-      foreach (
-        var ergebnis in
-          this.Ergebnisse.Where(ergebnis => ergebnis.Model.Aufgabe.Arbeit == Selection.Instance.Arbeit.Model))
-      {
-        this.CurrentArbeitErgebnisse.Add(ergebnis);
-      }
+      this.CurrentArbeitErgebnisseView.Refresh();
+      //this.CurrentArbeitErgebnisse.Clear();
+      //foreach (
+      //  var ergebnis in
+      //    this.Ergebnisse.Where(ergebnis => ergebnis.Model.Aufgabe.Arbeit == Selection.Instance.Arbeit.Model))
+      //{
+      //  this.CurrentArbeitErgebnisse.Add(ergebnis);
+      //}
 
-      this.RaisePropertyChanged("CurrentArbeitErgebnisse");
+      //this.RaisePropertyChanged("CurrentArbeitErgebnisse");
       this.RaisePropertyChanged("CurrentArbeitNote");
       this.RaisePropertyChanged("CurrentArbeitProzentsatz");
       this.RaisePropertyChanged("CurrentArbeitPunktsumme");
@@ -1309,7 +1384,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void ErgebnisseCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Ergebnisse", this.Ergebnisse, e, false, "Änderung der Ergebnisse");
+      UndoableCollectionChanged(this, nameof(Ergebnisse), this.Ergebnisse, e, true, "Änderung der Ergebnisse");
     }
 
     /// <summary>
@@ -1338,8 +1413,8 @@
       //  return "?";
       //}
 
-      var mündlicheWichtung = this.Model.Schülerliste.NotenWichtung.MündlichGesamt;
-      var schriftlichWichtung = this.Model.Schülerliste.NotenWichtung.SchriftlichGesamt;
+      var mündlicheWichtung = this.Model.Lerngruppe.NotenWichtung.MündlichGesamt;
+      var schriftlichWichtung = this.Model.Lerngruppe.NotenWichtung.SchriftlichGesamt;
       var localNote = (this.mündlicheGesamtnote * mündlicheWichtung)
                        + (this.schriftlicheGesamtnote * schriftlichWichtung);
       localNote = (int)Math.Round(localNote, 0);
@@ -1374,6 +1449,11 @@
 
     public void AnpassungenAuslesen()
     {
+      if (Selection.Instance.Lerngruppe == null)
+      {
+        return;
+      }
+
       this.gesamtAnpassung = 0;
       this.mündlicheAnpassung = 0;
       this.schriftlicheAnpassung = 0;
@@ -1383,7 +1463,7 @@
         this.Noten.Where(
           o =>
           o.NoteTermintyp != NotenTermintyp.Einzeln
-          && o.NoteDatum.Date == Selection.Instance.Schülerliste.NotenDatum.Date
+          && o.NoteDatum.Date == Selection.Instance.Lerngruppe.NotenDatum.Date
           && o.NoteNotentyp == Notentyp.MündlichStand).OrderBy(o => o.NoteDatum);
 
       if (terminNoten.Any())
@@ -1395,7 +1475,7 @@
       terminNoten =
         this.Noten.Where(
         o => o.NoteTermintyp != NotenTermintyp.Einzeln
-          && o.NoteDatum.Date == Selection.Instance.Schülerliste.NotenDatum.Date
+          && o.NoteDatum.Date == Selection.Instance.Lerngruppe.NotenDatum.Date
           && o.NoteNotentyp == Notentyp.SchriftlichStand).OrderBy(o => o.NoteDatum);
       if (terminNoten.Any())
       {
@@ -1405,7 +1485,7 @@
       this.BerechneGesamtnote();
       terminNoten = this.Noten.Where(
         o => o.NoteTermintyp != NotenTermintyp.Einzeln
-          && o.NoteDatum.Date == Selection.Instance.Schülerliste.NotenDatum.Date
+          && o.NoteDatum.Date == Selection.Instance.Lerngruppe.NotenDatum.Date
           && o.NoteNotentyp == Notentyp.GesamtStand).OrderBy(o => o.NoteDatum);
 
       if (terminNoten.Any())
@@ -1426,15 +1506,20 @@
     /// im Format des Klassenstufen <see cref="Bepunktungstyp"/>s</returns>
     private string BerechneMündlicheGesamtnote()
     {
+      if (Selection.Instance.Lerngruppe == null)
+      {
+        return string.Empty;
+      }
+
       var qualitätsNoten =
-        this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichQualität && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
-      var qualitätsNotenDurchschnitt = this.BerechneDurchschnittsNotenwert(qualitätsNoten);
+        this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichQualität && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
+      var qualitätsNotenDurchschnitt = BerechneDurchschnittsNotenwert(qualitätsNoten);
       var quantitätsNoten =
-        this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichQuantität && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
-      var quantitätsNotenDurchschnitt = this.BerechneDurchschnittsNotenwert(quantitätsNoten);
+        this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichQuantität && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
+      var quantitätsNotenDurchschnitt = BerechneDurchschnittsNotenwert(quantitätsNoten);
       var sonstigeNoten =
-        this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichSonstige && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
-      var sonstigeNotenDurchschnitt = this.BerechneDurchschnittsNotenwert(sonstigeNoten);
+        this.Noten.Where(o => o.NoteIstSchriftlich == false && o.NoteNotentyp == Notentyp.MündlichSonstige && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
+      var sonstigeNotenDurchschnitt = BerechneDurchschnittsNotenwert(sonstigeNoten);
 
       var mündlichGesamt = 0;
       if (sonstigeNoten.Any())
@@ -1496,10 +1581,10 @@
     private string BerechneSchriftlicheGesamtnote()
     {
       var klausurenNoten =
-        this.Noten.Where(o => o.NoteIstSchriftlich && o.NoteNotentyp == Notentyp.SchriftlichKlassenarbeit && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
-      var klausurNotenDurchschnitt = this.BerechneDurchschnittsNotenwert(klausurenNoten);
-      var sonstigeNoten = this.Noten.Where(o => o.NoteIstSchriftlich && o.NoteNotentyp == Notentyp.SchriftlichSonstige && o.NoteDatum <= Selection.Instance.Schülerliste.NotenDatum);
-      var sonstigeNotenDurchschnitt = this.BerechneDurchschnittsNotenwert(sonstigeNoten);
+        this.Noten.Where(o => o.NoteIstSchriftlich && o.NoteNotentyp == Notentyp.SchriftlichKlassenarbeit && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
+      var klausurNotenDurchschnitt = BerechneDurchschnittsNotenwert(klausurenNoten);
+      var sonstigeNoten = this.Noten.Where(o => o.NoteIstSchriftlich && o.NoteNotentyp == Notentyp.SchriftlichSonstige && o.NoteDatum <= Selection.Instance.Lerngruppe.NotenDatum);
+      var sonstigeNotenDurchschnitt = BerechneDurchschnittsNotenwert(sonstigeNoten);
 
       var schriftlichGesamt = 0;
       if (sonstigeNoten.Any())
@@ -1588,7 +1673,7 @@
     /// <param name="notenCollection">Eine Liste an NoteViewModel Noten,
     /// deren Mittelwert berechnet werden soll</param>
     /// <returns>Den gewichteten Mittelwert in Notenpunkten.</returns>
-    private int BerechneDurchschnittsNotenwert(IEnumerable<NoteViewModel> notenCollection)
+    private static int BerechneDurchschnittsNotenwert(IEnumerable<NoteViewModel> notenCollection)
     {
       var noteViewModels = notenCollection as IList<NoteViewModel> ?? notenCollection.ToList();
 
@@ -1621,10 +1706,7 @@
     /// <returns>Die Note als String im Format der Klassenstufe.</returns>
     private string GetNotenString(ZensurViewModel zensur)
     {
-      var bepunktungsTyp =
-        (Bepunktungstyp)
-        Enum.Parse(typeof(Bepunktungstyp), this.Model.Schülerliste.Klasse.Klassenstufe.Jahrgangsstufe.Bepunktungstyp);
-      switch (bepunktungsTyp)
+      switch (this.Model.Lerngruppe.Bepunktungstyp)
       {
         case Bepunktungstyp.GanzeNote:
           return zensur.ZensurGanzeNote.ToString(CultureInfo.InvariantCulture);
@@ -1645,7 +1727,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void HausaufgabenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Hausaufgaben", this.Hausaufgaben, e, false, "Änderung der Hausaufgaben");
+      UndoableCollectionChanged(this, nameof(Hausaufgaben), this.Hausaufgaben, e, true, "Änderung der Hausaufgaben");
       this.UpdateNoten();
     }
 
@@ -1672,7 +1754,8 @@
 
       using (new UndoBatch(App.MainViewModel, string.Format("Hausaufgabe {0} gelöscht.", hausaufgabeViewModel), false))
       {
-        var success = App.MainViewModel.Hausaufgaben.RemoveTest(hausaufgabeViewModel);
+        //App.UnitOfWork.Context.Hausaufgaben.Remove(hausaufgabeViewModel.Model);
+        //var success = App.MainViewModel.Hausaufgaben.RemoveTest(hausaufgabeViewModel);
         var result = this.Hausaufgaben.RemoveTest(hausaufgabeViewModel);
         this.CurrentHausaufgabe = null;
         this.UpdateNoten();
@@ -1750,16 +1833,19 @@
     /// </summary>
     private void ErstelleHausaufgabe()
     {
-      var hausaufgabe = new Hausaufgabe();
-      hausaufgabe.Bezeichnung = Selection.Instance.HausaufgabeBezeichnung;
-      hausaufgabe.Datum = Selection.Instance.HausaufgabeDatum;
-      hausaufgabe.IstNachgereicht = false;
-      hausaufgabe.Schülereintrag = this.Model;
+      var hausaufgabe = new Hausaufgabe
+      {
+        Bezeichnung = Selection.Instance.HausaufgabeBezeichnung,
+        Datum = Selection.Instance.HausaufgabeDatum,
+        IstNachgereicht = false,
+        Schülereintrag = this.Model
+      };
 
       var vm = new HausaufgabeViewModel(hausaufgabe);
       using (new UndoBatch(App.MainViewModel, string.Format("Hausaufgabe {0} erstellt.", vm), false))
       {
-        App.MainViewModel.Hausaufgaben.Add(vm);
+        //App.MainViewModel.Hausaufgaben.Add(vm);
+        //App.UnitOfWork.Context.Hausaufgaben.Add(hausaufgabe);
         this.Hausaufgaben.Add(vm);
         this.CurrentHausaufgabe = vm;
 
@@ -1785,8 +1871,8 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void NotenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Noten", this.Noten, e, false, "Änderung der Noten");
-      this.UpdateNoten();
+      UndoableCollectionChanged(this, nameof(Noten), this.Noten, e, true, "Änderung der Noten");
+      //this.UpdateNoten();
     }
 
     /// <summary>
@@ -1810,7 +1896,8 @@
 
       using (new UndoBatch(App.MainViewModel, string.Format("Note {0} gelöscht.", noteViewModel), false))
       {
-        var success = App.MainViewModel.Noten.RemoveTest(noteViewModel);
+        //App.UnitOfWork.Context.Noten.Remove(noteViewModel.Model);
+        //var success = App.MainViewModel.Noten.RemoveTest(noteViewModel);
         var result = this.Noten.RemoveTest(noteViewModel);
         this.UpdateNoten();
       }
@@ -1829,45 +1916,52 @@
     /// </summary>
     private async void AddNote()
     {
-      var note = new Note();
-      note.Bezeichnung = string.Empty;
-      note.Datum = DateTime.Now;
-      note.IstSchriftlich = false;
-      note.Notentyp = Notentyp.MündlichQualität.ToString();
-      note.NotenTermintyp = NotenTermintyp.Einzeln.ToString();
-      note.Wichtung = 1;
-      note.Zensur = App.MainViewModel.Zensuren.FirstOrDefault().Model;
-      note.Schülereintrag = this.Model;
-      var vm = new NoteViewModel(note);
-      var workspace = new NotenWorkspaceViewModel(vm);
-      bool undo;
-      using (new UndoBatch(App.MainViewModel, string.Format("Note {0} hinzugefügt.", vm), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("Note ergänzt"), false))
       {
-        if (Configuration.Instance.IsMetroMode)
+
+        var note = new Note
         {
-          var metroWindow = Configuration.Instance.MetroWindow;
-          metroWindow.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Accented;
-          var dialog = new MetroNoteDialog(workspace);
-          await metroWindow.ShowMetroDialogAsync(dialog);
-          undo = false;
+          Bezeichnung = string.Empty,
+          Datum = DateTime.Now,
+          IstSchriftlich = false,
+          Notentyp = Notentyp.MündlichQualität,
+          NotenTermintyp = NotenTermintyp.Einzeln,
+          Wichtung = 1,
+          Zensur = App.MainViewModel.Zensuren.FirstOrDefault().Model,
+          Schülereintrag = this.Model
+        };
+        //App.UnitOfWork.Context.Noten.Add(note);
+        var vm = new NoteViewModel(note);
+        var workspace = new NotenWorkspaceViewModel(vm);
+        bool undo;
+        using (new UndoBatch(App.MainViewModel, string.Format("Note {0} hinzugefügt.", vm), false))
+        {
+          if (Configuration.Instance.IsMetroMode)
+          {
+            var metroWindow = Configuration.Instance.MetroWindow;
+            metroWindow.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Accented;
+            var dialog = new MetroNoteDialog(workspace);
+            await metroWindow.ShowMetroDialogAsync(dialog);
+            undo = false;
+          }
+          else
+          {
+            var dlg = new AddNoteDialog(workspace);
+            undo = !dlg.ShowDialog().GetValueOrDefault(false);
+          }
+        }
+
+        if (undo)
+        {
+          App.MainViewModel.ExecuteUndoCommand();
         }
         else
         {
-          var dlg = new AddNoteDialog(workspace);
-          undo = !dlg.ShowDialog().GetValueOrDefault(false);
+          //App.MainViewModel.Noten.Add(vm);
+          this.Noten.Add(vm);
+          this.CurrentNote = vm;
+          this.UpdateNoten();
         }
-      }
-
-      if (undo)
-      {
-        App.MainViewModel.ExecuteUndoCommand();
-      }
-      else
-      {
-        App.MainViewModel.Noten.Add(vm);
-        this.Noten.Add(vm);
-        this.CurrentNote = vm;
-        this.UpdateNoten();
       }
     }
 
@@ -2021,21 +2115,24 @@
     /// <param name="notenwert">Ein ganzzahliger Notenwert für die Note.</param>
     private void AddSonstigeNote(int notenwert)
     {
-      var note = new Note();
-      note.Datum = Selection.Instance.SonstigeNoteDatum;
-      note.Bezeichnung = Selection.Instance.SonstigeNoteBezeichnung;
-      note.IstSchriftlich = Selection.Instance.SonstigeNoteNotentyp != Notentyp.MündlichSonstige;
-      note.Notentyp = Selection.Instance.SonstigeNoteNotentyp.ToString();
-      note.NotenTermintyp = NotenTermintyp.Einzeln.ToString();
-      note.Wichtung = Selection.Instance.SonstigeNoteWichtung;
-      note.Zensur = App.MainViewModel.Zensuren.First(o => o.ZensurNoteMitTendenz == notenwert.ToString(CultureInfo.InvariantCulture)).Model;
-      note.Schülereintrag = this.Model;
+      var note = new Note
+      {
+        Datum = Selection.Instance.SonstigeNoteDatum,
+        Bezeichnung = Selection.Instance.SonstigeNoteBezeichnung,
+        IstSchriftlich = Selection.Instance.SonstigeNoteNotentyp != Notentyp.MündlichSonstige,
+        Notentyp = Selection.Instance.SonstigeNoteNotentyp,
+        NotenTermintyp = NotenTermintyp.Einzeln,
+        Wichtung = Selection.Instance.SonstigeNoteWichtung,
+        Zensur = App.MainViewModel.Zensuren.First(o => o.ZensurNoteMitTendenz == notenwert.ToString(CultureInfo.InvariantCulture)).Model,
+        Schülereintrag = this.Model
+      };
       var vm = new NoteViewModel(note);
       using (new UndoBatch(App.MainViewModel, string.Format("Note {0} hinzugefügt.", vm), false))
       {
         if (!this.Noten.Contains(vm))
         {
-          App.MainViewModel.Noten.Add(vm);
+          //App.UnitOfWork.Context.Noten.Add(note);
+          //App.MainViewModel.Noten.Add(vm);
           this.Noten.Add(vm);
         }
 
@@ -2050,16 +2147,17 @@
     /// <param name="notenwert">Ein ganzzahliger Notenwert für die Note.</param>
     private void AddMündlicheNote(Notentyp notentyp, int notenwert)
     {
-      var note = new Note();
-      note.Datum = DateTime.Now;
-      var stunde = Selection.Instance.Stunde;
-      if (stunde != null && stunde.StundeStundenentwurf != null)
+      var note = new Note
       {
-        note.Bezeichnung = stunde.StundeStundenentwurf.StundenentwurfStundenthema;
+        Datum = DateTime.Now
+      };
+      var stunde = Selection.Instance.Stunde;
+      if (stunde != null)
+      {
+        note.Bezeichnung = stunde.TerminBeschreibung;
         note.Datum = stunde.LerngruppenterminDatum;
 
-        var alteNote =
-          this.Noten.FirstOrDefault(o => o.NoteDatum == stunde.LerngruppenterminDatum & o.NoteNotentyp == notentyp);
+        var alteNote = this.Noten.FirstOrDefault(o => o.NoteDatum == stunde.LerngruppenterminDatum & o.NoteNotentyp == notentyp);
         if (alteNote != null)
         {
           var result = this.Noten.Remove(alteNote);
@@ -2067,8 +2165,8 @@
       }
 
       note.IstSchriftlich = false;
-      note.Notentyp = notentyp.ToString();
-      note.NotenTermintyp = NotenTermintyp.Einzeln.ToString();
+      note.Notentyp = notentyp;
+      note.NotenTermintyp = NotenTermintyp.Einzeln;
       note.Wichtung = 1;
       note.Zensur = App.MainViewModel.Zensuren.First(o => o.ZensurNoteMitTendenz == notenwert.ToString(CultureInfo.InvariantCulture)).Model;
       note.Schülereintrag = this.Model;
@@ -2077,7 +2175,8 @@
       {
         if (!this.Noten.Contains(vm))
         {
-          App.MainViewModel.Noten.Add(vm);
+          //App.UnitOfWork.Context.Noten.Add(note);
+          //App.MainViewModel.Noten.Add(vm);
           this.Noten.Add(vm);
         }
 
@@ -2092,44 +2191,52 @@
     /// <param name="notenwert">Ein ganzzahliger Notenwert in Notenpunkte für die Note.</param>
     public void AddNote(Notentyp notentyp, NotenTermintyp termintyp, int notenwert, DateTime datum)
     {
-      var note = new Note();
-      note.Datum = datum;
-      note.Bezeichnung = termintyp.ToString();
-
-      var alteNote =
-        this.Noten.FirstOrDefault(o => o.NoteDatum == datum && o.NoteNotentyp == notentyp && o.NoteTermintyp == termintyp);
-      if (alteNote != null)
+      using (new UndoBatch(App.MainViewModel, string.Format("Note ergänzt"), false))
       {
-        var result = this.Noten.RemoveTest(alteNote);
-        App.MainViewModel.Noten.RemoveTest(alteNote);
-      }
 
-      switch (notentyp)
-      {
-        case Notentyp.MündlichStand:
-          note.IstSchriftlich = false;
-          break;
-        case Notentyp.SchriftlichStand:
-          note.IstSchriftlich = true;
-          break;
-        case Notentyp.GesamtStand:
-          note.IstSchriftlich = false;
-          break;
-      }
-      note.Notentyp = notentyp.ToString();
-      note.NotenTermintyp = termintyp.ToString();
-      note.Wichtung = 1;
-      note.Zensur = App.MainViewModel.Zensuren.First(o => o.ZensurNotenpunkte == notenwert).Model;
-      note.Schülereintrag = this.Model;
-      var vm = new NoteViewModel(note);
+        var note = new Note
+        {
+          Datum = datum,
+          Bezeichnung = termintyp.ToString()
+        };
 
-      if (!this.Noten.Contains(vm))
-      {
-        App.MainViewModel.Noten.Add(vm);
-        this.Noten.Add(vm);
-      }
+        var alteNote =
+          this.Noten.FirstOrDefault(o => o.NoteDatum == datum && o.NoteNotentyp == notentyp && o.NoteTermintyp == termintyp);
+        if (alteNote != null)
+        {
+          //App.UnitOfWork.Context.Noten.Remove(alteNote.Model);
+          var result = this.Noten.RemoveTest(alteNote);
+          //App.MainViewModel.Noten.RemoveTest(alteNote);
+        }
 
-      this.UpdateNoten();
+        switch (notentyp)
+        {
+          case Notentyp.MündlichStand:
+            note.IstSchriftlich = false;
+            break;
+          case Notentyp.SchriftlichStand:
+            note.IstSchriftlich = true;
+            break;
+          case Notentyp.GesamtStand:
+            note.IstSchriftlich = false;
+            break;
+        }
+        note.Notentyp = notentyp;
+        note.NotenTermintyp = termintyp;
+        note.Wichtung = 1;
+        note.Zensur = App.MainViewModel.Zensuren.First(o => o.ZensurNotenpunkte == notenwert).Model;
+        note.Schülereintrag = this.Model;
+        var vm = new NoteViewModel(note);
+
+        if (!this.Noten.Contains(vm))
+        {
+          //App.UnitOfWork.Context.Noten.Add(note);
+          //App.MainViewModel.Noten.Add(vm);
+          this.Noten.Add(vm);
+        }
+
+        this.UpdateNoten();
+      }
     }
 
     /// <summary>
@@ -2150,7 +2257,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void NotentendenzenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Notentendenzen", this.Notentendenzen, e, false, "Änderung der Notentendenzen");
+      UndoableCollectionChanged(this, nameof(Notentendenzen), this.Notentendenzen, e, true, "Änderung der Notentendenzen");
       this.UpdateNoten();
     }
 
@@ -2175,7 +2282,8 @@
 
       using (new UndoBatch(App.MainViewModel, string.Format("Notentendenz {0} gelöscht.", notentendenzViewModel), false))
       {
-        var success = App.MainViewModel.Notentendenzen.RemoveTest(notentendenzViewModel);
+        //App.UnitOfWork.Context.Notentendenzen.Remove(notentendenzViewModel.Model);
+        //var success = App.MainViewModel.Notentendenzen.RemoveTest(notentendenzViewModel);
         var result = this.Notentendenzen.RemoveTest(notentendenzViewModel);
         this.UpdateNoten();
       }
@@ -2186,12 +2294,14 @@
     /// </summary>
     private async void AddNotentendenz()
     {
-      var notentendenz = new Notentendenz();
-      notentendenz.Bezeichnung = string.Empty;
-      notentendenz.Datum = DateTime.Now;
-      notentendenz.Tendenz = App.MainViewModel.Tendenzen.First().Model;
-      notentendenz.Tendenztyp = App.MainViewModel.Tendenztypen.First().Model;
-      notentendenz.Schülereintrag = this.Model;
+      var notentendenz = new Notentendenz
+      {
+        Bezeichnung = string.Empty,
+        Datum = DateTime.Now,
+        Tendenz = Tendenz.Null,
+        Tendenztyp = Tendenztyp.Leistung,
+        Schülereintrag = this.Model
+      };
       var vm = new NotentendenzViewModel(notentendenz);
 
       bool undo;
@@ -2224,7 +2334,8 @@
 
       if (!undo)
       {
-        App.MainViewModel.Notentendenzen.Add(vm);
+        //App.UnitOfWork.Context.Notentendenzen.Add(notentendenz);
+        //App.MainViewModel.Notentendenzen.Add(vm);
         this.Notentendenzen.Add(vm);
         this.CurrentNotentendenz = vm;
         this.UpdateNoten();
@@ -2234,7 +2345,7 @@
     /// <summary>
     /// Fügt eine bestehende Notentendenz zum Schülereintrag hinzu.
     /// </summary>
-    /// <param name="noteViewModel">The note view model.</param>
+    /// <param name="notentendenzViewModel">The note view model.</param>
     public void AddNotentendenz(NotentendenzViewModel notentendenzViewModel)
     {
       notentendenzViewModel.Model.Schülereintrag = this.Model;
@@ -2251,8 +2362,8 @@
     /// <returns>Ein Wert in Notenpunkten, der zur Gesamtnote hinzugerechnet werden muss (da negativ)</returns>
     private int BerechneHausaufgabenBepunktung()
     {
-      var nichtGemachteHausaufgaben = this.Hausaufgaben.Count(o => o.HausaufgabeDatum <= Selection.Instance.Schülerliste.NotenDatum);
-      var nachgereichteHausaufgaben = this.Hausaufgaben.Count(o => o.HausaufgabeDatum <= Selection.Instance.Schülerliste.NotenDatum && o.HausaufgabeIstNachgereicht);
+      var nichtGemachteHausaufgaben = this.Hausaufgaben.Count(o => o.HausaufgabeDatum <= Selection.Instance.Lerngruppe.NotenDatum);
+      var nachgereichteHausaufgaben = this.Hausaufgaben.Count(o => o.HausaufgabeDatum <= Selection.Instance.Lerngruppe.NotenDatum && o.HausaufgabeIstNachgereicht);
       var nichtGemachteNichtNachgereichteHausaufgaben = nichtGemachteHausaufgaben - nachgereichteHausaufgaben;
 
       var bewertung = 0;
@@ -2268,15 +2379,126 @@
     /// <returns>Einen Wert in Notenpunkten der zur Gesamtnote hinzugerechnet werden muss.</returns>
     private int BerechneTendenzBepunktung()
     {
-      var anzahlTendenzen = this.Notentendenzen.Count(o => o.NotentendenzDatum <= Selection.Instance.Schülerliste.NotenDatum);
+      var anzahlTendenzen = this.Notentendenzen.Count(o => o.NotentendenzDatum <= Selection.Instance.Lerngruppe.NotenDatum);
       if (anzahlTendenzen == 0)
       {
         return 0;
       }
 
-      var tendenzSumme = this.Notentendenzen.Sum(o => o.NotentendenzTendenz.TendenzWichtung);
+      var tendenzSumme = this.Notentendenzen.Sum(o => (int)o.NotentendenzTendenz);
       var schlüssel = (int)Math.Round(tendenzSumme / (float)anzahlTendenzen, 0);
       return schlüssel != 0 ? schlüssel * -1 + 3 : 2;
+    }
+
+    private void CreateQuanitätPlotModel()
+    {
+      this.plotModelQuantität = new PlotModel();
+
+      var min = DateTimeAxis.ToDouble(this.MündlicheQuantitätFirstDateTime);
+      var max = DateTimeAxis.ToDouble(this.MündlicheQuantitätLastDateTime);
+      this.plotModelQuantität.Axes.Add(new DateTimeAxis
+      {
+        Position = AxisPosition.Bottom,
+        IntervalType = DateTimeIntervalType.Months,
+        Minimum = min,
+        Maximum = max,
+        StringFormat = "MMM"
+      });
+
+      this.plotModelQuantität.Axes.Add(new LinearAxis
+      {
+        Position = AxisPosition.Left,
+        TickStyle = TickStyle.None,
+        MinimumPadding = 0.1,
+        MaximumPadding = 0.1,
+        StartPosition = 1,
+        EndPosition = 0,
+        Minimum = 0.5,
+        Maximum = 6.5,
+        MajorStep = 1,
+        MinorStep = 1,
+        MajorGridlineStyle = LineStyle.Solid
+      });
+
+      var s = new LineSeries
+      {
+        ItemsSource = this.MündlicheQuantitätNotenCollection,
+        Mapping = item => new DataPoint(DateTimeAxis.ToDouble(((NoteViewModel)item).NoteDatum), ((NoteViewModel)item).NoteZensurGanzeNote),
+        DataFieldX = "NoteDatum",
+        DataFieldY = "NoteZensurGanzeNote",
+        MarkerType = MarkerType.Circle
+      };
+
+      this.plotModelQuantität.Series.Add(s);
+    }
+
+    private void CreateQualitätPlotModel()
+    {
+      this.plotModelQualität = new PlotModel();
+
+      var min = DateTimeAxis.ToDouble(this.MündlicheQualitätFirstDateTime);
+      var max = DateTimeAxis.ToDouble(this.MündlicheQualitätLastDateTime);
+      this.plotModelQualität.Axes.Add(new DateTimeAxis
+      {
+        Position = AxisPosition.Bottom,
+        IntervalType = DateTimeIntervalType.Months,
+        Minimum = min,
+        Maximum = max,
+        StringFormat = "MMM"
+      });
+
+      this.plotModelQualität.Axes.Add(new LinearAxis
+      {
+        Position = AxisPosition.Left,
+        TickStyle = TickStyle.None,
+        MinimumPadding = 0.1,
+        MaximumPadding = 0.1,
+        StartPosition = 1,
+        EndPosition = 0,
+        Minimum = 0.5,
+        Maximum = 6.5,
+        MajorStep = 1,
+        MinorStep = 1,
+        MajorGridlineStyle = LineStyle.Solid
+      });
+
+      var s = new LineSeries
+      {
+        ItemsSource = this.MündlicheQualitätNotenCollection,
+        Mapping = item => new DataPoint(DateTimeAxis.ToDouble(((NoteViewModel)item).NoteDatum), ((NoteViewModel)item).NoteZensurGanzeNote),
+        DataFieldX = "NoteDatum",
+        DataFieldY = "NoteZensurGanzeNote",
+        MarkerType = MarkerType.Circle
+      };
+
+      this.plotModelQualität.Series.Add(s);
+    }
+
+    /// <summary>
+    /// Filtert die Ergebnisse nach aktuell ausgewählter Arbeit
+    /// </summary>
+    /// <param name="item">Das Ergebnis, das gefiltert werden soll</param>
+    /// <returns>True, wenn das Objekt in der Liste bleiben soll.</returns>
+    private void CurrentArbeitErgebnisseViewSource_Filter(object sender, FilterEventArgs e)
+    {
+      var ergebnisViewModel = e.Item as ErgebnisViewModel;
+      if (ergebnisViewModel == null)
+      {
+        e.Accepted = false;
+        return;
+      }
+
+      if (Selection.Instance.Arbeit != null)
+      {
+        if (ergebnisViewModel.Model.Aufgabe.Arbeit.Id != Selection.Instance.Arbeit.Model.Id)
+        {
+          e.Accepted = false;
+          return;
+        }
+      }
+
+      e.Accepted = true;
+      return;
     }
 
   }

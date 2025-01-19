@@ -18,20 +18,23 @@
 namespace SoftTeach.View.Noten
 {
   using System;
+  using System.ComponentModel;
   using System.Linq;
   using System.Windows;
-
+  using System.Windows.Data;
   using SoftTeach.ExceptionHandling;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.ViewModel.Datenbank;
   using SoftTeach.ViewModel.Noten;
+  using SoftTeach.ViewModel.Personen;
 
   /// <summary>
   /// Ein Dialog um nicht gemachte Arbeiten einzutragen.
   /// </summary>
   public partial class AddArbeitDialog
   {
-    #region Constructors and Destructors
+    //private SchuljahrViewModel schuljahr;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="AddArbeitDialog"/> Klasse. 
@@ -39,79 +42,23 @@ namespace SoftTeach.View.Noten
     public AddArbeitDialog()
     {
       this.InitializeComponent();
-      this.DataContext = this;
-      this.Klasse = Selection.Instance.Klasse;
-      this.Jahrtyp = Selection.Instance.Jahrtyp;
-      this.Halbjahrtyp = Selection.Instance.Halbjahr;
-      this.Fach = Selection.Instance.Fach;
-      this.Bepunktungstyp = Bepunktungstyp.NoteMitTendenz;
-      this.Bewertungsschema = App.MainViewModel.Bewertungsschemata[0];
-      this.Bezeichnung = "Neue Arbeit";
-      this.Datum = DateTime.Now;
-      this.IstKlausur = true;
     }
-
-    #endregion
-    /// <summary>
-    /// Holt oder setzt die Klasse für die Arbeit
-    /// </summary>
-    public KlasseViewModel Klasse { get; set; }
-
-    /// <summary>
-    /// Holt oder setzt den Jahrtyp für die Arbeit
-    /// </summary>
-    public JahrtypViewModel Jahrtyp { get; set; }
-
-    /// <summary>
-    /// Holt oder setzt den Halbjahrtyp für die Arbeit
-    /// </summary>
-    public HalbjahrtypViewModel Halbjahrtyp { get; set; }
-
-    /// <summary>
-    /// Holt oder setzt das Fach für die Arbeit
-    /// </summary>
-    public FachViewModel Fach { get; set; }
-
-    /// <summary>
-    /// Holt oder setzt den Bepunktungstyp für die Arbeit
-    /// </summary>
-    public Bepunktungstyp Bepunktungstyp { get; set; }
-
-    /// <summary>
-    /// Holt oder setzt das Bewertungsschema für die Arbeit
-    /// </summary>
-    public BewertungsschemaViewModel Bewertungsschema { get; set; }
-
-    /// <summary>
-    /// Holt oder setzt die Bezeichnung der Arbeit
-    /// </summary>
-    public string Bezeichnung { get; set; }
-
-    /// <summary>
-    /// Holt oder setzt das Datum für die Arbeit
-    /// </summary>
-    public DateTime Datum { get; set; }
-
-    /// <summary>
-    /// Holt oder setzt einen Wert, der angibt, ob die Arbeit eine Klausur ist.
-    /// </summary>
-    public bool IstKlausur { get; set; }
 
     /// <summary> The ok click. </summary>
     /// <param name="sender"> The sender. </param>
     /// <param name="e"> The e. </param>
     private void OkClick(object sender, RoutedEventArgs e)
     {
+      var workspace = this.DataContext as AddArbeitWorkspaceViewModel;
+
       // Doppelte Arbeiten zum selben Termin vermeiden.
       if (App.MainViewModel.Arbeiten.Any(
           o =>
-          o.ArbeitJahrtyp.JahrtypBezeichnung == this.Jahrtyp.JahrtypBezeichnung
-          && o.ArbeitHalbjahrtyp.HalbjahrtypIndex == this.Halbjahrtyp.HalbjahrtypIndex
-          && o.ArbeitKlasse.KlasseBezeichnung == this.Klasse.KlasseBezeichnung
-          && o.ArbeitFach.FachBezeichnung == this.Fach.FachBezeichnung && o.ArbeitDatum.Date == this.Datum.Date))
+          o.ArbeitLerngruppe.LerngruppeSchuljahr.SchuljahrBezeichnung == workspace.Lerngruppe.LerngruppeSchuljahr.SchuljahrBezeichnung
+          && o.ArbeitLerngruppe.LerngruppeBezeichnung == workspace.Lerngruppe.LerngruppeBezeichnung
+          && o.ArbeitFach.FachBezeichnung == workspace.Lerngruppe.LerngruppeFach.FachBezeichnung && o.ArbeitDatum.Date == workspace.Datum.Date))
       {
-        var message = "Eine Arbeit der Klasse " + this.Klasse.KlasseBezeichnung + " im Fach "
-                      + this.Fach.FachBezeichnung + " ist am " + this.Datum.Date.ToShortDateString() + " bereits in der Datenbank angelegt.";
+        var message = "Eine Arbeit der Lerngruppe " + workspace.Lerngruppe.LerngruppeKurzbezeichnung + " ist am " + workspace.Datum.Date.ToShortDateString() + " bereits in der Datenbank angelegt.";
 
         var dlg = new InformationDialog("Arbeit schon angelegt.", message, false);
         dlg.ShowDialog();

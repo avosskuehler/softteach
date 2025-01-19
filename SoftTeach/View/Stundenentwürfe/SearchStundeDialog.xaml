@@ -1,0 +1,274 @@
+﻿<Window x:Class="SoftTeach.View.Stundenentwürfe.SearchStundeDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
+        xmlns:softTeach="clr-namespace:SoftTeach"
+        xmlns:controls="clr-namespace:SoftTeach.Resources.Controls"
+        xmlns:pushBinding="clr-namespace:SoftTeach.ViewModel.Helper.PushBinding"
+        Title="Stundenentwurf ..." 
+        WindowState="Maximized"
+        Height="600" 
+        Width="900">
+  <Window.Resources>
+    <!--<CollectionViewSource Source="{Binding Path=FilteredStunden}" x:Key="GroupedStundenentwürfe">
+      <CollectionViewSource.GroupDescriptions>
+        <PropertyGroupDescription PropertyName=""/>
+        --><!--<PropertyGroupDescription PropertyName="TerminBeschreibung"/>--><!--
+      </CollectionViewSource.GroupDescriptions>
+    </CollectionViewSource>-->
+    <DataTemplate x:Key="StundenentwurfTile">
+      <!--<Border BorderThickness="1" BorderBrush="LightGray">-->
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="25"/>
+          <ColumnDefinition Width="150"/>
+          <ColumnDefinition Width="350"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!--<Rectangle x:Name="ModulRahmen" Grid.Column="0" Grid.RowSpan="2" Fill="White" Stroke="Transparent"/>
+        <Rectangle x:Name="NameRahmen" Grid.Column="1" Grid.RowSpan="2" Fill="White" Stroke="Transparent"/>
+        <Rectangle x:Name="PhasenRahmen" Grid.Column="2" Grid.RowSpan="2" Fill="White" Stroke="Transparent"/>-->
+        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="3" Text="{Binding Path=Modul.Bezeichnung, Mode=OneWay}"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
+          <TextBlock Margin="3" Text="{Binding Mode=OneWay, Converter={StaticResource StundeStundenzahlConverter}}"/>
+          <TextBlock Margin="0,3" >h</TextBlock>
+        </StackPanel>
+          <TextBlock Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding Path=Beschreibung, Mode=OneWay}"/>
+        <TextBlock Margin="3" Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Text="{Binding Mode=OneWay, Converter={StaticResource StundePhasenKurzConverter}}"/>
+      </Grid>
+      <!--</Border>-->
+      <!--<DataTemplate.Triggers>
+        <EventTrigger RoutedEvent="UIElement.MouseEnter">
+          <BeginStoryboard>
+            <Storyboard>
+              <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="ModulRahmen" Storyboard.TargetProperty="(Rectangle.Fill)">
+                <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                  <DiscreteObjectKeyFrame.Value>
+                    <SolidColorBrush>LightSeaGreen</SolidColorBrush>
+                  </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+              </ObjectAnimationUsingKeyFrames>
+              <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="NameRahmen" Storyboard.TargetProperty="(Rectangle.Fill)">
+                <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                  <DiscreteObjectKeyFrame.Value>
+                    <SolidColorBrush>LightSeaGreen</SolidColorBrush>
+                  </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+              </ObjectAnimationUsingKeyFrames>
+              <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="PhasenRahmen" Storyboard.TargetProperty="(Rectangle.Fill)">
+                <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                  <DiscreteObjectKeyFrame.Value>
+                    <SolidColorBrush>LightSeaGreen</SolidColorBrush>
+                  </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+              </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+          </BeginStoryboard>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="UIElement.MouseLeave">
+          <BeginStoryboard>
+            <Storyboard>
+              <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="ModulRahmen" Storyboard.TargetProperty="(Rectangle.Fill)">
+                <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                  <DiscreteObjectKeyFrame.Value>
+                    <SolidColorBrush>White</SolidColorBrush>
+                  </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+              </ObjectAnimationUsingKeyFrames>
+              <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="NameRahmen" Storyboard.TargetProperty="(Rectangle.Fill)">
+                <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                  <DiscreteObjectKeyFrame.Value>
+                    <SolidColorBrush>White</SolidColorBrush>
+                  </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+              </ObjectAnimationUsingKeyFrames>
+              <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="PhasenRahmen" Storyboard.TargetProperty="(Rectangle.Fill)">
+                <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                  <DiscreteObjectKeyFrame.Value>
+                    <SolidColorBrush>White</SolidColorBrush>
+                  </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+              </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+          </BeginStoryboard>
+        </EventTrigger>
+      </DataTemplate.Triggers>-->
+
+    </DataTemplate>
+
+  </Window.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <controls:SmallDialogHeader Grid.Row="0" Title="Stundenentwurf auswählen ...">
+      <controls:SmallDialogHeader.IconContent>
+        <Grid>
+          <fa:IconBlock Style="{StaticResource Stundenentwurf48}" Foreground="{DynamicResource Iconfarbe}"/>
+        </Grid>
+      </controls:SmallDialogHeader.IconContent>
+    </controls:SmallDialogHeader>
+    <Grid Grid.Row="1" >
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ToolBarPanel Grid.Row="0">
+          <ToolBar>
+            <Label Padding="0" Margin="3"  VerticalContentAlignment="Center">Filtern nach: Fach</Label>
+            <ComboBox MinWidth="100" ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Fächer}"
+                              SelectedValue="{Binding Path=FachFilter}" 
+                              SelectedValuePath="." 
+                              DisplayMemberPath="FachBezeichnung"/>
+            <Label Padding="0" Margin="3" VerticalContentAlignment="Center">und Jahrgang</Label>
+            <ComboBox MinWidth="100" ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Jahrgänge}"
+                              SelectedValue="{Binding Path=JahrgangFilter}"
+                              SelectedValuePath="."/>
+            <Label Padding="0" Margin="3" VerticalContentAlignment="Center">und Modul</Label>
+            <ComboBox MinWidth="100" ItemsSource="{Binding Path=FilteredModule}"
+                              SelectedValue="{Binding Path=ModulFilter}"
+                              SelectedValuePath="." 
+                              DisplayMemberPath="ModulBezeichnung"/>
+            <Separator Margin="10,0,10,0" ></Separator>
+            <Button Width="Auto" Name="RemoveFilterButton" Command="{Binding Path=RemoveFilterCommand}">
+              Filter zurücksetzen.
+            </Button>
+          </ToolBar>
+        </ToolBarPanel>
+        <ListBox Grid.Row="1" Background="Transparent" 
+                 ItemsSource="{Binding Path=FilteredStunden}" 
+                 ItemTemplate="{StaticResource StundenentwurfTile}"
+        VirtualizingStackPanel.VirtualizationMode="Standard"
+        VirtualizingStackPanel.IsVirtualizing="True"                  
+                 BorderThickness="1"
+                 BorderBrush="LightGray"
+                 Padding="0"
+                 SelectionMode="Extended"
+                 SelectedItem="{Binding CurrentStunde, Mode=TwoWay}">
+          <ListBox.Resources>
+            <Style x:Key="FocusVisual">
+              <Setter Property="Control.Template">
+                <Setter.Value>
+                  <ControlTemplate>
+                    <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                  </ControlTemplate>
+                </Setter.Value>
+              </Setter>
+            </Style>
+            <SolidColorBrush x:Key="Item.MouseOver.Background" Color="#1F26A0DA"/>
+            <SolidColorBrush x:Key="Item.MouseOver.Border" Color="#a826A0Da"/>
+            <SolidColorBrush x:Key="Item.SelectedInactive.Background" Color="#3DDADADA"/>
+            <SolidColorBrush x:Key="Item.SelectedInactive.Border" Color="#FFDADADA"/>
+            <SolidColorBrush x:Key="Item.SelectedActive.Background" Color="#3D26A0DA"/>
+            <SolidColorBrush x:Key="Item.SelectedActive.Border" Color="#FF26A0DA"/>
+          </ListBox.Resources>
+          <pushBinding:PushBindingManager.PushBindings>
+            <pushBinding:PushBinding TargetProperty="SelectedItems" Path="SelectedStunden"/>
+          </pushBinding:PushBindingManager.PushBindings>
+          <ListBox.InputBindings>
+            <KeyBinding Key="Delete" Command="{Binding Path=DeleteStundeCommand}"/>
+          </ListBox.InputBindings>
+          <ListBox.ItemsPanel>
+            <ItemsPanelTemplate>
+              <StackPanel/>
+            </ItemsPanelTemplate>
+          </ListBox.ItemsPanel>
+          <ListBox.GroupStyle>
+            <GroupStyle ContainerStyle="{StaticResource SchuljahreHeaderStyle}">
+              <GroupStyle.Panel>
+                <ItemsPanelTemplate>
+                  <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+              </GroupStyle.Panel>
+            </GroupStyle>
+            <GroupStyle ContainerStyle="{StaticResource SchuljahreHeaderStyle}">
+              <GroupStyle.Panel>
+                <ItemsPanelTemplate>
+                  <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+              </GroupStyle.Panel>
+            </GroupStyle>
+          </ListBox.GroupStyle>
+          <ListBox.ItemContainerStyle>
+            <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+              <Setter Property="Padding" Value="0"/>
+              <Setter Property="Template">
+                <Setter.Value>
+                  <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Border x:Name="Bd" BorderBrush="LightGray" BorderThickness="1" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                      <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                      <MultiTrigger>
+                        <MultiTrigger.Conditions>
+                          <Condition Property="IsMouseOver" Value="True"/>
+                        </MultiTrigger.Conditions>
+                        <Setter Property="Background" TargetName="Bd" Value="{StaticResource Item.MouseOver.Background}"/>
+                        <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource Item.MouseOver.Border}"/>
+                      </MultiTrigger>
+                      <MultiTrigger>
+                        <MultiTrigger.Conditions>
+                          <Condition Property="Selector.IsSelectionActive" Value="False"/>
+                          <Condition Property="IsSelected" Value="True"/>
+                        </MultiTrigger.Conditions>
+                        <Setter Property="Background" TargetName="Bd" Value="{StaticResource Item.SelectedInactive.Background}"/>
+                        <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource Item.SelectedInactive.Border}"/>
+                      </MultiTrigger>
+                      <MultiTrigger>
+                        <MultiTrigger.Conditions>
+                          <Condition Property="Selector.IsSelectionActive" Value="True"/>
+                          <Condition Property="IsSelected" Value="True"/>
+                        </MultiTrigger.Conditions>
+                        <Setter Property="Background" TargetName="Bd" Value="{StaticResource Item.SelectedActive.Background}"/>
+                        <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource Item.SelectedActive.Border}"/>
+                      </MultiTrigger>
+                      <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="TextElement.Foreground" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                      </Trigger>
+                    </ControlTemplate.Triggers>
+                  </ControlTemplate>
+                </Setter.Value>
+              </Setter>
+            </Style>
+          </ListBox.ItemContainerStyle>
+          <!--<ListBox.ItemContainerStyle>
+            <Style TargetType="ListBoxItem">
+              <Setter Property="Padding" Value="0"/>
+              <Setter Property="Opacity" Value="0.7" />
+              <Setter Property="Template">
+                <Setter.Value>
+                  <ControlTemplate TargetType="ListBoxItem">
+                    <Border x:Name="Border" Padding="0" SnapsToDevicePixels="true">
+                      <ContentPresenter />
+                    </Border>
+                  </ControlTemplate>
+                </Setter.Value>
+              </Setter>
+              <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                  <Trigger.Setters>
+                    <Setter Property="Opacity" Value="1.0" />
+                  </Trigger.Setters>
+                </Trigger>
+              </Style.Triggers>
+            </Style>
+          </ListBox.ItemContainerStyle>-->
+        </ListBox>
+
+      </Grid>
+    </Grid>
+    <Grid Background="{StaticResource DefaultButtonsBackgroundBrush}" Grid.Row="2">
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+        <Button Width="150" IsDefault="True" Click="KopieClick" TabIndex="2">Stunde übernehmen</Button>
+        <Label></Label>
+        <Button Width="100" IsCancel="True" Click="CancelClick">Abbrechen</Button>
+      </StackPanel>
+    </Grid>
+  </Grid>
+</Window>

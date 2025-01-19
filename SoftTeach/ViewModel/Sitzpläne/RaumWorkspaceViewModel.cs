@@ -3,7 +3,7 @@
   using System.Linq;
 
   using SoftTeach.ExceptionHandling;
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.ViewModel.Helper;
 
   /// <summary>
@@ -23,7 +23,10 @@
     {
       this.AddRaumCommand = new DelegateCommand(this.AddRaum);
       this.DeleteRaumCommand = new DelegateCommand(this.DeleteCurrentRaum, () => this.CurrentRaum != null);
+      this.CopyRaumCommand = new DelegateCommand(this.CopyCurrentRaum, () => this.CurrentRaum != null);
       this.CurrentRaum = App.MainViewModel.Räume.Count > 0 ? App.MainViewModel.Räume[0] : null;
+
+      App.MainViewModel.LoadRäume();
 
       // Re-act to any changes from outside this ViewModel
       App.MainViewModel.Räume.CollectionChanged += (sender, e) =>
@@ -44,6 +47,11 @@
     /// Holt den Befehl zur deleting the current Raum
     /// </summary>
     public DelegateCommand DeleteRaumCommand { get; private set; }
+
+    /// <summary>
+    /// Holt den Befehl zur deleting the current Raum
+    /// </summary>
+    public DelegateCommand CopyRaumCommand { get; private set; }
 
     /// <summary>
     /// Holt oder setzt die raum currently selected in this workspace
@@ -75,7 +83,7 @@
       {
         Log.ProcessMessage(
           "Raum bereits vorhanden",
-          "Dieses Raum ist bereits in " + "der Datenbank vorhanden und kann nicht doppelt angelegt werden.");
+          "Dieser Raum ist bereits in " + "der Datenbank vorhanden und kann nicht doppelt angelegt werden.");
         return;
       }
 
@@ -88,6 +96,15 @@
     /// Handles deletion of the current Raum
     /// </summary>
     private void DeleteCurrentRaum()
+    {
+      App.MainViewModel.Räume.RemoveTest(this.CurrentRaum);
+      this.CurrentRaum = null;
+    }
+
+    /// <summary>
+    /// Kopiert die Sitzpläne des aktuellen Raums in einen anderen Raum.
+    /// </summary>
+    private void CopyCurrentRaum()
     {
       App.MainViewModel.Räume.RemoveTest(this.CurrentRaum);
       this.CurrentRaum = null;

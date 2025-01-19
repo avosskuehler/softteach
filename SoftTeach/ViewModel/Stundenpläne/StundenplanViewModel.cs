@@ -6,9 +6,8 @@
   using System.Collections.Specialized;
   using System.Linq;
   using System.Windows.Controls;
-  using System.Windows.Input;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Stundenpläne;
   using SoftTeach.ViewModel.Datenbank;
@@ -20,14 +19,14 @@
   public class StundenplanViewModel : ViewModelBase, IComparable, ICloneable
   {
     /// <summary>
-    /// The jahrtyp currently assigned to this stundenplan
+    /// The schuljahr currently assigned to this stundenplan
     /// </summary>
-    private JahrtypViewModel jahrtyp;
+    private SchuljahrViewModel schuljahr;
 
-    /// <summary>
-    /// The halbjahrtyp assigned to this stundenplan
-    /// </summary>
-    private HalbjahrtypViewModel halbjahrtyp;
+    ///// <summary>
+    ///// The halbschuljahr assigned to this stundenplan
+    ///// </summary>
+    //private Halbjahr halbschuljahr;
 
     /// <summary>
     /// The stundenplaneintraf currently selected
@@ -47,12 +46,7 @@
     /// </param>
     public StundenplanViewModel(Stundenplan stundenplan)
     {
-      if (stundenplan == null)
-      {
-        throw new ArgumentNullException("stundenplan");
-      }
-
-      this.Model = stundenplan;
+      this.Model = stundenplan ?? throw new ArgumentNullException(nameof(stundenplan));
       this.AddStundenplaneintragCommand = new DelegateCommand(this.AddStundenplaneintrag);
       this.DeleteStundenplaneintragCommand = new DelegateCommand(this.DeleteCurrentStundenplaneintrag, () => this.CurrentStundenplaneintrag != null);
       this.ÄnderungsListe = new List<StundenplanÄnderung>();
@@ -62,12 +56,13 @@
       foreach (var stundenplaneintrag in stundenplan.Stundenplaneinträge)
       {
         var vm = new StundenplaneintragViewModel(this, stundenplaneintrag);
-        App.MainViewModel.Stundenplaneinträge.Add(vm);
+        //App.MainViewModel.Stundenplaneinträge.Add(vm);
         this.Stundenplaneinträge.Add(vm);
       }
 
       this.Stundenplaneinträge.CollectionChanged += this.StundenplaneinträgeCollectionChanged;
       this.CreateContextMenu();
+      this.ViewMode = StundenplanViewMode.None;
     }
 
     /// <summary>
@@ -90,6 +85,69 @@
     /// for this stundenplan.
     /// </summary>
     public StundenplanViewMode ViewMode { get; set; }
+
+    [DependsUpon("ViewMode")]
+    public bool IsInDefaultMode
+    {
+      get
+      {
+        return this.ViewMode.HasFlag(StundenplanViewMode.Default);
+      }
+      set
+      {
+        if (value)
+        {
+          this.ViewMode |= StundenplanViewMode.Default;
+        }
+        else
+        {
+          this.ViewMode &= ~StundenplanViewMode.Default;
+        }
+        this.RaisePropertyChanged("IsInDefaultMode");
+      }
+    }
+
+    [DependsUpon("ViewMode")]
+    public bool IsInEditMode
+    {
+      get
+      {
+        return this.ViewMode.HasFlag(StundenplanViewMode.Edit);
+      }
+      set
+      {
+        if (value)
+        {
+          this.ViewMode |= StundenplanViewMode.Edit;
+        }
+        else
+        {
+          this.ViewMode &= ~StundenplanViewMode.Edit;
+        }
+        this.RaisePropertyChanged("IsInEditMode");
+      }
+    }
+
+    [DependsUpon("ViewMode")]
+    public bool IsInDragDropMode
+    {
+      get
+      {
+        return this.ViewMode.HasFlag(StundenplanViewMode.DragDrop);
+      }
+      set
+      {
+        if (value)
+        {
+          this.ViewMode |= StundenplanViewMode.DragDrop;
+        }
+        else
+        {
+          this.ViewMode &= ~StundenplanViewMode.DragDrop;
+        }
+        this.RaisePropertyChanged("IsInDragDropMode");
+      }
+    }
 
     /// <summary>
     /// Holt oder setzt die list of changes during edit of this stundenplan
@@ -138,7 +196,7 @@
       set
       {
         if (value == this.Model.Bezeichnung) return;
-        this.UndoablePropertyChanging(this, "StundenplanBezeichnung", this.Model.Bezeichnung, value);
+        this.UndoablePropertyChanging(this, nameof(StundenplanBezeichnung), this.Model.Bezeichnung, value);
         this.Model.Bezeichnung = value;
         this.RaisePropertyChanged("StundenplanBezeichnung");
       }
@@ -157,175 +215,163 @@
       set
       {
         if (value == this.Model.GültigAb) return;
-        this.UndoablePropertyChanging(this, "StundenplanGültigAb", this.Model.GültigAb, value);
+        this.UndoablePropertyChanging(this, nameof(StundenplanGültigAb), this.Model.GültigAb, value);
         this.Model.GültigAb = value;
         this.RaisePropertyChanged("StundenplanGültigAb");
       }
     }
 
     /// <summary>
-    /// Holt oder setzt die Jahrtyp currently assigned to this Stundenplan
+    /// Holt oder setzt die Schuljahr currently assigned to this Stundenplan
     /// </summary>
-    public JahrtypViewModel StundenplanJahrtyp
+    public SchuljahrViewModel StundenplanSchuljahr
     {
       get
       {
         // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Jahrtyp == null)
+        if (this.Model.Schuljahr == null)
         {
           return null;
         }
 
-        if (this.jahrtyp == null || this.jahrtyp.Model != this.Model.Jahrtyp)
+        if (this.schuljahr == null || this.schuljahr.Model != this.Model.Schuljahr)
         {
-          this.jahrtyp = App.MainViewModel.Jahrtypen.SingleOrDefault(d => d.Model == this.Model.Jahrtyp);
+          this.schuljahr = App.MainViewModel.Schuljahre.SingleOrDefault(d => d.Model == this.Model.Schuljahr);
         }
 
-        return this.jahrtyp;
+        return this.schuljahr;
       }
 
       set
       {
-        if (value.JahrtypBezeichnung == this.jahrtyp.JahrtypBezeichnung) return;
-        this.UndoablePropertyChanging(this, "StundenplanJahrtyp", this.jahrtyp, value);
-        this.jahrtyp = value;
-        this.Model.Jahrtyp = value.Model;
-        this.RaisePropertyChanged("StundenplanJahrtyp");
+        if (value.SchuljahrBezeichnung == this.schuljahr.SchuljahrBezeichnung) return;
+        this.UndoablePropertyChanging(this, nameof(StundenplanSchuljahr), this.schuljahr, value);
+        this.schuljahr = value;
+        this.Model.Schuljahr = value.Model;
+        this.RaisePropertyChanged("StundenplanSchuljahr");
       }
     }
 
     /// <summary>
-    /// Holt oder setzt die Halbjahrtyp currently assigned to this Stundenplan
+    /// Holt oder setzt die Halbjahr currently assigned to this Stundenplan
     /// </summary>
-    public HalbjahrtypViewModel StundenplanHalbjahrtyp
+    public Halbjahr StundenplanHalbjahr
     {
       get
       {
-        // We need to reflect any changes made in the model so we check the current value before returning
-        if (this.Model.Halbjahrtyp == null)
-        {
-          return null;
-        }
-
-        if (this.halbjahrtyp == null || this.halbjahrtyp.Model != this.Model.Halbjahrtyp)
-        {
-          this.halbjahrtyp = App.MainViewModel.Halbjahrtypen.SingleOrDefault(d => d.Model == this.Model.Halbjahrtyp);
-        }
-
-        return this.halbjahrtyp;
+        return this.Model.Halbjahr;
       }
 
       set
       {
-        if (value.HalbjahrtypBezeichnung == this.halbjahrtyp.HalbjahrtypBezeichnung) return;
-        this.UndoablePropertyChanging(this, "StundenplanHalbjahrtyp", this.halbjahrtyp, value);
-        this.halbjahrtyp = value;
-        this.Model.Halbjahrtyp = value.Model;
-        this.RaisePropertyChanged("StundenplanHalbjahrtyp");
+        if (value == this.Model.Halbjahr) return;
+        this.UndoablePropertyChanging(this, nameof(StundenplanGültigAb), this.Model.Halbjahr, value);
+        this.Model.Halbjahr = value;
+        this.RaisePropertyChanged("StundenplanHalbjahr");
       }
     }
 
-    public string Stundenplan1Bezeichnung
+    public static string Stundenplan1Bezeichnung
     {
-      get { return App.MainViewModel.Unterrichtsstunden[0].UnterrichtsstundeBezeichnung; }
+      get { return App.MainViewModel.Unterrichtsstunden[0].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
 
-    public string Stundenplan1Zeit
+    public static string Stundenplan1Zeit
     {
       get { return App.MainViewModel.Unterrichtsstunden[0].UnterrichtsstundeZeitraum; }
     }
 
-    public string Stundenplan2Bezeichnung
+    public static string Stundenplan2Bezeichnung
     {
-      get { return App.MainViewModel.Unterrichtsstunden[1].UnterrichtsstundeBezeichnung; }
+      get { return App.MainViewModel.Unterrichtsstunden[1].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
 
-    public string Stundenplan2Zeit
+    public static string Stundenplan2Zeit
     {
       get { return App.MainViewModel.Unterrichtsstunden[1].UnterrichtsstundeZeitraum; }
     }
 
-    public string Stundenplan3Bezeichnung
+    public static string Stundenplan3Bezeichnung
     {
-      get { return App.MainViewModel.Unterrichtsstunden[2].UnterrichtsstundeBezeichnung; }
+      get { return App.MainViewModel.Unterrichtsstunden[2].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
 
-    public string Stundenplan3Zeit
+    public static string Stundenplan3Zeit
     {
       get { return App.MainViewModel.Unterrichtsstunden[2].UnterrichtsstundeZeitraum; }
     }
 
-    public string Stundenplan4Bezeichnung
+    public static string Stundenplan4Bezeichnung
     {
-      get { return App.MainViewModel.Unterrichtsstunden[3].UnterrichtsstundeBezeichnung; }
+      get { return App.MainViewModel.Unterrichtsstunden[3].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
 
-    public string Stundenplan4Zeit
+    public static string Stundenplan4Zeit
     {
       get { return App.MainViewModel.Unterrichtsstunden[3].UnterrichtsstundeZeitraum; }
     }
 
-    public string Stundenplan5Bezeichnung
+    public static string Stundenplan5Bezeichnung
     {
-      get { return App.MainViewModel.Unterrichtsstunden[4].UnterrichtsstundeBezeichnung; }
+      get { return App.MainViewModel.Unterrichtsstunden[4].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
 
-    public string Stundenplan5Zeit
+    public static string Stundenplan5Zeit
     {
       get { return App.MainViewModel.Unterrichtsstunden[4].UnterrichtsstundeZeitraum; }
     }
 
-    public string Stundenplan6Bezeichnung
+    public static string Stundenplan6Bezeichnung
     {
-      get { return App.MainViewModel.Unterrichtsstunden[5].UnterrichtsstundeBezeichnung; }
+      get { return App.MainViewModel.Unterrichtsstunden[5].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
 
-    public string Stundenplan6Zeit
+    public static string Stundenplan6Zeit
     {
       get { return App.MainViewModel.Unterrichtsstunden[5].UnterrichtsstundeZeitraum; }
     }
 
-    public string Stundenplan7Bezeichnung
+    public static string Stundenplan7Bezeichnung
     {
-      get { return App.MainViewModel.Unterrichtsstunden[6].UnterrichtsstundeBezeichnung; }
+      get { return App.MainViewModel.Unterrichtsstunden[6].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
 
-    public string Stundenplan7Zeit
+    public static string Stundenplan7Zeit
     {
       get { return App.MainViewModel.Unterrichtsstunden[6].UnterrichtsstundeZeitraum; }
     }
 
-    public string Stundenplan8Bezeichnung
+    public static string Stundenplan8Bezeichnung
     {
-      get { return App.MainViewModel.Unterrichtsstunden[7].UnterrichtsstundeBezeichnung; }
+      get { return App.MainViewModel.Unterrichtsstunden[7].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
 
-    public string Stundenplan8Zeit
+    public static string Stundenplan8Zeit
     {
       get { return App.MainViewModel.Unterrichtsstunden[7].UnterrichtsstundeZeitraum; }
     }
 
-    public string Stundenplan9Bezeichnung
+    public static string Stundenplan9Bezeichnung
     {
-      get { return App.MainViewModel.Unterrichtsstunden[8].UnterrichtsstundeBezeichnung; }
+      get { return App.MainViewModel.Unterrichtsstunden[8].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
 
-    public string Stundenplan9Zeit
+    public static string Stundenplan9Zeit
     {
       get { return App.MainViewModel.Unterrichtsstunden[8].UnterrichtsstundeZeitraum; }
     }
 
-    public string Stundenplan10Bezeichnung
+    public static string Stundenplan10Bezeichnung
     {
-      get { return App.MainViewModel.Unterrichtsstunden[9].UnterrichtsstundeBezeichnung; }
+      get { return App.MainViewModel.Unterrichtsstunden[9].UnterrichtsstundeBezeichnung + ". Stunde"; }
     }
 
-    public string Stundenplan10Zeit
+    public static string Stundenplan10Zeit
     {
       get { return App.MainViewModel.Unterrichtsstunden[9].UnterrichtsstundeZeitraum; }
     }
 
-    public int StundenplanStundenzahlproTag
+    public static int StundenplanStundenzahlproTag
     {
       get
       {
@@ -876,21 +922,22 @@
       int letzteUnterrichtsstundeIndex,
       int wochentagIndex,
       Fach fach,
-      Klasse klasse,
+      Lerngruppe lerngruppe,
       Raum raum)
     {
-      var stundenplaneintrag = new Stundenplaneintrag();
-      stundenplaneintrag.ErsteUnterrichtsstundeIndex = ersteUnterrichtsstundeIndex;
-      stundenplaneintrag.LetzteUnterrichtsstundeIndex = letzteUnterrichtsstundeIndex;
-      stundenplaneintrag.WochentagIndex = wochentagIndex;
-      stundenplaneintrag.Fach = fach;
-      stundenplaneintrag.Klasse = klasse;
-      stundenplaneintrag.Raum = raum;
-      stundenplaneintrag.Stundenplan = this.Model;
+      var stundenplaneintrag = new Stundenplaneintrag
+      {
+        ErsteUnterrichtsstundeIndex = ersteUnterrichtsstundeIndex,
+        LetzteUnterrichtsstundeIndex = letzteUnterrichtsstundeIndex,
+        WochentagIndex = wochentagIndex,
+        Lerngruppe = lerngruppe,
+        Raum = raum,
+        Stundenplan = this.Model
+      };
       var vm = new StundenplaneintragViewModel(this, stundenplaneintrag);
       using (new UndoBatch(App.MainViewModel, string.Format("Neuer Stundenplaneintrag {0} angelegt.", vm), false))
       {
-        App.MainViewModel.Stundenplaneinträge.Add(vm);
+        //App.MainViewModel.Stundenplaneinträge.Add(vm);
         this.Stundenplaneinträge.Add(vm);
         this.CurrentStundenplaneintrag = vm;
         this.UpdateProperties(vm);
@@ -935,19 +982,18 @@
       // auch noch die Änderungen in den Jahresplänen vorzunehmen
       // Das findet ja erst nach allen Änderungen statt.
       var eintrag = new Stundenplaneintrag
-                      {
-                        Klasse = stundenplaneintragViewModel.StundenplaneintragKlasse.Model,
-                        Fach = stundenplaneintragViewModel.StundenplaneintragFach.Model,
-                        ErsteUnterrichtsstundeIndex =
+      {
+        Lerngruppe = stundenplaneintragViewModel.StundenplaneintragLerngruppe.Model,
+        ErsteUnterrichtsstundeIndex =
                           stundenplaneintragViewModel.StundenplaneintragErsteUnterrichtsstundeIndex,
-                        LetzteUnterrichtsstundeIndex =
+        LetzteUnterrichtsstundeIndex =
                           stundenplaneintragViewModel
                           .StundenplaneintragLetzteUnterrichtsstundeIndex,
-                        Raum = stundenplaneintragViewModel.StundenplaneintragRaum.Model,
-                        WochentagIndex =
+        Raum = stundenplaneintragViewModel.StundenplaneintragRaum.Model,
+        WochentagIndex =
                           stundenplaneintragViewModel.StundenplaneintragWochentagIndex,
-                        Stundenplan = this.Model
-                      };
+        Stundenplan = this.Model
+      };
       var vm = new StundenplaneintragViewModel(eintrag);
       var änderung = new StundenplanÄnderung(
         StundenplanÄnderungUpdateType.Removed,
@@ -958,7 +1004,8 @@
 
       using (new UndoBatch(App.MainViewModel, string.Format("Stundenplaneintrag {0} gelöscht.", stundenplaneintragViewModel), false))
       {
-        bool success = App.MainViewModel.Stundenplaneinträge.RemoveTest(stundenplaneintragViewModel);
+        //App.UnitOfWork.Context.Stundenplaneinträge.Remove(stundenplaneintragViewModel.Model);
+        //bool success = App.MainViewModel.Stundenplaneinträge.RemoveTest(stundenplaneintragViewModel);
         this.Stundenplaneinträge.RemoveTest(stundenplaneintragViewModel);
         this.CurrentStundenplaneintrag = null;
       }
@@ -986,30 +1033,36 @@
     /// <returns>Den Stundenplan als Kopie.</returns>
     public object Clone()
     {
-      var stundenplan = new Stundenplan();
-      stundenplan.Jahrtyp = this.StundenplanJahrtyp.Model;
-      stundenplan.Halbjahrtyp = this.StundenplanHalbjahrtyp.Model;
-      stundenplan.GültigAb = this.StundenplanGültigAb;
-      stundenplan.Bezeichnung = this.StundenplanBezeichnung;
+      var stundenplan = new Stundenplan
+      {
+        Schuljahr = this.StundenplanSchuljahr.Model,
+        Halbjahr = this.StundenplanHalbjahr,
+        GültigAb = this.StundenplanGültigAb,
+        Bezeichnung = this.StundenplanBezeichnung
+      };
       var stundenplanViewModel = new StundenplanViewModel(stundenplan);
       using (new UndoBatch(App.MainViewModel, string.Format("Stundenplankopie von {0} erstellt.", stundenplanViewModel), false))
       {
         foreach (var stundenplanEintrag in this.Stundenplaneinträge)
         {
-          var clone = new Stundenplaneintrag();
-          clone.ErsteUnterrichtsstundeIndex = stundenplanEintrag.StundenplaneintragErsteUnterrichtsstundeIndex;
-          clone.Fach = stundenplanEintrag.StundenplaneintragFach.Model;
-          clone.Klasse = stundenplanEintrag.StundenplaneintragKlasse.Model;
-          clone.LetzteUnterrichtsstundeIndex = stundenplanEintrag.StundenplaneintragLetzteUnterrichtsstundeIndex;
-          clone.Raum = stundenplanEintrag.StundenplaneintragRaum.Model;
-          clone.WochentagIndex = stundenplanEintrag.StundenplaneintragWochentagIndex;
-          clone.Stundenplan = stundenplan;
+          var clone = new Stundenplaneintrag
+          {
+            ErsteUnterrichtsstundeIndex = stundenplanEintrag.StundenplaneintragErsteUnterrichtsstundeIndex,
+            Lerngruppe = stundenplanEintrag.StundenplaneintragLerngruppe.Model,
+            LetzteUnterrichtsstundeIndex = stundenplanEintrag.StundenplaneintragLetzteUnterrichtsstundeIndex,
+            Raum = stundenplanEintrag.StundenplaneintragRaum.Model,
+            WochentagIndex = stundenplanEintrag.StundenplaneintragWochentagIndex,
+            Stundenplan = stundenplan
+          };
+          //App.UnitOfWork.Context.Stundenplaneinträge.Add(clone);
           var stundenplanEintragViewModel = new StundenplaneintragViewModel(stundenplanViewModel, clone);
-          App.MainViewModel.Stundenplaneinträge.Add(stundenplanEintragViewModel);
+          //App.MainViewModel.Stundenplaneinträge.Add(stundenplanEintragViewModel);
           stundenplanViewModel.Stundenplaneinträge.Add(stundenplanEintragViewModel);
         }
 
-        App.MainViewModel.Stundenpläne.Add(stundenplanViewModel);
+        //App.UnitOfWork.Context.Stundenpläne.Add(stundenplan);
+
+        //App.MainViewModel.Stundenpläne.Add(stundenplanViewModel);
       }
 
       return stundenplanViewModel;
@@ -1023,7 +1076,7 @@
     /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
     private void StundenplaneinträgeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      this.UndoableCollectionChanged(this, "Stundenplaneinträge", this.Stundenplaneinträge, e, false, "Änderung der Stundenplaneinträge");
+      UndoableCollectionChanged(this, nameof(Stundenplaneinträge), this.Stundenplaneinträge, e, true, "Änderung der Stundenplaneinträge");
     }
 
     private StundenplaneintragViewModel GetStundenplanEintragViewModel(int wochentagIndex, int stundeIndex)
@@ -1048,11 +1101,11 @@
       if (stundenplaneintragViewModel == null)
       {
         var emptyStundenplanEintrag = new Stundenplaneintrag
-          {
-            ErsteUnterrichtsstundeIndex = stundeIndex,
-            LetzteUnterrichtsstundeIndex = stundeIndex,
-            WochentagIndex = wochentagIndex
-          };
+        {
+          ErsteUnterrichtsstundeIndex = stundeIndex,
+          LetzteUnterrichtsstundeIndex = stundeIndex,
+          WochentagIndex = wochentagIndex
+        };
         var emptyStundenplanEintragViewModel = new StundenplaneintragViewModel(this, emptyStundenplanEintrag);
 
         return emptyStundenplanEintragViewModel;
@@ -1085,7 +1138,7 @@
       {
         Header = "Stunde anlegen",
         Command = this.AddStundenplaneintragCommand,
-        Icon = App.GetImage("Stundenentwurf16.png")
+        Icon = App.GetIcon("Stundenentwurf16")
       };
 
       this.stundenplanContextMenu.Items.Add(addStundenplaneintragItem);
@@ -1110,20 +1163,22 @@
     /// <param name="wochentagIndex"> The wochentag Index. </param>
     private void AddStundenplaneintrag(int ersteStundeIndex, int letzteStundeIndex, int wochentagIndex)
     {
-      var stundenplaneintrag = new Stundenplaneintrag();
-      stundenplaneintrag.ErsteUnterrichtsstundeIndex = ersteStundeIndex;
-      stundenplaneintrag.LetzteUnterrichtsstundeIndex = letzteStundeIndex;
-      stundenplaneintrag.WochentagIndex = wochentagIndex;
-      stundenplaneintrag.Stundenplan = this.Model;
-
+      var stundenplaneintrag = new Stundenplaneintrag
+      {
+        ErsteUnterrichtsstundeIndex = ersteStundeIndex,
+        LetzteUnterrichtsstundeIndex = letzteStundeIndex,
+        WochentagIndex = wochentagIndex,
+        Stundenplan = this.Model
+      };
       var vm = new StundenplaneintragViewModel(this, stundenplaneintrag);
       var undo = false;
-      //using (new UndoBatch(App.MainViewModel, string.Format("Stundenplaneintrag {0} erstellt.", vm), false))
+      using (new UndoBatch(App.MainViewModel, string.Format("Stundenplaneintrag {0} erstellt.", vm), false))
       {
         var dlg = new AddStundenplaneintragDialog(vm);
         if (!(undo = !dlg.ShowDialog().GetValueOrDefault(false)))
         {
-          App.MainViewModel.Stundenplaneinträge.Add(vm);
+          //App.UnitOfWork.Context.Stundenplaneinträge.Add(stundenplaneintrag);
+          //App.MainViewModel.Stundenplaneinträge.Add(vm);
           this.Stundenplaneinträge.Add(vm);
           this.CurrentStundenplaneintrag = vm;
           this.UpdateProperties(vm);
@@ -1133,10 +1188,10 @@
         }
       }
 
-      //if (undo)
-      //{
-      //  App.MainViewModel.ExecuteUndoCommand();
-      //}
+      if (undo)
+      {
+        App.MainViewModel.ExecuteUndoCommand();
+      }
     }
 
     /// <summary>

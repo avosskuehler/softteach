@@ -1,11 +1,12 @@
 ﻿namespace SoftTeach.ViewModel.Curricula
 {
+  using System.Collections;
+  using System.Collections.Generic;
   using System.ComponentModel;
   using System.Linq;
   using System.Windows.Data;
-  using System.Windows.Input;
 
-  using SoftTeach.Model.EntityFramework;
+  using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Curricula;
@@ -30,7 +31,7 @@
     /// <summary>
     /// Die Jahrgangsstufe, deren Stundenentwürfe nur dargestellt werden sollen.
     /// </summary>
-    private JahrtypViewModel jahrtypFilter;
+    private SchuljahrViewModel schuljahrFilter;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="CurriculumWorkspaceViewModel"/> Klasse. 
@@ -40,17 +41,23 @@
       this.AddCurriculumCommand = new DelegateCommand(this.AddCurriculum);
       this.CopyCurriculumCommand = new DelegateCommand(this.CopyCurrentCurriculum, () => this.CurrentCurriculum != null);
       this.DeleteCurriculumCommand = new DelegateCommand(this.DeleteCurrentCurriculum, () => this.CurrentCurriculum != null);
-      this.ResetJahrtypFilterCommand = new DelegateCommand(() => this.JahrtypFilter = null, () => this.JahrtypFilter != null);
+      this.ResetSchuljahrFilterCommand = new DelegateCommand(() => this.SchuljahrFilter = null, () => this.SchuljahrFilter != null);
       this.ResetFachFilterCommand = new DelegateCommand(() => this.FachFilter = null, () => this.FachFilter != null);
 
       this.CurrentCurriculum = App.MainViewModel.Curricula.Count > 0 ? App.MainViewModel.Curricula[0] : null;
-      this.CurriculaView = CollectionViewSource.GetDefaultView(App.MainViewModel.Curricula);
-      this.CurriculaView.Filter = this.CustomFilter;
-      this.CurriculaView.SortDescriptions.Add(new SortDescription("CurriculumFach", ListSortDirection.Ascending));
-      this.CurriculaView.SortDescriptions.Add(new SortDescription("CurriculumJahrtyp", ListSortDirection.Ascending));
-      this.CurriculaView.SortDescriptions.Add(new SortDescription("CurriculumKlassenstufe", ListSortDirection.Ascending));
-      this.CurriculaView.Refresh();
+      this.CurriculaViewSource = new CollectionViewSource() { Source = App.MainViewModel.Curricula };
+      using (this.CurriculaViewSource.DeferRefresh())
+      {
+        this.CurriculaViewSource.Filter += this.CurriculaViewSource_Filter;
+        this.CurriculaViewSource.SortDescriptions.Add(new SortDescription("CurriculumFach", ListSortDirection.Ascending));
+        this.CurriculaViewSource.SortDescriptions.Add(new SortDescription("CurriculumSchuljahr", ListSortDirection.Ascending));
+        this.CurriculaViewSource.SortDescriptions.Add(new SortDescription("CurriculumHalbjahr", ListSortDirection.Ascending));
+        this.CurriculaViewSource.SortDescriptions.Add(new SortDescription("CurriculumJahrgang", ListSortDirection.Ascending));
+      }
 
+      this.SelectedCurricula = new List<CurriculumViewModel>();
+      this.SchuljahrFilter = Selection.Instance.Schuljahr;
+      
       // Re-act to any changes from outside this ViewModel
       App.MainViewModel.Curricula.CollectionChanged += (sender, e) =>
       {
@@ -62,6 +69,7 @@
 
       Selection.Instance.PropertyChanged += this.SelectionPropertyChanged;
     }
+
 
     /// <summary>
     /// Holt den Befehl zur adding a new Curriculum
@@ -81,7 +89,7 @@
     /// <summary>
     /// Holt den Befehl zur adding a new Jahresplan
     /// </summary>
-    public DelegateCommand ResetJahrtypFilterCommand { get; private set; }
+    public DelegateCommand ResetSchuljahrFilterCommand { get; private set; }
 
     /// <summary>
     /// Holt den Befehl zur adding a new Jahresplan
@@ -89,9 +97,19 @@
     public DelegateCommand ResetFachFilterCommand { get; private set; }
 
     /// <summary>
-    /// Holt oder setzt die gefilterten Curricula
+    /// Holt oder setzt die CurriculaViewSource
     /// </summary>
-    public ICollectionView CurriculaView { get; set; }
+    public CollectionViewSource CurriculaViewSource { get; set; }
+
+    /// <summary>
+    /// Holt oder setzt ein gefiltertes View der Curricula
+    /// </summary>
+    public ICollectionView CurriculaView => this.CurriculaViewSource.View;
+
+    /// <summary>
+    /// Holt die markierten Curricula im Workspace
+    /// </summary>
+    public IList SelectedCurricula { get; set; }
 
     /// <summary>
     /// Holt oder setzt die curriculum currently selected in this workspace
@@ -109,7 +127,7 @@
         if (this.currentCurriculum != null)
         {
           Selection.Instance.Fach = this.currentCurriculum.CurriculumFach;
-          Selection.Instance.Klasse = App.MainViewModel.Klassen.First(o => o.Model.Klassenstufe == this.currentCurriculum.CurriculumKlassenstufe.Model);
+          //Selection.Instance.Lerngruppe = App.MainViewModel.Lerngruppen.First(o => o.Model.Jahrgang == this.currentCurriculum.CurriculumJahrgang);
         }
 
         this.RaisePropertyChanged("CurrentCurriculum");
@@ -139,56 +157,58 @@
     /// <summary>
     /// Holt oder setzt die jahrgangsstufe filter for the stundenentwurf list.
     /// </summary>
-    public JahrtypViewModel JahrtypFilter
+    public SchuljahrViewModel SchuljahrFilter
     {
       get
       {
-        return this.jahrtypFilter;
+        return this.schuljahrFilter;
       }
 
       set
       {
-        this.jahrtypFilter = value;
-        this.RaisePropertyChanged("JahrtypFilter");
+        this.schuljahrFilter = value;
+        this.RaisePropertyChanged("SchuljahrFilter");
         this.CurriculaView.Refresh();
-        this.ResetJahrtypFilterCommand.RaiseCanExecuteChanged();
+        this.ResetSchuljahrFilterCommand.RaiseCanExecuteChanged();
       }
     }
 
     /// <summary>
-    /// Filtert die Terminliste nach Jahrtyp und Termintyp
+    /// Filtert die Terminliste nach Schuljahr und Termintyp
     /// </summary>
     /// <param name="item">Das TerminViewModel, das gefiltert werden soll</param>
     /// <returns>True, wenn das Objekt in der Liste bleiben soll.</returns>
-    private bool CustomFilter(object item)
+    private void CurriculaViewSource_Filter(object sender, FilterEventArgs e)
     {
-      var curriculumViewModel = item as CurriculumViewModel;
+      var curriculumViewModel = e.Item as CurriculumViewModel;
       if (curriculumViewModel == null)
       {
-        return false;
+        e.Accepted = false;
+        return;
       }
 
-      if (this.jahrtypFilter != null && this.fachFilter != null)
+      if (this.schuljahrFilter != null && this.fachFilter != null)
       {
-        return curriculumViewModel.CurriculumJahrtyp.JahrtypBezeichnung == this.jahrtypFilter.JahrtypBezeichnung
+        e.Accepted = curriculumViewModel.CurriculumSchuljahr.SchuljahrBezeichnung == this.schuljahrFilter.SchuljahrBezeichnung
           && curriculumViewModel.CurriculumFach.FachBezeichnung == this.fachFilter.FachBezeichnung;
+        return;
       }
 
-      if (this.jahrtypFilter != null)
+      if (this.schuljahrFilter != null)
       {
-        return curriculumViewModel.CurriculumJahrtyp.JahrtypBezeichnung == this.jahrtypFilter.JahrtypBezeichnung;
+        e.Accepted = curriculumViewModel.CurriculumSchuljahr.SchuljahrBezeichnung == this.schuljahrFilter.SchuljahrBezeichnung;
+        return;
       }
 
       if (this.fachFilter != null)
       {
-        return curriculumViewModel.CurriculumFach.FachBezeichnung == this.fachFilter.FachBezeichnung;
+        e.Accepted = curriculumViewModel.CurriculumFach.FachBezeichnung == this.fachFilter.FachBezeichnung;
+        return;
       }
-
-      return true;
     }
 
     /// <summary>
-    /// Updates the Jahrtypfilter, if a schuljahr is set.
+    /// Updates the Schuljahrfilter, if a schuljahr is set.
     /// </summary>
     /// <param name="sender">Source of the event</param>
     /// <param name="e">A <see cref="PropertyChangedEventArgs"/> with the event data.</param>
@@ -196,7 +216,7 @@
     {
       if (e.PropertyName == "Schuljahr")
       {
-        this.JahrtypFilter = Selection.Instance.Jahrtyp;
+        this.SchuljahrFilter = Selection.Instance.Schuljahr;
         this.CurriculaView.Refresh();
       }
     }
@@ -211,12 +231,15 @@
         var dlg = new AskForJahrFachStufeDialog();
         if (dlg.ShowDialog().GetValueOrDefault(false))
         {
-          var curriculum = new Curriculum();
-          curriculum.Bezeichnung = dlg.Bezeichnung;
-          curriculum.Fach = dlg.Fach.Model;
-          curriculum.Klassenstufe = dlg.Klassenstufe.Model;
-          curriculum.Jahrtyp = dlg.Jahrtyp.Model;
-          curriculum.Halbjahrtyp = dlg.Halbjahrtyp.Model;
+          var curriculum = new Curriculum
+          {
+            Bezeichnung = dlg.Bezeichnung,
+            Fach = dlg.Fach.Model,
+            Jahrgang = dlg.Jahrgang,
+            Schuljahr = dlg.Schuljahr.Model,
+            Halbjahr = dlg.Halbjahr
+          };
+          //App.UnitOfWork.Context.Curricula.Add(curriculum);
           var vm = new CurriculumViewModel(curriculum);
           App.MainViewModel.Curricula.Add(vm);
           this.CurrentCurriculum = vm;
@@ -236,44 +259,56 @@
 
       using (new UndoBatch(App.MainViewModel, string.Format("Curriculum kopiert"), false))
       {
-        var dlg = new AskForJahrFachStufeDialog();
-        dlg.Fach = this.CurrentCurriculum.CurriculumFach;
-        dlg.Klassenstufe = this.CurrentCurriculum.CurriculumKlassenstufe;
-        dlg.Halbjahrtyp = this.CurrentCurriculum.CurriculumHalbjahrtyp;
-        dlg.Jahrtyp = Selection.Instance.Jahrtyp;
+        var dlg = new AskForJahrFachStufeDialog
+        {
+          Fach = this.CurrentCurriculum.CurriculumFach,
+          Jahrgang = this.CurrentCurriculum.CurriculumJahrgang,
+          Halbjahr = this.CurrentCurriculum.CurriculumHalbjahr,
+          Schuljahr = Selection.Instance.Schuljahr
+        };
         if (dlg.ShowDialog().GetValueOrDefault(false))
         {
           // Create a clone of this curriculum for the adaption dialog
-          var curriculumClone = new Curriculum();
-          curriculumClone.Bezeichnung = dlg.Bezeichnung;
-          curriculumClone.Fach = dlg.Fach.Model;
-          curriculumClone.Klassenstufe = dlg.Klassenstufe.Model;
-          curriculumClone.Jahrtyp = dlg.Jahrtyp.Model;
-          curriculumClone.Halbjahrtyp = dlg.Halbjahrtyp.Model;
+          var curriculumClone = new Curriculum
+          {
+            Bezeichnung = dlg.Bezeichnung,
+            Fach = dlg.Fach.Model,
+            Jahrgang = dlg.Jahrgang,
+            Schuljahr = dlg.Schuljahr.Model,
+            Halbjahr = dlg.Halbjahr
+          };
 
           foreach (var reihe in this.CurrentCurriculum.Model.Reihen)
           {
-            var reiheClone = new Reihe();
-            reiheClone.AbfolgeIndex = reihe.AbfolgeIndex;
-            reiheClone.Modul = reihe.Modul;
-            reiheClone.Stundenbedarf = reihe.Stundenbedarf;
-            reiheClone.Thema = reihe.Thema;
-            reiheClone.Curriculum = curriculumClone;
+            var reiheClone = new Reihe
+            {
+              Reihenfolge = reihe.Reihenfolge,
+              Modul = reihe.Modul,
+              Stundenbedarf = reihe.Stundenbedarf,
+              Thema = reihe.Thema,
+              Curriculum = curriculumClone
+            };
+            //App.UnitOfWork.Context.Reihen.Add(reiheClone);
 
             foreach (var sequenz in reihe.Sequenzen)
             {
-              var sequenzClone = new Sequenz();
-              sequenzClone.AbfolgeIndex = sequenz.AbfolgeIndex;
-              sequenzClone.Stundenbedarf = sequenz.Stundenbedarf;
-              sequenzClone.Thema = sequenz.Thema;
-              sequenzClone.Reihe = reiheClone;
+              var sequenzClone = new Sequenz
+              {
+                Reihenfolge = sequenz.Reihenfolge,
+                Stundenbedarf = sequenz.Stundenbedarf,
+                Thema = sequenz.Thema,
+                Reihe = reiheClone
+              };
+              //App.UnitOfWork.Context.Sequenzen.Add(sequenzClone);
               reiheClone.Sequenzen.Add(sequenzClone);
             }
 
             curriculumClone.Reihen.Add(reiheClone);
           }
 
-          var curriculumCloneViewModel = new CurriculumViewModel(curriculumClone, false);
+          //App.UnitOfWork.Context.Curricula.Add(curriculumClone);
+
+          var curriculumCloneViewModel = new CurriculumViewModel(curriculumClone);
           App.MainViewModel.Curricula.Add(curriculumCloneViewModel);
           this.CurrentCurriculum = curriculumCloneViewModel;
         }
@@ -285,8 +320,23 @@
     /// </summary>
     private void DeleteCurrentCurriculum()
     {
-      App.MainViewModel.Curricula.RemoveTest(this.CurrentCurriculum);
-      this.CurrentCurriculum = null;
+      using (new UndoBatch(App.MainViewModel, string.Format("Curriculum gelöscht"), false))
+      {
+        var curriculaToDelete = new List<CurriculumViewModel>();
+        foreach (var curriculum in this.SelectedCurricula)
+        {
+          curriculaToDelete.Add(curriculum as CurriculumViewModel);
+        }
+
+        foreach (var curriculum in curriculaToDelete)
+        {
+          //App.UnitOfWork.Context.Curricula.Remove(CurrentCurriculum.Model);
+          App.MainViewModel.Curricula.RemoveTest(curriculum);
+        }
+
+        this.CurrentCurriculum = null;
+        this.CurriculaView.Refresh();
+      }
     }
   }
 }
