@@ -5,6 +5,7 @@
   using System.Collections.Generic;
   using System.Collections.ObjectModel;
   using System.ComponentModel;
+  using System.Diagnostics;
   using System.Linq;
   using System.Windows;
   using System.Windows.Controls;
@@ -19,7 +20,7 @@
       var success = source.Remove(viewModel);
       if (!success)
       {
-        Console.WriteLine("Remove failed for collection {0} and object {1}", source.GetType(), viewModel);
+        Debug.WriteLine("Remove failed for collection {0} and object {1}", source.GetType(), viewModel);
       }
 
       return success;

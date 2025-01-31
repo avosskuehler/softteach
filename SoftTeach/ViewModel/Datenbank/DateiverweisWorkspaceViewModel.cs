@@ -3,6 +3,7 @@
   using System;
   using System.Collections.Generic;
   using System.ComponentModel;
+  using System.Diagnostics;
   using System.IO;
   using System.Linq;
   using System.Windows.Data;
@@ -156,7 +157,7 @@
 
       catch (System.IO.DirectoryNotFoundException e)
       {
-        Console.WriteLine(e.Message);
+        Debug.WriteLine(e.Message);
       }
 
       if (files != null)

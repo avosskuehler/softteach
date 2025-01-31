@@ -82,17 +82,20 @@ namespace SoftTeach.Model.TeachyModel
         entity.HasOne(d => d.Bewertungsschema)
                   .WithMany(p => p.Arbeiten)
                   .HasForeignKey(d => d.BewertungsschemaId)
-                  .HasConstraintName("FK_BewertungsschemaArbeit");
+                  .HasConstraintName("FK_BewertungsschemaArbeit")
+                  .OnDelete(DeleteBehavior.ClientSetNull);
 
         entity.HasOne(d => d.Fach)
                   .WithMany(p => p.Arbeiten)
                   .HasForeignKey(d => d.FachId)
-                  .HasConstraintName("FK_FachArbeit");
+                  .HasConstraintName("FK_FachArbeit")
+                  .OnDelete(DeleteBehavior.ClientSetNull);
 
         entity.HasOne(d => d.Lerngruppe)
                   .WithMany(p => p.Arbeiten)
                   .HasForeignKey(d => d.LerngruppeId)
-                  .HasConstraintName("FK_LerngruppeArbeit");
+                  .HasConstraintName("FK_LerngruppeArbeit")
+                  .OnDelete(DeleteBehavior.ClientSetNull);
       });
       //modelBuilder.Entity<Arbeit>().Navigation(e => e.Aufgaben).AutoInclude();
 
@@ -105,7 +108,8 @@ namespace SoftTeach.Model.TeachyModel
         entity.HasOne(d => d.Arbeit)
                   .WithMany(p => p.Aufgaben)
                   .HasForeignKey(d => d.ArbeitId)
-                  .HasConstraintName("FK_ArbeitAufgabe");
+                  .HasConstraintName("FK_ArbeitAufgabe")
+                  .OnDelete(DeleteBehavior.Cascade);
       });
 
       modelBuilder.Entity<BetroffeneLerngruppe>(entity =>
@@ -119,12 +123,13 @@ namespace SoftTeach.Model.TeachyModel
         entity.HasOne(d => d.Lerngruppe)
                   .WithMany(p => p.BetroffeneLerngruppen)
                   .HasForeignKey(d => d.LerngruppeId)
-                  .HasConstraintName("FK_LerngruppeBetroffeneLerngruppe");
+                  .HasConstraintName("FK_LerngruppeBetroffeneLerngruppe")
+                  .OnDelete(DeleteBehavior.Cascade);
 
         entity.HasOne(d => d.Schultermin)
                   .WithMany(p => p.BetroffeneLerngruppen)
                   .HasForeignKey(d => d.TerminId)
-                  .OnDelete(DeleteBehavior.ClientSetNull)
+                  .OnDelete(DeleteBehavior.Cascade)
                   .HasConstraintName("FK_TerminBetroffeneLerngruppe");
       });
 
@@ -155,12 +160,14 @@ namespace SoftTeach.Model.TeachyModel
         entity.HasOne(d => d.Fach)
                   .WithMany(p => p.Curricula)
                   .HasForeignKey(d => d.FachId)
-                  .HasConstraintName("FK_FachCurriculum");
+                  .HasConstraintName("FK_FachCurriculum")
+                  .OnDelete(DeleteBehavior.Cascade);
 
         entity.HasOne(d => d.Schuljahr)
                   .WithMany(p => p.Curricula)
                   .HasForeignKey(d => d.SchuljahrId)
-                  .HasConstraintName("FK_SchuljahrCurriculum");
+                  .HasConstraintName("FK_SchuljahrCurriculum")
+                  .OnDelete(DeleteBehavior.Cascade);
       });
 
       //modelBuilder.Entity<Curriculum>().Navigation(e => e.Reihen).AutoInclude();
@@ -186,12 +193,14 @@ namespace SoftTeach.Model.TeachyModel
         entity.HasOne(d => d.Dateityp)
                   .WithMany(p => p.Dateiverweise)
                   .HasForeignKey(d => d.DateitypId)
-                  .HasConstraintName("FK_DateitypDateiverweis");
+                  .HasConstraintName("FK_DateitypDateiverweis")
+                  .OnDelete(DeleteBehavior.ClientSetNull);
 
         entity.HasOne(d => d.Stunde)
                   .WithMany(p => p.Dateiverweise)
                   .HasForeignKey(d => d.StundeId)
-                  .HasConstraintName("FK_StundeDateiverweis");
+                  .HasConstraintName("FK_StundeDateiverweis")
+                  .OnDelete(DeleteBehavior.Cascade);
       });
 
       modelBuilder.Entity<Ergebnis>(entity =>
@@ -204,12 +213,14 @@ namespace SoftTeach.Model.TeachyModel
         entity.HasOne(d => d.Aufgabe)
                   .WithMany(p => p.Ergebnisse)
                   .HasForeignKey(d => d.AufgabeId)
-                  .HasConstraintName("FK_AufgabeErgebnis");
+                  .HasConstraintName("FK_AufgabeErgebnis")
+                  .OnDelete(DeleteBehavior.Cascade);
 
         entity.HasOne(d => d.Schülereintrag)
                   .WithMany(p => p.Ergebnisse)
                   .HasForeignKey(d => d.SchülereintragId)
-                  .HasConstraintName("FK_SchülereintragErgebnis");
+                  .HasConstraintName("FK_SchülereintragErgebnis")
+                  .OnDelete(DeleteBehavior.Cascade);
       });
 
       modelBuilder.Entity<Fach>(entity =>
@@ -232,7 +243,8 @@ namespace SoftTeach.Model.TeachyModel
         entity.HasOne(d => d.Fach)
                   .WithMany(p => p.Fachstundenanzahlen)
                   .HasForeignKey(d => d.FachId)
-                  .HasConstraintName("FK_FachFachstundenanzahl");
+                  .HasConstraintName("FK_FachFachstundenanzahl")
+                  .OnDelete(DeleteBehavior.Cascade);
       });
 
       modelBuilder.Entity<Ferien>(entity =>
@@ -250,7 +262,8 @@ namespace SoftTeach.Model.TeachyModel
         entity.HasOne(d => d.Schuljahr)
                   .WithMany(p => p.Ferien)
                   .HasForeignKey(d => d.SchuljahrId)
-                  .HasConstraintName("FK_SchuljahrFerien");
+                  .HasConstraintName("FK_SchuljahrFerien")
+                  .OnDelete(DeleteBehavior.Cascade);
       });
 
       modelBuilder.Entity<Hausaufgabe>(entity =>
@@ -264,7 +277,8 @@ namespace SoftTeach.Model.TeachyModel
         entity.HasOne(d => d.Schülereintrag)
                   .WithMany(p => p.Hausaufgaben)
                   .HasForeignKey(d => d.SchülereintragId)
-                  .HasConstraintName("FK_SchülereintragHausaufgaben");
+                  .HasConstraintName("FK_SchülereintragHausaufgaben")
+                  .OnDelete(DeleteBehavior.Cascade);
       });
 
       modelBuilder.Entity<Lerngruppe>(entity =>
@@ -290,12 +304,14 @@ namespace SoftTeach.Model.TeachyModel
         entity.HasOne(d => d.NotenWichtung)
                   .WithMany(p => p.Lerngruppen)
                   .HasForeignKey(d => d.NotenWichtungId)
-                  .HasConstraintName("FK_NotenWichtungenLerngruppe");
+                   .OnDelete(DeleteBehavior.ClientSetNull)
+                 .HasConstraintName("FK_NotenWichtungenLerngruppe");
 
         entity.HasOne(d => d.Schuljahr)
                   .WithMany(p => p.Lerngruppen)
                   .HasForeignKey(d => d.SchuljahrId)
-                  .HasConstraintName("FK_SchuljahrLerngruppe");
+                  .HasConstraintName("FK_SchuljahrLerngruppe")
+                  .OnDelete(DeleteBehavior.Cascade);
       });
 
       //modelBuilder.Entity<Lerngruppe>().Navigation(e => e.Schülereinträge).AutoInclude();
@@ -314,7 +330,8 @@ namespace SoftTeach.Model.TeachyModel
         entity.HasOne(d => d.Fach)
                   .WithMany(p => p.Module)
                   .HasForeignKey(d => d.FachId)
-                  .HasConstraintName("FK_FachModul");
+                  .HasConstraintName("FK_FachModul")
+                  .OnDelete(DeleteBehavior.Cascade);
       });
 
       modelBuilder.Entity<Note>(entity =>
@@ -334,11 +351,13 @@ namespace SoftTeach.Model.TeachyModel
         entity.HasOne(d => d.Schülereintrag)
                   .WithMany(p => p.Noten)
                   .HasForeignKey(d => d.SchülereintragId)
+                  .OnDelete(DeleteBehavior.Cascade)
                   .HasConstraintName("FK_SchülereintragNoten");
 
         entity.HasOne(d => d.Zensur)
                   .WithMany(p => p.Noten)
                   .HasForeignKey(d => d.ZensurId)
+                  .OnDelete(DeleteBehavior.Cascade)
                   .HasConstraintName("FK_ZensurNoten");
       });
 
@@ -358,7 +377,8 @@ namespace SoftTeach.Model.TeachyModel
         entity.HasOne(d => d.Schülereintrag)
                   .WithMany(p => p.Notentendenzen)
                   .HasForeignKey(d => d.SchülereintragId)
-                  .HasConstraintName("FK_SchülereintragNotentendenz");
+                  .HasConstraintName("FK_SchülereintragNotentendenz")
+                  .OnDelete(DeleteBehavior.Cascade);
       });
 
       modelBuilder.Entity<Person>(entity =>
@@ -398,7 +418,8 @@ namespace SoftTeach.Model.TeachyModel
         entity.HasOne(d => d.Stunde)
                   .WithMany(p => p.Phasen)
                   .HasForeignKey(d => d.StundeId)
-                  .HasConstraintName("FK_StundePhase");
+                  .HasConstraintName("FK_StundePhase")
+                  .OnDelete(DeleteBehavior.Cascade);
       });
 
       modelBuilder.Entity<Prozentbereich>(entity =>
@@ -408,12 +429,14 @@ namespace SoftTeach.Model.TeachyModel
         entity.HasOne(d => d.Bewertungsschema)
                   .WithMany(p => p.Prozentbereiche)
                   .HasForeignKey(d => d.BewertungsschemaId)
-                  .HasConstraintName("FK_BewertungsschemaProzentbereich");
+                  .HasConstraintName("FK_BewertungsschemaProzentbereich")
+                  .OnDelete(DeleteBehavior.Cascade);
 
         entity.HasOne(d => d.Zensur)
                   .WithMany(p => p.Prozentbereiche)
                   .HasForeignKey(d => d.ZensurId)
-                  .HasConstraintName("FK_ZensurProzentbereich");
+                  .HasConstraintName("FK_ZensurProzentbereich")
+                  .OnDelete(DeleteBehavior.ClientSetNull);
       });
 
       modelBuilder.Entity<Raum>(entity =>
@@ -437,7 +460,8 @@ namespace SoftTeach.Model.TeachyModel
         entity.HasOne(d => d.Raum)
                   .WithMany(p => p.Raumpläne)
                   .HasForeignKey(d => d.RaumId)
-                  .HasConstraintName("FK_RaumRaumplan");
+                  .HasConstraintName("FK_RaumRaumplan")
+                  .OnDelete(DeleteBehavior.Cascade);
       });
       //modelBuilder.Entity<Raumplan>().Navigation(e => e.Sitzplätze).AutoInclude();
 
@@ -454,7 +478,8 @@ namespace SoftTeach.Model.TeachyModel
         entity.HasOne(d => d.Curriculum)
                   .WithMany(p => p.Reihen)
                   .HasForeignKey(d => d.CurriculumId)
-                  .HasConstraintName("FK_CurriculumReihe");
+                  .HasConstraintName("FK_CurriculumReihe")
+                  .OnDelete(DeleteBehavior.Cascade);
 
         entity.HasOne(d => d.Modul)
                   .WithMany(p => p.Reihen)
@@ -489,7 +514,8 @@ namespace SoftTeach.Model.TeachyModel
         entity.HasOne(d => d.Person)
                   .WithMany(p => p.Schülereinträge)
                   .HasForeignKey(d => d.PersonId)
-                  .HasConstraintName("FK_PersonSchülereintrag");
+                  .HasConstraintName("FK_PersonSchülereintrag")
+                  .OnDelete(DeleteBehavior.Cascade);
       });
 
       //modelBuilder.Entity<Schülereintrag>().Navigation(e => e.Person).AutoInclude();
@@ -509,7 +535,8 @@ namespace SoftTeach.Model.TeachyModel
         entity.HasOne(d => d.Reihe)
                   .WithMany(p => p.Sequenzen)
                   .HasForeignKey(d => d.ReiheId)
-                  .HasConstraintName("FK_ReiheSequenz");
+                  .HasConstraintName("FK_ReiheSequenz")
+                  .OnDelete(DeleteBehavior.Cascade);
       });
 
       modelBuilder.Entity<Sitzplan>(entity =>
@@ -523,12 +550,14 @@ namespace SoftTeach.Model.TeachyModel
         entity.HasOne(d => d.Lerngruppe)
                   .WithMany(p => p.Sitzpläne)
                   .HasForeignKey(d => d.LerngruppeId)
-                  .HasConstraintName("FK_LerngruppeSitzplan");
+                  .HasConstraintName("FK_LerngruppeSitzplan")
+                  .OnDelete(DeleteBehavior.Cascade);
 
         entity.HasOne(d => d.Raumplan)
                   .WithMany(p => p.Sitzpläne)
                   .HasForeignKey(d => d.RaumplanId)
-                  .HasConstraintName("FK_RaumplanSitzplan");
+                  .HasConstraintName("FK_RaumplanSitzplan")
+                  .OnDelete(DeleteBehavior.Cascade);
       });
 
       //modelBuilder.Entity<Sitzplan>().Navigation(e => e.Sitzplaneinträge).AutoInclude();
@@ -542,17 +571,19 @@ namespace SoftTeach.Model.TeachyModel
                   .WithMany(p => p.Sitzplaneinträge)
                   .HasForeignKey(d => d.SchülereintragId)
                   .OnDelete(DeleteBehavior.Cascade)
-                  .HasConstraintName("FK_SchülereintragSitzplaneintrag");
+                  .HasConstraintName("FK_SchülereintragSitzplaneintrag")
+                  .OnDelete(DeleteBehavior.Cascade);
 
         entity.HasOne(d => d.Sitzplan)
                   .WithMany(p => p.Sitzplaneinträge)
                   .HasForeignKey(d => d.SitzplanId)
-                  .HasConstraintName("FK_SitzplanSitzplaneintrag");
+                  .HasConstraintName("FK_SitzplanSitzplaneintrag")
+                  .OnDelete(DeleteBehavior.Cascade);
 
         entity.HasOne(d => d.Sitzplatz)
                   .WithMany(p => p.Sitzplaneinträge)
                   .HasForeignKey(d => d.SitzplatzId)
-                  .OnDelete(DeleteBehavior.ClientSetNull)
+                  .OnDelete(DeleteBehavior.Cascade)
                   .HasConstraintName("FK_SitzplatzSitzplaneintrag");
       });
 
@@ -563,7 +594,8 @@ namespace SoftTeach.Model.TeachyModel
         entity.HasOne(d => d.Raumplan)
                   .WithMany(p => p.Sitzplätze)
                   .HasForeignKey(d => d.RaumplanId)
-                  .HasConstraintName("FK_RaumplanSitzplatz");
+                  .HasConstraintName("FK_RaumplanSitzplatz")
+                  .OnDelete(DeleteBehavior.Cascade);
       });
 
       modelBuilder.Entity<Stundenplan>(entity =>
@@ -583,7 +615,8 @@ namespace SoftTeach.Model.TeachyModel
         entity.HasOne(d => d.Schuljahr)
                   .WithMany(p => p.Stundenpläne)
                   .HasForeignKey(d => d.SchuljahrId)
-                  .HasConstraintName("FK_SchuljahrStundenplan");
+                  .HasConstraintName("FK_SchuljahrStundenplan")
+                  .OnDelete(DeleteBehavior.Cascade);
       });
       //modelBuilder.Entity<Stundenplan>().Navigation(e => e.Stundenplaneinträge).AutoInclude();
 
@@ -601,17 +634,20 @@ namespace SoftTeach.Model.TeachyModel
                   .WithMany(p => p.Stundenplaneinträge)
                   .HasForeignKey(d => d.LerngruppeId)
                   .OnDelete(DeleteBehavior.ClientSetNull)
-                  .HasConstraintName("FK_LerngruppeStundenplaneintrag");
+                  .HasConstraintName("FK_LerngruppeStundenplaneintrag")
+                  .OnDelete(DeleteBehavior.Cascade);
 
         entity.HasOne(d => d.Raum)
                   .WithMany(p => p.Stundenplaneinträge)
                   .HasForeignKey(d => d.RaumId)
-                  .HasConstraintName("FK_RaumStundenplaneintrag");
+                  .HasConstraintName("FK_RaumStundenplaneintrag")
+                  .OnDelete(DeleteBehavior.ClientSetNull);
 
         entity.HasOne(d => d.Stundenplan)
                   .WithMany(p => p.Stundenplaneinträge)
                   .HasForeignKey(d => d.StundenplanId)
-                  .HasConstraintName("FK_StundenplanStundenplaneintrag");
+                  .HasConstraintName("FK_StundenplanStundenplaneintrag")
+                  .OnDelete(DeleteBehavior.Cascade);
       });
 
       modelBuilder.Entity<Termin>()
@@ -647,6 +683,8 @@ namespace SoftTeach.Model.TeachyModel
 
       modelBuilder.Entity<Lerngruppentermin>(entity =>
       {
+        //entity.ToTable("Lerngruppentermin");
+
         entity.HasOne(d => d.Lerngruppe)
                   .WithMany(p => p.Lerngruppentermine)
                   .HasForeignKey(d => d.LerngruppeId)
@@ -655,17 +693,21 @@ namespace SoftTeach.Model.TeachyModel
 
       modelBuilder.Entity<Stunde>(entity =>
       {
+        //entity.ToTable("Stunde");
+
         entity.Property(e => e.IstBenotet).HasDefaultValueSql("((0))");
 
         entity.HasOne(d => d.Fach)
                   .WithMany(p => p.Stunden)
                   .HasForeignKey(d => d.FachId)
-                  .HasConstraintName("FK_Termin_Fächer");
+                  .HasConstraintName("FK_Termin_Fächer")
+                  .OnDelete(DeleteBehavior.ClientSetNull);
 
         entity.HasOne(d => d.Modul)
                   .WithMany(p => p.Stunden)
                   .HasForeignKey(d => d.ModulId)
-                  .HasConstraintName("FK_Termin_Module");
+                  .HasConstraintName("FK_Termin_Module")
+                  .OnDelete(DeleteBehavior.Cascade);
       });
 
       //modelBuilder.Entity<Stunde>().Navigation(e => e.Phasen).AutoInclude();
@@ -673,6 +715,7 @@ namespace SoftTeach.Model.TeachyModel
 
       modelBuilder.Entity<Schultermin>(entity =>
       {
+        //entity.ToTable("Schultermin");
         entity.HasOne(d => d.Schuljahr)
                   .WithMany(p => p.Schultermine)
                   .HasForeignKey(d => d.SchuljahrId)

@@ -2,6 +2,7 @@
 {
   using System;
   using System.Collections.Generic;
+  using System.Diagnostics;
   using System.Linq;
   using System.Reflection;
   using Microsoft.EntityFrameworkCore;
@@ -261,7 +262,7 @@
         //      var model = modelProperty.GetValue(viewModel);
         //      var set = App.UnitOfWork.Context.Set(model.GetType());
         //      set.Add(model);
-        //      Console.WriteLine("Added to context: " + model);
+        //      Debug.WriteLine("Added to context: " + model);
 
         //    }
         //    else if (collectionAddRemoveChangeBase is CollectionRemoveChange)
@@ -270,7 +271,7 @@
         //      var model = modelProperty.GetValue(viewModel);
         //      var set = App.UnitOfWork.Context.Set(model.GetType());
         //      set.Remove(model);
-        //      Console.WriteLine("Removed from context: " + model);
+        //      Debug.WriteLine("Removed from context: " + model);
         //    }
         //  }
         //}
@@ -455,7 +456,7 @@
                   throw new ArgumentNullException(String.Format("Model Type: {0} not found", type));
               }
 
-              Console.WriteLine("Added to context: " + model);
+              Debug.WriteLine("Added to context: " + model);
             }
           }
           else if (removes > adds)
@@ -632,7 +633,7 @@
                 default:
                   throw new ArgumentNullException(String.Format("Model Type: {0} not found", type));
               }
-              Console.WriteLine("Removed from context: " + model);
+              Debug.WriteLine("Removed from context: " + model);
             }
           }
           else

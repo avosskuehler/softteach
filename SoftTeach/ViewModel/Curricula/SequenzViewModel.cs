@@ -1,6 +1,7 @@
 ﻿namespace SoftTeach.ViewModel.Curricula
 {
   using System;
+  using System.Diagnostics;
   using System.Linq;
   using System.Windows.Media;
   using SoftTeach.Model.TeachyModel;
@@ -190,7 +191,7 @@
 
         if (fachstundenanzahl == null)
         {
-          Console.WriteLine("Keine Fachstundenanzahl gefunden für {0} {1}", fachBezeichnung, jahrgang);
+          Debug.WriteLine("Keine Fachstundenanzahl gefunden für {0} {1}", fachBezeichnung, jahrgang);
           return 40;
         }
 

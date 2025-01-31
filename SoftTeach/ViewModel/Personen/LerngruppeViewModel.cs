@@ -88,7 +88,7 @@
         this.Schülereinträge.Add(vm);
       }
 
-      //Console.WriteLine("Elapsed Schülereinträge {0}", watch.ElapsedMilliseconds);
+      //Debug.WriteLine("Elapsed Schülereinträge {0}", watch.ElapsedMilliseconds);
       //watch.Restart();
 
       this.Schülereinträge.CollectionChanged += this.SchülereinträgeCollectionChanged;
@@ -118,7 +118,7 @@
       //  this.Lerngruppentermine.Add(vm);
       //}
 
-      //Console.WriteLine("Elapsed Lerngruppentermine {0}", watch.ElapsedMilliseconds);
+      //Debug.WriteLine("Elapsed Lerngruppentermine {0}", watch.ElapsedMilliseconds);
       //watch.Restart();
 
       this.Lerngruppentermine.CollectionChanged += this.Lerngruppentermine_CollectionChanged; ;
@@ -129,7 +129,7 @@
         this.SchülereinträgeViewSource.SortDescriptions.Add(new SortDescription("SchülereintragSortByNachnameProperty", ListSortDirection.Ascending));
       }
 
-      //Console.WriteLine("Elapsed UpdateSort {0}", watch.ElapsedMilliseconds);
+      //Debug.WriteLine("Elapsed UpdateSort {0}", watch.ElapsedMilliseconds);
       //watch.Restart();
 
       this.SchülereinträgeGemischt = this.Schülereinträge.ToList();
@@ -156,7 +156,7 @@
       };
 
       this.nurTeilungsgruppeA = true;
-      //Console.WriteLine("Elapsed NotenWichtungen {0}", watch.ElapsedMilliseconds);
+      //Debug.WriteLine("Elapsed NotenWichtungen {0}", watch.ElapsedMilliseconds);
       //watch.Restart();
     }
 

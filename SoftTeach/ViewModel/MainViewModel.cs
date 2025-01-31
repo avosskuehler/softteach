@@ -128,7 +128,7 @@
 
       this.SaveCommand = new DelegateCommand(this.SaveChanges);
       this.ShowOptionsCommand = new DelegateCommand(this.ShowOptions);
-      this.CreateDirectoryTreeForDocuments();
+      //this.CreateDirectoryTreeForDocuments();
 
       Selection.Instance.PropertyChanged += this.SelectionPropertyChanged;
     }
@@ -817,7 +817,7 @@
       try
       {
         //LoadRäume();
-        //Console.WriteLine("Elapsed Räume {0}", watch.ElapsedMilliseconds);
+        //Debug.WriteLine("Elapsed Räume {0}", watch.ElapsedMilliseconds);
         //watch.Restart();
         foreach (var schuljahr in context.Schuljahre)
         {
@@ -825,7 +825,7 @@
         }
 
         // Erstes Öffnen des Contexts dauert ca. 1,5s, hat nichts mit Schuljahren zu tun
-        Console.WriteLine("Elapsed Schuljahre {0}", watch.ElapsedMilliseconds);
+        Debug.WriteLine("Elapsed Schuljahre {0}", watch.ElapsedMilliseconds);
         watch.Restart();
 
         foreach (var dateityp in context.Dateitypen.OrderBy(o => o.Bezeichnung))
@@ -833,14 +833,14 @@
           this.Dateitypen.Add(new DateitypViewModel(dateityp));
         }
         //this.Dateitypen.BubbleSort();
-        Console.WriteLine("Elapsed Dateitypen {0}", watch.ElapsedMilliseconds);
+        Debug.WriteLine("Elapsed Dateitypen {0}", watch.ElapsedMilliseconds);
         watch.Restart();
 
         foreach (var unterrichtsstunde in context.Unterrichtsstunden)
         {
           this.Unterrichtsstunden.Add(new UnterrichtsstundeViewModel(unterrichtsstunde));
         }
-        Console.WriteLine("Elapsed Unterrichtsstunden {0}", watch.ElapsedMilliseconds);
+        Debug.WriteLine("Elapsed Unterrichtsstunden {0}", watch.ElapsedMilliseconds);
 
         //foreach (var klasse in context.Klassen)
         //{
@@ -853,14 +853,14 @@
           this.Fächer.Add(new FachViewModel(fach));
         }
         //this.Fächer.BubbleSort();
-        Console.WriteLine("Elapsed Fächer {0}", watch.ElapsedMilliseconds);
+        Debug.WriteLine("Elapsed Fächer {0}", watch.ElapsedMilliseconds);
         watch.Restart();
 
         foreach (var modul in context.Module)
         {
           this.Module.Add(new ModulViewModel(modul));
         }
-        Console.WriteLine("Elapsed Module {0}", watch.ElapsedMilliseconds);
+        Debug.WriteLine("Elapsed Module {0}", watch.ElapsedMilliseconds);
         watch.Restart();
 
         //foreach (var reihe in context.Reihen)
@@ -877,14 +877,14 @@
         {
           this.Ferien.Add(new FerienViewModel(ferien));
         }
-        Console.WriteLine("Elapsed Ferien {0}", watch.ElapsedMilliseconds);
+        Debug.WriteLine("Elapsed Ferien {0}", watch.ElapsedMilliseconds);
         watch.Restart();
 
         foreach (var fachstundenanzahl in context.Fachstundenanzahlen)
         {
           this.Fachstundenanzahl.Add(new FachstundenanzahlViewModel(fachstundenanzahl));
         }
-        Console.WriteLine("Elapsed Fachstundenanzahl {0}", watch.ElapsedMilliseconds);
+        Debug.WriteLine("Elapsed Fachstundenanzahl {0}", watch.ElapsedMilliseconds);
         watch.Restart();
 
         for (int i = 7; i < 13; i++)
@@ -896,190 +896,47 @@
         {
           this.Zensuren.Add(new ZensurViewModel(zensur));
         }
-        Console.WriteLine("Elapsed Zensuren {0}", watch.ElapsedMilliseconds);
+        Debug.WriteLine("Elapsed Zensuren {0}", watch.ElapsedMilliseconds);
         watch.Restart();
 
         foreach (var notenWichtung in context.NotenWichtungen)
         {
           this.NotenWichtungen.Add(new NotenWichtungViewModel(notenWichtung));
         }
-        Console.WriteLine("Elapsed NotenWichtungen {0}", watch.ElapsedMilliseconds);
+        Debug.WriteLine("Elapsed NotenWichtungen {0}", watch.ElapsedMilliseconds);
         watch.Restart();
 
-        //LoadArbeiten();
-        //Console.WriteLine("Elapsed Arbeiten {0}", watch.ElapsedMilliseconds);
-        //watch.Restart();
         Selection.Instance.PopulateFromSettings();
 
-        Console.WriteLine("PopulateFromSettings {0}", watch.ElapsedMilliseconds);
+        Debug.WriteLine("PopulateFromSettings {0}", watch.ElapsedMilliseconds);
         watch.Restart();
 
-        //foreach (Schultermin termin in context.Termine.OfType<Schultermin>().Where(o => o.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr))
-        //{
-        //  this.Schultermine.Add(new SchulterminViewModel(termin as Schultermin));
-        //}
-        foreach (Schultermin termin in context.Schultermine.Where(o => o.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr).ToList()
-          //.Include(schultermin => schultermin.BetroffeneLerngruppen)
-          )
-        {
-          this.Schultermine.Add(new SchulterminViewModel(termin));
-        }
-        Console.WriteLine("Elapsed Schultermine {0}", watch.ElapsedMilliseconds);
-        watch.Restart();
+        // Lerngruppen, Jahrespläne, Termine, Arbeiten werden im OnPropertyChanged vom Schuljahr geladen
 
-        //foreach (BetroffeneKlasse betroffeneLerngruppe in context.BetroffeneKlassen)
-        //{
-        //  this.BetroffeneKlassen.Add(new BetroffeneKlasseViewModel(betroffeneLerngruppe));
-        //}
-        //Console.WriteLine("Elapsed BetroffeneKlasse {0}", watch.ElapsedMilliseconds);
-
-        //foreach (Person person in context.Personen.Where(o => o.Schülereintrag.Any(a => a.Lerngruppe.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr)))
         foreach (Person person in context.Personen)
         {
           this.Personen.Add(new PersonViewModel(person));
         }
-        Console.WriteLine("Elapsed Personen {0}", watch.ElapsedMilliseconds);
+        Debug.WriteLine("Elapsed Personen {0}", watch.ElapsedMilliseconds);
         watch.Restart();
-
-        //LoadLerngruppe();
-        //Console.WriteLine("Elapsed Lerngruppen {0}", watch.ElapsedMilliseconds);
-        //watch.Restart();
-
-        //foreach (var schülereintrag in context.Schülereinträge)
-        //{
-        //  this.Schülereinträge.Add(new SchülereintragViewModel(schülereintrag));
-        //}
-
-        //foreach (var hausaufgabe in context.Hausaufgaben)
-        //{
-        //  this.Hausaufgaben.Add(new HausaufgabeViewModel(hausaufgabe));
-        //}
 
         foreach (var bewertungsschema in context.Bewertungsschemata.ToList())
         {
           this.Bewertungsschemata.Add(new BewertungsschemaViewModel(bewertungsschema));
         }
-        Console.WriteLine("Elapsed Bewertungsschemata {0}", watch.ElapsedMilliseconds);
+        Debug.WriteLine("Elapsed Bewertungsschemata {0}", watch.ElapsedMilliseconds);
         watch.Restart();
-
-        //foreach (var prozentbereich in context.Prozentbereiche)
-        //{
-        //  this.Prozentbereiche.Add(new ProzentbereichViewModel(prozentbereich));
-        //}
-        //Console.WriteLine("Elapsed Prozentbereiche {0}", watch.ElapsedMilliseconds);
-
-
-        //foreach (var stunde in context.Termine.OfType<Stunde>().Where(o => o.Lerngruppe.Schuljahr.Jahr == Selection.Instance.Schuljahr.SchuljahrJahr))
-        //{
-        //  this.Stunden.Add(new StundeViewModel(stunde));
-        //}
-        //Console.WriteLine("Elapsed Stunden {0}", watch.ElapsedMilliseconds);
-        //watch.Restart();
-
-        //foreach (var phase in context.Phasen)
-        //{
-        //  this.Phasen.Add(new PhaseViewModel(phase));
-        //}
-
-        //foreach (var dateiverweis in context.Dateiverweise)
-        //{
-        //  this.Dateiverweise.Add(new DateiverweisViewModel(dateiverweis));
-        //}
-        //Console.WriteLine("Elapsed Dateiverweise {0}", watch.ElapsedMilliseconds);
-
-        //foreach (var curriculum in context.Curricula)
-        //{
-        //  this.Curricula.Add(new CurriculumViewModel(curriculum));
-        //}
-        //Console.WriteLine("Elapsed Curricula {0}", watch.ElapsedMilliseconds);
-        //watch.Restart();
-
-        //LoadJahrespläne();
-        //Console.WriteLine("Elapsed Jahrespläne {0}", watch.ElapsedMilliseconds);
-        //watch.Restart();
-
-        //foreach (var halbjahresplan in context.Halbjahrespläne)
-        //{
-        //  this.Halbjahrespläne.Add(new HalbjahresplanViewModel(halbjahresplan));
-        //}
-        //Console.WriteLine("Elapsed Halbjahrespläne {0}", watch.ElapsedMilliseconds);
-
-        //foreach (var monatsplan in context.Monatspläne)
-        //{
-        //  this.Monatspläne.Add(new MonatsplanViewModel(monatsplan));
-        //}
-        //Console.WriteLine("Elapsed Monatspläne {0}", watch.ElapsedMilliseconds);
-
-        //foreach (var tagesplan in context.Tagespläne)
-        //{
-        //  this.Tagespläne.Add(new TagesplanViewModel(tagesplan));
-        //}
-        //Console.WriteLine("Elapsed Tagespläne {0}", watch.ElapsedMilliseconds);
-
-        //foreach (var schulwoche in context.Schulwochen)
-        //{
-        //  this.Schulwochen.Add(new SchulwocheViewModel(schulwoche));
-        //}
-
-        //foreach (var schultag in context.Schultage)
-        //{
-        //  this.Schultage.Add(new SchultagViewModel(schultag));
-        //}
 
         foreach (var stundenplan in context.Stundenpläne.ToList())
         {
           this.Stundenpläne.Add(new StundenplanViewModel(stundenplan));
         }
-        Console.WriteLine("Elapsed Stundenpläne {0}", watch.ElapsedMilliseconds);
+        Debug.WriteLine("Elapsed Stundenpläne {0}", watch.ElapsedMilliseconds);
         watch.Restart();
 
-        //foreach (var stundenplaneintrag in context.Stundenplaneinträge)
-        //{
-        //  this.Stundenplaneinträge.Add(new StundenplaneintragViewModel(stundenplaneintrag));
-        //}
-
-        //foreach (var aufgabe in context.Aufgaben)
-        //{
-        //  this.Aufgaben.Add(new AufgabeViewModel(aufgabe));
-        //}
-
-        //foreach (var ergebnis in context.Ergebnisse)
-        //{
-        //  this.Ergebnisse.Add(new ErgebnisViewModel(ergebnis));
-        //}
-
-        //foreach (var note in context.Noten)
-        //{
-        //  this.Noten.Add(new NoteViewModel(note));
-        //}
-        //Console.WriteLine("Elapsed Noten {0}", watch.ElapsedMilliseconds);
-
-        //foreach (var notentendenz in context.Notentendenzen)
-        //{
-        //  this.Notentendenzen.Add(new NotentendenzViewModel(notentendenz));
-        //}
-
-        // Weiter hinten, da personen, räume und schülerlisten benötigt werden
-        //foreach (var sitzplan in context.Sitzpläne)
-        //{
-        //  this.Sitzpläne.Add(new SitzplanViewModel(sitzplan));
-        //}
-        //Console.WriteLine("Elapsed Sitzpläne {0}", watch.ElapsedMilliseconds);
-        //watch.Restart();
-
-        //foreach (var sitzplaneintrag in context.Sitzplaneinträge)
-        //{
-        //  this.Sitzplaneinträge.Add(new SitzplaneintragViewModel(sitzplaneintrag));
-        //}
-
-
-        //this.StundenentwurfWorkspace = new StundenentwurfWorkspaceViewModel();
         this.CurriculumWorkspace = new CurriculumWorkspaceViewModel();
-        //this.JahresplanWorkspace = new JahresplanWorkspaceViewModel();
         this.StundenplanWorkspace = new StundenplanWorkspaceViewModel();
         this.SchulterminWorkspace = new SchulterminWorkspaceViewModel();
-        //this.WochenplanWorkspace = new WochenplanWorkspaceViewModel();
-        //this.TagesplanWorkspace = new TagesplanWorkspaceViewModel();
         this.DateitypWorkspace = new DateitypWorkspaceViewModel();
         this.FachWorkspace = new FachWorkspaceViewModel();
         this.SchuljahrWorkspace = new SchuljahrWorkspaceViewModel();
@@ -1087,15 +944,11 @@
         this.UnterrichtsstundeWorkspace = new UnterrichtsstundeWorkspaceViewModel();
         this.FerienWorkspace = new FerienWorkspaceViewModel();
         this.FachstundenanzahlWorkspace = new FachstundenanzahlWorkspaceViewModel();
-        //this.LerngruppeWorkspace = new LerngruppeWorkspaceViewModel();
         this.SchülereintragWorkspace = new SchülereintragWorkspaceViewModel();
         this.PersonenWorkspace = new PersonenWorkspaceViewModel();
         this.NotenWichtungWorkspace = new NotenWichtungWorkspaceViewModel();
         this.ZensurWorkspace = new ZensurWorkspaceViewModel();
-        //this.ArbeitWorkspace = new ArbeitWorkspaceViewModel();
         this.BewertungsschemaWorkspace = new BewertungsschemaWorkspaceViewModel();
-        //this.RaumWorkspace = new RaumWorkspaceViewModel();
-        //this.SitzplanWorkspace = new SitzplanWorkspaceViewModel();
 
         this.RedoCommand = new DelegateCommand(this.ExecuteRedoCommand, this.CanExecuteRedoCommand);
         this.UndoCommand = new DelegateCommand(this.ExecuteUndoCommand, this.CanExecuteUndoCommand);
@@ -1156,1101 +1009,13 @@
 
         context.ChangeTracker.AutoDetectChangesEnabled = true;
         ChangeFactory.Current.IsTracking = true;
-        Console.WriteLine("Elapsed All {0}", watch.ElapsedMilliseconds);
-
+        Debug.WriteLine("Elapsed All {0}", watch.ElapsedMilliseconds);
       }
       catch (Exception ex)
       {
         Log.HandleException(ex);
       }
     }
-
-    //private static void ImportDataFromOldContext()
-    //{
-    //  var newContext = App.UnitOfWork.Context;
-    //  var oldContext = App.UnitOfWork.OldContext;
-    //  newContext.ChangeTracker.AutoDetectChangesEnabled = false;
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-    //    foreach (var notenWichtung in oldContext.NotenWichtungen)
-    //    {
-    //      var newNotenWichtung = new NotenWichtung
-    //      {
-    //        Bezeichnung = notenWichtung.Bezeichnung,
-    //        Id = notenWichtung.Id,
-    //        MündlichGesamt = notenWichtung.MündlichGesamt,
-    //        MündlichQualität = notenWichtung.MündlichQualität,
-    //        MündlichQuantität = notenWichtung.MündlichQuantität,
-    //        MündlichSonstige = notenWichtung.MündlichSonstige,
-    //        SchriftlichGesamt = notenWichtung.SchriftlichGesamt,
-    //        SchriftlichKlassenarbeit = notenWichtung.SchriftlichKlassenarbeit,
-    //        SchriftlichSonstige = notenWichtung.SchriftlichSonstige
-    //      };
-    //      newContext.NotenWichtungen.Add(newNotenWichtung);
-    //    }
-    //    var newDefaultOhneWichtung = new NotenWichtung
-    //    {
-    //      Bezeichnung = "Ohne Bewertung",
-    //      Id = 6,
-    //      MündlichGesamt = 0.5f,
-    //      MündlichQualität = 0.5f,
-    //      MündlichQuantität = 0.5f,
-    //      MündlichSonstige = 0f,
-    //      SchriftlichGesamt = 0.5f,
-    //      SchriftlichKlassenarbeit = 0.5f,
-    //      SchriftlichSonstige = 0.5f
-    //    };
-    //    newContext.NotenWichtungen.Add(newDefaultOhneWichtung);
-
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Notenwichtungen] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Notenwichtungen] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-    //    foreach (var jahrtyp in oldContext.Jahrtypen)
-    //    {
-    //      var newSchuljahr = new Schuljahr
-    //      {
-    //        Bezeichnung = jahrtyp.Bezeichnung,
-    //        Id = jahrtyp.Id,
-    //        Jahr = jahrtyp.Jahr
-    //      };
-    //      newContext.Schuljahre.Add(newSchuljahr);
-    //    }
-
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Schuljahre] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Schuljahre] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-    //    foreach (var fach in oldContext.Fächer)
-    //    {
-    //      var newFach = new Fach
-    //      {
-    //        Bezeichnung = fach.Bezeichnung,
-    //        Farbe = fach.Farbe,
-    //        Id = fach.Id
-    //      };
-    //      newContext.Fächer.Add(newFach);
-    //    }
-
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Fächer] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Fächer] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-    //    foreach (var jahresplan in oldContext.Jahrespläne)
-    //    {
-    //      var newLerngruppe = new Lerngruppe
-    //      {
-    //        Bepunktungstyp = (Bepunktungstyp)Enum.Parse(typeof(Bepunktungstyp), jahresplan.Klasse.Klassenstufe.Jahrgangsstufe.Bepunktungstyp),
-    //        Bezeichnung = jahresplan.Klasse.Bezeichnung,
-    //        FachId = jahresplan.FachId
-    //      };
-    //      switch (jahresplan.Klasse.Klassenstufe.Bezeichnung)
-    //      {
-    //        case "7":
-    //          newLerngruppe.Jahrgang = 7;
-    //          break;
-    //        case "8":
-    //          newLerngruppe.Jahrgang = 8;
-    //          break;
-    //        case "9":
-    //          newLerngruppe.Jahrgang = 9;
-    //          break;
-    //        case "10":
-    //          newLerngruppe.Jahrgang = 10;
-    //          break;
-    //        case "GK-Q1/2":
-    //          newLerngruppe.Jahrgang = 11;
-    //          break;
-    //        case "GK-Q3/4":
-    //          newLerngruppe.Jahrgang = 12;
-    //          break;
-    //        case "LK-Q1/2":
-    //          newLerngruppe.Jahrgang = 11;
-    //          break;
-    //        case "LK-Q3/4":
-    //          newLerngruppe.Jahrgang = 12;
-    //          break;
-    //        default:
-    //          newLerngruppe.Jahrgang = 0;
-    //          break;
-    //      }
-    //      var schülerliste = oldContext.Schülerlisten.FirstOrDefault(o => o.JahrtypId == jahresplan.JahrtypId && o.FachId == jahresplan.FachId && o.KlasseId == jahresplan.Klasse.Id);
-    //      if (schülerliste != null)
-    //      {
-    //        newLerngruppe.NotenWichtungId = schülerliste.NotenWichtungId;
-    //      }
-    //      else
-    //      {
-    //        newLerngruppe.NotenWichtungId = 6;
-    //      }
-    //      newLerngruppe.SchuljahrId = jahresplan.JahrtypId;
-    //      newContext.Lerngruppen.Add(newLerngruppe);
-    //    }
-    //    //newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Lerngruppen] ON");
-    //    newContext.SaveChanges();
-    //    //newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Lerngruppen] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-
-    //    foreach (var bewertungsschemata in oldContext.Bewertungsschemata)
-    //    {
-    //      var newBewertungsschema = new Bewertungsschema
-    //      {
-    //        Bezeichnung = bewertungsschemata.Bezeichnung,
-    //        Id = bewertungsschemata.Id
-    //      };
-    //      newContext.Bewertungsschemata.Add(newBewertungsschema);
-    //    }
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Bewertungsschemata] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Bewertungsschemata] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-
-    //    foreach (var zensur in oldContext.Zensuren)
-    //    {
-    //      var newZensur = new Zensur
-    //      {
-    //        GanzeNote = zensur.GanzeNote,
-    //        Id = zensur.Id,
-    //        NoteMitTendenz = zensur.NoteMitTendenz,
-    //        Notenpunkte = zensur.Notenpunkte
-    //      };
-    //      newContext.Zensuren.Add(newZensur);
-    //    }
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Zensuren] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Zensuren] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-
-    //    foreach (var prozentbereich in oldContext.Prozentbereiche)
-    //    {
-    //      var newProzentbereich = new Prozentbereich
-    //      {
-    //        BewertungsschemaId = prozentbereich.BewertungsschemaId,
-    //        ZensurId = prozentbereich.ZensurId,
-    //        BisProzent = prozentbereich.BisProzent,
-    //        VonProzent = prozentbereich.VonProzent,
-    //        Id = prozentbereich.Id
-    //      };
-    //      newContext.Prozentbereiche.Add(newProzentbereich);
-    //    }
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Prozentbereiche] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Prozentbereiche] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  var nichtImportierteArbeitenIDs = new List<int>();
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-
-    //    foreach (var arbeit in oldContext.Arbeiten)
-    //    {
-    //      var newArbeit = new Arbeit
-    //      {
-    //        Bepunktungstyp = (Bepunktungstyp)Enum.Parse(typeof(Bepunktungstyp), arbeit.Bepunktungstyp),
-    //        BewertungsschemaId = arbeit.BewertungsschemaId,
-    //        Bezeichnung = arbeit.Bezeichnung,
-    //        Datum = arbeit.Datum,
-    //        FachId = arbeit.FachId,
-    //        Id = arbeit.Id,
-    //        IstKlausur = arbeit.IstKlausur
-    //      };
-    //      var lerngruppe = newContext.Lerngruppen.FirstOrDefault(o =>
-    //         o.SchuljahrId == arbeit.JahrtypId
-    //         && o.FachId == arbeit.FachId
-    //         && o.Bezeichnung == arbeit.Klasse.Bezeichnung);
-    //      if (lerngruppe == null)
-    //      {
-    //        nichtImportierteArbeitenIDs.Add(arbeit.Id);
-    //        InformationDialog.Show("Lerngruppe nicht gefunden", string.Format("Lerngruppe {0} {1} {2} nicht gefunden", arbeit.Jahrtyp.Bezeichnung, arbeit.Fach.Bezeichnung, arbeit.Klasse.Bezeichnung), false);
-    //        continue;
-    //      }
-    //      newArbeit.Lerngruppe = lerngruppe;
-    //      newArbeit.LfdNr = arbeit.LfdNr;
-    //      newContext.Arbeiten.Add(newArbeit);
-    //    }
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Arbeiten] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Arbeiten] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  var nichtImportierteAufgabenIDs = new List<int>();
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-
-    //    foreach (var aufgabe in oldContext.Aufgaben)
-    //    {
-    //      if (nichtImportierteArbeitenIDs.Contains(aufgabe.ArbeitId))
-    //      {
-    //        nichtImportierteAufgabenIDs.Add(aufgabe.Id);
-    //        continue;
-    //      }
-
-    //      var newAufgabe = new Aufgabe
-    //      {
-    //        ArbeitId = aufgabe.ArbeitId,
-    //        Bezeichnung = aufgabe.Bezeichnung,
-    //        Id = aufgabe.Id,
-    //        LfdNr = aufgabe.LfdNr,
-    //        MaxPunkte = aufgabe.MaxPunkte
-    //      };
-    //      newContext.Aufgaben.Add(newAufgabe);
-    //    }
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Aufgaben] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Aufgaben] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-
-    //    foreach (var person in oldContext.Personen)
-    //    {
-    //      var newPerson = new Person
-    //      {
-    //        EMail = person.EMail,
-    //        Fax = person.Fax,
-    //        Foto = person.Foto,
-    //        Geburtstag = person.Geburtstag,
-    //        Geschlecht = person.Geschlecht ? Geschlecht.w : Geschlecht.m,
-    //        Handy = person.Handy,
-    //        Hausnummer = person.Hausnummer,
-    //        Id = person.Id,
-    //        IstLehrer = person.IstLehrer,
-    //        Nachname = person.Nachname,
-    //        Ort = person.Ort,
-    //        PLZ = person.PLZ,
-    //        Straße = person.Straße,
-    //        Telefon = person.Telefon,
-    //        Titel = person.Titel,
-    //        Vorname = person.Vorname
-    //      };
-    //      newContext.Personen.Add(newPerson);
-    //    }
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Personen] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Personen] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  var nichtImportierteSchülereintragIDs = new List<int>();
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-
-    //    foreach (var schülereintrag in oldContext.Schülereinträge)
-    //    {
-    //      var newSchülereintrag = new Schülereintrag
-    //      {
-    //        Id = schülereintrag.Id
-    //      };
-    //      var lerngruppe = newContext.Lerngruppen.FirstOrDefault(o =>
-    //        o.SchuljahrId == schülereintrag.Schülerliste.JahrtypId
-    //        && o.FachId == schülereintrag.Schülerliste.FachId
-    //        && o.Bezeichnung == schülereintrag.Schülerliste.Klasse.Bezeichnung);
-    //      if (lerngruppe == null)
-    //      {
-    //        nichtImportierteSchülereintragIDs.Add(schülereintrag.Id);
-    //        continue;
-    //      }
-
-    //      newSchülereintrag.Lerngruppe = lerngruppe;
-    //      newSchülereintrag.PersonId = schülereintrag.PersonId;
-    //      newContext.Schülereinträge.Add(newSchülereintrag);
-    //    }
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Schülereinträge] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Schülereinträge] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-
-    //    foreach (var ergebnis in oldContext.Ergebnisse)
-    //    {
-    //      if (nichtImportierteAufgabenIDs.Contains(ergebnis.AufgabeId))
-    //      {
-    //        continue;
-    //      }
-    //      var newErgebnis = new Ergebnis
-    //      {
-    //        AufgabeId = ergebnis.AufgabeId,
-    //        Id = ergebnis.Id,
-    //        Punktzahl = ergebnis.Punktzahl,
-    //        SchülereintragId = ergebnis.SchülereintragId
-    //      };
-    //      newContext.Ergebnisse.Add(newErgebnis);
-    //    }
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Ergebnisse] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Ergebnisse] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-
-    //    foreach (var note in oldContext.Noten)
-    //    {
-    //      if (note.ArbeitId.HasValue && nichtImportierteArbeitenIDs.Contains(note.ArbeitId.Value))
-    //      {
-    //        continue;
-    //      }
-    //      if (nichtImportierteSchülereintragIDs.Contains(note.SchülereintragId))
-    //      {
-    //        continue;
-    //      }
-
-    //      var newNote = new Note
-    //      {
-    //        ArbeitId = note.ArbeitId,
-    //        Bezeichnung = note.Bezeichnung,
-    //        Datum = note.Datum,
-    //        Id = note.Id,
-    //        IstSchriftlich = note.IstSchriftlich
-    //      };
-    //      if (NotenTermintyp.TryParse(note.NotenTermintyp, out NotenTermintyp termintyp))
-    //      {
-    //        newNote.NotenTermintyp = termintyp;
-    //      }
-    //      newNote.Notentyp = (Notentyp)Enum.Parse(typeof(Notentyp), note.Notentyp);
-    //      newNote.SchülereintragId = note.SchülereintragId;
-    //      newNote.Wichtung = note.Wichtung;
-    //      newNote.ZensurId = note.ZensurId;
-    //      newContext.Noten.Add(newNote);
-    //    }
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Noten] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Noten] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-
-    //    foreach (var unterrichtsstunde in oldContext.Unterrichtsstunden)
-    //    {
-    //      var newUnterrichtsstunde = new Unterrichtsstunde
-    //      {
-    //        Beginn = unterrichtsstunde.Beginn,
-    //        Bezeichnung = unterrichtsstunde.Bezeichnung,
-    //        Ende = unterrichtsstunde.Ende,
-    //        Id = unterrichtsstunde.Id,
-    //        Stundenindex = unterrichtsstunde.Stundenindex
-    //      };
-    //      newContext.Unterrichtsstunden.Add(newUnterrichtsstunde);
-    //    }
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Unterrichtsstunden] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Unterrichtsstunden] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-    //    foreach (var modul in oldContext.Module)
-    //    {
-    //      var newModul = new Modul
-    //      {
-    //        Bausteine = modul.Bausteine,
-    //        Bezeichnung = modul.Bezeichnung,
-    //        Id = modul.Id,
-    //        FachId = modul.FachId,
-    //        Stundenbedarf = modul.Stundenbedarf
-    //      };
-    //      switch (modul.Jahrgangsstufe.Bezeichnung)
-    //      {
-    //        case "7/8":
-    //          newModul.Jahrgang = 7;
-    //          break;
-    //        case "9/10":
-    //          newModul.Jahrgang = 8;
-    //          break;
-    //        case "Grundkurse":
-    //        case "Leistungskurse":
-    //          newModul.Jahrgang = 9;
-    //          break;
-    //        default:
-    //          newModul.Jahrgang = 0;
-    //          break;
-    //      }
-    //      newContext.Module.Add(newModul);
-    //    }
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Module] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Module] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-    //    foreach (var termin in oldContext.Termine.OfType<Schultermin>())
-    //    {
-    //      var newTermin = new Schultermin();
-    //      ((Schultermin)newTermin).Datum = termin.Datum;
-    //      ((Schultermin)newTermin).SchuljahrId = termin.JahrtypId;
-    //      newTermin.Beschreibung = termin.Beschreibung;
-    //      newTermin.ErsteUnterrichtsstundeId = termin.ErsteUnterrichtsstundeId;
-    //      newTermin.Id = termin.Id;
-    //      newTermin.IstGeprüft = termin.IstGeprüft;
-    //      newTermin.LetzteUnterrichtsstundeId = termin.LetzteUnterrichtsstundeId;
-    //      newTermin.Ort = termin.Ort;
-    //      if (Model.TeachyModel.Termintyp.TryParse(termin.Termintyp.Bezeichnung, out Model.TeachyModel.Termintyp typ))
-    //      {
-    //        newTermin.Termintyp = typ;
-    //      }
-    //      else
-    //      {
-    //        if (termin.Termintyp.Bezeichnung.StartsWith("Tag"))
-    //        {
-    //          newTermin.Termintyp = Model.TeachyModel.Termintyp.TagDerOffenenTür;
-    //        }
-    //        //else
-    //        //{
-    //        //  bool stop = true;
-    //        //}
-    //      }
-    //      newContext.Termine.Add(newTermin);
-    //    }
-
-    //    foreach (var stunde in oldContext.Termine.OfType<Stunde>())
-    //    {
-    //      var newTermin = new Stunde();
-
-    //      if (stunde.Stundenentwurf == null)
-    //      {
-    //        continue;
-    //      }
-
-    //      newTermin.Ansagen = stunde.Stundenentwurf.Ansagen;
-    //      newTermin.Beschreibung = stunde.Stundenentwurf.Stundenthema;
-    //      newTermin.Computer = stunde.Stundenentwurf.Computer;
-    //      newTermin.Datum = stunde.Tagesplan.Datum;
-    //      newTermin.FachId = stunde.Stundenentwurf.FachId;
-    //      if (stunde.Tagesplan.Monatsplan.Halbjahresplan.Halbjahrtyp.HalbjahrIndex == 1)
-    //      {
-    //        newTermin.Halbjahr = Halbjahr.Winter;
-    //      }
-    //      else
-    //      {
-    //        newTermin.Halbjahr = Halbjahr.Sommer;
-    //      }
-    //      newTermin.Hausaufgaben = stunde.Stundenentwurf.Hausaufgaben;
-    //      newTermin.Id = stunde.Id;
-    //      newTermin.IstBenotet = stunde.IstBenotet;
-    //      switch (stunde.Tagesplan.Monatsplan.Halbjahresplan.Jahresplan.Klasse.Klassenstufe.Bezeichnung)
-    //      {
-    //        case "7":
-    //          newTermin.Jahrgang = 7;
-    //          break;
-    //        case "8":
-    //          newTermin.Jahrgang = 8;
-    //          break;
-    //        case "9":
-    //          newTermin.Jahrgang = 9;
-    //          break;
-    //        case "10":
-    //          newTermin.Jahrgang = 10;
-    //          break;
-    //        case "GK-Q1/2":
-    //          newTermin.Jahrgang = 11;
-    //          break;
-    //        case "GK-Q3/4":
-    //          newTermin.Jahrgang = 12;
-    //          break;
-    //        case "LK-Q1/2":
-    //          newTermin.Jahrgang = 11;
-    //          break;
-    //        case "LK-Q3/4":
-    //          newTermin.Jahrgang = 12;
-    //          break;
-    //        default:
-    //          newTermin.Jahrgang = 0;
-    //          break;
-    //      }
-    //      newTermin.Kopieren = stunde.Stundenentwurf.Kopieren;
-    //      var lerngruppe = newContext.Lerngruppen.FirstOrDefault(o =>
-    //        o.SchuljahrId == stunde.Tagesplan.Monatsplan.Halbjahresplan.Jahresplan.JahrtypId
-    //        && o.FachId == stunde.Tagesplan.Monatsplan.Halbjahresplan.Jahresplan.FachId
-    //        && o.Bezeichnung == stunde.Tagesplan.Monatsplan.Halbjahresplan.Jahresplan.Klasse.Bezeichnung);
-    //      newTermin.Lerngruppe = lerngruppe;
-    //      newTermin.ModulId = stunde.Stundenentwurf.ModulId;
-    //      newTermin.Beschreibung = stunde.Beschreibung;
-    //      newTermin.ErsteUnterrichtsstundeId = stunde.ErsteUnterrichtsstundeId;
-    //      newTermin.Id = stunde.Id;
-    //      newTermin.IstGeprüft = stunde.IstGeprüft;
-    //      newTermin.LetzteUnterrichtsstundeId = stunde.LetzteUnterrichtsstundeId;
-    //      newTermin.Ort = stunde.Ort;
-    //      if (Model.TeachyModel.Termintyp.TryParse(stunde.Termintyp.Bezeichnung, out Model.TeachyModel.Termintyp typ))
-    //      {
-    //        newTermin.Termintyp = typ;
-    //      }
-    //      else
-    //      {
-    //        if (stunde.Termintyp.Bezeichnung.StartsWith("Tag"))
-    //        {
-    //          newTermin.Termintyp = Model.TeachyModel.Termintyp.TagDerOffenenTür;
-    //        }
-    //        //else
-    //        //{
-    //        //  bool stop = true;
-    //        //}
-    //      }
-    //      newContext.Termine.Add(newTermin);
-    //    }
-
-    //    foreach (var termin in oldContext.Termine.OfType<Lerngruppentermin>())
-    //    {
-    //      if (termin is Stunde)
-    //      {
-    //        continue;
-    //      }
-
-    //      var newTermin = new Lerngruppentermin();
-    //      {
-    //        newTermin.Datum = termin.Tagesplan.Datum;
-    //        if (termin.Tagesplan.Monatsplan.Halbjahresplan.Halbjahrtyp.HalbjahrIndex == 1)
-    //        {
-    //          newTermin.Halbjahr = Halbjahr.Winter;
-    //        }
-    //        else
-    //        {
-    //          newTermin.Halbjahr = Halbjahr.Sommer;
-    //        }
-    //        var lerngruppe = newContext.Lerngruppen.FirstOrDefault(o =>
-    //         o.SchuljahrId == termin.Tagesplan.Monatsplan.Halbjahresplan.Jahresplan.JahrtypId
-    //         && o.FachId == termin.Tagesplan.Monatsplan.Halbjahresplan.Jahresplan.FachId
-    //         && o.Bezeichnung == termin.Tagesplan.Monatsplan.Halbjahresplan.Jahresplan.Klasse.Bezeichnung);
-    //        newTermin.Lerngruppe = lerngruppe;
-
-    //        newTermin.Beschreibung = termin.Beschreibung;
-    //        newTermin.ErsteUnterrichtsstundeId = termin.ErsteUnterrichtsstundeId;
-    //        newTermin.Id = termin.Id;
-    //        newTermin.IstGeprüft = termin.IstGeprüft;
-    //        newTermin.LetzteUnterrichtsstundeId = termin.LetzteUnterrichtsstundeId;
-    //        newTermin.Ort = termin.Ort;
-    //        if (Model.TeachyModel.Termintyp.TryParse(termin.Termintyp.Bezeichnung, out Model.TeachyModel.Termintyp typ))
-    //        {
-    //          newTermin.Termintyp = typ;
-    //        }
-    //        else
-    //        {
-    //          if (termin.Termintyp.Bezeichnung.StartsWith("Tag"))
-    //          {
-    //            newTermin.Termintyp = Model.TeachyModel.Termintyp.TagDerOffenenTür;
-    //          }
-    //        }
-    //        newContext.Termine.Add(newTermin);
-    //      }
-    //    }
-
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Termine] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Termine] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-
-    //    foreach (var betroffeneLerngruppe in oldContext.BetroffeneKlassen)
-    //    {
-    //      var lerngruppen = newContext.Lerngruppen.Where(o =>
-    //         o.SchuljahrId == betroffeneLerngruppe.Termin.JahrtypId
-    //         && o.Bezeichnung == betroffeneLerngruppe.Klasse.Bezeichnung);
-
-    //      foreach (var lerngruppe in lerngruppen)
-    //      {
-    //        var newBetroffeneLerngruppe = new BetroffeneLerngruppe
-    //        {
-    //          //newBetroffeneKlasse.Id = betroffeneLerngruppe.Id;
-    //          LerngruppeId = lerngruppe.Id,
-    //          TerminId = betroffeneLerngruppe.TerminId
-    //        };
-    //        newContext.BetroffeneLerngruppen.Add(newBetroffeneLerngruppe);
-    //      }
-    //    }
-    //    //newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[BetroffeneKlassen] ON");
-    //    newContext.SaveChanges();
-    //    //newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[BetroffeneKlassen] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-
-    //    foreach (var curriculum in oldContext.Curricula)
-    //    {
-    //      var newCurriculum = new Curriculum
-    //      {
-    //        Bezeichnung = curriculum.Bezeichnung,
-    //        FachId = curriculum.FachId,
-    //        Halbjahr = curriculum.Halbjahrtyp.HalbjahrIndex == 1 ? Halbjahr.Winter : Halbjahr.Sommer,
-    //        Id = curriculum.Id
-    //      };
-    //      switch (curriculum.Klassenstufe.Bezeichnung)
-    //      {
-    //        case "7":
-    //          newCurriculum.Jahrgang = 7;
-    //          break;
-    //        case "8":
-    //          newCurriculum.Jahrgang = 8;
-    //          break;
-    //        case "9":
-    //          newCurriculum.Jahrgang = 9;
-    //          break;
-    //        case "10":
-    //          newCurriculum.Jahrgang = 10;
-    //          break;
-    //        case "GK-Q1/2":
-    //          newCurriculum.Jahrgang = 11;
-    //          break;
-    //        case "GK-Q3/4":
-    //          newCurriculum.Jahrgang = 12;
-    //          break;
-    //        case "LK-Q1/2":
-    //          newCurriculum.Jahrgang = 11;
-    //          break;
-    //        case "LK-Q3/4":
-    //          newCurriculum.Jahrgang = 12;
-    //          break;
-    //        default:
-    //          newCurriculum.Jahrgang = 0;
-    //          break;
-    //      }
-    //      newCurriculum.SchuljahrId = curriculum.JahrtypId;
-    //      newContext.Curricula.Add(newCurriculum);
-    //    }
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Curricula] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Curricula] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-
-    //    foreach (var reihe in oldContext.Reihen)
-    //    {
-    //      var newReihe = new Reihe
-    //      {
-    //        CurriculumId = reihe.CurriculumId,
-    //        Id = reihe.Id,
-    //        ModulId = reihe.ModulId,
-    //        Reihenfolge = reihe.AbfolgeIndex,
-    //        Stundenbedarf = reihe.Stundenbedarf,
-    //        Thema = reihe.Thema
-    //      };
-    //      newContext.Reihen.Add(newReihe);
-    //    }
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Reihen] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Reihen] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-
-    //    foreach (var sequenz in oldContext.Sequenzen)
-    //    {
-    //      var newSequenz = new Sequenz
-    //      {
-    //        Id = sequenz.Id,
-    //        ReiheId = sequenz.ReiheId,
-    //        Reihenfolge = sequenz.AbfolgeIndex,
-    //        Stundenbedarf = sequenz.Stundenbedarf,
-    //        Thema = sequenz.Thema
-    //      };
-    //      newContext.Sequenzen.Add(newSequenz);
-    //    }
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Sequenzen] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Sequenzen] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-
-    //    foreach (var dateityp in oldContext.Dateitypen)
-    //    {
-    //      var newDateityp = new Dateityp
-    //      {
-    //        Bezeichnung = dateityp.Bezeichnung,
-    //        Id = dateityp.Id,
-    //        Kürzel = dateityp.Kürzel
-    //      };
-    //      newContext.Dateitypen.Add(newDateityp);
-    //    }
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Dateitypen] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Dateitypen] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-
-    //    foreach (var dateiverweis in oldContext.Dateiverweise)
-    //    {
-    //      foreach (var stunde in dateiverweis.Stundenentwurf.Stunden)
-    //      {
-    //        var newDateiverweis = new Dateiverweis
-    //        {
-    //          Dateiname = dateiverweis.Dateiname,
-    //          DateitypId = dateiverweis.DateitypId,
-    //          //newDateiverweis.Id = dateiverweis.Id;
-    //          StundeId = stunde.Id
-    //        };
-    //        newContext.Dateiverweise.Add(newDateiverweis);
-    //      }
-    //    }
-    //    //newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Dateiverweise] ON");
-    //    newContext.SaveChanges();
-    //    //newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Dateiverweise] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-
-    //    foreach (var fachstundenanzahl in oldContext.Fachstundenanzahlen)
-    //    {
-    //      var newFachstundenanzahl = new Fachstundenanzahl
-    //      {
-    //        FachId = fachstundenanzahl.FachId,
-    //        Id = fachstundenanzahl.Id
-    //      };
-    //      switch (fachstundenanzahl.Klassenstufe.Bezeichnung)
-    //      {
-    //        case "7":
-    //          newFachstundenanzahl.Jahrgang = 7;
-    //          break;
-    //        case "8":
-    //          newFachstundenanzahl.Jahrgang = 8;
-    //          break;
-    //        case "9":
-    //          newFachstundenanzahl.Jahrgang = 9;
-    //          break;
-    //        case "10":
-    //          newFachstundenanzahl.Jahrgang = 10;
-    //          break;
-    //        case "GK-Q1/2":
-    //          newFachstundenanzahl.Jahrgang = 11;
-    //          break;
-    //        case "GK-Q3/4":
-    //          newFachstundenanzahl.Jahrgang = 12;
-    //          break;
-    //        case "LK-Q1/2":
-    //          newFachstundenanzahl.Jahrgang = 11;
-    //          break;
-    //        case "LK-Q3/4":
-    //          newFachstundenanzahl.Jahrgang = 12;
-    //          break;
-    //        default:
-    //          newFachstundenanzahl.Jahrgang = 0;
-    //          break;
-    //      }
-
-    //      newFachstundenanzahl.Stundenzahl = fachstundenanzahl.Stundenzahl;
-    //      newFachstundenanzahl.Teilungsstundenzahl = fachstundenanzahl.Teilungsstundenzahl;
-    //      newContext.Fachstundenanzahlen.Add(newFachstundenanzahl);
-    //    }
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Fachstundenanzahlen] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Fachstundenanzahlen] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-
-    //    foreach (var ferien in oldContext.Ferien)
-    //    {
-    //      var newFerien = new Ferien
-    //      {
-    //        Bezeichnung = ferien.Bezeichnung,
-    //        Id = ferien.Id,
-    //        ErsterFerientag = ferien.ErsterFerientag,
-    //        LetzterFerientag = ferien.LetzterFerientag,
-    //        SchuljahrId = ferien.JahrtypId
-    //      };
-    //      newContext.Ferien.Add(newFerien);
-    //    }
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Ferien] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Ferien] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-
-    //    foreach (var hausaufgabe in oldContext.Hausaufgaben)
-    //    {
-    //      var newHausaufgabe = new Hausaufgabe
-    //      {
-    //        Bezeichnung = hausaufgabe.Bezeichnung,
-    //        Id = hausaufgabe.Id,
-    //        Datum = hausaufgabe.Datum,
-    //        IstNachgereicht = hausaufgabe.IstNachgereicht,
-    //        SchülereintragId = hausaufgabe.SchülereintragId
-    //      };
-    //      newContext.Hausaufgaben.Add(newHausaufgabe);
-    //    }
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Hausaufgaben] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Hausaufgaben] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-
-    //    foreach (var phase in oldContext.Phasen)
-    //    {
-    //      foreach (var stunde in phase.Stundenentwurf.Stunden)
-    //      {
-    //        var newPhase = new Phase
-    //        {
-    //          Inhalt = phase.Inhalt
-    //        };
-    //        if (Model.TeachyModel.Medium.TryParse(phase.Medium.Bezeichnung, out Model.TeachyModel.Medium medium))
-    //        {
-    //          newPhase.Medium = medium;
-    //        }
-    //        newPhase.Reihenfolge = phase.AbfolgeIndex;
-    //        if (Model.TeachyModel.Sozialform.TryParse(phase.Sozialform.Bezeichnung, out Model.TeachyModel.Sozialform sozialform))
-    //        {
-    //          newPhase.Sozialform = sozialform;
-    //        }
-    //        newPhase.StundeId = stunde.Id;
-    //        newPhase.Zeit = phase.Zeit;
-    //        newContext.Phasen.Add(newPhase);
-    //      }
-    //    }
-    //    //newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Phasen] ON");
-    //    newContext.SaveChanges();
-    //    //newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Phasen] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-
-    //    foreach (var raum in oldContext.Räume)
-    //    {
-    //      var newRaum = new Raum
-    //      {
-    //        Bezeichnung = raum.Bezeichnung,
-    //        Id = raum.Id
-    //      };
-    //      newContext.Räume.Add(newRaum);
-    //    }
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Räume] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Räume] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-
-    //    foreach (var raumplan in oldContext.Raumpläne)
-    //    {
-    //      var newRaumplan = new Raumplan
-    //      {
-    //        Bezeichnung = raumplan.Bezeichnung,
-    //        Grundriss = raumplan.Grundriss,
-    //        Id = raumplan.Id,
-    //        RaumId = raumplan.RaumId
-    //      };
-    //      newContext.Raumpläne.Add(newRaumplan);
-    //    }
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Raumpläne] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Raumpläne] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-
-    //    foreach (var sitzplan in oldContext.Sitzpläne)
-    //    {
-    //      var newSitzplan = new Sitzplan
-    //      {
-    //        Id = sitzplan.Id,
-    //        Bezeichnung = sitzplan.Bezeichnung,
-    //        GültigAb = sitzplan.GültigAb,
-    //        Lerngruppe = newContext.Lerngruppen.First(o =>
-    //          o.SchuljahrId == sitzplan.Schülerliste.JahrtypId
-    //          && o.FachId == sitzplan.Schülerliste.FachId
-    //          && o.Bezeichnung == sitzplan.Schülerliste.Klasse.Bezeichnung),
-    //        RaumplanId = sitzplan.RaumplanId
-    //      };
-    //      newContext.Sitzpläne.Add(newSitzplan);
-    //    }
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Sitzpläne] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Sitzpläne] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-
-    //    foreach (var sitzplatz in oldContext.Sitzplätze)
-    //    {
-    //      var newSitzplatz = new Sitzplatz
-    //      {
-    //        Id = sitzplatz.Id,
-    //        Breite = sitzplatz.Breite,
-    //        Drehwinkel = sitzplatz.Drehwinkel,
-    //        Höhe = sitzplatz.Höhe,
-    //        LinksObenX = sitzplatz.LinksObenX,
-    //        LinksObenY = sitzplatz.LinksObenY,
-    //        RaumplanId = sitzplatz.RaumplanId
-    //      };
-    //      newContext.Sitzplätze.Add(newSitzplatz);
-    //    }
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Sitzplätze] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Sitzplätze] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-
-    //    foreach (var sitzplaneintrag in oldContext.Sitzplaneinträge)
-    //    {
-    //      var newSitzplaneintrag = new Sitzplaneintrag
-    //      {
-    //        Id = sitzplaneintrag.Id,
-    //        SchülereintragId = sitzplaneintrag.SchülereintragId,
-    //        SitzplanId = sitzplaneintrag.SitzplanId,
-    //        SitzplatzId = sitzplaneintrag.SitzplatzId
-    //      };
-    //      newContext.Sitzplaneinträge.Add(newSitzplaneintrag);
-    //    }
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Sitzplaneinträge] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Sitzplaneinträge] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-
-    //    foreach (var stundenplan in oldContext.Stundenpläne)
-    //    {
-    //      var newStundenplan = new Stundenplan
-    //      {
-    //        Id = stundenplan.Id,
-    //        Bezeichnung = stundenplan.Bezeichnung,
-    //        GültigAb = stundenplan.GültigAb,
-    //        Halbjahr = stundenplan.Halbjahrtyp.HalbjahrIndex == 1 ? Halbjahr.Winter : Halbjahr.Sommer,
-    //        SchuljahrID = stundenplan.JahrtypId
-    //      };
-    //      newContext.Stundenpläne.Add(newStundenplan);
-    //    }
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Stundenpläne] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Stundenpläne] OFF");
-
-    //    transaction.Commit();
-    //  }
-
-    //  using (var transaction = newContext.Database.BeginTransaction())
-    //  {
-
-    //    foreach (var stundenplaneintrag in oldContext.Stundenplaneinträge)
-    //    {
-    //      var newStundenplaneintrag = new Stundenplaneintrag
-    //      {
-    //        Id = stundenplaneintrag.Id,
-    //        ErsteUnterrichtsstundeIndex = stundenplaneintrag.ErsteUnterrichtsstundeIndex,
-    //        Lerngruppe = newContext.Lerngruppen.First(o =>
-    //          o.SchuljahrId == stundenplaneintrag.Stundenplan.JahrtypId
-    //          && o.FachId == stundenplaneintrag.FachId
-    //          && o.Bezeichnung == stundenplaneintrag.Klasse.Bezeichnung),
-    //        LetzteUnterrichtsstundeIndex = stundenplaneintrag.LetzteUnterrichtsstundeIndex,
-    //        RaumId = stundenplaneintrag.RaumId,
-    //        StundenplanId = stundenplaneintrag.StundenplanId,
-    //        WochentagIndex = stundenplaneintrag.WochentagIndex
-    //      };
-    //      newContext.Stundenplaneinträge.Add(newStundenplaneintrag);
-    //    }
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Stundenplaneinträge] ON");
-    //    newContext.SaveChanges();
-    //    newContext.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Stundenplaneinträge] OFF");
-
-    //    transaction.Commit();
-    //  }
-    //  newContext.ChangeTracker.AutoDetectChangesEnabled = false;
-
-    //}
 
     public void LoadLerngruppen()
     {
@@ -2486,36 +1251,36 @@
       new OptionsDialog().ShowDialog();
     }
 
-    /// <summary>
-    /// This method creates a directory tree in the my documents folder
-    /// with classes and moduls.
-    /// </summary>
-    private void CreateDirectoryTreeForDocuments()
-    {
-      var basePath = Configuration.GetMyDocumentsPath();
+    ///// <summary>
+    ///// This method creates a directory tree in the my documents folder
+    ///// with classes and moduls.
+    ///// </summary>
+    //private void CreateDirectoryTreeForDocuments()
+    //{
+    //  var basePath = Configuration.GetMyDocumentsPath();
 
-      foreach (var modulViewModel in this.Module)
-      {
-        var fachPath = Path.Combine(basePath, modulViewModel.ModulFach.FachBezeichnung);
-        if (!Directory.Exists(fachPath))
-        {
-          Directory.CreateDirectory(fachPath);
-        }
+    //  foreach (var modulViewModel in this.Module)
+    //  {
+    //    var fachPath = Path.Combine(basePath, modulViewModel.ModulFach.FachBezeichnung);
+    //    if (!Directory.Exists(fachPath))
+    //    {
+    //      Directory.CreateDirectory(fachPath);
+    //    }
 
-        var jahrgangsstufe = modulViewModel.ModulJahrgang;
-        var jahrgangsPath = Path.Combine(fachPath, jahrgangsstufe.ToString());
-        if (!Directory.Exists(jahrgangsPath))
-        {
-          Directory.CreateDirectory(jahrgangsPath);
-        }
+    //    var jahrgangsstufe = modulViewModel.ModulJahrgang;
+    //    var jahrgangsPath = Path.Combine(fachPath, jahrgangsstufe.ToString());
+    //    if (!Directory.Exists(jahrgangsPath))
+    //    {
+    //      Directory.CreateDirectory(jahrgangsPath);
+    //    }
 
-        var modulPath = Path.Combine(jahrgangsPath, modulViewModel.ModulBezeichnung);
-        if (!Directory.Exists(modulPath))
-        {
-          Directory.CreateDirectory(modulPath);
-        }
-      }
-    }
+    //    var modulPath = Path.Combine(jahrgangsPath, modulViewModel.ModulBezeichnung);
+    //    if (!Directory.Exists(modulPath))
+    //    {
+    //      Directory.CreateDirectory(modulPath);
+    //    }
+    //  }
+    //}
 
 
     #region CollectionChangedEventHandler
