@@ -16,6 +16,7 @@
   <Page.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/SoftTeach;component/Resources/SoftTeachResources.xaml"/>
         <ResourceDictionary >
           <CollectionViewSource x:Key="MündlicheQualitätViewSource" Source="{Binding MündlicheQualitätNotenCollection}">
             <CollectionViewSource.SortDescriptions>
@@ -169,7 +170,7 @@
           ItemContainerStyle="{StaticResource MetroSilentListBoxItem}">
           <ListBox.ItemsPanel>
             <ItemsPanelTemplate>
-              <WrapPanel Width="{Binding ElementName=MündlicheStandNotenListBox, Path=ActualWidth}"/>
+              <WrapPanel Width="{Binding ElementName=MündlicheStandNotenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
             </ItemsPanelTemplate>
           </ListBox.ItemsPanel>
         </ListBox>
@@ -194,7 +195,7 @@
           ItemContainerStyle="{StaticResource MetroSilentListBoxItem}">
           <ListBox.ItemsPanel>
             <ItemsPanelTemplate>
-              <WrapPanel Width="{Binding ElementName=SchriftlicheStandNotenListBox, Path=ActualWidth}"/>
+              <WrapPanel Width="{Binding ElementName=SchriftlicheStandNotenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
             </ItemsPanelTemplate>
           </ListBox.ItemsPanel>
         </ListBox>
@@ -238,7 +239,7 @@
             </ListBox.InputBindings>
             <ListBox.ItemsPanel>
               <ItemsPanelTemplate>
-                <WrapPanel IsManipulationEnabled="True" Width="{Binding ElementName=MündlicheQualitätListBox, Path=ActualWidth}"/>
+                <WrapPanel IsManipulationEnabled="True" Width="{Binding ElementName=MündlicheQualitätListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
               </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
           </ListBox>
@@ -283,7 +284,7 @@
             </ListBox.InputBindings>
             <ListBox.ItemsPanel>
               <ItemsPanelTemplate>
-                <WrapPanel Width="{Binding ElementName=MündlicheQuantitätListBox, Path=ActualWidth}"/>
+                <WrapPanel Width="{Binding ElementName=MündlicheQuantitätListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
               </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
           </ListBox>
@@ -316,7 +317,7 @@
           </ListBox.InputBindings>
           <ListBox.ItemsPanel>
             <ItemsPanelTemplate>
-              <WrapPanel Width="{Binding ElementName=WeitereMündlicheNotenListBox, Path=ActualWidth}"/>
+              <WrapPanel Width="{Binding ElementName=WeitereMündlicheNotenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
             </ItemsPanelTemplate>
           </ListBox.ItemsPanel>
         </ListBox>
@@ -373,7 +374,7 @@
           </ListBox.InputBindings>
           <ListBox.ItemsPanel>
             <ItemsPanelTemplate>
-              <WrapPanel Width="{Binding ElementName=WeitereSchriflicheNotenListBox, Path=ActualWidth}"/>
+              <WrapPanel Width="{Binding ElementName=WeitereSchriflicheNotenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
             </ItemsPanelTemplate>
           </ListBox.ItemsPanel>
         </ListBox>
@@ -402,7 +403,7 @@
           </ListBox.InputBindings>
           <ListBox.ItemsPanel>
             <ItemsPanelTemplate>
-              <WrapPanel Width="{Binding ElementName=NotentendenzenListBox, Path=ActualWidth}"/>
+              <WrapPanel Width="{Binding ElementName=NotentendenzenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
             </ItemsPanelTemplate>
           </ListBox.ItemsPanel>
         </ListBox>
@@ -430,7 +431,7 @@
           </ListBox.InputBindings>
           <ListBox.ItemsPanel>
             <ItemsPanelTemplate>
-              <WrapPanel Width="{Binding ElementName=HausaufgabenListBox, Path=ActualWidth}"/>
+              <WrapPanel Width="{Binding ElementName=HausaufgabenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
             </ItemsPanelTemplate>
           </ListBox.ItemsPanel>
         </ListBox>
@@ -456,7 +457,7 @@
           ItemContainerStyle="{StaticResource MetroSilentListBoxItem}">
           <ListBox.ItemsPanel>
             <ItemsPanelTemplate>
-              <WrapPanel Width="{Binding ElementName=GesamtstandNotenListBox, Path=ActualWidth}"/>
+              <WrapPanel Width="{Binding ElementName=GesamtstandNotenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}"/>
             </ItemsPanelTemplate>
           </ListBox.ItemsPanel>
         </ListBox>

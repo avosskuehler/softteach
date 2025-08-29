@@ -113,6 +113,9 @@
         this.MoveLerngruppeCommand.RaiseCanExecuteChanged();
         if (this.currentLerngruppe != null && Configuration.Instance.IsMetroMode)
         {
+          this.currentLerngruppe = null;
+          this.RaisePropertyChanged("CurrentLerngruppe");
+
           switch (Configuration.Instance.NavigateTarget)
           {
             case NavigateTarget.Noten:

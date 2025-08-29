@@ -12,12 +12,7 @@
       DataContext="{Binding Source={x:Static setting:Selection.Instance}, Path=Stunde}"
       FontSize="18">
   <Page.Resources>
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary >
-        </ResourceDictionary>
-      </ResourceDictionary.MergedDictionaries>
-    </ResourceDictionary>
+    <ResourceDictionary Source="/SoftTeach;component/Resources/SoftTeachResources.xaml"/>
   </Page.Resources>
   <Grid>
     <Grid.RowDefinitions>

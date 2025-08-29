@@ -82,17 +82,18 @@
     </ListBox>
     <ListBox Grid.Row="1" Grid.Column="2" Margin="2,0"
              ItemsSource="{Binding Path=LerngruppenView}" 
-             SelectedItem="{Binding Path=CurrentLerngruppe}"
              BorderThickness="0"
-             Name="LerngruppenListBox">
+      ItemContainerStyle="{StaticResource UnselectableListBoxItem}"
+      Name="LerngruppenListBox">
+      <!--SelectedItem="{Binding Path=CurrentLerngruppe}"-->
       <ListBox.ItemTemplate>
         <DataTemplate>
           <StackPanel>
-            <Border Margin="0,5,5,5" Padding="10" >
+            <Border Margin="0,5,5,5" Padding="10" MinWidth="100" Width="Auto">
               <Border.Background>
                 <SolidColorBrush Color="{StaticResource ToggleButtonBackColor}"/>
               </Border.Background>
-              <TextBlock Style="{StaticResource MetroLabelStyle}" Text="{Binding Path=LerngruppeBezeichnung}"/>
+              <TextBlock Style="{StaticResource MetroLabelStyle}" Text="{Binding Path=LerngruppeBezeichnung}" MouseLeftButtonDown="LerngruppenListBox_MouseLeftButtonDown"/>
             </Border>
           </StackPanel>
         </DataTemplate>

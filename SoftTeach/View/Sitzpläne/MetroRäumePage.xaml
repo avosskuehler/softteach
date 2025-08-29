@@ -16,6 +16,9 @@
       d:DesignWidth="1366"
       Title="Räume"
       FontSize="20">
+  <Page.Resources>
+    <ResourceDictionary Source="/SoftTeach;component/Resources/SoftTeachResources.xaml"/>
+  </Page.Resources>
   <Grid Stylus.IsPressAndHoldEnabled="False">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>

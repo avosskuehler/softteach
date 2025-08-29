@@ -9,6 +9,9 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
   mc:Ignorable="d" 
   Title="{Binding NotentendenzTitel}" d:DesignWidth="991.045" d:DesignHeight="479.114">
+  <Window.Resources>
+    <ResourceDictionary Source="/SoftTeach;component/Resources/SoftTeachResources.xaml"/>
+  </Window.Resources>
   <Grid>
     <StackPanel>
       <Grid>
@@ -33,7 +36,7 @@
         ItemContainerStyle="{StaticResource MetroSelectableListBoxItem}">
         <ListBox.ItemsPanel>
           <ItemsPanelTemplate>
-            <WrapPanel Width="{Binding ActualWidth, ElementName=TendenztypenListBox}"/>
+            <WrapPanel Width="{Binding ActualWidth, ElementName=TendenztypenListBox, Converter={StaticResource WrapPanelWidthConverter}}"/>
           </ItemsPanelTemplate>
         </ListBox.ItemsPanel>
       </ListBox>
@@ -46,7 +49,7 @@
         ItemContainerStyle="{StaticResource MetroSelectableListBoxItem}">
         <ListBox.ItemsPanel>
           <ItemsPanelTemplate>
-            <WrapPanel Width="{Binding ActualWidth, ElementName=TendenzenListBox}"/>
+            <WrapPanel Width="{Binding ActualWidth, ElementName=TendenzenListBox, Converter={StaticResource WrapPanelWidthConverter}}"/>
           </ItemsPanelTemplate>
         </ListBox.ItemsPanel>
       </ListBox>

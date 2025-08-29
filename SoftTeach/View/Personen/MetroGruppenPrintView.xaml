@@ -25,7 +25,7 @@
         <GroupStyle ContainerStyle="{StaticResource MetroPrintGruppenGroupHeaderStyle}">
           <GroupStyle.Panel>
             <ItemsPanelTemplate>
-              <WrapPanel Orientation="Horizontal" Width="{Binding ActualWidth, ElementName=GruppenListBox}"/>
+              <WrapPanel Orientation="Horizontal" Width="{Binding ActualWidth, ElementName=GruppenListBox, Converter={StaticResource WrapPanelWidthConverter}}"/>
             </ItemsPanelTemplate>
           </GroupStyle.Panel>
         </GroupStyle>

@@ -16,12 +16,12 @@
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
       var width = (double)value;
-      return width > 10 ? width - 10 : width;
+      return width > 12 ? width - 12 : width;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
-      return ((double)value) + 10;
+      return ((double)value) + 12;
     }
 
     #endregion

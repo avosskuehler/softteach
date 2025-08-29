@@ -39,7 +39,7 @@
         ItemContainerStyle="{StaticResource MetroSelectableListBoxItem}">
         <ListBox.ItemsPanel>
           <ItemsPanelTemplate>
-            <WrapPanel Width="{Binding ActualWidth, ElementName=ZensurtypListBox}"/>
+            <WrapPanel Width="{Binding ActualWidth, ElementName=ZensurtypListBox, Converter={StaticResource WrapPanelWidthConverter}}"/>
           </ItemsPanelTemplate>
         </ListBox.ItemsPanel>
       </ListBox>
