@@ -977,7 +977,7 @@
         //this.arbeiten.CollectionChanged += this.ArbeitenCollectionChanged;
         //this.Aufgaben.CollectionChanged += this.AufgabenCollectionChanged;
         //this.Ergebnisse.CollectionChanged += this.ErgebnisseCollectionChanged;
-        this.Schultermine.CollectionChanged += this.SchultermineCollectionChanged;
+        //this.Schultermine.CollectionChanged += this.SchultermineCollectionChanged; passiert in LoadTermine
         //this.Stunden.CollectionChanged += this.StundenCollectionChanged;
         //this.Lerngruppentermine.CollectionChanged += this.LerngruppentermineCollectionChanged;
         //this.BetroffeneKlassen.CollectionChanged += this.BetroffeneKlassenCollectionChanged;
@@ -1199,7 +1199,7 @@
     {
       App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = false;
       var collection = this.schultermine;
-      this.schultermine.CollectionChanged -= this.SchultermineCollectionChanged;
+      this.Schultermine.CollectionChanged -= this.SchultermineCollectionChanged;
 
       foreach (var schultermin in App.UnitOfWork.Context.Schultermine.Where(o => o.Schuljahr.Jahr == jahr).ToList()
         //.Include(sitzplan => sitzplan.Sitzplaneinträge)
@@ -1210,7 +1210,7 @@
           collection.Add(new SchulterminViewModel(schultermin));
         }
       }
-      this.schultermine.CollectionChanged += this.SchultermineCollectionChanged;
+      this.Schultermine.CollectionChanged += this.SchultermineCollectionChanged;
 
       App.UnitOfWork.Context.ChangeTracker.AutoDetectChangesEnabled = true;
     }

@@ -112,25 +112,26 @@
       {
         if (!File.Exists(dateiverweis.Dateiname))
         {
-          var rootPath = string.Empty;
-          switch (dateiverweis.Stunde.Fach.Bezeichnung)
-          {
-            case "Physik":
-              rootPath = @"C:\Users\VK\Documents\Schule\Physik\Planung\";
-              break;
-            case "Mathematik":
-              rootPath = @"C:\Users\VK\Documents\Schule\Mathe\Planung\";
-              break;
-            case "ITG":
-              rootPath = @"C:\Users\VK\Documents\Schule\ITG\Planung\";
-              break;
-            default:
-              rootPath = @"C:\Users\VK\Documents\Schule\";
-              break;
-          }
+          dateiverweis.Dateiname = dateiverweis.Dateiname.Replace(@"C:\Users\vk\", @"C:\Users\vk.VW\");
+          //var rootPath = string.Empty;
+          //switch (dateiverweis.Stunde.Fach.Bezeichnung)
+          //{
+          //  case "Physik":
+          //    rootPath = @"C:\Users\vk.VW\Documents\Schule\Physik\Planung\";
+          //    break;
+          //  case "Mathematik":
+          //    rootPath = @"C:\Users\vk.VW\Documents\Schule\Mathe\Planung\";
+          //    break;
+          //  case "ITG":
+          //    rootPath = @"C:\Users\vk.VW\Documents\Schule\ITG\Planung\";
+          //    break;
+          //  default:
+          //    rootPath = @"C:\Users\vk.VW\Documents\Schule\";
+          //    break;
+          //}
 
-          var dirInfo = new DirectoryInfo(rootPath);
-          WalkDirectoryTree(dirInfo, dateiverweis);
+          //var dirInfo = new DirectoryInfo(rootPath);
+          //WalkDirectoryTree(dirInfo, dateiverweis);
         }
       }
     }

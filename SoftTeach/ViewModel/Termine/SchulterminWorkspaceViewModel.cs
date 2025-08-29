@@ -66,14 +66,14 @@
 
       ZuletztVerwendetesDatum = DateTime.Now;
 
-      // Re-act to any changes from outside this ViewModel
-      App.MainViewModel.Schultermine.CollectionChanged += (sender, e) =>
-      {
-        if (e.OldItems != null && e.OldItems.Contains(this.CurrentTermin))
-        {
-          this.CurrentTermin = null;
-        }
-      };
+      //// Re-act to any changes from outside this ViewModel
+      //App.MainViewModel.Schultermine.CollectionChanged += (sender, e) =>
+      //{
+      //  if (e.OldItems != null && e.OldItems.Contains(this.CurrentTermin))
+      //  {
+      //    this.CurrentTermin = null;
+      //  }
+      //};
     }
 
 
