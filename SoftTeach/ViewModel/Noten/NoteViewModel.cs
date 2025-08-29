@@ -4,8 +4,6 @@
   using System.Globalization;
   using System.Linq;
 
-  using MahApps.Metro.Controls.Dialogs;
-
   using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.View.Noten;
@@ -354,15 +352,13 @@
     /// Diese Methode wird aufgerufen, wenn der Benutzer eine Note anklickt.
     /// Es öffnet sich der Editierdialog für Noten
     /// </summary>
-    private async void EditNote()
+    private void EditNote()
     {
       var workspace = new NotenWorkspaceViewModel(this);
       if (Configuration.Instance.IsMetroMode)
       {
-        var metroWindow = Configuration.Instance.MetroWindow;
-        metroWindow.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Accented;
         var dialog = new MetroNoteDialog(workspace);
-        await metroWindow.ShowMetroDialogAsync(dialog);
+        dialog.ShowDialog();
       }
       else
       {

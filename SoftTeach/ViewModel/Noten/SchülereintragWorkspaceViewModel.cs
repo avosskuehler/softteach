@@ -10,8 +10,6 @@
 
   using Helper;
 
-  using MahApps.Metro.Controls.Dialogs;
-
   using Personen;
   using Setting;
 
@@ -136,15 +134,14 @@
     /// <summary>
     /// Ruft Dialoge auf, mit denen nicht gemachte Hausaufgaben eingetragen werden.
     /// </summary>
-    private async void AddHausaufgaben()
+    private void AddHausaufgaben()
     {
       Selection.Instance.Lerngruppe = this.CurrentLerngruppe;
 
       if (Configuration.Instance.IsMetroMode)
       {
         var addDlg = new MetroAddHausaufgabeDialog(DateTime.Now);
-        var metroWindow = Configuration.Instance.MetroWindow;
-        await metroWindow.ShowMetroDialogAsync(addDlg);
+        addDlg.ShowDialog();
         return;
       }
 

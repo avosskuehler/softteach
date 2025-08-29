@@ -4,8 +4,6 @@
   using System.Globalization;
   using System.Linq;
 
-  using MahApps.Metro.Controls.Dialogs;
-
   using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
@@ -186,14 +184,12 @@
     /// <summary>
     /// Ändert die Notentendenz.
     /// </summary>
-    private async void EditNotentendenz()
+    private void EditNotentendenz()
     {
       if (Configuration.Instance.IsMetroMode)
       {
-        var metroWindow = Configuration.Instance.MetroWindow;
-        metroWindow.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Accented;
         var dialog = new MetroNotentendenzDialog(this);
-        await metroWindow.ShowMetroDialogAsync(dialog);
+        dialog.ShowDialog();
         return;
       }
 

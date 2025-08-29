@@ -8,7 +8,6 @@
   <UserControl.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/SoftTeach;component/Resources/MetroResources.xaml"/>
         <ResourceDictionary>
           <RotateTransform x:Key="SitzplanDrehungRotateTransform" Angle="{Binding Path=SitzplanDrehung}"></RotateTransform>
         </ResourceDictionary>

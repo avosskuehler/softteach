@@ -16,7 +16,6 @@
   <Page.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/SoftTeach;component/Resources/MetroResources.xaml"/>
         <ResourceDictionary >
           <CollectionViewSource x:Key="MündlicheQualitätViewSource" Source="{Binding MündlicheQualitätNotenCollection}">
             <CollectionViewSource.SortDescriptions>

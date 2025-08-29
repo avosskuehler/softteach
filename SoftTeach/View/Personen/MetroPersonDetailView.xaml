@@ -6,14 +6,5 @@
              mc:Ignorable="d" 
              d:DesignHeight="130" d:DesignWidth="230"
              FontSize="18">
-  <UserControl.Resources>
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/Resources/MetroResources.xaml"/>
-        <ResourceDictionary>
-        </ResourceDictionary>
-      </ResourceDictionary.MergedDictionaries>
-    </ResourceDictionary>
-  </UserControl.Resources>
   <RadioButton GroupName="Person" Style="{StaticResource MetroPersonToggleRadioButton}" Width="230" Click="PersonButtonOnClick" Content="{Binding SchülereintragPerson}"/>
 </UserControl>

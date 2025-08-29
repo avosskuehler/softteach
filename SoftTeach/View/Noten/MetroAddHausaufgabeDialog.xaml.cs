@@ -19,9 +19,7 @@ namespace SoftTeach.View.Noten
 {
   using System;
   using System.Windows;
-
-  using MahApps.Metro.Controls.Dialogs;
-
+  using System.Windows.Forms;
   using SoftTeach.Setting;
 
   /// <summary>
@@ -59,10 +57,8 @@ namespace SoftTeach.View.Noten
     /// </summary>
     /// <param name="sender">The sender.</param>
     /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
-    private async void FertigButtonOnClick(object sender, RoutedEventArgs e)
+    private void FertigButtonOnClick(object sender, RoutedEventArgs e)
     {
-      var metroWindow = Configuration.Instance.MetroWindow;
-      await metroWindow.HideMetroDialogAsync(this);
       Selection.Instance.HausaufgabeDatum = this.Datum;
       Selection.Instance.HausaufgabeBezeichnung = this.Bezeichnung;
 
@@ -72,8 +68,8 @@ namespace SoftTeach.View.Noten
         schülereintragViewModel.CurrentHausaufgabe = null;
       }
 
-      var dlg = new MetroAddHausaufgabenDialog();
-      await metroWindow.ShowMetroDialogAsync(dlg);
+      //var dlg = new MetroAddHausaufgabenDialog();
+      //dlg.ShowDialog();
     }
   }
 }

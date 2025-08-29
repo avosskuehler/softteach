@@ -5,7 +5,6 @@
   using System.Windows;
   using System.Windows.Media;
 
-  using MahApps.Metro.Controls.Dialogs;
 
   using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
@@ -204,13 +203,12 @@
     /// <summary>
     /// Ändert eine Hausaufgabe
     /// </summary>
-    private async void EditHausaufgabe()
+    private void EditHausaufgabe()
     {
       if (Configuration.Instance.IsMetroMode)
       {
-        var metroWindow = Configuration.Instance.MetroWindow;
         var dialog = new MetroHausaufgabeDialog(this);
-        await metroWindow.ShowMetroDialogAsync(dialog);
+        dialog.ShowDialog();
         return;
       }
 

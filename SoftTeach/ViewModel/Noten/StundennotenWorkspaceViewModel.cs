@@ -5,8 +5,6 @@
 
   using Helper;
 
-  using MahApps.Metro.Controls.Dialogs;
-
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
   using SoftTeach.View.Noten;
@@ -125,15 +123,14 @@
     /// <summary>
     /// Hier wird der Dialog zur Hausaufgabenkontrolle aufgerufen
     /// </summary>
-    private async void AddHausaufgaben()
+    private void AddHausaufgaben()
     {
       Selection.Instance.Lerngruppe = this.schülerliste;
 
       if (Configuration.Instance.IsMetroMode)
       {
         var addDlg = new MetroAddHausaufgabeDialog(this.stunde.LerngruppenterminDatum);
-        var metroWindow = Configuration.Instance.MetroWindow;
-        await metroWindow.ShowMetroDialogAsync(addDlg);
+        addDlg.ShowDialog();
         return;
       }
 

@@ -19,7 +19,6 @@ namespace SoftTeach.ViewModel.Termine
   using System.Windows.Markup;
   using System.Windows.Media;
   using GongSolutions.Wpf.DragDrop;
-  using MahApps.Metro.Controls.Dialogs;
 
   using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
@@ -1049,15 +1048,14 @@ namespace SoftTeach.ViewModel.Termine
     /// <summary>
     /// Hier wird der Dialog zur Hausaufgabenkontrolle aufgerufen
     /// </summary>
-    private async void AddHausaufgaben()
+    private void AddHausaufgaben()
     {
       this.UpdateLerngruppeInSelection();
       //var undo = false;
       using (new UndoBatch(App.MainViewModel, string.Format("Hausaufgaben hinzugefügt."), false))
       {
         var addDlg = new MetroAddHausaufgabeDialog(this.LerngruppenterminDatum);
-        var metroWindow = Configuration.Instance.MetroWindow;
-        await metroWindow.ShowMetroDialogAsync(addDlg);
+        addDlg.ShowDialog();
       }
     }
 

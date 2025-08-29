@@ -14,5 +14,6 @@
     <ResourceDictionary Source="Styles\DataTemplates.xaml"/>
     <ResourceDictionary Source="Styles\DocumentViewerStyle.xaml"/>
     <ResourceDictionary Source="Styles\EnumProvider.xaml"/>
+    <ResourceDictionary Source="Styles\MetroStyles.xaml"/>
   </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

@@ -17,6 +17,7 @@
 
 namespace SoftTeach.View.Noten
 {
+  using SoftTeach.ViewModel.Noten;
   using System.Windows;
   using System.Windows.Controls;
 
@@ -38,16 +39,6 @@ namespace SoftTeach.View.Noten
     #endregion
 
     /// <summary>
-    /// Handles the OnSelectionChanged event of the NotenListBox control.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The <see cref="SelectionChangedEventArgs"/> instance containing the event data.</param>
-    private void NotenListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-      this.NotenFlyout.IsOpen = true;
-    }
-
-    /// <summary>
     /// Handles the OnSelectionChanged event of the StundenListBox control.
     /// </summary>
     /// <param name="sender">The source of the event.</param>
@@ -64,6 +55,38 @@ namespace SoftTeach.View.Noten
       {
         this.Close();
       }
+    }
+
+    private void ResetFlyout()
+    {
+      this.Qualität1Radio.IsChecked = false;
+      this.Qualität2Radio.IsChecked = false;
+      this.Qualität3Radio.IsChecked = false;
+      this.Qualität4Radio.IsChecked = false;
+      this.Qualität5Radio.IsChecked = false;
+      this.Qualität6Radio.IsChecked = false;
+      this.Quantität1Radio.IsChecked = false;
+      this.Quantität2Radio.IsChecked = false;
+      this.Quantität3Radio.IsChecked = false;
+      this.Quantität4Radio.IsChecked = false;
+      this.Quantität5Radio.IsChecked = false;
+      this.Quantität6Radio.IsChecked = false;
+
+      var s = this.DataContext as SchülereintragViewModel;
+      if (s != null)
+      {
+        s.IstZufälligAusgewählt = false;
+      }
+    }
+
+    private void RadioOnClick(object sender, RoutedEventArgs e)
+    {
+      this.ResetFlyout();
+    }
+
+    private void NotenListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+      this.ResetFlyout();
     }
   }
 }

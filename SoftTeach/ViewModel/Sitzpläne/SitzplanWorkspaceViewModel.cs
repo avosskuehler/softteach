@@ -3,13 +3,13 @@
   using System;
   using System.ComponentModel;
   using System.Windows.Data;
-  using MahApps.Metro.Controls.Dialogs;
 
   using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
   using SoftTeach.ViewModel.Helper;
   using SoftTeach.View.Sitzpläne;
+  using SoftTeach.ExceptionHandling;
 
   /// <summary>
   /// ViewModel for managing Sitzplan
@@ -236,9 +236,7 @@
           }
           else
           {
-            Configuration.Instance.MetroWindow.ShowMessageAsync(
-              "Bitte beachten",
-              "Bitte klicken Sie erst den Raumplan an, für den der Sitzplan erstellt werden soll");
+            InformationDialog.Show("Bitte beachten", "Bitte klicken Sie erst den Raumplan an, für den der Sitzplan erstellt werden soll", false);
             return;
           }
 

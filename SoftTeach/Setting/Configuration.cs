@@ -24,7 +24,6 @@ namespace SoftTeach.Setting
   using System.Windows;
   using System.Windows.Navigation;
 
-  using MahApps.Metro.Controls;
 
   using SoftTeach.Model.TeachyModel;
 
@@ -51,7 +50,7 @@ namespace SoftTeach.Setting
     /// Metro window
     /// </summary>
     public static readonly DependencyProperty MetroWindowProperty = DependencyProperty.Register(
-      "MetroWindow", typeof(MetroWindow), typeof(Configuration), new FrameworkPropertyMetadata(OnPropertyChanged));
+      "MetroWindow", typeof(NavigationWindow), typeof(Configuration), new FrameworkPropertyMetadata(OnPropertyChanged));
    
    /// <summary>
     /// The navigation service to navigate in metro mode between pages
@@ -175,11 +174,11 @@ namespace SoftTeach.Setting
       }
     }
 
-    public MetroWindow MetroWindow
+    public NavigationWindow MetroWindow
     {
       get
       {
-        return (MetroWindow)this.GetValue(MetroWindowProperty);
+        return (NavigationWindow)this.GetValue(MetroWindowProperty);
       }
 
       set

@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
       xmlns:setting="clr-namespace:SoftTeach.Setting"
-      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
       xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
       xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
       mc:Ignorable="d" 
@@ -18,10 +18,6 @@
   <Page.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/SoftTeach;component/Resources/MetroResources.xaml"/>
-        <!--<ResourceDictionary>
-          <RotateTransform x:Key="SitzplanDrehungRotateTransform" Angle="{Binding Path=SitzplanDrehung}"></RotateTransform>
-        </ResourceDictionary>-->
         <ResourceDictionary >
           <CollectionViewSource x:Key="SortedAvailableSchülereinträgeViewSource" Source="{Binding AvailableSchülereinträge}">
             <CollectionViewSource.SortDescriptions>
@@ -88,7 +84,9 @@
                     ToolTip="Sitzplan ausdrucken.">
         <fa:IconBlock Style="{StaticResource Drucken48}" VerticalAlignment="Center"/>
       </Button>
-      <controls:NumericUpDown Grid.Column="10" FontSize="12" Value="{Binding SitzplanDrehung}" Interval="90" Maximum="360" Minimum="0" />
+      <xctk:IntegerUpDown
+        Value="{Binding SitzplanDrehung}"
+        Grid.Column="10" FontSize="12" Maximum="360" Minimum="0" />
     </Grid>
 
     <ListBox 

@@ -19,7 +19,6 @@ namespace SoftTeach.View.Noten
 {
   using System.Windows;
 
-  using MahApps.Metro.Controls.Dialogs;
   using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.ViewModel.Noten;
@@ -29,8 +28,6 @@ namespace SoftTeach.View.Noten
   /// </summary>
   public partial class MetroNoteDialog
   {
-    #region Constructors and Destructors
-
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="MetroNoteDialog"/> Klasse.
     /// </summary>
@@ -69,17 +66,13 @@ namespace SoftTeach.View.Noten
       }
     }
 
-    #endregion
-
     /// <summary>
     /// Handles the OnClick event of the Fertig button control.
     /// </summary>
     /// <param name="sender">The sender.</param>
     /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
-    private async void FertigButtonOnClick(object sender, RoutedEventArgs e)
+    private void FertigButtonOnClick(object sender, RoutedEventArgs e)
     {
-      var metroWindow = Configuration.Instance.MetroWindow;
-      await metroWindow.HideMetroDialogAsync(this);
       Selection.Instance.Schülereintrag.UpdateNoten();
     }
 

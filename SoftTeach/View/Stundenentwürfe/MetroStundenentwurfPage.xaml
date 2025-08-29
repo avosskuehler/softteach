@@ -14,7 +14,6 @@
   <Page.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/SoftTeach;component/Resources/MetroResources.xaml"/>
         <ResourceDictionary >
         </ResourceDictionary>
       </ResourceDictionary.MergedDictionaries>

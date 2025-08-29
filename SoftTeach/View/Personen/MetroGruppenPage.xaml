@@ -7,10 +7,11 @@
       xmlns:personen="clr-namespace:SoftTeach.ViewModel.Personen"
       xmlns:setting="clr-namespace:SoftTeach.Setting"
       xmlns:personenView="clr-namespace:SoftTeach.View.Personen"
-      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
       xmlns:softTeach="clr-namespace:SoftTeach"
       xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
       xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+      xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+      xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
       mc:Ignorable="d" 
       d:DesignHeight="768" 
       d:DesignWidth="1366"
@@ -20,7 +21,7 @@
   <Page.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/SoftTeach;component/Resources/MetroResources.xaml"/>
+        <ResourceDictionary Source="/SoftTeach;component/Resources/SoftTeachResources.xaml"/>
         <ResourceDictionary >
           <CollectionViewSource x:Key="GroupedSchülereinträgeViewSource" Source="{Binding Schülereinträge}">
             <CollectionViewSource.SortDescriptions>
@@ -71,14 +72,15 @@
         <ColumnDefinition Width="Auto"/>
       </Grid.ColumnDefinitions>
       <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="0" Content="Anzahl der Schüler pro Gruppe" VerticalAlignment="Center"/>
-      <controls:NumericUpDown Grid.Column="1" TabIndex="1" HorizontalAlignment="Left"
-                              Value="{Binding Path=Gruppenmitgliederanzahl, Mode=TwoWay}"
+      <xctk:IntegerUpDown
+        Value="{Binding Path=Gruppenmitgliederanzahl, Mode=TwoWay}"
+        Grid.Column="1" TabIndex="1" HorizontalAlignment="Left"
                               FontSize="24"
                               Minimum="1"
                               Maximum="50"
                               Margin="10,0"/>
       <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="2" Content="Anzahl der Gruppen" VerticalAlignment="Center"/>
-      <controls:NumericUpDown Grid.Column="3" TabIndex="1" HorizontalAlignment="Left"
+      <toolkit:IntegerUpDown Grid.Column="3" TabIndex="1" HorizontalAlignment="Left"
                               Value="{Binding Path=Gruppenanzahl, Mode=TwoWay}"
                               FontSize="24"
                               Minimum="1"
@@ -121,7 +123,6 @@
                  dd:DragDrop.IsDropTarget="True"
                  dd:DragDrop.DragAdornerTemplate="{StaticResource SchülereintragViewModelDragAdorner}"
                  dd:DragDrop.DropHandler="{Binding}"
-                 ItemContainerStyle="{StaticResource MahApps.Styles.ListBoxItem}"
                  Name="GruppenListBox">
       <ListBox.ItemTemplate>
         <DataTemplate>

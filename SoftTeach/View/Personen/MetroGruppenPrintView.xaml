@@ -5,13 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              Name="ParentUserControl"
              mc:Ignorable="d" Width="750" Height="300">
-  <UserControl.Resources>
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/SoftTeach;component/Resources/MetroResources.xaml"/>
-      </ResourceDictionary.MergedDictionaries>
-    </ResourceDictionary>
-  </UserControl.Resources>
   <Grid Margin="60,60">
     <Grid.RowDefinitions>
       <RowDefinition Height="*"/>

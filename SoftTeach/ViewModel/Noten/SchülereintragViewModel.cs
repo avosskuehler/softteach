@@ -11,7 +11,6 @@
   using System.Windows.Data;
   using System.Windows.Media;
 
-  using MahApps.Metro.Controls.Dialogs;
   using OxyPlot;
   using OxyPlot.Axes;
   using OxyPlot.Series;
@@ -1914,7 +1913,7 @@
     /// <summary>
     /// Handles addition a new Note to this Schülereintrag
     /// </summary>
-    private async void AddNote()
+    private void AddNote()
     {
       using (new UndoBatch(App.MainViewModel, string.Format("Note ergänzt"), false))
       {
@@ -1938,10 +1937,8 @@
         {
           if (Configuration.Instance.IsMetroMode)
           {
-            var metroWindow = Configuration.Instance.MetroWindow;
-            metroWindow.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Accented;
             var dialog = new MetroNoteDialog(workspace);
-            await metroWindow.ShowMetroDialogAsync(dialog);
+            dialog.ShowDialog();
             undo = false;
           }
           else
@@ -2292,7 +2289,7 @@
     /// <summary>
     /// Handles addition a new Notentendenz to this Schülereintrag
     /// </summary>
-    private async void AddNotentendenz()
+    private void AddNotentendenz()
     {
       var notentendenz = new Notentendenz
       {
@@ -2307,10 +2304,8 @@
       bool undo;
       if (Configuration.Instance.IsMetroMode)
       {
-        var metroWindow = Configuration.Instance.MetroWindow;
-        metroWindow.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Accented;
         var dialog = new MetroNotentendenzDialog(vm);
-        await metroWindow.ShowMetroDialogAsync(dialog);
+        dialog.ShowDialog();
         undo = false;
       }
       else

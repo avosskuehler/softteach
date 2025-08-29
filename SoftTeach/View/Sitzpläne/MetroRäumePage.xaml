@@ -16,9 +16,6 @@
       d:DesignWidth="1366"
       Title="Räume"
       FontSize="20">
-  <Page.Resources>
-    <ResourceDictionary Source="/SoftTeach;component/Resources/MetroResources.xaml"/>
-  </Page.Resources>
   <Grid Stylus.IsPressAndHoldEnabled="False">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
@@ -67,8 +64,7 @@
              ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Räume}"    
              SelectedItem="{Binding Path=RaumFilter}"
              BorderThickness="0"
-             Name="RäumeListBox"
-             ItemContainerStyle="{StaticResource MahApps.Styles.ListBoxItem}">
+             Name="RäumeListBox">
       <ListBox.ItemTemplate>
         <DataTemplate>
           <StackPanel Margin="5">
@@ -92,8 +88,7 @@
              ItemsSource="{Binding Path=RaumFilter.Raumpläne}"             
              SelectedItem="{Binding Path=RaumplanFilter}"
              BorderThickness="0"
-             Name="RaumpläneListBox"
-             ItemContainerStyle="{StaticResource MahApps.Styles.ListBoxItem}">
+             Name="RaumpläneListBox">
       <ListBox.ItemTemplate>
         <DataTemplate>
           <Border Margin="0,5,5,5" Padding="10">
@@ -116,8 +111,7 @@
               ItemsSource="{Binding Path=SitzpläneView}"             
               SelectedItem="{Binding Path=CurrentSitzplan}"
               BorderThickness="0"
-              Name="SitzpläneListBox"
-              ItemContainerStyle="{StaticResource MahApps.Styles.ListBoxItem}">
+              Name="SitzpläneListBox">
       <i:Interaction.Triggers>
         <i:EventTrigger EventName="MouseDoubleClick">
           <i:InvokeCommandAction Command="{Binding SitzplanBearbeitenCommand}"/>

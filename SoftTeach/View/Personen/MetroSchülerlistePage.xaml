@@ -15,7 +15,6 @@
   <Page.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/SoftTeach;component/Resources/MetroResources.xaml"/>
         <ResourceDictionary >
           <DataTemplate DataType="{x:Type personen:PersonViewModel}" x:Key="PersonenDataTemplate">
             <personenView:MetroPersonDetailView />

@@ -29,11 +29,11 @@ namespace SoftTeach
   using System.Windows.Markup;
   using System.Windows.Media;
   using System.Windows.Media.Imaging;
+  using System.Windows.Navigation;
   using System.Windows.Threading;
 
   using Hardcodet.Wpf.TaskbarNotification;
 
-  using MahApps.Metro.Controls;
 
   using SoftTeach.ExceptionHandling;
   using SoftTeach.Model;
@@ -196,18 +196,13 @@ namespace SoftTeach
       MainViewModel = new MainViewModel();
       MainViewModel.Populate();
 
-      var navWin = new MetroNavigationWindow();
+      var navWin = new NavigationWindow();
       navWin.Closing += navWin_Closing;
-      navWin.Title = "SoftTeach";
-      navWin.ShowTitleBar = false;
+      navWin.Title = "Teachy";
       navWin.WindowState = WindowState.Maximized;
-      navWin.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/SoftTeach;component/Resources/MetroResources.xaml", UriKind.Absolute) });
-      //uncomment the next two lines if you want the clean style.
-      //navWin.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/MahApps.Metro;component/Styles/Clean/CleanWindow.xaml", UriKind.Absolute) });
-      //navWin.SetResourceReference(FrameworkElement.StyleProperty, "CleanWindowStyleKey");
-      // Sprache der UI auf Current Culture setzen
-      
+      navWin.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/SoftTeach;component/Resources/SoftTeachResources.xaml", UriKind.Absolute) });
 
+      // Sprache der UI auf Current Culture setzen
       FrameworkElement.LanguageProperty.OverrideMetadata(
         typeof(FrameworkElement),
         new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
