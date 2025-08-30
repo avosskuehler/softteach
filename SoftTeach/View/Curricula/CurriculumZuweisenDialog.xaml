@@ -39,7 +39,7 @@
     <controls:SmallDialogHeader Grid.Row="0" Title="Passen Sie hier das Curriculum so an, dass es in den Jahresplan passt">
       <controls:SmallDialogHeader.IconContent>
         <Grid>
-          <fa:IconBlock Style="{StaticResource Curriculum48}" Foreground="{DynamicResource Iconfarbe}"/>
+          <fa:IconBlock Style="{StaticResource Curriculum48}" Foreground="{DynamicResource IconBrush}"/>
         </Grid>
       </controls:SmallDialogHeader.IconContent>
     </controls:SmallDialogHeader>

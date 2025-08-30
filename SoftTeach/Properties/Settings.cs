@@ -11,9 +11,6 @@
   //  The SettingsSaving event is raised before the setting values are saved.
   internal sealed partial class Settings
   {
-    public static Color DefaultBasisfarbe = (Color)ColorConverter.ConvertFromString("#FF008A00");
-    private Color basisfarbe;
-
     public Settings()
     {
 
@@ -27,22 +24,6 @@
       {
         Directory.CreateDirectory(this.LogfilePath);
       }
-
-      this.basisfarbe = DefaultBasisfarbe;
     }
-
-    /// <summary>
-    /// Holt oder setzt eine Einstellung, die die Basisfarbe der Anwendung bestimmt
-    /// </summary>
-    public Color Basisfarbe
-    {
-      get => this.basisfarbe;
-
-      set
-      {
-        this.basisfarbe = value;
-      }
-    }
-
   }
 }

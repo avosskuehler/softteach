@@ -17,7 +17,7 @@
     <controls:SmallDialogHeader Grid.Row="0" Title="Welche Schüler gehören zur Klasse?">
       <controls:SmallDialogHeader.IconContent>
         <Grid>
-          <fa:IconBlock Style="{StaticResource Lerngruppe48}" Foreground="{DynamicResource Iconfarbe}"/>
+          <fa:IconBlock Style="{StaticResource Lerngruppe48}" Foreground="{DynamicResource IconBrush}"/>
         </Grid>
       </controls:SmallDialogHeader.IconContent>
     </controls:SmallDialogHeader>
@@ -33,8 +33,8 @@
                     ToolTip="neue Person anlegen">
           <StackPanel Orientation="Horizontal">
             <Grid>
-              <fa:IconBlock Style="{StaticResource Person32}" Foreground="{DynamicResource Iconfarbe}"/>
-              <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+              <fa:IconBlock Style="{StaticResource Person32}" Foreground="{DynamicResource IconBrush}"/>
+              <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource IconBrush}"/>
             </Grid>
             <!--<Label Padding="5,0,0,0" VerticalContentAlignment="Center">en Stundenentwurf erstellen</Label>-->
           </StackPanel>
@@ -44,8 +44,8 @@
                     ToolTip="Aktuelle Person löschen.">
           <StackPanel Orientation="Horizontal">
             <Grid>
-              <fa:IconBlock Style="{StaticResource Person32}" Foreground="{DynamicResource Iconfarbe}"/>
-              <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+              <fa:IconBlock Style="{StaticResource Person32}" Foreground="{DynamicResource IconBrush}"/>
+              <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource IconBrush}"/>
             </Grid>
             <!--<Label Padding="5,0,0,0" VerticalContentAlignment="Center">Stundenplanänderung eingeben</Label>-->
           </StackPanel>

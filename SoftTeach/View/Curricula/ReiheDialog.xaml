@@ -17,7 +17,7 @@
     <controls:SmallDialogHeader Grid.Row="0" Title="Bitte geben Sie Thema, Modul und Dauer der Reihe an.">
       <controls:SmallDialogHeader.IconContent>
         <Grid>
-          <fa:IconBlock Style="{StaticResource Modul32}" Foreground="{DynamicResource Iconfarbe}"/>
+          <fa:IconBlock Style="{StaticResource Modul32}" Foreground="{DynamicResource IconBrush}"/>
         </Grid>
       </controls:SmallDialogHeader.IconContent>
     </controls:SmallDialogHeader>

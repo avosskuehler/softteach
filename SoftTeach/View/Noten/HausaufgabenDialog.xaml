@@ -26,7 +26,7 @@
     <controls:SmallDialogHeader Grid.Row="0" Title="Bitte klicken Sie an, wer seine Hausaufgaben nicht gemacht hat.">
       <controls:SmallDialogHeader.IconContent>
         <Grid>
-          <fa:IconBlock Style="{StaticResource Hausaufgabe48}" Foreground="{DynamicResource Iconfarbe}"/>
+          <fa:IconBlock Style="{StaticResource Hausaufgabe48}" Foreground="{DynamicResource IconBrush}"/>
         </Grid>
       </controls:SmallDialogHeader.IconContent>
     </controls:SmallDialogHeader>

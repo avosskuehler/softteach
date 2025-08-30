@@ -13,7 +13,7 @@
     <controls:DialogHeader Grid.Row="0" Title="Verändern Sie hier die Einstellungen für Ihre Datenbank.">
       <controls:DialogHeader.IconContent>
         <Grid>
-          <fa:IconBlock Style="{StaticResource Einstellungen48}" Foreground="{DynamicResource Iconfarbe}"/>
+          <fa:IconBlock Style="{StaticResource Einstellungen48}" Foreground="{DynamicResource IconBrush}"/>
         </Grid>
       </controls:DialogHeader.IconContent>
     </controls:DialogHeader>

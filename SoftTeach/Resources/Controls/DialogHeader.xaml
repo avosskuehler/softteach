@@ -17,8 +17,8 @@
       <RowDefinition Height="1*"/>
     </Grid.RowDefinitions>
     <Border Background="{DynamicResource HighlightGradientBrush}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" />
-    <Border Background="{DynamicResource Basisfarbe}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" />
-    <TextBlock VerticalAlignment="Center" Grid.Column="2" Name="title" Foreground="{DynamicResource Logoschriftfarbe}" FontSize="14" TextWrapping="Wrap" Margin="10,5,90,5" Text="{Binding Path=Title}"/>
+    <Border Background="{DynamicResource BasisBrush}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" />
+    <TextBlock VerticalAlignment="Center" Grid.Column="2" Name="title" Foreground="{DynamicResource LogoschriftBrush}" FontSize="14" TextWrapping="Wrap" Margin="10,5,90,5" Text="{Binding Path=Title}"/>
     <!--<Image VerticalAlignment="Center" Grid.Column="1" Grid.Row="0" Source="{Binding Path=Icon}" Margin="0"/>-->
     <ContentControl VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" Content="{Binding Path=IconContent}" Margin="8"/>
   </Grid>

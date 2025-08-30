@@ -18,7 +18,7 @@
     <controls:SmallDialogHeader x:Name="Header"  Grid.Row="0" Title="Auf welchen Raum sollen die Sitzpläne übertragen werden?">
       <controls:SmallDialogHeader.IconContent>
         <Grid>
-          <fa:IconBlock Style="{StaticResource Raum32}" Foreground="{DynamicResource Iconfarbe}"/>
+          <fa:IconBlock Style="{StaticResource Raum32}" Foreground="{DynamicResource IconBrush}"/>
         </Grid>
       </controls:SmallDialogHeader.IconContent>
     </controls:SmallDialogHeader>

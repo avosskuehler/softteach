@@ -47,7 +47,7 @@
     <Setter Property="HorizontalAlignment" Value="Right"/>
     <Setter Property="VerticalAlignment" Value="Bottom"/>
     <Setter Property="FontType" Value="Solid"/>
-    <Setter Property="Foreground" Value="{DynamicResource Iconfarbe}"/>
+    <Setter Property="Foreground" Value="{DynamicResource IconBrush}"/>
   </Style>
 
   <Style x:Key="AddOverlay16" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource Overlay}">
@@ -427,25 +427,25 @@
 
 
   <Style x:Key="SizeSmall" TargetType="{x:Type fa:IconBlock}">
-    <Setter Property="Foreground" Value="{DynamicResource Iconfarbe}"/>
+    <Setter Property="Foreground" Value="{DynamicResource IconBrush}"/>
     <Setter Property="FontSize" Value="14"/>
     <Setter Property="Width" Value="16"/>
   </Style>
 
   <Style x:Key="SizeMedium" TargetType="{x:Type fa:IconBlock}">
-    <Setter Property="Foreground" Value="{DynamicResource Iconfarbe}"/>
+    <Setter Property="Foreground" Value="{DynamicResource IconBrush}"/>
     <Setter Property="FontSize" Value="20"/>
     <Setter Property="Width" Value="24"/>
   </Style>
 
   <Style x:Key="SizeBig" TargetType="{x:Type fa:IconBlock}">
-    <Setter Property="Foreground" Value="{DynamicResource Iconfarbe}"/>
+    <Setter Property="Foreground" Value="{DynamicResource IconBrush}"/>
     <Setter Property="FontSize" Value="26"/>
     <Setter Property="Width" Value="32"/>
   </Style>
 
   <Style x:Key="SizeHeader" TargetType="{x:Type fa:IconBlock}">
-    <Setter Property="Foreground" Value="{DynamicResource Iconfarbe}"/>
+    <Setter Property="Foreground" Value="{DynamicResource IconBrush}"/>
     <Setter Property="FontSize" Value="30"/>
     <Setter Property="Width" Value="48"/>
   </Style>
@@ -960,7 +960,7 @@
   </Style>
 
   <Style x:Key="Plus7" TargetType="{x:Type fa:IconBlock}">
-    <Setter Property="Foreground" Value="{DynamicResource Iconfarbe}"/>
+    <Setter Property="Foreground" Value="{DynamicResource IconBrush}"/>
     <Setter Property="FontSize" Value="7"/>
     <Setter Property="Icon" Value="Plus"/>
   </Style>
@@ -983,7 +983,7 @@
   </Style>
 
   <Style x:Key="Minus7" TargetType="{x:Type fa:IconBlock}">
-    <Setter Property="Foreground" Value="{DynamicResource Iconfarbe}"/>
+    <Setter Property="Foreground" Value="{DynamicResource IconBrush}"/>
     <Setter Property="FontSize" Value="7"/>
     <Setter Property="Icon" Value="Minus"/>
   </Style>
@@ -1197,4 +1197,11 @@
     <Setter Property="Icon" Value="Trophy"/>
   </Style>
   
+  <Style x:Key="Zurück32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="ChevronCircleLeft"/>
+  </Style>
+  <Style x:Key="Vor32" TargetType="{x:Type fa:IconBlock}" BasedOn="{StaticResource SizeBig}">
+    <Setter Property="Icon" Value="ChevronCircleRight"/>
+  </Style>
+
 </ResourceDictionary>

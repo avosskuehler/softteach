@@ -14,7 +14,7 @@
     <controls:SmallDialogHeader Grid.Row="0" Title="Wählen Sie hier die Lerngruppen aus, die von dem Termin betroffen sind.">
       <controls:SmallDialogHeader.IconContent>
         <Grid>
-          <fa:IconBlock Style="{StaticResource Lerngruppe48}" Foreground="{DynamicResource Iconfarbe}"/>
+          <fa:IconBlock Style="{StaticResource Lerngruppe48}" Foreground="{DynamicResource IconBrush}"/>
         </Grid>
       </controls:SmallDialogHeader.IconContent>
     </controls:SmallDialogHeader>

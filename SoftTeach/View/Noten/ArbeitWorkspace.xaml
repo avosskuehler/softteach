@@ -23,7 +23,7 @@
       Grid.Row="0" Title="Ergänzen, ändern oder löschen Sie hier Arbeiten oder Tests. Die Noten tauchen dann automatisch auch in der Notenzusammenstellung jedes einzelnen Schülers auf.">
       <controls:SmallDialogHeader.IconContent>
         <Grid>
-          <fa:IconBlock Style="{StaticResource Arbeit48}" Foreground="{DynamicResource Iconfarbe}"/>
+          <fa:IconBlock Style="{StaticResource Arbeit48}" Foreground="{DynamicResource IconBrush}"/>
         </Grid>
       </controls:SmallDialogHeader.IconContent>
     </controls:SmallDialogHeader>
@@ -43,8 +43,8 @@
                     ToolTip="neue Arbeit erstellen">
             <StackPanel Orientation="Horizontal">
               <Grid>
-                <fa:IconBlock Style="{StaticResource Arbeit32}" Foreground="{DynamicResource Iconfarbe}"/>
-                <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+                <fa:IconBlock Style="{StaticResource Arbeit32}" Foreground="{DynamicResource IconBrush}"/>
+                <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource IconBrush}"/>
               </Grid>
             </StackPanel>
           </Button>
@@ -53,8 +53,8 @@
                     ToolTip="Aktuelle Arbeit löschen.">
             <StackPanel Orientation="Horizontal">
               <Grid>
-                <fa:IconBlock Style="{StaticResource Arbeit32}" Foreground="{DynamicResource Iconfarbe}"/>
-                <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+                <fa:IconBlock Style="{StaticResource Arbeit32}" Foreground="{DynamicResource IconBrush}"/>
+                <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource IconBrush}"/>
               </Grid>
             </StackPanel>
           </Button>
@@ -79,7 +79,7 @@
                       HorizontalAlignment="Stretch" Margin="1"/>
           <Button Grid.Row="0" Grid.Column="3" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                 Command="{Binding Path=ResetSchuljahrFilterCommand}">
-            <fa:IconBlock Style="{StaticResource Remove16}" Foreground="{DynamicResource Iconfarbe}"/>
+            <fa:IconBlock Style="{StaticResource Remove16}" Foreground="{DynamicResource IconBrush}"/>
           </Button>
           <Label Grid.Row="1" Grid.Column="0" Padding="3" Margin="3" VerticalAlignment="Center" Grid.ColumnSpan="2">Fach</Label>
           <ComboBox Grid.Row="1" Grid.Column="2" MinWidth="100" ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Fächer}"
@@ -90,7 +90,7 @@
                                           HorizontalAlignment="Stretch" Margin="1"/>
           <Button Grid.Row="1" Grid.Column="3" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                 Command="{Binding Path=ResetFachFilterCommand}">
-            <fa:IconBlock Style="{StaticResource Remove16}" Foreground="{DynamicResource Iconfarbe}"/>
+            <fa:IconBlock Style="{StaticResource Remove16}" Foreground="{DynamicResource IconBrush}"/>
           </Button>
         </Grid>
         <DataGrid 
@@ -238,8 +238,8 @@
                       Command="{Binding Path=AddAufgabeCommand}">
               <StackPanel Orientation="Horizontal" ToolTip="Aufgabe hinzufügen">
                 <Grid >
-                  <fa:IconBlock Style="{StaticResource Aufgabe16}" Foreground="{DynamicResource Iconfarbe}"/>
-                  <fa:IconBlock Style="{StaticResource AddOverlay16}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource Aufgabe16}" Foreground="{DynamicResource IconBrush}"/>
+                  <fa:IconBlock Style="{StaticResource AddOverlay16}" Foreground="{DynamicResource IconBrush}"/>
                 </Grid>
                 <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Aufgabe hinzufügen</Label>
               </StackPanel>
@@ -248,8 +248,8 @@
                       Command="{Binding Path=EditAufgabeCommand}">
               <StackPanel Orientation="Horizontal" ToolTip="Aufgabe bearbeiten">
                 <Grid >
-                  <fa:IconBlock Style="{StaticResource Aufgabe16}" Foreground="{DynamicResource Iconfarbe}"/>
-                  <fa:IconBlock Style="{StaticResource EditOverlay16}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource Aufgabe16}" Foreground="{DynamicResource IconBrush}"/>
+                  <fa:IconBlock Style="{StaticResource EditOverlay16}" Foreground="{DynamicResource IconBrush}"/>
                 </Grid>
                 <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Aufgabe bearbeiten</Label>
               </StackPanel>
@@ -258,8 +258,8 @@
                       Command="{Binding Path=DeleteAufgabeCommand}">
               <StackPanel Orientation="Horizontal" ToolTip="Aufgabe entfernen">
                 <Grid >
-                  <fa:IconBlock Style="{StaticResource Aufgabe16}" Foreground="{DynamicResource Iconfarbe}"/>
-                  <fa:IconBlock Style="{StaticResource RemoveOverlay16}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource Aufgabe16}" Foreground="{DynamicResource IconBrush}"/>
+                  <fa:IconBlock Style="{StaticResource RemoveOverlay16}" Foreground="{DynamicResource IconBrush}"/>
                 </Grid>
                 <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Aufgabe entfernen</Label>
               </StackPanel>
@@ -268,8 +268,8 @@
                       Command="{Binding Path=PrintNotenlisteCommand}">
               <StackPanel Orientation="Horizontal" ToolTip="Notenliste drucken">
                 <Grid >
-                  <fa:IconBlock Style="{StaticResource Note16}" Foreground="{DynamicResource Iconfarbe}"/>
-                  <fa:IconBlock Style="{StaticResource PrintOverlay16}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource Note16}" Foreground="{DynamicResource IconBrush}"/>
+                  <fa:IconBlock Style="{StaticResource PrintOverlay16}" Foreground="{DynamicResource IconBrush}"/>
                 </Grid>
                 <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Notenliste drucken</Label>
               </StackPanel>

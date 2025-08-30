@@ -16,7 +16,7 @@
     </Grid.RowDefinitions>
     <controls:SmallDialogHeader Grid.Row="0" Title="Bitte geben Sie hier Bezeichnung und Punktzahl der Aufgabe an.">
       <controls:SmallDialogHeader.IconContent>
-        <fa:IconBlock Style="{StaticResource Aufgabe48}" Foreground="{DynamicResource Iconfarbe}"/>
+        <fa:IconBlock Style="{StaticResource Aufgabe48}" Foreground="{DynamicResource IconBrush}"/>
       </controls:SmallDialogHeader.IconContent>
     </controls:SmallDialogHeader>
     <StackPanel Grid.Row="1">

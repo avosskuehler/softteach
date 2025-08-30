@@ -15,5 +15,6 @@
     <ResourceDictionary Source="Styles\DocumentViewerStyle.xaml"/>
     <ResourceDictionary Source="Styles\EnumProvider.xaml"/>
     <ResourceDictionary Source="Styles\MetroStyles.xaml"/>
+    <ResourceDictionary Source="Controls\NavigationWindowSpezial.xaml"/>
   </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

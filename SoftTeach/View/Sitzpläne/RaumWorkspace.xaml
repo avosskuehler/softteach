@@ -23,8 +23,8 @@
     <controls:SmallDialogHeader Grid.Row="0" Title="Hier werden Räume und Sitzpläne verwaltet.">
       <controls:SmallDialogHeader.IconContent>
         <StackPanel Orientation="Horizontal">
-          <fa:IconBlock Style="{StaticResource Raum48}" Foreground="{DynamicResource Iconfarbe}"/>
-          <fa:IconBlock Style="{StaticResource Sitzplan48}" Foreground="{DynamicResource Iconfarbe}"/>
+          <fa:IconBlock Style="{StaticResource Raum48}" Foreground="{DynamicResource IconBrush}"/>
+          <fa:IconBlock Style="{StaticResource Sitzplan48}" Foreground="{DynamicResource IconBrush}"/>
         </StackPanel>
       </controls:SmallDialogHeader.IconContent>
     </controls:SmallDialogHeader>

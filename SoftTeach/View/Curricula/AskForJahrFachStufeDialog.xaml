@@ -17,7 +17,7 @@
     <controls:SmallDialogHeader Grid.Row="0" Title="Für welches Fach und welche Altersgruppe soll das Curriculum erstellt werden?">
       <controls:SmallDialogHeader.IconContent>
         <Grid>
-          <fa:IconBlock Style="{StaticResource Curriculum48}" Foreground="{DynamicResource Iconfarbe}"/>
+          <fa:IconBlock Style="{StaticResource Curriculum48}" Foreground="{DynamicResource IconBrush}"/>
         </Grid>
       </controls:SmallDialogHeader.IconContent>
     </controls:SmallDialogHeader>

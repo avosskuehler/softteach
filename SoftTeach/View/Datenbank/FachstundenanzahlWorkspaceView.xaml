@@ -21,7 +21,7 @@
     <controls:SmallDialogHeader Grid.Row="0" Title="Ergänzen oder entfernen Sie hier die Anzahl der Unterrichtsstunden pro Fach und Klassenstufe.">
       <controls:SmallDialogHeader.IconContent>
         <Grid>
-          <fa:IconBlock Style="{StaticResource Fachstunden32}" Foreground="{DynamicResource Iconfarbe}"/>
+          <fa:IconBlock Style="{StaticResource Fachstunden32}" Foreground="{DynamicResource IconBrush}"/>
         </Grid>
       </controls:SmallDialogHeader.IconContent>
     </controls:SmallDialogHeader>
@@ -30,8 +30,8 @@
         <Button Name="AddButton" Command="{Binding Path=AddFachstundenanzahlCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
           <StackPanel Orientation="Horizontal">
             <Grid>
-              <fa:IconBlock Style="{StaticResource Fachstunden32}" Foreground="{DynamicResource Iconfarbe}"/>
-              <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+              <fa:IconBlock Style="{StaticResource Fachstunden32}" Foreground="{DynamicResource IconBrush}"/>
+              <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource IconBrush}"/>
             </Grid>
             <Label Content="Fachstundenanzahl hinzufügen"/>
           </StackPanel>
@@ -40,8 +40,8 @@
         <Button Name="RemoveButton" Command="{Binding Path=DeleteFachstundenanzahlCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
           <StackPanel Orientation="Horizontal">
             <Grid>
-              <fa:IconBlock Style="{StaticResource Fachstunden32}" Foreground="{DynamicResource Iconfarbe}"/>
-              <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+              <fa:IconBlock Style="{StaticResource Fachstunden32}" Foreground="{DynamicResource IconBrush}"/>
+              <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource IconBrush}"/>
             </Grid>
             <Label Content="Fachstundenanzahl entfernen"/>
           </StackPanel>

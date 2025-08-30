@@ -39,7 +39,7 @@
     <controls:SmallDialogHeader Grid.Row="0" Title="Ziehen Sie die Stunden aus der Vorlage an die richtige Stelle im neuen Jahresplan.">
       <controls:SmallDialogHeader.IconContent>
         <Grid>
-          <fa:IconBlock Style="{StaticResource Jahresplan48}" Foreground="{DynamicResource Iconfarbe}"/>
+          <fa:IconBlock Style="{StaticResource Jahresplan48}" Foreground="{DynamicResource IconBrush}"/>
         </Grid>
       </controls:SmallDialogHeader.IconContent>
     </controls:SmallDialogHeader>

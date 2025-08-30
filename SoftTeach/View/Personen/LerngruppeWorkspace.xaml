@@ -28,7 +28,7 @@
     <controls:SmallDialogHeader Grid.Row="0" Title="Verwaltung der Lerngruppen.">
       <controls:SmallDialogHeader.IconContent>
         <Grid>
-          <fa:IconBlock Style="{StaticResource Lerngruppe48}" Foreground="{DynamicResource Iconfarbe}"/>
+          <fa:IconBlock Style="{StaticResource Lerngruppe48}" Foreground="{DynamicResource IconBrush}"/>
         </Grid>
       </controls:SmallDialogHeader.IconContent>
     </controls:SmallDialogHeader>
@@ -49,8 +49,8 @@
                     ToolTip="neue Lerngruppe erstellen">
               <StackPanel Orientation="Horizontal">
                 <Grid>
-                  <fa:IconBlock Style="{StaticResource Lerngruppe32}" Foreground="{DynamicResource Iconfarbe}"/>
-                  <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource Lerngruppe32}" Foreground="{DynamicResource IconBrush}"/>
+                  <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource IconBrush}"/>
                 </Grid>
               </StackPanel>
             </Button>
@@ -59,8 +59,8 @@
                     ToolTip="Aktuelle Lerngruppe löschen.">
               <StackPanel Orientation="Horizontal">
                 <Grid>
-                  <fa:IconBlock Style="{StaticResource Lerngruppe32}" Foreground="{DynamicResource Iconfarbe}"/>
-                  <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource Lerngruppe32}" Foreground="{DynamicResource IconBrush}"/>
+                  <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource IconBrush}"/>
                 </Grid>
               </StackPanel>
             </Button>
@@ -69,8 +69,8 @@
                     ToolTip="Aktuelle Lerngruppe ins nächste Jahr übernehmen.">
               <StackPanel Orientation="Horizontal">
                 <Grid>
-                  <fa:IconBlock Style="{StaticResource Lerngruppe32}" Foreground="{DynamicResource Iconfarbe}"/>
-                  <fa:IconBlock Style="{StaticResource MoveForwardOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource Lerngruppe32}" Foreground="{DynamicResource IconBrush}"/>
+                  <fa:IconBlock Style="{StaticResource MoveForwardOverlay32}" Foreground="{DynamicResource IconBrush}"/>
                 </Grid>
               </StackPanel>
             </Button>
@@ -96,7 +96,7 @@
                       HorizontalAlignment="Stretch" Margin="1"/>
               <Button Grid.Row="0" Grid.Column="3" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                 Command="{Binding Path=ResetSchuljahrFilterCommand}">
-                <fa:IconBlock Style="{StaticResource Remove16}" Foreground="{DynamicResource Iconfarbe}"/>
+                <fa:IconBlock Style="{StaticResource Remove16}" Foreground="{DynamicResource IconBrush}"/>
               </Button>
               <Label Grid.Row="1" Grid.Column="0" Padding="3" VerticalAlignment="Center" Grid.ColumnSpan="2">Fach</Label>
               <ComboBox Grid.Row="1" Grid.Column="2" MinWidth="100" ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Fächer}"
@@ -107,7 +107,7 @@
                                           HorizontalAlignment="Stretch" Margin="1"/>
               <Button Grid.Row="1" Grid.Column="3" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                 Command="{Binding Path=ResetFachFilterCommand}">
-                <fa:IconBlock Style="{StaticResource Remove16}" Foreground="{DynamicResource Iconfarbe}"/>
+                <fa:IconBlock Style="{StaticResource Remove16}" Foreground="{DynamicResource IconBrush}"/>
               </Button>
             </Grid>
           </HeaderedContentControl>
@@ -149,8 +149,8 @@
                     ToolTip="en Schülereintrag erstellen">
             <StackPanel Orientation="Horizontal">
               <Grid>
-                <fa:IconBlock Style="{StaticResource Person32}" Foreground="{DynamicResource Iconfarbe}"/>
-                <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+                <fa:IconBlock Style="{StaticResource Person32}" Foreground="{DynamicResource IconBrush}"/>
+                <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource IconBrush}"/>
               </Grid>
               <!--<Label Padding="5,0,0,0" VerticalContentAlignment="Center">en Stundenentwurf erstellen</Label>-->
             </StackPanel>
@@ -160,8 +160,8 @@
                     ToolTip="Aktuellen Schülereintrag löschen.">
             <StackPanel Orientation="Horizontal">
               <Grid>
-                <fa:IconBlock Style="{StaticResource Person32}" Foreground="{DynamicResource Iconfarbe}"/>
-                <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+                <fa:IconBlock Style="{StaticResource Person32}" Foreground="{DynamicResource IconBrush}"/>
+                <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource IconBrush}"/>
               </Grid>
               <!--<Label Padding="5,0,0,0" VerticalContentAlignment="Center">Stundenplanänderung eingeben</Label>-->
             </StackPanel>
@@ -171,8 +171,8 @@
                     ToolTip="Schüler asu CSV Datei importieren.">
             <StackPanel Orientation="Horizontal">
               <Grid>
-                <fa:IconBlock Style="{StaticResource Person32}" Foreground="{DynamicResource Iconfarbe}"/>
-                <fa:IconBlock Style="{StaticResource ImportOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+                <fa:IconBlock Style="{StaticResource Person32}" Foreground="{DynamicResource IconBrush}"/>
+                <fa:IconBlock Style="{StaticResource ImportOverlay32}" Foreground="{DynamicResource IconBrush}"/>
               </Grid>
               <!--<Label Padding="5,0,0,0" VerticalContentAlignment="Center">Stundenplanänderung eingeben</Label>-->
             </StackPanel>
@@ -182,8 +182,8 @@
                     ToolTip="Lerngruppe in Excel öffnen.">
             <StackPanel Orientation="Horizontal">
               <Grid>
-                <fa:IconBlock Style="{StaticResource Person32}" Foreground="{DynamicResource Iconfarbe}"/>
-                <fa:IconBlock Style="{StaticResource ExcelOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+                <fa:IconBlock Style="{StaticResource Person32}" Foreground="{DynamicResource IconBrush}"/>
+                <fa:IconBlock Style="{StaticResource ExcelOverlay32}" Foreground="{DynamicResource IconBrush}"/>
               </Grid>
               <!--<Label Padding="5,0,0,0" VerticalContentAlignment="Center">Stundenplanänderung eingeben</Label>-->
             </StackPanel>

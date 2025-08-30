@@ -24,7 +24,7 @@
     <controls:SmallDialogHeader Grid.Row="0" Title="Hier können Sie Schultermine anlegen, aktualisieren oder entfernen.">
       <controls:SmallDialogHeader.IconContent>
         <Grid>
-          <fa:IconBlock Style="{StaticResource Termin48}" Foreground="{DynamicResource Iconfarbe}"/>
+          <fa:IconBlock Style="{StaticResource Termin48}" Foreground="{DynamicResource IconBrush}"/>
         </Grid>
       </controls:SmallDialogHeader.IconContent>
     </controls:SmallDialogHeader>
@@ -63,7 +63,7 @@
                         Style="{StaticResource DatagridComboBoxElementStyle}"/>
                 <Button Grid.Row="0" Grid.Column="2" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                 Command="{Binding Path=ResetSchuljahrFilterCommand}">
-                  <fa:IconBlock Style="{StaticResource Remove16}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource Remove16}" Foreground="{DynamicResource IconBrush}"/>
                 </Button>
                 <Label Grid.Row="1" Grid.Column="0" Padding="3" VerticalAlignment="Center">Typ</Label>
                 <ComboBox Grid.Row="1" Grid.Column="1" MinWidth="120" ItemsSource="{Binding Source={StaticResource Termintypen}}"
@@ -71,7 +71,7 @@
                         Style="{StaticResource DatagridComboBoxElementStyle}"/>
                 <Button Grid.Row="1" Grid.Column="2" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                 Command="{Binding Path=ResetTermintypFilterCommand}">
-                  <fa:IconBlock Style="{StaticResource Remove16}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource Remove16}" Foreground="{DynamicResource IconBrush}"/>
                 </Button>
               </Grid>
             </GroupBox>
@@ -90,7 +90,7 @@
                   <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                       <Button Command="{Binding Path=DeleteTerminCommand}">
-                        <fa:IconBlock Style="{StaticResource Remove16}" Foreground="{DynamicResource Iconfarbe}"/>
+                        <fa:IconBlock Style="{StaticResource Remove16}" Foreground="{DynamicResource IconBrush}"/>
                       </Button>
                     </DataTemplate>
                   </DataGridTemplateColumn.CellTemplate>
@@ -109,8 +109,8 @@
           <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddTerminCommand}" ToolTip="en Termin erstellen">
             <StackPanel Orientation="Horizontal">
               <Grid>
-                <fa:IconBlock Style="{StaticResource Termin32}" Foreground="{DynamicResource Iconfarbe}"/>
-                <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+                <fa:IconBlock Style="{StaticResource Termin32}" Foreground="{DynamicResource IconBrush}"/>
+                <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource IconBrush}"/>
               </Grid>
               <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Termin anlegen</Label>
             </StackPanel>
@@ -118,8 +118,8 @@
           <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddMultipleDayTerminCommand}" ToolTip="Mehrtägigen Termin anlegen" >
             <StackPanel Orientation="Horizontal">
               <Grid>
-                <fa:IconBlock Style="{StaticResource Termin32}" Foreground="{DynamicResource Iconfarbe}"/>
-                <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+                <fa:IconBlock Style="{StaticResource Termin32}" Foreground="{DynamicResource IconBrush}"/>
+                <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource IconBrush}"/>
               </Grid>
               <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Mehrtägigen Termin anlegen</Label>
             </StackPanel>
@@ -127,8 +127,8 @@
           <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=DeleteTerminCommand}" ToolTip="Termin löschen" >
             <StackPanel Orientation="Horizontal">
               <Grid>
-                <fa:IconBlock Style="{StaticResource Termin32}" Foreground="{DynamicResource Iconfarbe}"/>
-                <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+                <fa:IconBlock Style="{StaticResource Termin32}" Foreground="{DynamicResource IconBrush}"/>
+                <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource IconBrush}"/>
               </Grid>
               <Label Padding="5,0,0,0" VerticalContentAlignment="Center">Aktuellen Termin löschen</Label>
             </StackPanel>

@@ -71,26 +71,33 @@
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="Auto"/>
       </Grid.ColumnDefinitions>
-      <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="0" Content="Anzahl der Schüler pro Gruppe" VerticalAlignment="Center"/>
+      <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="0" Content="Schüler pro Gruppe" VerticalAlignment="Center"/>
       <xctk:IntegerUpDown
         Value="{Binding Path=Gruppenmitgliederanzahl, Mode=TwoWay}"
-        Grid.Column="1" TabIndex="1" HorizontalAlignment="Left"
-                              FontSize="24"
-                              Minimum="1"
-                              Maximum="50"
-                              Margin="10,0"/>
+        Grid.Column="1"
+        TabIndex="1" 
+        HorizontalAlignment="Center"
+        FontSize="24"
+        Minimum="1"
+        Maximum="50"
+        Width="60"
+        Margin="6"/>
       <Label Style="{StaticResource MetroLabelStyle}" Grid.Column="2" Content="Anzahl der Gruppen" VerticalAlignment="Center"/>
-      <toolkit:IntegerUpDown Grid.Column="3" TabIndex="1" HorizontalAlignment="Left"
-                              Value="{Binding Path=Gruppenanzahl, Mode=TwoWay}"
-                              FontSize="24"
-                              Minimum="1"
-                              Maximum="50"
-                              Margin="10,0"/>
+      <toolkit:IntegerUpDown 
+        Grid.Column="3" 
+        TabIndex="1" 
+        HorizontalAlignment="Left"
+        Value="{Binding Path=Gruppenanzahl, Mode=TwoWay}"
+        FontSize="24"
+        Minimum="1"
+        Maximum="50"        
+        Width="60"
+        Margin="6"/>
       <CheckBox Style="{StaticResource MetroLabelStyle}" Margin="0,0,10,0" Grid.Column="4" IsThreeState="True" IsChecked="{Binding MädchenJungeGemischt}" VerticalAlignment="Center" VerticalContentAlignment="Center">w/m</CheckBox>
       <CheckBox Style="{StaticResource MetroLabelStyle}" Grid.Column="5" IsThreeState="False" IsChecked="{Binding TeilungsgruppenBeachten}" VerticalAlignment="Center" VerticalContentAlignment="Center">Teilungsgruppen</CheckBox>
       <StackPanel Grid.Column="6" HorizontalAlignment="Left" Margin="6,0" Visibility="{Binding TeilungsgruppenBeachten, Converter={StaticResource BoolVisibleConverter}}">
-        <RadioButton IsChecked="{Binding NurTeilungsgruppeA}" FontSize="18">Gruppe A</RadioButton>
-        <RadioButton IsChecked="{Binding NurTeilungsgruppeB}" FontSize="18">Gruppe B</RadioButton>
+        <RadioButton IsChecked="{Binding NurTeilungsgruppeA}" FontSize="18" VerticalContentAlignment="Center">Gruppe A</RadioButton>
+        <RadioButton IsChecked="{Binding NurTeilungsgruppeB}" FontSize="18" VerticalContentAlignment="Center">Gruppe B</RadioButton>
       </StackPanel>
       <Button Grid.Column="7" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                     Command="{Binding Path=GruppenEinteilenCommand}" 

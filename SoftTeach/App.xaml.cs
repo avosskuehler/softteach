@@ -17,24 +17,7 @@
 
 namespace SoftTeach
 {
-  using System;
-  using System.Collections.Generic;
-  using System.Diagnostics;
-  using System.Globalization;
-  using System.IO;
-  using System.Printing;
-  using System.Windows;
-  using System.Windows.Controls;
-  using System.Windows.Input;
-  using System.Windows.Markup;
-  using System.Windows.Media;
-  using System.Windows.Media.Imaging;
-  using System.Windows.Navigation;
-  using System.Windows.Threading;
-
   using Hardcodet.Wpf.TaskbarNotification;
-
-
   using SoftTeach.ExceptionHandling;
   using SoftTeach.Model;
   using SoftTeach.Properties;
@@ -44,7 +27,17 @@ namespace SoftTeach
   using SoftTeach.View.Main;
   using SoftTeach.ViewModel;
   using SoftTeach.ViewModel.Helper;
-
+  using System;
+  using System.Collections.Generic;
+  using System.Diagnostics;
+  using System.Globalization;
+  using System.IO;
+  using System.Printing;
+  using System.Windows;
+  using System.Windows.Input;
+  using System.Windows.Markup;
+  using System.Windows.Navigation;
+  using System.Windows.Threading;
   using Cursor = System.Windows.Input.Cursor;
 
   /// <summary>
@@ -62,7 +55,7 @@ namespace SoftTeach
     /// Holt den Datenbankkontext
     /// </summary>
     public static UnitOfWork UnitOfWork { get; private set; }
-
+    
     /// <summary>
     /// Setzt den Cursor für die gesamte Anwendung.
     /// </summary>
@@ -77,9 +70,9 @@ namespace SoftTeach
         });
     }
 
-    public static Style GetIconStyle(string imageName)
+    public static System.Windows.Style GetIconStyle(string imageName)
     {
-      return App.Current.FindResource(imageName) as Style;
+      return App.Current.FindResource(imageName) as System.Windows.Style;
     }
 
     public static IconBlock GetIcon(string imageName)
@@ -89,7 +82,7 @@ namespace SoftTeach
         VerticalAlignment = VerticalAlignment.Center
       };
 
-      icon.Style = App.Current.FindResource(imageName) as Style;
+      icon.Style = App.Current.FindResource(imageName) as System.Windows.Style;
 
       return icon;
     }
@@ -188,7 +181,7 @@ namespace SoftTeach
     /// Lauches the entry form on startup
     /// </summary>
     /// <param name="e">Arguments of the startup event</param>
-    protected override void OnStartup(StartupEventArgs e)
+    protected override void OnStartup(System.Windows.StartupEventArgs e)
     {
       base.OnStartup(e);
 
@@ -196,50 +189,19 @@ namespace SoftTeach
       MainViewModel = new MainViewModel();
       MainViewModel.Populate();
 
-      var navWin = new NavigationWindow();
-      navWin.Closing += navWin_Closing;
-      navWin.Title = "Teachy";
-      navWin.WindowState = WindowState.Maximized;
-      navWin.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/SoftTeach;component/Resources/SoftTeachResources.xaml", UriKind.Absolute) });
+      var navWin = new StartView();
 
       // Sprache der UI auf Current Culture setzen
-      FrameworkElement.LanguageProperty.OverrideMetadata(
-        typeof(FrameworkElement),
-        new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
+      System.Windows.FrameworkElement.LanguageProperty.OverrideMetadata(
+        typeof(System.Windows.FrameworkElement),
+        new System.Windows.FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 
       Configuration.Instance.IsMetroMode = true;
       Configuration.Instance.MetroWindow = navWin;
       navWin.Show();
+      this.MainWindow = navWin;
+
       navWin.Navigate(new LandingPage());
-    }
-
-
-    /// <summary>
-    /// Handles the Closing event of the navWin control.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The <see cref="System.ComponentModel.CancelEventArgs"/> instance containing the event data.</param>
-    private void navWin_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-    {
-      Selection.Instance.UpdateUserSettings();
-      Settings.Default.Save();
-
-      // Check if there is nothing to change
-      if (((Stack<ChangeSet>)MainViewModel.UndoStack).Count == 0)
-      {
-        return;
-      }
-
-      var dlg = new AskForSavingChangesDialog();
-      dlg.ShowDialog();
-      if (dlg.Result == null)
-      {
-        e.Cancel = true;
-      }
-      else if (dlg.Result.Value)
-      {
-        App.UnitOfWork.SaveChanges();
-      }
     }
 
     /// <summary>

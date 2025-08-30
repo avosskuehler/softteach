@@ -75,8 +75,8 @@
             <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddBetroffeneLerngruppeCommand}" ToolTip="Lerngruppen hinzufügen">
               <StackPanel Orientation="Horizontal">
                 <Grid>
-                  <fa:IconBlock Style="{StaticResource Lerngruppe16}" Foreground="{DynamicResource Iconfarbe}"/>
-                  <fa:IconBlock Style="{StaticResource AddOverlay16}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource Lerngruppe16}" Foreground="{DynamicResource IconBrush}"/>
+                  <fa:IconBlock Style="{StaticResource AddOverlay16}" Foreground="{DynamicResource IconBrush}"/>
                 </Grid>
                 <Label Padding="5,0,0,0">Lerngruppen hinzufügen/ändern</Label>
               </StackPanel>
@@ -84,8 +84,8 @@
             <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=DeleteBetroffeneLerngruppeCommand}" ToolTip="Lerngruppe entfernen" >
               <StackPanel Orientation="Horizontal">
                 <Grid>
-                  <fa:IconBlock Style="{StaticResource Lerngruppe16}" Foreground="{DynamicResource Iconfarbe}"/>
-                  <fa:IconBlock Style="{StaticResource RemoveOverlay16}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource Lerngruppe16}" Foreground="{DynamicResource IconBrush}"/>
+                  <fa:IconBlock Style="{StaticResource RemoveOverlay16}" Foreground="{DynamicResource IconBrush}"/>
                 </Grid>
                 <Label Padding="5,0,0,0">Lerngruppe entfernen</Label>
               </StackPanel>

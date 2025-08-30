@@ -26,24 +26,24 @@
       <ToggleButton Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}" IsChecked="{Binding IsInDefaultMode, Mode=TwoWay}" ToolTip="Stundenplan nur ansehen">
         <StackPanel Orientation="Horizontal">
           <Grid>
-            <fa:IconBlock Style="{StaticResource Stundenplan32}" Foreground="{DynamicResource Iconfarbe}"/>
-            <fa:IconBlock Style="{StaticResource SearchOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+            <fa:IconBlock Style="{StaticResource Stundenplan32}" Foreground="{DynamicResource IconBrush}"/>
+            <fa:IconBlock Style="{StaticResource SearchOverlay32}" Foreground="{DynamicResource IconBrush}"/>
           </Grid>
         </StackPanel>
       </ToggleButton>
       <ToggleButton Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}" IsChecked="{Binding IsInEditMode, Mode=TwoWay}" ToolTip="Stundenplan editieren.">
         <StackPanel Orientation="Horizontal">
           <Grid>
-            <fa:IconBlock Style="{StaticResource Stundenplan32}" Foreground="{DynamicResource Iconfarbe}"/>
-            <fa:IconBlock Style="{StaticResource EditOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+            <fa:IconBlock Style="{StaticResource Stundenplan32}" Foreground="{DynamicResource IconBrush}"/>
+            <fa:IconBlock Style="{StaticResource EditOverlay32}" Foreground="{DynamicResource IconBrush}"/>
           </Grid>
         </StackPanel>
       </ToggleButton>
       <ToggleButton Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}" IsChecked="{Binding IsInDragDropMode, Mode=TwoWay}" ToolTip="Drag and Drop erlauben" >
         <StackPanel Orientation="Horizontal">
           <Grid>
-            <fa:IconBlock Style="{StaticResource Stundenplan32}" Foreground="{DynamicResource Iconfarbe}"/>
-            <fa:IconBlock Style="{StaticResource MoveForwardOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+            <fa:IconBlock Style="{StaticResource Stundenplan32}" Foreground="{DynamicResource IconBrush}"/>
+            <fa:IconBlock Style="{StaticResource MoveForwardOverlay32}" Foreground="{DynamicResource IconBrush}"/>
           </Grid>
         </StackPanel>
       </ToggleButton>

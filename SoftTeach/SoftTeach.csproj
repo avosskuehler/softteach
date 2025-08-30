@@ -102,9 +102,6 @@
     <Content Include="Images\Logo.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Resources\Entypo.ttf" />
-    <Resource Include="Resources\Entypo-license.txt" />
-    <Resource Include="Resources\WindowsIcons-license.txt" />
     <Resource Include="Resources\Cursors\Copy.cur" />
     <Resource Include="Resources\Cursors\Rotate.cur" />
     <Resource Include="Images\Error.ico">

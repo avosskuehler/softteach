@@ -45,9 +45,9 @@
               <RowDefinition Height="4" />
               <RowDefinition Height="4" />
             </Grid.RowDefinitions>
-            <Ellipse Grid.Row="0" Grid.RowSpan="2" Fill="{DynamicResource Basisfarbe}" />
-            <Rectangle Grid.Row="1" Grid.RowSpan="3" Fill="{DynamicResource Basisfarbe}" />
-            <Ellipse Grid.Row="3" Grid.RowSpan="2" Fill="{DynamicResource Basisfarbe}" />
+            <Ellipse Grid.Row="0" Grid.RowSpan="2" Fill="{DynamicResource BasisBrush}" />
+            <Rectangle Grid.Row="1" Grid.RowSpan="3" Fill="{DynamicResource BasisBrush}" />
+            <Ellipse Grid.Row="3" Grid.RowSpan="2" Fill="{DynamicResource BasisBrush}" />
           </Grid>
         </ControlTemplate>
       </Setter.Value>
@@ -78,9 +78,9 @@
               <ColumnDefinition Width="4" />
               <ColumnDefinition Width="4" />
             </Grid.ColumnDefinitions>
-            <Ellipse Grid.Column="0" Grid.ColumnSpan="2" Fill="{DynamicResource Basisfarbe}" />
-            <Rectangle Grid.Column="1" Grid.ColumnSpan="3" Fill="{DynamicResource Basisfarbe}" />
-            <Ellipse Grid.Column="3" Grid.ColumnSpan="2" Fill="{DynamicResource Basisfarbe}" />
+            <Ellipse Grid.Column="0" Grid.ColumnSpan="2" Fill="{DynamicResource BasisBrush}" />
+            <Rectangle Grid.Column="1" Grid.ColumnSpan="3" Fill="{DynamicResource BasisBrush}" />
+            <Ellipse Grid.Column="3" Grid.ColumnSpan="2" Fill="{DynamicResource BasisBrush}" />
           </Grid>
         </ControlTemplate>
       </Setter.Value>

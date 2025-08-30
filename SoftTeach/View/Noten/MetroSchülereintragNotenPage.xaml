@@ -132,8 +132,8 @@
             <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddNoteCommand}" ToolTip="Note anlegen" >
               <StackPanel Orientation="Horizontal">
                 <Grid>
-                  <fa:IconBlock Style="{StaticResource Note32}" Foreground="{DynamicResource Iconfarbe}"/>
-                  <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource Note32}" Foreground="{DynamicResource IconBrush}"/>
+                  <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource IconBrush}"/>
                 </Grid>
                 <Label Padding="5,0,0,0" VerticalContentAlignment="Center" Foreground="White">Note anlegen</Label>
               </StackPanel>
@@ -141,8 +141,8 @@
             <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddNotentendenzCommand}" ToolTip="Notentendenz anlegen" >
               <StackPanel Orientation="Horizontal">
                 <Grid>
-                  <fa:IconBlock Style="{StaticResource Tendenz32}" Foreground="{DynamicResource Iconfarbe}"/>
-                  <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource Tendenz32}" Foreground="{DynamicResource IconBrush}"/>
+                  <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource IconBrush}"/>
                 </Grid>
                 <Label Padding="5,0,0,0" VerticalContentAlignment="Center" Foreground="White">Notentendenz anlegen</Label>
               </StackPanel>

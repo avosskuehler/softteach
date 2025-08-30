@@ -1,19 +1,6 @@
 ﻿namespace SoftTeach.ViewModel.Personen
 {
-  using System;
-  using System.Collections.Generic;
-  using System.Collections.ObjectModel;
-  using System.Collections.Specialized;
-  using System.ComponentModel;
-  using System.Diagnostics;
-  using System.Linq;
-  using System.Windows;
-  using System.Windows.Controls;
-  using System.Windows.Data;
-  using System.Windows.Documents;
-
   using GongSolutions.Wpf.DragDrop;
-
   using SoftTeach.Model.TeachyModel;
   using SoftTeach.Setting;
   using SoftTeach.UndoRedo;
@@ -22,6 +9,20 @@
   using SoftTeach.ViewModel.Helper;
   using SoftTeach.ViewModel.Noten;
   using SoftTeach.ViewModel.Termine;
+  using System;
+  using System.Collections.Generic;
+  using System.Collections.ObjectModel;
+  using System.Collections.Specialized;
+  using System.ComponentModel;
+  using System.Diagnostics;
+  using System.IO;
+  using System.IO.Packaging;
+  using System.Linq;
+  using System.Windows;
+  using System.Windows.Controls;
+  using System.Windows.Data;
+  using System.Windows.Documents;
+  using System.Windows.Xps.Packaging;
 
   /// <summary>
   /// ViewModel of an individual Lerngruppe
@@ -996,10 +997,10 @@
     {
       // select printer and get printer settings
       var pd = new PrintDialog();
-      if (pd.ShowDialog() != true)
-      {
-        return;
-      }
+      //if (pd.ShowDialog() != true)
+      //{
+      //  return;
+      //}
 
       // create a document
       var document = new FixedDocument { Name = "GruppenAusdruck" };
@@ -1024,7 +1025,29 @@
 
       // print it out
       var title = "Gruppeneinteilung für " + this.LerngruppeKurzbezeichnung;
-      pd.PrintVisual(fixedPage, title);
+      //pd.PrintVisual(fixedPage, title);
+      
+      // Druckt in XPS Datei
+      var stream = new MemoryStream();
+      var package = Package.Open(stream, FileMode.Create, FileAccess.ReadWrite);
+      var uri = new Uri(@"memorystream://myXps.xps");
+      PackageStore.AddPackage(uri, package);
+
+      using (var xpsDoc = new XpsDocument(package))
+      {
+        xpsDoc.Uri = uri;
+
+        XpsDocument.CreateXpsDocumentWriter(xpsDoc).Write(fixedPage);
+
+        // create Preview
+        var preview = new PreviewFixedDocument { Owner = Application.Current.MainWindow, Document = xpsDoc.GetFixedDocumentSequence() };
+
+        preview.ShowDialog();
+      }
+
+      // Aufräumen
+      package.Close();
+      PackageStore.RemovePackage(uri);
     }
 
     /// <summary>

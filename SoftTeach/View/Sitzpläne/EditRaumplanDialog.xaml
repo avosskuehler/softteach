@@ -25,7 +25,7 @@
     <controls:SmallDialogHeader Grid.Row="0" Title="Bitte bearbeiten Sie den Raumplan. Sitzplätze werden mit der Maus eingezeichnet. Taste 'Strg' kopiert.">
       <controls:SmallDialogHeader.IconContent>
       <Grid>
-        <fa:IconBlock Style="{StaticResource Raum48}" Foreground="{DynamicResource Iconfarbe}"/>
+        <fa:IconBlock Style="{StaticResource Raum48}" Foreground="{DynamicResource IconBrush}"/>
       </Grid>
       </controls:SmallDialogHeader.IconContent>
     </controls:SmallDialogHeader>

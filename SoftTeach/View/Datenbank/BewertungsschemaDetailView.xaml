@@ -24,8 +24,8 @@
                   Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
             <StackPanel Orientation="Horizontal">
               <Grid>
-                <fa:IconBlock Style="{StaticResource Prozentbereich32}" Foreground="{DynamicResource Iconfarbe}"/>
-                <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+                <fa:IconBlock Style="{StaticResource Prozentbereich32}" Foreground="{DynamicResource IconBrush}"/>
+                <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource IconBrush}"/>
               </Grid>
               <TextBlock TextWrapping="Wrap" Text="Für jede Zensur hinzufügen" Width="100"/>
             </StackPanel>
@@ -34,8 +34,8 @@
           <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding Path=AddProzentbereichCommand}">
             <StackPanel Orientation="Horizontal">
               <Grid>
-                <fa:IconBlock Style="{StaticResource Prozentbereich32}" Foreground="{DynamicResource Iconfarbe}"/>
-                <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+                <fa:IconBlock Style="{StaticResource Prozentbereich32}" Foreground="{DynamicResource IconBrush}"/>
+                <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource IconBrush}"/>
               </Grid>
               <TextBlock TextWrapping="Wrap" Text="Für eine Zensur hinzufügen" Width="100"/>
             </StackPanel>
@@ -45,8 +45,8 @@
                             Command="{Binding Path=DeleteProzentbereichCommand}">
             <StackPanel Orientation="Horizontal">
               <Grid>
-                <fa:IconBlock Style="{StaticResource Prozentbereich32}" Foreground="{DynamicResource Iconfarbe}"/>
-                <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+                <fa:IconBlock Style="{StaticResource Prozentbereich32}" Foreground="{DynamicResource IconBrush}"/>
+                <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource IconBrush}"/>
               </Grid>
               <TextBlock TextWrapping="Wrap" Text="Für aktuelle Zensur entfernen" Width="100"/>
             </StackPanel>

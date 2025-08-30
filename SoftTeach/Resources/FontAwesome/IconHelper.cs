@@ -15,7 +15,7 @@ namespace SoftTeach.Resources.FontAwesome
   {
     public const double DefaultSize = 200.0;
 
-    public static readonly Brush DefaultBrush = new SolidColorBrush(Settings.Default.Basisfarbe);
+    public static readonly Brush DefaultBrush = new SolidColorBrush((Color)Application.Current.FindResource("BasisschriftColor"));
 
     //public static FontFamily FontAwesomeLight;
     //public static FontFamily FontAwesomeRegular;

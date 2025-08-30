@@ -58,10 +58,10 @@
               </Grid.ColumnDefinitions>
               <TextBlock Text="{Binding Path=Value,RelativeSource={RelativeSource TemplatedParent}}"  Width="Auto" Padding="5" VerticalAlignment="Center" Grid.RowSpan="2"/>
               <RepeatButton Command="{x:Static controls:NumericUpDown.IncreaseCommand}"  Style="{StaticResource BaseSliderSidesButtonStyle}" Grid.Column="1" Grid.Row="0">
-                <fa:IconBlock Style="{StaticResource Plus12}" Margin="0,3,0,0" Foreground="{DynamicResource Iconfarbe}"/>
+                <fa:IconBlock Style="{StaticResource Plus12}" Margin="0,3,0,0" Foreground="{DynamicResource IconBrush}"/>
               </RepeatButton>
               <RepeatButton Command="{x:Static controls:NumericUpDown.DecreaseCommand}"  Style="{StaticResource BaseSliderSidesButtonStyle}" Grid.Column="1" Grid.Row="1">
-                <fa:IconBlock Style="{StaticResource Minus12}" Foreground="{DynamicResource Iconfarbe}"/>
+                <fa:IconBlock Style="{StaticResource Minus12}" Foreground="{DynamicResource IconBrush}"/>
               </RepeatButton>
 
             </Grid>

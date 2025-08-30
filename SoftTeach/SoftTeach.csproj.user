@@ -15,6 +15,14 @@
     <_LastSelectedProfileId>C:\Users\vk.VW\VisualStudioProjects\Softteach%40Github\SoftTeach\Properties\PublishProfiles\ClickOnceProfile.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Update="ViewModel\Helper\PreviewFixedDocument.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\Main\StartView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="View\Sitzpläne\AskForRaumToAdaptDialog.xaml">
       <SubType>Designer</SubType>
     </Page>

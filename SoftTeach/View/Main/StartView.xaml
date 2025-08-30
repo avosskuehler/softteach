@@ -1,0 +1,83 @@
+﻿<NavigationWindow 
+  x:Class="SoftTeach.View.Main.StartView"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:fa="clr-namespace:SoftTeach.Resources.FontAwesome"
+  xmlns:setting="clr-namespace:SoftTeach.Setting"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:local="clr-namespace:SoftTeach.View.Main"
+  xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+  xmlns:softTeach="clr-namespace:SoftTeach"
+  Title="Teachy" Height="450" Width="800"
+  Closing="NavigationWindow_Closing"
+  WindowState="Maximized"
+  ShowsNavigationUI="True"
+  Style="{DynamicResource NavigationWindowSpezial}">
+  <NavigationWindow.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/SoftTeach;component/Resources/SoftTeachResources.xaml"/>
+        <ResourceDictionary>
+        </ResourceDictionary>
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </NavigationWindow.Resources>
+  <!--<NavigationWindow.Template>
+    <ControlTemplate TargetType="{x:Type NavigationWindow}">
+      <DockPanel>
+        <DockPanel.Background>
+          <SolidColorBrush Color="{DynamicResource WindowColor}" />
+        </DockPanel.Background>
+        <Border DockPanel.Dock="Top"
+                  Height="Auto"
+                  BorderThickness="1">
+          <Border.BorderBrush>
+            <SolidColorBrush Color="{DynamicResource BorderMediumColor}" />
+          </Border.BorderBrush>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="16" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="16" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Button Command="NavigationCommands.BrowseBack" Grid.Column="0">
+              <fa:IconBlock Style="{StaticResource Zurück32}"/>
+            </Button>
+            <Button  Command="NavigationCommands.BrowseForward" Grid.Column="1">
+              <fa:IconBlock Style="{StaticResource Vor32}"/>
+            </Button>
+            <ComboBox Grid.Column="3" Width="110" Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" FontSize="16"
+            SelectedValue="{Binding Source={x:Static setting:Selection.Instance}, Path=Halbjahr}"
+            ItemsSource="{Binding Source={StaticResource Halbjahre}}" />
+            <ComboBox Grid.Column="5" Width="110" Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" FontSize="16"
+            SelectedValue="{Binding Source={x:Static setting:Selection.Instance}, Path=Schuljahr}" 
+            DisplayMemberPath="SchuljahrBezeichnung" 
+            ItemsSource="{Binding Source={StaticResource SchuljahreSorted}}" />
+          </Grid>
+        </Border>
+        <Grid>
+          <AdornerDecorator>
+            <Border BorderThickness="1">
+              <Border.BorderBrush>
+                <SolidColorBrush Color="{DynamicResource BorderMediumColor}" />
+              </Border.BorderBrush>
+              <ContentPresenter x:Name="PART_NavWinCP"
+                                  ClipToBounds="true" />
+            </Border>
+          </AdornerDecorator>
+
+          <ResizeGrip x:Name="WindowResizeGrip"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Visibility="Collapsed"
+                        IsTabStop="false" />
+        </Grid>
+      </DockPanel>
+    </ControlTemplate>
+  </NavigationWindow.Template>-->
+</NavigationWindow>

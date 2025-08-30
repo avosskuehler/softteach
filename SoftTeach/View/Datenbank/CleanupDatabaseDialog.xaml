@@ -20,8 +20,8 @@
     <controls:SmallDialogHeader Grid.Row="0" Title="Hier wird die Datenbank aufgeräumt und nicht mehr benötigte Daten gelöscht.">
       <controls:SmallDialogHeader.IconContent>
         <Grid>
-          <fa:IconBlock Style="{StaticResource Datenbank48}" Foreground="{DynamicResource Iconfarbe}"/>
-          <fa:IconBlock Style="{StaticResource UpdateOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+          <fa:IconBlock Style="{StaticResource Datenbank48}" Foreground="{DynamicResource IconBrush}"/>
+          <fa:IconBlock Style="{StaticResource UpdateOverlay32}" Foreground="{DynamicResource IconBrush}"/>
         </Grid>
       </controls:SmallDialogHeader.IconContent>
     </controls:SmallDialogHeader>
@@ -63,8 +63,8 @@
             <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="DeleteSchuljahrClick" ToolTip="Schuljahr löschen">
               <StackPanel Orientation="Horizontal">
                 <Grid Height="32">
-                  <fa:IconBlock Style="{StaticResource Schuljahr32}" Foreground="{DynamicResource Iconfarbe}"/>
-                  <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource Schuljahr32}" Foreground="{DynamicResource IconBrush}"/>
+                  <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource IconBrush}"/>
                 </Grid>
                 <TextBlock TextWrapping="Wrap" Padding="5,0,0,0">Schuljahr entfernen. <LineBreak/>(Damit werden Jahrespläne, Curricula, Arbeiten, <LineBreak/>Lerngruppen, Termine und Stundenpläne gelöscht.)</TextBlock>
               </StackPanel>
@@ -82,8 +82,8 @@
             <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="DeleteFachClick" ToolTip="Fach löschen">
               <StackPanel Orientation="Horizontal">
                 <Grid Height="32">
-                  <fa:IconBlock Style="{StaticResource Fach32}" Foreground="{DynamicResource Iconfarbe}"/>
-                  <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource Fach32}" Foreground="{DynamicResource IconBrush}"/>
+                  <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource IconBrush}"/>
                 </Grid>
                 <TextBlock TextWrapping="Wrap" Padding="5,0,0,0">Fach entfernen. <LineBreak/>(Damit werden Jahrespläne, Curricula, Arbeiten, <LineBreak/>Lerngruppen, Module, Stundenpläne<LineBreak/> und Stundenentwürfe gelöscht.)</TextBlock>
               </StackPanel>
@@ -93,8 +93,8 @@
             <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="DeletePersonenClick" ToolTip="Personen entfernen">
               <StackPanel Orientation="Horizontal">
                 <Grid Height="32">
-                  <fa:IconBlock Style="{StaticResource Person32}" Foreground="{DynamicResource Iconfarbe}"/>
-                  <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource Person32}" Foreground="{DynamicResource IconBrush}"/>
+                  <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource IconBrush}"/>
                 </Grid>
                 <TextBlock TextWrapping="Wrap" Padding="5,0,0,0">Personen entfernen, die in keiner Lerngruppe aufgelistet sind.</TextBlock>
               </StackPanel>
@@ -104,8 +104,8 @@
             <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="DeleteDoppelteStundenClick" ToolTip="Doppelte Stunden entfernen">
               <StackPanel Orientation="Horizontal">
                 <Grid Height="32">
-                  <fa:IconBlock Style="{StaticResource Stundenentwurf32}" Foreground="{DynamicResource Iconfarbe}"/>
-                  <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource Stundenentwurf32}" Foreground="{DynamicResource IconBrush}"/>
+                  <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource IconBrush}"/>
                 </Grid>
                 <TextBlock TextWrapping="Wrap" Padding="5,0,0,0">Von identischen, aber mehrfach vorhandenen<LineBreak/>Lerngruppenterminen, die überzähligen löschen.</TextBlock>
               </StackPanel>
@@ -115,8 +115,8 @@
             <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="DeleteLeereStundenClick" ToolTip="Leere Stunden entfernen">
               <StackPanel Orientation="Horizontal">
                 <Grid Height="32">
-                  <fa:IconBlock Style="{StaticResource Stundenentwurf32}" Foreground="{DynamicResource Iconfarbe}"/>
-                  <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource Stundenentwurf32}" Foreground="{DynamicResource IconBrush}"/>
+                  <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource IconBrush}"/>
                 </Grid>
                 <TextBlock TextWrapping="Wrap" Padding="5,0,0,0">Stunden entfernen, die keine Stundenentwürfe enthalten.</TextBlock>
               </StackPanel>
@@ -126,8 +126,8 @@
             <Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="DeleteLeereCurriculaClick" ToolTip="Leere Curricula entfernen">
               <StackPanel Orientation="Horizontal">
                 <Grid Height="32">
-                  <fa:IconBlock Style="{StaticResource Curriculum32}" Foreground="{DynamicResource Iconfarbe}"/>
-                  <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+                  <fa:IconBlock Style="{StaticResource Curriculum32}" Foreground="{DynamicResource IconBrush}"/>
+                  <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource IconBrush}"/>
                 </Grid>
                 <TextBlock TextWrapping="Wrap" Padding="5,0,0,0">Curricula entfernen, die keine Reihen enthalten.</TextBlock>
               </StackPanel>

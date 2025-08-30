@@ -22,7 +22,7 @@
     <controls:SmallDialogHeader Grid.Row="0" Title="Ergänzen oder entfernen Sie hier Ferien.">
       <controls:SmallDialogHeader.IconContent>
         <Grid>
-          <fa:IconBlock Style="{StaticResource Ferien32}" Foreground="{DynamicResource Iconfarbe}"/>
+          <fa:IconBlock Style="{StaticResource Ferien32}" Foreground="{DynamicResource IconBrush}"/>
         </Grid>
       </controls:SmallDialogHeader.IconContent>
     </controls:SmallDialogHeader>
@@ -31,8 +31,8 @@
         <Button Name="AddButton" Command="{Binding Path=AddFerienCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
           <StackPanel Orientation="Horizontal">
             <Grid>
-              <fa:IconBlock Style="{StaticResource Ferien32}" Foreground="{DynamicResource Iconfarbe}"/>
-              <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+              <fa:IconBlock Style="{StaticResource Ferien32}" Foreground="{DynamicResource IconBrush}"/>
+              <fa:IconBlock Style="{StaticResource AddOverlay32}" Foreground="{DynamicResource IconBrush}"/>
             </Grid>
             <Label Content="Ferien hinzufügen"/>
           </StackPanel>
@@ -41,8 +41,8 @@
         <Button Name="RemoveButton" Command="{Binding Path=DeleteFerienCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
           <StackPanel Orientation="Horizontal">
             <Grid>
-              <fa:IconBlock Style="{StaticResource Ferien32}" Foreground="{DynamicResource Iconfarbe}"/>
-              <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource Iconfarbe}"/>
+              <fa:IconBlock Style="{StaticResource Ferien32}" Foreground="{DynamicResource IconBrush}"/>
+              <fa:IconBlock Style="{StaticResource RemoveOverlay32}" Foreground="{DynamicResource IconBrush}"/>
             </Grid>
             <Label Content="Ferien entfernen"/>
           </StackPanel>

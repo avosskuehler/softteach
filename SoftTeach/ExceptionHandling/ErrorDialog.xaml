@@ -12,7 +12,7 @@
     <controls:DialogHeader Grid.Row="0" Title="Der folgende Fehler trat leider auf:">
       <controls:DialogHeader.IconContent>
         <Grid>
-          <fa:IconBlock Style="{StaticResource Fehler48}" Foreground="{DynamicResource Iconfarbe}"/>
+          <fa:IconBlock Style="{StaticResource Fehler48}" Foreground="{DynamicResource IconBrush}"/>
         </Grid>
       </controls:DialogHeader.IconContent>
     </controls:DialogHeader>

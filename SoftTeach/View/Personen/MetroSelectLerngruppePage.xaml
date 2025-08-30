@@ -18,20 +18,20 @@
       <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="*"/>
-      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="Auto"/>
+      <ColumnDefinition Width="Auto"/>
       <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
-    <Border Grid.Row="0" Grid.Column="0" Background="{StaticResource MetroHeaderBackground}">
+    <!--<Border Grid.Row="0" Grid.Column="0" Background="{StaticResource MetroHeaderBackground}">
       <Label Foreground="White" HorizontalAlignment="Center">Schuljahr</Label>
-    </Border>
-    <Border Grid.Row="0" Grid.Column="1" Background="{StaticResource MetroHeaderBackground}">
+    </Border>-->
+    <!--<Border Grid.Row="0" Grid.Column="1" Background="{StaticResource MetroHeaderBackground}">
       <Label Foreground="White" HorizontalAlignment="Center">Fach</Label>
-    </Border>
+    </Border>-->
     <Border Grid.Row="0" Grid.Column="2" Background="{StaticResource MetroHeaderBackground}">
       <Label Foreground="White" HorizontalAlignment="Center">Lerngruppe</Label>
     </Border>
-    <ListBox Grid.Row="1" Grid.Column="0" Margin="2,0"
+    <!--<ListBox Grid.Row="1" Grid.Column="0" Margin="2,0"
              ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Schuljahre}"     
              SelectedItem="{Binding Path=SchuljahrFilter}"
              BorderThickness="0"
@@ -51,11 +51,13 @@
       <ListBox.ItemsPanel>
         <ItemsPanelTemplate>
           <StackPanel/>
-          <!--<WrapPanel Width="{Binding ElementName=SchuljahrListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}" Orientation="Horizontal"/>-->
+          -->
+    <!--<WrapPanel Width="{Binding ElementName=SchuljahrListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}" Orientation="Horizontal"/>-->
+    <!--
         </ItemsPanelTemplate>
       </ListBox.ItemsPanel>
-    </ListBox>
-    <ListBox Grid.Row="1" Grid.Column="1" Margin="2,0"
+    </ListBox>-->
+    <!--<ListBox Grid.Row="1" Grid.Column="1" Margin="2,0"
              ItemsSource="{Binding Source={x:Static softTeach:App.MainViewModel}, Path=Fächer}"    
              BorderThickness="0"
              Name="FächerListBox"
@@ -76,32 +78,35 @@
       <ListBox.ItemsPanel>
         <ItemsPanelTemplate>
           <StackPanel/>
-          <!--<WrapPanel Width="{Binding ElementName=FächerListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}" Orientation="Horizontal"/>-->
+          -->
+    <!--<WrapPanel Width="{Binding ElementName=FächerListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}" Orientation="Horizontal"/>-->
+    <!--
         </ItemsPanelTemplate>
       </ListBox.ItemsPanel>
-    </ListBox>
+    </ListBox>-->
     <ListBox Grid.Row="1" Grid.Column="2" Margin="2,0"
              ItemsSource="{Binding Path=LerngruppenView}" 
              BorderThickness="0"
-      ItemContainerStyle="{StaticResource UnselectableListBoxItem}"
       Name="LerngruppenListBox">
       <!--SelectedItem="{Binding Path=CurrentLerngruppe}"-->
       <ListBox.ItemTemplate>
         <DataTemplate>
-          <StackPanel>
-            <Border Margin="0,5,5,5" Padding="10" MinWidth="100" Width="Auto">
-              <Border.Background>
-                <SolidColorBrush Color="{StaticResource ToggleButtonBackColor}"/>
-              </Border.Background>
-              <TextBlock Style="{StaticResource MetroLabelStyle}" Text="{Binding Path=LerngruppeBezeichnung}" MouseLeftButtonDown="LerngruppenListBox_MouseLeftButtonDown"/>
-            </Border>
-          </StackPanel>
+          <Border Margin="0,5,5,5" Padding="10" MinWidth="100">
+            <Border.Background>
+              <SolidColorBrush Color="{StaticResource ToggleButtonBackColor}"/>
+            </Border.Background>
+            <StackPanel MouseLeftButtonDown="LerngruppenListBox_MouseLeftButtonDown">
+              <TextBlock Style="{StaticResource MetroLabelStyle}" Text="{Binding Path=LerngruppeSchuljahr.SchuljahrKurzbezeichnung}" HorizontalAlignment="Center"/>
+              <TextBlock Style="{StaticResource MetroLabelStyle}" Text="{Binding Path=LerngruppeBezeichnung}"/>
+              <TextBlock Style="{StaticResource MetroLabelStyle}" Text="{Binding Path=LerngruppeFach.FachBezeichnung}"/>
+            </StackPanel>
+          </Border>
         </DataTemplate>
       </ListBox.ItemTemplate>
       <ListBox.ItemsPanel>
         <ItemsPanelTemplate>
-          <StackPanel/>
-          <!--<WrapPanel Width="{Binding ElementName=LerngruppenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}" Orientation="Horizontal"/>-->
+          <!--<StackPanel/>-->
+          <WrapPanel Width="{Binding ElementName=LerngruppenListBox, Path=ActualWidth, Converter={StaticResource WrapPanelWidthConverter}}" Orientation="Horizontal"/>
         </ItemsPanelTemplate>
       </ListBox.ItemsPanel>
     </ListBox>

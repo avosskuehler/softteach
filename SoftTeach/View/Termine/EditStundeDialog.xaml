@@ -32,7 +32,7 @@
     <controls:SmallDialogHeader Grid.Row="0" Title="Stunde anlegen oder bearbeiten ...">
       <controls:SmallDialogHeader.IconContent>
         <Grid>
-          <fa:IconBlock Style="{StaticResource Stundenentwurf48}" Foreground="{DynamicResource Iconfarbe}"/>
+          <fa:IconBlock Style="{StaticResource Stundenentwurf48}" Foreground="{DynamicResource IconBrush}"/>
         </Grid>
       </controls:SmallDialogHeader.IconContent>
     </controls:SmallDialogHeader>

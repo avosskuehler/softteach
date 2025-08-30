@@ -1,0 +1,27 @@
+﻿<Window 
+        xmlns:x               ='http://schemas.microsoft.com/winfx/2006/xaml'
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:helper="clr-namespace:SoftTeach.ViewModel.Helper"
+        x:Class               ="SoftTeach.ViewModel.Helper.PreviewFixedDocument"
+        Title                 ='Druckvorschau' 
+        Height                ='600' 
+        Width                 ='800' 
+        WindowStartupLocation ='CenterOwner'>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <helper:VorschauDocumentViewer x:Name="DocumentPreview" Grid.Row="0" HorizontalPageSpacing="25" VerticalPageSpacing="25">
+      <helper:VorschauDocumentViewer.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Copy" CanExecute="CommandBindingCanExecuteCopy"  />
+      </helper:VorschauDocumentViewer.CommandBindings>
+    </helper:VorschauDocumentViewer>
+    <StackPanel Orientation="Horizontal" Grid.Row="1">
+      <Label>Seite</Label>
+      <Label MinWidth="20" Content="{Binding ElementName=DocumentPreview, Path=MasterPageNumber}"/>
+      <Label>von</Label>
+      <Label Content="{Binding ElementName=DocumentPreview, Path=PageCount}"/>
+    </StackPanel>
+  </Grid>
+</Window>
