@@ -58,17 +58,17 @@
       <Label  Grid.Column="0" Style="{StaticResource MetroLabelStyle}" VerticalAlignment="Center">Bezeichnung</Label>
       <TextBox  Grid.Column="1" Style="{StaticResource MetroLabelStyle}" VerticalAlignment="Center" Text="{Binding SitzplanBezeichnung}" MinWidth="200"/>
       <Label  Grid.Column="2" Style="{StaticResource MetroLabelStyle}" VerticalAlignment="Center">gültig ab</Label>
-      <DatePicker Grid.Column="3" Width="180"
+      <DatePicker Grid.Column="3" Width="180" VerticalContentAlignment="Center"
 				Margin="0,5"
 				FontSize="24"
 				HorizontalAlignment="Left"
 				SelectedDate="{Binding SitzplanGültigAb, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-      <CheckBox Grid.Column="4" IsChecked="{Binding NurTeilungsgruppen}" FontSize="18" Margin="6">nur Teilungsgruppen</CheckBox>
+      <CheckBox Grid.Column="4" IsChecked="{Binding NurTeilungsgruppen}" FontSize="18" Margin="6" VerticalContentAlignment="Center">nur Teilungsgruppen</CheckBox>
       <StackPanel Grid.Column="5" HorizontalAlignment="Left" Visibility="{Binding NurTeilungsgruppen, Converter={StaticResource BoolVisibleConverter}}">
-        <RadioButton IsChecked="{Binding NurTeilungsgruppeA}" Background="Transparent" FontSize="18">Gruppe A</RadioButton>
-        <RadioButton IsChecked="{Binding NurTeilungsgruppeB}" Background="Transparent" FontSize="18">Gruppe B</RadioButton>
+        <RadioButton IsChecked="{Binding NurTeilungsgruppeA}" FontSize="18" VerticalContentAlignment="Center">Gruppe A</RadioButton>
+        <RadioButton IsChecked="{Binding NurTeilungsgruppeB}" FontSize="18" VerticalContentAlignment="Center">Gruppe B</RadioButton>
       </StackPanel>
-      <CheckBox  Grid.Column="6" IsThreeState="True" IsChecked="{Binding SitzplanMädchenJungeNebeneinander}" FontSize="18" Margin="6">w/m</CheckBox>
+      <CheckBox  Grid.Column="6" IsThreeState="True" IsChecked="{Binding SitzplanMädchenJungeNebeneinander}" FontSize="18" Margin="6" VerticalContentAlignment="Center">w/m</CheckBox>
       <Button Grid.Column="7" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                     Command="{Binding Path=SitzplanEinteilenCommand}" 
                     ToolTip="Sitzplan  einteilen.">
@@ -85,8 +85,8 @@
         <fa:IconBlock Style="{StaticResource Drucken48}" VerticalAlignment="Center"/>
       </Button>
       <xctk:IntegerUpDown
-        Value="{Binding SitzplanDrehung}"
-        Grid.Column="10" FontSize="12" Maximum="360" Minimum="0" />
+        Value="{Binding SitzplanDrehung}" VerticalAlignment="Center"
+        Grid.Column="10" FontSize="16" Maximum="360" Increment="90" Minimum="0" Margin="6" Width="60"/>
     </Grid>
 
     <ListBox 
@@ -152,19 +152,20 @@
             <Border.RenderTransform>
               <RotateTransform Angle="{Binding SitzplaneintragSitzplatz.SitzplatzDrehwinkel}"/>
             </Border.RenderTransform>
-            <TextBlock TextWrapping="Wrap" Margin="0" LineHeight="12" LineStackingStrategy="BlockLineHeight" RenderTransformOrigin="0.5,0.5"
+            <Viewbox Stretch="Uniform" StretchDirection="DownOnly">
+              <TextBlock Margin="0" LineHeight="12" LineStackingStrategy="BlockLineHeight" RenderTransformOrigin="0.5,0.5"
                        Text="{Binding SitzplanSchülername}"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
                        FontSize="12">
-              <TextBlock.RenderTransform>
-                <RotateTransform Angle="{Binding Path=DataContext.SitzplanDrehung, Source={x:Reference dummy}}"></RotateTransform>
-                <!--<RotateTransform>
+                <TextBlock.RenderTransform>
+                  <RotateTransform Angle="{Binding Path=DataContext.SitzplanDrehung, Source={x:Reference dummy}}"></RotateTransform>
+                  <!--<RotateTransform>
                   <RotateTransform.Angle>
                     <Binding Source="{StaticResource SitzplanDrehungRotateTransform}" Path="Angle"/>
                   </RotateTransform.Angle>
                 </RotateTransform>-->
-                <!--<RotateTransform>
+                  <!--<RotateTransform>
                   <RotateTransform.Angle>
                     <MultiBinding Converter="{StaticResource SitzplatzAngleConverter}">
                       <Binding Path="SitzplaneintragSitzplatz.SitzplatzDrehwinkel"/>
@@ -172,9 +173,11 @@
                     </MultiBinding>
                   </RotateTransform.Angle>
                 </RotateTransform>-->
-              </TextBlock.RenderTransform>
+                </TextBlock.RenderTransform>
 
-            </TextBlock>
+              </TextBlock>
+
+            </Viewbox>
           </Border>
         </DataTemplate>
       </ListBox.ItemTemplate>

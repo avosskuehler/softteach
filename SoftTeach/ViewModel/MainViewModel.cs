@@ -50,6 +50,21 @@
     private ObservableCollection<ArbeitViewModel> arbeiten;
     private ObservableCollection<SchulterminViewModel> schultermine;
     private ObservableCollection<Personen.LerngruppeViewModel> lerngruppen;
+    private SchülereintragWorkspaceViewModel schülereintragWorkspace;
+    private CurriculumWorkspaceViewModel curriculumWorkspace;
+    private StundenplanWorkspaceViewModel stundenplanWorkspace;
+    private SchulterminWorkspaceViewModel schulterminWorkspace;
+    private SchuljahrWorkspaceViewModel schuljahrWorkspace;
+    private FachWorkspaceViewModel fachWorkspace;
+    private DateitypWorkspaceViewModel dateitypWorkspace;
+    private ModulWorkspaceViewModel modulWorkspace;
+    private UnterrichtsstundeWorkspaceViewModel unterrichtsstundeWorkspace;
+    private FerienWorkspaceViewModel ferienWorkspace;
+    private FachstundenanzahlWorkspaceViewModel fachstundenanzahlWorkspace;
+    private PersonenWorkspaceViewModel personenWorkspace;
+    private NotenWichtungWorkspaceViewModel notenWichtungWorkspace;
+    private ZensurWorkspaceViewModel zensurWorkspace;
+    private BewertungsschemaWorkspaceViewModel bewertungsschemaWorkspace;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="MainViewModel"/> Klasse. 
@@ -137,11 +152,23 @@
     {
       if (e.PropertyName == "Schuljahr")
       {
+        var watch = new Stopwatch();
+        watch.Start();
+
         UiServices.SetBusyState();
         LoadLerngruppen();
-        LoadJahrespläne();
+        Debug.WriteLine("Elapsed LoadLerngruppen {0}", watch.ElapsedMilliseconds);
+        watch.Restart();
+        // TODO
+        //LoadJahrespläne();
+        //Debug.WriteLine("Elapsed LoadJahrespläne {0}", watch.ElapsedMilliseconds);
+        watch.Restart();
         LoadTermine();
+        Debug.WriteLine("Elapsed LoadTermine {0}", watch.ElapsedMilliseconds);
+        watch.Restart();
         LoadArbeiten();
+        Debug.WriteLine("Elapsed LoadArbeiten {0}", watch.ElapsedMilliseconds);
+        watch.Restart();
       }
     }
 
@@ -508,7 +535,15 @@
     /// </summary>
     public CurriculumWorkspaceViewModel CurriculumWorkspace
     {
-      get; private set;
+      get
+      {
+        if (this.curriculumWorkspace == null)
+        {
+          this.curriculumWorkspace = new CurriculumWorkspaceViewModel();
+        }
+
+        return this.curriculumWorkspace;
+      }
     }
 
     /// <summary>
@@ -549,7 +584,15 @@
     /// </summary>
     public StundenplanWorkspaceViewModel StundenplanWorkspace
     {
-      get; private set;
+      get
+      {
+        if (this.stundenplanWorkspace == null)
+        {
+          this.stundenplanWorkspace = new StundenplanWorkspaceViewModel();
+        }
+
+        return this.stundenplanWorkspace;
+      }
     }
 
     /// <summary>
@@ -557,7 +600,15 @@
     /// </summary>
     public SchulterminWorkspaceViewModel SchulterminWorkspace
     {
-      get; private set;
+      get
+      {
+        if (this.schulterminWorkspace == null)
+        {
+          this.schulterminWorkspace = new SchulterminWorkspaceViewModel();
+        }
+
+        return this.schulterminWorkspace;
+      }
     }
 
     /// <summary>
@@ -565,7 +616,15 @@
     /// </summary>
     public SchuljahrWorkspaceViewModel SchuljahrWorkspace
     {
-      get; private set;
+      get
+      {
+        if (this.schuljahrWorkspace == null)
+        {
+          this.schuljahrWorkspace = new SchuljahrWorkspaceViewModel();
+        }
+
+        return this.schuljahrWorkspace;
+      }
     }
 
     /// <summary>
@@ -573,7 +632,15 @@
     /// </summary>
     public FachWorkspaceViewModel FachWorkspace
     {
-      get; private set;
+      get
+      {
+        if (this.fachWorkspace == null)
+        {
+          this.fachWorkspace = new FachWorkspaceViewModel();
+        }
+
+        return this.fachWorkspace;
+      }
     }
 
     /// <summary>
@@ -581,7 +648,15 @@
     /// </summary>
     public DateitypWorkspaceViewModel DateitypWorkspace
     {
-      get; private set;
+      get
+      {
+        if (this.dateitypWorkspace == null)
+        {
+          this.dateitypWorkspace = new DateitypWorkspaceViewModel();
+        }
+
+        return this.dateitypWorkspace;
+      }
     }
 
     /// <summary>
@@ -589,7 +664,15 @@
     /// </summary>
     public ModulWorkspaceViewModel ModulWorkspace
     {
-      get; private set;
+      get
+      {
+        if (this.modulWorkspace == null)
+        {
+          this.modulWorkspace = new ModulWorkspaceViewModel();
+        }
+
+        return this.modulWorkspace;
+      }
     }
 
     /// <summary>
@@ -597,7 +680,15 @@
     /// </summary>
     public UnterrichtsstundeWorkspaceViewModel UnterrichtsstundeWorkspace
     {
-      get; private set;
+      get
+      {
+        if (this.unterrichtsstundeWorkspace == null)
+        {
+          this.unterrichtsstundeWorkspace = new UnterrichtsstundeWorkspaceViewModel();
+        }
+
+        return this.unterrichtsstundeWorkspace;
+      }
     }
 
     /// <summary>
@@ -605,7 +696,15 @@
     /// </summary>
     public FerienWorkspaceViewModel FerienWorkspace
     {
-      get; private set;
+      get
+      {
+        if (this.ferienWorkspace == null)
+        {
+          this.ferienWorkspace = new FerienWorkspaceViewModel();
+        }
+
+        return this.ferienWorkspace;
+      }
     }
 
     /// <summary>
@@ -613,7 +712,15 @@
     /// </summary>
     public FachstundenanzahlWorkspaceViewModel FachstundenanzahlWorkspace
     {
-      get; private set;
+      get
+      {
+        if (this.fachstundenanzahlWorkspace == null)
+        {
+          this.fachstundenanzahlWorkspace = new FachstundenanzahlWorkspaceViewModel();
+        }
+
+        return this.fachstundenanzahlWorkspace;
+      }
     }
 
     /// <summary>
@@ -653,7 +760,15 @@
     /// </summary>
     public SchülereintragWorkspaceViewModel SchülereintragWorkspace
     {
-      get; private set;
+      get
+      {
+        if (this.schülereintragWorkspace == null)
+        {
+          this.schülereintragWorkspace = new SchülereintragWorkspaceViewModel();
+        }
+
+        return this.schülereintragWorkspace;
+      }
     }
 
     /// <summary>
@@ -661,7 +776,15 @@
     /// </summary>
     public PersonenWorkspaceViewModel PersonenWorkspace
     {
-      get; private set;
+      get
+      {
+        if (this.personenWorkspace == null)
+        {
+          this.personenWorkspace = new PersonenWorkspaceViewModel();
+        }
+
+        return this.personenWorkspace;
+      }
     }
 
     /// <summary>
@@ -669,7 +792,15 @@
     /// </summary>
     public NotenWichtungWorkspaceViewModel NotenWichtungWorkspace
     {
-      get; private set;
+      get
+      {
+        if (this.notenWichtungWorkspace == null)
+        {
+          this.notenWichtungWorkspace = new NotenWichtungWorkspaceViewModel();
+        }
+
+        return this.notenWichtungWorkspace;
+      }
     }
 
     /// <summary>
@@ -677,7 +808,15 @@
     /// </summary>
     public ZensurWorkspaceViewModel ZensurWorkspace
     {
-      get; private set;
+      get
+      {
+        if (this.zensurWorkspace == null)
+        {
+          this.zensurWorkspace = new ZensurWorkspaceViewModel();
+        }
+
+        return this.zensurWorkspace;
+      }
     }
 
     /// <summary>
@@ -701,7 +840,15 @@
     /// </summary>
     public BewertungsschemaWorkspaceViewModel BewertungsschemaWorkspace
     {
-      get; private set;
+      get
+      {
+        if (this.bewertungsschemaWorkspace == null)
+        {
+          this.bewertungsschemaWorkspace = new BewertungsschemaWorkspaceViewModel();
+        }
+
+        return this.bewertungsschemaWorkspace;
+      }
     }
 
     /// <summary>
@@ -913,12 +1060,13 @@
 
         // Lerngruppen, Jahrespläne, Termine, Arbeiten werden im OnPropertyChanged vom Schuljahr geladen
 
-        foreach (Person person in context.Personen)
-        {
-          this.Personen.Add(new PersonViewModel(person));
-        }
-        Debug.WriteLine("Elapsed Personen {0}", watch.ElapsedMilliseconds);
-        watch.Restart();
+        // TODO
+        //foreach (Person person in context.Personen)
+        //{
+        //  this.Personen.Add(new PersonViewModel(person));
+        //}
+        //Debug.WriteLine("Elapsed Personen {0}", watch.ElapsedMilliseconds);
+        //watch.Restart();
 
         foreach (var bewertungsschema in context.Bewertungsschemata.ToList())
         {
@@ -933,22 +1081,6 @@
         }
         Debug.WriteLine("Elapsed Stundenpläne {0}", watch.ElapsedMilliseconds);
         watch.Restart();
-
-        this.CurriculumWorkspace = new CurriculumWorkspaceViewModel();
-        this.StundenplanWorkspace = new StundenplanWorkspaceViewModel();
-        this.SchulterminWorkspace = new SchulterminWorkspaceViewModel();
-        this.DateitypWorkspace = new DateitypWorkspaceViewModel();
-        this.FachWorkspace = new FachWorkspaceViewModel();
-        this.SchuljahrWorkspace = new SchuljahrWorkspaceViewModel();
-        this.ModulWorkspace = new ModulWorkspaceViewModel();
-        this.UnterrichtsstundeWorkspace = new UnterrichtsstundeWorkspaceViewModel();
-        this.FerienWorkspace = new FerienWorkspaceViewModel();
-        this.FachstundenanzahlWorkspace = new FachstundenanzahlWorkspaceViewModel();
-        this.SchülereintragWorkspace = new SchülereintragWorkspaceViewModel();
-        this.PersonenWorkspace = new PersonenWorkspaceViewModel();
-        this.NotenWichtungWorkspace = new NotenWichtungWorkspaceViewModel();
-        this.ZensurWorkspace = new ZensurWorkspaceViewModel();
-        this.BewertungsschemaWorkspace = new BewertungsschemaWorkspaceViewModel();
 
         this.RedoCommand = new DelegateCommand(this.ExecuteRedoCommand, this.CanExecuteRedoCommand);
         this.UndoCommand = new DelegateCommand(this.ExecuteUndoCommand, this.CanExecuteUndoCommand);

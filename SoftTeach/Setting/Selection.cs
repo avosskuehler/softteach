@@ -129,7 +129,7 @@ namespace SoftTeach.Setting
       {
         if (this.schuljahr == null)
         {
-          this.schuljahr = App.MainViewModel.Schuljahre.FirstOrDefault(o => o.SchuljahrBezeichnung == "2021/2022");
+          this.schuljahr = App.MainViewModel.Schuljahre.FirstOrDefault(o => o.SchuljahrBezeichnung == "2025/2026");
         }
 
         return this.schuljahr;
@@ -454,11 +454,10 @@ namespace SoftTeach.Setting
       this.SetSelectionSilent(Settings.Default.Schuljahr, Settings.Default.Halbjahr, Settings.Default.Fach, Settings.Default.Lerngruppe, Settings.Default.Modul);
       if (this.Schuljahr == null)
       {
-        if (App.MainViewModel.Schuljahre.Count == 0)
+        if (App.MainViewModel.Schuljahre.Any())
         {
-
+          this.Schuljahr = App.MainViewModel.Schuljahre.Last();
         }
-        this.Schuljahr = App.MainViewModel.Schuljahre.Last();
       }
       else
       {
@@ -477,15 +476,15 @@ namespace SoftTeach.Setting
       //  }
       //}
 
-      if (this.Fach == null)
-      {
-        this.Fach = App.MainViewModel.Fächer.First();
-      }
+      //if (this.Fach == null)
+      //{
+      //  this.Fach = App.MainViewModel.Fächer.First();
+      //}
 
-      if (this.Lerngruppe == null)
-      {
-        this.Lerngruppe = App.MainViewModel.Lerngruppen.FirstOrDefault();
-      }
+      //if (this.Lerngruppe == null)
+      //{
+      //  this.Lerngruppe = App.MainViewModel.Lerngruppen.FirstOrDefault();
+      //}
     }
 
     /// <summary>

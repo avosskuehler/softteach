@@ -429,6 +429,10 @@
         if (this.person == null || this.person.Model != this.Model.Person)
         {
           this.person = App.MainViewModel.Personen.SingleOrDefault(d => d.Model == this.Model.Person);
+          if (this.person == null)
+          {
+            this.person = new PersonViewModel(this.Model.Person);
+          }
         }
 
         return this.person;

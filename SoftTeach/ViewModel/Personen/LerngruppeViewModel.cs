@@ -62,6 +62,8 @@
     private bool teilungsgruppenBeachten;
     private bool nurTeilungsgruppeA;
     private bool nurTeilungsgruppeB;
+    private ObservableCollection<SchülereintragViewModel> schülereinträge;
+    private ObservableCollection<LerngruppenterminViewModel> lerngruppentermine;
 
     /// <summary>
     /// Initialisiert eine neue Instanz der <see cref="LerngruppeViewModel"/> Klasse. 
@@ -71,8 +73,10 @@
     /// </param>
     public LerngruppeViewModel(Lerngruppe lerngruppe)
     {
+      //var watch = new Stopwatch();
+      //watch.Start();
+
       this.Model = lerngruppe ?? throw new ArgumentNullException(nameof(lerngruppe));
-      this.NotenDatum = DateTime.Today;
       this.AddSchülereintragCommand = new DelegateCommand(this.AddSchülereintrag);
       this.DeleteSchülereintragCommand = new DelegateCommand(this.DeleteCurrentSchülereintrag, () => this.CurrentSchülereintrag != null);
       this.ExportLerngruppeCommand = new DelegateCommand(this.ExportLerngruppe);
@@ -81,50 +85,13 @@
       this.GruppenAusdruckenCommand = new DelegateCommand(this.GruppenAusdrucken);
 
       // Build data structures for schülerlisten
-      this.Schülereinträge = new ObservableCollection<SchülereintragViewModel>();
-      foreach (var schülereintrag in lerngruppe.Schülereinträge.ToList())
-      {
-        var vm = new SchülereintragViewModel(schülereintrag);
-        //App.MainViewModel.Schülereinträge.Add(vm);
-        this.Schülereinträge.Add(vm);
-      }
+      this.schülereinträge = new ObservableCollection<SchülereintragViewModel>();
 
-      //Debug.WriteLine("Elapsed Schülereinträge {0}", watch.ElapsedMilliseconds);
-      //watch.Restart();
+      this.lerngruppentermine = new ObservableCollection<LerngruppenterminViewModel>();
 
-      this.Schülereinträge.CollectionChanged += this.SchülereinträgeCollectionChanged;
+      this.notenDatum = DateTime.Today;
 
-      this.Lerngruppentermine = new ObservableCollection<LerngruppenterminViewModel>();
-      foreach (var lerngruppenTermin in lerngruppe.Lerngruppentermine)
-      {
-        if (lerngruppenTermin is Stunde)
-        {
-          var vm = new StundeViewModel(lerngruppenTermin as Stunde);
-          this.Lerngruppentermine.Add(vm);
-        }
-        else
-        {
-          var vm = new LerngruppenterminViewModel(lerngruppenTermin);
-          this.Lerngruppentermine.Add(vm);
-        }
-      }
-      //foreach (var lerngruppenTermin in lerngruppe.Lerngruppentermine)
-      //{
-      //  var vm = new LerngruppenterminViewModel(lerngruppenTermin);
-      //  this.Lerngruppentermine.Add(vm);
-      //}
-      //foreach (var lerngruppenTermin in lerngruppe.Stunden)
-      //{
-      //  var vm = new StundeViewModel(lerngruppenTermin as Stunde);
-      //  this.Lerngruppentermine.Add(vm);
-      //}
-
-      //Debug.WriteLine("Elapsed Lerngruppentermine {0}", watch.ElapsedMilliseconds);
-      //watch.Restart();
-
-      this.Lerngruppentermine.CollectionChanged += this.Lerngruppentermine_CollectionChanged; ;
-
-      this.SchülereinträgeViewSource = new CollectionViewSource() { Source = this.Schülereinträge };
+      this.SchülereinträgeViewSource = new CollectionViewSource() { Source = this.schülereinträge };
       using (this.SchülereinträgeViewSource.DeferRefresh())
       {
         this.SchülereinträgeViewSource.SortDescriptions.Add(new SortDescription("SchülereintragSortByNachnameProperty", ListSortDirection.Ascending));
@@ -133,9 +100,9 @@
       //Debug.WriteLine("Elapsed UpdateSort {0}", watch.ElapsedMilliseconds);
       //watch.Restart();
 
-      this.SchülereinträgeGemischt = this.Schülereinträge.ToList();
+      //this.SchülereinträgeGemischt = new List<SchülereintragViewModel>();
 
-      this.GruppenViewSource = new CollectionViewSource() { Source = this.SchülereinträgeGemischt };
+      this.GruppenViewSource = new CollectionViewSource() { Source = this.schülereinträge };
       using (this.GruppenViewSource.DeferRefresh())
       {
         this.GruppenViewSource.Filter += this.GruppenViewSource_Filter;
@@ -199,17 +166,60 @@
     /// <summary>
     /// Holt die schülereinträge for this schülerliste
     /// </summary>
-    public ObservableCollection<SchülereintragViewModel> Schülereinträge { get; private set; }
+    public ObservableCollection<SchülereintragViewModel> Schülereinträge
+    {
+      get
+      {
+        if (!this.schülereinträge.Any())
+        {
+          foreach (var schülereintrag in this.Model.Schülereinträge.ToList())
+          {
+            var vm = new SchülereintragViewModel(schülereintrag);
+            this.schülereinträge.Add(vm);
+          }
+          this.schülereinträge.CollectionChanged += this.SchülereinträgeCollectionChanged;
 
-    /// <summary>
-    /// Holt die schülereinträge for this schülerliste
-    /// </summary>
-    public List<SchülereintragViewModel> SchülereinträgeGemischt { get; private set; }
+          //this.SchülereinträgeGemischt = this.schülereinträge.ToList();
+        }
+
+        return schülereinträge;
+      }
+    }
+
+    ///// <summary>
+    ///// Holt die schülereinträge for this schülerliste
+    ///// </summary>
+    //public List<SchülereintragViewModel> SchülereinträgeGemischt { get; private set; }
 
     /// <summary>
     /// Holt die Lerngruppentermine for this Lerngruppe
     /// </summary>
-    public ObservableCollection<LerngruppenterminViewModel> Lerngruppentermine { get; private set; }
+    public ObservableCollection<LerngruppenterminViewModel> Lerngruppentermine
+    {
+      get
+      {
+        if (!this.lerngruppentermine.Any())
+        {
+          foreach (var lerngruppenTermin in this.Model.Lerngruppentermine)
+          {
+            if (lerngruppenTermin is Stunde)
+            {
+              var vm = new StundeViewModel(lerngruppenTermin as Stunde);
+              this.lerngruppentermine.Add(vm);
+            }
+            else
+            {
+              var vm = new LerngruppenterminViewModel(lerngruppenTermin);
+              this.lerngruppentermine.Add(vm);
+            }
+          }
+
+          this.lerngruppentermine.CollectionChanged += this.Lerngruppentermine_CollectionChanged;
+        }
+
+        return this.lerngruppentermine;
+      }
+    }
 
     /// <summary>
     /// Holt oder setzt die SchülereinträgeViewSource
@@ -245,8 +255,8 @@
       {
         if (this.gruppenmitgliederanzahl == value) { return; }
         this.gruppenmitgliederanzahl = value;
-        var anzahlAller = this.SchülereinträgeGemischt.Count;
-        //var anzahlAller = this.Schülereinträge.Count(o => !o.IstKrank);
+        //var anzahlAller = this.SchülereinträgeGemischt.Count
+        var anzahlAller = this.Schülereinträge.Count(o => !o.IstKrank);
         this.gruppenanzahl = (int)Math.Round(anzahlAller / (float)this.gruppenmitgliederanzahl, 0);
         this.RaisePropertyChanged("Gruppenmitgliederanzahl");
         this.RaisePropertyChanged("Gruppenanzahl");
@@ -267,7 +277,8 @@
       {
         if (this.gruppenanzahl == value) { return; }
         this.gruppenanzahl = value;
-        var anzahlAller = this.SchülereinträgeGemischt.Count;
+        //var anzahlAller = this.SchülereinträgeGemischt.Count;
+        var anzahlAller = this.Schülereinträge.Count(o => !o.IstKrank);
         this.gruppenmitgliederanzahl = (int)Math.Round(anzahlAller / (float)this.gruppenanzahl, 0);
         this.RaisePropertyChanged("Gruppenanzahl");
         this.RaisePropertyChanged("Gruppenmitgliederanzahl");
@@ -900,7 +911,7 @@
 
       // Kranke vor Gruppenbildung, aber nach Teilungsgruppensplit aussortieren
       schülerFürGruppenbildung = schülerFürGruppenbildung.Where(o => !o.IstKrank);
-      this.SchülereinträgeGemischt = schülerFürGruppenbildung.ToList();
+      //this.SchülereinträgeGemischt = schülerFürGruppenbildung.ToList();
 
       var gruppenNummer = 0;
       if (this.MädchenJungeGemischt.HasValue)
@@ -971,10 +982,12 @@
       else
       {
         // Mische die Schüler beliebig
-        this.SchülereinträgeGemischt = schülerFürGruppenbildung.ToList();
-        this.SchülereinträgeGemischt.Shuffle2();
+        //this.SchülereinträgeGemischt = schülerFürGruppenbildung.ToList();
+        //this.SchülereinträgeGemischt.Shuffle2();
+        var liste = schülerFürGruppenbildung.ToList();
+        liste.Shuffle2();
 
-        var gruppen = this.SchülereinträgeGemischt.Split(this.gruppenanzahl);
+        var gruppen = liste.Split(this.gruppenanzahl);
 
         foreach (var gruppe in gruppen)
         {
@@ -1026,7 +1039,7 @@
       // print it out
       var title = "Gruppeneinteilung für " + this.LerngruppeKurzbezeichnung;
       //pd.PrintVisual(fixedPage, title);
-      
+
       // Druckt in XPS Datei
       var stream = new MemoryStream();
       var package = Package.Open(stream, FileMode.Create, FileAccess.ReadWrite);
