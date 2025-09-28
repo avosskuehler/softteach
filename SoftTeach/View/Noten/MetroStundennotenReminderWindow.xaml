@@ -200,7 +200,7 @@
         </Style>
       </ListBox.ItemContainerStyle>
     </ListBox>
-    <Grid Margin="30" Grid.Row="3">
+    <Grid Margin="30" Grid.Row="3" DataContext="{Binding Path=CurrentSchülereintrag}">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="Auto"/>

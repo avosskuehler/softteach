@@ -95,7 +95,7 @@ Das können Schüler oder Lehrer sein. Anschließend werden Sie (jährlich ) den
           <DataGrid.Columns>
             <DataGridTextColumn Header="Nachname" Binding="{Binding Path=PersonNachname}"/>
             <DataGridTextColumn Header="Vorname" Binding="{Binding Path=PersonVorname}"/>
-            <DataGridTextColumn Header="Geburtstag" Binding="{Binding Path=PersonGeburtstagString}"/>
+            <DataGridTextColumn Header="Geburtstag" Binding="{Binding Path=PersonGeburtstagString}" IsReadOnly="True"/>
           </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Column="1" Margin="5" DataContext="{Binding Path=CurrentPerson}">

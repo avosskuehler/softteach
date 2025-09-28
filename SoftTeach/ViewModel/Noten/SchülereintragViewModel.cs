@@ -432,6 +432,7 @@
           if (this.person == null)
           {
             this.person = new PersonViewModel(this.Model.Person);
+            App.MainViewModel.Personen.Add(this.person);
           }
         }
 

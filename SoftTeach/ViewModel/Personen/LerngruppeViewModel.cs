@@ -112,8 +112,8 @@
         this.GruppenViewSource.SortDescriptions.Add(new SortDescription("SchülereintragSortByNachnameProperty", ListSortDirection.Ascending));
       }
 
-      this.Gruppenmitgliederanzahl = 4;
-      this.Gruppenanzahl = 8;
+      this.gruppenmitgliederanzahl = 4;
+      this.gruppenanzahl = 8;
 
       App.MainViewModel.NotenWichtungen.CollectionChanged += (sender, e) =>
       {
@@ -176,6 +176,11 @@
           {
             var vm = new SchülereintragViewModel(schülereintrag);
             this.schülereinträge.Add(vm);
+            //if (!App.MainViewModel.Personen.Any(o => o.Model.Id == schülereintrag.PersonId))
+            //{
+            //  var vmPerson = new PersonViewModel(schülereintrag.Person);
+            //  App.MainViewModel.Personen.Add(vmPerson);
+            //}
           }
           this.schülereinträge.CollectionChanged += this.SchülereinträgeCollectionChanged;
 

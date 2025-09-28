@@ -72,10 +72,10 @@ namespace SoftTeach.View.Noten
       this.Quantität5Radio.IsChecked = false;
       this.Quantität6Radio.IsChecked = false;
 
-      var s = this.DataContext as SchülereintragViewModel;
-      if (s != null)
+      var s = this.DataContext as StundennotenReminderWorkspaceViewModel;
+      if (s.CurrentSchülereintrag != null)
       {
-        s.IstZufälligAusgewählt = false;
+        s.CurrentSchülereintrag.IstZufälligAusgewählt = false;
       }
     }
 

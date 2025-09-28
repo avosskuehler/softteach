@@ -370,6 +370,9 @@ namespace SoftTeach.Model.TeachyModel
 
       modelBuilder.Entity<Notentendenz>(entity =>
       {
+        entity.HasKey(e => new { e.Id, })
+                 .HasName("PK_Notentendenzen");
+
         entity.ToTable("Notentendenz");
 
         entity.Property(e => e.Datum).HasColumnType("datetime");
@@ -383,7 +386,12 @@ namespace SoftTeach.Model.TeachyModel
 
       modelBuilder.Entity<Person>(entity =>
       {
+        entity.HasKey(e => new { e.Id, })
+                 .HasName("PK_Personen");
+
         entity.ToTable("Person");
+
+        entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
         entity.Property(e => e.EMail).HasColumnName("EMail");
 
@@ -441,6 +449,9 @@ namespace SoftTeach.Model.TeachyModel
 
       modelBuilder.Entity<Raum>(entity =>
       {
+        entity.HasKey(e => new { e.Id, })
+                 .HasName("PK_Räume");
+
         entity.ToTable("Raum");
 
         entity.Property(e => e.Bezeichnung).IsRequired();

@@ -1058,15 +1058,8 @@
         Debug.WriteLine("PopulateFromSettings {0}", watch.ElapsedMilliseconds);
         watch.Restart();
 
-        // Lerngruppen, Jahrespläne, Termine, Arbeiten werden im OnPropertyChanged vom Schuljahr geladen
+        // Lerngruppen, Personen, Jahrespläne, Termine, Arbeiten werden im OnPropertyChanged vom Schuljahr geladen
 
-        // TODO
-        //foreach (Person person in context.Personen)
-        //{
-        //  this.Personen.Add(new PersonViewModel(person));
-        //}
-        //Debug.WriteLine("Elapsed Personen {0}", watch.ElapsedMilliseconds);
-        //watch.Restart();
 
         foreach (var bewertungsschema in context.Bewertungsschemata.ToList())
         {
@@ -1113,7 +1106,7 @@
         //this.Stunden.CollectionChanged += this.StundenCollectionChanged;
         //this.Lerngruppentermine.CollectionChanged += this.LerngruppentermineCollectionChanged;
         //this.BetroffeneKlassen.CollectionChanged += this.BetroffeneKlassenCollectionChanged;
-        this.Personen.CollectionChanged += this.PersonenCollectionChanged;
+        //this.Personen.CollectionChanged += this.PersonenCollectionChanged;
         //this.schülerlisten.CollectionChanged += this.LerngruppenCollectionChanged;
         //this.Schülereinträge.CollectionChanged += this.SchülereinträgeCollectionChanged;
         //this.Noten.CollectionChanged += this.NotenCollectionChanged;
@@ -1615,16 +1608,16 @@
     //  this.UndoableCollectionChanged(this, "BetroffeneKlassen", this.BetroffeneKlassen, e, "Änderung der BetroffeneKlassen");
     //}
 
-    /// <summary>
-    /// Tritt auf, wenn die PersonenCollection verändert wurde.
-    /// Gibt die Änderungen an den Undostack weiter.
-    /// </summary>
-    /// <param name="sender">Die auslösende Collection</param>
-    /// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
-    private void PersonenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      UndoableCollectionChanged(this, nameof(Personen), this.Personen, e, "Änderung der Personen");
-    }
+    ///// <summary>
+    ///// Tritt auf, wenn die PersonenCollection verändert wurde.
+    ///// Gibt die Änderungen an den Undostack weiter.
+    ///// </summary>
+    ///// <param name="sender">Die auslösende Collection</param>
+    ///// <param name="e">Die NotifyCollectionChangedEventArgs mit den Infos.</param>
+    //private void PersonenCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    //{
+    //  //UndoableCollectionChanged(this, nameof(Personen), this.Personen, e, "Änderung der Personen");
+    //}
 
     /// <summary>
     /// Tritt auf, wenn die LerngruppenCollection verändert wurde.
